@@ -16,6 +16,10 @@
 
  [Arduino Github Guidance](https://www.merg.org.uk/merg_wiki/doku.php?id=arduino:software:github)
  
+ ## Software
+
+ The only software I will keep here are general purpose utilities.
+
  ## Events
 
  29th November 2020. I have added pwmtest as an experiment to see what would happen. It is a test for the addresses of I2C devices.
@@ -29,6 +33,8 @@
 ## Location
 
 I have moved this to a new location: E:\GitHub\Arduino which I will now use for the different local repositories for Arduino work.
+
+I have deleted the previous RS485 branch as that is now covered by the Arduino-RS485 repository.
 
 I will need to move files here to add them to the repository.
 
