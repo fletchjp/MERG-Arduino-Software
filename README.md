@@ -1,5 +1,6 @@
 # MERG-Arduino-Software
- Software for MERG Arduino projects
+ 
+ ## Software for MERG Arduino projects
 
  I am aiming to help MERG members to collect together Arduino software for projects.
 
@@ -7,6 +8,8 @@
 
  John Fletcher M6777
  
+ ## Events
+
  29th November 2020. I have added pwmtest as an experiment to see what would happen. It is a test for the addresses of I2C devices.
 
  25th February 2021. I am restarting this work as a result of Sven Rosvall's Zoom talk to the Arduino SIG. After some discussion with him I am going to have a series of different repositories for different pieces of software.
@@ -15,10 +18,14 @@
 
  Overall documentation of what is going on can be done here.
 
+## Learning
+
  I have just made a discovery. I went to commit this and found that I was on the RS485 branch, which probably needs to become a separate repository.
  I had made the changes on that branch and was able to change branches and take the changes with me. I did not know that was possible.
 
+### Syntax
 
+I will document my learning of the Markdown syntax here.
 
 
 
