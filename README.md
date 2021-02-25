@@ -26,6 +26,12 @@
 
  Overall documentation of what is going on can be done here.
 
+## Location
+
+I have moved this to a new location: E:\GitHub\Arduino which I will now use for the different local repositories for Arduino work.
+
+I will need to move files here to add them to the repository.
+
 ## Learning
 
  I have just made a discovery. I went to commit this and found that I was on the RS485 branch, which probably needs to become a separate repository.
