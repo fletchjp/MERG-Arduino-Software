@@ -39,7 +39,9 @@ I will need to move files here to add them to the repository.
 
 ## Queries
 
-I would like to move the whole RS485 branch to be a separate repository. At the moment I do not know how to do that. 
+I would like to move the whole RS485 branch to be a separate repository. At the moment I do not know how to do that.
+
+I have resolved this by creating a new repository for RS485 work and I will put the files there as I want them.
 
 ### Syntax
 
