@@ -6,6 +6,8 @@
 
  Some projects will make use of libraries which are already somewhere else on Github.
 
+ Each separate project will be in a separate GitHub repository which could be one thing or a group of related things.
+
  John Fletcher M6777
  
  ## Events
