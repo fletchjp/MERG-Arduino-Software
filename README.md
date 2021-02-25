@@ -23,6 +23,10 @@
  I have just made a discovery. I went to commit this and found that I was on the RS485 branch, which probably needs to become a separate repository.
  I had made the changes on that branch and was able to change branches and take the changes with me. I did not know that was possible.
 
+## Queries
+
+I would like to move the whole RS485 branch to be a separate repository. At the moment I do not know how to do that. 
+
 ### Syntax
 
 I will document my learning of the Markdown syntax here.  At the moment all I have done is to add some headings and can see how they work.
