@@ -9,6 +9,12 @@
  Each separate project will be in a separate GitHub repository which could be one thing or a group of related things.
 
  John Fletcher M6777
+
+ ## MERG Knowledgebase
+
+ There is information on the MERG Arduino SIG pages about our use of GitHub.
+
+ [Arduino Github Guidance](https://www.merg.org.uk/merg_wiki/doku.php?id=arduino:software:github)
  
  ## Events
 
@@ -32,6 +38,11 @@ I would like to move the whole RS485 branch to be a separate repository. At the 
 ### Syntax
 
 I will document my learning of the Markdown syntax here.  At the moment all I have done is to add some headings and can see how they work.
+
+I have found a cheatsheet for Markdown on GitHub and added it to the Knowledgebase page. Here is a link to it too:
+
+[Markdown Cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
+
 
 
 
