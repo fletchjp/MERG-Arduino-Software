@@ -25,7 +25,7 @@
 
 ### Syntax
 
-I will document my learning of the Markdown syntax here.
+I will document my learning of the Markdown syntax here.  At he moment all I have done is to add some headings and can see how they work.
 
 
 
