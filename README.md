@@ -30,6 +30,18 @@
 
  Overall documentation of what is going on can be done here.
 
+ 26th February 2021
+
+ I have added in Visual Micro to the installation of Visual Studio Code which I am using for text editing. https://www.visualmicro.com/.
+
+ I added a VSC option for C++ which it seemed to be needing and then the Arduino IDE. This added some configuration files to the current repository. One of these files recorded the board I have specified and also indentified the *.ino file in the repository.
+
+ NOTE: This will make it difficult to have files for two different boards in the same repository.
+
+ I do now understand the configuration I have to do. It does allow me to verify the code. There is an option to choose a serial port. It also wants an output path to be specified.
+
+ It has detected an Octave based C++ compiler.
+
 ## Location
 
 I have moved this to a new location: E:\GitHub\Arduino which I will now use for the different local repositories for Arduino work.
