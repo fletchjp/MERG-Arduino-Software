@@ -30,15 +30,19 @@
 
  ## Events
 
- 29th November 2020. I have added pwmtest as an experiment to see what would happen. It is a test for the addresses of I2C devices.
+ ### 29th November 2020.
+ 
+ I have added pwmtest as an experiment to see what would happen. It is a test for the addresses of I2C devices.
 
- 25th February 2021. I am restarting this work as a result of Sven Rosvall's Zoom talk to the Arduino SIG. After some discussion with him I am going to have a series of different repositories for different pieces of software.
+ ### 25th February 2021.
+ 
+ I am restarting this work as a result of Sven Rosvall's Zoom talk to the Arduino SIG. After some discussion with him I am going to have a series of different repositories for different pieces of software.
  I have set up a project in my ConnectedText wiki where I can document the repositories and their relationships.
  To start with the work in progress will remain on the local computer and not be moved to the public site on GitHub.
 
  Overall documentation of what is going on can be done here.
 
- 26th February 2021
+ ### 26th February 2021
 
  I have added in Visual Micro to the installation of Visual Studio Code which I am using for text editing. https://www.visualmicro.com/.
 
@@ -49,6 +53,10 @@
  I do now understand the configuration I have to do. It does allow me to verify the code. There is an option to choose a serial port. It also wants an output path to be specified.
 
  It has detected an Octave based C++ compiler.
+
+ ### 28th November
+
+Created Arduino-IR-Task repository
 
 ## Location
 
