@@ -20,6 +20,14 @@
 
  The only software I will keep here are general purpose utilities.
 
+ ## Repositories
+
+ I have started to add separate repositories for the Arduino codes which are already on the Knowledgebase.
+
+ ### Arduino-IR-Task
+
+ This has the codes for IR detector and task scheduling simple examples.
+
  ## Events
 
  29th November 2020. I have added pwmtest as an experiment to see what would happen. It is a test for the addresses of I2C devices.
