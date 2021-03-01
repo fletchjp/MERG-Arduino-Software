@@ -28,6 +28,10 @@
 
  This has the codes for IR detector and task scheduling simple examples.
 
+ ### Arduino-Servo-Switch
+
+ This has the codes for the Servo examples including switching between tasks.
+
  ## Events
 
  ### 29th November 2020.
