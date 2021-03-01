@@ -77,6 +77,13 @@ I would like to move the whole RS485 branch to be a separate repository. At the 
 
 I have resolved this by creating a new repository for RS485 work and I will put the files there as I want them.
 
+### Tags and Releases
+
+I attempted to create a tag in Arduino-IR-Tasks using gitg. That apparently worked and I could add a description.
+This was not recoginised in GitHub desktop so I deleted it and created it in GitHub desktop instead. That does not permit a description (as far as I have found).
+GitHub desktop tags are in History.
+I have pushed that to the GitHub version where a tag can be changed into a release with a description/
+
 ### Syntax
 
 I will document my learning of the Markdown syntax here.  At the moment all I have done is to add some headings and can see how they work.
