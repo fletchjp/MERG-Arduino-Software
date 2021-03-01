@@ -82,7 +82,8 @@ I have resolved this by creating a new repository for RS485 work and I will put 
 I attempted to create a tag in Arduino-IR-Tasks using gitg. That apparently worked and I could add a description.
 This was not recoginised in GitHub desktop so I deleted it and created it in GitHub desktop instead. That does not permit a description (as far as I have found).
 GitHub desktop tags are in History.
-I have pushed that to the GitHub version where a tag can be changed into a release with a description/
+I have pushed that to the GitHub version where a tag can be changed into a release with a description
+I have had problems with gitg updating. I think I will use this as read only and open it when I want to look at the history of a repository in a concise way.
 
 ### Syntax
 
