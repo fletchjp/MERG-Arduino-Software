@@ -32,6 +32,10 @@
 
  This has the codes for the Servo examples including switching between tasks.
 
+ ### CANASERVO 
+
+ Arduino CBUS module to control a servo using inputs from two IR detectors. This is derived from the code in the example switch2IOAbs3 in Arduino-Servo-Switch.
+
  ## Events
 
  ### 29th November 2020.
