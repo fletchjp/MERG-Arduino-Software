@@ -34,9 +34,9 @@
 
  ### CANASERVO 
 
- Arduino CBUS module to control a servo using inputs from two IR detectors. This is derived from the code in the example switch2IOAbs3 in Arduino-Servo-Switch.
+ **Note** This is not yet published.
 
- ** This is not yet published. **
+ Arduino CBUS module to control a servo using inputs from two IR detectors. This is derived from the code in the example switch2IOAbs3 in Arduino-Servo-Switch.
 
  ## Events
 
