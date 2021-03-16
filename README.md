@@ -40,10 +40,7 @@
 
  ## Events
 
- ### 29th November 2020.
  
- I have added pwmtest as an experiment to see what would happen. It is a test for the addresses of I2C devices.
-
  ### 25th February 2021.
  
  I am restarting this work as a result of Sven Rosvall's Zoom talk to the Arduino SIG. After some discussion with him I am going to have a series of different repositories for different pieces of software.
@@ -63,6 +60,10 @@
  I do now understand the configuration I have to do. It does allow me to verify the code. There is an option to choose a serial port. It also wants an output path to be specified.
 
  It has detected an Octave based C++ compiler.
+
+ ### 29th November 2020.
+ 
+ I have added pwmtest as an experiment to see what would happen. It is a test for the addresses of I2C devices.
 
  ### 28th November
 
