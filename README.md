@@ -40,7 +40,10 @@
 
  ## Events
 
- 
+ ### 16th March 2021
+
+ Starting work on the arduino code for the DC Controler from John Purbrick. I have a copy of the hardware put together for me by Robert Thomas. I am exploring using this with the software called arduino_throttle.
+
  ### 25th February 2021.
  
  I am restarting this work as a result of Sven Rosvall's Zoom talk to the Arduino SIG. After some discussion with him I am going to have a series of different repositories for different pieces of software.
