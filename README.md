@@ -40,6 +40,18 @@
 
  ## Events
 
+ ### 19th March 2021
+
+ I am thinking about what to do with the CANCMDDC2 codes of which there are a lot of versions as a result of the work done last year without version control.
+ 
+ The latest version CANCMDDC_V2_9 is the first to have Task Scheduling which should have been in the previous versions and so is a base from which to work.
+
+ There is an earlier version CANCMDDC_V3_0 where I had started to add RS285 code to an earlier version.
+
+ Things are complicated as the name from the point of view of MERG FCU will be CANCMDDC as the previous version of CANCMDDC does not support CBUS events.
+
+ I am going to make a version of this with the H bridge controllers although it will need to evolve a version which will support the DC controllers when those become available for CBUS.
+
  ### 16th March 2021
 
  Starting work on the arduino code for the DC Controler from John Purbrick. I have a copy of the hardware put together for me by Robert Thomas. I am exploring using this with the software called arduino_throttle.
