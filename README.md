@@ -50,7 +50,7 @@
  
  The latest version CANCMDDC_V2_9 is the first to have Task Scheduling which should have been in the previous versions and so is a base from which to work.
 
- There is an earlier version CANCMDDC_V3_0 where I had started to add RS285 code to an earlier version.
+ There is an earlier version CANCMDDC_V3_0 where I had started to add RS485 code to an earlier version.
 
  Things are complicated as the name from the point of view of MERG FCU will be CANCMDDC as the previous version of CANCMDDC does not support CBUS events.
 
