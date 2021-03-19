@@ -14,6 +14,8 @@
 
  I need to sort out the licence situation before creating and publishing any more repositories.
 
+ I am thinking of using the CC BY-NC-SA as used by Duncan Greenwood and recommended. I have found the full text. I have not yet found the text of the summary which he uses.
+
  ## MERG Knowledgebase
 
  There is information on the MERG Arduino SIG pages about our use of GitHub.
