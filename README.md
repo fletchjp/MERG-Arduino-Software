@@ -10,6 +10,10 @@
 
  John Fletcher M6777
 
+ ## Licence ##
+
+ I need to sort out the licence situation before creating and publishing any more repositories.
+
  ## MERG Knowledgebase
 
  There is information on the MERG Arduino SIG pages about our use of GitHub.
@@ -51,6 +55,10 @@
  Things are complicated as the name from the point of view of MERG FCU will be CANCMDDC as the previous version of CANCMDDC does not support CBUS events.
 
  I am going to make a version of this with the H bridge controllers although it will need to evolve a version which will support the DC controllers when those become available for CBUS.
+
+ I think this means that the repository should be named CANCMDDC rather than CANCMDDC2. Holding it with the other CANCMDDC can if neeed be handled using branches.
+
+ So I need that repository.
 
  ### 16th March 2021
 
