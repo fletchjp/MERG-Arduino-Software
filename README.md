@@ -55,7 +55,7 @@
 
  I have forked Martin Da Costa's code for CBUSmINnOUT in order to use it for a prototype panel on the Totem Mini Lab.
 
- I need the updates to the CBUS libraries which are not yet in the Arduino system. I have upgraded them by hand.
+ I needed the updates to the CBUS libraries which are not yet in the Arduino system. I have upgraded them by hand.
 
  ### 19th March 2021
 
