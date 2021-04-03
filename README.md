@@ -47,7 +47,7 @@
  ### CBUSmINnOUT
 
  This is a fork from Martin Da Costa.
- It needs CBUS 1.1.14 and CBUSconfigs 1.1.10 which are not yet in the Arduino system.
+ It needs CBUS 1.1.14 and CBUSconfigs 1.1.10 which are not yet in the Arduino system. I have manually installed the latest versions.
 
  ## Events
 
@@ -55,7 +55,7 @@
 
  I have forked Martin Da Costa's code for CBUSmINnOUT in order to use it for a prototype panel on the Totem Mini Lab.
 
- I need the updates to the CBUS libraries which are not yet in the Arduino system. I could upgrade them by hand.
+ I need the updates to the CBUS libraries which are not yet in the Arduino system. I have upgraded them by hand.
 
  ### 19th March 2021
 
