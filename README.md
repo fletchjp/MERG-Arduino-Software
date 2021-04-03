@@ -44,6 +44,11 @@
 
  Arduino CBUS module to control a servo using inputs from two IR detectors. This is derived from the code in the example switch2IOAbs3 in Arduino-Servo-Switch.
 
+ ### CBUSmINnOUT
+
+ This is a fork from Martin Da Costa.
+ It needs CBUS 1.1.14 and CBUSconfigs 1.1.10 which are not yet in the Arduino system.
+
  ## Events
 
  ### 19th March 2021
