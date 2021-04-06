@@ -26,6 +26,12 @@
 
  The only software I will keep here are general purpose utilities.
 
+ ## Editors
+
+ There is a choice of editors for working with GitHub. I am using Virtual Studio Code (VS Code). This recognises the Arduino files and generates .json configuration files. I am going to use .gitignore so that these files are not catalogued by GitHub although they do seem to get into the repository.
+
+ Different contributors may be using different editors and this may mean that other files also get into the repository.
+
  ## Repositories
 
  I have started to add separate repositories for the Arduino codes which are already on the Knowledgebase.
@@ -47,7 +53,9 @@
  ### CBUSmINnOUT
 
  This is a fork from Martin Da Costa.
- It needs CBUS 1.1.14 and CBUSconfigs 1.1.10 which are not yet in the Arduino system. I have manually installed the latest versions.
+ It needs CBUS 1.1.14 and CBUSconfigs 1.1.10 which are now in the Arduino system.
+
+ I have added .gitignore to ignore the configuration files for VS Code.
 
  ## Events
 
