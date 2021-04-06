@@ -51,6 +51,10 @@
 
  ## Events
 
+ ### 6th April 2021
+
+ I have added .gitignore to the CBUSmINnOUT repository to ignore the .vscode files.
+
  ### 3rd April 2021
 
  I have forked Martin Da Costa's code for CBUSmINnOUT in order to use it for a prototype panel on the Totem Mini Lab.
