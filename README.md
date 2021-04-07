@@ -32,6 +32,10 @@
 
  Different contributors may be using different editors and this may mean that other files also get into the repository.
 
+ ### VS Code 
+
+ I have discovered that the Arduino add on for this editor assumes that there is going to be one sketch in each repository. I want to have several so that a group of different examples on the same theme can be together in a logical way. I can use VS Code to edit and organise the files. Its configuration is not going to be compatible. I can use .gitignore to tell GitHub to ignore the vscode files.
+
  ## Repositories
 
  I have started to add separate repositories for the Arduino codes which are already on the Knowledgebase.
