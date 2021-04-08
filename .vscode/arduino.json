@@ -1,6 +1,5 @@
 {
     "board": "arduino:avr:uno",
     "programmer": "arduino:avrisp",
-    "sketch": "pwmtest\\pwmtest.ino",
-    "output": "build"
+    "sketch": "pwmtest\\pwmtest.ino"
 }
