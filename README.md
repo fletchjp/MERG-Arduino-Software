@@ -18,9 +18,13 @@
 
  ## MERG Knowledgebase
 
+ ### GitHub
+
  There is information on the MERG Arduino SIG pages about our use of GitHub.
 
  [Arduino Github Guidance](https://www.merg.org.uk/merg_wiki/doku.php?id=arduino:software:github)
+
+ I have been learning more about how to use GitHub. In particular one of the repositories I have forked had been updated. I have been learning how to keep my fork up to date. My source for this has been the video of Sven Rosvall's talk.
  
  ## Software
 
