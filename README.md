@@ -61,6 +61,8 @@ I still have this one:
 
 which I have for some cases but not others.
 
+I have been doing some work with workspaces on an example which is not in GitHub. I have a suspicion that the configuration needs inside GitHub are different and I have not sorted that out. Some of the errors have started since I did the workspace work. I still have problems about access to Arduino default settings.
+
  ## Repositories
 
  I have started to add separate repositories for the Arduino codes which are already on the Knowledgebase.
