@@ -2,5 +2,5 @@
     "board": "arduino:avr:uno",
     "programmer": "arduino:avrisp",
     "sketch": "pwmtest\\pwmtest.ino",
-    "intelliSenseGen": "disable"
+    "intelliSenseGen": "global"
 }
