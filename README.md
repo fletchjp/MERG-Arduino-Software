@@ -44,6 +44,23 @@
 
  I also need to find out more about Arduino configuration as I am having some problems even with simple examples.
 
+ I have been having some strange errors. One of them looks like this:
+
+[Starting] Update package index files...
+dummy
+[Error] Exit with code=undefined
+
+This goes away with a local settings.json in each repository.
+
+I still have this one:
+
+[Starting] Analyzing sketch 'pwmtest\pwmtest.ino'
+[Warning] Output path is not specified. Unable to reuse previously compiled files. Build will be slower. See README.
+[Warning] Failed to generate IntelliSense configuration.
+[Error] Analyzing sketch 'pwmtest\pwmtest.ino': {"error":{"errno":"ENOENT","code":"ENOENT","syscall":"spawn E:\\Program Files (x86)\\Arduino\\E:\\Program Files (x86)\\Arduino","path":"E:\\Program Files (x86)\\Arduino\\E:\\Program Files (x86)\\Arduino","spawnargs":["--board","arduino:avr:uno","--verify","--verbose-build","e:\\GitHub\\Arduino\\MERG-Arduino-Software\\pwmtest\\pwmtest.ino"]}}
+
+which I have for some cases but not others.
+
  ## Repositories
 
  I have started to add separate repositories for the Arduino codes which are already on the Knowledgebase.
