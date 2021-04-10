@@ -63,6 +63,10 @@ which I have for some cases but not others.
 
 I have been doing some work with workspaces on an example which is not in GitHub. I have a suspicion that the configuration needs inside GitHub are different and I have not sorted that out. Some of the errors have started since I did the workspace work. I still have problems about access to Arduino default settings.
 
+I have now found that the problems with Serial and other things defined automatically in the Arduino IDE seems to be sorted out by defining USBCON. I have not found documentation for this, only a comment in a discussion.
+
+That has not sorted out all the problems and I still do not understand why some things work and others not.
+
  ## Repositories
 
  I have started to add separate repositories for the Arduino codes which are already on the Knowledgebase.
