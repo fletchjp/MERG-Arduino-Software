@@ -67,6 +67,21 @@ I have now found that the problems with Serial and other things defined automati
 
 That has not sorted out all the problems and I still do not understand why some things work and others not.
 
+I still have this error with the CBUS codes. I cannot find the reference in CBUS2515.h
+
+{
+	"resource": "/E:/GitHub/Arduino/CBUSmINnOUT/CBUSmINnOUT.ino",
+	"owner": "C/C++",
+	"code": "1696",
+	"severity": 8,
+	"message": "cannot open source file \"avr32/io.h\" (dependency of \"CBUS2515.h\")",
+	"source": "C/C++",
+	"startLineNumber": 80,
+	"startColumn": 1,
+	"endLineNumber": 80,
+	"endColumn": 22
+}
+
  ## Repositories
 
  I have started to add separate repositories for the Arduino codes which are already on the Knowledgebase.
@@ -104,7 +119,7 @@ That has not sorted out all the problems and I still do not understand why some 
 
  I have learned how to send a pull requests to Martin on his two repositories. These have now been merged in.
  
- I am continuing to work on the problem of Arduino configuration with VS Code.
+ I am continuing to work on the problem of Arduino configuration with VS Code. I have made some progress sorting out some errors I had made through not understanding some configuration options.
 
  ### 6th April 2021
 
