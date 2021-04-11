@@ -1,6 +1,5 @@
 {
     "board": "arduino:avr:uno",
     "programmer": "arduino:avrisp",
-    "sketch": "pwmtest\\pwmtest.ino",
-    "intelliSenseGen": "global"
+    "sketch": "pwmtest\\pwmtest.ino"
 }
