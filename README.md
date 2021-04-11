@@ -96,11 +96,15 @@ That has not sorted out all the problems and I still do not understand why some 
 
  These are two private repositories which I have forked from Martin Da Costa to work on development.
 
+ I have now contributed the start of a README.md to each of them.
+
  ## Events
 
  ### 11th April 2021
 
- I have learned how to send a pull request to Martin on his two repositories. I am continuing to work on the problem of Arduino configuration with VS Code.
+ I have learned how to send a pull requests to Martin on his two repositories. These have now been merged in.
+ 
+ I am continuing to work on the problem of Arduino configuration with VS Code.
 
  ### 6th April 2021
 
