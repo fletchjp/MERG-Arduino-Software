@@ -92,7 +92,15 @@ That has not sorted out all the problems and I still do not understand why some 
 
  I have added .gitignore to ignore the configuration files for VS Code.
 
+ ### CBUS-DC-Cab CBUS-DC-Throttle
+
+ These are two private repositories which I have forked from Martin Da Costa to work on development.
+
  ## Events
+
+ ### 11th April 2021
+
+ I have learned how to send a pull request to Martin on his two repositories. I am continuing to work on the problem of Arduino configuration with VS Code.
 
  ### 6th April 2021
 
