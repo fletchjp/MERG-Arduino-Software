@@ -40,6 +40,8 @@
 
  I have discovered that the Arduino add on for this editor assumes that there is going to be one sketch in each repository. I want to have several so that a group of different examples on the same theme can be together in a logical way. I can use VS Code to edit and organise the files. Its configuration is not going to be compatible. I can use .gitignore to tell GitHub to ignore the vscode files.
 
+ I am moving [VSCODE learning](VSCODE.md) to a separate file.
+
  I have been learning about workspaces and started to work with them.
 
  I also need to find out more about Arduino configuration as I am having some problems even with simple examples.
