@@ -59,7 +59,7 @@ I still have this one:
 [Warning] Failed to generate IntelliSense configuration.
 [Error] Analyzing sketch 'pwmtest\pwmtest.ino': {"error":{"errno":"ENOENT","code":"ENOENT","syscall":"spawn E:\\Program Files (x86)\\Arduino\\E:\\Program Files (x86)\\Arduino","path":"E:\\Program Files (x86)\\Arduino\\E:\\Program Files (x86)\\Arduino","spawnargs":["--board","arduino:avr:uno","--verify","--verbose-build","e:\\GitHub\\Arduino\\MERG-Arduino-Software\\pwmtest\\pwmtest.ino"]}}
 
-which I have for some cases but not others.
+which I have for some cases but not others. This was because of a configuration error and I have now solved it. I had duplicated the "E:\\Program Files (x86)\\Arduino" part of the configuration and confused it. It took a few sessions of hunting to get rid of them all.
 
 I have been doing some work with workspaces on an example which is not in GitHub. I have a suspicion that the configuration needs inside GitHub are different and I have not sorted that out. Some of the errors have started since I did the workspace work. I still have problems about access to Arduino default settings.
 
