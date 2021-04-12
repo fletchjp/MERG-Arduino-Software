@@ -115,6 +115,10 @@ I still have this error with the CBUS codes. I cannot find the reference in CBUS
 
  ## Events
 
+ ### 12th April 2021
+
+ I raised the avr32/io.h issue with the Arduino Extension.
+
  ### 11th April 2021
 
  I have learned how to send a pull requests to Martin on his two repositories. These have now been merged in.
