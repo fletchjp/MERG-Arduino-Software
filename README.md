@@ -67,7 +67,7 @@ I have now found that the problems with Serial and other things defined automati
 
 That has not sorted out all the problems and I still do not understand why some things work and others not. Some of the more mysterious errors were due to mistakes I made in configuration of the arduino path information.
 
-I still have this error with the CBUS codes. I cannot find the reference in CBUS2515.h. It is connected to use of SPI. I have flagged it as an issue with the Arduino extension to VS Code.
+I still have this error with the CBUS codes. I cannot find the reference in CBUS2515.h. It is connected to use of SPI. I have flagged it as an issue with the Arduino extension to VS Code. I won't expect an answer there soon as they have 134 open issues. 
 
 {
 	"resource": "/E:/GitHub/Arduino/CBUSmINnOUT/CBUSmINnOUT.ino",
