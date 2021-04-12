@@ -6,7 +6,9 @@ Back to [README](README.md).
 
 ### 12th April 2021
 
- I raised the avr32/io.h issue with the Arduino Extension. I have added the SPI example DigitalPotControl as an example of the error.
+ I raised the avr32/io.h issue with the Arduino Extension. I have added the SPI example DigitalPotControl as an example of the error. There is activity on the issue.
+
+ I have started to use subfiles to slim down [README](README.md).
 
  ### 11th April 2021
 
