@@ -48,6 +48,8 @@ I still have this error with the CBUS codes. I cannot find the reference in CBUS
 
 In fact discussion of the problem has already started.
 
+I moved the FreeRTOS library to other_libraries as it has a reference in it to AVR32. This did not solve the problem.
+
 
 
 Back to [README](README.md).
