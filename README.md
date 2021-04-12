@@ -28,7 +28,7 @@
  
  ## Software
 
- The only software I will keep here are general purpose utilities.
+ The only software I will keep here are general purpose utilities and simple examples to demonstrate errors. 
 
  ## Editors
 
@@ -82,6 +82,8 @@ I still have this error with the CBUS codes. I cannot find the reference in CBUS
 	"endColumn": 22
 }
 
+In fact discussion of the problem has already started.
+
  ## Repositories
 
  I have started to add separate repositories for the Arduino codes which are already on the Knowledgebase.
@@ -117,7 +119,7 @@ I still have this error with the CBUS codes. I cannot find the reference in CBUS
 
  ### 12th April 2021
 
- I raised the avr32/io.h issue with the Arduino Extension.
+ I raised the avr32/io.h issue with the Arduino Extension. I have added the SPI example DigitalPotControl as an example of the error.
 
  ### 11th April 2021
 
