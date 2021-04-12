@@ -63,11 +63,11 @@ which I have for some cases but not others.
 
 I have been doing some work with workspaces on an example which is not in GitHub. I have a suspicion that the configuration needs inside GitHub are different and I have not sorted that out. Some of the errors have started since I did the workspace work. I still have problems about access to Arduino default settings.
 
-I have now found that the problems with Serial and other things defined automatically in the Arduino IDE seems to be sorted out by defining USBCON. I have not found documentation for this, only a comment in a discussion.
+I have now found that the problems with Serial and other things defined automatically in the Arduino IDE seems to be sorted out by defining USBCON. I have not found documentation for this, only a comment in a discussion. It turns out that this is not the full answer for this.
 
-That has not sorted out all the problems and I still do not understand why some things work and others not.
+That has not sorted out all the problems and I still do not understand why some things work and others not. Some of the more mysterious errors were due to mistakes I made in configuration of the arduino path information.
 
-I still have this error with the CBUS codes. I cannot find the reference in CBUS2515.h
+I still have this error with the CBUS codes. I cannot find the reference in CBUS2515.h. It is connected to use of SPI. I have flagged it as an issue with the Arduino extension to VS Code.
 
 {
 	"resource": "/E:/GitHub/Arduino/CBUSmINnOUT/CBUSmINnOUT.ino",
