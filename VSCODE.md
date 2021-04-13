@@ -70,6 +70,8 @@ This problem can be resolved by the correct ordering of the includes in the c_cp
 
 This remains a problem in CBUS_DC_Throttle. Under investigation.
 
+I have looked into a direct call to an include file from the code, which makes no difference.
+
 ## Conclusion
 
 I have not sorted out all the problems and I still do not understand why some things work and others not. Some of the more mysterious errors were due to mistakes I made in configuration of the arduino path information. I have learned a lot about the operation of VS Code and the Arduino extension.
