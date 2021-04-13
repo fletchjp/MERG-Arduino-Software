@@ -4,6 +4,14 @@ Back to [README](README.md).
 
 ## April 2021
 
+### 13th April 2021
+
+I have updated VSCODE.md to reflect the learning about VS Code and the solution of a number of problems.
+
+I have merged some changes Martin had made to the CBUS codes and set up pull requests for my .vscode configuration changes.
+
+I am still investigating how to solve the issue of the register names.
+
 ### 12th April 2021
 
  I raised the avr32/io.h issue with the Arduino Extension. I have added the SPI example DigitalPotControl as an example of the error. There is activity on the issue.
