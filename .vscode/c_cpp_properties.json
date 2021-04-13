@@ -21,7 +21,6 @@
             "cStandard": "gnu11",
             "cppStandard": "gnu++14",
             "defines": [
-                "USBCON"
             ]
         },
         {
