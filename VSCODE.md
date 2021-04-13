@@ -58,7 +58,11 @@ In fact discussion of the problem has already started.
 
 I moved the FreeRTOS library to other_libraries as it has a reference in it to AVR32. This did not solve the problem.
 
-This problem can be resolved by the correct ordering of the includes in the c_cpp_properties.json file in the Win32 configuration.
+This problem can be resolved by the correct ordering of the includes in the c_cpp_properties.json file in the Win32 configuration. This has now been implemented in all the repositories here.
+
+### Direct naming of registers
+
+This remains a problem in CBUS_DC_Throttle. Under investigation.
 
 ## Conclusion
 
