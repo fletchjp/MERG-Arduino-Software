@@ -68,24 +68,28 @@ This problem can be resolved by the correct ordering of the includes in the c_cp
 
 ### Direct naming of registers
 
-This remains a problem in CBUS_DC_Throttle. Under investigation.
+This has been a problem in CBUS_DC_Throttle.
 
 I have looked into a direct call to an include file from the code, which makes no difference.
 
 I have now found a solution to this problem. It involves changing the choice of compiler to use withing the Win32 configuration, as suggested here: 
 https://stackoverflow.com/questions/63387013/arduino-vscode-identifier-sprintf-is-undefined
 
-I have changed the c_cpp_properties.json in Arduino_DC_Throttle to read:
+I have changed the c_cpp_properties.json in Arduino_DC_Throttle and CBUS-DC-Throttle to read:
 
             "compilerPath": "E:\\Program Files (x86)\\Arduino\\hardware\\tools\\avr\\bin\\avr-gcc.exe",
-
+            "compilerArgs": [
+                "-mmcu=atmega328"
+            ],
             "intelliSenseMode": "clang-x64",
 
-For the moment this is on a branch called "avr-gcc"
+For the moment this is on a branch called "avr-gcc" of both repositories.
 
 ## Conclusion
 
-I have not sorted out all the problems and I still do not understand why some things work and others not. Some of the more mysterious errors were due to mistakes I made in configuration of the arduino path information. I have learned a lot about the operation of VS Code and the Arduino extension.
+I think I have now sorted out all the problems I have had so far.
+
+I still do not understand why some things work and others not. Some of the more mysterious errors were due to mistakes I made in configuration of the arduino path information. I have learned a lot about the operation of VS Code and the Arduino extension.
 
 
 Back to [README](README.md).
