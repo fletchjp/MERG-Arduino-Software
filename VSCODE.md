@@ -29,6 +29,8 @@ I have been doing some work with workspaces on an example which is not in GitHub
 
 I have now found that the problems with Serial and other things defined automatically in the Arduino IDE seems to be sorted out by defining USBCON. I have not found documentation for this, only a comment in a discussion. It turns out that this is not the full answer for this.
 
+This is even more mysterious than I thought. The c_cpp_properties.json file here has two configurations called "Win32" and "Arduino" which come in that order. The file pwmtest.ino uses Serial. It fails unless USBCON is defined in Win32. If I put a define for USBCON into Arduino the intellisense removes it and the system fails to identify Serial. I report the facts but do not have an explanation.
+
 That has not sorted out all the problems and I still do not understand why some things work and others not. Some of the more mysterious errors were due to mistakes I made in configuration of the arduino path information.
 
 I still have this error with the CBUS codes. I cannot find the reference in CBUS2515.h. It is connected to use of SPI. I have flagged it as an issue with the Arduino extension to VS Code. I won't expect an answer there soon as they have 134 open issues. 
