@@ -6,7 +6,7 @@ I made pull requests on Martin's repositories. These tidy up the VS Code configu
 
 I have been learning about workspaces and started to work with them.
 
-I also need to find out more about Arduino configuration as I am having some problems even with simple examples.
+I have found out a lot more about Arduino configuration. I was having some problems even with simple examples. Some of those came from my own misunderstandings which generated confusing error messages.
 
 ## Problems, some solved and some not.
 
@@ -20,14 +20,16 @@ dummy
 
 This goes away with a local settings.json in each repository.
 
-I still have this one:
+I have now solved this one:
 
 [Starting] Analyzing sketch 'pwmtest\pwmtest.ino'
 [Warning] Output path is not specified. Unable to reuse previously compiled files. Build will be slower. See README.
 [Warning] Failed to generate IntelliSense configuration.
 [Error] Analyzing sketch 'pwmtest\pwmtest.ino': {"error":{"errno":"ENOENT","code":"ENOENT","syscall":"spawn E:\\Program Files (x86)\\Arduino\\E:\\Program Files (x86)\\Arduino","path":"E:\\Program Files (x86)\\Arduino\\E:\\Program Files (x86)\\Arduino","spawnargs":["--board","arduino:avr:uno","--verify","--verbose-build","e:\\GitHub\\Arduino\\MERG-Arduino-Software\\pwmtest\\pwmtest.ino"]}}
 
-which I have for some cases but not others. This was because of a configuration error and I have now solved it. I had duplicated the "E:\\Program Files (x86)\\Arduino" part of the configuration and confused it. It took a few sessions of hunting to get rid of them all.
+which I have for some cases but not others.
+
+This was because of a configuration error and I have now solved it. I had duplicated the "E:\\Program Files (x86)\\Arduino" part of the configuration and confused it. It took a few sessions of hunting to get rid of them all.
 
 ### Workspaces (in progress)
 
@@ -41,7 +43,9 @@ This is even more mysterious than I thought. The c_cpp_properties.json file here
 
 ### avr32/io.h (reported as a bug)
 
-I still have this error with the CBUS codes. I cannot find the reference in CBUS2515.h. It is connected to use of SPI. I have flagged it as an issue with the Arduino extension to VS Code. I won't expect an answer there soon as they have 134 open issues. 
+I had this error with the CBUS codes. I cannot find the reference in CBUS2515.h. It is connected to use of SPI. I have flagged it as an issue with the Arduino extension to VS Code. I won't expect an answer there soon as they have 134 open issues. It is solved by sorting out the correct order for the include files in the Win32 configuration.
+
+The problem goes away and I have never found avr32/io.h or any reference to it anywhere.
 
 {
 	"resource": "/E:/GitHub/Arduino/CBUSmINnOUT/CBUSmINnOUT.ino",
@@ -58,7 +62,7 @@ I still have this error with the CBUS codes. I cannot find the reference in CBUS
 
 In fact discussion of the problem has already started.
 
-I moved the FreeRTOS library to other_libraries as it has a reference in it to AVR32. This did not solve the problem.
+I moved the FreeRTOS library to other_libraries as it has a reference in it to AVR32. This did not solve the problem and I have now reversed the change as I have examples which use it.
 
 This problem can be resolved by the correct ordering of the includes in the c_cpp_properties.json file in the Win32 configuration. This has now been implemented in all the repositories here.
 
@@ -68,7 +72,7 @@ This remains a problem in CBUS_DC_Throttle. Under investigation.
 
 ## Conclusion
 
-I have not sorted out all the problems and I still do not understand why some things work and others not. Some of the more mysterious errors were due to mistakes I made in configuration of the arduino path information.
+I have not sorted out all the problems and I still do not understand why some things work and others not. Some of the more mysterious errors were due to mistakes I made in configuration of the arduino path information. I have learned a lot about the operation of VS Code and the Arduino extension.
 
 
 Back to [README](README.md).
