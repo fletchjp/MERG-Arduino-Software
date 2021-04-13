@@ -2,6 +2,8 @@
 
 Back to [README](README.md).
 
+I made pull requests on Martin's repositories. These tidy up the VS Code configurations so that they run sweetly now. VS Code compiles the code twice, once to check for itself and then for the Arduino. It was the first one which is failing. I cannot delete that as it is generated automatically. It needs the include files to be in the correct order on the first configuration.
+
 I have been learning about workspaces and started to work with them.
 
 I also need to find out more about Arduino configuration as I am having some problems even with simple examples.
