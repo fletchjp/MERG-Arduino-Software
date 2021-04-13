@@ -8,6 +8,8 @@ I have been learning about workspaces and started to work with them.
 
 I have found out a lot more about Arduino configuration. I was having some problems even with simple examples. Some of those came from my own misunderstandings which generated confusing error messages.
 
+At the moment I have solutions to one problem on branches "avr-gcc" which are not yet merged.
+
 ## Problems, some solved and some not.
 
  I have been having some strange errors. One of them looks like this:
