@@ -56,6 +56,7 @@
                 "ARDUINO=10813",
                 "ARDUINO_AVR_UNO",
                 "ARDUINO_ARCH_AVR",
+                "USBCON",
                 "__DBL_MIN_EXP__=(-125)",
                 "__HQ_FBIT__=15",
                 "__cpp_attributes=200809",
