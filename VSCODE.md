@@ -58,6 +58,8 @@ In fact discussion of the problem has already started.
 
 I moved the FreeRTOS library to other_libraries as it has a reference in it to AVR32. This did not solve the problem.
 
+This problem can be resolved by the correct ordering of the includes in the c_cpp_properties.json file in the Win32 configuration.
+
 ## Conclusion
 
 I have not sorted out all the problems and I still do not understand why some things work and others not. Some of the more mysterious errors were due to mistakes I made in configuration of the arduino path information.
