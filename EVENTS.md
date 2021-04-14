@@ -6,7 +6,7 @@ Back to [README](README.md).
 
 ### 14th April 2021
 
-Expand use of the avr-gcc compiler on avr-gcc branches, see [VS CODE learning](VSCODE.md).
+Expand use of the avr-gcc compiler on avr-gcc branches, see [VS CODE learning](VSCODE.md). I have had no problems with this.
 
 ### 13th April 2021
 
