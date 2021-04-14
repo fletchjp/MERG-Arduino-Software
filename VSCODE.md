@@ -87,6 +87,10 @@ I have changed the c_cpp_properties.json in Arduino_DC_Throttle and CBUS-DC-Thro
 
 For the moment this is on a branch called "avr-gcc" of both repositories.
 
+## Compilers 
+
+As a result of the learning above, I am considering changing all of the VS Code configurations to use the avr-gcc compiler. At the moment I have done this for CBUS_DC_Throttle and Arduino_DC_Controller and kept this onto a branch. I will do this next for the other two CBUS repositories, CBUSmINnOUT and CBUS-DC-CAB, also using a branch.
+
 ## Conclusion
 
 I think I have now sorted out all the problems I have had so far.
