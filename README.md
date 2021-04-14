@@ -1,5 +1,11 @@
-# MERG-Arduino-Software
- 
+ # MERG-Arduino-Software
+
+ Information about the GitHub work for the Arduino SIG.
+
+ This is not the only GitHub site. Several other MERG members have their own sites and we are colaborating to develop Arduino codes of use to the wider MERG membership. 
+
+ John Fletcher M6777
+
  ## Software for MERG Arduino projects
 
  I am aiming to help MERG members to collect together Arduino software for projects.
@@ -8,9 +14,7 @@
 
  Each separate project will be in a separate GitHub repository which could be one thing or a group of related things.
 
- John Fletcher M6777
-
- ## Licence ##
+ ## Licence
 
  I need to sort out the licence situation before creating and publishing any more repositories.
 
@@ -18,7 +22,7 @@
 
  ## MERG Knowledgebase
 
- ### GitHub
+ ### GitHub on the Knowledgebase
 
  There is information on the MERG Arduino SIG pages about our use of GitHub.
 
@@ -26,7 +30,7 @@
 
  ## Reflection
 
- Somewhere for [reflection on GitHub learning](REFLECTION.md)
+ Somewhere for [reflection on GitHub learning](REFLECTION.md) during the work on the projects.
  
  ## Software
 
