@@ -3,9 +3,11 @@
     "configurations": [
         {
             "name": "Win32",
-            "compilerPath": "E:\\Octave\\Octave-5.1.0.0\\mingw64\\bin\\gcc.exe",
-            "compilerArgs": [],
-            "intelliSenseMode": "windows-gcc-x64",
+            "compilerPath": "E:\\Program Files (x86)\\Arduino\\hardware\\tools\\avr\\bin\\avr-gcc.exe",
+            "compilerArgs": [
+                "-mmcu=atmega328"
+            ],
+            "intelliSenseMode": "clang-x64",
             "includePath": [
                 "${workspaceRoot}",
                 "C:\\Users\\User\\Documents\\Arduino\\libraries\\**",
