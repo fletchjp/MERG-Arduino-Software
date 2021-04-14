@@ -79,6 +79,10 @@
 
  I have now contributed the start of a README.md to each of them.
 
+ ### Arduino_DC_Throttle
+
+ This is the prototype code for the original hardware designed by John Purbrick. This is also forked from Martin Da Costa.
+
  ## Events
 
  I am moving [Events](EVENTS.md) to a separate file.
