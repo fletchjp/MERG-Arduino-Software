@@ -4,6 +4,10 @@ Back to [README](README.md).
 
 ## April 2021
 
+### 14th April 2021
+
+Expand use of the avr-gcc compiler on avr-gcc branches, see [VS CODE learning](VSCODE.md).
+
 ### 13th April 2021
 
 I have updated VSCODE.md to reflect the learning about VS Code and the solution of a number of problems.
