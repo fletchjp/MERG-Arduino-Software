@@ -83,6 +83,10 @@
 
  This is the prototype code for the original hardware designed by John Purbrick. This is also forked from Martin Da Costa.
 
+ ### Signal Box
+
+ This is a fork of the work of Tony Clulow implementing new code for the Ezybus hardware.
+
  ## Events
 
  I am moving [Events](EVENTS.md) to a separate file.
