@@ -91,6 +91,10 @@
 
  I have started to bring in the old versions. I have used Version 2.9 as a starting point for new work.
 
+ ### CBUS_DC_Throttle_exp
+
+ A version of CBUS_DC_Throttle with class code.
+
  ## Events
 
  I am moving [Events](EVENTS.md) to a separate file.

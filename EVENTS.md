@@ -4,6 +4,14 @@ Back to [README](README.md).
 
 ## April 2021
 
+### 16th April 2021
+
+Made a serious start on CANCMDDC2 codes.
+
+### 15th April 2021
+
+Sorted out a problem for Martin on CBUS_DC_Throttle_exp
+
 ### 14th April 2021
 
 Expand use of the avr-gcc compiler on avr-gcc branches, see [VS CODE learning](VSCODE.md). I have had no problems with this. I can merge the branches in while keeping the avr-gcc branch for more experiments.
