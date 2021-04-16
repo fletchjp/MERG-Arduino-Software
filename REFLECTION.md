@@ -8,5 +8,11 @@ I think it is worth recording where I started at the beginning of this work. I h
 
 I set up this site in August 2020 and did little with it. I did some more in late November 2020. I really only got going seriously in February 2021 with the first of Sven's talks and really have collaboration running only since his second (third) talk.
 
+## Experience
+
+I have been setting up branches to sort out CANCMDDC2. I set up some branches and decided to copy one into main using a pull request. I attempted to remove conflict by renaming BRANCHES.md in main and deleting the file. I could not merge that and needed to create a new file with the same name to complete the merge.
+
+gitg shows branches usefully. It needs to be restarted to show all the branch tags properly.
+
 Back to [README](README.md).
 
