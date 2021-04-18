@@ -91,6 +91,26 @@ For the moment this is on a branch called "avr-gcc" of both repositories.
 
 As a result of the learning above, I am considering changing all of the VS Code configurations to use the avr-gcc compiler. At the moment I have done this for CBUS_DC_Throttle and Arduino_DC_Controller and kept this onto a branch. I will do this next for the other two CBUS repositories, CBUSmINnOUT and CBUS-DC-CAB, also using a branch.
 
+## unknown protocol problem
+
+In the Arduino IDE after a compile I get this message:
+
+unknown protocol: c
+
+I have had the suggestion from here:
+
+https://forum.arduino.cc/t/unknown-protocol-c-on-ide-startup/534647/4
+
+that it is caused by an entry for
+
+"arduino.additionalUrls": ""
+
+in Settings.json although experiments with Arduino_DC_Throttle do not sort this out.
+
+The point is that additional URLs need to URLs, not a reference to C:
+
+The setting was wrong in my global settings.json.
+
 ## Conclusion
 
 I think I have now sorted out all the problems I have had so far.
