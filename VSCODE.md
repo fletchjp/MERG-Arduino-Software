@@ -113,7 +113,7 @@ The setting was wrong in my global settings.json.
 
 It was also wrong in some local settings.json.
 
-The error is persisting although I have edited all the occurences I can find. There could be another source.
+The error is persisting although I have edited all the occurences I can find. There could be another source. As indeed there was. It had got into the configuration file of the Arduino IDE itself.
 
 ## Conclusion
 
