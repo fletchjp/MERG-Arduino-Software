@@ -111,6 +111,10 @@ The point is that additional URLs need to URLs, not a reference to C:
 
 The setting was wrong in my global settings.json.
 
+It was also wrong in some local settings.json.
+
+The error is persisting although I have edited all the occurences I can find. There could be another source.
+
 ## Conclusion
 
 I think I have now sorted out all the problems I have had so far.
