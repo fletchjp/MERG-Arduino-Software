@@ -14,5 +14,9 @@ I have been setting up branches to sort out CANCMDDC2. I set up some branches an
 
 gitg shows branches usefully. It needs to be restarted to show all the branch tags properly.
 
+## VS Code configuration
+
+I have had a lot of problems getting VS Code configured and at times I despaired of making sense of it. I have stuck with it and have learned quite a lot about how it works. There is still more to go.
+
 Back to [README](README.md).
 
