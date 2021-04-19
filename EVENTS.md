@@ -4,19 +4,23 @@ Back to [README](README.md).
 
 ## April 2021
 
-### 16th April 2021
+### 18th April
+
+I think I have now resolved all the configuration problems with Arduino usage.
+
+### 16th April
 
 Made a serious start on CANCMDDC2 codes.
 
-### 15th April 2021
+### 15th April
 
 Sorted out a problem for Martin on CBUS_DC_Throttle_exp
 
-### 14th April 2021
+### 14th April
 
 Expand use of the avr-gcc compiler on avr-gcc branches, see [VS CODE learning](VSCODE.md). I have had no problems with this. I can merge the branches in while keeping the avr-gcc branch for more experiments.
 
-### 13th April 2021
+### 13th April
 
 I have updated VSCODE.md to reflect the learning about VS Code and the solution of a number of problems.
 
@@ -24,23 +28,23 @@ I have merged some changes Martin had made to the CBUS codes and set up pull req
 
 I am still investigating how to solve the issue of the register names.
 
-### 12th April 2021
+### 12th April
 
  I raised the avr32/io.h issue with the Arduino Extension. I have added the SPI example DigitalPotControl as an example of the error. There is activity on the issue.
 
  I have started to use subfiles to slim down [README](README.md).
 
- ### 11th April 2021
+ ### 11th April
 
  I have learned how to send a pull requests to Martin on his two repositories. These have now been merged in.
  
  I am continuing to work on the problem of Arduino configuration with VS Code. I have made some progress sorting out some errors I had made through not understanding some configuration options.
 
- ### 6th April 2021
+ ### 6th April
 
  I have added .gitignore to the CBUSmINnOUT repository to ignore the .vscode files.
 
- ### 3rd April 2021
+ ### 3rd April
 
  I have forked Martin Da Costa's code for CBUSmINnOUT in order to use it for a prototype panel on the Totem Mini Lab.
 
@@ -49,7 +53,7 @@ I am still investigating how to solve the issue of the register names.
 ## March 2021
 
 
- ### 19th March 2021
+ ### 19th March
 
  I am thinking about what to do with the CANCMDDC2 codes of which there are a lot of versions as a result of the work done last year without version control.
  
@@ -65,13 +69,13 @@ I am still investigating how to solve the issue of the register names.
 
  So I need that repository.
 
- ### 16th March 2021
+ ### 16th March
 
  Starting work on the arduino code for the DC Controler from John Purbrick. I have a copy of the hardware put together for me by Robert Thomas. I am exploring using this with the software called arduino_throttle.
 
  ## February 2021
 
- ### 25th February 2021.
+ ### 25th February
  
  I am restarting this work as a result of Sven Rosvall's Zoom talk to the Arduino SIG. After some discussion with him I am going to have a series of different repositories for different pieces of software.
  I have set up a project in my ConnectedText wiki where I can document the repositories and their relationships.
@@ -79,7 +83,7 @@ I am still investigating how to solve the issue of the register names.
 
  Overall documentation of what is going on can be done here.
 
- ### 26th February 2021
+ ### 26th February
 
  I have added in Visual Micro to the installation of Visual Studio Code which I am using for text editing. https://www.visualmicro.com/.
 
@@ -93,7 +97,7 @@ I am still investigating how to solve the issue of the register names.
  
  ## 2020
 
- ### 29th November 2020.
+ ### 29th November
  
  I have added pwmtest as an experiment to see what would happen. It is a test for the addresses of I2C devices.
 
