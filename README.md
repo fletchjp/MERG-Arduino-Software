@@ -6,6 +6,8 @@
 
  ![Another](arduino_merg_logo.png){:height="100px" width="100px"}
 
+ <img src="arduino_merg_logo.png" width="200" height="100">
+
  Information about the GitHub work for the MERG Arduino SIG.
 
  This is not the only GitHub site. Several other MERG members have their own sites and we are colaborating to develop Arduino codes of use to the wider MERG membership. 
