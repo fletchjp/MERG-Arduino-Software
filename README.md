@@ -1,6 +1,10 @@
  # MERG-Arduino-Software
+ 
+ ![alt text][MergLogo]
 
- Information about the GitHub work for the Arduino SIG.
+ ![alt text][ArduinoMergLogo]
+
+ Information about the GitHub work for the MERG Arduino SIG.
 
  This is not the only GitHub site. Several other MERG members have their own sites and we are colaborating to develop Arduino codes of use to the wider MERG membership. 
 
@@ -135,6 +139,6 @@ I have found a cheatsheet for Markdown on GitHub and added it to the Knowledgeba
 
 [Markdown Cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
 
-
-
+[MergLogo]: merg_logo.png "MERG logo"
+[ArduinoMergLogo]: arduino_merg_logo.png "Arduino MERG logo"
 
