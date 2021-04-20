@@ -1,4 +1,6 @@
  # MERG-Arduino-Software
+ <img align="right" src="arduino_merg_logo.png"  width="100" height="50">
+
 
  Information about the GitHub work for the MERG Arduino SIG.
 
