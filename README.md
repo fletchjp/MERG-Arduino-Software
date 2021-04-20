@@ -1,5 +1,9 @@
  # MERG-Arduino-Software
  
+ ## Logos
+
+ Exploring the use of logos of different sizes.
+
  ![alt text][MergLogo]
 
  ![alt text][ArduinoMergLogo]
