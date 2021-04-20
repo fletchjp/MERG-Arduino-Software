@@ -1,5 +1,6 @@
- # MERG-Arduino-Software
  <img align="right" src="arduino_merg_logo.png"  width="100" height="50">
+
+ # MERG-Arduino-Software
 
  ## Introduction
 
