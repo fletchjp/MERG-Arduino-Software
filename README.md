@@ -1,5 +1,11 @@
  # MERG-Arduino-Software
- 
+
+ Information about the GitHub work for the MERG Arduino SIG.
+
+ This is not the only GitHub site. Several other MERG members have their own sites and we are colaborating to develop Arduino codes of use to the wider MERG membership. 
+
+ John Fletcher M6777
+
  ## Logos
 
  Exploring the use of logos of different sizes.
@@ -13,13 +19,6 @@
  <img src="arduino_merg_logo.png" width="100" height="50">
 
  <img src="arduino_merg_logo.png" width="50" height="25">
-
-
- Information about the GitHub work for the MERG Arduino SIG.
-
- This is not the only GitHub site. Several other MERG members have their own sites and we are colaborating to develop Arduino codes of use to the wider MERG membership. 
-
- John Fletcher M6777
 
  ## Software for MERG Arduino projects
 
