@@ -4,7 +4,12 @@
 
  ![alt text][ArduinoMergLogo]
 
- <img src="arduino_merg_logo.png" width="400" height="200">
+ <img src="arduino_merg_logo.png" width="200" height="100">
+
+ <img src="arduino_merg_logo.png" width="100" height="50">
+
+ <img src="arduino_merg_logo.png" width="50" height="25">
+
 
  Information about the GitHub work for the MERG Arduino SIG.
 
