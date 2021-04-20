@@ -2,7 +2,9 @@
  
  ![alt text][MergLogo]
 
- ![alt text][ArduinoMergLogo{height="50px" width="100px"}]
+ ![alt text][ArduinoMergLogo]{height="50px" width="100px"}
+
+ ![Another](Arduino_Merg_Logo.png){:height="100px" width="100px"}
 
  Information about the GitHub work for the MERG Arduino SIG.
 
@@ -141,6 +143,7 @@ I have found a cheatsheet for Markdown on GitHub and added it to the Knowledgeba
 
 [MergLogo]: merg_logo.png "MERG logo"
 [ArduinoMergLogo]: arduino_merg_logo.png "Arduino MERG logo"
+
 
 
 
