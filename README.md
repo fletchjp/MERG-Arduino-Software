@@ -4,7 +4,7 @@
 
  ![alt text][ArduinoMergLogo]{height="50px" width="100px"}
 
- ![Another](arduino_merg_Logo.png){:height="100px" width="100px"}
+ ![Another](arduino_merg_logo.png){:height="100px" width="100px"}
 
  Information about the GitHub work for the MERG Arduino SIG.
 
