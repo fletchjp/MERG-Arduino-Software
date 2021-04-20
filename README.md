@@ -18,9 +18,9 @@
 
  ![alt text][ArduinoMergLogo]
 
- <img src="arduino_merg_logo.png" width="200" height="100">
+ <img src="arduino_merg_logo.png" width="200" height="100" alt="Arduino MERG Logo 200 x 100">
 
- <img src="arduino_merg_logo.png" width="100" height="50">
+ <img src="arduino_merg_logo.png" width="100" height="50" alt="Arduino MERG Logo 100 x 50">
 
  <img src="arduino_merg_logo.png" width="50" height="25">
 
