@@ -21,11 +21,19 @@
  <img src="arduino_merg_logo.png" width="200" height="100" alt="Arduino MERG Logo 200 x 100">
 
  <img src="arduino_merg_logo.png" width="100" height="50" alt="Arduino MERG Logo 100 x 50">
+ 
  <p float="left">
    <img src="arduino_merg_logo.png" width="50" height="25">
    <img src="arduino_merg_logo.png" width="50" height="25">
    <img src="arduino_merg_logo.png" width="50" height="25">
+   <img src="arduino_merg_logo.png" width="50" height="25">
+   <img src="arduino_merg_logo.png" width="50" height="25">
+   <img src="arduino_merg_logo.png" width="50" height="25">
+   <img src="arduino_merg_logo.png" width="50" height="25">
+   <img src="arduino_merg_logo.png" width="50" height="25">
+   <img src="arduino_merg_logo.png" width="50" height="25">
  </p>
+
  ## Software for MERG Arduino projects
 
  I am aiming to help MERG members to collect together Arduino software for projects.
