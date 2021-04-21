@@ -12,12 +12,12 @@
                 "${workspaceRoot}",
                 "C:\\Users\\User\\Documents\\Arduino\\libraries\\**",
                 "C:\\Users\\User\\AppData\\Local\\Arduino15\\packages\\arduino\\tools\\**",
-                "E:\\Program Files (x86)\\Arduino\\hardware\\arduino\\avr\\**", 
+                "E:\\Program Files (x86)\\Arduino\\hardware\\arduino\\avr\\**",
                 "E:\\Program Files (x86)\\Arduino\\libraries\\**",
                 "E:\\Program Files (x86)\\Arduino\\tools\\**",
                 "E:\\Program Files (x86)\\Arduino\\hardware\\arduino\\avr\\cores\\arduino\\**",
-                "E:\\Program Files (x86)\\Arduino\\hardware\\arduino\\avr\\libraries\\SPI\\**", 
-                "E:\\Program Files (x86)\\Arduino\\hardware\\arduino\\avr\\libraries\\SPI\\src", 
+                "E:\\Program Files (x86)\\Arduino\\hardware\\arduino\\avr\\libraries\\SPI\\**",
+                "E:\\Program Files (x86)\\Arduino\\hardware\\arduino\\avr\\libraries\\SPI\\src",
                 "C:\\Users\\User\\Documents\\Arduino\\libraries\\Adafruit_PWM_Servo_Driver_Library\\**",
                 "C:\\Users\\User\\Documents\\Arduino\\libraries\\Streaming\\src",
                 "C:\\Users\\User\\Documents\\Arduino\\libraries\\**",
@@ -562,7 +562,8 @@
                 "__cpp_init_captures=201304",
                 "__ATOMIC_ACQ_REL=4",
                 "__ATOMIC_RELEASE=3",
-                "__BUILTIN_AVR_FMUL=1"
+                "__BUILTIN_AVR_FMUL=1",
+                "USBCON"
             ]
         }
     ]
