@@ -34,6 +34,13 @@
    <img src="arduino_merg_logo.png" width="50" height="25">
  </p>
 
+
+ <img align="right" src="arduino_cbus_logo.png"  width="150" height="75">
+
+ ### Arduino CBUS Logo
+
+ There is also now an Arduino CBUS logo which is being used as seen above for Arduino CBUS projects.
+
  ## Software for MERG Arduino projects
 
  I am aiming to help MERG members to collect together Arduino software for projects.
