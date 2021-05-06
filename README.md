@@ -62,7 +62,15 @@
  
  ## Software
 
- The only software I will keep here are general purpose utilities and simple examples to demonstrate errors. 
+ The only software I will keep here are general purpose utilities and simple examples to demonstrate errors.
+
+ ### LCDshieldButtonsSerial
+
+ This is a code to demonstrate the use of a shield with a 1602 display and 5 buttons attached to an Arduino UNO. It has been adapted from one in the public domain to add serial output.
+
+ HARDWARE: D1 Robot shield. Note that the screw on the blue block may need turning to get the contrast set so that a display is visible.
+
+ SOFTWARE: LiquidCrystal library
 
  ## Editors
 
