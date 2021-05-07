@@ -79,6 +79,10 @@
 
  SOFTWARE: LiquidCrystal library
 
+ ### LCDshieldButtonsSerialDR
+
+ This is a modified code for the DFRobot shield.
+
  ## Editors
 
  There is a choice of editors for working with GitHub. I am using Virtual Studio Code (VS Code). This recognises the Arduino files and generates .json configuration files. I am going to use .gitignore so that these files are not catalogued by GitHub although they do seem to get into the repository.
