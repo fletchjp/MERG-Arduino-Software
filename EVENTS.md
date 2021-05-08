@@ -2,6 +2,20 @@
 
 Back to [README](README.md).
 
+## May 2021
+
+### 8th May
+
+I have been doing a lot on the hardware side, looking at Arduino shields which have a 16 by 2 display and buttons. These are used in Ezybus and also by Tony Clulow in his work with similar hardware and different code.
+
+There are some examples here of codes which test the buttons and report on the display. I have expanded the original codes to use task management in the same way as I have done with other devices. The examples are here.
+
+I want to expand this work to include a version which works with CBUS. This puts extra demands on the pins and can be done in two ways.
+
+1. Using the DFRobot version of the shield I can use pins 11 12 and 13 for the SCI interface and pin 15 for the CS. Pin 10 is not available as it is used for the display backlight.
+
+2. Use a backpack to convert the display to I2C, when the SCI pins are free anyway. I plan to use a D1Robot shield to test this.
+
 ## April 2021
 
 ### 18th April
