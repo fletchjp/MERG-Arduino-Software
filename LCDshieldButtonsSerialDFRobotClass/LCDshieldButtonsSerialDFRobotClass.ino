@@ -48,7 +48,7 @@ int y = 0;
 
 
 // Here we create an analog event that will be triggered when the the analog level exceeds 75%. it is triggered every
-// 100 milliseconds and whwn triggered runs the code in the exec() method.
+// 100 milliseconds and when triggered runs the code in the exec() method.
 class MyAnalogExceedsEvent : public AnalogInEvent {
 public:
     MyAnalogExceedsEvent(AnalogDevice* device, pinid_t pin) :
@@ -63,6 +63,7 @@ public:
     }
 };
 
+// This is the previous way of working with a direct read.
 void checkA0()
 {
  x = analogRead (0);
@@ -144,6 +145,7 @@ void setup() {
  taskManager.registerEvent(new MyAnalogExceedsEvent(&analog, ANALOG_IN_PIN), true);
 
  taskManager.scheduleFixedRate(500, [] {
+        // Modified from the original example to only print when there is a change.
         analog_value = analog.getCurrentValue(ANALOG_IN_PIN);
         if (analog_value != previous_analog) {
         Serial.print("Analog input value is ");
