@@ -89,7 +89,11 @@
 
  This is modified to use TaskManagerIO to control a callback on pin A0.
 
- At the moment this reads A0 directly. I could do something more complicated using a class inheriting from AnalogInEvent. See the analogExample with the IoAbstraction library.
+ This reads A0 directly.
+ 
+ ### LCDshieldButtonsSerialDFRobotClass
+
+ This does something more complicated using a class inheriting from AnalogInEvent. See the analogExample with the IoAbstraction library for the origin.
 
  ## Editors
 
