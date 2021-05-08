@@ -89,6 +89,8 @@
 
  This is modified to use TaskManagerIO to control a callback on pin A0.
 
+ At the moment this reads A0 directly. I could do something more complicated using a class inheriting from AnalogInEvent. See the analogExample with the IoAbstraction library.
+
  ## Editors
 
  There is a choice of editors for working with GitHub. I am using Virtual Studio Code (VS Code). This recognises the Arduino files and generates .json configuration files. I am going to use .gitignore so that these files are not catalogued by GitHub although they do seem to get into the repository.
