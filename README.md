@@ -79,7 +79,7 @@
 
  SOFTWARE: LiquidCrystal library
 
- ### LCDshieldButtonsSerialDR
+ ### LCDshieldButtonsSerialDFRobot
 
  This is a modified code for the DFRobot shield.
 
