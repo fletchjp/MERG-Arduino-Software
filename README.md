@@ -69,7 +69,9 @@
  
  ## Software
 
- The only software I will keep here are general purpose utilities and simple examples to demonstrate errors.
+ Intially the only software I kept here were general purpose utilities and simple examples to demonstrate errors.
+
+ I am now expanding that to include some other nonCBUS software which may have CBUS versions elsewhere.
 
  ### LCDshieldButtonsSerial
 
