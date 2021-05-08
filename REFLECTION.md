@@ -14,6 +14,10 @@ I have been setting up branches to sort out CANCMDDC2. I set up some branches an
 
 gitg shows branches usefully. It needs to be restarted to show all the branch tags properly.
 
+I have now become familiar with updating a repository I have forked by updating the branch in GitHub desktop.
+
+I have on one occasion cherrypicked between branches.
+
 ## VS Code configuration
 
 I have had a lot of problems getting VS Code configured and at times I despaired of making sense of it. I have stuck with it and have learned quite a lot about how it works. There is still more to go.
