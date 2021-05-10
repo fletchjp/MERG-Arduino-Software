@@ -153,10 +153,10 @@ void setup() {
         Serial.println('%');
         previous_analog = analog_value;
         }
+    });
 
    // This is at the end of setup()
   taskManager.scheduleFixedRate(250, checkA0);
-    });
 
 }
 
