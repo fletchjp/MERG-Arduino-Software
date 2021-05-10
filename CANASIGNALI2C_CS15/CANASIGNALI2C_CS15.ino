@@ -9,6 +9,7 @@
 // Experiments on using pin 15 (A1) instead of pin 10 for CS
 ////////////////////////////////////////////////////////////////////////////////////
    const int Chip_Select_Pin = 15;
+   // Also change the IR and Signal pins to avoid a clash with the display.
 
 // from CANASIGNALI2C_no_UI 0a Beta 1 
 // from CANASIGNAL 1a Beta 4
@@ -237,8 +238,9 @@ CBUSConfig config;                  // configuration object
 // CBUS_1in1out4a with GROVE 0
 
 // The IR signal is pulled high and goes low when there is a detection.
-const int Signal_Pin = 5;
-const int IR_Pin = 6;
+// These were 5 and 6.
+const int Signal_Pin = 16;
+const int IR_Pin = 17;
 
 // module objects
 #if USE_MODULE_PIN_AND_LED
