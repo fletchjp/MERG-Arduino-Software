@@ -14,3 +14,13 @@ This is derived from work using I2C to provide a PWM driven signal controlled by
 
 The reason for this experiment is that Pin 10 is not available for use with the 1602 display with buttons when used as a shield rather than an I2C item.
 
+### CANALCDSIGNALI2C_CS15
+
+This is the first code built to see if the display can work with the Arduino CBUS library. I have built this on the signal code as it easier to add things to a code than build one completely from scratch.
+
+I think that the I2C for the signals can be linked from A4 and A5 which are available on the DFRobot board.
+
+### CANALCDNOSIGNALI2C_CS15
+
+This is a version with an option to disable the signal code for testing without a signal and detection.
+
