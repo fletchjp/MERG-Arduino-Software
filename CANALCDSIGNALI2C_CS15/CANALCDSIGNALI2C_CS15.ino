@@ -149,9 +149,36 @@
 #include <Streaming.h>
 
 #include <IoAbstraction.h>
+#include <AnalogDeviceAbstraction.h>
 #include <TaskManagerIO.h>
+#include <DeviceEvents.h>
 
 IoAbstractionRef arduinoPins = ioUsingArduino();
+
+#define ANALOG_IN_PIN A0
+// here we create the abstraction over the standard arduino analog IO capabilities
+ArduinoAnalogDevice analog; // by default it assumes 10 bit read, 8 bit write
+
+int previous_analog = 0;
+int analog_value;
+
+#include <LiquidCrystal.h>
+//LCD pin to Arduino
+const int pin_RS = 8; 
+const int pin_EN = 9; 
+const int pin_d4 = 4; 
+const int pin_d5 = 5; 
+const int pin_d6 = 6; 
+const int pin_d7 = 7; 
+const int pin_BL = 10; 
+LiquidCrystal lcd( pin_RS,  pin_EN,  pin_d4,  pin_d5,  pin_d6,  pin_d7);
+
+int x;
+int prevx = 0;
+int range;
+int prevrange = 0;
+int y = 0;
+
 
 // This marks out that there will be no CBUS push button or LEDs.
 #define NO_CBUS_HW_UI
@@ -291,6 +318,67 @@ class Signal2AspectCABDAT : public Signal2Aspect, public CABDAT {
      }
 };
 
+// This is the previous way of working with a direct read.
+void checkA0()
+{
+ x = analogRead (0);
+ if (x < 175){         // was 50
+  range = 1;
+ } else if (x < 350){ // was 250
+  range = 2;
+ } else if (x < 500){ // unchanged
+  range = 3;
+ } else if (x < 800){ // was 650
+  range = 4;
+ } else if (x < 850){ // unchanged
+  range = 5;
+ } //else { range = 0; }
+
+ if (range != prevrange) {
+ Serial.print(range);
+ Serial.print(" ");
+ Serial.print(x);
+ lcd.setCursor(10,1);
+ switch (range) {
+  case 1:
+  {
+   lcd.print ("Right ");
+   Serial.println(" Right");
+   break;
+  }
+  case 2:
+  {
+   lcd.print ("Up    ");
+   Serial.println(" Up");
+   break;
+  }
+  case 3:
+  {
+   lcd.print ("Down  ");
+   Serial.println(" Down");
+   break;
+  }
+  case 4:
+  {
+   lcd.print ("Left  ");
+   Serial.println(" Left ");
+   break;
+  }
+  case 5:
+  {
+   lcd.print ("Select");
+   Serial.println(" Select");
+   break;
+  }
+  default:
+  break;
+ }
+ prevrange = range;
+ }
+  
+}
+
+
 /////////////////////////////////////////////////////////////////////////////////
 // Set up for signals is done here
 // There is nothing needed in the setup loop
@@ -395,7 +483,13 @@ byte opcodes[] = {OPC_AREQ, OPC_ASRQ, OPC_CANID };
 void setup() {
 
   Serial.begin (115200);
-  Serial << endl << endl << F("> ** CANASIGNALI2C no HWUI ** ") << __FILE__ << endl;
+  Serial << endl << endl << F("> ** CANALCDSIGNALI2C_CS15 ** ") << __FILE__ << endl;
+
+ lcd.begin(16, 2);
+ lcd.setCursor(0,0);
+ lcd.print("CANALCDSIGNALI2C");
+ lcd.setCursor(0,1);
+ lcd.print("Press Key:");
 
   // set config layout parameters
   config.EE_NVS_START = 10;
