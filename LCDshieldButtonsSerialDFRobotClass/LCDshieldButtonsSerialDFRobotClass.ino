@@ -41,7 +41,6 @@ int x;
 int prevx = 0;
 int range;
 int prevrange = 0;
-int y = 0;
 
 // Serial IO
 #define SERIAL_SPEED            19200   // Speed of the serial port.
@@ -88,10 +87,7 @@ void checkA0()
   case 1:
   {
    lcd.print ("Right ");
-   //if (y == 0) {
    Serial.println(" Right");
-     //y = 1;
-   //}
    break;
   }
   case 2:
@@ -157,10 +153,10 @@ void setup() {
         Serial.println('%');
         previous_analog = analog_value;
         }
+    });
 
    // This is at the end of setup()
   taskManager.scheduleFixedRate(250, checkA0);
-    });
 
 }
 
