@@ -41,7 +41,6 @@ int x;
 int prevx = 0;
 int range;
 int prevrange = 0;
-int y = 0;
 
 // Serial IO
 #define SERIAL_SPEED            19200   // Speed of the serial port.
@@ -88,10 +87,7 @@ void checkA0()
   case 1:
   {
    lcd.print ("Right ");
-   //if (y == 0) {
    Serial.println(" Right");
-     //y = 1;
-   //}
    break;
   }
   case 2:
