@@ -625,6 +625,7 @@ void setup() {
 #endif
   // add additional taskManager functions here
   taskManager.scheduleFixedRate(250, &checkPin);
+  taskManager.scheduleFixedRate(250, checkA0);
 
   // end of setup
   Serial << F("> ready") << endl << endl;
