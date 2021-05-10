@@ -267,8 +267,10 @@ CBUSConfig config;                  // configuration object
 // CBUS_1in1out4a with GROVE 0
 
 // The IR signal is pulled high and goes low when there is a detection.
-const int Signal_Pin = 5;
-const int IR_Pin = 6;
+// These have to change as they are used for the display.
+// These were 5 and 6.
+const int Signal_Pin = 16;
+const int IR_Pin = 17;
 
 // module objects
 #if USE_MODULE_PIN_AND_LED
