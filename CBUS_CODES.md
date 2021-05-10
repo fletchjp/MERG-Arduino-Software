@@ -6,6 +6,8 @@ This is a branch for the location of CBUS codes, some of which will be related t
 
 I will not modify the other Markdown files in the branch, keeping information in this and other new files.
 
+These codes are part of development of modules for control of DC layouts using DC controllers for each track section.
+
 ## Codes
 
 ### CANASIGNALI2C_CS15
@@ -20,7 +22,13 @@ This is the first code built to see if the display can work with the Arduino CBU
 
 I think that the I2C for the signals can be linked from A4 and A5 which are available on the DFRobot board.
 
+I also moved the IR and Signal pins to A2 and A3 as they were on pins which are used by the display.
+
 ### CANALCDNOSIGNALI2C_CS15
 
 This is a version with an option to disable the signal code for testing without a signal and detection.
+
+### Another Idea (yet to be named)
+
+I am also developing a version where the display is connected using an I2C backpack for all the connections except the A0 and reset.
 
