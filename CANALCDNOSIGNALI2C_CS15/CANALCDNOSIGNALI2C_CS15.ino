@@ -501,7 +501,7 @@ void setup() {
 
  lcd.begin(16, 2);
  lcd.setCursor(0,0);
- lcd.print("CANALCDNOSIGNALI2C");
+ lcd.print("CANA_LCD_CS15");
  lcd.setCursor(0,1);
  lcd.print("Press Key:");
 
