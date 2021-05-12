@@ -1,4 +1,4 @@
-// TOTEMCBUS
+// CANTOTEM
 // Modification to start to use IoAbstraction and TaskManagerIO
 // as has been done in CANCMDDC in CANCMDDC2
 
@@ -77,6 +77,12 @@
 
 #define DEBUG 0       // set to 0 for no serial debug
 
+// IoAbstraction libraries
+#include <IoAbstraction.h>
+#include <TaskManagerIO.h>
+// IoAbstraction reference to the arduino pins.
+IoAbstractionRef arduinoPins = ioUsingArduino();
+
 // 3rd party libraries
 #include <Streaming.h>
 #include <Bounce2.h>
@@ -91,7 +97,7 @@
 ////////////DEFINE MODULE/////////////////////////////////////////////////
 
 // module name
-unsigned char mname[7] = { 'm', 'I', 'N', 'n', 'O', 'U', 'T' };
+unsigned char mname[7] = { 'T', 'O', 'T', 'E', 'M', ' ', ' ' };
 
 // constants
 const byte VER_MAJ = 1;         // code major version
