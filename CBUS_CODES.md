@@ -40,4 +40,9 @@ Codes configured for the UNO on the Totem Minilab.
 
 Simple case to raise interrupt on Pin 3 when a button is pushed.
 
+### TOTEMmINnOUT
+
+Copy of CBUSmINnOUT by Martin Da Costa.
+
+A base for testing on the Totem Minilab.
 
