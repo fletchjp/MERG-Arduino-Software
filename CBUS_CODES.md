@@ -32,3 +32,12 @@ This is a version with an option to disable the signal code for testing without 
 
 I am also developing a version where the display is connected using an I2C backpack for all the connections except the A0 and reset.
 
+## Totem Codes
+
+Codes configured for the UNO on the Totem Minilab.
+
+### Totem_int3
+
+Simple case to raise interrupt on Pin 3 when a button is pushed.
+
+
