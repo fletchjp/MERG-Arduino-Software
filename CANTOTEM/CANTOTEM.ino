@@ -1,7 +1,8 @@
 // CANTOTEM
 // Modification to start to use IoAbstraction and TaskManagerIO
 // as has been done in CANCMDDC in CANCMDDC2
-
+// This is to run on the TOTEM Minilab with a CAN interface.
+// working from
 // TOTEMmINnOUT
 // Copied from
 // CBUSmINnOUT
@@ -174,6 +175,14 @@ void setupCBUS()
   CBUS.setPins(CAN_CS_PIN, CAN_INT_PIN);           // select pins for CAN bus CE and interrupt connections
   CBUS.begin();
 }
+
+
+void runLEDs(){
+  // Run the LED code
+  for (int i = 0; i < NUM_LEDS; i++) {
+    moduleLED[i].run();
+  }
+}
 //
 ///  setup Module - runs once at power on called from setup()
 //
@@ -203,6 +212,10 @@ void setup()
   setupCBUS();
   setupModule();
 
+  // Schedule tasks to run every 250 milliseconds.
+  taskManager.scheduleFixedRate(250, runLEDs);
+  taskManager.scheduleFixedRate(250, processSwitches);
+
   // end of setup
 #if DEBUG
   Serial << F("> ready") << endl << endl;
@@ -218,13 +231,10 @@ void loop()
   // process console commands
   processSerialInput();
 
-  // Run the LED code
-  for (int i = 0; i < NUM_LEDS; i++) {
-    moduleLED[i].run();
-  }
+  // Run IO_Abstraction tasks.
+  // This replaces actions taken here in the previous version.
+  taskManager.runLoop();
 
-  // test for switch input
-  processSwitches();
 
  }
 
