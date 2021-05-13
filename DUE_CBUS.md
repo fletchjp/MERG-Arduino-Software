@@ -4,6 +4,10 @@
 
 This is a development from the CBUS Codes branch for work with the Arduino DUE.
 
+## Testing
+
+I am now starting to test the code.
+
 ## Codes
 
 ### CBUS_empty_SAM3X8E_v1
