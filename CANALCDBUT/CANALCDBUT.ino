@@ -499,11 +499,11 @@ byte opcodes[] = {OPC_AREQ, OPC_ASRQ, OPC_CANID };
 void setup() {
 
   Serial.begin (115200);
-  Serial << endl << endl << F("> ** CANALCDNOSIGNALI2C_CS15 ** ") << __FILE__ << endl;
+  Serial << endl << endl << F("> ** CANALCDBUT ** ") << __FILE__ << endl;
 
  lcd.begin(16, 2);
  lcd.setCursor(0,0);
- lcd.print("CANA_LCD_CS15");
+ lcd.print("CANALCDBUT");
  lcd.setCursor(0,1);
  lcd.print("Press Key:");
 
