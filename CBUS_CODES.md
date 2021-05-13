@@ -8,7 +8,13 @@ I will not modify the other Markdown files in the branch, keeping information in
 
 These codes are part of development of modules for control of DC layouts using DC controllers for each track section.
 
+## Testing
+
+I am now starting testing of these codes with CBUS and FCU.
+
 ## Codes
+
+Note: The codes using the signal control library now have an additional file FastPWMLight.h which is an extension of mine and not part of the library.
 
 ### CANASIGNALI2C_CS15
 
@@ -24,7 +30,7 @@ I think that the I2C for the signals can be linked from A4 and A5 which are avai
 
 I also moved the IR and Signal pins to A2 and A3 as they were on pins which are used by the display.
 
-### CANALCDNOSIGNALI2C_CS15
+### CANALCDBUT (was CANALCDNOSIGNALI2C_CS15)
 
 This is a version with an option to disable the signal code for testing without a signal and detection.
 
