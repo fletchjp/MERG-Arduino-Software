@@ -10,7 +10,16 @@ These codes are part of development of modules for control of DC layouts using D
 
 ## Testing
 
-I am now starting testing of these codes with CBUS and FCU.
+I am now starting testing of these codes with CBUS and 
+FCU.
+
+### 13th May
+
+I fitted both the modules with connectors for CBUS.
+
+I ran CANALCDBUT and it did not get recognised by CBUS.
+
+I ran CANTOTEM and it did connect to CBUS but only with a node identity of 65535 which I could not change. It needs a longer connecting link.
 
 ## Codes
 
