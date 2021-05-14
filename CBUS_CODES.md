@@ -49,6 +49,12 @@ This is a version with an option to disable the signal code for testing without 
 
 This code was missing the reset processing using 'z' 'z' and it has now been added.
 
+I am thinking to build a new version of this code based on the CANmINnOUT code (as I have for CANTOTEM). I need a new name for it! One reason is that there is so much old history in this code.
+
+### CAN1602BUT
+
+Name for the new version.
+
 ### Another Idea (yet to be named)
 
 I am also developing a version where the display is connected using an I2C backpack for all the connections except the A0 and reset.
