@@ -76,7 +76,7 @@
 // Digital / Analog pin 5     Not Used
 //////////////////////////////////////////////////////////////////////////
 
-#define DEBUG 0       // set to 0 for no serial debug
+#define DEBUG 1       // set to 0 for no serial debug
 
 // IoAbstraction libraries
 #include <IoAbstraction.h>
@@ -253,7 +253,9 @@ void processSwitches(void)
      nv = i + 1;
 
      nvval = config.readNV(nv);
-	 
+#if DEBUG
+     Serial << F("Switch ") << i << F(" changed") << endl; 
+#endif   
      Serial << F (" NV = ") << nv << F(" NV Value = ") << nvval << endl;
 
      switch (nvval)
@@ -326,7 +328,7 @@ void processSwitches(void)
 		
 		default:
 #if DEBUG
-        Serial << F("> Invalid NV value.") << endl;
+        Serial << F("> Invalid NV value ") << nvval << endl;
 #endif
         break;
      }
