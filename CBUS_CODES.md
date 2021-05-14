@@ -19,7 +19,7 @@ I fitted both the modules with connectors for CBUS.
 
 I ran CANALCDBUT and it did not get recognised by CBUS.
 
-I ran CANTOTEM and it did connect to CBUS but only with a node identity of 65535 which I could not change. It needs a longer connecting link.
+I ran CANTOTEM and it did connect to CBUS but only with a node number of 65535 which I could not change. It needs a longer connecting link.
 
 ## Codes
 
