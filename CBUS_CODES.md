@@ -21,6 +21,8 @@ I ran CANALCDBUT and it did not get recognised by CBUS.
 
 I ran CANTOTEM and it did connect to CBUS but only with a node number of 65535 which I could not change. It needs a longer connecting link.
 
+I have now found that both modules need to be reset to Flim mode with 'z' 'z' before doing 'r' to connect to FCU.
+
 ## Codes
 
 Note: The codes using the signal control library now have an additional file FastPWMLight.h which is an extension of mine and not part of the library.
@@ -42,6 +44,8 @@ I also moved the IR and Signal pins to A2 and A3 as they were on pins which are 
 ### CANALCDBUT (was CANALCDNOSIGNALI2C_CS15)
 
 This is a version with an option to disable the signal code for testing without a signal and detection.
+
+This code was missing the reset processing using 'z' 'z' and it has now been added.
 
 ### Another Idea (yet to be named)
 
