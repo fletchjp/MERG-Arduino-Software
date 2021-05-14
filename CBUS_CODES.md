@@ -53,7 +53,7 @@ I am thinking to build a new version of this code based on the CANmINnOUT code (
 
 ### CAN1602BUT
 
-Name for the new version.
+I have now built this version. I have given it 1 button and 1 LED in the code although they are not actually present. I need to sort out some way to convert the button presses into events.
 
 ### Another Idea (yet to be named)
 
