@@ -1224,6 +1224,33 @@ void processSerialInput(void) {
         CBUS.renegotiate();
         break;
 
+
+      case 'z':
+        // Reset module, clear EEPROM
+        static bool ResetRq = false;
+        static unsigned long ResWaitTime;
+        if (!ResetRq) {
+          // start timeout timer
+          Serial << F(">Reset & EEPROM wipe requested. Press 'z' again within 2 secs to confirm") << endl;
+          ResWaitTime = millis();
+          ResetRq = true;
+        }
+        else {
+          // This is a confirmed request
+          // 2 sec timeout
+          if (ResetRq && ((millis() - ResWaitTime) > 2000)) {
+            Serial << F(">timeout expired, reset not performed") << endl;
+            ResetRq = false;
+          }
+          else {
+            //Request confirmed within timeout
+            Serial << F(">RESETTING AND WIPING EEPROM") << endl;
+            config.resetModule();
+            ResetRq = false;
+          }
+        }
+        break;
+
       case '\r':
       case '\n':
         Serial << endl;
