@@ -1,3 +1,7 @@
+////////////////////////////////////////////////////////////////////////////////////
+// CAN1602BUT
+// Take code from CANALCDBUT to make a new code on the CANmINnOUT base.
+////////////////////////////////////////////////////////////////////////////////////
 // CANTOTEM
 // Modification to start to use IoAbstraction and TaskManagerIO
 // as has been done in CANCMDDC in CANCMDDC2
@@ -56,21 +60,21 @@
 ///////////////////////////////////////////////////////////////////////////////////
 // Pin Use map UNO:
 // Digital pin 2          Interupt CAN
-// Digital pin 3 (PWM)    Not Used
-// Digital pin 4          Not Used
-// Digital pin 5 (PWM)    Not Used
-// Digital pin 6 (PWM)    Module Switch 2
-// Digital pin 7          Module LED 2
-// Digital pin 8          Module LED 1
-// Digital pin 9 (PWM)    Module Switch 1
-// Digital pin 10 (SS)    CS    CAN
+// Digital pin 3 (PWM)    LED 0
+// Digital pin 4          LCD pin_d4
+// Digital pin 5 (PWM)    LCD pin_d5
+// Digital pin 6 (PWM)    LCD pin_d6
+// Digital pin 7          LCD pin_d7
+// Digital pin 8          LCD pin_RS
+// Digital pin 9 (PWM)    LCD pin_EN
+// Digital pin 10         LCD backlight pin
 // Digital pin 11 (MOSI)  SI    CAN
 // Digital pin 12 (MISO)  SO    CAN
 // Digital pin 13 (SCK)   Sck   CAN
 
-// Digital / Analog pin 0     Not Used
-// Digital / Analog pin 1     Not Used
-// Digital / Analog pin 2     Not Used
+// Digital pin 14 / Analog pin 0  Analog input from buttons
+// Digital pin 15 / Analog pin 1 (SS)    CS    CAN    
+// Digital pin 16 / Analog pin 2     Switch 0
 // Digital / Analog pin 3     Not Used
 // Digital / Analog pin 4     Not Used
 // Digital / Analog pin 5     Not Used
@@ -80,13 +84,40 @@
 
 // IoAbstraction libraries
 #include <IoAbstraction.h>
+#include <AnalogDeviceAbstraction.h>
 #include <TaskManagerIO.h>
+#include <DeviceEvents.h>
+
 // IoAbstraction reference to the arduino pins.
 IoAbstractionRef arduinoPins = ioUsingArduino();
+
+#define ANALOG_IN_PIN A0
+// here we create the abstraction over the standard arduino analog IO capabilities
+ArduinoAnalogDevice analog; // by default it assumes 10 bit read, 8 bit write
+
+int previous_analog = 0;
+int analog_value;
 
 // 3rd party libraries
 #include <Streaming.h>
 #include <Bounce2.h>
+
+#include <LiquidCrystal.h>
+//LCD pin to Arduino
+const int pin_RS = 8; 
+const int pin_EN = 9; 
+const int pin_d4 = 4; 
+const int pin_d5 = 5; 
+const int pin_d6 = 6; 
+const int pin_d7 = 7; 
+const int pin_BL = 10; 
+LiquidCrystal lcd( pin_RS,  pin_EN,  pin_d4,  pin_d5,  pin_d6,  pin_d7);
+
+int x;
+int prevx = 0;
+int range;
+int prevrange = 0;
+
 
 // CBUS library header files
 #include <CBUS2515.h>            // CAN controller and CBUS class
@@ -98,7 +129,7 @@ IoAbstractionRef arduinoPins = ioUsingArduino();
 ////////////DEFINE MODULE/////////////////////////////////////////////////
 
 // module name
-unsigned char mname[7] = { 'T', 'O', 'T', 'E', 'M', ' ', ' ' };
+unsigned char mname[7] = { '1', '6', '0', '2', 'B', 'U', 'T ' };
 
 // constants
 const byte VER_MAJ = 1;         // code major version
@@ -108,12 +139,12 @@ const byte MODULE_ID = 99;      // CBUS module type
 
 const unsigned long CAN_OSC_FREQ = 8000000;     // Oscillator frequency on the CAN2515 board
 
-#define NUM_LEDS 2              // How many LEDs are there?
-#define NUM_SWITCHES 2          // How many switchs are there?
+#define NUM_LEDS 1              // How many LEDs are there?
+#define NUM_SWITCHES 1          // How many switchs are there?
 
-//Module pins available for use are Pins 3 - 9 and A0 - A5
-const byte LED[NUM_LEDS] = {8, 7};            // LED pin connections through typ. 1K8 resistor
-const byte SWITCH[NUM_SWITCHES] = {9, 6};     // Module Switch takes input to 0V.
+//Module pins available for use are Pins 3 and A2 - A5
+const byte LED[NUM_LEDS] = {3};            // LED pin connections through typ. 1K8 resistor
+const byte SWITCH[NUM_SWITCHES] = {16};     // Module Switch takes input to 0V.
 
 // module objects
 Bounce moduleSwitch[NUM_SWITCHES];  //  switch as input
@@ -124,7 +155,7 @@ byte switchState[NUM_SWITCHES];
 
 //CBUS pins
 const byte CAN_INT_PIN = 2;  // Only pin 2 and 3 support interrupts
-const byte CAN_CS_PIN = 10;
+const byte CAN_CS_PIN = 15;  // Changed from 10 which is used for the display.
 //const byte CAN_SI_PIN = 11;  // Cannot be changed
 //const byte CAN_SO_PIN = 12;  // Cannot be changed
 //const byte CAN_SCK_PIN = 13;  // Cannot be changed
@@ -176,6 +207,64 @@ void setupCBUS()
   CBUS.begin();
 }
 
+void checkA0()
+{
+ x = analogRead (0);
+ if (x < 175){         // was 50
+  range = 1;
+ } else if (x < 350){ // was 250
+  range = 2;
+ } else if (x < 500){ // unchanged
+  range = 3;
+ } else if (x < 800){ // was 650
+  range = 4;
+ } else if (x < 850){ // unchanged
+  range = 5;
+ } //else { range = 0; }
+
+ if (range != prevrange) {
+ Serial.print(range);
+ Serial.print(" ");
+ Serial.print(x);
+ lcd.setCursor(10,1);
+ switch (range) {
+  case 1:
+  {
+   lcd.print ("Right ");
+   Serial.println(" Right");
+   break;
+  }
+  case 2:
+  {
+   lcd.print ("Up    ");
+   Serial.println(" Up");
+   break;
+  }
+  case 3:
+  {
+   lcd.print ("Down  ");
+   Serial.println(" Down");
+   break;
+  }
+  case 4:
+  {
+   lcd.print ("Left  ");
+   Serial.println(" Left ");
+   break;
+  }
+  case 5:
+  {
+   lcd.print ("Select");
+   Serial.println(" Select");
+   break;
+  }
+  default:
+  break;
+ }
+ prevrange = range;
+ }
+  
+}
 
 void runLEDs(){
   // Run the LED code
@@ -186,6 +275,7 @@ void runLEDs(){
 //
 ///  setup Module - runs once at power on called from setup()
 //
+
 
 void setupModule()
 {
@@ -203,18 +293,27 @@ void setupModule()
   } 
 }
 
+void setup1602() {
+ lcd.begin(16, 2);
+ lcd.setCursor(0,0);
+ lcd.print("CAN1602BUT");
+ lcd.setCursor(0,1);
+ lcd.print("Press Key:");
+}
 
 void setup()
 {
   Serial.begin (115200);
-  Serial << endl << endl << F("> ** CBUS m in n out v1 ** ") << __FILE__ << endl;
+  Serial << endl << endl << F("> ** CAN1602BUT ** ") << __FILE__ << endl;
 
+  setup1602();
   setupCBUS();
   setupModule();
 
   // Schedule tasks to run every 250 milliseconds.
   taskManager.scheduleFixedRate(250, runLEDs);
   taskManager.scheduleFixedRate(250, processSwitches);
+  taskManager.scheduleFixedRate(250, checkA0);
 
   // end of setup
 #if DEBUG
