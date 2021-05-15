@@ -117,7 +117,9 @@ int x;
 int prevx = 0;
 int range;
 int prevrange = 0;
-
+// Use these for the CBUS outputs
+int button;
+int prevbutton = 0;
 
 // CBUS library header files
 #include <CBUS2515.h>            // CAN controller and CBUS class
@@ -231,37 +233,49 @@ void checkA0()
   case 1:
   {
    lcd.print ("Right ");
+#if DEBUG
    Serial.println(" Right");
+#endif
    break;
   }
   case 2:
   {
    lcd.print ("Up    ");
+#if DEBUG
    Serial.println(" Up");
+#endif
    break;
   }
   case 3:
   {
    lcd.print ("Down  ");
+#if DEBUG
    Serial.println(" Down");
+#endif
    break;
   }
   case 4:
   {
    lcd.print ("Left  ");
+#if DEBUG
    Serial.println(" Left ");
+#endif
    break;
   }
   case 5:
   {
    lcd.print ("Select");
+#if DEBUG
    Serial.println(" Select");
+#endif
    break;
   }
   default:
   break;
  }
  prevrange = range;
+ // For CBUS output
+ button = range;
  }
   
 }
@@ -314,6 +328,7 @@ void setup()
   taskManager.scheduleFixedRate(250, runLEDs);
   taskManager.scheduleFixedRate(250, processSwitches);
   taskManager.scheduleFixedRate(250, checkA0);
+  taskManager.scheduleFixedRate(250, processButtons);
 
   // end of setup
 #if DEBUG
@@ -336,6 +351,20 @@ void loop()
 
 
  }
+
+void processButtons(void)
+{
+   // Send an event corresponding to the button, add NUM_SWITCHES to avoid switch events.
+   byte opCode;
+   if (button != prevbutton) {
+#if DEBUG
+      Serial << F("Button ") << button << F(" changed") << endl; 
+#endif
+      opCode = OPC_ACON;
+      sendEvent(opCode, button + NUM_SWITCHES);
+      prevbutton = button;
+   }
+}
 
 void processSwitches(void)
 {
