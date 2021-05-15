@@ -131,7 +131,7 @@ int prevbutton = 0;
 ////////////DEFINE MODULE/////////////////////////////////////////////////
 
 // module name
-unsigned char mname[7] = { '1', '6', '0', '2', 'B', 'U', 'T ' };
+unsigned char mname[7] = { '1', '6', '0', '2', 'B', 'U', 'T' };
 
 // constants
 const byte VER_MAJ = 1;         // code major version
