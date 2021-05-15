@@ -271,6 +271,7 @@ void setupCBUS()
 
   // register our CBUS event handler, to receive event messages of learned events
   CBUS.setEventHandler(eventhandler);
+  CBUS.setFrameHandler(framehandler, opcodes, nopcodes);
 
   // configure and start CAN bus and CBUS message processing
   CBUS.setNumBuffers(2);         // more buffers = more memory used, fewer = less
@@ -613,6 +614,49 @@ void eventhandler(byte index, CANFrame *msg)
   }
 }
 
+// Getting an opcode array is done when calling SetFrameHandler.
+void framehandler(CANFrame *msg) {
+
+  // as an example, format and display the received frame
+
+#if DEBUG
+  Serial << F("[ ") << (msg->id & 0x7f) << F("] [") << msg->len << F("] [");
+  if ( msg->len > 0) {
+    for (byte d = 0; d < msg->len; d++) {
+      Serial << F(" 0x") << _HEX(msg->data[d]);
+    }
+  Serial << F(" ]") << endl;
+  }
+
+  if (nopcodes > 0) {
+    Serial << F("Opcodes [ ");
+    for(byte i = 0;  i < nopcodes; i++)
+    {
+       Serial << F(" 0x") << _HEX(opcodes[i]);
+    }
+    Serial << F(" ]") << endl;
+  }
+#endif
+
+  if (nopcodes > 0) {
+#if DEBUG
+          Serial << F("Message received with Opcode [ 0x") << _HEX(msg->data[0]) << F(" ]")<< endl;
+#endif
+    for(byte i = 0;  i < nopcodes; i++)
+    {
+       if ( msg->data[0] == opcodes[i]) {
+#if DEBUG
+           Serial << F("Message recognised with Opcode [ 0x") << _HEX(opcodes[i]) << F(" ]")<< endl;
+#endif
+     // This will be executed if the code matches.
+           //messagehandler(msg); Not implemented yet
+           break;       
+        }
+    }
+  }
+  return;
+
+}
 
 void printConfig(void)
 {
