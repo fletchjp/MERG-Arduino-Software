@@ -166,9 +166,75 @@ const byte CAN_CS_PIN = 15;  // Changed from 10 which is used for the display.
 CBUS2515 CBUS;                      // CBUS object
 CBUSConfig config;                  // configuration object
 
+////////////////////////////////////////////////////////////////////////////////////
+// Adapted from CANTEXT
 // forward function declarations
+////////////////////////////////////////////////////////////////////////////////////
 void eventhandler(byte index, CANFrame *msg);
 void framehandler(CANFrame *msg);
+// Opcodes to be recognised by frame handler.
+byte nopcodes = 8;
+byte opcodes[] = {OPC_ACON, OPC_ACOF, OPC_ACON1, OPC_ACOF1, OPC_ACON2, OPC_ACOF2, OPC_ACON3, OPC_ACOF3 };
+
+// Index values for errors
+enum errorStates {
+  blankError,
+  noError,
+  emergencyStop,
+  CANbusError,
+  invalidError
+};
+
+// Index values for incoming event processing
+enum eventTypes {
+  nonEvent,
+  testEvent,
+  emergencyEvent,
+  errorEvent,
+  dataEvent,
+  invalidEvent
+};
+
+// This is following the methods in EzyBus_master to provide error messages.
+// These have been limited to 16 chars to go on an LCD 2 by 16 display.
+// blank_string is used to cancel an error message.
+const char blank_string[]   PROGMEM  = "                ";
+const char error_string_0[] PROGMEM  = "no error";
+const char error_string_1[] PROGMEM  = "Emergency Stop";
+const char error_string_2[] PROGMEM  = "CANbus error";
+const char error_string_3[] PROGMEM  = "invalid error";
+
+const char* const error_string_table[] PROGMEM = {
+  blank_string, error_string_0, error_string_1, error_string_2, error_string_3
+};
+
+#define MAX_ERROR_NO 4
+
+// Buffer for string output.
+// This has been made safe for line termination.
+#define MAX_LENGTH_OF_STRING 16
+#define LENGTH_OF_BUFFER (MAX_LENGTH_OF_STRING + 1)
+char error_buffer[LENGTH_OF_BUFFER];
+
+// Add check for invalid error
+void getErrorMessage(int i)
+{
+  if (i >= 0 && i <= MAX_ERROR_NO) {
+     strncpy_P(error_buffer, (char*)pgm_read_word(&(error_string_table[i])),MAX_LENGTH_OF_STRING); 
+  } else {
+     strncpy_P(error_buffer, (char*)pgm_read_word(&(error_string_table[MAX_ERROR_NO])),MAX_LENGTH_OF_STRING); 
+  }
+}
+
+void serialPrintError(int i)
+{
+ getErrorMessage(i);Serial.print(error_buffer); 
+}
+void serialPrintErrorln(int i)
+{
+ getErrorMessage(i);Serial.println(error_buffer);
+}
+
 
 //
 ///  setup CBUS - runs once at power on called from setup()
