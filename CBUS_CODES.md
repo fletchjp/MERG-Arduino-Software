@@ -55,6 +55,8 @@ I am thinking to build a new version of this code based on the CANmINnOUT code (
 
 I have now built this version. I have given it 1 button and 1 LED in the code although they are not actually present. I have now added code to convert the button presses into events. This has now been tested successfully with CBUS and events from it taught to another module (CANPAN).
 
+I have started to add code from CANTEXT to process an incoming message to the display.
+
 ### Another Idea (yet to be named)
 
 I am also developing a version where the display is connected using an I2C backpack for all the connections except the A0 and reset.
