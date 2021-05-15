@@ -53,7 +53,7 @@ I am thinking to build a new version of this code based on the CANmINnOUT code (
 
 ### CAN1602BUT
 
-I have now built this version. I have given it 1 button and 1 LED in the code although they are not actually present. I have now added code to convert the button presses into events. This is not yet tested.
+I have now built this version. I have given it 1 button and 1 LED in the code although they are not actually present. I have now added code to convert the button presses into events. This has now been tested successfully with CBUS and events from it taught to another module (CANPAN).
 
 ### Another Idea (yet to be named)
 
