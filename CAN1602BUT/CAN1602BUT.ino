@@ -166,6 +166,10 @@ const byte CAN_CS_PIN = 15;  // Changed from 10 which is used for the display.
 CBUS2515 CBUS;                      // CBUS object
 CBUSConfig config;                  // configuration object
 
+// forward function declarations
+void eventhandler(byte index, CANFrame *msg);
+void framehandler(CANFrame *msg);
+
 //
 ///  setup CBUS - runs once at power on called from setup()
 //
