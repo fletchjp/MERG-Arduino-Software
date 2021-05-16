@@ -1,6 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////////
 // CAN1602BUT
 // Take code from CANALCDBUT to make a new code on the CANmINnOUT base.
+// Version 1.0b starting to add the code for input events setting the display.
 ////////////////////////////////////////////////////////////////////////////////////
 // CANTOTEM
 // Modification to start to use IoAbstraction and TaskManagerIO
@@ -135,7 +136,7 @@ unsigned char mname[7] = { '1', '6', '0', '2', 'B', 'U', 'T' };
 
 // constants
 const byte VER_MAJ = 1;         // code major version
-const char VER_MIN = ' ';       // code minor version
+const char VER_MIN = 'b';       // code minor version
 const byte VER_BETA = 0;        // code beta sub-version
 const byte MODULE_ID = 99;      // CBUS module type
 
