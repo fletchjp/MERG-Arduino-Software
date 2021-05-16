@@ -14,6 +14,8 @@
 
  I have decided to hold some codes in branches of this repository, rather than having a lot of other repositories at this stage.
 
+ NOTE: when working with branches I usually have the files visible in VSCODE and also in the Windows Explorer. It is important to close both these things before changing branch as the views will be outofdate and editing them would be an error.
+
  ### cbus_codes
 
  This is the first of the branches. It will have some CBUS modules, some related to the non CBUS codes in this main branch.
