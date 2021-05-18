@@ -1,11 +1,14 @@
+///////////////////////////////////////////////////////////////////////////////////
 // CANTOTEM
+// Version 1b beta 1
 // Modification to start to use IoAbstraction and TaskManagerIO
 // as has been done in CANCMDDC in CANCMDDC2
+///////////////////////////////////////////////////////////////////////////////////
 // This is to run on the TOTEM Minilab with a CAN interface.
 // working from
 // TOTEMmINnOUT
 // Copied from
-// CBUSmINnOUT
+// CANmINnOUT
 
 
 /*
@@ -102,8 +105,8 @@ unsigned char mname[7] = { 'T', 'O', 'T', 'E', 'M', ' ', ' ' };
 
 // constants
 const byte VER_MAJ = 1;         // code major version
-const char VER_MIN = ' ';       // code minor version
-const byte VER_BETA = 0;        // code beta sub-version
+const char VER_MIN = 'b';       // code minor version
+const byte VER_BETA = 1;        // code beta sub-version
 const byte MODULE_ID = 99;      // CBUS module type
 
 const unsigned long CAN_OSC_FREQ = 8000000;     // Oscillator frequency on the CAN2515 board
@@ -207,7 +210,7 @@ void setupModule()
 void setup()
 {
   Serial.begin (115200);
-  Serial << endl << endl << F("> ** CBUS m in n out v1 ** ") << __FILE__ << endl;
+  Serial << endl << endl << F("> ** CANTOTEM ** ") << __FILE__ << endl;
 
   setupCBUS();
   setupModule();
