@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////////
 // CAN1602BUT
 // Take code from CANALCDBUT to make a new code on the CANmINnOUT base.
-// Version 1.0b starting to add the code for input events setting the display.
+// Version 1.0b2 starting to add the code for input events setting the display.
 ////////////////////////////////////////////////////////////////////////////////////
 // CANTOTEM
 // Modification to start to use IoAbstraction and TaskManagerIO
@@ -10,7 +10,7 @@
 // working from
 // TOTEMmINnOUT
 // Copied from
-// CBUSmINnOUT
+// CANmINnOUT
 
 
 /*
@@ -137,7 +137,7 @@ unsigned char mname[7] = { '1', '6', '0', '2', 'B', 'U', 'T' };
 // constants
 const byte VER_MAJ = 1;         // code major version
 const char VER_MIN = 'b';       // code minor version
-const byte VER_BETA = 0;        // code beta sub-version
+const byte VER_BETA = 2;        // code beta sub-version
 const byte MODULE_ID = 99;      // CBUS module type
 
 const unsigned long CAN_OSC_FREQ = 8000000;     // Oscillator frequency on the CAN2515 board
@@ -382,7 +382,7 @@ void setupModule()
 void setup1602() {
  lcd.begin(16, 2);
  lcd.setCursor(0,0);
- lcd.print("CAN1602BUT 1.0b");
+ lcd.print("CAN1602BUT");
  lcd.setCursor(0,1);
  lcd.print("Press Key:");
 }
