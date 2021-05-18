@@ -15,6 +15,10 @@ FCU.
 
 I have not yet set up access to GitHub on the laptop I am using for testing. That means that I have to take a copy of the code to it. At least I no longer have to worry about versions of the code as they are all available.
 
+### 18th May
+
+Martin's repository CBUSmINnOUT has been renamed CANmINnOUT and I need to change any references here.
+
 ### 13th May
 
 I fitted both the modules with connectors for CBUS.
@@ -71,7 +75,7 @@ Simple case to raise interrupt on Pin 3 when a button is pushed.
 
 ### TOTEMmINnOUT
 
-Copy of CBUSmINnOUT by Martin Da Costa.
+Copy of CANmINnOUT by Martin Da Costa.
 
 A base for testing on the Totem Minilab.
 
