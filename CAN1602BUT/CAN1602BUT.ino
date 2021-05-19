@@ -4,6 +4,7 @@
 // Version 1.0b2 starting to add the code for input events setting the display.
 // Version 1.0b3 Adding more code from CANTEXT 
 // and decoding of node number and event number of incoming events.
+// Also change the display in response to an incoming event.
 ////////////////////////////////////////////////////////////////////////////////////
 // CANTOTEM
 // Modification to start to use IoAbstraction and TaskManagerIO
@@ -196,12 +197,15 @@ enum errorStates {
 };
 
 // Index values for incoming event processing
+// enum base changed to avoid other events.
+// These are ideas at the moment.
 enum eventTypes {
-  nonEvent,
+  nonEvent = 100,  // not used
   testEvent,
   emergencyEvent,
   errorEvent,
   dataEvent,
+  requestEvent,
   invalidEvent
 };
 
@@ -568,6 +572,14 @@ bool sendEvent(byte opCode, unsigned int eventNo)
 #endif
 }
 
+void displayError(int i,byte x,byte y)
+{
+  getErrorMessage(i);
+  lcd.setCursor(x, y);
+  lcd.write("E: ");
+  lcd.write(error_buffer);
+}
+
 //
 /// called from the CBUS library when a learned event is received
 //
@@ -591,10 +603,28 @@ void eventhandler(byte index, CANFrame *msg)
   Serial << F("> op_code = ") << opc << endl;
 #endif
 
-  switch (opc) {
+   // Experimental code to display a message index on the event_number.
+   if (event_number >= nonEvent) {
+     switch (opc) {
 
-    case OPC_ACON:
-    case OPC_ASON:
+      case OPC_ACON:
+      case OPC_ASON:
+     
+      displayError(noError,0,0);
+      break;
+
+      case OPC_ACOF:
+      case OPC_ASOF:
+      
+      displayError(blankError,0,0);
+      break;
+      
+     }   
+   } else {
+     switch (opc) {
+
+      case OPC_ACON:
+      case OPC_ASON:
       for (int i = 0; i < NUM_LEDS; i++) {
 
         ev = i + 1;
@@ -631,7 +661,9 @@ void eventhandler(byte index, CANFrame *msg)
         }
       }
       break;
+    } // switch(opc)
   }
+
 }
 
 // Getting an opcode array is done when calling SetFrameHandler.
