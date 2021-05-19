@@ -3,6 +3,7 @@
 // Version 1b beta 1
 // Modification to start to use IoAbstraction and TaskManagerIO
 // as has been done in CANCMDDC in CANCMDDC2
+// Version 1b beta 2 Adding code to send text change messages.
 ///////////////////////////////////////////////////////////////////////////////////
 // This is to run on the TOTEM Minilab with a CAN interface.
 // working from
@@ -106,7 +107,7 @@ unsigned char mname[7] = { 'T', 'O', 'T', 'E', 'M', ' ', ' ' };
 // constants
 const byte VER_MAJ = 1;         // code major version
 const char VER_MIN = 'b';       // code minor version
-const byte VER_BETA = 1;        // code beta sub-version
+const byte VER_BETA = 2;        // code beta sub-version
 const byte MODULE_ID = 99;      // CBUS module type
 
 const unsigned long CAN_OSC_FREQ = 8000000;     // Oscillator frequency on the CAN2515 board
@@ -135,6 +136,19 @@ const byte CAN_CS_PIN = 10;
 // CBUS objects
 CBUS2515 CBUS;                      // CBUS object
 CBUSConfig config;                  // configuration object
+
+// Event Nos for different events to be sent
+// enum base changed to avoid other events.
+// These are ideas at the moment.
+enum eventNos {
+  noEvent = 100,  // not used
+  testEvent,
+  emergencyEvent,
+  errorEvent,
+  dataEvent,
+  requestEvent,
+  invalidEvent
+};
 
 //
 ///  setup CBUS - runs once at power on called from setup()
@@ -328,7 +342,12 @@ void processSwitches(void)
         sendEvent(opCode, (i + 1));
 
         break;
-		
+        // Send event to test display on CAN1602BUT.
+      case 99:
+        opCode = (switchState[i] ? OPC_ACON : OPC_ACOF);
+        sendEvent(opCode,testEvent); // Test of new code.
+
+	      break;
 		default:
 #if DEBUG
         Serial << F("> Invalid NV value ") << nvval << endl;
