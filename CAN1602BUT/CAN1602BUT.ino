@@ -2,6 +2,7 @@
 // CAN1602BUT
 // Take code from CANALCDBUT to make a new code on the CANmINnOUT base.
 // Version 1.0b2 starting to add the code for input events setting the display.
+// Version 1.0b3 Adding more code from CANTEXT
 ////////////////////////////////////////////////////////////////////////////////////
 // CANTOTEM
 // Modification to start to use IoAbstraction and TaskManagerIO
@@ -76,7 +77,7 @@
 // Digital pin 14 / Analog pin 0  Analog input from buttons
 // Digital pin 15 / Analog pin 1 (SS)    CS    CAN    
 // Digital pin 16 / Analog pin 2     Switch 0
-// Digital / Analog pin 3     Not Used - possible bell/buzzer use.
+// Digital pin 17 / Analog pin 3     Bell/buzzer use.
 // Digital / Analog pin 4     Not Used - reserved for I2C
 // Digital / Analog pin 5     Not Used - reserved for I2C
 //////////////////////////////////////////////////////////////////////////
@@ -137,7 +138,7 @@ unsigned char mname[7] = { '1', '6', '0', '2', 'B', 'U', 'T' };
 // constants
 const byte VER_MAJ = 1;         // code major version
 const char VER_MIN = 'b';       // code minor version
-const byte VER_BETA = 2;        // code beta sub-version
+const byte VER_BETA = 3;        // code beta sub-version
 const byte MODULE_ID = 99;      // CBUS module type
 
 const unsigned long CAN_OSC_FREQ = 8000000;     // Oscillator frequency on the CAN2515 board
@@ -176,6 +177,13 @@ void framehandler(CANFrame *msg);
 // Opcodes to be recognised by frame handler.
 byte nopcodes = 8;
 byte opcodes[] = {OPC_ACON, OPC_ACOF, OPC_ACON1, OPC_ACOF1, OPC_ACON2, OPC_ACOF2, OPC_ACON3, OPC_ACOF3 };
+
+// Buzzer pin
+#define SOUNDER  17
+
+// Adding a buzzer output for taught event
+int buzzer = SOUNDER;
+#define TONE 1000    // Set the tone for the buzzer
 
 // Index values for errors
 enum errorStates {
@@ -404,6 +412,8 @@ void setup()
 
   // end of setup
 #if DEBUG
+  Serial << F("> Using buzzer on pin ") << SOUNDER
+         << F(" with tone set to ") << TONE << endl;
   Serial << F("> ready") << endl << endl;
 #endif
 }
@@ -568,6 +578,8 @@ void eventhandler(byte index, CANFrame *msg)
 
 #if DEBUG
   Serial << F("> event handler: index = ") << index << F(", opcode = 0x") << _HEX(msg->data[0]) << endl;
+  byte len = msg->len;
+  Serial << F("> event handler: length = ") << len << endl;
 #endif
 
   opc = msg->data[0];
