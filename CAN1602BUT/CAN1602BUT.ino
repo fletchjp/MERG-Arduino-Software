@@ -2,7 +2,8 @@
 // CAN1602BUT
 // Take code from CANALCDBUT to make a new code on the CANmINnOUT base.
 // Version 1.0b2 starting to add the code for input events setting the display.
-// Version 1.0b3 Adding more code from CANTEXT
+// Version 1.0b3 Adding more code from CANTEXT 
+// and decoding of node number and event number of incoming events.
 ////////////////////////////////////////////////////////////////////////////////////
 // CANTOTEM
 // Modification to start to use IoAbstraction and TaskManagerIO
