@@ -76,9 +76,9 @@
 // Digital pin 14 / Analog pin 0  Analog input from buttons
 // Digital pin 15 / Analog pin 1 (SS)    CS    CAN    
 // Digital pin 16 / Analog pin 2     Switch 0
-// Digital / Analog pin 3     Not Used
-// Digital / Analog pin 4     Not Used
-// Digital / Analog pin 5     Not Used
+// Digital / Analog pin 3     Not Used - possible bell/buzzer use.
+// Digital / Analog pin 4     Not Used - reserved for I2C
+// Digital / Analog pin 5     Not Used - reserved for I2C
 //////////////////////////////////////////////////////////////////////////
 
 #define DEBUG 1       // set to 0 for no serial debug
