@@ -588,7 +588,6 @@ void eventhandler(byte index, CANFrame *msg)
 #if DEBUG
   Serial << F("> NN = ") << node_number << F(", EN = ") << event_number << endl;
   Serial << F("> op_code = ") << opc << endl;
-  Serial << F("> EV1 = ") << evval << endl;
 #endif
 
   switch (opc) {
