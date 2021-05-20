@@ -6,13 +6,13 @@ This is a development from the CBUS Codes branch for work with the Arduino DUE.
 
 ## Testing
 
-I am now starting to test the code.
+I am now starting to test the code. I have some queries which I have sent to Duncan Greenwood.
 
 ## Codes
 
 ### CBUS_empty_SAM3X8E_v1
 
-This is Duncan Greenwood's first example.
+This is Duncan Greenwood's first example. At the moment the code assumes that there will be a button and LEDs for the Slim/Flim change.
 
 ## CBUS Codes
 
