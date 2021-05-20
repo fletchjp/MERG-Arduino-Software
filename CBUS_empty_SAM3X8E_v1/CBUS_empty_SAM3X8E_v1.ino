@@ -357,7 +357,7 @@ void processSerialInput(void) {
         break;
 
       default:
-        // Serial << F("> unknown command ") << c << endl;
+        Serial << F("> unknown command ") << c << endl;
         break;
     }
   }
