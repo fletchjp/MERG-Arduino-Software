@@ -1,5 +1,5 @@
 /////////////////////////////////////////////////////////////////////////////
-// CANDUE
+// CANDUE Version 1a beta 1
 /////////////////////////////////////////////////////////////////////////////
 // My working name for changes to the example from Duncan.
 // John Fletcher
@@ -64,7 +64,7 @@
 // constants
 const byte VER_MAJ = 1;                  // code major version
 const char VER_MIN = 'a';                // code minor version
-const byte VER_BETA = 0;                 // code beta sub-version
+const byte VER_BETA = 1;                 // code beta sub-version
 const byte MODULE_ID = 99;               // CBUS module type
 
 const byte LED_GRN = 4;                  // CBUS green SLiM LED pin
@@ -78,7 +78,7 @@ CBUSLED ledGrn, ledYlw;             // two LED objects
 CBUSSwitch pb_switch;               // switch object
 
 // module name, must be 7 characters, space padded.
-unsigned char mname[7] = { 'E', 'M', 'P', 'T', 'Y', ' ', ' ' };
+unsigned char mname[7] = { 'D', 'U', 'E', ' ', ' ', ' ', ' ' };
 
 // forward function declarations
 void eventhandler(byte index, byte opc);
@@ -157,7 +157,7 @@ void setupCBUS()
 void setup()
 {
   Serial.begin (115200);
-  Serial << endl << endl << F("> ** CBUS 1 in 1 out v1 ** ") << __FILE__ << endl;
+  Serial << endl << endl << F("> CANDUE ** ") << __FILE__ << endl;
 
   setupCBUS();
 
@@ -354,6 +354,37 @@ void processSerialInput(void) {
       case 'm':
         // free memory
         Serial << F("> free SRAM = ") << config.freeSRAM() << F(" bytes") << endl;
+        break;
+
+      case 'r':
+        // renegotiate
+        CBUS.renegotiate();
+        break;
+
+      case 'z':
+        // Reset module, clear EEPROM
+        static bool ResetRq = false;
+        static unsigned long ResWaitTime;
+        if (!ResetRq) {
+          // start timeout timer
+          Serial << F(">Reset & EEPROM wipe requested. Press 'z' again within 2 secs to confirm") << endl;
+          ResWaitTime = millis();
+          ResetRq = true;
+        }
+        else {
+          // This is a confirmed request
+          // 2 sec timeout
+          if (ResetRq && ((millis() - ResWaitTime) > 2000)) {
+            Serial << F(">timeout expired, reset not performed") << endl;
+            ResetRq = false;
+          }
+          else {
+            //Request confirmed within timeout
+            Serial << F(">RESETTING AND WIPING EEPROM") << endl;
+            config.resetModule();
+            ResetRq = false;
+          }
+        }
         break;
 
       case '\r':
