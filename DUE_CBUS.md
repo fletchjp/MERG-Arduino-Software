@@ -16,6 +16,8 @@ This is a working copy of CBUS_empty_SAM3X8E_v1 for some exploration and testing
 
 I have now added the serial commands 'r' and 'z' from CANmINnOUT to this example and changed its name and version.
 
+Testing has gone well and I now am confident this it a platform for developments.
+
 ### CBUS_empty_SAM3X8E_v1
 
 This is Duncan Greenwood's first example. At the moment the code assumes that there will be a button and LEDs for the Slim/Flim change.
