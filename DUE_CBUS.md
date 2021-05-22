@@ -18,6 +18,12 @@ I have now added the serial commands 'r' and 'z' from CANmINnOUT to this example
 
 Testing has gone well and I now am confident this it a platform for developments.
 
+### CBUSSAM3X8E
+
+This is Duncan Greenwood's library for the CBUS communication. It is not under the control of this GitHub.
+
+I have made a small change to correct the error code test as it was falsely reporting a read failure.
+
 ### CBUS_empty_SAM3X8E_v1
 
 This is Duncan Greenwood's first example. At the moment the code assumes that there will be a button and LEDs for the Slim/Flim change.
