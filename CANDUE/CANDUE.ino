@@ -2,6 +2,7 @@
 // CANDUE Version 1a beta 1
 /////////////////////////////////////////////////////////////////////////////
 // My working name for changes to the example from Duncan.
+// Note that the library DueFlashStorage is accessed from CBUSconfig
 // John Fletcher
 
 //
