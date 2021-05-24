@@ -401,9 +401,17 @@ void eventhandler(byte index, CANFrame *msg)
 
 #if DEBUG
   Serial << F("> event handler: index = ") << index << F(", opcode = 0x") << _HEX(msg->data[0]) << endl;
+  byte len = msg->len;
+  Serial << F("> event handler: length = ") << len << endl;
 #endif
 
   opc = msg->data[0];
+  unsigned int node_number = (msg->data[1] << 8 ) + msg->data[2];
+  unsigned int event_number = (msg->data[3] << 8 ) + msg->data[4];
+#if DEBUG
+  Serial << F("> NN = ") << node_number << F(", EN = ") << event_number << endl;
+  Serial << F("> op_code = ") << opc << endl;
+#endif
 
   switch (opc) {
 
