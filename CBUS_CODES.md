@@ -61,6 +61,8 @@ I have now built this version. I have given it 1 button and 1 LED in the code al
 
 I have started to add code from CANTEXT to process an incoming message to the display.
 
+I have now done some tests of this against CANTOTEM.
+
 ### Another Idea (yet to be named)
 
 I am also developing a version where the display is connected using an I2C backpack for all the connections except the A0 and reset.
@@ -82,4 +84,7 @@ A base for testing on the Totem Minilab.
 ### CANTOTEM
 
 This has been modified to use TaskManagerIO.
+
+I am now using this version for testing against CAN1602BUT. I have added some new code for framehandler so that I can see what traffic is passing.
+
 
