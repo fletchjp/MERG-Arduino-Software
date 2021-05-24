@@ -205,10 +205,20 @@ void loop() {
 
 void eventhandler(byte index, CANFrame *msg) {
 
-  // as an example, display the opcode and the first EV of this event
+  byte opc;
+  byte ev;
+  byte evval;
 
-  Serial << F("> event handler: index = ") << index << F(", opcode = 0x") << _HEX(msg->data[0]) << endl;
+  // as an example, display the opcode and the first EV of this event
+  opc = msg->data[0];
+  Serial << F("> event handler: index = ") << index << F(", opcode = 0x") << _HEX(opc) << endl;
+  byte len = msg->len;
+  Serial << F("> event handler: length = ") << len << endl;
   Serial << F("> EV1 = ") << config.getEventEVval(index, 1) << endl;
+  unsigned int node_number = (msg->data[1] << 8 ) + msg->data[2];
+  unsigned int event_number = (msg->data[3] << 8 ) + msg->data[4];
+  Serial << F("> NN = ") << node_number << F(", EN = ") << event_number << endl;
+  Serial << F("> op_code = ") << opc << endl;
   return;
 }
 
