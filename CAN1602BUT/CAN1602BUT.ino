@@ -5,6 +5,7 @@
 // Version 1.0b3 Adding more code from CANTEXT 
 // and decoding of node number and event number of incoming events.
 // Also change the display in response to an incoming event.
+// Version 1.0b4 Changes as the previous version did not update the display.
 ////////////////////////////////////////////////////////////////////////////////////
 // CANTOTEM
 // Modification to start to use IoAbstraction and TaskManagerIO
@@ -140,7 +141,7 @@ unsigned char mname[7] = { '1', '6', '0', '2', 'B', 'U', 'T' };
 // constants
 const byte VER_MAJ = 1;         // code major version
 const char VER_MIN = 'b';       // code minor version
-const byte VER_BETA = 3;        // code beta sub-version
+const byte VER_BETA = 4;        // code beta sub-version
 const byte MODULE_ID = 99;      // CBUS module type
 
 const unsigned long CAN_OSC_FREQ = 8000000;     // Oscillator frequency on the CAN2515 board
@@ -604,7 +605,7 @@ void eventhandler(byte index, CANFrame *msg)
 #endif
 
    // Experimental code to display a message index on the event_number.
-   if (event_number >= nonEvent) {
+   if (event_number == 1) { //This is what worked
      switch (opc) {
 
       case OPC_ACON:
