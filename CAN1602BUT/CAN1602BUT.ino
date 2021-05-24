@@ -6,6 +6,7 @@
 // and decoding of node number and event number of incoming events.
 // Also change the display in response to an incoming event.
 // Version 1.0b4 Changes as the previous version did not update the display.
+// Add some more opcodes.
 ////////////////////////////////////////////////////////////////////////////////////
 // CANTOTEM
 // Modification to start to use IoAbstraction and TaskManagerIO
@@ -178,8 +179,9 @@ CBUSConfig config;                  // configuration object
 void eventhandler(byte index, CANFrame *msg);
 void framehandler(CANFrame *msg);
 // Opcodes to be recognised by frame handler.
-byte nopcodes = 8;
-byte opcodes[] = {OPC_ACON, OPC_ACOF, OPC_ACON1, OPC_ACOF1, OPC_ACON2, OPC_ACOF2, OPC_ACON3, OPC_ACOF3 };
+byte nopcodes = 11;
+byte opcodes[] = {OPC_ACON, OPC_ACOF, OPC_ACON1, OPC_ACOF1, OPC_ACON2, OPC_ACOF2, OPC_ACON3, OPC_ACOF3, 
+                  OPC_ASON, OPC_ASOF, OPC_CANID };
 
 // Buzzer pin
 #define SOUNDER  17
