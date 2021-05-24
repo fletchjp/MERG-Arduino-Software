@@ -1,5 +1,7 @@
 /////////////////////////////////////////////////////////////////////////////
-// CANDUE Version 1a beta 1
+// CANDUE 
+// Version 1a beta 1 Initial operational test
+// Version 1a beta 2 Add some more code.
 /////////////////////////////////////////////////////////////////////////////
 // My working name for changes to the example from Duncan.
 // Note that the library DueFlashStorage is accessed from CBUSconfig
@@ -51,6 +53,11 @@
       ACAN2515    -- library to support the MCP2515/25625 CAN controller IC
 */
 
+///////////////////////////////////////////////////////////////////////////////////
+// Pin Use map DUE:
+// This needs to be built.
+/////////////////////////////////////////////////////////////////////////////////// 
+
 // 3rd party libraries
 #include <Streaming.h>
 
@@ -65,9 +72,10 @@
 // constants
 const byte VER_MAJ = 1;                  // code major version
 const char VER_MIN = 'a';                // code minor version
-const byte VER_BETA = 1;                 // code beta sub-version
+const byte VER_BETA = 2;                 // code beta sub-version
 const byte MODULE_ID = 99;               // CBUS module type
 
+// These are not being used - not installed.
 const byte LED_GRN = 4;                  // CBUS green SLiM LED pin
 const byte LED_YLW = 5;                  // CBUS yellow FLiM LED pin
 const byte SWITCH0 = 6;                  // CBUS push button switch pin
