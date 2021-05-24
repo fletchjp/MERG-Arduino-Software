@@ -110,8 +110,8 @@ void eventhandler(byte index, byte opc);
 void framehandler(CANFrame *msg);
 
 // Set opcodes for polling events
-byte nopcodes = 5;
-byte opcodes[] = {OPC_ACON, OPC_ACOF, OPC_AREQ, OPC_ASRQ, OPC_CANID }; 
+byte nopcodes = 7;
+byte opcodes[] = {OPC_ACON, OPC_ACOF, OPC_ASON, OPC_ASOF, OPC_AREQ, OPC_ASRQ, OPC_CANID }; 
 
 // constants
 const byte VER_MAJ = 1;         // code major version
