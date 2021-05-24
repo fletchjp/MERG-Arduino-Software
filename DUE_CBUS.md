@@ -18,7 +18,9 @@ I have now added the serial commands 'r' and 'z' from CANmINnOUT to this example
 
 Testing has gone well and I now am confident this it a platform for developments.
 
-This and some other codes make use of DueFlashStorage, a library to emulate EEPROM. The contents are preserved between reboots but not when the code is updated. 
+This and some other codes make use of DueFlashStorage, a library to emulate EEPROM. The contents are preserved between reboots but not when the code is updated.
+
+I am adding more code to the eventhandler.
 
 ### CBUSSAM3X8E
 
