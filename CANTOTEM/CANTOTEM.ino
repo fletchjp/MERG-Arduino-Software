@@ -4,6 +4,7 @@
 // Modification to start to use IoAbstraction and TaskManagerIO
 // as has been done in CANCMDDC in CANCMDDC2
 // Version 1b beta 2 Adding code to send text change messages.
+// Version 1b beta 3 Adding code for framehandler.
 ///////////////////////////////////////////////////////////////////////////////////
 // This is to run on the TOTEM Minilab with a CAN interface.
 // working from
@@ -104,10 +105,18 @@ IoAbstractionRef arduinoPins = ioUsingArduino();
 // module name
 unsigned char mname[7] = { 'T', 'O', 'T', 'E', 'M', ' ', ' ' };
 
+// forward function declarations
+void eventhandler(byte index, byte opc);
+void framehandler(CANFrame *msg);
+
+// Set opcodes for polling events
+byte nopcodes = 5;
+byte opcodes[] = {OPC_ACON, OPC_ACOF, OPC_AREQ, OPC_ASRQ, OPC_CANID }; 
+
 // constants
 const byte VER_MAJ = 1;         // code major version
 const char VER_MIN = 'b';       // code minor version
-const byte VER_BETA = 2;        // code beta sub-version
+const byte VER_BETA = 3;        // code beta sub-version
 const byte MODULE_ID = 99;      // CBUS module type
 
 const unsigned long CAN_OSC_FREQ = 8000000;     // Oscillator frequency on the CAN2515 board
@@ -185,6 +194,8 @@ void setupCBUS()
 
   // register our CBUS event handler, to receive event messages of learned events
   CBUS.setEventHandler(eventhandler);
+  // This will only process the defined opcodes.
+  CBUS.setFrameHandler(framehandler, opcodes, nopcodes);
 
   // configure and start CAN bus and CBUS message processing
   CBUS.setNumBuffers(2);         // more buffers = more memory used, fewer = less
@@ -435,6 +446,30 @@ void eventhandler(byte index, CANFrame *msg)
       }
       break;
   }
+}
+
+void framehandler(CANFrame *msg) {
+
+  byte op_code = msg->data[0];
+  
+  // as an example, format and display the received frame
+
+  Serial << "[ " << (msg->id & 0x7f) << "] [" << msg->len << "] [";
+
+  for (byte d = 0; d < msg->len; d++) {
+    Serial << " 0x" << _HEX(msg->data[d]);
+  }
+
+  Serial << " ]" << endl;
+
+  if (  op_code ==  OPC_CANID ) {
+  unsigned int node_number = (msg->data[1] << 8 ) + msg->data[2];
+  unsigned int new_CANId = msg->data[3];
+      Serial << F("> Frame to change CANId") << endl;
+      Serial << F("> Node No   ") << node_number << endl;
+      Serial << F("> new CANId ")  << new_CANId << endl;
+  }
+
 }
 
 
