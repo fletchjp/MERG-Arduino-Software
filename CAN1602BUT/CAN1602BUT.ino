@@ -607,7 +607,7 @@ void eventhandler(byte index, CANFrame *msg)
 #endif
 
    // Experimental code to display a message index on the event_number.
-   if (event_number == 1) { //This is what worked
+   if (event_number == 1) { //This is what worked and I need to sort out why.
      switch (opc) {
 
       case OPC_ACON:
