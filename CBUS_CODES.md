@@ -87,4 +87,6 @@ This has been modified to use TaskManagerIO.
 
 I am now using this version for testing against CAN1602BUT. I have added some new code for framehandler so that I can see what traffic is passing.
 
+I have also added code to eventhandler to see the node number and event number of incoming events.
+
 
