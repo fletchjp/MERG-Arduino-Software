@@ -59,6 +59,8 @@
 // This needs to be built.
 /////////////////////////////////////////////////////////////////////////////////// 
 
+#define DEBUG 1       // set to 0 for no serial debug
+
 // IoAbstraction libraries
 #include <IoAbstraction.h>
 #include <AnalogDeviceAbstraction.h>
@@ -182,6 +184,29 @@ void setupCBUS()
   CBUS.begin();
 }
 
+void runLEDs(){
+  // Run the LED code
+  for (int i = 0; i < NUM_LEDS; i++) {
+    moduleLED[i].run();
+  }
+}
+
+void setupModule()
+{
+   // configure the module switches, active low
+  for (int i = 0; i < NUM_SWITCHES; i++)
+  {
+    moduleSwitch[i].attach(SWITCH[i], INPUT_PULLUP);
+    moduleSwitch[i].interval(5);
+    switchState[i] = false;
+  }
+
+  // configure the module LEDs
+  for (int i = 0; i < NUM_LEDS; i++) {
+    moduleLED[i].setPin(LED[i]);
+  } 
+}
+
 //
 /// setup - runs once at power on
 //
@@ -192,6 +217,11 @@ void setup()
   Serial << endl << endl << F("> CANDUE ** ") << __FILE__ << endl;
 
   setupCBUS();
+  setupModule();
+
+  // Schedule tasks to run every 250 milliseconds.
+  taskManager.scheduleFixedRate(250, runLEDs);
+  taskManager.scheduleFixedRate(250, processSwitches);
 
   // end of setup
   Serial << F("> ready") << endl << endl;
@@ -215,9 +245,138 @@ void loop() {
 
   processSerialInput();
 
+  // Run IO_Abstraction tasks.
+  // This replaces actions taken here in the previous version.
+  taskManager.runLoop();
+
   //
   /// bottom of loop()
   //
+}
+
+void processSwitches(void)
+{
+   for (int i = 0; i < NUM_SWITCHES; i++)
+  {
+    moduleSwitch[i].update();
+    if (moduleSwitch[i].changed())
+    {
+     byte nv;
+     int eeadress;
+     byte nvval;
+     byte opCode;
+
+     nv = i + 1;
+
+     nvval = config.readNV(nv);
+#if DEBUG
+     Serial << F("Switch ") << i << F(" changed") << endl; 
+#endif   
+     Serial << F (" NV = ") << nv << F(" NV Value = ") << nvval << endl;
+
+     switch (nvval)
+     {
+      case 0:
+#if DEBUG
+        Serial << F("> Button ") << i << F(" state change detected") << endl;
+        if (moduleSwitch[i].fell()) {
+          Serial << F("> Button ") << i << F(" pressed, send 0x") << _HEX(OPC_ACON) << endl;
+        } else {
+          Serial << F("> Button ") << i << F(" released, send 0x") << _HEX(OPC_ACOF) << endl;
+        }
+#endif
+
+        opCode = (moduleSwitch[i].fell() ? OPC_ACON : OPC_ACOF);
+        sendEvent(opCode, (i + 1));
+        break;
+
+      case 1:
+#if DEBUG
+        Serial << F("> Button ") << i << F(" state change detected") << endl;
+        if (moduleSwitch[i].fell()) 
+        {
+          Serial << F("> Button ") << i << F(" pressed, send 0x") << _HEX(OPC_ACON) << endl;
+        }
+#endif
+
+        if (moduleSwitch[i].fell()) 
+        {
+          opCode = OPC_ACON;
+        }
+        sendEvent(opCode, (i + 1));
+        break;
+
+      case 2:
+#if DEBUG
+        Serial << F("> Button ") << i << F(" state change detected") << endl;
+        if (moduleSwitch[i].rose()) 
+        {
+          Serial << F("> Button ") << i << F(" pressed, send 0x") << _HEX(OPC_ACOF) << endl;
+        }
+#endif
+
+        if (moduleSwitch[i].rose())
+        {
+          opCode = OPC_ACOF;
+        }
+        sendEvent(opCode, (i + 1));
+        break;
+
+      case 3:
+
+        if (moduleSwitch[i].fell())
+        {
+          switchState[i] = !switchState[i];
+        }
+#if DEBUG
+        Serial << F("> Button ") << i << F(" state change detected") << endl;
+        if (switchState[i]) {
+          Serial << F("> Button ") << i << F(" pressed, send 0x") << _HEX(OPC_ACON) << endl;
+        } else {
+          Serial << F("> Button ") << i << F(" pressed, send 0x") << _HEX(OPC_ACOF) << endl;
+        }
+#endif
+
+        opCode = (switchState[i] ? OPC_ACON : OPC_ACOF);
+        sendEvent(opCode, (i + 1));
+
+        break;
+        /*
+        // Send event to test display on CAN1602BUT.
+      case 99:
+        opCode = (switchState[i] ? OPC_ACON : OPC_ACOF);
+        sendEvent(opCode,testEvent); // Test of new code.
+
+        break; */
+    default:
+#if DEBUG
+        Serial << F("> Invalid NV value ") << nvval << endl;
+#endif
+        break;
+     }
+    }
+  } 
+}
+
+// Send an event routine according to Module Switch
+bool sendEvent(byte opCode, unsigned int eventNo)
+{
+  CANFrame msg;
+  msg.id = config.CANID;
+  msg.len = 5;
+  msg.data[0] = opCode;
+  msg.data[1] = highByte(config.nodeNum);
+  msg.data[2] = lowByte(config.nodeNum);
+  msg.data[3] = highByte(eventNo);
+  msg.data[4] = lowByte(eventNo);
+
+#if DEBUG
+  if (CBUS.sendMessage(&msg)) {
+    Serial << F("> sent CBUS message with Event Number ") << eventNo << endl;
+  } else {
+    Serial << F("> error sending CBUS message") << endl;
+  }
+#endif
 }
 
 //
