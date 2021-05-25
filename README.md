@@ -20,9 +20,13 @@
 
  This is the first of the branches. It will have some CBUS modules, some related to the non CBUS codes in this main branch.
 
+ This is going well and I am developing two modules CAN1602BUT and CANMODEM.
+
  ### due_cbus
 
  This branch is for codes for the Arduino DUE to run CBUS.
+
+ I now have a module CANDUE which is now working.
 
  ## Logos
 
