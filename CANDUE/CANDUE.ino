@@ -2,6 +2,7 @@
 // CANDUE 
 // Version 1a beta 1 Initial operational test
 // Version 1a beta 2 Add some more code.
+// Version 1a beta 3 Add code for events and take CBUS button/LEDs out of use.
 /////////////////////////////////////////////////////////////////////////////
 // My working name for changes to the example from Duncan.
 // Note that the library DueFlashStorage is accessed from CBUSconfig
@@ -58,18 +59,21 @@
 // This needs to be built.
 /////////////////////////////////////////////////////////////////////////////////// 
 
-// 3rd party libraries
-#include <Streaming.h>
 // IoAbstraction libraries
 #include <IoAbstraction.h>
 #include <AnalogDeviceAbstraction.h>
 #include <TaskManagerIO.h>
 #include <DeviceEvents.h>
 
+// 3rd party libraries
+#include <Streaming.h>
+#include <Bounce2.h>
+
 // CBUS library header files
 #include <CBUSSAM3X8E.h>            // CAN controller and CBUS class
 #include <CBUSswitch.h>             // pushbutton switch
-#include <CBUSLED.h>                // CBUS LEDs
+#include "LEDControl.h"          // CBUS LEDs
+//#include <CBUSLED.h>                // CBUS LEDs
 #include <CBUSconfig.h>             // module configuration
 #include <CBUSParams.h>             // CBUS parameters
 #include <cbusdefs.h>               // MERG CBUS constants
@@ -81,15 +85,29 @@ const byte VER_BETA = 2;                 // code beta sub-version
 const byte MODULE_ID = 99;               // CBUS module type
 
 // These are not being used - not installed.
-const byte LED_GRN = 4;                  // CBUS green SLiM LED pin
-const byte LED_YLW = 5;                  // CBUS yellow FLiM LED pin
-const byte SWITCH0 = 6;                  // CBUS push button switch pin
+//const byte LED_GRN = 4;                  // CBUS green SLiM LED pin
+//const byte LED_YLW = 5;                  // CBUS yellow FLiM LED pin
+//const byte SWITCH0 = 6;                  // CBUS push button switch pin
+
+#define NUM_LEDS 2              // How many LEDs are there?
+#define NUM_SWITCHES 2          // How many switchs are there?
+
+//Module pins available for use are Pins 3 - 9 and A0 - A5
+const byte LED[NUM_LEDS] = {8, 7};            // LED pin connections through typ. 1K8 resistor
+const byte SWITCH[NUM_SWITCHES] = {9, 6};     // Module Switch takes input to 0V.
+
+// module objects
+Bounce moduleSwitch[NUM_SWITCHES];  //  switch as input
+LEDControl moduleLED[NUM_LEDS];     //  LED as output
+byte switchState[NUM_SWITCHES];
+
+//////////////////////////////////////////////////////////////////////////
 
 // CBUS objects
 CBUSSAM3X8E CBUS;                   // CBUS object
 CBUSConfig config;                  // configuration object
-CBUSLED ledGrn, ledYlw;             // two LED objects
-CBUSSwitch pb_switch;               // switch object
+//CBUSLED ledGrn, ledYlw;             // two LED objects
+//CBUSSwitch pb_switch;               // switch object
 
 // module name, must be 7 characters, space padded.
 unsigned char mname[7] = { 'D', 'U', 'E', ' ', ' ', ' ', ' ' };
@@ -132,20 +150,20 @@ void setupCBUS()
   CBUS.setName(mname);
 
   // set CBUS LED pins and assign to CBUS
-  ledGrn.setPin(LED_GRN);
-  ledYlw.setPin(LED_YLW);
-  CBUS.setLEDs(ledGrn, ledYlw);
+  //ledGrn.setPin(LED_GRN);
+  //ledYlw.setPin(LED_YLW);
+  //CBUS.setLEDs(ledGrn, ledYlw);
 
   // initialise CBUS switch and assign to CBUS
-  pb_switch.setPin(SWITCH0, LOW);
-  pb_switch.run();
-  CBUS.setSwitch(pb_switch);
+  //pb_switch.setPin(SWITCH0, LOW);
+  //pb_switch.run();
+  //CBUS.setSwitch(pb_switch);
 
   // module reset - if switch is depressed at startup and module is in SLiM mode
-  if (pb_switch.isPressed() && !config.FLiM) {
-    Serial << F("> switch was pressed at startup in SLiM mode") << endl;
-    config.resetModule(ledGrn, ledYlw, pb_switch);
-  }
+  //if (pb_switch.isPressed() && !config.FLiM) {
+  //  Serial << F("> switch was pressed at startup in SLiM mode") << endl;
+  //  config.resetModule(ledGrn, ledYlw, pb_switch);
+  //}
 
   // register our CBUS event handler, to receive event messages of learned events
   CBUS.setEventHandler(eventhandler);
