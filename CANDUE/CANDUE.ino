@@ -193,7 +193,7 @@ void runLEDs(){
 
 void setupModule()
 {
-   // configure the module switches, active low
+  // configure the module switches, active low
   for (int i = 0; i < NUM_SWITCHES; i++)
   {
     moduleSwitch[i].attach(SWITCH[i], INPUT_PULLUP);
@@ -302,8 +302,8 @@ void processSwitches(void)
         if (moduleSwitch[i].fell()) 
         {
           opCode = OPC_ACON;
+          sendEvent(opCode, (i + 1));
         }
-        sendEvent(opCode, (i + 1));
         break;
 
       case 2:
@@ -318,8 +318,8 @@ void processSwitches(void)
         if (moduleSwitch[i].rose())
         {
           opCode = OPC_ACOF;
+          sendEvent(opCode, (i + 1));
         }
-        sendEvent(opCode, (i + 1));
         break;
 
       case 3:
