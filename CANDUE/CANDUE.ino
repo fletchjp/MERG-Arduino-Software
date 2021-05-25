@@ -60,6 +60,11 @@
 
 // 3rd party libraries
 #include <Streaming.h>
+// IoAbstraction libraries
+#include <IoAbstraction.h>
+#include <AnalogDeviceAbstraction.h>
+#include <TaskManagerIO.h>
+#include <DeviceEvents.h>
 
 // CBUS library header files
 #include <CBUSSAM3X8E.h>            // CAN controller and CBUS class
