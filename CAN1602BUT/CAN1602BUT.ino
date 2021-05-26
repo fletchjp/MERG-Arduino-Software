@@ -7,6 +7,7 @@
 // Also change the display in response to an incoming event.
 // Version 1.0b4 Changes as the previous version did not update the display.
 // Add some more opcodes.
+// Version 1.0b5 Correct bugs inherited from CANmINmOUT event code.
 ////////////////////////////////////////////////////////////////////////////////////
 // CANTOTEM
 // Modification to start to use IoAbstraction and TaskManagerIO
@@ -142,7 +143,7 @@ unsigned char mname[7] = { '1', '6', '0', '2', 'B', 'U', 'T' };
 // constants
 const byte VER_MAJ = 1;         // code major version
 const char VER_MIN = 'b';       // code minor version
-const byte VER_BETA = 4;        // code beta sub-version
+const byte VER_BETA = 5;        // code beta sub-version
 const byte MODULE_ID = 99;      // CBUS module type
 
 const unsigned long CAN_OSC_FREQ = 8000000;     // Oscillator frequency on the CAN2515 board
@@ -504,8 +505,8 @@ void processSwitches(void)
         if (moduleSwitch[i].fell()) 
         {
           opCode = OPC_ACON;
+          sendEvent(opCode, (i + 1));
         }
-        sendEvent(opCode, (i + 1));
         break;
 
       case 2:
@@ -520,8 +521,8 @@ void processSwitches(void)
         if (moduleSwitch[i].rose())
         {
           opCode = OPC_ACOF;
+          sendEvent(opCode, (i + 1));
         }
-        sendEvent(opCode, (i + 1));
         break;
 
       case 3:
