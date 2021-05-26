@@ -15,6 +15,10 @@ FCU.
 
 I have not yet set up access to GitHub on the laptop I am using for testing. That means that I have to take a copy of the code to it. At least I no longer have to worry about versions of the code as they are all available.
 
+### 26th May
+
+I have corrected two errors in the event generation code in CAN1602BUT and CANTOTEM which came from the CANmINnOUT code I used as a basis. I had not noticed them as I had not run these cases.
+
 ### 18th May
 
 Martin's repository CBUSmINnOUT has been renamed CANmINnOUT and I need to change any references here.
