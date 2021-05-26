@@ -5,6 +5,7 @@
 // as has been done in CANCMDDC in CANCMDDC2
 // Version 1b beta 2 Adding code to send text change messages.
 // Version 1b beta 3 Adding code for framehandler.
+// Version 1b beta 4 Correct bugs inherited from CANmINmOUT event code.
 ///////////////////////////////////////////////////////////////////////////////////
 // This is to run on the TOTEM Minilab with a CAN interface.
 // working from
@@ -116,7 +117,7 @@ byte opcodes[] = {OPC_ACON, OPC_ACOF, OPC_ARON, OPC_AROF, OPC_ASON, OPC_ASOF, OP
 // constants
 const byte VER_MAJ = 1;         // code major version
 const char VER_MIN = 'b';       // code minor version
-const byte VER_BETA = 3;        // code beta sub-version
+const byte VER_BETA = 4;        // code beta sub-version
 const byte MODULE_ID = 99;      // CBUS module type
 
 const unsigned long CAN_OSC_FREQ = 8000000;     // Oscillator frequency on the CAN2515 board
@@ -313,9 +314,9 @@ void processSwitches(void)
 
         if (moduleSwitch[i].fell()) 
         {
+          sendEvent(opCode, (i + 1));
           opCode = OPC_ACON;
         }
-        sendEvent(opCode, (i + 1));
         break;
 
       case 2:
@@ -330,8 +331,8 @@ void processSwitches(void)
         if (moduleSwitch[i].rose())
         {
           opCode = OPC_ACOF;
+          sendEvent(opCode, (i + 1));
         }
-        sendEvent(opCode, (i + 1));
         break;
 
       case 3:
