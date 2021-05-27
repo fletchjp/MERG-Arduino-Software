@@ -22,6 +22,8 @@ This and some other codes make use of DueFlashStorage, a library to emulate EEPR
 
 I am adding more code to the eventhandler.
 
+I have added more changes to bring the event code into line with CANmINnOUT code.
+
 ### CBUSSAM3X8E
 
 This is Duncan Greenwood's library for the CBUS communication. It is not under the control of this GitHub.
