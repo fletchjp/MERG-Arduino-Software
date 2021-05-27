@@ -24,6 +24,8 @@ I am adding more code to the eventhandler.
 
 I have added more changes to bring the event code into line with CANmINnOUT code.
 
+I have also corrected the lack of a return value from sendEvent.
+
 ### CBUSSAM3X8E
 
 This is Duncan Greenwood's library for the CBUS communication. It is not under the control of this GitHub.
