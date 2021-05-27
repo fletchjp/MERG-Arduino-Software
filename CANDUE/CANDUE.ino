@@ -3,6 +3,8 @@
 // Version 1a beta 1 Initial operational test
 // Version 1a beta 2 Add some more code.
 // Version 1a beta 3 Add code for events and take CBUS button/LEDs out of use.
+// Version 1a beta 4 Add changes to code suggested by Sven Rosvall for CANmINnOUT.
+//                   and eventhandler code for LEDs which was missing.
 /////////////////////////////////////////////////////////////////////////////
 // My working name for changes to the example from Duncan.
 // Note that the library DueFlashStorage is accessed from CBUSconfig
@@ -83,7 +85,7 @@
 // constants
 const byte VER_MAJ = 1;                  // code major version
 const char VER_MIN = 'a';                // code minor version
-const byte VER_BETA = 2;                 // code beta sub-version
+const byte VER_BETA = 4;                 // code beta sub-version
 const byte MODULE_ID = 99;               // CBUS module type
 
 // These are not being used - not installed.
@@ -261,14 +263,10 @@ void processSwitches(void)
     moduleSwitch[i].update();
     if (moduleSwitch[i].changed())
     {
-     byte nv;
-     int eeadress;
-     byte nvval;
+     byte nv = i + 1;
+     byte nvval = config.readNV(nv);
      byte opCode;
 
-     nv = i + 1;
-
-     nvval = config.readNV(nv);
 #if DEBUG
      Serial << F("Switch ") << i << F(" changed") << endl; 
 #endif   
@@ -385,22 +383,67 @@ bool sendEvent(byte opCode, unsigned int eventNo)
 /// it receives the event table index and the CAN frame
 //
 
-void eventhandler(byte index, CANFrame *msg) {
-
-  byte opc;
-  byte ev;
-  byte evval;
+void eventhandler(byte index, CANFrame *msg) 
+{
+  byte opc = msg->data[0];
 
   // as an example, display the opcode and the first EV of this event
-  opc = msg->data[0];
+#if DEBUG
   Serial << F("> event handler: index = ") << index << F(", opcode = 0x") << _HEX(opc) << endl;
   byte len = msg->len;
   Serial << F("> event handler: length = ") << len << endl;
+#endif
   Serial << F("> EV1 = ") << config.getEventEVval(index, 1) << endl;
   unsigned int node_number = (msg->data[1] << 8 ) + msg->data[2];
   unsigned int event_number = (msg->data[3] << 8 ) + msg->data[4];
+#if DEBUG
   Serial << F("> NN = ") << node_number << F(", EN = ") << event_number << endl;
   Serial << F("> op_code = ") << opc << endl;
+#endif
+  
+  switch (opc) {
+
+    case OPC_ACON:
+    case OPC_ASON:
+      for (int i = 0; i < NUM_LEDS; i++)
+      {
+        byte ev = i + 1;
+        byte evval = config.getEventEVval(index, ev);
+
+        switch (evval)
+        {
+          case 1:
+            moduleLED[i].on();
+            break;
+
+          case 2:
+            moduleLED[i].flash(500);
+            break;
+
+          case 3:
+            moduleLED[i].flash(250);
+            break;
+
+          default:
+            break;
+        }
+      }
+      break;
+
+    case OPC_ACOF:
+    case OPC_ASOF:
+      for (int i = 0; i < NUM_LEDS; i++)
+      {
+        byte ev = i + 1;
+        byte evval = config.getEventEVval(index, ev);
+
+        if (evval > 0) {
+          moduleLED[i].off();
+        }
+      }
+      break;
+  }
+
   return;
 }
 
