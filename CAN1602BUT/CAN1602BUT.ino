@@ -9,6 +9,7 @@
 // Add some more opcodes.
 // Version 1.0b beta5 Correct bugs inherited from CANmINmOUT event code.
 // Version 1.0b beta6 Add Sven's modifications to CANmINmOUT event code.
+// Version 1.0b beta7 Correct lack of return value from sendEvent.
 ////////////////////////////////////////////////////////////////////////////////////
 // CANTOTEM
 // Modification to start to use IoAbstraction and TaskManagerIO
@@ -144,7 +145,7 @@ unsigned char mname[7] = { '1', '6', '0', '2', 'B', 'U', 'T' };
 // constants
 const byte VER_MAJ = 1;         // code major version
 const char VER_MIN = 'b';       // code minor version
-const byte VER_BETA = 6;        // code beta sub-version
+const byte VER_BETA = 7;        // code beta sub-version
 const byte MODULE_ID = 99;      // CBUS module type
 
 const unsigned long CAN_OSC_FREQ = 8000000;     // Oscillator frequency on the CAN2515 board
@@ -565,13 +566,15 @@ bool sendEvent(byte opCode, unsigned int eventNo)
   msg.data[3] = highByte(eventNo);
   msg.data[4] = lowByte(eventNo);
 
+  bool res = CBUS.sendMessage(&msg);
 #if DEBUG
-  if (CBUS.sendMessage(&msg)) {
+  if (res) {
     Serial << F("> sent CBUS message with Event Number ") << eventNo << endl;
   } else {
     Serial << F("> error sending CBUS message") << endl;
   }
 #endif
+  return res;
 }
 
 void displayError(int i,byte x,byte y)
