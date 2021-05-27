@@ -5,6 +5,7 @@
 // Version 1a beta 3 Add code for events and take CBUS button/LEDs out of use.
 // Version 1a beta 4 Add changes to code suggested by Sven Rosvall for CANmINnOUT.
 //                   and eventhandler code for LEDs which was missing.
+// Version 1a beta 5 Add missing return value from sendEvent
 /////////////////////////////////////////////////////////////////////////////
 // My working name for changes to the example from Duncan.
 // Note that the library DueFlashStorage is accessed from CBUSconfig
@@ -85,7 +86,7 @@
 // constants
 const byte VER_MAJ = 1;                  // code major version
 const char VER_MIN = 'a';                // code minor version
-const byte VER_BETA = 4;                 // code beta sub-version
+const byte VER_BETA = 5;                 // code beta sub-version
 const byte MODULE_ID = 99;               // CBUS module type
 
 // These are not being used - not installed.
@@ -368,13 +369,15 @@ bool sendEvent(byte opCode, unsigned int eventNo)
   msg.data[3] = highByte(eventNo);
   msg.data[4] = lowByte(eventNo);
 
+  bool res = CBUS.sendMessage(&msg);
 #if DEBUG
-  if (CBUS.sendMessage(&msg)) {
+  if (res) {
     Serial << F("> sent CBUS message with Event Number ") << eventNo << endl;
   } else {
     Serial << F("> error sending CBUS message") << endl;
   }
 #endif
+  return res;
 }
 
 //
