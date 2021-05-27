@@ -6,6 +6,7 @@
 // Version 1b beta 2 Adding code to send text change messages.
 // Version 1b beta 3 Adding code for framehandler.
 // Version 1b beta 4 Correct bugs inherited from CANmINmOUT event code.
+// Version 1b beta 5 Add Sven's modifications to CANmINmOUT event code.
 ///////////////////////////////////////////////////////////////////////////////////
 // This is to run on the TOTEM Minilab with a CAN interface.
 // working from
@@ -117,7 +118,7 @@ byte opcodes[] = {OPC_ACON, OPC_ACOF, OPC_ARON, OPC_AROF, OPC_ASON, OPC_ASOF, OP
 // constants
 const byte VER_MAJ = 1;         // code major version
 const char VER_MIN = 'b';       // code minor version
-const byte VER_BETA = 4;        // code beta sub-version
+const byte VER_BETA = 5;        // code beta sub-version
 const byte MODULE_ID = 99;      // CBUS module type
 
 const unsigned long CAN_OSC_FREQ = 8000000;     // Oscillator frequency on the CAN2515 board
@@ -274,14 +275,11 @@ void processSwitches(void)
     moduleSwitch[i].update();
     if (moduleSwitch[i].changed())
     {
-     byte nv;
-     int eeadress;
-     byte nvval;
+     byte nv = i + 1;
+     byte nvval = config.readNV(nv);
+
      byte opCode;
 
-     nv = i + 1;
-
-     nvval = config.readNV(nv);
 #if DEBUG
      Serial << F("Switch ") << i << F(" changed") << endl; 
 #endif   
@@ -396,9 +394,7 @@ bool sendEvent(byte opCode, unsigned int eventNo)
 //
 void eventhandler(byte index, CANFrame *msg)
 {
-  byte opc;
-  byte ev;
-  byte evval;
+  byte opc = msg->data[0];
 
 #if DEBUG
   Serial << F("> event handler: index = ") << index << F(", opcode = 0x") << _HEX(msg->data[0]) << endl;
@@ -406,7 +402,6 @@ void eventhandler(byte index, CANFrame *msg)
   Serial << F("> event handler: length = ") << len << endl;
 #endif
 
-  opc = msg->data[0];
   unsigned int node_number = (msg->data[1] << 8 ) + msg->data[2];
   unsigned int event_number = (msg->data[3] << 8 ) + msg->data[4];
 #if DEBUG
@@ -418,10 +413,10 @@ void eventhandler(byte index, CANFrame *msg)
 
     case OPC_ACON:
     case OPC_ASON:
-      for (int i = 0; i < NUM_LEDS; i++) {
-
-        ev = i + 1;
-        evval = config.getEventEVval(index, ev);
+      for (int i = 0; i < NUM_LEDS; i++)
+      {
+        byte ev = i + 1;
+        byte evval = config.getEventEVval(index, ev);
 
         switch (evval) {
 		  case 1:
@@ -444,10 +439,10 @@ void eventhandler(byte index, CANFrame *msg)
 
     case OPC_ACOF:
     case OPC_ASOF:
-      for (int i = 0; i < NUM_LEDS; i++) {
-
-        ev = i + 1;
-        evval = config.getEventEVval(index, ev);
+      for (int i = 0; i < NUM_LEDS; i++)
+      {
+        byte ev = i + 1;
+        byte evval = config.getEventEVval(index, ev);
 
         if (evval > 0) {
            moduleLED[i].off();
