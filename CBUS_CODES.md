@@ -19,6 +19,8 @@ I have not yet set up access to GitHub on the laptop I am using for testing. Tha
 
 I have made changes to CAN1602BUT and CANTOTEM reflecting changes suggested by Sven Rosvall to CANmINnOUT.
 
+I have also corrected the error in each of the lack of a return value from sendEvent.
+
 ### 26th May
 
 I have corrected two errors in the event generation code in CAN1602BUT and CANTOTEM which came from the CANmINnOUT code I used as a basis. I had not noticed them as I had not run these cases.
