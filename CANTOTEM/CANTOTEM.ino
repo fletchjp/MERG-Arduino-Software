@@ -7,6 +7,7 @@
 // Version 1b beta 3 Adding code for framehandler.
 // Version 1b beta 4 Correct bugs inherited from CANmINmOUT event code.
 // Version 1b beta 5 Add Sven's modifications to CANmINmOUT event code.
+// Version 1b beta 6 Correct lack of return value from sendEvent.
 ///////////////////////////////////////////////////////////////////////////////////
 // This is to run on the TOTEM Minilab with a CAN interface.
 // working from
@@ -118,7 +119,7 @@ byte opcodes[] = {OPC_ACON, OPC_ACOF, OPC_ARON, OPC_AROF, OPC_ASON, OPC_ASOF, OP
 // constants
 const byte VER_MAJ = 1;         // code major version
 const char VER_MIN = 'b';       // code minor version
-const byte VER_BETA = 5;        // code beta sub-version
+const byte VER_BETA = 6;        // code beta sub-version
 const byte MODULE_ID = 99;      // CBUS module type
 
 const unsigned long CAN_OSC_FREQ = 8000000;     // Oscillator frequency on the CAN2515 board
@@ -380,13 +381,15 @@ bool sendEvent(byte opCode, unsigned int eventNo)
   msg.data[3] = highByte(eventNo);
   msg.data[4] = lowByte(eventNo);
 
+  bool res = CBUS.sendMessage(&msg);
 #if DEBUG
-  if (CBUS.sendMessage(&msg)) {
+  if (res) {
     Serial << F("> sent CBUS message with Event Number ") << eventNo << endl;
   } else {
     Serial << F("> error sending CBUS message") << endl;
   }
 #endif
+  return res;
 }
 
 //
