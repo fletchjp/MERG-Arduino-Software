@@ -6,6 +6,7 @@
 // Version 1a beta 4 Add changes to code suggested by Sven Rosvall for CANmINnOUT.
 //                   and eventhandler code for LEDs which was missing.
 // Version 1a beta 5 Add missing return value from sendEvent
+// Version 1a beta 6 Change to use DEBUG_PRINT and add failure message from processSwitches
 /////////////////////////////////////////////////////////////////////////////
 // My working name for changes to the example from Duncan.
 // Note that the library DueFlashStorage is accessed from CBUSconfig
@@ -64,6 +65,12 @@
 
 #define DEBUG 1       // set to 0 for no serial debug
 
+#if DEBUG
+#define DEBUG_PRINT(S) Serial << S << endl
+#else
+#define DEBUG_PRINT(S)
+#endif
+
 // IoAbstraction libraries
 #include <IoAbstraction.h>
 #include <AnalogDeviceAbstraction.h>
@@ -86,7 +93,7 @@
 // constants
 const byte VER_MAJ = 1;                  // code major version
 const char VER_MIN = 'a';                // code minor version
-const byte VER_BETA = 5;                 // code beta sub-version
+const byte VER_BETA = 6;                 // code beta sub-version
 const byte MODULE_ID = 99;               // CBUS module type
 
 // These are not being used - not installed.
@@ -227,7 +234,7 @@ void setup()
   taskManager.scheduleFixedRate(250, processSwitches);
 
   // end of setup
-  Serial << F("> ready") << endl << endl;
+  DEBUG_PRINT(F("> ready"));
 }
 
 //
@@ -259,7 +266,8 @@ void loop() {
 
 void processSwitches(void)
 {
-   for (int i = 0; i < NUM_SWITCHES; i++)
+  bool is_success = true;
+  for (int i = 0; i < NUM_SWITCHES; i++)
   {
     moduleSwitch[i].update();
     if (moduleSwitch[i].changed())
@@ -268,78 +276,50 @@ void processSwitches(void)
      byte nvval = config.readNV(nv);
      byte opCode;
 
-#if DEBUG
-     Serial << F("Switch ") << i << F(" changed") << endl; 
-#endif   
+     DEBUG_PRINT(F("> Button ") << i << F(" state change detected"));
      Serial << F (" NV = ") << nv << F(" NV Value = ") << nvval << endl;
 
      switch (nvval)
      {
       case 0:
-#if DEBUG
-        Serial << F("> Button ") << i << F(" state change detected") << endl;
-        if (moduleSwitch[i].fell()) {
-          Serial << F("> Button ") << i << F(" pressed, send 0x") << _HEX(OPC_ACON) << endl;
-        } else {
-          Serial << F("> Button ") << i << F(" released, send 0x") << _HEX(OPC_ACOF) << endl;
-        }
-#endif
-
-        opCode = (moduleSwitch[i].fell() ? OPC_ACON : OPC_ACOF);
-        sendEvent(opCode, (i + 1));
-        break;
+          opCode = (moduleSwitch[i].fell() ? OPC_ACON : OPC_ACOF);
+          DEBUG_PRINT(F("> Button ") << i
+              << (moduleSwitch[i].fell() ? F(" pressed, send 0x") : F(" released, send 0x")) << _HEX(opCode));
+          is_success = sendEvent(opCode, (i + 1));
+          break;
 
       case 1:
-#if DEBUG
-        Serial << F("> Button ") << i << F(" state change detected") << endl;
-        if (moduleSwitch[i].fell()) 
-        {
-          Serial << F("> Button ") << i << F(" pressed, send 0x") << _HEX(OPC_ACON) << endl;
-        }
-#endif
-
-        if (moduleSwitch[i].fell()) 
-        {
-          opCode = OPC_ACON;
-          sendEvent(opCode, (i + 1));
-        }
-        break;
+          if (moduleSwitch[i].fell())
+          {
+            opCode = OPC_ACON;
+            DEBUG_PRINT(F("> Button ") << i << F(" pressed, send 0x") << _HEX(OPC_ACON));
+            is_success = sendEvent(opCode, (i + 1));
+          }
+          break;
 
       case 2:
-#if DEBUG
-        Serial << F("> Button ") << i << F(" state change detected") << endl;
-        if (moduleSwitch[i].rose()) 
-        {
-          Serial << F("> Button ") << i << F(" pressed, send 0x") << _HEX(OPC_ACOF) << endl;
-        }
-#endif
 
-        if (moduleSwitch[i].rose())
-        {
-          opCode = OPC_ACOF;
-          sendEvent(opCode, (i + 1));
-        }
-        break;
+          if (moduleSwitch[i].fell())
+          {
+            opCode = OPC_ACOF;
+            DEBUG_PRINT(F("> Button ") << i << F(" pressed, send 0x") << _HEX(OPC_ACOF));
+            is_success = sendEvent(opCode, (i + 1));
+          }
+          break;
 
       case 3:
 
-        if (moduleSwitch[i].fell())
-        {
-          switchState[i] = !switchState[i];
-        }
-#if DEBUG
-        Serial << F("> Button ") << i << F(" state change detected") << endl;
-        if (switchState[i]) {
-          Serial << F("> Button ") << i << F(" pressed, send 0x") << _HEX(OPC_ACON) << endl;
-        } else {
-          Serial << F("> Button ") << i << F(" pressed, send 0x") << _HEX(OPC_ACOF) << endl;
-        }
-#endif
+          if (moduleSwitch[i].fell())
+          {
+            switchState[i] = !switchState[i];
+            opCode = (switchState[i] ? OPC_ACON : OPC_ACOF);
+            DEBUG_PRINT(F("> Button ") << i
+                << (moduleSwitch[i].fell() ? F(" pressed, send 0x") : F(" released, send 0x")) << _HEX(opCode));
+            is_success = sendEvent(opCode, (i + 1));
+          }
 
-        opCode = (switchState[i] ? OPC_ACON : OPC_ACOF);
-        sendEvent(opCode, (i + 1));
+          break;
 
-        break;
         /*
         // Send event to test display on CAN1602BUT.
       case 99:
@@ -348,13 +328,15 @@ void processSwitches(void)
 
         break; */
     default:
-#if DEBUG
-        Serial << F("> Invalid NV value ") << nvval << endl;
-#endif
+        DEBUG_PRINT(F("> Invalid NV value."));
         break;
      }
     }
   } 
+  if (!is_success) 
+  {
+    DEBUG_PRINT(F("> One of the send message events failed"));
+  }
 }
 
 // Send an event routine according to Module Switch
@@ -369,15 +351,13 @@ bool sendEvent(byte opCode, unsigned int eventNo)
   msg.data[3] = highByte(eventNo);
   msg.data[4] = lowByte(eventNo);
 
-  bool res = CBUS.sendMessage(&msg);
-#if DEBUG
-  if (res) {
-    Serial << F("> sent CBUS message with Event Number ") << eventNo << endl;
+  bool success = CBUS.sendMessage(&msg);
+  if (success) {
+    DEBUG_PRINT(F("> sent CBUS message with Event Number ") << eventNo);
   } else {
-    Serial << F("> error sending CBUS message") << endl;
+    DEBUG_PRINT(F("> error sending CBUS message"));
   }
-#endif
-  return res;
+  return success;
 }
 
 //
@@ -391,19 +371,15 @@ void eventhandler(byte index, CANFrame *msg)
   byte opc = msg->data[0];
 
   // as an example, display the opcode and the first EV of this event
-#if DEBUG
-  Serial << F("> event handler: index = ") << index << F(", opcode = 0x") << _HEX(opc) << endl;
-  byte len = msg->len;
-  Serial << F("> event handler: length = ") << len << endl;
-#endif
-  Serial << F("> EV1 = ") << config.getEventEVval(index, 1) << endl;
+  DEBUG_PRINT(F("> event handler: index = ") << index << F(", opcode = 0x") << _HEX(msg->data[0]));
+  DEBUG_PRINT(F("> event handler: length = ") << msg->len);
+  
+  //Serial << F("> EV1 = ") << config.getEventEVval(index, 1) << endl;
   unsigned int node_number = (msg->data[1] << 8 ) + msg->data[2];
   unsigned int event_number = (msg->data[3] << 8 ) + msg->data[4];
-#if DEBUG
-  Serial << F("> NN = ") << node_number << F(", EN = ") << event_number << endl;
-  Serial << F("> op_code = ") << opc << endl;
-#endif
-  
+  DEBUG_PRINT(F("> NN = ") << node_number << F(", EN = ") << event_number);
+  DEBUG_PRINT(F("> op_code = ") << opc);
+ 
   switch (opc) {
 
     case OPC_ACON:
@@ -482,6 +458,9 @@ void printConfig(void) {
 
   // copyright
   Serial << F("> © Duncan Greenwood (MERG M5767) 2019") << endl;
+  Serial << F("> © Martin Da Costa (MERG M6223) 2021") << endl;
+  Serial << F("> © John Fletcher (MERG M6777) 2021") << endl;
+  Serial << F("> © Sven Rosvall (MERG M3777) 2021") << endl;
   return;
 }
 
