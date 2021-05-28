@@ -16,6 +16,8 @@
 
  NOTE: when working with branches I usually have the files visible in VSCODE and also in the Windows Explorer. It is important to close both these things before changing branch as the views will be outofdate and editing them would be an error.
 
+ I have now modified the codes on both the branches to follow the changes in CANmINnOUT. There is no way to do this automatically.
+
  ### cbus_codes
 
  This is the first of the branches. It will have some CBUS modules, some related to the non CBUS codes in this main branch.
