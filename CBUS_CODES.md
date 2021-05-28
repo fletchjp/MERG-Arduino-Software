@@ -15,11 +15,19 @@ FCU.
 
 I have not yet set up access to GitHub on the laptop I am using for testing. That means that I have to take a copy of the code to it. At least I no longer have to worry about versions of the code as they are all available.
 
+### 28th May
+
+Sven has suggested using a DEBUG_PRINT macro instead of conditional code and has implemented it in CANmINnOUT.
+
+To be consistent I am going to do that in CAN1602BUT and CANTOTEM.
+
 ### 27th May 
 
 I have made changes to CAN1602BUT and CANTOTEM reflecting changes suggested by Sven Rosvall to CANmINnOUT.
 
 I have also corrected the error in each of the lack of a return value from sendEvent.
+
+I am also going to add send failure detection in ProcessSwitches as well.
 
 ### 26th May
 
