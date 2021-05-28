@@ -485,6 +485,9 @@ void printConfig(void)
 
   // copyright
   Serial << F("> © Martin Da Costa (MERG M6223) 2020") << endl;
+  Serial << F("> © Duncan Greenwood (MERG M5767) 2021") << endl;
+  Serial << F("> © John Fletcher (MERG M6777) 2021") << endl;
+  Serial << F("> © Sven Rosvall (MERG M3777) 2021") << endl;
 }
 
 //
