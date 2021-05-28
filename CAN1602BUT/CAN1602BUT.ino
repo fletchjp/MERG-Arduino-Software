@@ -677,7 +677,10 @@ void printConfig(void)
   Serial << F("> compiled on ") << __DATE__ << F(" at ") << __TIME__ << F(", compiler ver = ") << __cplusplus << endl;
 
   // copyright
-  Serial << F("> © Martin Da Costa (MERG M6223) 2020") << endl;
+  Serial << F("> © Duncan Greenwood (MERG M5767) 2021") << endl;
+  Serial << F("> © John Fletcher (MERG M6777) 2021") << endl;
+  Serial << F("> © Sven Rosvall (MERG M3777) 2021") << endl;
+  Serial << F("> © Martin Da Costa (MERG M6223) 2021") << endl;
 }
 
 //
