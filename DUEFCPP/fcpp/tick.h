@@ -45,8 +45,9 @@ TICK_TRAIT(is_auto_curry)
 //#include <tick/traits/is_pod.h> // For tick::is_pod
 
 // These do not get defined as part of the main headers.
+#ifndef FCPP_ARDUINO
 #define TICK_TEST_CHECK(...) if (!(__VA_ARGS__)) std::cout << "*****FAILED: " << #__VA_ARGS__ << "@" << __FILE__ << ": " << __LINE__ << std::endl
-
+#endif
 // Renamed to start with TICK_
 #define TICK_TRAIT_CHECK_SUCCESS(...) \
 static_assert(std::is_same<typename tick::detail::trait_check_impl<__VA_ARGS__>::type, tick::TRAIT_CHECK_FAILURE<>>::value, "Trait check failure")

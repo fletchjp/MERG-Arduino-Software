@@ -194,13 +194,17 @@ namespace fcpp {
         if (length(l) > 0) {
           if(rev) {
             List<ListType> ll = reverse(l);
+#ifndef FCPP_ARDUINO
   	    for (it = ll.begin(); it != ll.end(); ++it) {
   	       std::cout << it->first << " " << it->second << std::endl;
 	    }
+#endif
 	  } else {
+#ifndef FCPP_ARDUINO
  	    for (it = l.begin(); it != l.end(); ++it) {
   	       std::cout << it->first << " " << it->second << std::endl;
 	    }
+#endif
 	  }
 	}
 	return i;

@@ -30,7 +30,9 @@
 
  #include <utility>
  #include <iterator>
+ #ifndef FCPP_ARDUINO
  #include <iostream>
+ #endif
  #include "lambda.h"
 
  // FC++ version of promotion.
@@ -676,8 +678,10 @@
 
     template <class T>
     T operator()( const T& x, const T& y ) const {
+#ifdef FCPP_USE_EXCEPTIONS
       if (y == T(0))
          throw fcpp_exception("About to divide by zero");
+#endif
       return std::divides<T>()( x, y );
     }
  };

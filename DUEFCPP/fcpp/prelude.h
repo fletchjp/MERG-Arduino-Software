@@ -93,6 +93,9 @@
 // John Fletcher   December 2015 and October 2016
 //////////////////////////////////////////////////////////////////////
 
+// To remove iostream which is not supported.
+#define FCPP_ARDUINO
+
 #ifdef FCPP_USE_BOOST_VOID
 #include <boost/type_traits/is_void.hpp>
 #endif
@@ -115,9 +118,11 @@ BOOST_TTI_HAS_TEMPLATE(Sig,BOOST_PP_NIL)
 #endif
 
 // Make these includes once here and take them out everywhere else.
+#ifndef FCPP_ARDUINO
 #include "argument_traits.h"
 #ifdef FCPP_DEBUG
 #include "debug_traits.h"
+#endif
 #endif
 
 #include "list.h"
@@ -1162,8 +1167,10 @@ struct XLast {
          if (x > MAX_LIST_LENGTH)
             break;
      }
+#ifdef FCPP_USE_EXCEPTIONS
      if (x > MAX_LIST_LENGTH)
            throw fcpp_exception("Your list is too long!!");
+#endif
      return head(l);
    }
 };
@@ -1252,8 +1259,10 @@ struct XLength {
             break;
       }
      }
+#ifdef FCPP_USE_EXCEPTIONS
      if (x > MAX_LIST_LENGTH)
            throw fcpp_exception("Your list is too long!!");
+#endif
      return x;
    }
 };
@@ -1275,12 +1284,16 @@ struct XAt {
    typename L::ElementType operator()( L l, size_t n ) const {
       while( n!=0 ) {
          l = tail(l);
+#ifdef FCPP_USE_EXCEPTIONS
          if (null(l) )
            throw fcpp_exception("at(l,n) is beyond end of list");
+#endif
          --n;
       }
+#ifdef FCPP_USE_EXCEPTIONS
       if (null(l) )
            throw fcpp_exception("at(l,n) is out of range");
+#endif
       return head(l);
    }
 };
@@ -1681,8 +1694,10 @@ struct XFoldr1 {
    template <class Op, class L>
    typename L::ElementType operator()( const Op& op, const L& l ) const {
 #ifdef FCPP_DEBUG
+#ifdef FCPP_USE_EXCEPTIONS
       if( null(l) )
          throw fcpp_exception("Tried to foldr1() an empty List");
+#endif
 #endif
       return foldr( op, head(l), tail(l) );
    }
@@ -1737,8 +1752,10 @@ struct XFoldl1 {
    template <class Op, class L>
    typename L::ElementType operator()( const Op& op, const L& l ) const {
 #ifdef FCPP_DEBUG
+#ifdef FCPP_USE_EXCEPTIONS
       if( null(l) )
          throw fcpp_exception("Tried to foldl1() an empty List");
+#endif
 #endif
        return foldl( op, head(l), tail(l) );
    }
@@ -2288,6 +2305,7 @@ FCPP_MAYBE_EXTERN TakeUntil takeUntil;
 FCPP_MAYBE_NAMESPACE_CLOSE
 
 namespace impl {
+/*
 struct XDropWhile {
    template <class P, class L>
    struct Sig : public FunType<P,L,List<typename L::ElementType> > {};
@@ -2300,7 +2318,7 @@ struct XDropWhile {
       return l;
    }
 };
-
+*/
 struct XDropUntil {
    template <class P, class L>
    struct Sig : public FunType<P,L,List<typename L::ElementType> > {};
@@ -2332,10 +2350,10 @@ struct XDropWhileEqual {
 
 
 }
-typedef Full2<impl::XDropWhile> DropWhile;
+//typedef Full2<impl::XDropWhile> DropWhile;
 typedef Full2<impl::XDropUntil> DropUntil;
 FCPP_MAYBE_NAMESPACE_OPEN
-FCPP_MAYBE_EXTERN DropWhile dropWhile;
+//FCPP_MAYBE_EXTERN DropWhile dropWhile;
 FCPP_MAYBE_EXTERN DropUntil dropUntil;
 FCPP_MAYBE_NAMESPACE_CLOSE
 
@@ -2603,6 +2621,7 @@ FCPP_MAYBE_NAMESPACE_CLOSE
 //////////////////////////////////////////////////////////////////////
 
 // These next two are defined as _lazy_ versions of these operators on lists
+/*
 namespace impl {
 struct XAnd : public CFunType<List<bool>,bool> {
    bool operator()( const List<bool>& l ) const {
@@ -2626,7 +2645,7 @@ typedef Full1<impl::XOr> Or;
 FCPP_MAYBE_NAMESPACE_OPEN
 FCPP_MAYBE_EXTERN Or or_;
 FCPP_MAYBE_NAMESPACE_CLOSE
-
+*/
 //////////////////////////////////////////////////////////////////////
 // Back to HSP
 //////////////////////////////////////////////////////////////////////
@@ -3051,8 +3070,10 @@ struct XGcd {
 
    template <class T>
    T operator()( const T& x, const T& y ) const {
+#ifdef FCPP_USE_EXCEPTIONS
       if( x==0 && y==0 )
          throw fcpp_exception("Gcd error: x and y both 0");
+#endif
       return XGcdPrime()( x<0?-x:x, y<0?-y:y );
    }
 };
@@ -5645,7 +5666,9 @@ template <class T> struct New7
 // Debug traits now in a separate file.
 
 // Includes argument traits needed without FCPP_DEBUG
+#ifndef FCPP_ARDUINO
 #include "prelude_debug.h"
+#endif
 
 #include "map.h"  // New file for Map and MultiMap data structures.
 
@@ -5659,8 +5682,9 @@ template <class T> struct New7
 #ifdef FCPP_PATTERN
 #include "pattern.h"
 #endif
-//#ifdef FCPP_DEBUG
+
+#ifndef FCPP_ARDUINO
 #include "sprint.h"
-//#endif
+#endif
 
 #endif

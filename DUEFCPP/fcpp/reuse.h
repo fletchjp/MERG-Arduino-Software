@@ -35,6 +35,7 @@ FCPP_MAYBE_EXTERN AUniqueTypeForNil NIL;
 FCPP_MAYBE_NAMESPACE_CLOSE
 
    namespace traits {
+#ifndef FCPP_ARDUINO
     template <>
     class argument_traits <AUniqueTypeForNil> {
     public:
@@ -43,7 +44,7 @@ FCPP_MAYBE_NAMESPACE_CLOSE
 	return std::string("NIL");
       }
     };
-
+#endif
 
 #ifdef FCPP_DEBUG
 

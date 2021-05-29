@@ -11,7 +11,7 @@
 #ifndef FCPP_DETECT_PAIR_DOT_H
 #define FCPP_DETECT_PAIR_DOT_H
 
-#include <boost/type_traits/is_integral.hpp>
+//#include <boost/type_traits/is_integral.hpp>
 
 // detect_pair.h
 // New file to look at the problem of std::pair with C++11.
@@ -45,7 +45,8 @@ namespace fcpp {
 
 template <typename T>
 bool is_integral() {
-  return boost::is_integral<T>::value; 
+  return true; // Fix for now.//
+  //return boost::is_integral<T>::value; 
 }
 
 template <typename T>

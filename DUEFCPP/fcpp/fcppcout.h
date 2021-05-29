@@ -8,11 +8,14 @@
 
 namespace fcpp {
 
+#ifndef FCPP_ARDUINO
 template <class A, class B>
 std::ostream& operator<<( std::ostream& o, const std::pair<A,B>& p ) {
    return o << "(" << p.first << "," << p.second << ")";
 }
+#endif
 
+#ifndef FCPP_ARDUINO
 #ifndef FCPPHASLISTCOUT
 // Nondestructive output operator for a List<T>
 template <class T>
@@ -26,8 +29,10 @@ std::ostream & operator << (std::ostream &o, const List<T> &l)
   return o;
 }
 #endif
+#endif
 
 //Maybe<int> what;
+#ifndef FCPP_ARDUINO
 
 // This compiles after Maybe has been used but not before.
 template <class T>
@@ -60,6 +65,7 @@ std::ostream& operator<<( std::ostream& o, Identity<T> const &ix ) {
    return o;
 }
 
+
 #ifdef FCPP_ENABLE_LAMBDA
 // Only if monads are defined.
 template <class T>
@@ -68,7 +74,7 @@ std::ostream& operator<<( std::ostream& o, ByNeed<T> const &mx ) {
   return o;
 }
 #endif
-
+#endif
 
 } // end namespace fcpp
 

@@ -3345,7 +3345,9 @@ Curryable3<F> makeCurryable3( const F& f ) {
 
 //#ifdef FCPP_DEBUG
 // Includes argument traits needed without FCPP_DEBUG
+#ifndef FCPP_ARDUINO
 #include "curry_debug.h"
+#endif
 //#endif
 
 } // end namespace fcpp

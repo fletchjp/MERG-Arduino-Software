@@ -1579,12 +1579,13 @@ private:
       new (static_cast<void*>(&u.val)) T(x);
    }
 
+#ifdef FCPP_USE_EXCEPTIONS
    static T dummyT() { throw fcpp_exception("Used invalid fxn in ByNeedImpl"); }
    static Fun0<T> dummy() { 
       static Fun0<T> f( ptr_to_fun(&ByNeedImpl::dummyT) ); 
       return f;
    }
-
+#endif
    // No copy/assignment
    ByNeedImpl( const ByNeedImpl& );
    void operator=( const ByNeedImpl& );

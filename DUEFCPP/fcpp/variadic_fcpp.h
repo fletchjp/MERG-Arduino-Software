@@ -267,7 +267,9 @@
 */
 #define FCPP_VARIADIC
 #define TR1 std
+#ifndef FCPP_ARDUINO
 #include <iostream>
+#endif
 #include <stdexcept>
 #ifdef FCPP_VARIADIC
 #include <functional>

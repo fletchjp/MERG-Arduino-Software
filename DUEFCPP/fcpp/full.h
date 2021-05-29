@@ -1893,6 +1893,7 @@ template <class F> Full8<F> makeFull8( const F& f ) {
 
 //#ifdef FCPP_DEBUG
    namespace traits {
+#ifndef FCPP_ARDUINO
      // argument traits now defined outside FCPP_DEBUG
        template<class F>
        class argument_traits<Full0<F> >
@@ -1966,8 +1967,9 @@ template <class F> Full8<F> makeFull8( const F& f ) {
 	static std::string value(const Full8<F> &f)
 	{ std::string null; return null;}
        };
-
 #endif
+#endif
+
 
 #ifdef FCPP_DEBUG
 

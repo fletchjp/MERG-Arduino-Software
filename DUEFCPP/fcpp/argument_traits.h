@@ -29,7 +29,7 @@ namespace fcpp {
       class argument_traits {
     public:
       static std::string value(const T& t)
-      {
+      {  
          std::ostringstream o;
          o << t;
          return o.str();

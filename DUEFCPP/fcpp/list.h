@@ -19,16 +19,21 @@
 
 // Order-of-initialization debugging help
 // Note that you only might need this with the FCPP_1_3_LIST_IMPL version
+#ifndef FCPP_ARDUINO
 #ifdef FCPP_OOI_DEBUG
 #include <iostream>
 #include <typeinfo>
 #endif
+#endif
 
 #include <string>
+#ifdef FCPP_USE_EXCEPTIONS
 #include <exception>
+#endif
 #include <new>
 #include <cstdlib>
 
+#ifdef FCPP_USE_EXCEPTIONS
 // Moved here to make it available to operator.hpp
 namespace fcpp {
 struct fcpp_exception : public std::exception {
@@ -38,6 +43,7 @@ struct fcpp_exception : public std::exception {
    const char* what() const throw() { return s; }
 };
 }
+#endif
 
 #include "reuse.h"
 
@@ -91,8 +97,10 @@ class List  : public ListLike {
    }
    T priv_head() const { 
 #ifdef FCPP_DEBUG
+#ifdef FCPP_USE_EXCEPTIONS
       if( priv_isEmpty() )
          throw fcpp_exception("Tried to take head() of empty List");
+#endif
 #endif
 #ifdef FCPP_IMPLICIT_COPY_CONSTRUCTOR_SOLUTION
       //if (is_integral<T>())
@@ -106,8 +114,10 @@ class List  : public ListLike {
    }
    List<T> priv_tail() const { 
 #ifdef FCPP_DEBUG
+#ifdef FCPP_USE_EXCEPTIONS
       if( priv_isEmpty() )
          throw fcpp_exception("Tried to take tail() of empty List");
+#endif
 #endif
       return rep->cache().second; 
    }
@@ -359,8 +369,10 @@ class OddList  : public ListLike {
    bool priv_isEmpty() const { return second.rep == Cache<T>::XNIL(); }
    T priv_head() const { 
 #ifdef FCPP_DEBUG
+#ifdef FCPP_USE_EXCEPTIONS
       if( priv_isEmpty() )
          throw fcpp_exception("Tried to take head() of empty OddList");
+#endif
 #endif
 #ifdef FCPP_IMPLICIT_COPY_CONSTRUCTOR_SOLUTION
         if (fcpp::traits::pair_traits<T>::is_pair) 
@@ -371,8 +383,10 @@ class OddList  : public ListLike {
    }
    List<T> priv_tail() const { 
 #ifdef FCPP_DEBUG
+#ifdef FCPP_USE_EXCEPTIONS
       if( priv_isEmpty() )
          throw fcpp_exception("Tried to take tail() of empty OddList");
+#endif
 #endif
       return second; 
    }
@@ -524,13 +538,17 @@ class Cache {
      // struct Sig<Void,Dummy> : public FunType<ResultType> {};
 
       OddList<T> operator()() const {
+#ifdef FCPP_USE_EXCEPTIONS
          throw fcpp_exception("You have entered a black hole.");
+#endif
       }
    };
 #else
    struct blackhole_helper : CFunType< OddList<T> > {
       OddList<T> operator()() const {
+#ifdef FCPP_USE_EXCEPTIONS
          throw fcpp_exception("You have entered a black hole.");
+#endif
       }
    };
 #endif
@@ -1590,6 +1608,8 @@ List<T>
 } // namespace fcpp
 
 // Includes argument traits needed without FCPP_DEBUG
+#ifndef FCPP_ARDUINO
 #include "list_debug.h"
+#endif
 
 #endif
