@@ -28,6 +28,10 @@ I have also corrected the lack of a return value from sendEvent.
 
 I have also changer to use DEBUG_PRINT and added failure detection to processSwitches.
 
+### DUEFCPP
+
+This is an experimental code to look at getting FC++ working with the DUE. This is heavily modified to get rid of all use of <iostream> which is not supported. This means that all debug and traits output has been disabled.
+
 ### CBUSSAM3X8E
 
 This is Duncan Greenwood's library for the CBUS communication. It is not under the control of this GitHub.
