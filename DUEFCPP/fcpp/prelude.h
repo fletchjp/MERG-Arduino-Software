@@ -2305,7 +2305,7 @@ FCPP_MAYBE_EXTERN TakeUntil takeUntil;
 FCPP_MAYBE_NAMESPACE_CLOSE
 
 namespace impl {
-/*
+
 struct XDropWhile {
    template <class P, class L>
    struct Sig : public FunType<P,L,List<typename L::ElementType> > {};
@@ -2318,7 +2318,7 @@ struct XDropWhile {
       return l;
    }
 };
-*/
+
 struct XDropUntil {
    template <class P, class L>
    struct Sig : public FunType<P,L,List<typename L::ElementType> > {};
@@ -2350,10 +2350,10 @@ struct XDropWhileEqual {
 
 
 }
-//typedef Full2<impl::XDropWhile> DropWhile;
+typedef Full2<impl::XDropWhile> DropWhile;
 typedef Full2<impl::XDropUntil> DropUntil;
 FCPP_MAYBE_NAMESPACE_OPEN
-//FCPP_MAYBE_EXTERN DropWhile dropWhile;
+FCPP_MAYBE_EXTERN DropWhile dropWhile;
 FCPP_MAYBE_EXTERN DropUntil dropUntil;
 FCPP_MAYBE_NAMESPACE_CLOSE
 
@@ -2633,11 +2633,13 @@ typedef Full1<impl::XAnd> And;
 FCPP_MAYBE_NAMESPACE_OPEN
 FCPP_MAYBE_EXTERN And and_;
 FCPP_MAYBE_NAMESPACE_CLOSE
+*/
 
+/*
 namespace impl {
 struct XOr : public CFunType<List<bool>,bool> {
    bool operator()( const List<bool>& l ) const {
-      return !null(dropWhile( equal(false), l ));
+      return !null(dropWhile()( equal(false), l ));
    }
 };
 }
