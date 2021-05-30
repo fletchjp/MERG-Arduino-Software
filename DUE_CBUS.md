@@ -30,7 +30,11 @@ I have also changer to use DEBUG_PRINT and added failure detection to processSwi
 
 ### DUEFCPP
 
-This is an experimental code to look at getting FC++ working with the DUE. This is heavily modified to get rid of all use of <iostream> which is not supported. This means that all debug and traits output has been disabled.
+This is an experimental code to look at getting FC++ working with the DUE. This is heavily modified to get rid of all use of <iostream> which is not supported. This means that all debug and traits output has been disabled. The code has a copy of the fcpp files.
+
+### DUEMONAD
+
+This is another experiment with FC++ using the Monad approach. It has its own copy of the fcpp files and some have been changed compared to the ones in DUEFCPP
 
 ### CBUSSAM3X8E
 
