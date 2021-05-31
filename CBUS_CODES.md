@@ -15,6 +15,10 @@ FCU.
 
 I have not yet set up access to GitHub on the laptop I am using for testing. That means that I have to take a copy of the code to it. At least I no longer have to worry about versions of the code as they are all available.
 
+### 31st May
+
+I have put into CANTOTEM and example code where one task sends a message to another task.
+
 ### 28th May
 
 Sven has suggested using a DEBUG_PRINT macro instead of conditional code and has implemented it in CANmINnOUT.
@@ -107,4 +111,4 @@ I am now using this version for testing against CAN1602BUT. I have added some ne
 
 I have also added code to eventhandler to see the node number and event number of incoming events.
 
-
+I have also added code to raise a message in a task from another task. This is not yet tested.
