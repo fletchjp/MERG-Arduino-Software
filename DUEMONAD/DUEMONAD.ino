@@ -32,6 +32,8 @@ int h(int x, int y)
 // The type had to be specified before C++11.
 auto pg = ptr_to_fun(&g);
 
+// Failure example adapted to return Maybe<int>.
+// Note that these are not used directly, instead using ptr_to_fun to make an object for FC++.
 Maybe<int> mf(int x) {
   if (x >= 0) return just(x);
   else return NOTHING;
