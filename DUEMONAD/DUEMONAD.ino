@@ -28,6 +28,10 @@ int h(int x, int y)
   return f(x) + g(y);
 }
 
+// Note use of auto to avoid having to sort out the type.
+// The type had to be specified before C++11.
+auto pg = ptr_to_fun(&g);
+
 Maybe<int> mf(int x) {
   if (x >= 0) return just(x);
   else return NOTHING;
@@ -45,6 +49,9 @@ Maybe<int> mh(int x, int y)
   return just(mf(x).value() + mg(y).value());
 }
 
+auto pmf = ptr_to_fun(&mf);
+auto pmg = ptr_to_fun(&mg);
+auto pmh = ptr_to_fun(&mh);
 
 void setup() {
   // put your setup code here, to run once:
@@ -86,7 +93,7 @@ void setup() {
   } else {
      Serial << "mhr has " << mhr.value() << endl;
   }
-  Maybe<int> mgr = liftM<MaybeM>()(ptr_to_fun(&g))(mf(2));
+  Maybe<int> mgr = liftM<MaybeM>()(pg)(mf(2));
   if (mgr.is_nothing()) { 
      Serial << "mgr is nothing" << endl;
   } else {
@@ -100,15 +107,15 @@ void setup() {
   }
   mhr = lambda()[ compM<MaybeM>()[ Z | Z <= just[2] ] ]();
   mhr = lambda(X)[ compM<MaybeM>()[ Z | Z <= just[X] ] ](2);
-  mhr = lambda(X)[ compM<MaybeM>()[ Z | Z <= ptr_to_fun(&mf)[X] ] ](2);
-  mhr = lambda(X)[ compM<MaybeM>()[ Z | Y <= ptr_to_fun(&mf)[X], W <=  ptr_to_fun(&mg)[Y], Z <=  ptr_to_fun(&mh)[Y,W] ] ](2);
+  mhr = lambda(X)[ compM<MaybeM>()[ Z | Z <= pmf[X] ] ](2);
+  mhr = lambda(X)[ compM<MaybeM>()[ Z | Y <= pmf[X], W <=  pmg[Y], Z <=  pmh[Y,W] ] ](2);
   if (mhr.is_nothing()) { 
      Serial << "mhr is nothing" << endl;
   } else {
      Serial << "mhr has " << mhr.value() << endl;
   }
   // Failure case
-  mhr = lambda(X)[ compM<MaybeM>()[ Z | Y <= ptr_to_fun(&mf)[X], W <=  ptr_to_fun(&mg)[Y], Z <=  ptr_to_fun(&mh)[Y,W] ] ](-2);
+  mhr = lambda(X)[ compM<MaybeM>()[ Z | Y <= pmf[X], W <=  pmg[Y], Z <=  pmh[Y,W] ] ](-2);
   if (mhr.is_nothing()) { 
      Serial << "mhr is nothing" << endl;
   } else {
