@@ -108,6 +108,7 @@ void setup() {
      Serial << "mz has " << mz.value() << endl;
   }
   mhr = lambda()[ compM<MaybeM>()[ Z | Z <= just[2] ] ]();
+  // Putting (X) makes it a parameter.
   mhr = lambda(X)[ compM<MaybeM>()[ Z | Z <= just[X] ] ](2);
   mhr = lambda(X)[ compM<MaybeM>()[ Z | Z <= pmf[X] ] ](2);
   mhr = lambda(X)[ compM<MaybeM>()[ Z | Y <= pmf[X], W <=  pmg[Y], Z <=  pmh[Y,W] ] ](2);
