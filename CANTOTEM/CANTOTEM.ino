@@ -10,6 +10,8 @@
 // Version 1b beta 6 Correct lack of return value from sendEvent.
 // Version 1b beta 7 Use DEBUG_PRINT and process send fail in processSwitches.
 ///////////////////////////////////////////////////////////////////////////////////
+// Version 1c beta 1 Explore triggering an event from within a task.
+///////////////////////////////////////////////////////////////////////////////////
 // This is to run on the TOTEM Minilab with a CAN interface.
 // working from
 // TOTEMmINnOUT
@@ -125,8 +127,8 @@ byte opcodes[] = {OPC_ACON, OPC_ACOF, OPC_ARON, OPC_AROF, OPC_ASON, OPC_ASOF, OP
 
 // constants
 const byte VER_MAJ = 1;         // code major version
-const char VER_MIN = 'b';       // code minor version
-const byte VER_BETA = 7;        // code beta sub-version
+const char VER_MIN = 'c';       // code minor version
+const byte VER_BETA = 1;        // code beta sub-version
 const byte MODULE_ID = 99;      // CBUS module type
 
 const unsigned long CAN_OSC_FREQ = 8000000;     // Oscillator frequency on the CAN2515 board
@@ -241,6 +243,54 @@ void setupModule()
   } 
 }
 
+/**
+ * An event that extends BaseEvent allows for event driven programming, either notified by polling, interrupt or
+ * another thread. There are two important methods that you need to implement, timeOfNextCheck that allows for polling
+ * events, where you do the check in that method and trigger the event calling setTriggered(). Alternatively, like
+ * this event, another thread or interrupt can trigger the event, in which case you call markTriggeredAndNotify() which
+ * wakes up task manager. When the event is triggered, is exec() method will be called.
+ */
+
+class NewEvent : public BaseEvent {
+private:
+    volatile int newValue;
+    const int desiredValue;
+    static const uint32_t NEXT_CHECK_INTERVAL = 60UL * 1000000UL; // 60 seconds away, maximum is about 1 hour.
+public:
+    NewEvent(int desired) : desiredValue(desired) {
+        newValue = 0;
+    }
+
+    /**
+     * Here we tell task manager when we wish to be checked upon again, to see if we should execute. In polling events
+     * we'd do our check here, and mark it as triggered if our condition was met, here instead we just tell task manager
+     * not to call us for 60 seconds at a go
+     * @return the time to the next check
+     */
+    uint32_t timeOfNextCheck() override {
+        // simulate rolling the dice
+        newValue = (rand() % 7);
+
+        if(newValue == desiredValue) {
+            markTriggeredAndNotify();
+        }
+
+        return 250UL * 1000UL; // every 100 milliseconds we roll the dice
+    }
+
+    /**
+     * This is called when the event is triggered. We just log something here
+     */
+    void exec() override {
+        Serial.print("New value matched with ");
+        Serial.println(newValue);
+    }
+
+    /**
+     * We should always provide a destructor.
+     */
+    ~NewEvent() override = default;
+} newEvent(3);
 
 void setup()
 {
@@ -253,11 +303,11 @@ void setup()
   // Schedule tasks to run every 250 milliseconds.
   taskManager.scheduleFixedRate(250, runLEDs);
   taskManager.scheduleFixedRate(250, processSwitches);
+  taskManager.registerEvent(&newEvent);
 
   // end of setup
   DEBUG_PRINT(F("> ready") << endl);
 }
-
 
 void loop()
 {
@@ -346,6 +396,8 @@ void processSwitches(void)
   if (!is_success) 
   {
     DEBUG_PRINT(F("> One of the send message events failed"));
+    // This is how to trigger something in the newEvent.
+    newEvent.markTriggeredAndNotify();
   }
 }
 
