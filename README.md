@@ -30,6 +30,8 @@
 
  I now have a module CANDUE which is now working.
 
+ This branch is now developing and I have a second DUE because there is some interesting possibilities to develop functional software using FC++. This will not work on the AVRs (ordinary Arduinos) as the library support is different.
+
  ## Logos
 
  Exploring the use of logos of different sizes.
