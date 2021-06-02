@@ -60,7 +60,85 @@
 
 ///////////////////////////////////////////////////////////////////////////////////
 // Pin Use map DUE:
-// This needs to be built.
+// Note that the pin layout is similar to an Arduino MEGA.
+// There are a lot of other uses defined on a full pinout diagram.
+/*
+ Digital pin 0 RX0            
+ Digital pin 1 TX0
+ Digital pin 2 (PWM)               
+ Digital pin 3 (PWM)
+ Digital pin 4 (PWM)
+ Digital pin 5 (PWM)
+ Digital pin 6 (PWM)
+ Digital pin 7 (PWM)
+ 
+ Digital pin 8 (PWM)
+ Digital pin 9 (PWM)
+ Digital pin 10 (PWM)
+ Digital pin 11 (PWM)
+ Digital pin 12 (PWM)
+ Digital pin 13 (PWM)
+ 
+ Digital pin 14 (TX3)
+ Digital pin 15 (RX3)
+ Digital pin 16 (TX2)
+ Digital pin 17 (RX2)
+ Digital pin 18 (TX1)
+ Digital pin 19 (RX1)
+ Digital pin 20 (SDA)
+ Digital pin 21 (SCL)
+ 
+ Digital pin 22
+ Digital pin 23
+ Digital pin 24
+ Digital pin 25
+ Digital pin 26
+ Digital pin 27
+ Digital pin 28
+ Digital pin 29
+ Digital pin 30
+ Digital pin 31
+ Digital pin 32
+ Digital pin 33
+ Digital pin 34 (PWM 34 - 45)
+ Digital pin 35 |
+ Digital pin 36 |
+ Digital pin 37 |
+ Digital pin 38 |
+ Digital pin 39 |
+ Digital pin 40 |
+ Digital pin 41 |
+ Digital pin 42 |
+ Digital pin 43 |
+ Digital pin 44 |
+ Digital pin 45 (PWM)
+ Digital pin 46 
+ Digital pin 47 
+ Digital pin 48 
+ Digital pin 49
+ Digital pin 50
+ Digital pin 51
+ Digital pin 52
+ Digital pin 53
+ 
+ Digital pin 54 / Analog pin 0
+ Digital pin 55 / Analog pin 1
+ Digital pin 56 / Analog pin 2
+ Digital pin 57 / Analog pin 3
+ Digital pin 58 / Analog pin 4
+ Digital pin 59 / Analog pin 5
+ Digital pin 60 / Analog pin 6
+ Digital pin 61 / Analog pin 7
+ Digital pin 62 / Analog pin 8
+ Digital pin 63 / Analog pin 9
+ Digital pin 64 / Analog pin 10
+ Digital pin 65 / Analog pin 11
+ Digital pin 66 / DAC0
+ Digital pin 67 / DAC1
+ Digital pin 68 / CANRX
+ Digital pin 69 / CANTX
+*/
+
 /////////////////////////////////////////////////////////////////////////////////// 
 
 #define DEBUG 1       // set to 0 for no serial debug
