@@ -111,4 +111,4 @@ I am now using this version for testing against CAN1602BUT. I have added some ne
 
 I have also added code to eventhandler to see the node number and event number of incoming events.
 
-I have also added code to raise a message in a task from another task. This is not yet tested.
+I have also added code to raise a message in a task from another task. This is not yet tested. It is now modified and raises a criticalEvent withing the TaskManagerIO structure. This could be used to send CBUS events.
