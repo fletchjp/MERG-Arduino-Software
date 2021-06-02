@@ -10,7 +10,8 @@
 // Version 1b beta 6 Correct lack of return value from sendEvent.
 // Version 1b beta 7 Use DEBUG_PRINT and process send fail in processSwitches.
 ///////////////////////////////////////////////////////////////////////////////////
-// Version 1c beta 1 Explore triggering an event from within a task.
+// Version 1c beta 1 Explore triggering a TaskManagerIO event from within a task.
+// Version 1c beta 2 Convert event to criticalEvent and get rid of previous code.
 ///////////////////////////////////////////////////////////////////////////////////
 // This is to run on the TOTEM Minilab with a CAN interface.
 // working from
@@ -128,7 +129,7 @@ byte opcodes[] = {OPC_ACON, OPC_ACOF, OPC_ARON, OPC_AROF, OPC_ASON, OPC_ASOF, OP
 // constants
 const byte VER_MAJ = 1;         // code major version
 const char VER_MIN = 'c';       // code minor version
-const byte VER_BETA = 1;        // code beta sub-version
+const byte VER_BETA = 2;        // code beta sub-version
 const byte MODULE_ID = 99;      // CBUS module type
 
 const unsigned long CAN_OSC_FREQ = 8000000;     // Oscillator frequency on the CAN2515 board
@@ -251,14 +252,18 @@ void setupModule()
  * wakes up task manager. When the event is triggered, is exec() method will be called.
  */
 
-class NewEvent : public BaseEvent {
+// It is somewhat confusing that this event class is not a CBUS event - it is an event within the TaskManagerIO framework.
+// The idea is that this code can respond when something out of course happens in the other tasks which are running.
+class CriticalEvent : public BaseEvent {
 private:
-    volatile int newValue;
-    const int desiredValue;
-    static const uint32_t NEXT_CHECK_INTERVAL = 60UL * 1000000UL; // 60 seconds away, maximum is about 1 hour.
+    volatile byte eventValue; // Made public to the code
+    volatile bool called;
+    //const int desiredValue;
+    static const uint32_t NEXT_CHECK_INTERVAL = 600UL * 1000000UL; // 10 * 60 seconds away, maximum is about 1 hour.
 public:
-    NewEvent(int desired) : desiredValue(desired) {
-        newValue = 0;
+    CriticalEvent() {
+        eventValue = 0;
+        called = false;
     }
 
     /**
@@ -268,29 +273,26 @@ public:
      * @return the time to the next check
      */
     uint32_t timeOfNextCheck() override {
-        // simulate rolling the dice
-        newValue = (rand() % 7);
-
-        if(newValue == desiredValue) {
-            markTriggeredAndNotify();
-        }
-
-        return 250UL * 1000UL; // every 100 milliseconds we roll the dice
+        // Nothing to do here.
+        return 250UL * 1000UL;
     }
 
     /**
      * This is called when the event is triggered. We just log something here
      */
     void exec() override {
-        Serial.print("New value matched with ");
-        Serial.println(newValue);
+        called = true;
+        Serial.print("Critical event ");
+        Serial.println(eventValue);
+        // This could be extended to send a CBUS event to somewhere else.
     }
 
+    void setEvent(byte event) { eventValue = event; }
     /**
      * We should always provide a destructor.
      */
-    ~NewEvent() override = default;
-} newEvent(3);
+    ~CriticalEvent() override = default;
+} criticalEvent;
 
 void setup()
 {
@@ -303,7 +305,7 @@ void setup()
   // Schedule tasks to run every 250 milliseconds.
   taskManager.scheduleFixedRate(250, runLEDs);
   taskManager.scheduleFixedRate(250, processSwitches);
-  taskManager.registerEvent(&newEvent);
+  taskManager.registerEvent(&criticalEvent);
 
   // end of setup
   DEBUG_PRINT(F("> ready") << endl);
@@ -396,8 +398,9 @@ void processSwitches(void)
   if (!is_success) 
   {
     DEBUG_PRINT(F("> One of the send message events failed"));
-    // This is how to trigger something in the newEvent.
-    newEvent.markTriggeredAndNotify();
+    // This is how to trigger something in the criticalEvent.
+    criticalEvent.setEvent(testEvent);
+    criticalEvent.markTriggeredAndNotify();
   }
 }
 
