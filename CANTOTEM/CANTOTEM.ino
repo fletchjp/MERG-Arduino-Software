@@ -285,6 +285,8 @@ public:
         Serial.print("Critical event ");
         Serial.println(eventValue);
         // This could be extended to send a CBUS event to somewhere else.
+        byte opCode = OPC_ACON;
+        sendEvent(opCode,testEvent);
     }
 
     void setEvent(byte event) { eventValue = event; }
@@ -399,7 +401,7 @@ void processSwitches(void)
   {
     DEBUG_PRINT(F("> One of the send message events failed"));
     // This is how to trigger something in the criticalEvent.
-    criticalEvent.setEvent(testEvent);
+    criticalEvent.setEvent(testEvent); // Choose here which event code to send.
     criticalEvent.markTriggeredAndNotify();
   }
 }
