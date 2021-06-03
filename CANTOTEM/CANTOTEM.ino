@@ -291,7 +291,7 @@ public:
         Serial.println(eventValue);
         // This sends a CBUS event to somewhere else.
         // Check that opCode has been set.
-        if (opCode != 0) sendEvent(opCode,testEvent);
+        if (opCode != 0) sendEvent(opCode,eventValue);
     }
 
     // This needs to be called by the code generating the critical event before triggering.
