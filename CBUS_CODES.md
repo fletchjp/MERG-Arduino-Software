@@ -17,7 +17,7 @@ I have not yet set up access to GitHub on the laptop I am using for testing. Tha
 
 ### 3rd June 
 
-Testing of CANTOTEM 1c beta 3 with criticalEvent code.
+Testing of CANTOTEM 1c beta 3 with criticalEvent code. A first test has been successful. Now I need to update the code in CAN1602BUT to display the correct message.
 
 ### 31st May
 
