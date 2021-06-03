@@ -15,6 +15,10 @@ FCU.
 
 I have not yet set up access to GitHub on the laptop I am using for testing. That means that I have to take a copy of the code to it. At least I no longer have to worry about versions of the code as they are all available.
 
+### 3rd June 
+
+Testing of CANTOTEM 1c beta 3 with criticalEvent code.
+
 ### 31st May
 
 I have put into CANTOTEM and example code where one task sends a message to another task.
@@ -112,3 +116,5 @@ I am now using this version for testing against CAN1602BUT. I have added some ne
 I have also added code to eventhandler to see the node number and event number of incoming events.
 
 I have also added code to raise a message in a task from another task. This is not yet tested. It is now modified and raises a criticalEvent withing the TaskManagerIO structure. This is now used to send CBUS events.
+
+1c beta 3. I have extended the criticalEvent code and now set this up for testing.
