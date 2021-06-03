@@ -262,7 +262,6 @@ private:
     volatile byte eventValue;
     volatile byte opCode;
     volatile bool called;
-    //const int desiredValue;
     static const uint32_t NEXT_CHECK_INTERVAL = 600UL * 1000000UL; // 10 * 60 seconds away, maximum is about 1 hour.
 public:
     CriticalEvent() {
@@ -282,16 +281,20 @@ public:
     }
 
     /**
-     * This is called when the event is triggered. We just log something here
+     * This is called when the event is triggered.
+     * This code checks that an opcode and event no have been supplied using setEvent which must be called first.
+     * This means that this code is needed to set off an event.
+     *   criticalEvent.setEvent(opCode,testEvent);
+     *   criticalEvent.markTriggeredAndNotify();
      */
     void exec() override {
+        // Check that an opCode has been set.
         if (called) {
           Serial.print("Critical event ");
           Serial.print(opCode);
           Serial.print(" ");
           Serial.println(eventValue);
         // This sends a CBUS event to somewhere else.
-        // Check that an opCode has been set.
           sendEvent(opCode,eventValue);
           called = false; // reset so that values must be sent again
         } else {
