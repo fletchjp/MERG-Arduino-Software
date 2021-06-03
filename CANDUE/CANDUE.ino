@@ -62,6 +62,8 @@
 // Pin Use map DUE:
 // Note that the pin layout is similar to an Arduino MEGA.
 // There are a lot of other uses defined on a full pinout diagram.
+// Pins used by the CAN attachment are documented.
+// A lot more pins are inaccessible when it is in place.
 /*
  Digital pin 0 RX0            
  Digital pin 1 TX0
