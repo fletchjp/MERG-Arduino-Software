@@ -12,6 +12,7 @@
 ///////////////////////////////////////////////////////////////////////////////////
 // Version 1c beta 1 Explore triggering a TaskManagerIO event from within a task.
 // Version 1c beta 2 Convert event to criticalEvent and get rid of previous code.
+// Version 1c beta 3 Expand criticalEvent processing to include an opcode.
 ///////////////////////////////////////////////////////////////////////////////////
 // This is to run on the TOTEM Minilab with a CAN interface.
 // working from
@@ -129,7 +130,7 @@ byte opcodes[] = {OPC_ACON, OPC_ACOF, OPC_ARON, OPC_AROF, OPC_ASON, OPC_ASOF, OP
 // constants
 const byte VER_MAJ = 1;         // code major version
 const char VER_MIN = 'c';       // code minor version
-const byte VER_BETA = 2;        // code beta sub-version
+const byte VER_BETA = 3;        // code beta sub-version
 const byte MODULE_ID = 99;      // CBUS module type
 
 const unsigned long CAN_OSC_FREQ = 8000000;     // Oscillator frequency on the CAN2515 board
@@ -169,6 +170,7 @@ enum eventNos {
   errorEvent,
   dataEvent,
   requestEvent,
+  sendFailureEvent,
   invalidEvent
 };
 
@@ -256,13 +258,14 @@ void setupModule()
 // The idea is that this code can respond when something out of course happens in the other tasks which are running.
 class CriticalEvent : public BaseEvent {
 private:
-    volatile byte eventValue; // Made public to the code
+    volatile byte eventValue;
+    volatile byte opCode;
     volatile bool called;
     //const int desiredValue;
     static const uint32_t NEXT_CHECK_INTERVAL = 600UL * 1000000UL; // 10 * 60 seconds away, maximum is about 1 hour.
 public:
     CriticalEvent() {
-        eventValue = 0;
+        eventValue = 0; opCode = 0; eventValue = 0;
         called = false;
     }
 
@@ -283,13 +286,17 @@ public:
     void exec() override {
         called = true;
         Serial.print("Critical event ");
+        Serial.print(opCode);
+        Serial.print(" ");
         Serial.println(eventValue);
-        // This could be extended to send a CBUS event to somewhere else.
-        byte opCode = OPC_ACON;
-        sendEvent(opCode,testEvent);
+        // This sends a CBUS event to somewhere else.
+        // Check that opCode has been set.
+        if (opCode != 0) sendEvent(opCode,testEvent);
     }
 
-    void setEvent(byte event) { eventValue = event; }
+    // This needs to be called by the code generating the critical event before triggering.
+    void setEvent(byte opcode,byte event) { eventValue = event; opCode = opcode; }
+    
     /**
      * We should always provide a destructor.
      */
@@ -352,6 +359,10 @@ void processSwitches(void)
         DEBUG_PRINT(F("> Button ") << i
             << (moduleSwitch[i].fell() ? F(" pressed, send 0x") : F(" released, send 0x")) << _HEX(opCode));
         is_success = sendEvent(opCode, (i + 1));
+        // Temporary test code to trigger event.
+        criticalEvent.setEvent(opCode,testEvent);
+        // This is how to trigger something in the criticalEvent.
+        criticalEvent.markTriggeredAndNotify();
 
         break;
 
@@ -400,8 +411,9 @@ void processSwitches(void)
   if (!is_success) 
   {
     DEBUG_PRINT(F("> One of the send message events failed"));
+    // Choose here which opcode and event code to send
+    criticalEvent.setEvent(OPC_ACON,sendFailureEvent);
     // This is how to trigger something in the criticalEvent.
-    criticalEvent.setEvent(testEvent); // Choose here which event code to send.
     criticalEvent.markTriggeredAndNotify();
   }
 }
