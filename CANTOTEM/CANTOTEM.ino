@@ -165,7 +165,7 @@ CBUSConfig config;                  // configuration object
 // enum base changed to avoid other events.
 // These are ideas at the moment.
 enum eventNos {
-  noEvent = 100,  // not used
+  nonEvent = 100,  // not used
   testEvent,
   emergencyEvent,
   sendFailureEvent, // was errorEvent
