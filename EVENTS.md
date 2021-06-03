@@ -2,6 +2,12 @@
 
 Back to [README](README.md).
 
+## June 2021
+
+I am testing some new ideas for critical event sending in CANTOTEM for possible use in CANmINnOUT.
+
+I have been developing some new coding ideas for the DUE which unfortunately will not work on ordinary Arduinos.
+
 ## May 2021
 
 ### 8th May
