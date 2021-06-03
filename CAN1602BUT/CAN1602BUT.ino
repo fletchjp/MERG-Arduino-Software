@@ -11,6 +11,7 @@
 // Version 1.0b beta6 Add Sven's modifications to CANmINmOUT event code.
 // Version 1.0b beta7 Correct lack of return value from sendEvent.
 // Version 1.0b beta8 Use DEBUG_PRINT and process send fail in processSwitches.
+// Version 1.0b beta9 Change event no of incoming error.
 ////////////////////////////////////////////////////////////////////////////////////
 // CANTOTEM
 // Modification to start to use IoAbstraction and TaskManagerIO
@@ -152,7 +153,7 @@ unsigned char mname[7] = { '1', '6', '0', '2', 'B', 'U', 'T' };
 // constants
 const byte VER_MAJ = 1;         // code major version
 const char VER_MIN = 'b';       // code minor version
-const byte VER_BETA = 8;        // code beta sub-version
+const byte VER_BETA = 9;        // code beta sub-version
 const byte MODULE_ID = 99;      // CBUS module type
 
 const unsigned long CAN_OSC_FREQ = 8000000;     // Oscillator frequency on the CAN2515 board
@@ -227,15 +228,16 @@ enum eventTypes {
 // blank_string is used to cancel an error message.
 const char blank_string[]   PROGMEM  = "                ";
 const char error_string_0[] PROGMEM  = "no error";
-const char error_string_1[] PROGMEM  = "Emergency Stop";
-const char error_string_2[] PROGMEM  = "CANbus error";
-const char error_string_3[] PROGMEM  = "invalid error";
+const char error_string_1[] PROGMEM  = "Test message";
+const char error_string_2[] PROGMEM  = "Emergency Stop";
+const char error_string_3[] PROGMEM  = "CANbus error";
+const char error_string_4[] PROGMEM  = "invalid error";
 
 const char* const error_string_table[] PROGMEM = {
-  blank_string, error_string_0, error_string_1, error_string_2, error_string_3
+  blank_string, error_string_0, error_string_1, error_string_2, error_string_3, error_string_4
 };
 
-#define MAX_ERROR_NO 4
+#define MAX_ERROR_NO 5
 
 // Buffer for string output.
 // This has been made safe for line termination.
