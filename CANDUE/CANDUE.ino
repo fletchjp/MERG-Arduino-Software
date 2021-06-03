@@ -79,17 +79,17 @@
  Digital pin 12 (PWM)
  Digital pin 13 (PWM)
  
- Digital pin 14 (TX3)
- Digital pin 15 (RX3)
+ Digital pin 14 (TX3) | CAN attachment
+ Digital pin 15 (RX3) | CAN attachment
  Digital pin 16 (TX2)
  Digital pin 17 (RX2)
  Digital pin 18 (TX1)
  Digital pin 19 (RX1)
- Digital pin 20 (SDA)
- Digital pin 21 (SCL)
+ Digital pin 20 (SDA) | CAN attachment
+ Digital pin 21 (SCL) | CAN attachment
  
- Digital pin 22
- Digital pin 23
+ Digital pin 22 | CAN attachment
+ Digital pin 23 | CAN attachment
  Digital pin 24
  Digital pin 25
  Digital pin 26
@@ -118,8 +118,8 @@
  Digital pin 49
  Digital pin 50
  Digital pin 51
- Digital pin 52
- Digital pin 53
+ Digital pin 52 | CAN attachment
+ Digital pin 53 | CAN attachment
  
  Digital pin 54 / Analog pin 0
  Digital pin 55 / Analog pin 1
@@ -129,14 +129,15 @@
  Digital pin 59 / Analog pin 5
  Digital pin 60 / Analog pin 6
  Digital pin 61 / Analog pin 7
- Digital pin 62 / Analog pin 8
- Digital pin 63 / Analog pin 9
- Digital pin 64 / Analog pin 10
- Digital pin 65 / Analog pin 11
- Digital pin 66 / DAC0
- Digital pin 67 / DAC1
- Digital pin 68 / CANRX
- Digital pin 69 / CANTX
+ 
+ Digital pin 62 / Analog pin 8  | These pins are all
+ Digital pin 63 / Analog pin 9  | used by the CAN attachment.
+ Digital pin 64 / Analog pin 10 |
+ Digital pin 65 / Analog pin 11 |
+ Digital pin 66 / DAC0          |
+ Digital pin 67 / DAC1          |
+ Digital pin 68 / CANRX         |
+ Digital pin 69 / CANTX         |
 */
 
 /////////////////////////////////////////////////////////////////////////////////// 
