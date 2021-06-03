@@ -12,6 +12,7 @@
 // Version 1.0b beta7 Correct lack of return value from sendEvent.
 // Version 1.0b beta8 Use DEBUG_PRINT and process send fail in processSwitches.
 // Version 1.0b beta9 Change event no of incoming error.
+// Version 1.0b beta10 Changes to code processing the incoming error.
 ////////////////////////////////////////////////////////////////////////////////////
 // CANTOTEM
 // Modification to start to use IoAbstraction and TaskManagerIO
@@ -153,7 +154,7 @@ unsigned char mname[7] = { '1', '6', '0', '2', 'B', 'U', 'T' };
 // constants
 const byte VER_MAJ = 1;         // code major version
 const char VER_MIN = 'b';       // code minor version
-const byte VER_BETA = 9;        // code beta sub-version
+const byte VER_BETA = 10;        // code beta sub-version
 const byte MODULE_ID = 99;      // CBUS module type
 
 const unsigned long CAN_OSC_FREQ = 8000000;     // Oscillator frequency on the CAN2515 board
@@ -217,7 +218,7 @@ enum eventTypes {
   nonEvent = 100,  // not used
   testEvent,
   emergencyEvent,
-  errorEvent,
+  sendFailureEvent,
   dataEvent,
   requestEvent,
   invalidEvent
@@ -570,13 +571,13 @@ void eventhandler(byte index, CANFrame *msg)
   DEBUG_PRINT(F("> op_code = ") << opc);
 
    // Experimental code to display a message index on the event_number.
-   if (event_number == 1) { //This is what worked and I need to sort out why.
+   if (event_number > nonEvent) {
      switch (opc) {
 
       case OPC_ACON:
       case OPC_ASON:
      
-      displayError(noError,0,0);
+      displayError(event_number-nonEvent,0,0);
       break;
 
       case OPC_ACOF:
