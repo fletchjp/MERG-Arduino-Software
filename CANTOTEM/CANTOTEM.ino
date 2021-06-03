@@ -13,6 +13,7 @@
 // Version 1c beta 1 Explore triggering a TaskManagerIO event from within a task.
 // Version 1c beta 2 Convert event to criticalEvent and get rid of previous code.
 // Version 1c beta 3 Expand criticalEvent processing to include an opcode.
+// Version 1c beta 4 Expand criticalEvent processing to check that an opcode is available.
 ///////////////////////////////////////////////////////////////////////////////////
 // This is to run on the TOTEM Minilab with a CAN interface.
 // working from
@@ -130,7 +131,7 @@ byte opcodes[] = {OPC_ACON, OPC_ACOF, OPC_ARON, OPC_AROF, OPC_ASON, OPC_ASOF, OP
 // constants
 const byte VER_MAJ = 1;         // code major version
 const char VER_MIN = 'c';       // code minor version
-const byte VER_BETA = 3;        // code beta sub-version
+const byte VER_BETA = 4;        // code beta sub-version
 const byte MODULE_ID = 99;      // CBUS module type
 
 const unsigned long CAN_OSC_FREQ = 8000000;     // Oscillator frequency on the CAN2515 board
@@ -167,10 +168,9 @@ enum eventNos {
   noEvent = 100,  // not used
   testEvent,
   emergencyEvent,
-  errorEvent,
+  sendFailureEvent, // was errorEvent
   dataEvent,
   requestEvent,
-  sendFailureEvent,
   invalidEvent
 };
 
@@ -256,6 +256,7 @@ void setupModule()
 
 // It is somewhat confusing that this event class is not a CBUS event - it is an event within the TaskManagerIO framework.
 // The idea is that this code can respond when something out of course happens in the other tasks which are running.
+// It is possible to have more than one instance of this class.
 class CriticalEvent : public BaseEvent {
 private:
     volatile byte eventValue;
@@ -284,18 +285,25 @@ public:
      * This is called when the event is triggered. We just log something here
      */
     void exec() override {
-        called = true;
-        Serial.print("Critical event ");
-        Serial.print(opCode);
-        Serial.print(" ");
-        Serial.println(eventValue);
+        if (called) {
+          Serial.print("Critical event ");
+          Serial.print(opCode);
+          Serial.print(" ");
+          Serial.println(eventValue);
         // This sends a CBUS event to somewhere else.
-        // Check that opCode has been set.
-        if (opCode != 0) sendEvent(opCode,eventValue);
+        // Check that an opCode has been set.
+          sendEvent(opCode,eventValue);
+          called = false; // reset so that values must be sent again
+        } else {
+          Serial.println("Critical event called without data");
+        }
     }
 
     // This needs to be called by the code generating the critical event before triggering.
-    void setEvent(byte opcode,byte event) { eventValue = event; opCode = opcode; }
+    void setEvent(byte opcode,byte event) {
+      called = true;  // Set here to force setting of values
+      eventValue = event; opCode = opcode; 
+    }
     
     /**
      * We should always provide a destructor.
