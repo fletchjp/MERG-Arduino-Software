@@ -14,6 +14,7 @@
 // Version 1c beta 2 Convert event to criticalEvent and get rid of previous code.
 // Version 1c beta 3 Expand criticalEvent processing to include an opcode.
 // Version 1c beta 4 Expand criticalEvent processing to check that an opcode is available.
+// Version 1c beta 5 Make processSerialInput a task.
 ///////////////////////////////////////////////////////////////////////////////////
 // This is to run on the TOTEM Minilab with a CAN interface.
 // working from
@@ -131,7 +132,7 @@ byte opcodes[] = {OPC_ACON, OPC_ACOF, OPC_ARON, OPC_AROF, OPC_ASON, OPC_ASOF, OP
 // constants
 const byte VER_MAJ = 1;         // code major version
 const char VER_MIN = 'c';       // code minor version
-const byte VER_BETA = 4;        // code beta sub-version
+const byte VER_BETA = 5;        // code beta sub-version
 const byte MODULE_ID = 99;      // CBUS module type
 
 const unsigned long CAN_OSC_FREQ = 8000000;     // Oscillator frequency on the CAN2515 board
@@ -325,6 +326,7 @@ void setup()
   // Schedule tasks to run every 250 milliseconds.
   taskManager.scheduleFixedRate(250, runLEDs);
   taskManager.scheduleFixedRate(250, processSwitches);
+  taskManager.scheduleFixedRate(250, processSerialInput);
   taskManager.registerEvent(&criticalEvent);
 
   // end of setup
@@ -336,8 +338,8 @@ void loop()
   // do CBUS message, switch and LED processing
   CBUS.process();
 
-  // process console commands
-  processSerialInput();
+  // process console commands is now a task.
+  // processSerialInput();
 
   // Run IO_Abstraction tasks.
   // This replaces actions taken here in the previous version.
