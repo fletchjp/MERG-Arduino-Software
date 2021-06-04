@@ -118,3 +118,5 @@ I have also added code to eventhandler to see the node number and event number o
 I have also added code to raise a message in a task from another task. This is not yet tested. It is now modified and raises a criticalEvent withing the TaskManagerIO structure. This is now used to send CBUS events.
 
 1c beta 3. I have extended the criticalEvent code and now set this up for testing.
+
+1c beta 5 Make processSerialInput a task (suggested by Sven Rosvall).
