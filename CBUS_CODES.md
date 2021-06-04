@@ -89,6 +89,8 @@ I have started to add code from CANTEXT to process an incoming message to the di
 
 I have now done some tests of this against CANTOTEM.
 
+1b beta 11 Make processSerialInput a task (suggested by Sven Rosvall).
+
 ### Another Idea (yet to be named)
 
 I am also developing a version where the display is connected using an I2C backpack for all the connections except the A0 and reset.
