@@ -8,6 +8,8 @@ This is a development from the CBUS Codes branch for work with the Arduino DUE.
 
 I am now starting to test the code. I have some queries which I have sent to Duncan Greenwood.
 
+I now have a second DUE which for the moment has no CAN interface. I am using this for testing non CBUS code as the units lose CBUS configuration when software is reloaded.
+
 ## Codes
 
 ### CANDUE
@@ -47,6 +49,11 @@ I have made a small change to correct the error code test as it was falsely repo
 ### CBUS_empty_SAM3X8E_v1
 
 This is Duncan Greenwood's first example. At the moment the code assumes that there will be a button and LEDs for the Slim/Flim change.
+
+### uCOS-II
+
+This is a task scheduling library which I have installed which will run on the DUE. It is more advanced than the ones I am using on the Arduino. I have only a simple led_blink example at the moment which I have run.
+
 
 ## CBUS Codes
 
