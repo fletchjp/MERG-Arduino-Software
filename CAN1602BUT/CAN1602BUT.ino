@@ -13,6 +13,7 @@
 // Version 1.0b beta8 Use DEBUG_PRINT and process send fail in processSwitches.
 // Version 1.0b beta9 Change event no of incoming error.
 // Version 1.0b beta10 Changes to code processing the incoming error.
+// Version 1.0b beta11 Make processSerialInput a task.
 ////////////////////////////////////////////////////////////////////////////////////
 // CANTOTEM
 // Modification to start to use IoAbstraction and TaskManagerIO
@@ -154,7 +155,7 @@ unsigned char mname[7] = { '1', '6', '0', '2', 'B', 'U', 'T' };
 // constants
 const byte VER_MAJ = 1;         // code major version
 const char VER_MIN = 'b';       // code minor version
-const byte VER_BETA = 10;        // code beta sub-version
+const byte VER_BETA = 11;        // code beta sub-version
 const byte MODULE_ID = 99;      // CBUS module type
 
 const unsigned long CAN_OSC_FREQ = 8000000;     // Oscillator frequency on the CAN2515 board
@@ -419,6 +420,7 @@ void setup()
   taskManager.scheduleFixedRate(250, runLEDs);
   taskManager.scheduleFixedRate(250, processSwitches);
   taskManager.scheduleFixedRate(250, checkA0);
+  taskManager.scheduleFixedRate(250, processSerialInput);
   taskManager.scheduleFixedRate(250, processButtons);
 
   // end of setup
@@ -433,8 +435,8 @@ void loop()
   // do CBUS message, switch and LED processing
   CBUS.process();
 
-  // process console commands
-  processSerialInput();
+  // process console commands is now a task.
+  // processSerialInput();
 
   // Run IO_Abstraction tasks.
   // This replaces actions taken here in the previous version.
