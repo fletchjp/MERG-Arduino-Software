@@ -74,6 +74,7 @@ void explore_bindm()
    //
     List<int> lq = bind(ll,tail);
     List<int> lid = bind(ll,id);
+    //List<int> lid2 = bind_(l,id);
     List<int> linc = bind(ll,fcpp::map(inc));
     Serial << "---------------------" << endl;
     Serial << "l = list_with(1,2,3) : ";
@@ -103,6 +104,12 @@ void explore_bindm()
     }
     Serial << endl;
     Serial << "---------------------" << endl;
+    //Serial << "bind_(ll,id) : "; // << endl;
+    //for (i = lid2.begin(); i != lid2.end(); ++i) {
+    //  Serial << *i << " ";
+    //}
+    //Serial << endl;
+    //Serial << "---------------------" << endl;
     Serial << "bind(ll,map(inc)) : "; // << endl;
     for (i = linc.begin(); i != linc.end(); ++i) {
       Serial << *i << " ";
@@ -130,6 +137,29 @@ void explore_bindm()
     }
     Serial << endl;
     Serial << "---------------------" << endl;
+    Serial << "Here is an example of bindM_ in action." << endl;
+    Serial << "It takes the head of the list and discards it." << endl;
+    Serial << "F is then applied to the second item in the list." << endl;
+    Serial << "---------------------" << endl;
+    Serial<< "l : [ "; // << endl;
+    for (i = l.begin(); i != l.end(); ++i) {
+      Serial << *i << " ";
+    }
+    Serial << "]" << endl;
+    Serial << "lambda(X,F)[bindM_<IdentityM>()[head[X], F] [head[tail[X]]] ](l,inc) = ";
+    int res = lambda(X,F)[bindM_<IdentityM>()[head[X], F] [head[tail[X]]] ](l,inc);
+    Serial << res << endl;
+    Serial << "---------------------" << endl;
+    Serial << "lres = lambda(X,F)[bindM_<IdentityM>()[head[X], map[F] ] [tail[X]] ](l,inc);" << endl;
+    List<int> lres = lambda(X,F)[bindM_<IdentityM>()[head[X], fcpp::map[F] ] [tail[X]] ](l,inc);
+    Serial<< "lres : [ "; // << endl;
+    for (i = lres.begin(); i != lres.end(); ++i) {
+      Serial << *i << " ";
+    }
+    Serial << "]" << endl;
+    Serial << "---------------------" << endl;
+    bind_(2,id);
+
 
 }
 
