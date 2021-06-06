@@ -117,22 +117,29 @@ void explore_bindm()
     Serial << endl;
     Serial << "---------------------" << endl;
     List<int> lr = joinM<ListM>()(ll);
-    Serial << "joinM<ListM>(ll) : "; // << endl;
+    Serial << "joinM<ListM>()(ll) : "; // << endl;
     for (i = lr.begin(); i != lr.end(); ++i) {
       Serial << *i << " ";
     }
     Serial << endl;
     Serial << "---------------------" << endl;
     List<int> ls = bindM<ListM>()(ll,id);
-    Serial << "bindM<ListM>(ll,id) : "; // << endl;
+    Serial << "bindM<ListM>()(ll,id) : "; // << endl;
     for (i = ls.begin(); i != ls.end(); ++i) {
        Serial << *i << " ";
     }
     Serial << endl;
     Serial << "---------------------" << endl;
     List<int> lt = bindM<ListM>()(ll,fcpp::map(inc));
-    Serial << "bindM<ListM>(ll,map(inc)) : "; // << endl;
+    Serial << "bindM<ListM>()(ll,map(inc)) : "; // << endl;
     for (i = lt.begin(); i != lt.end(); ++i) {
+       Serial << *i << " ";
+    }
+    Serial << endl;
+    Serial << "---------------------" << endl;
+    List<int> lu = ListM::bind()(ll,fcpp::map(inc));
+    Serial << "ListM::bind()(ll,map(inc)) : "; // << endl;
+    for (i = lu.begin(); i != lu.end(); ++i) {
        Serial << *i << " ";
     }
     Serial << endl;
@@ -158,7 +165,17 @@ void explore_bindm()
     }
     Serial << "]" << endl;
     Serial << "---------------------" << endl;
-    bind_(2,id);
+    //IdentityM::bind_()(head(l),fcpp::map(inc));
+    // I cannot do the above because I need the list at two places (as X in the line below.
+    Serial << "List<int> lv = lambda(X,F)[bindM_<IdentityM>()[head[X], F] [tail[X]] ](l,fcpp::map(inc));" << endl;
+    List<int> lv = lambda(X,F)[bindM_<IdentityM>()[head[X], F] [tail[X]] ](l,fcpp::map(inc));
+    Serial<< "lv : [ "; // << endl;
+    for (i = lv.begin(); i != lv.end(); ++i) {
+      Serial << *i << " ";
+    }
+    Serial << "]" << endl;
+    //bind_(2,id);
+    Serial << "---------------------" << endl;
 
 
 }
