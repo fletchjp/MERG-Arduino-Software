@@ -1,6 +1,8 @@
 // DUEMONAD
 // Demo of FC++ Maybe Monad operations
 // This will work on ARDUINO DUE but not on AVR boards.
+// 5 parameter functoids for example working without Function 6, 7 and 8 for now.
+#define FCPP152
 #define FCPP_ENABLE_LAMBDA
 #include "fcpp/prelude.h"
 
@@ -54,6 +56,35 @@ Maybe<int> mh(int x, int y)
 auto pmf = ptr_to_fun(&mf);
 auto pmg = ptr_to_fun(&mg);
 auto pmh = ptr_to_fun(&mh);
+
+// Code from bindm_tests.cpp
+void explore_bindm()
+{
+   LambdaVar<1> X;
+   LambdaVar<2> Y;
+   LambdaVar<3> Z;
+   LambdaVar<4> W;
+   LambdaVar<5> A;
+   LambdaVar<6> P;
+   LambdaVar<7> F;
+   List<int> l = list_with(1,2,3);
+   List<int>::iterator i;
+   List<int> l2 = list_with(2,3,4);
+   List<List<int> > ll = list_with(l,l2);
+   //
+    List<int> lq = bind(ll,tail);
+    Serial << "List<List<int> > ll = list_with(l,l2);" << endl;
+    Serial << "This takes the tail of both lists and concatenates the result."
+         << endl;
+    Serial << "---------------------" << endl;
+    Serial << "bind(ll,tail) : "; // << endl;
+    for (i = lq.begin(); i != lq.end(); ++i) {
+      Serial << *i << " ";
+    }
+    Serial << endl;
+    Serial << "---------------------" << endl;
+  
+}
 
 void setup() {
   // put your setup code here, to run once:
