@@ -73,6 +73,20 @@ void explore_bindm()
    List<List<int> > ll = list_with(l,l2);
    //
     List<int> lq = bind(ll,tail);
+    List<int> lid = bind(ll,id);
+    List<int> linc = bind(ll,fcpp::map(inc));
+    Serial << "---------------------" << endl;
+    Serial << "l = list_with(1,2,3) : ";
+    for (i = l.begin(); i != l.end(); ++i) {
+      Serial << *i << " ";
+    }
+    Serial << endl;
+    Serial << "l2 = list_with(2,3,4) : ";
+    for (i = l2.begin(); i != l2.end(); ++i) {
+      Serial << *i << " ";
+    }
+    Serial << endl;
+    Serial << "---------------------" << endl;
     Serial << "List<List<int> > ll = list_with(l,l2);" << endl;
     Serial << "This takes the tail of both lists and concatenates the result."
          << endl;
@@ -83,14 +97,47 @@ void explore_bindm()
     }
     Serial << endl;
     Serial << "---------------------" << endl;
-  
+    Serial << "bind(ll,id) : "; // << endl;
+    for (i = lid.begin(); i != lid.end(); ++i) {
+      Serial << *i << " ";
+    }
+    Serial << endl;
+    Serial << "---------------------" << endl;
+    Serial << "bind(ll,map(inc)) : "; // << endl;
+    for (i = linc.begin(); i != linc.end(); ++i) {
+      Serial << *i << " ";
+    }
+    Serial << endl;
+    Serial << "---------------------" << endl;
+    List<int> lr = joinM<ListM>()(ll);
+    Serial << "joinM<ListM>(ll) : "; // << endl;
+    for (i = lr.begin(); i != lr.end(); ++i) {
+      Serial << *i << " ";
+    }
+    Serial << endl;
+    Serial << "---------------------" << endl;
+    List<int> ls = bindM<ListM>()(ll,id);
+    Serial << "bindM<ListM>(ll,id) : "; // << endl;
+    for (i = ls.begin(); i != ls.end(); ++i) {
+       Serial << *i << " ";
+    }
+    Serial << endl;
+    Serial << "---------------------" << endl;
+    List<int> lt = bindM<ListM>()(ll,fcpp::map(inc));
+    Serial << "bindM<ListM>(ll,map(inc)) : "; // << endl;
+    for (i = lt.begin(); i != lt.end(); ++i) {
+       Serial << *i << " ";
+    }
+    Serial << endl;
+    Serial << "---------------------" << endl;
+
 }
 
 void setup() {
   // put your setup code here, to run once:
   Serial.begin (115200);
   Serial << endl << endl << F("> DUEFCPP ** ") << __FILE__ << endl;
-  Serial << "Some simple FC++ operations" << endl;
+  Serial << "Some simple FC++ Monad operations" << endl;
   Serial << "plus(1,2) = " << plus(1,2) << endl;
   Serial << "plus(1.5,2.3) = " << plus(1.5,2.3) << endl;
   Serial << "plus(1)(2) = " << plus(1)(2) << endl;
@@ -183,7 +230,7 @@ void setup() {
 
   Serial << "Length of odds is " << length(odds) << endl;
   Serial << "sum of the odds is " << sum_odds << endl;
-
+  explore_bindm();
 }
 
 void loop() {
