@@ -67,6 +67,8 @@ void explore_bindm()
    LambdaVar<5> A;
    LambdaVar<6> P;
    LambdaVar<7> F;
+   LambdaVar<8> G;
+   LambdaVar<9> H;
    List<int> l = list_with(1,2,3);
    List<int>::iterator i;
    List<int> l2 = list_with(2,3,4);
@@ -167,6 +169,8 @@ void explore_bindm()
     Serial << "---------------------" << endl;
     //IdentityM::bind_()(head(l),fcpp::map(inc));
     // I cannot do the above because I need the list at two places (as X in the line below.
+    Serial << "These examples all do the same thing with different arrangements of lambda arguments." << endl; 
+    Serial << "---------------------" << endl;
     Serial << "List<int> lv = lambda(X,F)[bindM_<IdentityM>()[head[X], F] [tail[X]] ](l,fcpp::map(inc));" << endl;
     List<int> lv = lambda(X,F)[bindM_<IdentityM>()[head[X], F] [tail[X]] ](l,fcpp::map(inc));
     Serial<< "lv : [ "; // << endl;
@@ -174,7 +178,22 @@ void explore_bindm()
       Serial << *i << " ";
     }
     Serial << "]" << endl;
-    //bind_(2,id);
+    Serial << "---------------------" << endl;
+    Serial << "List<int> lw = lambda(X,F,G)[bindM_<IdentityM>()[F[X], G] [tail[X]] ](l,head,fcpp::map(inc));" << endl;
+    List<int> lw = lambda(X,F,G)[bindM_<IdentityM>()[F[X], G] [tail[X]] ](l,head,fcpp::map(inc));
+    Serial<< "lw : [ "; // << endl;
+    for (i = lw.begin(); i != lw.end(); ++i) {
+      Serial << *i << " ";
+    }
+    Serial << "]" << endl;
+    Serial << "---------------------" << endl;
+    Serial << "List<int> lx = lambda(X,F,G,H)[bindM_<IdentityM>()[F[X], H] [G[X]] ](l,head,tail,fcpp::map(inc));" << endl;
+    List<int> lx = lambda(X,F,G,H)[bindM_<IdentityM>()[F[X], H] [G[X]] ](l,head,tail,fcpp::map(inc));
+    Serial<< "lx : [ "; // << endl;
+    for (i = lx.begin(); i != lx.end(); ++i) {
+      Serial << *i << " ";
+    }
+    Serial << "]" << endl;
     Serial << "---------------------" << endl;
 
 
