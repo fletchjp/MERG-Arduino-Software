@@ -235,7 +235,7 @@ void explore_bindm()
     }
     Maybe<int> mj3 = join( just (just (2) ) );
     Either<int> ej = (joinM<EitherM>())( right (right (2) ) );
-    //Either<int> ej2 = join ( right (right (2) ) ); 
+    Either<int> ej2 = join ( right (right (2) ) ); 
 }
 
 void setup() {
