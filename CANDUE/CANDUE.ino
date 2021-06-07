@@ -7,6 +7,7 @@
 //                   and eventhandler code for LEDs which was missing.
 // Version 1a beta 5 Add missing return value from sendEvent
 // Version 1a beta 6 Change to use DEBUG_PRINT and add failure message from processSwitches
+// Version 1a beta 7 Change processSerialInput into a task
 /////////////////////////////////////////////////////////////////////////////
 // My working name for changes to the example from Duncan.
 // Note that the library DueFlashStorage is accessed from CBUSconfig
@@ -174,7 +175,7 @@
 // constants
 const byte VER_MAJ = 1;                  // code major version
 const char VER_MIN = 'a';                // code minor version
-const byte VER_BETA = 6;                 // code beta sub-version
+const byte VER_BETA = 7;                 // code beta sub-version
 const byte MODULE_ID = 99;               // CBUS module type
 
 // These are not being used - not installed.
@@ -313,6 +314,7 @@ void setup()
   // Schedule tasks to run every 250 milliseconds.
   taskManager.scheduleFixedRate(250, runLEDs);
   taskManager.scheduleFixedRate(250, processSwitches);
+  taskManager.scheduleFixedRate(250, processSerialInput);
 
   // end of setup
   DEBUG_PRINT(F("> ready"));
@@ -331,10 +333,9 @@ void loop() {
   CBUS.process();
 
   //
-  /// process console commands
+  /// process console commands is now a task
   //
-
-  processSerialInput();
+  //  processSerialInput();
 
   // Run IO_Abstraction tasks.
   // This replaces actions taken here in the previous version.
