@@ -220,7 +220,22 @@ void explore_bindm()
     //lambda(X,F,G,H )[ bindM_<ListM>()[F[X], H] [ G [X] ] ](ll, head, tail,fcpp::map(inc) );
 
     //bindM<MaybeM>()(ll,id); fails as expected
-
+    Maybe<int> mj = joinM<MaybeM>()( just (just (2) ) );
+    Serial << "joinM<MaybeM>()( just (just (2) ) ) : ";
+    if (mj.is_nothing()) { 
+      Serial << "nothing" << endl;
+    } else {
+      Serial << mj.value() << endl;
+    }
+    Maybe<int> mj2 = MaybeM::join()( just (just (2) ) );
+    if (mj2.is_nothing()) { 
+      Serial << "nothing" << endl;
+    } else {
+      Serial << mj2.value() << endl;
+    }
+    Maybe<int> mj3 = join( just (just (2) ) );
+    Either<int> ej = (joinM<EitherM>())( right (right (2) ) );
+    //Either<int> ej2 = join ( right (right (2) ) ); 
 }
 
 void setup() {
