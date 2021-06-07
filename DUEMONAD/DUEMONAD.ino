@@ -74,9 +74,29 @@ void explore_bindm()
    List<int> l2 = list_with(2,3,4);
    List<List<int> > ll = list_with(l,l2);
    //
+    Serial << "---------------------" << endl;
+    Serial << "bind on List<int> " << endl;
+    Serial << "---------------------" << endl;    
+    List<int> lb = bindM<IdentityM>()(l,id);
+    Serial << "List<int> lb = bindM<IdentityM>()(l,id);" << endl;
+    Serial << "lb =  : ";
+    for (i = lb.begin(); i != lb.end(); ++i) {
+      Serial << *i << " ";
+    }
+    Serial << endl;
+    Serial << "---------------------" << endl;    
+    List<int> lc = bindM<IdentityM>()(l,fcpp::map(inc));
+    Serial << "List<int> lc = bindM<IdentityM>()(l,map(inc));" << endl;
+    Serial << "lc =  : ";
+    for (i = lc.begin(); i != lc.end(); ++i) {
+      Serial << *i << " ";
+    }
+    Serial << endl;
+    Serial << "---------------------" << endl;
+    Serial << "bind on List<List<int> > " << endl;
+    Serial << "---------------------" << endl;    
     List<int> lq = bind(ll,tail);
     List<int> lid = bind(ll,id);
-    //List<int> lid2 = bind_(l,id);
     List<int> linc = bind(ll,fcpp::map(inc));
     Serial << "---------------------" << endl;
     Serial << "l = list_with(1,2,3) : ";
