@@ -73,6 +73,8 @@ void explore_bindm()
    List<int>::iterator i;
    List<int> l2 = list_with(2,3,4);
    List<List<int> > ll = list_with(l,l2);
+   List<List<List<int> > > lll = list_with(ll,ll);
+   bind(lll,id);
    //
     Serial << "---------------------" << endl;
     Serial << "bind on List<int> " << endl;
