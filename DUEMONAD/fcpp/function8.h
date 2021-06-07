@@ -331,7 +331,9 @@ Fun8<typename Octavary::template Sig<AnyType,AnyType,AnyType,AnyType,AnyType,Any
      typename Octavary::template Sig<AnyType,AnyType,AnyType,AnyType,AnyType,AnyType,AnyType,AnyType>::Arg8Type,
      typename Octavary::template Sig<AnyType,AnyType,AnyType,AnyType,AnyType,AnyType,AnyType,AnyType>::ResultType>
 makeFun8( const Octavary& g ) {
+#ifdef FCPP_DEBUG
 	std::cout << "Used old style makeFun8" << std::endl;
+#endif
    return
    Fun8<typename Octavary::template Sig<AnyType,AnyType,AnyType,AnyType,AnyType,AnyType,AnyType,AnyType>::Arg1Type,
         typename Octavary::template Sig<AnyType,AnyType,AnyType,AnyType,AnyType,AnyType,AnyType,AnyType>::Arg2Type,

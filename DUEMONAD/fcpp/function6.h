@@ -344,7 +344,9 @@ Fun6<typename Sextinary::template Sig<AnyType,AnyType,AnyType,AnyType,AnyType,An
      typename Sextinary::template Sig<AnyType,AnyType,AnyType,AnyType,AnyType,AnyType>::Arg6Type,
      typename Sextinary::template Sig<AnyType,AnyType,AnyType,AnyType,AnyType,AnyType>::ResultType> 
 makeFun6( const Sextinary& g ) {
+#ifdef FCPP_DEBUG
 	std::cout << "Used old style makeFun6" << std::endl;
+#endif
    return 
    Fun6<typename Sextinary::template Sig<AnyType,AnyType,AnyType,AnyType,AnyType,AnyType>::Arg1Type,
         typename Sextinary::template Sig<AnyType,AnyType,AnyType,AnyType,AnyType,AnyType>::Arg2Type,

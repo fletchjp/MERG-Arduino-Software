@@ -360,7 +360,9 @@ Fun7<typename Septimary::template Sig<AnyType,AnyType,AnyType,AnyType,AnyType,An
      typename Septimary::template Sig<AnyType,AnyType,AnyType,AnyType,AnyType,AnyType,AnyType>::Arg7Type,
      typename Septimary::template Sig<AnyType,AnyType,AnyType,AnyType,AnyType,AnyType,AnyType>::ResultType>
 makeFun7( const Septimary& g ) {
+#ifdef FCPP_DEBUG
 	std::cout << "Used old style makeFun7" << std::endl;
+#endif
    return
    Fun7<typename Septimary::template Sig<AnyType,AnyType,AnyType,AnyType,AnyType,AnyType,AnyType>::Arg1Type,
         typename Septimary::template Sig<AnyType,AnyType,AnyType,AnyType,AnyType,AnyType,AnyType>::Arg2Type,
