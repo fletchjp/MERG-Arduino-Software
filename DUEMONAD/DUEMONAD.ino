@@ -219,6 +219,8 @@ void explore_bindm()
     Serial << "---------------------" << endl;
     //lambda(X,F,G,H )[ bindM_<ListM>()[F[X], H] [ G [X] ] ](ll, head, tail,fcpp::map(inc) );
 
+    //bindM<MaybeM>()(ll,id); fails as expected
+
 }
 
 void setup() {
