@@ -11,9 +11,11 @@
 
 using namespace fcpp;
 
-//template <class T> - templated version does not compile.
+//- templated version does not compile.
 // It seems to regard T as an undeclared class.
-Print &operator << ( Print &obj, const  Maybe<int> &arg)
+// I think the problem is that there is already a generic templated operator<< in Streaming.
+// template <typename T>
+Print &operator <<( Print &obj, const Maybe<int> &arg)
 {
     if (arg.is_nothing()) { 
        obj.print("nothing");
@@ -21,7 +23,18 @@ Print &operator << ( Print &obj, const  Maybe<int> &arg)
        obj.print(arg.value());
     }
     return obj; 
- }
+}
+
+Print &operator <<( Print &obj, const Either<int> &arg)
+{
+    if (arg.is_error()) { 
+       obj.print(arg.left());
+    } else {
+       obj.print(arg.right());
+    }
+    return obj; 
+}
+
 
 // This does compile.
 template <class T>
@@ -240,12 +253,22 @@ void explore_bindm()
     Serial << "joinM<MaybeM>()( just (just (2) ) ) : ";
     // This is using the operator<< which I have defined.
     Serial << mj << endl;
+    Serial << "MaybeM::join()( just (just (2) ) ) : ";
     Maybe<int> mj2 = MaybeM::join()( just (just (2) ) );
     Serial << mj2 << endl;
+    Serial << "join( just (just (2) ) ) : ";
     Maybe<int> mj3 = join( just (just (2) ) );
     Serial << mj3 << endl;
-    Either<int> ej = (joinM<EitherM>())( right (right (2) ) );
-    Either<int> ej2 = join ( right (right (2) ) ); 
+    Serial << "joinM<EitherM>() ( right (right (2) ) ) : "; 
+    Either<int> ej = joinM<EitherM>()( right (right (2) ) );
+    Serial << ej << endl;
+    Serial << "EitherM::join()( right (right (2) ) ) : "; 
+    Either<int> ej2 = EitherM::join() ( right (right (2) ) ); 
+    Serial << ej2 << endl;
+    Serial << "join ( right (right (2) ) ) : "; 
+    Either<int> ej3 = join ( right (right (2) ) ); 
+    Serial << ej3 << endl;
+    Serial << "---------------------" << endl;
 }
 
 void setup() {
