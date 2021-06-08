@@ -1,7 +1,8 @@
 // DUEMONAD
 // Demo of FC++ Maybe Monad operations
 // This will work on ARDUINO DUE but not on AVR boards.
-// 5 parameter functoids for example working without Function 6, 7 and 8 for now.
+// 5 parameter functoids and more for example working.
+// Function 6, 7 and 8 now operational.
 #define FCPP152
 #define FCPP_ENABLE_LAMBDA
 #include "fcpp/prelude.h"
