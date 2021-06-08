@@ -9,8 +9,23 @@
 
 #include <Streaming.h>
 
-
 using namespace fcpp;
+
+//template <class T> - templated version does not compile.
+// It seems to regard T as an undeclared class.
+Print &operator << ( Print &obj, const  Maybe<int> &arg)
+{
+    if (arg.is_nothing()) { 
+       obj.print("nothing");
+    } else {
+       obj.print(arg.value());
+    }
+    return obj; 
+ }
+
+// This does compile.
+template <class T>
+T what(const Maybe<T> &mt) { return mt.value(); }
 
 // Failure example from https://people.cs.umass.edu/~yannis/fc++/fcpp-lambda.pdf
 
@@ -223,18 +238,12 @@ void explore_bindm()
     //bindM<MaybeM>()(ll,id); fails as expected
     Maybe<int> mj = joinM<MaybeM>()( just (just (2) ) );
     Serial << "joinM<MaybeM>()( just (just (2) ) ) : ";
-    if (mj.is_nothing()) { 
-      Serial << "nothing" << endl;
-    } else {
-      Serial << mj.value() << endl;
-    }
+    // This is using the operator<< which I have defined.
+    Serial << mj << endl;
     Maybe<int> mj2 = MaybeM::join()( just (just (2) ) );
-    if (mj2.is_nothing()) { 
-      Serial << "nothing" << endl;
-    } else {
-      Serial << mj2.value() << endl;
-    }
+    Serial << mj2 << endl;
     Maybe<int> mj3 = join( just (just (2) ) );
+    Serial << mj3 << endl;
     Either<int> ej = (joinM<EitherM>())( right (right (2) ) );
     Either<int> ej2 = join ( right (right (2) ) ); 
 }
