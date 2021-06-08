@@ -249,6 +249,7 @@ void explore_bindm()
     //lambda(X,F,G,H )[ bindM_<ListM>()[F[X], H] [ G [X] ] ](ll, head, tail,fcpp::map(inc) );
 
     //bindM<MaybeM>()(ll,id); fails as expected
+    // Exploring use of join with MaybeM and EitherM monads and associated values. 
     Maybe<int> mj = joinM<MaybeM>()( just (just (2) ) );
     Serial << "joinM<MaybeM>()( just (just (2) ) ) : ";
     // This is using the operator<< which I have defined.
