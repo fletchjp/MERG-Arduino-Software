@@ -91,8 +91,10 @@ class List  : public ListLike {
    }
    T priv_head() const { 
 #ifdef FCPP_DEBUG
+#ifndef FCPP_ARDUINO
       if( priv_isEmpty() )
          throw fcpp_exception("Tried to take head() of empty List");
+#endif
 #endif
 #ifdef FCPP_IMPLICIT_COPY_CONSTRUCTOR_SOLUTION
       //if (is_integral<T>())
@@ -106,8 +108,10 @@ class List  : public ListLike {
    }
    List<T> priv_tail() const { 
 #ifdef FCPP_DEBUG
+#ifndef FCPP_ARDUINO
       if( priv_isEmpty() )
          throw fcpp_exception("Tried to take tail() of empty List");
+#endif
 #endif
       return rep->cache().second; 
    }
