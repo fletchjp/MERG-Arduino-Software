@@ -1579,7 +1579,11 @@ private:
       new (static_cast<void*>(&u.val)) T(x);
    }
 
-   static T dummyT() { throw fcpp_exception("Used invalid fxn in ByNeedImpl"); }
+   static T dummyT() { 
+#ifndef FCPP_ARDUINO
+      throw fcpp_exception("Used invalid fxn in ByNeedImpl");
+#endif
+    }
    static Fun0<T> dummy() { 
       static Fun0<T> f( ptr_to_fun(&ByNeedImpl::dummyT) ); 
       return f;

@@ -676,8 +676,10 @@
 
     template <class T>
     T operator()( const T& x, const T& y ) const {
+#ifndef FCPP_ARDUINO
       if (y == T(0))
          throw fcpp_exception("About to divide by zero");
+#endif
       return std::divides<T>()( x, y );
     }
  };

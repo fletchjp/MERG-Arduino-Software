@@ -1167,7 +1167,11 @@ struct XLast {
             break;
      }
      if (x > MAX_LIST_LENGTH)
-           throw fcpp_exception("Your list is too long!!");
+#ifndef FCPP_ARDUINO
+          throw fcpp_exception("Your list is too long!!");
+#else
+	      cout << "*** Your list is too long!! ***" << endl;
+#endif
      return head(l);
    }
 };
@@ -1257,7 +1261,11 @@ struct XLength {
       }
      }
      if (x > MAX_LIST_LENGTH)
-           throw fcpp_exception("Your list is too long!!");
+#ifndef FCPP_ARDUINO
+          throw fcpp_exception("Your list is too long!!");
+#else
+	      cout << "*** Your list is too long!! ***" << endl; 
+#endif
      return x;
    }
 };

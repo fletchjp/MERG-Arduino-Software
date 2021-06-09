@@ -30,6 +30,7 @@
 #include <cstdlib>
 
 // Moved here to make it available to operator.hpp
+#ifndef FCPP_ARDUINO
 namespace fcpp {
 struct fcpp_exception : public std::exception {
    const char* s;
@@ -38,6 +39,7 @@ struct fcpp_exception : public std::exception {
    const char* what() const throw() { return s; }
 };
 }
+#endif
 
 #include "reuse.h"
 
@@ -363,8 +365,10 @@ class OddList  : public ListLike {
    bool priv_isEmpty() const { return second.rep == Cache<T>::XNIL(); }
    T priv_head() const { 
 #ifdef FCPP_DEBUG
+#ifndef FCPP_ARDUINO
       if( priv_isEmpty() )
          throw fcpp_exception("Tried to take head() of empty OddList");
+#endif
 #endif
 #ifdef FCPP_IMPLICIT_COPY_CONSTRUCTOR_SOLUTION
         if (fcpp::traits::pair_traits<T>::is_pair) 
@@ -375,8 +379,10 @@ class OddList  : public ListLike {
    }
    List<T> priv_tail() const { 
 #ifdef FCPP_DEBUG
+#ifndef FCPP_ARDUINO
       if( priv_isEmpty() )
          throw fcpp_exception("Tried to take tail() of empty OddList");
+#endif
 #endif
       return second; 
    }

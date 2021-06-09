@@ -1875,10 +1875,10 @@ template <class Monad> struct LiftT3
   // I have defined functions called return_ for each type which do the
   // correct analysis. For each type it returns a wrapped value of the
   // correct type for a valid value. For an invalid value it throws
-  // an fcpp_exception with an approptiate message.
+  // an fcpp_exception with an appropriate message.
   //
   // So it does [a] -> [head(a)] for List<T> which is not
-  // useful although it does work. If the list is NUL it throws.
+  // useful although it does work. If the list is NULL it throws.
   //
   // For Stream<T> it is more useful as unit generates an infinite Stream
   // from a single value. This works also.
@@ -1892,6 +1892,8 @@ template <class Monad> struct LiftT3
   //       This is in contrast to pure(x) where it is the ONLY behaviour.
   //       I want to integrate these two things which are quite different.
   ////////////////////////////////////////////////////////////////////////
+  // Arduino Usage: For the moment I am taking out all the ones which use throw.
+  ///////////////////////////////////////////////////////////////////////
 
 namespace impl {
    template <bool b> struct UnitError {};
@@ -1903,6 +1905,7 @@ namespace impl {
       typedef typename MonadA::Unit::template Sig<M>::ResultType ResultType;
    };
 
+#ifndef FCPP_ARDUINO
    template <class T>
    T return_(const Stream<T> &t) {
      if (null(t) )  throw fcpp_exception("unit: Stream : NULL");
@@ -1933,6 +1936,7 @@ namespace impl {
      if (t.is_nothing()) throw fcpp_exception("unit: Maybe : NOTHING");
      return t.value();
    }
+#endif
 
    template <class T>
    T return_(const Identity<T> &t) { return id(t); }
