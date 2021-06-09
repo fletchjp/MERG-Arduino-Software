@@ -1170,7 +1170,7 @@ struct XLast {
 #ifndef FCPP_ARDUINO
           throw fcpp_exception("Your list is too long!!");
 #else
-	      cout << "*** Your list is too long!! ***" << endl;
+	      std::cout << "*** Your list is too long!! ***" << std::endl;
 #endif
      return head(l);
    }
@@ -1264,7 +1264,7 @@ struct XLength {
 #ifndef FCPP_ARDUINO
           throw fcpp_exception("Your list is too long!!");
 #else
-	      cout << "*** Your list is too long!! ***" << endl; 
+	      std::cout << "*** Your list is too long!! ***" << std::endl; 
 #endif
      return x;
    }
