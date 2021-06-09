@@ -64,9 +64,13 @@ This means that I now have two different versions of the FC++ codes. This one ca
 
 The previous one used only Serial and did not support debug output.
 
+At the moment I have to copy the version of fcpp which I need into each example. I would like to end up with fcpp as a common code which can be used by all the examples. I think the one step towards that is to get rid of the reduced version which I have been using on the DUE examples up to now. First I need to check the new version on a DUE. Yes, the ecoop1b example now runs on both.
+
+I have a problem with two functoids, and_ and or_ which do not compile on the DUE for either version.
+
 ### ecoop1b
 
-This is a first test file to get things tested.
+This is a first test file to get things sorted out. It is now working with both versions of fcpp.
 
 ### led_blink
 
