@@ -8,6 +8,8 @@ I am testing some new ideas for critical event sending in CANTOTEM for possible 
 
 I have been developing some new coding ideas for the DUE which unfortunately will not work on ordinary Arduinos.
 
+I have added two small examples for ArduinoSTL which is a library available in the Arduino IDE. There is one problem which is that the library works with Version 1.8.2 of the Arduino AVR boards and not the latest 1.8.3 which is loaded by Arduino IDE 1.8.13. If you use the latest version the code will not compile.
+
 ## May 2021
 
 ### 8th May
