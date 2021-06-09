@@ -8,7 +8,7 @@
 
 #include <iostream>
 #include <vector>
-//#define FCPP_DEBUG
+#define FCPP_DEBUG
 #include "fcpp/prelude.h"
 
 using namespace fcpp;
@@ -62,10 +62,36 @@ public:
    }
 };
 
+class ConcreteObserverB {
+   ConcreteSubject& subject;
+public:
+   ConcreteObserverB( ConcreteSubject& s ) : subject(s) {
+      s.attach( makeFun0(
+       //curry( ptr_to_fun(&ConcreteObserverB::get_notification), this ) ) );
+       lazy1( ptr_to_fun(&ConcreteObserverB::get_notification), this ) ) );
+   }
+   void get_notification() {
+      cout << "B's get_notification: new state is "
+           << subject.get_state() << endl;
+   }
+};
 
 
 void setup() {
   // put your setup code here, to run once:
+  Serial.begin(9600);
+  cout << "========================" << endl;
+  cout << "ecoop1b Observer example" << endl;
+  cout << "========================" << endl;
+   ConcreteSubject s;
+   ConcreteObserverA ao(s);
+   ConcreteObserverB bo(s);
+   //(void)ao;
+   //(void)bo;
+   s.inc();
+   s.inc();
+   ao.debug();
+  cout << "========================" << endl;
 
 }
 
