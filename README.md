@@ -180,6 +180,7 @@
 
  I am moving [Events](EVENTS.md) to a separate file.
 
+ See events for information on ArduinoSTL examples.
  
 ## Location
 
