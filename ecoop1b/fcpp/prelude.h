@@ -1288,11 +1288,19 @@ struct XAt {
       while( n!=0 ) {
          l = tail(l);
          if (null(l) )
+#ifndef FCPP_ARDUINO
            throw fcpp_exception("at(l,n) is beyond end of list");
+#else
+ 	       std::cout << "*** at(l,n) is beyond end of list!! ***" << std::endl; 
+#endif
          --n;
       }
       if (null(l) )
+#ifndef FCPP_ARDUINO
            throw fcpp_exception("at(l,n) is out of range");
+#else
+ 	       std::cout << "*** at(l,n) is out of range!! ***" << std::endl; 
+#endif
       return head(l);
    }
 };
@@ -1693,8 +1701,10 @@ struct XFoldr1 {
    template <class Op, class L>
    typename L::ElementType operator()( const Op& op, const L& l ) const {
 #ifdef FCPP_DEBUG
+#ifndef FCPP_ARDUINO
       if( null(l) )
          throw fcpp_exception("Tried to foldr1() an empty List");
+#endif
 #endif
       return foldr( op, head(l), tail(l) );
    }
@@ -1749,8 +1759,10 @@ struct XFoldl1 {
    template <class Op, class L>
    typename L::ElementType operator()( const Op& op, const L& l ) const {
 #ifdef FCPP_DEBUG
+#ifndef FCPP_ARDUINO
       if( null(l) )
          throw fcpp_exception("Tried to foldl1() an empty List");
+#endif
 #endif
        return foldl( op, head(l), tail(l) );
    }
@@ -2614,7 +2626,9 @@ FCPP_MAYBE_NAMESPACE_CLOSE
 // Not HSP but close
 //////////////////////////////////////////////////////////////////////
 
+#ifndef FCPP_ARDUINO
 // These next two are defined as _lazy_ versions of these operators on lists
+// For some reason these are a problem on the Arduino.
 namespace impl {
 struct XAnd : public CFunType<List<bool>,bool> {
    bool operator()( const List<bool>& l ) const {
@@ -2638,6 +2652,8 @@ typedef Full1<impl::XOr> Or;
 FCPP_MAYBE_NAMESPACE_OPEN
 FCPP_MAYBE_EXTERN Or or_;
 FCPP_MAYBE_NAMESPACE_CLOSE
+
+#endif
 
 //////////////////////////////////////////////////////////////////////
 // Back to HSP
@@ -3063,8 +3079,10 @@ struct XGcd {
 
    template <class T>
    T operator()( const T& x, const T& y ) const {
+#ifndef FCPP_ARDUINO
       if( x==0 && y==0 )
          throw fcpp_exception("Gcd error: x and y both 0");
+#endif
       return XGcdPrime()( x<0?-x:x, y<0?-y:y );
    }
 };
