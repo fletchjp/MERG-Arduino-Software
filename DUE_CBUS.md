@@ -60,6 +60,10 @@ This is a task scheduling library which I have installed which will run on the D
 
 Now that I have ArduinoSTL to provide the C++ std library I can start to use the FC++ codes on both AVR and DUE. I have put the files here for now.
 
+This means that I now have two different versions of the FC++ codes. This one can do debug output.
+
+The previous one used only Serial and did not support debug output.
+
 ### ecoop1b
 
 This is a first test file to get things tested.
