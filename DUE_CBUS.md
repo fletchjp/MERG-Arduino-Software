@@ -74,6 +74,8 @@ At the moment I have to copy the version of fcpp which I need into each example.
 
 I have a problem with two functoids, and_ and or_ which do not compile on the DUE for either version. I do not understand this at the moment. I have taken them out of use.
 
+I have now managed to turn FC++ into an Arduino library called fcpp. All that is needed to use it is to include "prelude.h" after defining any options needed.
+
 ### ecoop1b
 
 This is a first test file to get things sorted out. It is now working with both versions of fcpp.
