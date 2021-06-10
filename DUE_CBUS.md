@@ -6,7 +6,7 @@ This is a development from the CBUS Codes branch for work with the Arduino DUE.
 
 Now that I have two DUEs working, I am looking at more of the example software which is available.
 
-
+Some of the examples will now work with DUE and AVR (MEGA or UNO).
 
 ## Testing
 
@@ -39,6 +39,10 @@ I have documented the DUE pin map which is in a lot of ways similar to the Ardui
 ### DUEFCPP
 
 This is an experimental code to look at getting FC++ working with the DUE. This is heavily modified to get rid of all use of <iostream> which is not supported. This means that all debug and traits output has been disabled. The code has a copy of the fcpp files.
+
+### BOTHFCPP
+
+This is a version of DUEFCPP which will work with DUE or MEGA. This has ArduinoSTL instead of Streaming.
 
 ### DUEMONAD
 
