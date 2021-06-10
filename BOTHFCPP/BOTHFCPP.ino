@@ -4,6 +4,7 @@
 // The secret is to include this to have the std library.
 #include<ArduinoSTL.h>
 
+// This will now work with FC++ as an Arduino library - just include "prelude.h" and it will find it.
 #include "prelude.h"
 
 using namespace std;
