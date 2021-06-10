@@ -9,7 +9,7 @@
 #include <iostream>
 #include <vector>
 #define FCPP_DEBUG
-#include "fcpp/prelude.h"
+#include "prelude.h"
 
 using namespace fcpp;
 
