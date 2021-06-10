@@ -6,7 +6,6 @@
 
 #include <Streaming.h>
 
-
 using namespace fcpp;
 
 void setup() {
