@@ -148,7 +148,7 @@ struct XId {
 }
 typedef Full1<impl::XId> Id;
 FCPP_MAYBE_NAMESPACE_OPEN
-FCPP_MAYBE_EXTERN Id id; //, value;
+FCPP_MAYBE_EXTERN Id id, value;
 FCPP_MAYBE_NAMESPACE_CLOSE
 
 namespace impl {
