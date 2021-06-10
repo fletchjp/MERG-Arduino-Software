@@ -6,10 +6,6 @@
 
 #include "fcpp/prelude.h"
 
-// Now there is a problem with std::is_signed on the DUE but not on the MEGA.
-// The solution is to remove Streaming.
-//#include <Streaming.h>
-
 using namespace std;
 
 using namespace fcpp;
