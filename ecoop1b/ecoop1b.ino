@@ -2,7 +2,7 @@
 
 // A first attempt to get FC++ working with ArduinoSTL and be able to use std::cout etc.
 
-// At the moment it is missing boost/type_traits/is_integral.hpp
+// This will now work with FC++ as an Arduino library - just include "prelude.h" and it will find it.
 
 #include<ArduinoSTL.h>
 
