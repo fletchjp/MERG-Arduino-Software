@@ -3,7 +3,6 @@
 // This will work on ARDUINO DUE and also on AVR boards.
 // The secret is to include this to have the std library.
 #include<ArduinoSTL.h>
-#include<type_traits>
 
 #include "fcpp/prelude.h"
 
@@ -14,7 +13,6 @@
 using namespace std;
 
 using namespace fcpp;
-
 
 
 void setup() {
