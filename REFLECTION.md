@@ -18,6 +18,8 @@ I have now become familiar with updating a repository I have forked by updating 
 
 I have on one occasion cherrypicked between branches.
 
+I have also learned how to delete a repository, one which I had forked and no longer needed.
+
 ## VS Code configuration
 
 I have had a lot of problems getting VS Code configured and at times I despaired of making sense of it. I have stuck with it and have learned quite a lot about how it works. There is still more to go.
