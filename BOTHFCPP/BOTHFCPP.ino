@@ -8,6 +8,7 @@
 #include "fcpp/prelude.h"
 
 // Now there is a problem with std::is_signed on the DUE but not on the MEGA.
+// The solution is to remove Streaming.
 //#include <Streaming.h>
 
 using namespace std;
@@ -19,7 +20,7 @@ using namespace fcpp;
 void setup() {
   // put your setup code here, to run once:
   Serial.begin (115200);
-  cout << F("> BOTHFCPP ** ") << __FILE__ << endl;
+  cout << "> BOTHFCPP ** " << __FILE__ << endl;
   cout << "Some simple FC++ operations" << endl;
   cout << "plus(1,2) = " << fcpp::plus(1,2) << endl;
   cout << "plus(1.5,2.3) = " << fcpp::plus(1.5,2.3) << endl;
