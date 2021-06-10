@@ -10,6 +10,8 @@ I have been developing some new coding ideas for the DUE which unfortunately wil
 
 I have added two small examples for ArduinoSTL which is a library available in the Arduino IDE. There is one problem which is that the library works with Version 1.8.2 of the Arduino AVR boards and not the latest 1.8.3 which is loaded by Arduino IDE 1.8.13. If you use the latest version the code will not compile.
 
+There are a lot of developments on the due_cbus branch, including getting my FC++ code working for both DUE and AVR environments.
+
 ## May 2021
 
 ### 8th May
