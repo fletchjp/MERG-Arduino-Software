@@ -1,6 +1,6 @@
-// laws 
+// empty
 
-// A first attempt to get FC++ functor laws operational
+// An empty FC++ shell for new projects
 
 // This will now work with FC++ as an Arduino library - just include "prelude.h" and it will find it.
 
