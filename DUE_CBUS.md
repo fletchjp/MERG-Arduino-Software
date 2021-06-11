@@ -48,6 +48,12 @@ This is a version of DUEFCPP which will work with DUE or MEGA. This has ArduinoS
 
 This is another experiment with FC++ using the Monad approach. It has its own copy of the fcpp files and some have been changed compared to the ones in DUEFCPP
 
+### BOTHMONAD
+
+This is a version of DUEMONAD which will work with DUE or MEGA. This has ArduinoSTL instead of Streaming.
+
+A change to the EitherM monad to add join has now been ported to the fcpp library.
+
 ### CBUSSAM3X8E
 
 This is Duncan Greenwood's library for the CBUS communication. It is not under the control of this GitHub.
