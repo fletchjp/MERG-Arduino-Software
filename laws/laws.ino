@@ -11,6 +11,8 @@
 // This is probably because I had to change the type deduction in ChooseApplicable
 // because I do not have boost/mpl. There may be some other way to do the type deduction.
 
+// There is a lot of information in functors.h
+
 #include<ArduinoSTL.h>
 
 #include <iostream>
