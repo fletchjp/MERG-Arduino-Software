@@ -90,10 +90,11 @@ void setup() {
   std::cout << "====================================" << std::endl;
   std::cout << "Applicative Functor Law 1 (page 238)" << std::endl;
   std::cout << " pure f <*> x = fmap f x" << std::endl;
+  std::cout << "Note use of pureM which matches the Monad type." << std::endl;
+  std::cout << "This is a current limitation in the mechanism to infer the argument type." << std::endl;
   std::cout << "====================================" << std::endl;
   std::cout << "fmap (inc) ( just(3) )         : "
             <<  fmap (inc)( just(3) ) << std::endl;
-  std::cout << "Note use of pureM which matches the Monad type." << std::endl;
   Maybe<int> mx1 = pureM (inc) ^star^ ( just(3) );
   std::cout << "pureM (inc) ^star^ ( just(3) )  : "
             <<  mx1 << std::endl;
@@ -116,11 +117,40 @@ void setup() {
   std::cout << "Note: in the example one of the operators cannot be inferred."
             << std::endl;
   std::cout << "====================================" << std::endl;
+  Maybe<int> mx3a = pureM (dot) ^star^ pureA<MaybeA>()(inc)
+                    ^star^ dec ^star^ ( just(3) );
+  Maybe<int> mx3b = pureM(inc) ^star^ (pureM(dec) ^star^ ( just(3) ));
+  std::cout << "pureM(dot) ^star^ pureA<MaybeA>()(inc) ^star^ dec ^star^ ( just(3) )    : "
+            <<  mx3a << std::endl;
+  std::cout << "pureM(inc) ^star^ (pureM(dec) ^star^ ( just(3) )) : "
+            <<  mx3b << std::endl;
 
   std::cout << "====================================" << std::endl;
   std::cout << "Applicative Functor Law 4 (page 238)" << std::endl;
   std::cout << " pure f <*> pure x = pure ( f x )" << std::endl;
   std::cout << "====================================" << std::endl;
+  Maybe<int> mx4a = pureM (id) ^star^ ( just(3) );
+  Maybe<int> mx4a2 = pureM (id) ^star^ pure ( just(3) );
+  Maybe<int> mx4b = pure (id ( just(3) ) );
+  std::cout << "pureM (id) ^star^ ( just(3) )    : "
+            <<  mx4a << std::endl;
+  std::cout << "pureM (id) ^star^ pure ( just(3) )    : "
+            <<  mx4a2 << std::endl;
+  std::cout << "pure (id ( just(3) ) )          : "
+            <<  mx4b << std::endl;
+  Maybe<int> mx4c = pureM (inc) ^star^ ( just(3) );
+  // These are all equivalent. MaybeA::pure provides just.
+  // The problem is how to get pure to know what it is doing.
+  // At the moment the action is taken in star.
+  // That does not work for pure on its own.
+  // There is a comment on p.228 that there is no default implementation
+  // of 'pure' so it needs to be defined in the applicative functor.
+  // These examples do this for the 'pure' in MaybeA which equates to 'just'.
+  Maybe<int> mx4c2 = (just(inc)) ^star^ ( just(3) );
+  Maybe<int> mx4c3 = (pureA<MaybeA>()(inc)) ^star^ ( just(3) );
+  Maybe<int> mx4c4 = (MaybeA::pure()(inc)) ^star^ ( just(3) );
+  //Maybe<int> mx4d = pure (pureA<MaybeA>()(inc) ( just(3) ) );
+  Maybe<int> mx4d = pure (liftM<MaybeM>()(inc) ( just(3) ) );
 
   std::cout << "=================================" << std::endl;
 
