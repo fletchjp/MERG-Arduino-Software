@@ -62,6 +62,10 @@ This is Duncan Greenwood's first example. At the moment the code assumes that th
 
 This is a task scheduling library which I have installed which will run on the DUE. It is more advanced than the ones I am using on the Arduino. I have only a simple led_blink example at the moment which I have run.
 
+### led_blink
+
+I have copied this uCOS-II example to begin doing some things.
+
 ## FC++ codes
 
 Now that I have ArduinoSTL to provide the C++ std library I can start to use the FC++ codes on both AVR and DUE. I have put the files here for now.
@@ -79,10 +83,6 @@ I have now managed to turn FC++ into an Arduino library called fcpp. All that is
 ### ecoop1b
 
 This is a first test file to get things sorted out. It is now working with both versions of fcpp.
-
-### led_blink
-
-I have copied the example to begin doing some things.
 
 ## CBUS Codes
 
