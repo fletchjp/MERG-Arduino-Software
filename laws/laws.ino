@@ -93,23 +93,23 @@ void setup() {
   std::cout << "====================================" << std::endl;
   std::cout << "fmap (inc) ( just(3) )         : "
             <<  fmap (inc)( just(3) ) << std::endl;
-/*
-  Maybe<int> mx1 = pure (inc) ^star^ ( just(3) );
-  std::cout << "pure (inc) ^star^ ( just(3) )  : "
+  std::cout << "Note use of pureM which matches the Monad type." << std::endl;
+  Maybe<int> mx1 = pureM (inc) ^star^ ( just(3) );
+  std::cout << "pureM (inc) ^star^ ( just(3) )  : "
             <<  mx1 << std::endl;
   Maybe<int> mx1a = MaybeA::pure()(inc) ^star^ (3);
   std::cout << "MaybeA::pure()(inc) ^star^ (3) : "
             <<  mx1a << std::endl;
   // pure is actually optional here as pure == id when on its own.
-  Maybe<int> mx1b = inc ^star^ ( just(3) );
-*/
+  //Maybe<int> mx1b = inc ^star^ ( just(3) );
   std::cout << "====================================" << std::endl;
   std::cout << "Applicative Functor Law 2 (page 238)" << std::endl;
   std::cout << " pure id <*> v = v" << std::endl;
   std::cout << "====================================" << std::endl;
-  //Maybe<int> mx2 = pure (id) ^star^ ( just(3) );
-  //std::cout << "pure (id) ^star^ ( just(3) )    : "
-  //          <<  mx2 << std::endl;
+  std::cout << "Note use of pureM which matches the Monad type." << std::endl;
+  Maybe<int> mx2 = pureM (id) ^star^ ( just(3) );
+  std::cout << "pureM (id) ^star^ ( just(3) )    : "
+            <<  mx2 << std::endl;
   std::cout << "====================================" << std::endl;
   std::cout << "Applicative Functor Law 3 (page 238)" << std::endl;
   std::cout << "pure (.)<*>u<*>v<*>w = u<*>(v<*>w)" << std::endl;
