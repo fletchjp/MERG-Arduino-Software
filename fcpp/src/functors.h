@@ -11,9 +11,10 @@
 #ifndef FCPP_FUNCTORS_DOT_H
 #define FCPP_FUNCTORS_DOT_H
 
+#ifndef FCPP_ARDUINO
 #include <boost/mpl/eval_if.hpp>
 #include <boost/type_traits/is_void.hpp>
-
+#endif
 
   /////////////////////////////////////////////////////////////////////////
   // Inferrable Functors
@@ -581,11 +582,18 @@ template <class Rep> struct ApplicativeTraits {
       // the inferred types.
          typedef typename ApplicativeTraits<A>::Applicative AA;
          typedef typename ApplicativeTraits<K>::Applicative AK;
+#ifndef FCPP_ARDUINO
       // See C++ Template Metaprogramming p.65 for the source of this.
       // Test is given the type void in the default case, to force the fail.
          typedef typename boost::mpl::eval_if<
            boost::is_void<typename ApplicativeTraitsSpecializer<K>::Test>,
            AA, AK >::type Applicative;
+#else
+	   // On the Arduino I don't have boost available.
+       // I am going to follow the suggestion above and make the answer AA for now.
+	   // This is going to fail sometimes.
+	      typedef AA Applicative;
+#endif
     };
 
     ////////////////////////////////////////////////////////////////
