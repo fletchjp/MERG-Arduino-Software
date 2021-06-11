@@ -25,7 +25,7 @@
 #define FCPP_PATTERN // define this to include pattern.h
 #include "prelude.h"
 #include "functors.h"
-#include "comonad.h"
+//#include "comonad.h"
 
 using namespace fcpp;
 
