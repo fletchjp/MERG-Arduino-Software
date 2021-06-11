@@ -945,6 +945,30 @@ struct ListM {
    static Bind_& bind_() {static Bind_ f; return f;}
   //   static Bind bind;
 
+  //////////////////////////////////////////////////////////
+  // This has been added to the Ardunio version of fcpp.
+  //////////////////////////////////////////////////////////
+  // This is not needed in every functoid as I have now
+  // defined the join for inferrable monads in terms of
+  // the monad internal bind rather than using join.
+   struct XJoin {
+#ifdef FCPP_DEBUG
+   std::string name() const
+   {
+       return std::string("EitherM::Join");
+   }
+#endif
+     template <class Z> struct Sig : public FunType<Z,
+         typename RT<typename ::fcpp::BindM<EitherM>::Type,Z,Id>::ResultType> {};
+      template <class Z>
+      typename Sig<Z>::ResultType
+      operator()( const Z& z ) const {
+         return bindM<EitherM>()( z, id );
+      }
+   };
+   typedef Full1<XJoin> Join;
+   static Join& join() {static Join f; return f;}
+
    typedef AUniqueTypeForNil Zero;
    static Zero& zero() {static Zero f; return f;}
   //   static Zero zero;
