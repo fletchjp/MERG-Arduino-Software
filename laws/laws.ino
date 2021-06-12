@@ -2,15 +2,18 @@
 
 // A first attempt to get FC++ functor laws operational
 
+// A lot of the examples come from "Learn You a Haskell for Great Good"
+// by Miran Lipovaca, No Starch Press, 2011
+
 // This comes from the old file unify.cpp which has a lot of explanations.
 
 // This will now work with FC++ as an Arduino library - just include "prelude.h" and it will find it.
 
 // I have quite a lot of things working.
 
-// There are examples where I have to replace pure with pureM.
-// This is probably because I had to change the type deduction in ChooseApplicable
-// because I do not have boost/mpl. There may be some other way to do the type deduction.
+// There are examples where I had to replace pure with pureM.
+// This was because I had to change the type deduction in ChooseApplicable
+// because I did not have boost/mpl. There may be some other way to do the type deduction.
 
 // Now that I have a version of boost available I have been able to restore the previous operation.
 
@@ -174,8 +177,45 @@ void setup() {
   Maybe<int> mx4d = pure (liftM<MaybeM>()(inc) ( just(3) ) );
   std::cout << "pure (liftM<MaybeM>()(inc))( just(3) )  : "
             <<  mx4d << std::endl;
+  std::cout << "=======================================" << std::endl;
+  std::cout << "Some more examples from functors.cpp" << std::endl;
+  std::cout << "=======================================" << std::endl;
+  std::cout << "dot(multiplies(3),plus(100))(1)    : "
+            << dot(multiplies(3),plus(100))(1) << " (page 221)" << std::endl;
+  std::cout << "(multiplies(3) ^dot^ plus(100))(1)  : "
+            << (multiplies(3) ^dot^ plus(100))(1) << std::endl;
+  std::cout << "dot (id, id ) ( just(3)) : " << dot (id, id ) ( just(3))
+            << " needs repeat of id!" << std::endl;
+  std::cout << "id ( just(3) )            : " << id ( just(3) )
+            << " (page 224)"<< std::endl;
+  std::cout << "----------------------------------------------------"
+            << std::endl;
+  std::cout << "MaybeM and EitherM are the only FC++ monads with an explicit join."
+            << std::endl;
+  std::cout << "----------------------------------------------------"
+            << std::endl;
+  Maybe<int> mj = joinM<MaybeM>()( just (just (2) ) );
+  std::cout << "joinM<MaybeM>()( just (just (2) ) ) : " << mj << std::endl;
+  Maybe<int> mj2 = MaybeM::join()( just (just (2) ) );
+  std::cout << "MaybeM::join()( just (just (2) ) )  : " << mj2 << std::endl;
+  Maybe<int> mj3 = join( just (just (2) ) );
+  std::cout << "join( just (just (2) ) )            : " << mj3 << std::endl;
+  std::cout << "--------------------------------------" << std::endl;
+  Either<int> ej = (joinM<EitherM>())( right (right (2) ) );
+  std::cout << "joinM<EitherM>()( right (right (2) ) ) : " << ej
+            << std::endl;
+  Either<int> ej2 = EitherM::join()( right (right (2) ) );
+  std::cout << "EitherM::join()( right (right (2) ) )  : " << ej2
+            << std::endl;
+  Either<int> ej3 = join( right (right (2) ) );
+  std::cout << "join( right (right (2) ) )             : " << ej3
+            << std::endl;
+  Either<int> el = liftM<EitherM>()(inc) (right (2) );
+  std::cout << "liftM<EitherM>()(inc) (right (2) )     : " << el
+            << std::endl;
 
-  std::cout << "=================================" << std::endl;
+
+  std::cout << "=======================================" << std::endl;
 
 }
 
