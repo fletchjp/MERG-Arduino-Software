@@ -86,9 +86,15 @@ I have a problem with two functoids, and_ and or_ which do not compile on the DU
 
 I have now managed to turn FC++ into an Arduino library called fcpp. All that is needed to use it is to include "prelude.h" after defining any options needed.
 
+I also now have a copy of Boost 1.51.0 which I am using with FC++. This has enabled me to run more of the examples which rely on boost/mpl to do some type deduction.
+
 ### ecoop1b
 
 This is a first test file to get things sorted out. It is now working with both versions of fcpp.
+
+### laws
+
+This example explores the implementation of Functor laws using FC++.
 
 ## CBUS Codes
 
