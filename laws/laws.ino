@@ -226,6 +226,14 @@ void setup() {
   std::cout << "joinM<MaybeA>()( just (just (2) ) ) : " << mja << std::endl;
   Maybe<int> mj2a = MaybeA::join()( just (just (2) ) );
   std::cout << "MaybeA::join()( just (just (2) ) )  : " << mj2a << std::endl;
+  std::cout << "--------------------------------------" << std::endl;
+  Either<int> eja = joinM<EitherA>()( right (right (2) ) );
+  std::cout << "joinM<EitherA>()( right (right (2) ) ) : " << eja
+            << std::endl;
+  Either<int> ela = liftM<EitherA>()(inc) (right (2) );
+  std::cout << "liftM<EitherA>()(inc) (right (2) )     : " << ela
+            << std::endl;
+  std::cout << "--------------------------------------" << std::endl;
 #endif
 }
 
