@@ -31,6 +31,7 @@
 #define FCPP_DEBUG
 #define FCPP_EXTRA_STRONG_CURRY
 #define FCPP_PATTERN // define this to include pattern.h
+#define FCPP_UNIFY
 #include "prelude.h"
 #include "functors.h"
 //#include "comonad.h"
@@ -216,7 +217,16 @@ void setup() {
 
 
   std::cout << "=======================================" << std::endl;
-
+#ifdef FCPP_UNIFY
+  std::cout << "These are monad uses being unified into MaybeA" << std::endl;
+  std::cout << "--------------------------------------" << std::endl;
+  std::cout << "liftM<MaybeA>()(inc)( just(3) ) : "
+            <<  liftM<MaybeA>()(inc)( just(3) ) << std::endl;
+  Maybe<int> mja = joinM<MaybeA>()( just (just (2) ) );
+  std::cout << "joinM<MaybeA>()( just (just (2) ) ) : " << mja << std::endl;
+  Maybe<int> mj2a = MaybeA::join()( just (just (2) ) );
+  std::cout << "MaybeA::join()( just (just (2) ) )  : " << mj2a << std::endl;
+#endif
 }
 
 void loop() {
