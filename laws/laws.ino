@@ -137,7 +137,7 @@ void setup() {
 
   std::cout << "====================================" << std::endl;
   std::cout << "Applicative Functor Law 4 (page 238)" << std::endl;
-  std::cout << " pure f <*> pure x = pure ( f x )" << std::endl;
+  std::cout << "pure f <*> pure x = pure ( f x )" << std::endl;
   std::cout << "====================================" << std::endl;
   Maybe<int> mx4a = pure (id) ^star^ ( just(3) );
   Maybe<int> mx4a2 = pure (id) ^star^ pure ( just(3) );
@@ -149,6 +149,8 @@ void setup() {
   std::cout << "pure (id ( just(3) ) )          : "
             <<  mx4b << std::endl;
   Maybe<int> mx4c = pure (inc) ^star^ ( just(3) );
+  std::cout << "pure (inc) ^star^ ( just(3) )   : "
+            <<  mx4c << std::endl;
   // These are all equivalent. MaybeA::pure provides just.
   // The problem is how to get pure to know what it is doing.
   // At the moment the action is taken in star.
@@ -157,10 +159,18 @@ void setup() {
   // of 'pure' so it needs to be defined in the applicative functor.
   // These examples do this for the 'pure' in MaybeA which equates to 'just'.
   Maybe<int> mx4c2 = (just(inc)) ^star^ ( just(3) );
+  std::cout << "(just(inc)) ^star^ ( just(3) )  : "
+            <<  mx4c2 << std::endl;
   Maybe<int> mx4c3 = (pureA<MaybeA>()(inc)) ^star^ ( just(3) );
+  std::cout << "(pureA<MaybeA>()(inc)) ^star^ ( just(3) )  : "
+            <<  mx4c3 << std::endl;
   Maybe<int> mx4c4 = (MaybeA::pure()(inc)) ^star^ ( just(3) );
+  std::cout << "(MaybeA>::pure()(inc)) ^star^ ( just(3) )  : "
+            <<  mx4c4 << std::endl;
   //Maybe<int> mx4d = pure (pureA<MaybeA>()(inc) ( just(3) ) );
   Maybe<int> mx4d = pure (liftM<MaybeM>()(inc) ( just(3) ) );
+  std::cout << "pure (liftM<MaybeM>()(inc))( just(3) )  : "
+            <<  mx4d << std::endl;
 
   std::cout << "=================================" << std::endl;
 
