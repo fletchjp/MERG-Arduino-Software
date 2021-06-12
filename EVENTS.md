@@ -12,6 +12,8 @@ I have added two small examples for ArduinoSTL which is a library available in t
 
 There are a lot of developments on the due_cbus branch, including getting my FC++ code working for both DUE and AVR environments.
 
+I now have a copy of Boost 1.51.0 available as a library. I need to post an example of how to use it. At the moment all the examples are on the due_cbus branch.
+
 ## May 2021
 
 ### 8th May
