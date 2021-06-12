@@ -11,7 +11,9 @@
 #ifndef FCPP_DETECT_PAIR_DOT_H
 #define FCPP_DETECT_PAIR_DOT_H
 
-//#include <boost/type_traits/is_integral.hpp>
+#ifdef FCPP_ARDUINO_BOOST
+#include <boost/type_traits/is_integral.hpp>
+#endif
 
 // detect_pair.h
 // New file to look at the problem of std::pair with C++11.
@@ -45,8 +47,11 @@ namespace fcpp {
 
 template <typename T>
 bool is_integral() {
-  //return boost::is_integral<T>::value;
-  return std::__is_integer<T>::value;  
+#ifdef FCPP_ARDUINO_BOOST
+  return boost::is_integral<T>::value;
+#else
+  return std::__is_integer<T>::value;
+#endif
 }
 
 template <typename T>
