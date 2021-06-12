@@ -7,9 +7,12 @@
 // This will now work with FC++ as an Arduino library - just include "prelude.h" and it will find it.
 
 // I have quite a lot of things working.
+
 // There are examples where I have to replace pure with pureM.
 // This is probably because I had to change the type deduction in ChooseApplicable
 // because I do not have boost/mpl. There may be some other way to do the type deduction.
+
+// Now that I have a version of boost available I have been able to restore the previous operation.
 
 // There is a lot of information in functors.h
 
