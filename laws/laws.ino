@@ -131,6 +131,7 @@ void setup() {
             <<  mx3a << std::endl;
   std::cout << "pureM(inc) ^star^ (pureM(dec) ^star^ ( just(3) )) : "
             <<  mx3b << std::endl;
+  //Maybe<int> mx3c = pureM(inc) ^star^ (dec ^star^ ( just(3) ) );
 
   std::cout << "====================================" << std::endl;
   std::cout << "Applicative Functor Law 4 (page 238)" << std::endl;
