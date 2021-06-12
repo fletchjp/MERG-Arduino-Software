@@ -15,6 +15,8 @@
 
 #include<ArduinoSTL.h>
 
+#include <boost_1_51_0.h>
+#define FCPP_ARDUINO_BOOST
 #include <iostream>
 // Need 5 parameter functoids for example.
 #define FCPP152
@@ -102,21 +104,21 @@ void setup() {
   std::cout << "====================================" << std::endl;
   std::cout << "fmap (inc) ( just(3) )         : "
             <<  fmap (inc)( just(3) ) << std::endl;
-  Maybe<int> mx1 = pureM (inc) ^star^ ( just(3) );
-  std::cout << "pureM (inc) ^star^ ( just(3) )  : "
+  Maybe<int> mx1 = pure (inc) ^star^ ( just(3) );  // pure now works here.
+  std::cout << "pure (inc) ^star^ ( just(3) )  : "
             <<  mx1 << std::endl;
   Maybe<int> mx1a = MaybeA::pure()(inc) ^star^ (3);
   std::cout << "MaybeA::pure()(inc) ^star^ (3) : "
             <<  mx1a << std::endl;
   // pure is actually optional here as pure == id when on its own.
-  //Maybe<int> mx1b = inc ^star^ ( just(3) );
+  Maybe<int> mx1b = inc ^star^ ( just(3) );
   std::cout << "====================================" << std::endl;
   std::cout << "Applicative Functor Law 2 (page 238)" << std::endl;
   std::cout << " pure id <*> v = v" << std::endl;
   std::cout << "====================================" << std::endl;
-  std::cout << "Note use of pureM which matches the Monad type." << std::endl;
-  Maybe<int> mx2 = pureM (id) ^star^ ( just(3) );
-  std::cout << "pureM (id) ^star^ ( just(3) )    : "
+  std::cout << "Note use of pureM which matches the Monad type is not needed." << std::endl;
+  Maybe<int> mx2 = pure (id) ^star^ ( just(3) );
+  std::cout << "pure (id) ^star^ ( just(3) )    : "
             <<  mx2 << std::endl;
   std::cout << "====================================" << std::endl;
   std::cout << "Applicative Functor Law 3 (page 238)" << std::endl;
@@ -124,29 +126,29 @@ void setup() {
   std::cout << "Note: in the example one of the operators cannot be inferred."
             << std::endl;
   std::cout << "====================================" << std::endl;
-  Maybe<int> mx3a = pureM (dot) ^star^ pureA<MaybeA>()(inc)
+  Maybe<int> mx3a = pure (dot) ^star^ pureA<MaybeA>()(inc)
                     ^star^ dec ^star^ ( just(3) );
-  Maybe<int> mx3b = pureM(inc) ^star^ (pureM(dec) ^star^ ( just(3) ));
-  std::cout << "pureM(dot) ^star^ pureA<MaybeA>()(inc) ^star^ dec ^star^ ( just(3) )    : "
+  Maybe<int> mx3b = pure(inc) ^star^ (pureM(dec) ^star^ ( just(3) ));
+  std::cout << "pure(dot) ^star^ pureA<MaybeA>()(inc) ^star^ dec ^star^ ( just(3) )    : "
             <<  mx3a << std::endl;
-  std::cout << "pureM(inc) ^star^ (pureM(dec) ^star^ ( just(3) )) : "
+  std::cout << "pure(inc) ^star^ (pureM(dec) ^star^ ( just(3) )) : "
             <<  mx3b << std::endl;
-  //Maybe<int> mx3c = pureM(inc) ^star^ (dec ^star^ ( just(3) ) );
+  Maybe<int> mx3c = pure(inc) ^star^ (dec ^star^ ( just(3) ) );
 
   std::cout << "====================================" << std::endl;
   std::cout << "Applicative Functor Law 4 (page 238)" << std::endl;
   std::cout << " pure f <*> pure x = pure ( f x )" << std::endl;
   std::cout << "====================================" << std::endl;
-  Maybe<int> mx4a = pureM (id) ^star^ ( just(3) );
-  Maybe<int> mx4a2 = pureM (id) ^star^ pure ( just(3) );
+  Maybe<int> mx4a = pure (id) ^star^ ( just(3) );
+  Maybe<int> mx4a2 = pure (id) ^star^ pure ( just(3) );
   Maybe<int> mx4b = pure (id ( just(3) ) );
-  std::cout << "pureM (id) ^star^ ( just(3) )    : "
+  std::cout << "pure (id) ^star^ ( just(3) )    : "
             <<  mx4a << std::endl;
-  std::cout << "pureM (id) ^star^ pure ( just(3) )    : "
+  std::cout << "pure (id) ^star^ pure ( just(3) )    : "
             <<  mx4a2 << std::endl;
   std::cout << "pure (id ( just(3) ) )          : "
             <<  mx4b << std::endl;
-  Maybe<int> mx4c = pureM (inc) ^star^ ( just(3) );
+  Maybe<int> mx4c = pure (inc) ^star^ ( just(3) );
   // These are all equivalent. MaybeA::pure provides just.
   // The problem is how to get pure to know what it is doing.
   // At the moment the action is taken in star.
