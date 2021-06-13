@@ -285,12 +285,18 @@ diagS			full information
 diag	       (diag2)	full information
 diagRep	       		full information
 mapS			full information
-snoc			full information
+snoc2			full information(+)
 reverse2		full information
 iterateSum		full information(**)
 iterate2		full information(**)
 
 Queue<T>	type	no information
+BootList<T> 	no information(+)
+consb   	    no information(+)
+combineb	    no information(+)
+mapb	        no information(+)
+mapB            full information(+)
+BootListM       full information(+)
 
 unit	(inferrable)	no information
 
@@ -752,7 +758,8 @@ scanr1		prelude.h
 scanrl		prelude.h
 second		pattern.h
 snd		    prelude.h
-snoc		pattern.h
+snoc		list.h
+snoc2       pattern.h
 span		prelude.h
 (splitArgs)	prelude.h
 splitat		prelude.h
