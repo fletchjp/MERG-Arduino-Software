@@ -46,7 +46,7 @@ There are also examples in structural.cpp, functors.cpp and unify.cpp.
 John Fletcher  December 2015 - March 2016 
 
 I have been reading this to remind myself of what is here and there are some things
-which were not completed in 2016.
+which were not completed in 2016. I am making changes here rather than to the 2016 file.
 
 New changes June 2021
 
@@ -55,6 +55,7 @@ New changes June 2021
 File Index
 ==========
 
+comonad.h (+)
 curry.h
 curry_binders5.h
 full.h
@@ -183,6 +184,13 @@ JoinM<Monad>		full information
 join			full information(**)
 doM			information not needed
 compM<Monad>		information not needed
+
+ListM               full information(+)
+MaybeM              full information(+)
+EitherM             full information(+)
+IdentityM           full information(+)
+IdentityInfM        full information(+)
+StateM              partial information(+)
 
 liftM<Monad>            full information(*)
 liftM2<Monad>           no information
@@ -566,6 +574,7 @@ dynamicCast<T>	operator.h
 
 Either<T>	prelude.h
 EitherA		functors.h
+EitherM     monad.h
 elem		prelude.h
 emptify		prelude.h
 enumFrom	prelude.h
@@ -607,6 +616,8 @@ hUncurry	prelude.h
 id		prelude.h
 ident		prelude.h
 Identity<T>	prelude.h
+IdentityM   monad.h
+IdentityInfM monad.h
 ignore		prelude.h
 ignore2		prelude.h
 (in)		prelude.h
@@ -635,6 +646,7 @@ length		prelude.h
 less		operator.h
 lessEqual	operator.h
 ListA		functors.h
+ListM       monad.h
 listUntil	prelude.h
 listWhile	prelude.h
 logicalAnd	operator.h
@@ -654,9 +666,10 @@ mapS		pattern.h
 map2		prelude.h
 Maybe<T>	prelude.h
 MaybeA		functors.h
-max		operator.h
+MaybeM      monad.h
+max		    operator.h
 maximum		prelude.h
-min		operator.h
+min		    operator.h
 minimum		prelude.h
 minus		operator.h
 modulus		operator.h
@@ -729,6 +742,7 @@ star		functors.h
 starA<Functor>	functors.h
 star2		functors.h
 star2a		functors.h
+StateM      monad.h
 (succ)		operator.h
 
 take		prelude.h
