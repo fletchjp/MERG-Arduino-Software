@@ -34,7 +34,7 @@ I have added to FC++ to make what I call FC++ 1.5.2.
 
 (*)  Modifications to debug information as part of the 2016 campaign.
 (**) New functoid as part of the 2016 campaign.
-(+)  Changes in 2021
+(+)  Changes in 2021 (mostly adding things missed)
 (++) New functoids in 2021
 
 Note that there is close coupling between curry.h and full.h and some things
@@ -68,6 +68,11 @@ operator.h
 pattern.h
 prelude.h
 reuse.h
+
+comonad.h (+)
+=========
+
+Information to be added.
 
 curry.h
 =======
@@ -130,9 +135,10 @@ functors.h
 ==========
 (New file for functors and applicative functors)
 
-fmap 	      	        full information(**)
+fmap 	      	full information(**)
 bimap			full information(**)
 
+cofmap          full information(+)
 contrafmap		full information(**)
 contrafmap2		full information(**)
 xmap			full information(**)
@@ -140,6 +146,10 @@ xmap2			full information(**)
 
 star			full information(**)
 pure			full information(**)
+pureM           full information(+)
+pureE           full information(+)
+pureL           full information(+)
+pure2           full information(+)
 star2			full information(**)
 star2a			full information(**)
 
@@ -149,9 +159,10 @@ starA<Functor>		full information(**)
 nothing			full information(**)
 
 MaybeA			full information(**)
+MaybeF<Functor> full information(+)
 EitherA			full information(**)
+EitherF<Functor> full information(+)
 ListA			full information(**)
-
 
 gcf.h
 =====
@@ -524,6 +535,7 @@ bind1and2and3of3 curry.h
 bind1and2and3and4of4 curry.h
 break_		prelude.h
 
+cofmap      functors.h
 compM<Monad>	monad.h
 compose		prelude.h
 compose2	prelude.h
@@ -574,6 +586,7 @@ dynamicCast<T>	operator.h
 
 Either<T>	prelude.h
 EitherA		functors.h
+EitherF<Functor> functors.h
 EitherM     monad.h
 elem		prelude.h
 emptify		prelude.h
@@ -666,6 +679,7 @@ mapS		pattern.h
 map2		prelude.h
 Maybe<T>	prelude.h
 MaybeA		functors.h
+MaybeF<Functor> functors.h
 MaybeM      monad.h
 max		    operator.h
 maximum		prelude.h
@@ -714,7 +728,11 @@ Proxy3<F,A1,A2,A3> function.h
 Proxy4<F,A1,A2,A3,A4> function.h
 ptr_to_fun	operator.h
 pure		functors.h
+pure2		functors.h
 pureA<Functor>	functors.h
+pureE		functors.h
+pureL		functors.h
+pureM		functors.h
 
 Queue<T>	pattern.h
 
@@ -733,7 +751,7 @@ scanr		prelude.h
 scanr1		prelude.h
 scanrl		prelude.h
 second		pattern.h
-snd		prelude.h
+snd		    prelude.h
 snoc		pattern.h
 span		prelude.h
 (splitArgs)	prelude.h
