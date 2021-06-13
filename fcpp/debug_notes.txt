@@ -32,8 +32,10 @@ Some items marked OBSOLETE have an alternative in [...]
 This reflects the state of the files in late 2015 containing many things
 I have added to FC++ to make what I call FC++ 1.5.2.
 
-(*)  Modifications to debug information as part of this campaign.
-(**) New functoid as part of this campaign.
+(*)  Modifications to debug information as part of the 2016 campaign.
+(**) New functoid as part of the 2016 campaign.
+(+)  Changes in 2021
+(++) New functoids in 2021
 
 Note that there is close coupling between curry.h and full.h and some things
 are declared in curry.h and instantiated in full.h.
@@ -41,7 +43,14 @@ are declared in curry.h and instantiated in full.h.
 Examples of many of the debug cases are in understand_list.cpp.
 There are also examples in structural.cpp, functors.cpp and unify.cpp.
 
-John Fletcher  December 2015 - March 2016
+John Fletcher  December 2015 - March 2016 
+
+I have been reading this to remind myself of what is here and there are some things
+which were not completed in 2016.
+
+New changes June 2021
+
+
 
 File Index
 ==========
