@@ -6,8 +6,9 @@
 
 #include<ArduinoSTL.h>
 
+#include <boost_1_51_0.h>
+#define FCPP_ARDUINO_BOOST
 #include <iostream>
-#include <vector>
 #define FCPP_DEBUG
 #include "prelude.h"
 
@@ -15,13 +16,12 @@ using namespace fcpp;
 
 using std::cout;
 using std::endl;
-using std::vector;
 
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
   cout << "========================" << endl;
-  cout << "ecoop1b Observer example" << endl;
+  cout << "Empty example" << endl;
   cout << "========================" << endl;
   cout << "========================" << endl;
 
