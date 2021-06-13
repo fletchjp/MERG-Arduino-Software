@@ -178,6 +178,33 @@ void setup() {
   Maybe<int> mx4d = pure (liftM<MaybeM>()(inc) ( just(3) ) );
   std::cout << "pure (liftM<MaybeM>()(inc))( just(3) )  : "
             <<  mx4d << std::endl;
+  std::cout << "====================================" << std::endl;
+  std::cout << "Applicative Functor Law 5 (page 238)" << std::endl;
+  std::cout << " u <*> pure y = pure ( $ y ) <*> u" << std::endl;
+  std::cout << "Note: $ is the infix operator for fmap." << std::endl;
+  std::cout << "Notation not reproduced completely" << std::endl;
+  std::cout << "====================================" << std::endl;
+  // One side or the other of star must give the type information.
+  // Note: pureA<MaybeA>() == MaybeA::pure() == just. All equivalent.
+  Maybe<int> mx5a = pureA<MaybeA>()(inc) ^star^ ( pure(3) );
+  Maybe<int> mx5a2 = pure(inc) ^star^ ( just(3) );
+  // This fails as it cannot deduce a type from pure alone.
+  //Maybe<int> mx5a3 = pure(inc) ^star^ ( pure(3) );
+  Maybe<int> mx5a3 = pure(inc) ^star^ ( pureM(3) ); // This works.
+  Maybe<int> mx5b = fmap(_,just(3)) (inc);
+  Maybe<int> mx5c = (_ ^fmap^ just(3)) (inc);
+  // This one fails because inc does not need to be lifted here.
+  //Maybe<int> mx5d = (_ ^fmap^ just(3)) ( pureA<MaybeA>()(inc) );
+  std::cout << "pureA<MaybeA>()(inc) ^star^ ( pure(3) ) : "
+            <<  mx5a << std::endl;
+  std::cout << "pure( inc ) ^star^ ( just(3) ) : "
+            <<  mx5a2 << std::endl;
+  std::cout << "pure( inc ) ^star^ ( pureM(3) ) : "
+            <<  mx5a3 << std::endl;
+  std::cout << "(_ ^fmap^ just(3)) (inc)        : "
+            <<  mx5c << std::endl;
+
+  
   std::cout << "=======================================" << std::endl;
   std::cout << "Some more examples from functors.cpp" << std::endl;
   std::cout << "=======================================" << std::endl;
@@ -214,6 +241,15 @@ void setup() {
   Either<int> el = liftM<EitherM>()(inc) (right (2) );
   std::cout << "liftM<EitherM>()(inc) (right (2) )     : " << el
             << std::endl;
+  std::cout << "--------------------------------------" << std::endl;
+  Maybe<int> mx4e = pure (inc (3) );
+  std::cout << "mx4e = pure (inc (3) )  : "
+            <<  mx4e << std::endl;
+  // The result is created from the assignment.
+  Either<int> ex4e = pure (inc (3) );
+  std::cout << "ex4e = pure (inc (3) )  : "
+            <<  ex4e << std::endl;
+  std::cout << "pure (inc (3) )  : " << pure (inc (3) ) << std::endl;
 
 
   std::cout << "=======================================" << std::endl;
