@@ -10,6 +10,16 @@
 
  John Fletcher M6777
 
+ ## C++ Libraries
+
+ There are now two libraries ArduinoSTL and Arduino Boost which I have forked to my github. Both need to be installed into the arduino/libraries of your setup to be of use. Taken together these make it possible to port C++ software to the Arduino. I have things running both on AVR (MEGA and UNO) and also on DUE. 
+ 
+ ### ArduinoSTL
+
+ This provides a set of std C++ headers.
+
+ There are two examples ArduinoSTLHello and ArduinoSTLIntegers in the repository.
+
  ## Branches
 
  I have decided to hold some codes in branches of this repository, rather than having a lot of other repositories at this stage.
@@ -30,7 +40,7 @@
 
  I now have a module CANDUE which is now working.
 
- This branch is now developing and I have a second DUE because there is some interesting possibilities to develop functional software using FC++. This will not work on the AVRs (ordinary Arduinos) as the library support is different.
+ This branch is now developing and I have a second DUE because there is some interesting possibilities to develop functional software using FC++. This will not work on the AVRs (ordinary Arduinos) as the library support is different. This can be overcome by using ArduinoSTL.
 
  ## Logos
 
