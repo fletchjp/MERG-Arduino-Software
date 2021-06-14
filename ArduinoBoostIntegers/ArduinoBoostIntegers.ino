@@ -3,7 +3,7 @@
 #include <ArduinoSTL.h>
 // This is an old version of boost from 2012.
 #include <boost_1_51_0.h>
-
+// Example use of a Boost header
 #include <boost/type_traits/is_void.hpp>
 
 using namespace std;
