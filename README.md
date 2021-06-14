@@ -18,7 +18,13 @@
 
  This provides a set of std C++ headers.
 
- There are two examples ArduinoSTLHello and ArduinoSTLIntegers in the repository.
+ There are two examples ArduinoSTLHello and ArduinoSTLIntegers in this repository.
+
+ ### Arduino-Boost
+
+ This provides a copy of the headers for Boost 1.51.0 which is an old version of Boost from 2012.
+
+There is a simple example ArduinoBoostIntegers in this repository which I plan to expand.
 
  ## Branches
 
