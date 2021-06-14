@@ -4,10 +4,21 @@
 // This is an old version of boost from 2012.
 #include <boost_1_51_0.h>
 // Example use of a Boost header
+
+//////////////////////////////////////////////////////////////////////
+// boost::function
+// I set out to work with an example of boost function.
+// It has taken some time to get the header to compile.
+// The problem is that boost::function throws exceptions
+// which are not supported by the Arduino C++.
+// The solution is to put some code here which will
+// satsify the compiler.
+//////////////////////////////////////////////////////////////////////
 #define BOOST_DISABLE_ASSERTS
 #define BOOST_NO_EXCEPTIONS
 #define BOOST_EXCEPTION_DISABLE
 #undef B1
+#undef F  // This is needed for the DUE.
 #include <iostream>
 #include <exception>
 #include <stdexcept>
