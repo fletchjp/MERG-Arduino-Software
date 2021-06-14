@@ -41,6 +41,7 @@ namespace boost {
 
 }
 
+#include <boost/utility/result_of.hpp>
 #include <boost/function.hpp>
 #include <string>
 
@@ -51,7 +52,40 @@ namespace boost {
   };
 */
 
-using namespace std;
+// This is for an adapted copy from BoostFC++ operator.hpp
+namespace infix  {
+
+template <class LHS, class Fun>
+struct InfixOpThingy {
+   // Note that storing const&s here relies on the fact that temporaries
+   // are guaranteed to live for the duration of the full-expression in
+   // which they are created.  There's no need to create copies.
+   const LHS& lhs;
+   const Fun& f;
+   InfixOpThingy( const LHS& l, const Fun& ff ) : lhs(l), f(ff) {}
+};
+
+
+template <class LHS, class F>
+inline InfixOpThingy<LHS,boost::function<F> >
+operator^( const LHS& lhs, const boost::function<F>& f ) {
+  return InfixOpThingy<LHS,boost::function<F> >(lhs,f);
+}
+
+template <class LHS, class A1, class A2, class R>
+inline InfixOpThingy<LHS,boost::function2<R,A1,A2> >
+operator^( const LHS& lhs, const boost::function2<R,A1,A2>& f ) {
+  return InfixOpThingy<LHS,boost::function2<R,A1,A2> >(lhs,f);
+}
+
+template <class LHS, class FF, class RHS>
+inline typename boost::result_of<FF(LHS,RHS)>::type
+operator^( const InfixOpThingy<LHS,FF>& x, const RHS& rhs ) {
+   return x.f( x.lhs, rhs );
+}
+
+
+}
 
 int f0()
 {
@@ -190,6 +224,17 @@ void setup() {
     p2 = *g22.target<pointer_to_func2>();
     std::cout << (*p2)(3,4) << std::endl;
   }
+  std::cout << "-----------------------" << std::endl;
+  using namespace infix;
+  std::cout << "Infix for boost::function2" << std::endl;
+  std::cout << "-----------------------" << std::endl;
+  int z = 2 ^g2^ 3;
+  int z2 = 3 ^g22^ 4;
+  int z3 = 3 ^g22^ 4 ^g22^ 5;
+  std::cout << "2 ^g2^  3 = " << z << std::endl;
+  std::cout << "3 ^g22^ 4 = " << z2 << std::endl;
+  std::cout << "3 ^g22^ 4 ^g22^ 5 = " << z3 << std::endl;
+  std::cout << "-----------------------" << std::endl;
 
 
   
