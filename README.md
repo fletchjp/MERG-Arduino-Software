@@ -28,6 +28,8 @@ There is a simple example ArduinoBoostIntegers in this repository which I plan t
 
 There is an example ArduinoBoostFunction which shows a set of simple uses of boost::function. This has some extra code in it to overcome the fact that Arduino C++ does not support exceptions and boost::function uses them. The extra code contains user defined routines to intercept the boost::function calls so that the code compiles. This will need to be borne in mind in any implementation.
 
+There are two more examples, ArduinoBoostFunctionBind and ArduinoBoostFunctionPhoenix which show different ways to delete a string from a vector of strings.
+
  ## Branches
 
  I have decided to hold some codes in branches of this repository, rather than having a lot of other repositories at this stage.
