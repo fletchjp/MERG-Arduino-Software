@@ -45,14 +45,64 @@ namespace boost {
 #include <boost/function.hpp>
 #include <boost/bind.hpp>
 #include <string>
+#include <vector>
 
-/*
-  class SomeError : public std::runtime_error {
-    public:
-      SomeError() : std::runtime_error(std::string("Some error")) {}
-  };
-*/
 
+////////////////////////////////////////////
+// Set up the list here
+////////////////////////////////////////////
+std::vector< std::string > make_list() {
+  std::vector< std::string > list;
+  list.push_back( "duck" );
+  list.push_back( "duck" );
+  list.push_back( "goose" );
+  return list;
+}
+
+//////////////////////////////////////////////
+// First example using standard library only
+//////////////////////////////////////////////
+bool IsGoose( const std::string& s )
+{
+  return s == "goose";
+}
+
+void delete_value1(std::vector< std::string > &list )
+{
+  list.erase( std::remove_if( list.begin(), list.end(), IsGoose ), list.end() );
+}
+
+void out_string(const std::string  &s)
+{
+  std::cout << s << std::endl;
+}
+
+void show_list1( const std::vector< std::string > &list )
+{
+  std::for_each(list.begin(), list.end(), out_string);
+}
+
+//////////////////////////////////////////////
+// Second example using boost bind
+//////////////////////////////////////////////
+
+bool isValue(const std::string &s1, const std::string &s2)
+{
+  return s1==s2;
+}
+
+void delete_value2(std::vector< std::string > &list, const std::string & value)
+{
+  list.erase(
+    std::remove_if(
+        list.begin(),
+        list.end(),
+        boost::bind(
+            isValue, // &isValue works as well.
+            _1, // Boost.Bind placeholder
+            boost::cref( value ) ) ),
+    list.end() );
+}
 
 void setup() {
   Serial.begin(9600);
@@ -60,6 +110,16 @@ void setup() {
   std::cout << "==============================================" << std::endl;
   std::cout << "Boost function bind example running on Arduino" << std::endl;
   std::cout << "==============================================" << std::endl;
+  std::string value = "goose";
+
+  std::vector< std::string > list1 = make_list();
+  delete_value1(list1);
+  show_list1(list1);
+  std::cout << "--------------------------------" << std::endl;
+  std::vector< std::string > list2 = make_list();
+  delete_value2(list2,value);
+  show_list1(list2);
+  std::cout << "--------------------------------" << std::endl;
  
   
 }
