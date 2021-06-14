@@ -16,7 +16,7 @@
  
  ### ArduinoSTL
 
- This provides a set of std C++ headers.
+ This provides a set of std C++ headers. There is one problem which is that it does not work with the Arduino AVR boards version 1.8.3 (latest). It needs version 1.8.2 which can be configured from the Boards Manager on the Arduino IDE. I have not explored alternative IDEs.
 
  There are two examples ArduinoSTLHello and ArduinoSTLIntegers in this repository.
 
