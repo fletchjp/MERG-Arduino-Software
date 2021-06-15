@@ -2,12 +2,22 @@
 // I am having a lot of trouble to get this to work with Boost for Arduino (1.66.0)
 // There are still problems in functional/hash.
 #define BOOST_FOR_ARDUINO
+
+// I have put this into limits.h to get rid of a problem with functional/hash in 1.66.0
+//#ifdef BOOST_FOR_ARDUINO
+//  static constexpr bool is_iec559 = false;
+//#else
+//  static const bool is_iec559;
+//#endif
+
 #include <ArduinoSTL.h>
 //#include <typeinfo>
 //#include <array>
 #include <functional>
 // All these defines are needed to sort things out.
 #define BOOST_NO_CWCHAR
+#define BOOST_NO_CXX11_CHAR16_T
+#define BOOST_NO_CXX11_CHAR32_T
 #define BOOST_NO_CXX11_HDR_TYPEINDEX
 #define BOOST_NO_CXX11_HDR_ARRAY
 #define BOOST_NO_CXX11_HDR_TUPLE
