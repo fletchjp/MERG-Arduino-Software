@@ -137,7 +137,7 @@ void setup() {
   typedef boost::function<int()> type0;
   typedef boost::function0<int>  type00;
 
- if(*g0.target<pointer_to_func0>() == f0) {
+  if(*g0.target<pointer_to_func0>() == f0) {
     std::cout << "g0 contains f0" << std::endl;
   } else {
     std::cout << "g0 does not contain f0" << std::endl;
