@@ -36,7 +36,7 @@ There are two more examples, ArduinoBoostFunctionBind and ArduinoBoostFunctionPh
 
 ### Boost for Arduino
 
-I have found this more recent Boost 1.66.0 and I am looking to get this working as well. At the moment I have problems.
+I have found this more recent Boost 1.66.0 and I am looking to get this working as well. At the moment I have problems. I am working to resolve these. I would like to have boost function working.
 
  ## Branches
 
