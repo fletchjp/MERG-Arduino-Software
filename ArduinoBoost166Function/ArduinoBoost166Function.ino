@@ -155,6 +155,15 @@ void setup() {
     std::cout << "g2 does not contain f2" << std::endl;
   }
 
+/* fails
+  if(g1.target<pointer_to_func1>()) {
+    std::cout << "g1 does have a valid pointer for f1" << std::endl;
+  }
+*/
+  if(!g1.target<pointer_to_func2>()) {
+    std::cout << "g1 does not have a valid pointer for f2" << std::endl;
+  }
+
   if(!g2.target<pointer_to_func1>()) {
     std::cout << "g2 does not have a valid pointer for f1" << std::endl;
   }
@@ -179,18 +188,26 @@ void setup() {
   } else {
     std::cout << "g00 does not contain f0" << std::endl;
   }
-/*
+
   if (contains(&f1,g0)) {
     std::cout << "g0 contains f1" << std::endl;
   } else {
     std::cout << "g0 does not contain f1" << std::endl;
   }
+
+
+  if (contains(&f1,g1)) {
+    std::cout << "g1 contains f1" << std::endl;
+  } else {
+    std::cout << "g1 does not contain f1" << std::endl;
+  }
+
   if (contains(&f1,g11)) {
     std::cout << "g11 contains f1" << std::endl;
   } else {
     std::cout << "g11 does not contain f1" << std::endl;
   }
-*/
+
 
   if (contains(&f2,g2)) {
     std::cout << "g2 contains f2" << std::endl;
@@ -214,13 +231,14 @@ void setup() {
     p0 = *g00.target<pointer_to_func0>();
     std::cout << (*p0)() << std::endl;
   }
-/*
-  pointer_to_func1 p1; // Instance of pointer to type.
-  if (check(p1,g1)) {
+
+  //pointer_to_func1 p1; // Instance of pointer to type.
+ if (check(p1,g1)) {
     std::cout << "g1 contains p1;  (*p1)(2)   = ";
-    p1 = *g1.target<pointer_to_func1>();
+    //p1 = *g1.target<pointer_to_func1>();
     std::cout << (*p1)(2) << std::endl;
   }
+/*
   if (check(p1,g11)) {
     std::cout << "g11 contains p1; (*p1)(3)   = ";
     p1 = *g11.target<pointer_to_func1>();
