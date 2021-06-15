@@ -11,6 +11,9 @@
 //#endif
 
 #include <ArduinoSTL.h>
+#include <iostream>
+#include <exception>
+#include <stdexcept>
 //#include <typeinfo>
 //#include <array>
 #include <functional>
@@ -51,21 +54,167 @@ namespace boost {
 
 #include <boost_function.hpp>
 // Example use of a Boost header
-#include <boost_type_traits.hpp>
+//#include <boost_type_traits.hpp>
 
 using namespace std;
 
+int f0()
+{
+  return 0;
+}
+
+int f1(int x)
+{
+  return x + x;
+}
+
+int f2(int x, int y)
+{
+  return x + y;
+}
+
+typedef int (*pointer_to_func0)();
+typedef int (*pointer_to_func1)(int);
+typedef int (*pointer_to_func2)(int,int);
+
+template <typename F,typename G>
+bool contains(const F& f,const G &g)
+{
+  if (g.template target<F>())
+  return (*g.template target<F>() == *f);
+  else return false;
+}
+
+template <typename F,typename G>
+bool check(const F& f,const G &g)
+{
+  return (g.template target<F>());
+}
+
 void setup() {
   Serial.begin(9600);
-  cout << "Feed me an integers." << endl;
+  std::cout << std::endl;
+  std::cout << "=========================================" << std::endl;
+  std::cout << "Boost function example running on Arduino" << std::endl;
+  std::cout << "using Boost for Arduino (1.66.0)" << std::endl;
+  std::cout << "=========================================" << std::endl;
+
+  boost::function0<int> g00(f0);
+  boost::function<int()> g0(f0);
+  // First order function definitions cause a crash.
+  //boost::function1<int,int> g11(f1);
+  //boost::function<int(int x)> g1(f1);
+/*
+  boost::function2<int,int,int> g22(f2);
+  boost::function<int(int x,int y)> g2(f2);
+  typedef boost::function<int()> type0;
+  typedef boost::function0<int>  type00;
+*/
+  std::cout << "f0()  = " << f0() << std::endl;
+  std::cout << "g00() = " << g00() << std::endl;
+  std::cout << "g0()  = " << g0() << std::endl;
+  pointer_to_func0 p0; // Instance of pointer to type.
+  p0 = *g0.target<pointer_to_func0>();
+  std::cout << "(*p0)() = " << (*p0)() << std::endl;
+
+  if(*g0.target<pointer_to_func0>() == f0) {
+    std::cout << "g0 contains f0" << std::endl;
+  } else {
+    std::cout << "g0 does not contain f0" << std::endl;
+  }
+
+  std::cout << "f1(1)  = " << f1(1) << std::endl;
+
+/*  
+  if(*g1.target<pointer_to_func1>() == f1) {
+    std::cout << "g1 contains f1" << std::endl;
+  } else {
+    std::cout << "g1 does not contain f1" << std::endl;
+  }
+  if(*g2.target<pointer_to_func2>() == f2) {
+    std::cout << "g2 contains f2" << std::endl;
+  } else {
+    std::cout << "g2 does not contain f2" << std::endl;
+  }
+  if(g2.target<pointer_to_func1>()) {
+  if(*g2.target<pointer_to_func1>() == f1) {
+    std::cout << "g2 contains f1" << std::endl;
+  } else {
+    std::cout << "g2 does not contain f1" << std::endl;
+  }} else {
+    std::cout << "g2 does not have a valid pointer for f1" << std::endl;
+  }
+
+  if (contains(&f0,g0)) {
+    std::cout << "g0 contains f0" << std::endl;
+  } else {
+    std::cout << "g0 does not contain f0" << std::endl;
+  }
+  if (contains(&f0,g00)) {
+    std::cout << "g00 contains f0" << std::endl;
+  } else {
+    std::cout << "g00 does not contain f0" << std::endl;
+  }
+  if (contains(&f1,g0)) {
+    std::cout << "g0 contains f1" << std::endl;
+  } else {
+    std::cout << "g0 does not contain f1" << std::endl;
+  }
+
+  if (contains(&f1,g11)) {
+    std::cout << "g11 contains f1" << std::endl;
+  } else {
+    std::cout << "g11 does not contain f1" << std::endl;
+  }
+  if (contains(&f2,g2)) {
+    std::cout << "g2 contains f2" << std::endl;
+  } else {
+    std::cout << "g2 does not contain f2" << std::endl;
+  }
+  if (contains(&f2,g22)) {
+    std::cout << "g22 contains f2" << std::endl;
+  } else {
+    std::cout << "g22 does not contain f2" << std::endl;
+  }
+  // These examples recover the pointer if we know the type.
+  pointer_to_func0 p0; // Instance of pointer to type.
+  if (check(p0,g0)) {
+    std::cout << "g0 contains p0;  (*p0)()    = ";
+    p0 = *g0.target<pointer_to_func0>();
+    std::cout << (*p0)() << std::endl;
+  }
+  if (check(p0,g00)) {
+    std::cout << "g00 contains p0; (*p0)()    = ";
+    p0 = *g00.target<pointer_to_func0>();
+    std::cout << (*p0)() << std::endl;
+  }
+  pointer_to_func1 p1; // Instance of pointer to type.
+  if (check(p1,g1)) {
+    std::cout << "g1 contains p1;  (*p1)(2)   = ";
+    p1 = *g1.target<pointer_to_func1>();
+    std::cout << (*p1)(2) << std::endl;
+  }
+  if (check(p1,g11)) {
+    std::cout << "g11 contains p1; (*p1)(3)   = ";
+    p1 = *g11.target<pointer_to_func1>();
+    std::cout << (*p1)(3) << std::endl;
+  }
+  pointer_to_func2 p2; // Instance of pointer to type.
+  if (check(p2,g2)) {
+    std::cout << "g2 contains p2;  (*p2)(2,3) = ";
+    p2 = *g2.target<pointer_to_func2>();
+    std::cout << (*p2)(2,3) << std::endl;
+  }
+  if (check(p2,g22)) {
+    std::cout << "g22 contains p2; (*p2)(3,4) = ";
+    p2 = *g22.target<pointer_to_func2>();
+    std::cout << (*p2)(3,4) << std::endl;
+  }
+  */
+  std::cout << "-----------------------" << std::endl;
+
 }
 
 void loop() {
-  int foo;
-  if (cin >> foo) { 
-    cout << "You fed me " << foo << endl;
-  }else{
-    cin.clear();
-    cin.ignore();
-  }
+
 }
