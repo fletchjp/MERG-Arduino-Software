@@ -1,0 +1,32 @@
+// ArduinoBoostIntegers
+// This example now works as long as the AVR Boards are 1.8.2 not 1.8.3
+#include <ArduinoSTL.h>
+// This is an old version of boost from 2012.
+//#include <boost_1_51_0.h>
+#include <typeinfo>
+//#include <array>
+#define BOOST_NO_CWCHAR
+#define BOOST_NO_CXX11_HDR_TYPEINDEX
+#define BOOST_NO_CXX11_HDR_ARRAY
+#define BOOST_NO_CXX11_HDR_TUPLE
+#define BOOST_NO_STD_WSTRING
+#include <boost_function.hpp>
+// Example use of a Boost header
+#include <boost_type_traits.hpp>
+
+using namespace std;
+
+void setup() {
+  Serial.begin(9600);
+  cout << "Feed me an integers." << endl;
+}
+
+void loop() {
+  int foo;
+  if (cin >> foo) { 
+    cout << "You fed me " << foo << endl;
+  }else{
+    cin.clear();
+    cin.ignore();
+  }
+}
