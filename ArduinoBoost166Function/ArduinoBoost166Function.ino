@@ -134,10 +134,13 @@ void setup() {
   } else {
     std::cout << "g0 does not contain f0" << std::endl;
   }
+  int (*p11)(int) ;
   pointer_to_func1 p1; // Instance of pointer to type.
   p1 = &f1;
+  p11 = &f1;
   std::cout << "f1(1)  = " << f1(1) << std::endl;
   std::cout << "(*p1)(2)  = " << (*p1)(2) << std::endl;
+  std::cout << "(*p11)(3)  = " << (*p11)(3) << std::endl;
   std::cout << "g1(3)  = " << g1(3) << std::endl;
   std::cout << "g11(4)  = " << g11(4) << std::endl;
  
@@ -245,16 +248,16 @@ void setup() {
   //pointer_to_func1 p1; // Instance of pointer to type.
  if (check(p1,g1)) {
     std::cout << "g1 contains p1;  (*p1)(2)   = ";
-    //p1 = *g1.target<pointer_to_func1>();
+    //p11 = *g1.target<pointer_to_func1>();
     std::cout << (*p1)(2) << std::endl;
   }
-/*
+
   if (check(p1,g11)) {
     std::cout << "g11 contains p1; (*p1)(3)   = ";
-    p1 = *g11.target<pointer_to_func1>();
+    //p1 = *g11.target<pointer_to_func1>();
     std::cout << (*p1)(3) << std::endl;
   }
-  */
+
 
   pointer_to_func2 p2; // Instance of pointer to type.
   if (check(p2,g2)) {
