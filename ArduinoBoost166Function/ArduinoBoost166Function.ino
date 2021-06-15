@@ -142,11 +142,11 @@ void setup() {
   std::cout << "g11(4)  = " << g11(4) << std::endl;
  
  
-/* This causes failure.
-  if(*g1.target<pointer_to_func1>() == f1) {
-    std::cout << "g1 contains f1" << std::endl;
+/* This causes failure with g1 and g11  
+  if(*g11.target<pointer_to_func1>() == f1) {
+    std::cout << "g11 contains f1" << std::endl;
   } else {
-    std::cout << "g1 does not contain f1" << std::endl;
+    std::cout << "g11 does not contain f1" << std::endl;
   }
 */
   if(*g2.target<pointer_to_func2>() == f2) {
@@ -155,9 +155,19 @@ void setup() {
     std::cout << "g2 does not contain f2" << std::endl;
   }
 
-/* fails
-  if(g1.target<pointer_to_func1>()) {
+  if(g1.contains(&f1)) {
     std::cout << "g1 does have a valid pointer for f1" << std::endl;
+  }
+
+  if(g11.contains(&f1)) {
+    std::cout << "g11 does have a valid pointer for f1" << std::endl;
+    // For some reason the next line throws even though it has a valid value.
+    //g11.target<pointer_to_func1>();
+  }
+
+/* fails for g1  and g11
+  if(g11.target<pointer_to_func1>()) {
+    std::cout << "g11 does have a valid pointer for f1" << std::endl;
   }
 */
   if(!g1.target<pointer_to_func2>()) {
