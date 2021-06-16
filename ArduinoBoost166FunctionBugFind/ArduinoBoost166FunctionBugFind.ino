@@ -1,6 +1,7 @@
-// ArduinoBoost166Function
+// ArduinoBoost166FunctionBugFinf
 // I am having a lot of trouble to get this to work with Boost for Arduino (1.66.0)
 // There are still problems in functional/hash.
+// Copy to adapt to look for a solution to the problem.
 #define BOOST_FOR_ARDUINO
 
 // I have put this into limits.h to get rid of a problem with functional/hash in 1.66.0
@@ -60,25 +61,25 @@ namespace boost {
 //#include <boost_type_traits.hpp>
 
 using namespace std;
-
+/*
 int f0()
 {
   return 0;
 }
-
+*/
 int f1(int x)
 {
   return x + x;
 }
-
+/*
 int f2(int x, int y)
 {
   return x + y;
 }
-
-typedef int (*pointer_to_func0)();
+*/
+//typedef int (*pointer_to_func0)();
 typedef int (*pointer_to_func1)(int);
-typedef int (*pointer_to_func2)(int,int);
+//typedef int (*pointer_to_func2)(int,int);
 
 template <typename F,typename G>
 bool contains(const F& f,const G &g)
@@ -100,23 +101,24 @@ void setup() {
   std::cout << "=========================================" << std::endl;
   std::cout << "Boost function example running on Arduino" << std::endl;
   std::cout << "using Boost for Arduino (1.66.0)" << std::endl;
+  std::cout << "Version to hunt for bug in function1" << std::endl;
   std::cout << "=========================================" << std::endl;
 
-  boost::function0<int> g00(f0);
-  boost::function<int()> g0(f0);
+  //boost::function0<int> g00(f0);
+  //boost::function<int()> g0(f0);
   // First order function definitions cause a crash.
   // This has now stopped because of other changes I have made!!
   boost::function1<int,int> g11(f1);
   boost::function<int(int x)> g1(f1);
 
-  boost::function2<int,int,int> g22(f2);
-  boost::function<int(int x,int y)> g2(f2);
+  //boost::function2<int,int,int> g22(f2);
+  //boost::function<int(int x,int y)> g2(f2);
 
-  typedef boost::function<int()> type0;
-  typedef boost::function0<int>  type00;
+  //typedef boost::function<int()> type0;
+  //typedef boost::function0<int>  type00;
   typedef boost::function1<int,int>  type11;
   typedef boost::function<int(int)>  type1;
-
+/*
   std::cout << "f0()  = " << f0() << std::endl;
   std::cout << "g00() = " << g00() << std::endl;
   std::cout << "g0()  = " << g0() << std::endl;
@@ -134,6 +136,7 @@ void setup() {
   } else {
     std::cout << "g0 does not contain f0" << std::endl;
   }
+*/
   int (*p11)(int) ;
   pointer_to_func1 p1; // Instance of pointer to type.
   p1 = &f1;
@@ -152,12 +155,13 @@ void setup() {
     std::cout << "g11 does not contain f1" << std::endl;
   }
 */
+/*
   if(*g2.target<pointer_to_func2>() == f2) {
     std::cout << "g2 contains f2" << std::endl;
   } else {
     std::cout << "g2 does not contain f2" << std::endl;
   }
-
+*/
   if(g1.contains(&f1)) {
     std::cout << "g1 does have a valid pointer for f1" << std::endl;
   }
@@ -173,6 +177,7 @@ void setup() {
     std::cout << "g11 does have a valid pointer for f1" << std::endl;
   }
 */
+/*
   if(!g1.target<pointer_to_func2>()) {
     std::cout << "g1 does not have a valid pointer for f2" << std::endl;
   }
@@ -180,6 +185,7 @@ void setup() {
   if(!g2.target<pointer_to_func1>()) {
     std::cout << "g2 does not have a valid pointer for f1" << std::endl;
   }
+  */
  /*
   *  This causes a crash even when the outer if returns false.
   if(g2.target<pointer_to_func1>()) {
@@ -191,6 +197,7 @@ void setup() {
     std::cout << "g2 does not have a valid pointer for f1" << std::endl;
   }
 */
+/*
   if (contains(&f0,g0)) {
     std::cout << "g0 contains f0" << std::endl;
   } else {
@@ -207,7 +214,7 @@ void setup() {
   } else {
     std::cout << "g0 does not contain f1" << std::endl;
   }
-
+*/
 
   if (contains(&f1,g1)) {
     std::cout << "g1 contains f1" << std::endl;
@@ -221,7 +228,7 @@ void setup() {
     std::cout << "g11 does not contain f1" << std::endl;
   }
 
-
+/*
   if (contains(&f2,g2)) {
     std::cout << "g2 contains f2" << std::endl;
   } else {
@@ -244,7 +251,7 @@ void setup() {
     p0 = *g00.target<pointer_to_func0>();
     std::cout << (*p0)() << std::endl;
   }
-
+*/
   //pointer_to_func1 p1; // Instance of pointer to type.
  if (check(p1,g1)) {
     std::cout << "g1 contains p1;  (*p1)(2)   = ";
@@ -258,7 +265,7 @@ void setup() {
     std::cout << (*p1)(3) << std::endl;
   }
 
-
+/*
   pointer_to_func2 p2; // Instance of pointer to type.
   if (check(p2,g2)) {
     std::cout << "g2 contains p2;  (*p2)(2,3) = ";
@@ -270,7 +277,7 @@ void setup() {
     p2 = *g22.target<pointer_to_func2>();
     std::cout << (*p2)(3,4) << std::endl;
   }
-
+*/
   std::cout << "-----------------------" << std::endl;
 
 }
