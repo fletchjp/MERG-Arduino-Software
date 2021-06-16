@@ -27,6 +27,7 @@
 #define BOOST_NO_CXX11_HDR_ARRAY
 #define BOOST_NO_CXX11_HDR_TUPLE
 #define BOOST_NO_CXX11_SMART_PTR
+#define BOOST_NO_CXX11_NULLPTR
 #define BOOST_NO_STD_WSTRING
 #define BOOST_DISABLE_ASSERTS
 #define BOOST_NO_EXCEPTIONS
@@ -100,6 +101,9 @@ void setup() {
   std::cout << "=========================================" << std::endl;
   std::cout << "Boost function example running on Arduino" << std::endl;
   std::cout << "using Boost for Arduino (1.66.0)" << std::endl;
+  #ifdef ARDUINO_SAM_DUE
+  std::cout << "running on an Arduino DUE" << std::endl;
+  #endif
   std::cout << "=========================================" << std::endl;
 
   boost::function0<int> g00(f0);
@@ -145,13 +149,14 @@ void setup() {
   std::cout << "g11(4)  = " << g11(4) << std::endl;
  
  
-/* This causes failure with g1 and g11  
+/* This causes failure with g1 and g11 with AVR */
+  #ifdef ARDUINO_SAM_DUE
   if(*g11.target<pointer_to_func1>() == f1) {
     std::cout << "g11 contains f1" << std::endl;
   } else {
     std::cout << "g11 does not contain f1" << std::endl;
   }
-*/
+  #endif 
   if(*g2.target<pointer_to_func2>() == f2) {
     std::cout << "g2 contains f2" << std::endl;
   } else {
@@ -168,11 +173,12 @@ void setup() {
     //g11.target<pointer_to_func1>();
   }
 
-/* fails for g1  and g11
+/* fails for g1  and g11 for AVR */
+  #ifdef ARDUINO_SAM_DUE
   if(g11.target<pointer_to_func1>()) {
     std::cout << "g11 does have a valid pointer for f1" << std::endl;
   }
-*/
+  #endif
   if(!g1.target<pointer_to_func2>()) {
     std::cout << "g1 does not have a valid pointer for f2" << std::endl;
   }
