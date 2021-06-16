@@ -108,8 +108,9 @@ void setup() {
   //boost::function<int()> g0(f0);
   // First order function definitions cause a crash.
   // This has now stopped because of other changes I have made!!
-  boost::function1<int,int> g11(f1);
-  boost::function<int(int x)> g1(f1);
+  // There is something wrong with the operation of the constructor for one argument.
+  boost::function1<int,int> g11(&f1);
+  boost::function<int(int x)> g1(&f1);
 
   //boost::function2<int,int,int> g22(f2);
   //boost::function<int(int x,int y)> g2(f2);
@@ -144,8 +145,8 @@ void setup() {
   std::cout << "f1(1)  = " << f1(1) << std::endl;
   std::cout << "(*p1)(2)  = " << (*p1)(2) << std::endl;
   std::cout << "(*p11)(3)  = " << (*p11)(3) << std::endl;
-  std::cout << "g1(3)  = " << g1(3) << std::endl;
-  std::cout << "g11(4)  = " << g11(4) << std::endl;
+  //std::cout << "g1(3)  = " << g1(3) << std::endl;
+  //std::cout << "g11(4)  = " << g11(4) << std::endl;
  
  
 /* This causes failure with g1 and g11  
@@ -162,6 +163,7 @@ void setup() {
     std::cout << "g2 does not contain f2" << std::endl;
   }
 */
+/*
   if(g1.contains(&f1)) {
     std::cout << "g1 does have a valid pointer for f1" << std::endl;
   }
@@ -171,7 +173,7 @@ void setup() {
     // For some reason the next line throws even though it has a valid value.
     //g11.target<pointer_to_func1>();
   }
-
+*/
 /* fails for g1  and g11
   if(g11.target<pointer_to_func1>()) {
     std::cout << "g11 does have a valid pointer for f1" << std::endl;
@@ -215,7 +217,7 @@ void setup() {
     std::cout << "g0 does not contain f1" << std::endl;
   }
 */
-
+/*
   if (contains(&f1,g1)) {
     std::cout << "g1 contains f1" << std::endl;
   } else {
@@ -227,7 +229,7 @@ void setup() {
   } else {
     std::cout << "g11 does not contain f1" << std::endl;
   }
-
+*/
 /*
   if (contains(&f2,g2)) {
     std::cout << "g2 contains f2" << std::endl;
@@ -252,6 +254,7 @@ void setup() {
     std::cout << (*p0)() << std::endl;
   }
 */
+/*
   //pointer_to_func1 p1; // Instance of pointer to type.
  if (check(p1,g1)) {
     std::cout << "g1 contains p1;  (*p1)(2)   = ";
@@ -264,7 +267,7 @@ void setup() {
     //p1 = *g11.target<pointer_to_func1>();
     std::cout << (*p1)(3) << std::endl;
   }
-
+*/
 /*
   pointer_to_func2 p2; // Instance of pointer to type.
   if (check(p2,g2)) {
