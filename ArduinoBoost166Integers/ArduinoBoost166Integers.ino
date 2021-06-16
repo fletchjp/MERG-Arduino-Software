@@ -14,6 +14,9 @@ using namespace std;
 void setup() {
   Serial.begin(9600);
   cout << "Feed me an integers." << endl;
+#ifdef ARDUINO_SAM_DUE
+  std::cout << "running on an Arduino DUE" << std::endl;
+#endif
 }
 
 void loop() {
