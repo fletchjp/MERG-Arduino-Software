@@ -19,7 +19,7 @@
 #include <stdexcept>
 //#include <typeinfo>
 //#include <array>
-#include <functional>
+//#include <functional>
 // All these defines are needed to sort things out.
 #define BOOST_NO_CWCHAR
 #define BOOST_NO_CXX11_CHAR16_T
@@ -37,8 +37,8 @@ namespace std {
 
    class runtime_error {
    public:
-   runtime_error( std::exception & e ) { }
-   runtime_error( std::string const & s ) { }
+   runtime_error( std::exception & e ) { std::cout << "runtime_error called" << std::endl; exit(0); }
+   runtime_error( std::string const & s ) { std::cout << "runtime_error called with " << s << std::endl; exit(0); }
   };
 }
 
@@ -71,12 +71,12 @@ int f1(int x)
 {
   return x + x;
 }
-/*
+
 int f2(int x, int y)
 {
   return x + y;
 }
-*/
+
 //typedef int (*pointer_to_func0)();
 typedef int (*pointer_to_func1)(int);
 //typedef int (*pointer_to_func2)(int,int);
@@ -109,10 +109,10 @@ void setup() {
   // First order function definitions cause a crash.
   // This has now stopped because of other changes I have made!!
   // There is something wrong with the operation of the constructor for one argument.
-  boost::function1<int,int> g11(&f1);
-  boost::function<int(int x)> g1(&f1);
+  //boost::function1<int,int> g11(&f1);
+  //boost::function<int(int x)> g1(&f1);
 
-  //boost::function2<int,int,int> g22(f2);
+  boost::function2<int,int,int> g22(f2);
   //boost::function<int(int x,int y)> g2(f2);
 
   //typedef boost::function<int()> type0;
@@ -145,8 +145,12 @@ void setup() {
   std::cout << "f1(1)  = " << f1(1) << std::endl;
   std::cout << "(*p1)(2)  = " << (*p1)(2) << std::endl;
   std::cout << "(*p11)(3)  = " << (*p11)(3) << std::endl;
+  //if (g1.empty()) std::cout << "g1 is empty." << std::endl;
+  //if (g11.empty()) std::cout << "g11 is empty." << std::endl;
   //std::cout << "g1(3)  = " << g1(3) << std::endl;
   //std::cout << "g11(4)  = " << g11(4) << std::endl;
+  std::cout << "g22(3,4)  = " << g22(3,4) << std::endl;
+
  
  
 /* This causes failure with g1 and g11  
