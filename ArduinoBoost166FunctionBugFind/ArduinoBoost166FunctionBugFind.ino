@@ -28,6 +28,7 @@
 #define BOOST_NO_CXX11_HDR_ARRAY
 #define BOOST_NO_CXX11_HDR_TUPLE
 #define BOOST_NO_CXX11_SMART_PTR
+#define BOOST_NO_CXX11_NULLPTR
 #define BOOST_NO_STD_WSTRING
 #define BOOST_DISABLE_ASSERTS
 #define BOOST_NO_EXCEPTIONS
@@ -102,6 +103,9 @@ void setup() {
   std::cout << "Boost function example running on Arduino" << std::endl;
   std::cout << "using Boost for Arduino (1.66.0)" << std::endl;
   std::cout << "Version to hunt for bug in function1" << std::endl;
+  #ifdef ARDUINO_SAM_DUE
+  std::cout << "running on an Arduino DUE" << std::endl;
+  #endif
   std::cout << "=========================================" << std::endl;
 
   //boost::function0<int> g00(f0);
@@ -109,8 +113,8 @@ void setup() {
   // First order function definitions cause a crash.
   // This has now stopped because of other changes I have made!!
   // There is something wrong with the operation of the constructor for one argument.
-  //boost::function1<int,int> g11(&f1);
-  //boost::function<int(int x)> g1(&f1);
+  boost::function1<int,int> g11(&f1);
+  boost::function<int(int x)> g1(&f1);
 
   boost::function2<int,int,int> g22(f2);
   //boost::function<int(int x,int y)> g2(f2);
@@ -147,8 +151,8 @@ void setup() {
   std::cout << "(*p11)(3)  = " << (*p11)(3) << std::endl;
   //if (g1.empty()) std::cout << "g1 is empty." << std::endl;
   //if (g11.empty()) std::cout << "g11 is empty." << std::endl;
-  //std::cout << "g1(3)  = " << g1(3) << std::endl;
-  //std::cout << "g11(4)  = " << g11(4) << std::endl;
+  std::cout << "g1(3)  = " << g1(3) << std::endl;
+  std::cout << "g11(4)  = " << g11(4) << std::endl;
   std::cout << "g22(3,4)  = " << g22(3,4) << std::endl;
 
  
