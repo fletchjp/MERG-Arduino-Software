@@ -74,6 +74,7 @@ namespace boost {
 #include <boost_phoenix_core.hpp>
 #include <boost_phoenix_bind.hpp>
 #include <boost_phoenix_operator_comparison.hpp>
+#include <boost_phoenix_stl_algorithm_transformation.hpp>
 
 #include <string>
 #include <vector>
@@ -154,6 +155,20 @@ void delete_value3(std::vector< std::string > &list, const std::string & value)
         list.end() );
 }
 
+//////////////////////////////////////////////////////////////
+// Fourth example using boost phoenix for the algorithm as well
+//////////////////////////////////////////////////////////////
+
+void delete_value4(std::vector< std::string > &list, const std::string & value)
+{
+  // This needs header boost/phoenix/stl/algorithm/transformation
+  // It uses two Boost.Phoenix placeholders.
+  list.erase( phx::remove_if( arg1, arg2 )
+            ( list, arg1 == phx::cref( value ) ),
+            list.end() );
+}
+
+
 void setup() {
   Serial.begin(9600);
   std::cout << std::endl;
@@ -180,6 +195,10 @@ void setup() {
   std::vector< std::string > list3 = make_list();
   delete_value3(list3,value);
   show_list1(list3);
+  std::cout << "--------------------------------" << std::endl;
+  std::vector< std::string > list4 = make_list();
+  delete_value4(list4,value);
+  show_list1(list4);
   std::cout << "--------------------------------" << std::endl;
 
 #else
