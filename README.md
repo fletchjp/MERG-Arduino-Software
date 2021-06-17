@@ -34,9 +34,11 @@ There is an example ArduinoBoostFunction which shows a set of simple uses of boo
 
 There are two more examples, ArduinoBoostFunctionBind and ArduinoBoostFunctionPhoenix which show different ways to delete a string from a vector of strings.
 
-### Boost for Arduino
+ ### Boost for Arduino
 
 I have found this more recent Boost 1.66.0 and I am looking to get this working as well. At the moment I have problems with AVR (MEGA). I have not been able to resolve these. I do have boost function working with DUE.
+
+There are two examples, ArduinoBoost166FunctionBind and ArduinoBoost166FunctionPhoenix which show different ways to delete a string from a vector of strings. These work only on a DUE.
 
  ## Branches
 
