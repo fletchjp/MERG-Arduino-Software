@@ -307,10 +307,22 @@ void setup() {
     p2 = *g22.target<pointer_to_func2>();
     std::cout << (*p2)(3,4) << std::endl;
   }
+  std::cout << "-----------------------" << std::endl;
+  using namespace infix;
+  std::cout << "Infix for boost::function2" << std::endl;
+  std::cout << "-----------------------" << std::endl;
+  int z = 2 ^g2^ 3;
+  int z2 = 3 ^g22^ 4;
+  int z3 = 3 ^g22^ 4 ^g22^ 5;
+  std::cout << "2 ^g2^  3 = " << z << std::endl;
+  std::cout << "3 ^g22^ 4 = " << z2 << std::endl;
+  std::cout << "3 ^g22^ 4 ^g22^ 5 = " << z3 << std::endl;
+  std::cout << "-----------------------" << std::endl;
+
 #else
   std::cout << "All examples out of use for AVR" << std::endl;
 #endif
-  std::cout << "-----------------------" << std::endl;
+  std::cout << "=========================================" << std::endl;
 
 }
 
