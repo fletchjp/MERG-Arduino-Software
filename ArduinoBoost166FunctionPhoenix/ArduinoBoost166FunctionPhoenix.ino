@@ -34,6 +34,7 @@
 #define BOOST_NO_EXCEPTIONS
 #define BOOST_EXCEPTION_DISABLE
 #define BOOST_NO_CXX11_RVALUE_REFERENCES // Needed for boost::bind to work
+#define BOOST_NO_CXX11_HDR_FUNCTIONAL    // Needed for boost::phoenix
 
 namespace std {
 
@@ -64,13 +65,15 @@ namespace boost {
 #undef A9
 #undef B1
 #undef F
-
+#undef TC1
+#undef TC2
 
 #include <boost_utility_result_of.hpp>
 #include <boost_function.hpp>
 #include <boost_bind.hpp>
 #include <boost_phoenix_core.hpp>
 #include <boost_phoenix_bind.hpp>
+#include <boost_phoenix_operator_comparison.hpp>
 
 #include <string>
 #include <vector>
@@ -173,6 +176,10 @@ void setup() {
   std::vector< std::string > list2 = make_list();
   delete_value2(list2,value);
   show_list1(list2);
+  std::cout << "--------------------------------" << std::endl;
+  std::vector< std::string > list3 = make_list();
+  delete_value3(list3,value);
+  show_list1(list3);
   std::cout << "--------------------------------" << std::endl;
 
 #else
