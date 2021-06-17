@@ -30,7 +30,7 @@
 
  ### Arduino-Boost
 
- This provides a copy of the headers for Boost 1.51.0 which is an old version of Boost from 2012.
+ This provides a copy of the headers for Boost 1.51.0 which is an old version of Boost from 2012. Although this is an old version it provides a lot of useful things which can solve some problems and make more readable code.
 
 There is a simple example ArduinoBoostIntegers in this repository which I plan to expand.
 
@@ -40,11 +40,15 @@ There are two more examples, ArduinoBoostFunctionBind and ArduinoBoostFunctionPh
 
  ### Boost for Arduino
 
-I have found this more recent Boost 1.66.0 and I am looking to get this working as well. At the moment I have problems with AVR (MEGA). I have not been able to resolve these. I do have boost function working with DUE.
+I have found this more recent Boost 1.66.0 and I am looking to get this working as well. This version provides a lot more things which were added to Boost after 2012. It dates from December 2017.
+
+At the moment I have problems with AVR (MEGA) with examples using boost function. I have not been able to resolve these. They seem to relate to changes in the internal organisation of Boost between 1.51.0 and 1.66.0.
+
+I do have boost function examples working with DUE. This has involved a lot of experimentation as the C++11 implementation available has various limitations which I have been able to work around.
 
 There are two examples, ArduinoBoost166FunctionBind and ArduinoBoost166FunctionPhoenix which show different ways to delete a string from a vector of strings. These work only on a DUE.
 
-A lot of the issues getting the code to work is explained in the example ArduinoBoost166FunctionPhoenix.
+A lot of the issues getting the code to work are explained in the example ArduinoBoost166FunctionPhoenix.
 
  ## Branches
 
