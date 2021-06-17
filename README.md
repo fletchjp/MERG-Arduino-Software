@@ -40,6 +40,8 @@ I have found this more recent Boost 1.66.0 and I am looking to get this working 
 
 There are two examples, ArduinoBoost166FunctionBind and ArduinoBoost166FunctionPhoenix which show different ways to delete a string from a vector of strings. These work only on a DUE.
 
+A lot of the issues getting the code to work is explained in the example ArduinoBoost166FunctionPhoenix.
+
  ## Branches
 
  I have decided to hold some codes in branches of this repository, rather than having a lot of other repositories at this stage.
