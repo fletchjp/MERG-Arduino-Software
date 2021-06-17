@@ -12,7 +12,11 @@
 
  ## C++ Libraries
 
- There are now libraries for ArduinoSTL and two versions of Boost for Arduino which I have forked to my github. These need to be installed into the arduino/libraries of your setup to be of use. Taken together these make it possible to port C++ software to the Arduino. I have things running both on AVR (MEGA and UNO) and also on DUE. The more recent Boost only runs on a DUE.
+ I have now found libraries for ArduinoSTL and two versions of Boost for Arduino which I have forked to my github. These need to be installed into the arduino/libraries of your setup to be of use. Taken together these make it possible to port C++ software to the Arduino. I have things running both on AVR (MEGA and UNO) and also on DUE. The more recent Boost only runs on a DUE.
+
+ My reason for doing this is to be able to make use of previous work with C++ to solve practical problems in the Arduino environment.
+
+ ### Experience
 
  As I have developed examples I have come across a number of compatibility problems which I have been able to work around by one means or another. The main limitation is that the Streaming library is not compatible with using std::cout. The best thing is not to use it at all with ArduinoSTL. Various other difficulties are discussed in the comments in the examples.
 
