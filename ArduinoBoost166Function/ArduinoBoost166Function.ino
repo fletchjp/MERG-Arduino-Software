@@ -60,7 +60,42 @@ namespace boost {
 // Example use of a Boost header
 //#include <boost_type_traits.hpp>
 
-using namespace std;
+//using namespace std;
+
+// This is for an adapted copy from BoostFC++ operator.hpp
+namespace infix  {
+
+template <class LHS, class Fun>
+struct InfixOpThingy {
+   // Note that storing const&s here relies on the fact that temporaries
+   // are guaranteed to live for the duration of the full-expression in
+   // which they are created.  There's no need to create copies.
+   const LHS& lhs;
+   const Fun& f;
+   InfixOpThingy( const LHS& l, const Fun& ff ) : lhs(l), f(ff) {}
+};
+
+
+template <class LHS, class F>
+inline InfixOpThingy<LHS,boost::function<F> >
+operator^( const LHS& lhs, const boost::function<F>& f ) {
+  return InfixOpThingy<LHS,boost::function<F> >(lhs,f);
+}
+
+template <class LHS, class A1, class A2, class R>
+inline InfixOpThingy<LHS,boost::function2<R,A1,A2> >
+operator^( const LHS& lhs, const boost::function2<R,A1,A2>& f ) {
+  return InfixOpThingy<LHS,boost::function2<R,A1,A2> >(lhs,f);
+}
+
+template <class LHS, class FF, class RHS>
+inline typename boost::result_of<FF(LHS,RHS)>::type
+operator^( const InfixOpThingy<LHS,FF>& x, const RHS& rhs ) {
+   return x.f( x.lhs, rhs );
+}
+
+
+}
 
 int f0()
 {
@@ -103,9 +138,12 @@ void setup() {
   std::cout << "using Boost for Arduino (1.66.0)" << std::endl;
   #ifdef ARDUINO_SAM_DUE
   std::cout << "running on an Arduino DUE" << std::endl;
+  #else
+  std::cout << "running on MEGA (AVR) which is liable to crash" << std::endl;
   #endif
   std::cout << "=========================================" << std::endl;
 
+  #ifdef ARDUINO_SAM_DUE
   boost::function0<int> g00(f0);
   boost::function<int()> g0(f0);
   // First order function definitions cause a crash.
@@ -149,14 +187,11 @@ void setup() {
   std::cout << "g11(4)  = " << g11(4) << std::endl;
  
  
-/* This causes failure with g1 and g11 with AVR */
-  #ifdef ARDUINO_SAM_DUE
-  if(*g11.target<pointer_to_func1>() == f1) {
+   if(*g11.target<pointer_to_func1>() == f1) {
     std::cout << "g11 contains f1" << std::endl;
   } else {
     std::cout << "g11 does not contain f1" << std::endl;
   }
-  #endif 
   if(*g2.target<pointer_to_func2>() == f2) {
     std::cout << "g2 contains f2" << std::endl;
   } else {
@@ -169,16 +204,14 @@ void setup() {
 
   if(g11.contains(&f1)) {
     std::cout << "g11 does have a valid pointer for f1" << std::endl;
-    // For some reason the next line throws even though it has a valid value.
-    //g11.target<pointer_to_func1>();
+    // For some reason the next line throws even though it has a valid value with AVR.
+    g11.target<pointer_to_func1>();
   }
 
 /* fails for g1  and g11 for AVR */
-  #ifdef ARDUINO_SAM_DUE
   if(g11.target<pointer_to_func1>()) {
     std::cout << "g11 does have a valid pointer for f1" << std::endl;
   }
-  #endif
   if(!g1.target<pointer_to_func2>()) {
     std::cout << "g1 does not have a valid pointer for f2" << std::endl;
   }
@@ -186,8 +219,7 @@ void setup() {
   if(!g2.target<pointer_to_func1>()) {
     std::cout << "g2 does not have a valid pointer for f1" << std::endl;
   }
- /*
-  *  This causes a crash even when the outer if returns false.
+ /*  This causes a crash even when the outer if returns false. (AVR) */
   if(g2.target<pointer_to_func1>()) {
   if(*g2.target<pointer_to_func1>() == f1) {
     std::cout << "g2 contains f1" << std::endl;
@@ -196,7 +228,6 @@ void setup() {
   }} else {
     std::cout << "g2 does not have a valid pointer for f1" << std::endl;
   }
-*/
   if (contains(&f0,g0)) {
     std::cout << "g0 contains f0" << std::endl;
   } else {
@@ -254,13 +285,13 @@ void setup() {
   //pointer_to_func1 p1; // Instance of pointer to type.
  if (check(p1,g1)) {
     std::cout << "g1 contains p1;  (*p1)(2)   = ";
-    //p11 = *g1.target<pointer_to_func1>();
+    p1 = *g1.target<pointer_to_func1>();
     std::cout << (*p1)(2) << std::endl;
   }
 
   if (check(p1,g11)) {
     std::cout << "g11 contains p1; (*p1)(3)   = ";
-    //p1 = *g11.target<pointer_to_func1>();
+    p1 = *g11.target<pointer_to_func1>();
     std::cout << (*p1)(3) << std::endl;
   }
 
@@ -276,7 +307,9 @@ void setup() {
     p2 = *g22.target<pointer_to_func2>();
     std::cout << (*p2)(3,4) << std::endl;
   }
-
+#else
+  std::cout << "All examples out of use for AVR" << std::endl;
+#endif
   std::cout << "-----------------------" << std::endl;
 
 }
