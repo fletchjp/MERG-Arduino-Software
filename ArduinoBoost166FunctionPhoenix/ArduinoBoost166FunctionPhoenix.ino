@@ -1,9 +1,15 @@
-// ArduinoBoost166Function
+// ArduinoBoost166FunctionPhoenix
 // I am having a lot of trouble to get this to work with Boost for Arduino (1.66.0)
-// There are still problems in functional/hash.
+// I am using this define to show that I am using Boost for Arduino
 #define BOOST_FOR_ARDUINO
 
-// I have put this into limits.h to get rid of a problem with functional/hash in 1.66.0
+// I have had to change the file limits.h in the ArduinoSTL library.
+// The problems are all caused by the need to get the functional/hash code to compile.
+// There is an extra need for a DUE.
+// I have found out that compiling on a DUE sets the following define: ARDUINO_SAM_DUE.
+// This can be used to test in the source code and have different code for DUE and AVR (MEGA).
+
+// I have put the following into limits.h to get rid of a problem with functional/hash in 1.66.0
 // There are other modifications to limits.h as the hash code is fussy and
 // I have not found a way to turn it off.
 //#ifdef BOOST_FOR_ARDUINO
@@ -21,6 +27,8 @@
 #include <functional>
 //#include <utility>
 // All these defines are needed to sort things out.
+// They point to limitations in the compiler on the AVR and DUE.
+// These have been arrived at by trial and error and inspection of the source code.
 #define BOOST_NO_CWCHAR
 #define BOOST_NO_CXX11_CHAR16_T
 #define BOOST_NO_CXX11_CHAR32_T
