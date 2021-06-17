@@ -1,13 +1,15 @@
 // ArduinoBoost166FunctionPhoenix
-// I am having a lot of trouble to get this to work with Boost for Arduino (1.66.0)
-// I am using this define to show that I am using Boost for Arduino
+// I have had a lot of trouble to getting boost forward to work with Boost for Arduino (1.66.0)
+// It dates from 2017 after structural changes within Boost compared to 1.51.0 from 2012.
+// The problems have now been resolved and I think I have a good basis for further work.
+// I am using this define to show that I am using Boost for Arduino which I am now only using on a DUE.
 #define BOOST_FOR_ARDUINO
+// I have found out that compiling on a DUE sets the following define: ARDUINO_SAM_DUE.
+// This can be used to test in the source code and have different code for DUE and AVR (MEGA).
 
 // I have had to change the file limits.h in the ArduinoSTL library.
 // The problems are all caused by the need to get the functional/hash code to compile.
 // There is an extra need for a DUE.
-// I have found out that compiling on a DUE sets the following define: ARDUINO_SAM_DUE.
-// This can be used to test in the source code and have different code for DUE and AVR (MEGA).
 
 // I have put the following into limits.h to get rid of a problem with functional/hash in 1.66.0
 // There are other modifications to limits.h as the hash code is fussy and
