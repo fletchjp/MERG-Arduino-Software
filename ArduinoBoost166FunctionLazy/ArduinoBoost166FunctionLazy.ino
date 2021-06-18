@@ -144,6 +144,8 @@ operator^( const LHS& lhs, const boost::phoenix::function<F>& f ) {
 
 template <class LHS, class FF, class RHS>
 // This is part of phoenix function lazy prelude.
+// The headers for this are supplied above.
+// One of the things supplied is easy ways to get the return types.
 inline typename boost::phoenix::impl::RTFFXY<FF,LHS,RHS>::type
 operator^( const InfixOpThingyPhoenix<LHS,FF>& x, const RHS& rhs ) {
   return x.f( x.lhs, rhs )();
