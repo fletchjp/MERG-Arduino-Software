@@ -1,7 +1,6 @@
 // ArduinoBoost166FunctionLazy
-// I am having a lot of trouble to get this to work with Boost for Arduino (1.66.0)
-// There are still problems in functional/hash now solved to work only for DUE.
 // This example is beginning to use the lazy operations possible in Boost Phoenix Function.
+// Arduino DUE only.
 #define BOOST_FOR_ARDUINO
 
 // I have put this into limits.h to get rid of a problem with functional/hash in 1.66.0
