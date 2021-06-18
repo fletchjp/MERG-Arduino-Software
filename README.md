@@ -50,6 +50,8 @@ There are two examples, ArduinoBoost166FunctionBind and ArduinoBoost166FunctionP
 
 A lot of the issues getting the code to work are explained in the example ArduinoBoost166FunctionPhoenix.
 
+I am now adding more examples. In particular ArduinoBoost166FunctionLazy is starting to use some of the features I added to Boost Phoenix back around 2015.
+
  ## Branches
 
  I have decided to hold some codes in branches of this repository, rather than having a lot of other repositories at this stage.
