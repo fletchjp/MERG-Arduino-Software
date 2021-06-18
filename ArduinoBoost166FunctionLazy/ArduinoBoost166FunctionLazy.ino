@@ -374,6 +374,8 @@ void setup() {
   std::cout << "3 ^g22^ 4 = " << z2 << std::endl;
   std::cout << "3 ^g22^ 4 ^g22^ 5 = " << z3 << std::endl;
   std::cout << "-----------------------" << std::endl;
+  std::cout << "Boost phoenix lazy examples." << std::endl;
+  std::cout << "-----------------------" << std::endl;
   namespace phx = boost::phoenix;
   std::cout << "phx::plus(2,3)() = " << phx::plus(2,3)() << std::endl;
   int ph  =  2 ^phx::plus^ 3;
