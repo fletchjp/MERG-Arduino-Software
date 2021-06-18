@@ -377,12 +377,122 @@ void setup() {
   std::cout << "Boost phoenix lazy examples." << std::endl;
   std::cout << "-----------------------" << std::endl;
   namespace phx = boost::phoenix;
+  using boost::phoenix::arg_names::arg1;
+  using boost::phoenix::arg_names::arg2;
+  using boost::phoenix::local_names::_a;
+  using boost::phoenix::local_names::_b;
   std::cout << "phx::plus(2,3)() = " << phx::plus(2,3)() << std::endl;
   int ph  =  2 ^phx::plus^ 3;
   int ph2 =  3 ^phx::minus^ 2;
   std::cout << "2 ^phx::plus^ 3  = " << ph  << std::endl;
   std::cout << "3 ^phx::minus^ 2 = " << ph2  << std::endl;
   std::cout << "-----------------------" << std::endl;
+  using namespace boost::phoenix;
+  int a = 123;
+  int b = 256;
+  std::cout << "plus(arg1, arg2)(a, b) = "
+            << phx::plus(arg1, arg2)(a, b) << std::endl;
+  std::cout << "plus(arg1, b)(a)       = "
+            << plus(arg1, b)(a) << std::endl;
+  std::cout << "plus(a, arg2)(a,b)     = "
+            << plus(a, arg2)(a,b) << std::endl;
+  std::cout << "plus(a, arg1)(b)       = "
+            << plus(a, arg1)(b) << std::endl;
+  std::cout << "minus(a, b)()          = "
+            << minus(a, b)() << std::endl;
+  std::cout << "plus(minus(a, b),b)()             = "
+            << plus(minus(a, b),b)() << std::endl;
+  std::cout << "plus(minus(arg1, b),b)(a)         = "
+            << plus(minus(arg1, b),b)(a) << std::endl;
+  std::cout << "plus(minus(arg1, arg2),b)(a,b)    = "
+            << plus(minus(arg1, arg2),b)(a,b) << std::endl;
+  std::cout << "plus(minus(arg1, arg2),arg2)(a,b) = "
+            << plus(minus(arg1, arg2),arg2)(a,b) << std::endl;
+    std::cout << "===============================" << std::endl;
+    std::cout << "Other numerical operators" << std::endl;
+    std::cout << "===============================" << std::endl;
+    std::cout << "multiplies(arg1,arg2)(3,6) = "
+              << multiplies(arg1,arg2)(3,6) << std::endl;
+    std::cout << "divides(arg2,arg1)(3,6) = "
+              << divides(arg2,arg1)(3,6) << std::endl;
+    std::cout << "modulus(arg2,arg1)(4,6) = "
+              << modulus(arg2,arg1)(4,6) << std::endl;
+    std::cout << "min(arg1,arg2)(4,6) = "
+              << min(arg1,arg2)(4,6) << std::endl;
+    std::cout << "max(arg1,arg2)(4,6) = "
+              << max(arg1,arg2)(4,6) << std::endl;
+    std::cout << "inc(arg1)(a) = "
+              << inc(arg1)(a) << std::endl;
+    std::cout << "dec(arg1)(a) = "
+              << dec(arg1)(a) << std::endl;
+    std::cout << "negate(arg1)(a) = "
+              << negate(arg1)(a) << std::endl;
+    std::cout << "===============================" << std::endl;
+    std::cout << "Logical operators" << std::endl;
+    std::cout << "===============================" << std::endl;
+    if (equal(arg1,arg1)(a)) std::cout << "equal(arg1,arg1)(a) is true "
+              << std::endl;
+    if (not_equal(arg1,arg2)(a,b))
+       std::cout << "not_equal(arg1,arg2)(a,b) is true "
+              << std::endl;
+    if (greater(arg2,arg1)(a,b))
+       std::cout << "greater(arg2,arg1)(a,b) is true "
+              << std::endl;
+    if (less(arg1,arg2)(a,b)) std::cout << "less(arg1,arg2)(a,b) is true "
+              << std::endl;
+    if (greater_equal(arg2,arg1)(a,b))
+       std::cout << "greater_equal(arg2,arg1)(a,b) is true "
+              << std::endl;
+    if (less_equal(arg1,arg2)(a,b))
+       std::cout << "less_equal(arg1,arg2)(a,b) is true "
+              << std::endl;
+    if (less_equal(arg1,arg1)(a))
+       std::cout << "less_equal(arg1,arg1)(a) is true "
+              << std::endl;
+    if (logical_and(less(arg1,arg2),greater(arg2,arg1))(a,b))
+       std::cout << "logical_and(less(arg1,arg2),greater(arg2,arg1))(a,b) is true "
+              << std::endl;
+    if (logical_or(less(arg1,arg2),less(arg2,arg1))(a,b))
+       std::cout << "logical_or(less(arg1,arg2),less(arg2,arg1))(a,b) is true "
+              << std::endl;
+    if (logical_not(greater(arg1,arg2))(a,b))
+       std::cout << "logical_not(greater(arg1,arg2))(a,b) is true "
+              << std::endl;
+    std::cout << "===============================" << std::endl;
+    std::cout << "Odds and ends" << std::endl;
+    std::cout << "===============================" << std::endl;
+    std::cout << "id(arg1)(a) = "
+              << id(arg1)(a) << std::endl;
+    std::cout << "=========================" << std::endl;
+    std::cout << "operations with operators" << std::endl;
+    std::cout << "=========================" << std::endl;
+    // This requires the header phoenix/operator.hpp
+    std::cout << "(arg1 + arg2)(a,b)            = "
+              << (arg1 + arg2)(a, b) << std::endl;
+    std::cout << "(arg1 - arg2)(a,b)            = "
+              << (arg1 - arg2)(a, b) << std::endl;
+    std::cout << "(plus(arg1,arg2) - arg2)(a,b) = "
+              << (plus(arg1,arg2) - arg2)(a, b) << std::endl;
+    // This does NOT work.
+    //std::cout << "(arg1 ^plus^ arg2)(a, b) = " << (arg1 ^plus^ arg2)(a, b) << std::endl; 
+    std::cout << "=========================" << std::endl;
+    std::cout << "let and lambda versions  " << std::endl;
+    std::cout << "=========================" << std::endl;
+    // These require the header phoenix/scope.hpp
+    std::cout << "let(_a = arg1,_b = arg2)[_a + _b](a,b)       = "
+              << let(_a = arg1,_b = arg2)[_a + _b](a,b) << std::endl;
+    std::cout << "lambda[arg1 + arg2]()(a,b)                   = "
+              << lambda[arg1 + arg2]()(a,b) << std::endl;
+    // This one does not compile.
+    //std::cout << "lambda()[arg1 + arg2]()(a,b)                 = "
+    //          << lambda()[arg1 + arg2]()(a,b) << std::endl;
+    std::cout << "lambda(_a = arg1)[_a + arg2](a)(a,b)         = "
+              << lambda(_a = arg1)[_a + arg2](a)(a,b) << std::endl;
+    std::cout << "lambda(_a = arg1)[_a + arg1](a)(b)           = "
+              << lambda(_a = arg1)[_a + arg1](a)(b) << std::endl;
+    std::cout << "lambda(_a = arg1,_b = arg2)[_a + _b](a,b)()  = "
+              << lambda(_a = arg1,_b = arg2)[_a + _b](a,b)() << std::endl;
+
 
 #else
   std::cout << "All examples out of use for AVR" << std::endl;
