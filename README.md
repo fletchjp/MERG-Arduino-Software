@@ -30,6 +30,8 @@
 
  My reason for doing this is to be able to make use of previous work with C++ to solve practical problems in the Arduino environment.
 
+ I have moved the examples for each library to a separate folder.
+
  ### Boost Libraries
 
  For those who don't know, Boost Libraries are a set of peer reviewed C++ libraries. https://www.boost.org/ They have been developed over many years and a lot of the ideas have been incorporated into C++ as it has evolved. As the C++ available on Arduinos is limited to C++11 (think 2011), a lot of things in Boost are not otherwise available. Not all of this is usable in the Arduino environment, although a lot is.
