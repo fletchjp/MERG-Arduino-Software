@@ -16,7 +16,7 @@
 
  Some projects will make use of libraries which are already somewhere else on Github.
 
- Each separate project will be in a separate GitHub repository which could be one thing or a group of related things.
+ The initial plan was for each separate project will be in a separate GitHub repository which could be one thing or a group of related things. This repository now has a lot of examples of how to use the various libraries.
 
  ## Licence
 
