@@ -10,6 +10,20 @@
 
  John Fletcher M6777
 
+ ## Software for MERG Arduino projects
+
+ I am aiming to help MERG members to collect together Arduino software for projects.
+
+ Some projects will make use of libraries which are already somewhere else on Github.
+
+ Each separate project will be in a separate GitHub repository which could be one thing or a group of related things.
+
+ ## Licence
+
+ I need to sort out the licence situation before creating and publishing any more repositories.
+
+ I am thinking of using the CC BY-NC-SA as used by Duncan Greenwood and recommended. I have found the full text. I have not yet found the text of the summary which he uses.
+
  ## C++ Libraries
 
  I have now found libraries for ArduinoSTL and two versions of Boost for Arduino which I have forked to my github. These need to be installed into the arduino/libraries of your setup to be of use. Taken together these make it possible to port C++ software to the Arduino. I have things running both on AVR (MEGA and UNO) and also on DUE. The more recent Boost only runs on a DUE.
@@ -110,20 +124,6 @@ I am now adding more examples. In particular ArduinoBoost166FunctionLazy is star
  ### Arduino CBUS Logo
 
  There is also now an Arduino CBUS logo which is being used as seen above for Arduino CBUS projects.
-
- ## Software for MERG Arduino projects
-
- I am aiming to help MERG members to collect together Arduino software for projects.
-
- Some projects will make use of libraries which are already somewhere else on Github.
-
- Each separate project will be in a separate GitHub repository which could be one thing or a group of related things.
-
- ## Licence
-
- I need to sort out the licence situation before creating and publishing any more repositories.
-
- I am thinking of using the CC BY-NC-SA as used by Duncan Greenwood and recommended. I have found the full text. I have not yet found the text of the summary which he uses.
 
  ## MERG Knowledgebase
 
