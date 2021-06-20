@@ -200,6 +200,92 @@ void setup() {
     std::cout << "head(tail(l2))()     = " << head(tail(l2))() << std::endl;
     std::cout << "head(tail(arg1))(l2) = " << head(tail(arg1))(l2) << std::endl;
     std::cout << "-----------------------" << std::endl;
+    typedef phx::list_iterator<int> list_iterator_int;
+    list_iterator_int li;
+    std::cout << "l1 = ( ";
+    for (li = l1.begin(); li != l1.end(); li++)
+      std::cout << *li << " ";
+    std::cout << ")" << std::endl;
+    std::cout << "l2 = ( ";
+    for (li = l2.begin(); li != l2.end(); li++)
+      std::cout << *li << " ";
+    std::cout << ")" << std::endl;
+    std::cout << "l3 = ( ";
+    for (li = l3.begin(); li != l3.end(); li++)
+      std::cout << *li << " ";
+    std::cout << ")" << std::endl;
+    std::cout << "l4 = ( ";
+    for (li = l4.begin(); li != l4.end(); li++)
+      std::cout << *li << " ";
+    std::cout << ")" << std::endl;
+    list<int> l5 = cons(5,NIL);
+    std::cout << "l5 = ( ";
+    for (li = l5.begin(); li != l5.end(); li++)
+      std::cout << *li << " ";
+    std::cout << ")" << std::endl;
+    std::cout << "list<int> l6 = take(2,l4)();" << std::endl;
+    list<int> l6 = take(2,l4)();
+    std::cout << "l6 = ( ";
+    for (li = l6.begin(); li != l6.end(); li++)
+      std::cout << *li << " ";
+    std::cout << ")" << std::endl;
+    list<int> l7 = cons(7,take(2,l4));
+    std::cout << "list<int> l7 = cons(7,take(2,l4));" << std::endl;
+    std::cout << "l7 = ( ";
+    for (li = l7.begin(); li != l7.end(); li++)
+      std::cout << *li << " ";
+    std::cout << ")" << std::endl;
+    // I am surprised that this one works.
+    list<int> l8 = take(1,take(3,l4))();
+    std::cout << "list<int> l8 = take(1,take(3,l4))();" << std::endl;
+    std::cout << "l8 = ( ";
+    for (li = l8.begin(); li != l8.end(); li++)
+      std::cout << *li << " ";
+    std::cout << ")" << std::endl;
+    if (l8 < l7) std::cout << "(l8 < l7) is true" << std::endl;
+    list<int> l9 = list_with<>()(1,2,3,4,5);
+    std::cout << "list<int> l9 = list_with<>()(1,2,3,4,5);" << std::endl;
+    std::cout << "l9 = ( ";
+    for (li = l9.begin(); li != l9.end(); li++)
+      std::cout << *li << " ";
+    std::cout << ")" << std::endl;
+    list<int> l10 = cat(l8,NIL);
+    std::cout << "list<int> l10 = cat(l8,NIL);" << std::endl;
+    std::cout << "l10 = ( ";
+    for (li = l10.begin(); li != l10.end(); li++)
+      std::cout << *li << " ";
+    std::cout << ")" << std::endl;
+    list<int> l11 = cat(l0,l9);
+    std::cout << "list<int> l11 = cat(l0,l9);" << std::endl;
+    std::cout << "l11 = ( ";
+    for (li = l11.begin(); li != l11.end(); li++)
+      std::cout << *li << " ";
+    std::cout << ")" << std::endl;
+    list<int> l12 = cat(l10,l9);
+    std::cout << "list<int> l12 = cat(l10,l9);" << std::endl;
+    std::cout << "l12 = ( ";
+    for (li = l12.begin(); li != l12.end(); li++)
+      std::cout << *li << " ";
+    std::cout << ")" << std::endl;
+    list<int> l13 = cat(l8,take(2,l4));
+    std::cout << "list<int> l13 = cat(l8,take(2,l4));" << std::endl;
+    std::cout << "l13 = ( ";
+    for (li = l13.begin(); li != l13.end(); li++)
+      std::cout << *li << " ";
+    std::cout << ")" << std::endl;
+    list<int> l14 = all_but_last(l13)();
+    std::cout << "list<int> l14 = all_but_last(l13)();" << std::endl;
+    std::cout << "l14 = ( ";
+    for (li = l14.begin(); li != l14.end(); li++)
+      std::cout << *li << " ";
+    std::cout << ")" << std::endl;
+    list<int> l15 = drop(2,l12)();
+    std::cout << "list<int> l15 = drop(2,l12)();" << std::endl;
+    std::cout << "l15 = ( ";
+    for (li = l15.begin(); li != l15.end(); li++)
+      std::cout << *li << " ";
+    std::cout << ")" << std::endl;
+    list<int> l16 = cons(arg1,l0)(16);
 
 #else
   std::cout << "All examples out of use for AVR" << std::endl;
