@@ -34,6 +34,7 @@
 #define BOOST_EXCEPTION_DISABLE
 #define BOOST_NO_CXX11_RVALUE_REFERENCES // Needed for boost::bind to work
 #define BOOST_NO_CXX11_HDR_FUNCTIONAL    // Needed for boost::phoenix
+#define BOOST_PHOENIX_NO_LAZY_EXCEPTIONS
 
 namespace std {
 
@@ -153,8 +154,7 @@ operator^( const InfixOpThingyPhoenix<LHS,FF>& x, const RHS& rhs ) {
 
 }
 
-
-
+using namespace boost::phoenix;
 
 void setup() {
   Serial.begin(9600);
@@ -180,7 +180,26 @@ void setup() {
   int ph2 =  3 ^phx::minus^ 2;
   std::cout << "2 ^phx::plus^ 3  = " << ph  << std::endl;
   std::cout << "3 ^phx::minus^ 2 = " << ph2  << std::endl;
-  std::cout << "-----------------------" << std::endl;
+
+  using boost::phoenix::arg_names::arg1;
+  using boost::phoenix::arg_names::arg2;
+
+    std::cout << "============================" << std::endl;
+    std::cout << "list<T> tests" << std::endl;
+    std::cout << "============================" << std::endl;
+    using phx::list;
+    using phx::cons;
+    list<int> l0;
+    list<int> l1 = cons(1,l0);
+    list<int> l2 = cons(2,l1);
+    list<int> l3 = cons(3,l2);
+    list<int> l4 = cons(4,l3);
+    std::cout << "head(l1)()           = " << head(l1)() << std::endl;
+    std::cout << "head(arg1)(l1)       = " << head(arg1)(l1) << std::endl;
+    std::cout << "head(l2)()           = " << head(l2)() << std::endl;
+    std::cout << "head(tail(l2))()     = " << head(tail(l2))() << std::endl;
+    std::cout << "head(tail(arg1))(l2) = " << head(tail(arg1))(l2) << std::endl;
+    std::cout << "-----------------------" << std::endl;
 
 #else
   std::cout << "All examples out of use for AVR" << std::endl;
