@@ -1,6 +1,6 @@
 // ArduinoBoost166FunctionLazy
 // This example is beginning to use the lazy operations possible in Boost Phoenix Function.
-// Arduino DUE only.
+// Arduino DUE only - no it compiles on a MEGA!
 #define BOOST_FOR_ARDUINO
 
 // I have put this into limits.h to get rid of a problem with functional/hash in 1.66.0
@@ -463,9 +463,11 @@ void setup() {
     std::cout << "===============================" << std::endl;
     std::cout << "id(arg1)(a) = "
               << id(arg1)(a) << std::endl;
-    std::cout << "=========================" << std::endl;
+    std::cout << "=====================================" << std::endl;
     std::cout << "operations with operators" << std::endl;
-    std::cout << "=========================" << std::endl;
+    std::cout << "arg1(x) returns the first argument" << std::endl;
+    std::cout << "arg2(x,y) returns the second argument" << std::endl;
+    std::cout << "=====================================" << std::endl;
     // This requires the header phoenix/operator.hpp
     std::cout << "(arg1 + arg2)(a,b)            = "
               << (arg1 + arg2)(a, b) << std::endl;
@@ -473,6 +475,11 @@ void setup() {
               << (arg1 - arg2)(a, b) << std::endl;
     std::cout << "(plus(arg1,arg2) - arg2)(a,b) = "
               << (plus(arg1,arg2) - arg2)(a, b) << std::endl;
+    // This is not a good idea
+    //std::cout << "arg1(plus)(a,b) = "
+    //          << arg1(plus)(a,b)<< std::endl;
+    //std::cout << "(arg1(a,arg2) - arg2)(plus,b) = "
+    //          << (arg1(a,arg2) - arg2)(plus,b) << std::endl;
     // This does NOT work.
     //std::cout << "(arg1 ^plus^ arg2)(a, b) = " << (arg1 ^plus^ arg2)(a, b) << std::endl; 
     std::cout << "=========================" << std::endl;
