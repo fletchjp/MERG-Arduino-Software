@@ -34,6 +34,7 @@
 #define BOOST_EXCEPTION_DISABLE
 #define BOOST_NO_CXX11_RVALUE_REFERENCES // Needed for boost::bind to work
 #define BOOST_NO_CXX11_HDR_FUNCTIONAL    // Needed for boost::phoenix
+#define BOOST_PHOENIX_NO_LAZY_EXCEPTIONS
 
 namespace std {
 
