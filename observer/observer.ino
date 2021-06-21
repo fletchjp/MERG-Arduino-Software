@@ -1,4 +1,6 @@
+//////////////////////////////////////////////////////////////////////////////////
 // observer
+//////////////////////////////////////////////////////////////////////////////////
 // This is new example to work up the observer model using FC++ techniques.
 // I am lucky that there is a good staring point in ecoop1b
 // which I chose at random to get going.
@@ -6,10 +8,18 @@
 // ecoop1b is a fuller example than is in the paper.
 // In the meantime I had made my own implementation which goes further than this.
 // I am going to implement parts of my own code here.
+//////////////////////////////////////////////////////////////////////////////////
+// I have had an interesting time with this. It turns out that the ecoop1b model has a state
+// and the one I had has an event code. I have been attempting to combine the two things.
+// I have reached the point where that works, but only when both have type int.
+// More work is needed on this.
+
+
 
 // A first attempt to get FC++ working with ArduinoSTL and be able to use std::cout etc.
 
 // This will now work with FC++ as an Arduino library - just include "prelude.h" and it will find it.
+
 
 #include<ArduinoSTL.h>
 
