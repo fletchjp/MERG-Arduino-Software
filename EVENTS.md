@@ -12,7 +12,9 @@ I have added two small examples for ArduinoSTL which is a library available in t
 
 There are a lot of developments on the due_cbus branch, including getting my FC++ code working for both DUE and AVR environments.
 
-I now have a copy of Boost 1.51.0 available as a library. I need to post an example of how to use it. At the moment all the examples are on the due_cbus branch. I need to find a simple example for the master thread.
+I now have a copy of Boost 1.51.0 available as a library. I need to post an example of how to use it. At the moment all the examples are on the due_cbus branch. There are now some examples on the master thread.
+
+I now also have a copy of Boost 1.66.0 which has a lot more libraries. I have only been able to get this working with an Arduino DUE.
 
 ## May 2021
 
