@@ -13,6 +13,9 @@
 
 #include<ArduinoSTL.h>
 
+#include <boost_1_51_0.h>
+// This is used in FC++ to allow for boost usage.
+#define FCPP_ARDUINO_BOOST
 #include <iostream>
 #include <vector>
 #define FCPP_DEBUG
