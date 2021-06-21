@@ -38,7 +38,7 @@ using std::endl;
 using std::vector;
 
 /////////////////////////////////////////////////////////////////////
-// version from ecoop1b
+// version from ecoop1b which has state
 /////////////////////////////////////////////////////////////////////
 
 class Subject {
@@ -119,6 +119,7 @@ class BareSubject {
   // This needs to be made into a vector etc.
 public:
   typedef typename  fcpp::Fun1<E,E> fun_type;
+  //typedef std::vector<fun_type> V;
   typedef E Event;
   E event_;
 private:
@@ -166,11 +167,11 @@ public:
    S get_state() const { return state; }  
    void inc() {
      state++;
-     cout << "ss: About to notify new state" << endl;
+     //cout << "ss: About to notify new state" << endl;
      // Some of this is to fool the compiler.
      E e = BareSubject<E>::get_event(e);
      BareSubject<E>::Notify(e);
-     cout << "ss: New state notified" << endl;
+     //cout << "ss: New state notified" << endl;
    }
 };
 
@@ -238,11 +239,13 @@ void setup() {
   std::cout << "============================================" << std::endl;
   bareconcrete11.NotifyAll();
   std::cout << "============================================" << std::endl;
-  StateConcrete stateconcrete20;
+  StateConcrete stateconcrete20,stateconcrete21;
   ConcreteObserver<StateConcrete> stateobserver1(stateconcrete20,20);
+  ConcreteObserver<StateConcrete> stateobserver2(stateconcrete21,21);
+  stateobserver1.AddSubject(stateconcrete21,22);
   stateconcrete20.inc();
   stateconcrete20.inc();
-  
+  stateconcrete21.inc();
   std::cout << "============================================" << std::endl;
 
 }
