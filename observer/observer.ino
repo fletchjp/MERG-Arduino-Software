@@ -27,6 +27,10 @@ using std::cout;
 using std::endl;
 using std::vector;
 
+/////////////////////////////////////////////////////////////////////
+// version from ecoop1b
+/////////////////////////////////////////////////////////////////////
+
 class Subject {
    typedef vector< Fun0<void> > V;
    V observers;
@@ -86,6 +90,83 @@ public:
    }
 };
 
+////////////////////////////////////////////////////////////////////////
+// Version from plant.cpp
+// This version is more complicated and can carry a payload of type E.
+// E defines the event which does not change.
+////////////////////////////////////////////////////////////////////////
+
+// This is used to keep the constructor happy.
+int nullfun(int i) { std::cout << "nullfun" << std::endl; return 0; } 
+
+fcpp::Fun1<int,int> nullfun11 = fcpp::ptr_to_fun(&nullfun);
+
+template <class E>
+class BareSubject {
+  // At the moment this only stores one function to be called.
+  // This needs to be made into a vector etc.
+public:
+  typedef typename  fcpp::Fun1<E,E> fun_type;
+  typedef E Event;
+  E event_;
+private:
+  fun_type f_ ;
+  typedef std::pair<E, fun_type> fcpp_value_type;
+  typedef std::vector<fcpp_value_type> fcpp_container;
+  fcpp_container fcpp_data_;
+  
+public:
+  BareSubject() : f_(nullfun11) { }
+  void Attach(fun_type f, E e) {  
+    //std::cout << "Attach has event " << e << std::endl;
+    f_ = f; fcpp_data_.push_back(std::make_pair(e,f)); 
+    event_ = e; 
+    //f_(e); 
+    }
+  E Notify(E e) { 
+    //std::cout << "Did Notify get called?" << std::endl;
+    //std::cout << "f(" << event_ << ") = " << std::endl;  
+      f_(event_); return event_;
+   }
+  void Flush() { f_(event_); }
+  void NotifyAll() {    
+    for (fcpp_iterator i = fcpp_data_.begin(); i != fcpp_data_.end(); ++i ) {
+      (i->second)(i->first);
+    }
+  }
+  void ListAll() {
+    std::cout << "List all events stored" << std::endl;
+    for (fcpp_iterator i = fcpp_data_.begin(); i != fcpp_data_.end(); ++i ) {
+      std::cout << (i->first) << /*" " << (i->second)(i->first) <<*/ std::endl;
+    }
+  }
+protected:
+  typedef typename fcpp_container::iterator fcpp_iterator;
+};
+
+template <class Subject>
+class ConcreteObserver {
+  //  Subject& subject_;
+public:
+  typedef typename Subject::Event Event;
+  Event event_;
+  ConcreteObserver () { }  
+  ConcreteObserver (Subject &s, Event e) : /*subject_(s),*/ event_(e) {
+    s.Attach( fcpp::curry2( fcpp::ptr_to_fun( &ConcreteObserver::be_notified), this), e);
+  }
+  void AddSubject(Subject &s, Event e) {
+    //std::cout << "AddSubject has event " << e << std::endl;
+    s.Attach( fcpp::curry2( fcpp::ptr_to_fun( &ConcreteObserver::be_notified), this), e);
+    //s.Flush();
+  }
+  int be_notified(Event e) {
+    event_ = e;
+    std::cout << "New event is " << event_ << std::endl;
+    return event_;
+  }
+  ConcreteObserver &operator += (Subject &s) { AddSubject(s,event_); return this; }
+};
+
 
 void setup() {
   // put your setup code here, to run once:
@@ -102,6 +183,28 @@ void setup() {
    s.inc();
    ao.debug();
   cout << "========================" << endl;
+  cout << "New versions" << endl;
+  cout << "========================" << endl;
+
+ // This could be used to update e.g. all output streams with a common property
+  // and also send individual information to different streams and stream types.
+ 
+  typedef BareSubject<int> BareConcrete;
+
+  // This FC++ observer has no knowledge of the other stuff.
+  BareConcrete bareconcrete10,bareconcrete11;
+  // The ConcreteObserver class is identical.
+  ConcreteObserver<BareConcrete> bareobserver1(bareconcrete10,10);  
+  ConcreteObserver<BareConcrete> bareobserver2(bareconcrete11,11);  
+  ConcreteObserver<BareConcrete> bareobserver3(bareconcrete11,12); 
+  bareobserver1.AddSubject(bareconcrete11,14);
+
+  int e;
+  bareconcrete11.ListAll();
+  std::cout << "============================================" << std::endl;
+  e = bareconcrete10.Notify(e);
+  std::cout << "============================================" << std::endl;
+  bareconcrete11.NotifyAll();
 
 }
 
