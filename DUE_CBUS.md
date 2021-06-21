@@ -96,6 +96,10 @@ This is a first test file to get things sorted out. It is now working with both 
 
 This example explores the implementation of Functor laws using FC++.
 
+### observer
+
+This is a development of the ecoop1b example to look at monitoring changes using the subject/observer model. I have quite a lot of code for this which I am going to adapt.
+
 ## CBUS Codes
 
 This is a branch for the location of CBUS codes, some of which will be related to the codes in the main branch.
