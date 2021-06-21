@@ -94,9 +94,11 @@ public:
 // Version from plant.cpp
 // This version is more complicated and can carry a payload of type E.
 // E defines the event which does not change.
+// S defines a state variable which can change.
 ////////////////////////////////////////////////////////////////////////
 
 // This is used to keep the constructor happy.
+// This is a problem as it assumes E is type int.
 int nullfun(int i) { std::cout << "nullfun" << std::endl; return 0; } 
 
 fcpp::Fun1<int,int> nullfun11 = fcpp::ptr_to_fun(&nullfun);
@@ -127,7 +129,8 @@ public:
     //std::cout << "Did Notify get called?" << std::endl;
     //std::cout << "f(" << event_ << ") = " << std::endl;  
       f_(event_); return event_;
-   }
+    }
+  E get_event(E e) { return event_; }
   void Flush() { f_(event_); }
   void NotifyAll() {    
     for (fcpp_iterator i = fcpp_data_.begin(); i != fcpp_data_.end(); ++i ) {
@@ -140,18 +143,36 @@ public:
       std::cout << (i->first) << /*" " << (i->second)(i->first) <<*/ std::endl;
     }
   }
+  int get_state() { return 0; }
 protected:
   typedef typename fcpp_container::iterator fcpp_iterator;
 };
 
+template <class S,class E>
+class StateSubject : public BareSubject<E> {
+   S state;
+public:
+   StateSubject() : state(0) {}
+   S get_state() const { return state; }  
+   void inc() {
+     state++;
+     cout << "ss: About to notify new state" << endl;
+     // Some of this is to fool the compiler.
+     E e = BareSubject<E>::get_event(e);
+     BareSubject<E>::Notify(e);
+     cout << "ss: New state notified" << endl;
+   }
+};
+
+
 template <class Subject>
 class ConcreteObserver {
-  //  Subject& subject_;
+  Subject& subject_;
 public:
   typedef typename Subject::Event Event;
   Event event_;
   ConcreteObserver () { }  
-  ConcreteObserver (Subject &s, Event e) : /*subject_(s),*/ event_(e) {
+  ConcreteObserver (Subject &s, Event e) : subject_(s), event_(e) {
     s.Attach( fcpp::curry2( fcpp::ptr_to_fun( &ConcreteObserver::be_notified), this), e);
   }
   void AddSubject(Subject &s, Event e) {
@@ -161,7 +182,7 @@ public:
   }
   int be_notified(Event e) {
     event_ = e;
-    std::cout << "New event is " << event_ << std::endl;
+    std::cout << "New event is " << event_ << " with state " << subject_.get_state() << std::endl;
     return event_;
   }
   ConcreteObserver &operator += (Subject &s) { AddSubject(s,event_); return this; }
@@ -190,6 +211,7 @@ void setup() {
   // and also send individual information to different streams and stream types.
  
   typedef BareSubject<int> BareConcrete;
+  typedef StateSubject<int,int> StateConcrete;
 
   // This FC++ observer has no knowledge of the other stuff.
   BareConcrete bareconcrete10,bareconcrete11;
@@ -205,6 +227,13 @@ void setup() {
   e = bareconcrete10.Notify(e);
   std::cout << "============================================" << std::endl;
   bareconcrete11.NotifyAll();
+  std::cout << "============================================" << std::endl;
+  StateConcrete stateconcrete20;
+  ConcreteObserver<StateConcrete> stateobserver1(stateconcrete20,20);
+  stateconcrete20.inc();
+  stateconcrete20.inc();
+  
+  std::cout << "============================================" << std::endl;
 
 }
 
