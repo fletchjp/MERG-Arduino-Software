@@ -218,9 +218,6 @@ void setup() {
   cout << "========================" << endl;
   cout << "New versions" << endl;
   cout << "========================" << endl;
-
- // This could be used to update e.g. all output streams with a common property
-  // and also send individual information to different streams and stream types.
  
   typedef BareSubject<int> BareConcrete;
   typedef StateSubject<int,int> StateConcrete;
