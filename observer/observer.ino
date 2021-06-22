@@ -29,6 +29,7 @@
 #define FCPP_ARDUINO_BOOST
 #include <iostream>
 #include <vector>
+#include <map>
 #define FCPP_DEBUG
 #include "prelude.h"
 
@@ -155,7 +156,7 @@ public:
       std::cout << (i->first) << /*" " << (i->second)(i->first) <<*/ std::endl;
     }
   }
-  int get_state() { return 0; }
+  int get_state() const { return 0; }
 protected:
   typedef typename fcpp_container::iterator fcpp_iterator;
 };
@@ -179,22 +180,35 @@ public:
 
 template <class Subject>
 class ConcreteObserver {
-  Subject& subject_;
 public:
   typedef typename Subject::Event Event;
+private:
+  Subject& subject_;
+  typedef std::vector<std::pair<Event,const Subject&> > EStype;
+  typedef std::map<const Event,std::pair<Event, const Subject&> > ESmap;
+  EStype ES; 
+  ESmap ESm;
+public:
   Event event_;
   ConcreteObserver () { }  
   ConcreteObserver (Subject &s, Event e) : subject_(s), event_(e) {
     s.Attach( fcpp::curry2( fcpp::ptr_to_fun( &ConcreteObserver::be_notified), this), e);
+    ES.push_back(std::make_pair(e,s));
+    ESm.insert(std::make_pair(e,std::make_pair(e,s)));
   }
   void AddSubject(Subject &s, Event e) {
     //std::cout << "AddSubject has event " << e << std::endl;
     s.Attach( fcpp::curry2( fcpp::ptr_to_fun( &ConcreteObserver::be_notified), this), e);
+    ES.push_back(std::make_pair(e,s));
+    ESm.insert(std::make_pair(e,std::make_pair(e,s)));
+//  ESm.insert(e,s);
     //s.Flush();
   }
   int be_notified(Event e) {
     event_ = e;
     std::cout << "New event is " << event_ << " with state " << subject_.get_state() << std::endl;
+    //std::cout << "New event is " << event_ << " with state " << ESm[e].second().get_state() << std::endl;
+    //std::cout << "New event is " << event_ << " with state " << ESm[e].first << std::endl;
     return event_;
   }
   ConcreteObserver &operator += (Subject &s) { AddSubject(s,event_); return this; }
