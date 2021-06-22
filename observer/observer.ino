@@ -13,6 +13,7 @@
 // and the one I had has an event code. I have been attempting to combine the two things.
 // I have reached the point where that works, but only when both have type int.
 // More work is needed on this.
+// At the moment I am not sure about which observer is being contacted and why.
 
 
 
