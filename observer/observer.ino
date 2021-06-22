@@ -237,13 +237,15 @@ void setup() {
   std::cout << "============================================" << std::endl;
   bareconcrete11.NotifyAll();
   std::cout << "============================================" << std::endl;
-  StateConcrete stateconcrete20,stateconcrete21;
+  StateConcrete stateconcrete20,stateconcrete21,stateconcrete22;
   ConcreteObserver<StateConcrete> stateobserver1(stateconcrete20,20);
   ConcreteObserver<StateConcrete> stateobserver2(stateconcrete21,21);
-  stateobserver1.AddSubject(stateconcrete21,22);
+  stateobserver1.AddSubject(stateconcrete22,22);
+  stateconcrete20.inc();
   stateconcrete20.inc();
   stateconcrete20.inc();
   stateconcrete21.inc();
+  stateconcrete22.inc(); // This returns state the same as no 20 when I think it should be 1.
   std::cout << "============================================" << std::endl;
 
 }
