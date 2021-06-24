@@ -4,6 +4,20 @@ Back to [README](README.md).
 
 ## June 2021
 
+## 24th June
+
+After Mark Riddoch's talk to the Arduino SIG I have been looking at his code for CANINLK. I have been wanting to look at this for a long time.
+
+This uses mcp_CAN, an alternative CBUS library which I have not used before. At the moment it does not compile as Mark has added something to the library.
+
+Also the code uses an SD card and I don't have that hardware at the moment.
+
+The code has its own hard coded event handling.
+
+So, I don't have the hardware and it needs a special library. I just want to note this information here for the moment.
+
+## various dates
+
 I am testing some new ideas for critical event sending in CANTOTEM for possible use in CANmINnOUT. A first test has now been successful.
 
 I have been developing some new coding ideas for the DUE which unfortunately will not work on ordinary Arduinos.
