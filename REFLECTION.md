@@ -20,6 +20,12 @@ I have on one occasion cherrypicked between branches.
 
 I have also learned how to delete a repository, one which I had forked and no longer needed.
 
+## Changing branches around
+
+I have done some interesting things with the CANCMDDC2 repository. I had been working in a branch called develop and wanted to make that the main branch. I started by renaming the existing main to old-main and then renaming develop to main. I also needed to change the default branch to the new main.
+
+In the course of doing this and getting it sorted out in the GitHub desktop I have ended up with what I wanted. I now have a main which inherits from both old-main and develop and I also still have a develop I can start to use for a new version.
+
 ## VS Code configuration
 
 I have had a lot of problems getting VS Code configured and at times I despaired of making sense of it. I have stuck with it and have learned quite a lot about how it works. There is still more to go.
