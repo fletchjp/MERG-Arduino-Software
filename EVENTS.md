@@ -2,6 +2,16 @@
 
 Back to [README](README.md).
 
+## July 2021
+
+I have been mainly working with CANCMDDC2 in its separate repository. I want now to use the cbus_codes branch here to develop some of the things which I want to put into the new version of CANCMDDC and some other CBUS codes.
+
+I need keypad and encoder for CANCMDDC and it is also useful to have IR detection, servo and stepper motor codes. I have had stand alone codes for a lot of these working in the past. I had put them aside and could not remember the details. As this was before I was using GitHub the codes are not as well documented. I am now sorting that out.
+
+I have now found matrixKeyboard2 which is useful as it uses the KeyboardListener provided by IoAbstraction and should work in well in CANCMDDC2. I will adapt that as a CBUS module on its own as well.
+
+I now need to do the same for the other hardware.
+
 ## June 2021
 
 ## 24th June
