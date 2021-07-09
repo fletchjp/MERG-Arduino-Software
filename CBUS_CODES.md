@@ -15,6 +15,10 @@ FCU.
 
 I have not yet set up access to GitHub on the laptop I am using for testing. That means that I have to take a copy of the code to it. At least I no longer have to worry about versions of the code as they are all available.
 
+### 9th July
+
+I have added the arduino_dc_throttle code to the repository. At the moment it is stand alone and can be controlled from the Arduino IDE. I would like to have a version which could be controlled from another Arduino either through the Serial port or I2C.
+
 ### 3rd June 
 
 Testing of CANTOTEM 1c beta 3 with criticalEvent code. A first test has been successful. Now I need to update the code in CAN1602BUT to display the correct message.
