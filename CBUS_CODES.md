@@ -17,9 +17,13 @@ I have not yet set up access to GitHub on the laptop I am using for testing. Tha
 
 ### 9th July
 
+### Codes added
+
 I have added the arduino_dc_throttle code to the repository. At the moment it is stand alone and can be controlled from the Arduino IDE. I would like to have a version which could be controlled from another Arduino either through the Serial port or I2C.
 
 I want to develop a unit with a keypad and encoder as a CBUS module. I have used both in the past standalone, so will have the code somewhere. If this is on a MEGA it will have a spare serial port.
+
+I have also added matrixKeyboard2 which is an example which monitors a Keypad using KeyboardListener from IoAbstraction.
 
 ### 3rd June 
 
