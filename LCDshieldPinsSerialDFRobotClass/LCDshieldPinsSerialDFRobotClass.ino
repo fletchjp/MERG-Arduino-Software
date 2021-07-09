@@ -1,11 +1,11 @@
 // LCD Shield Pins Serial with Class
 // using DfRobotInputAbstraction.h to model input pins.
 
-// LCD Shield Buttons Serial with Class using analogInput
-// DFRobot shield version
+// LCD Shield with Buttons DFRobot model 
 
 #include <IoAbstraction.h>
-#include <AnalogDeviceAbstraction.h>
+#include <DfRobotInputAbstraction.h>
+//#include <AnalogDeviceAbstraction.h>
 #include <TaskManagerIO.h>
 #include <DeviceEvents.h>
 
@@ -13,10 +13,9 @@
 #define ANALOG_IN_PIN A0
 
 // here we create the abstraction over the standard arduino analog IO capabilities
-ArduinoAnalogDevice analog; // by default it assumes 10 bit read, 8 bit write
-
-int previous_analog = 0;
-int analog_value;
+// ArduinoAnalogDevice analog; // by default it assumes 10 bit read, 8 bit write
+// This uses the default settings for analog ranges.
+IoAbstractionRef dfRobotKeys = inputFromDfRobotShield();
 
 // LCD shield with buttons example code
 
@@ -48,91 +47,54 @@ int prevrange = 0;
 // Serial IO
 #define SERIAL_SPEED            19200   // Speed of the serial port.
 
+void logKeyPressed(const char* whichKey, bool heldDown) {
+    Serial.print("Key ");
+    Serial.print(whichKey);
+    lcd.setCursor(10,1);
+    lcd.print (whichKey);
+    Serial.println(heldDown ? " Held" : " Pressed");
+}
 
-// Here we create an analog event that will be triggered when the the analog level exceeds 75%. it is triggered every
-// 100 milliseconds and when triggered runs the code in the exec() method.
-class MyAnalogExceedsEvent : public AnalogInEvent {
+/**
+ * Along with using functions to receive callbacks when a button is pressed, we can
+ * also use a class that implements the SwitchListener interface. Here is an example
+ * of implementing that interface. You have both choices, function callback or
+ * interface implementation.
+ */
+class MyKeyListener : public SwitchListener {
+private:
+    const char* whatKey;
 public:
-    MyAnalogExceedsEvent(AnalogDevice* device, pinid_t pin) :
-            AnalogInEvent(device, pin, 0.75, AnalogInEvent::ANALOGIN_EXCEEDS, 100000UL) {
+    // This is the constructor where we configure our instance
+    MyKeyListener(const char* what) {
+        whatKey = what;
     }
 
-    void exec() override {
-        Serial.print("Trigger AnalogInEvent Threshold ");
-        Serial.print(analogThreshold);
-        Serial.print(", value ");
-        Serial.println(lastReading);
+    // when a key is pressed, this is called
+    void onPressed(pinid_t /*pin*/, bool held) override {
+        logKeyPressed(whatKey, held);
+    }
+
+    // when a key is released this is called.
+    void onReleased(pinid_t /*pin*/, bool held) override {
+        Serial.print("Release ");
+        logKeyPressed(whatKey, held);
     }
 };
 
-// This is the previous way of working with a direct read.
-void checkA0()
-{
- x = analogRead (0);
- if (x < 175){         // was 50
-  range = 1;
- } else if (x < 350){ // was 250
-  range = 2;
- } else if (x < 500){ // unchanged
-  range = 3;
- } else if (x < 800){ // was 650
-  range = 4;
- } else if (x < 850){ // unchanged
-  range = 5;
- } //else { range = 0; }
+MyKeyListener selectKeyListener("SELECT");
 
- if (range != prevrange) {
- Serial.print(range);
- Serial.print(" ");
- Serial.print(x);
- lcd.setCursor(10,1);
- switch (range) {
-  case 1:
-  {
-   lcd.print ("Right ");
-   Serial.println(" Right");
-   break;
-  }
-  case 2:
-  {
-   lcd.print ("Up    ");
-   Serial.println(" Up");
-   break;
-  }
-  case 3:
-  {
-   lcd.print ("Down  ");
-   Serial.println(" Down");
-   break;
-  }
-  case 4:
-  {
-   lcd.print ("Left  ");
-   Serial.println(" Left ");
-   break;
-  }
-  case 5:
-  {
-   lcd.print ("Select");
-   Serial.println(" Select");
-   break;
-  }
-  default:
-  break;
- }
- prevrange = range;
- }
-  
-}
+
 
 void setup() {
   // put your setup code here, to run once:
   // set up the device pin directions upfront.
-  analog.initPin(ANALOG_IN_PIN, DIR_IN);
+  // analog.initPin(ANALOG_IN_PIN, DIR_IN);
 
   // Initialise
+  while(!Serial);
   Serial.begin(SERIAL_SPEED);             // Start Serial IO.
-  Serial.println("DFRobotTaskClass");
+  Serial.println("DFRobotTaskClass with pin translation");
   //analogWrite(pin_d6,50);
  lcd.begin(16, 2);
  lcd.setCursor(0,0);
@@ -140,27 +102,20 @@ void setup() {
  lcd.setCursor(0,1);
  lcd.print("Press Key:");
 
- // this is how to register an event with task manager
- taskManager.registerEvent(new MyAnalogExceedsEvent(&analog, ANALOG_IN_PIN), true);
+    // initialise the switches component with the DfRobot shield as the input method.
+    // Note that switches is the sole instance of SwitchInput
+    switches.initialise(dfRobotKeys, false); // df robot is always false for 2nd parameter.
 
- taskManager.scheduleFixedRate(500, [] {
-        // Modified from the original example to only print when there is a change.
-        analog_value = analog.getCurrentValue(ANALOG_IN_PIN);
-        if (analog_value != previous_analog) {
-        Serial.print("Analog input value is ");
-        Serial.print(analog.getCurrentValue(ANALOG_IN_PIN));
-        Serial.print("/");
-        Serial.print(analog.getMaximumRange(DIR_IN, ANALOG_IN_PIN));
-        Serial.print(" - ");
-        Serial.print(analog.getCurrentFloat(ANALOG_IN_PIN) * 100.0F);
-        Serial.println('%');
-        previous_analog = analog_value;
-        }
-    });
-
-   // This is at the end of setup()
-  taskManager.scheduleFixedRate(250, checkA0);
-
+    // now we add the switches, each one just logs the key press, the last parameter to addSwitch
+    // is the repeat frequency is optional, when not set it implies not repeating.
+    switches.addSwitch(DF_KEY_DOWN, [](pinid_t /*pin*/, bool held) { logKeyPressed("DOWN  ", held);}, 20);
+    switches.addSwitch(DF_KEY_UP, [](pinid_t /*pin*/, bool held) { logKeyPressed("UP   ", held);}, 20);
+    switches.addSwitch(DF_KEY_LEFT, [](pinid_t /*pin*/, bool held) { logKeyPressed("LEFT  ", held);}, 20);
+    switches.addSwitch(DF_KEY_RIGHT, [](pinid_t /*pin*/, bool held) { logKeyPressed("RIGHT ", held);}, 20);
+    switches.onRelease(DF_KEY_RIGHT, [](pinid_t /*pin*/, bool) { Serial.println("RIGHT has been released");});
+    
+    switches.addSwitchListener(DF_KEY_SELECT, &selectKeyListener);
+ 
 }
 
 void loop() {
