@@ -2,7 +2,8 @@
 // CAN1602PIN
 // Version using DfRobotInputAbstraction.h to model input pins.
 // This uses code from IoAbstraction examples dfRobotAnalogInSwitches 
-// and dfRobotRotaryEncoder
+////////////////////////////////////////////////////////////////////////////////////
+// Version 2.0b Beta 1 Change to use switches and listener.
 ////////////////////////////////////////////////////////////////////////////////////
 // CAN1602BUT
 // Take code from CANALCDBUT to make a new code on the CANmINnOUT base.
@@ -109,7 +110,6 @@
 // IoAbstraction libraries
 #include <IoAbstraction.h>
 #include <DfRobotInputAbstraction.h>
-//#include <AnalogDeviceAbstraction.h>
 #include <TaskManagerIO.h>
 #include <DeviceEvents.h>
 
@@ -118,14 +118,12 @@
 // This uses the default settings for analog ranges.
 IoAbstractionRef dfRobotKeys = inputFromDfRobotShield();
 
-
-
+// This is the input pin where analog input is received.
+// It is in fact set as default defining dfRobotKeys.
 #define ANALOG_IN_PIN A0
-// here we create the abstraction over the standard arduino analog IO capabilities
-ArduinoAnalogDevice analog; // by default it assumes 10 bit read, 8 bit write
 
-int previous_analog = 0;
-int analog_value;
+//int previous_analog = 0;
+//int analog_value;
 
 // 3rd party libraries
 #include <Streaming.h>
@@ -142,13 +140,13 @@ const int pin_d7 = 7;
 const int pin_BL = 10; 
 LiquidCrystal lcd( pin_RS,  pin_EN,  pin_d4,  pin_d5,  pin_d6,  pin_d7);
 
-int x;
-int prevx = 0;
-int range;
-int prevrange = 0;
+//int x;
+//int prevx = 0;
+//int range;
+//int prevrange = 0;
 // Use these for the CBUS outputs
-int button;
-int prevbutton = 0;
+int button = -1;
+int prevbutton = -1;
 
 // CBUS library header files
 #include <CBUS2515.h>            // CAN controller and CBUS class
@@ -160,12 +158,12 @@ int prevbutton = 0;
 ////////////DEFINE MODULE/////////////////////////////////////////////////
 
 // module name
-unsigned char mname[7] = { '1', '6', '0', '2', 'B', 'U', 'T' };
+unsigned char mname[7] = { '1', '6', '0', '2', 'P', 'I', 'N' };
 
 // constants
-const byte VER_MAJ = 1;         // code major version
-const char VER_MIN = 'b';       // code minor version
-const byte VER_BETA = 11;        // code beta sub-version
+const byte VER_MAJ = 2;         // code major version
+const char VER_MIN = 'a';       // code minor version
+const byte VER_BETA = 1;        // code beta sub-version
 const byte MODULE_ID = 99;      // CBUS module type
 
 const unsigned long CAN_OSC_FREQ = 8000000;     // Oscillator frequency on the CAN2515 board
@@ -276,6 +274,44 @@ void serialPrintErrorln(int i)
  getErrorMessage(i);Serial.println(error_buffer);
 }
 
+void logKeyPressed(int pin,const char* whichKey, bool heldDown) {
+    Serial.print("Key ");
+    Serial.print(whichKey);
+    lcd.setCursor(10,1);
+    lcd.print (whichKey);
+    Serial.println(heldDown ? " Held" : " Pressed");
+    button = pin;
+}
+
+/**
+ * Along with using functions to receive callbacks when a button is pressed, we can
+ * also use a class that implements the SwitchListener interface. Here is an example
+ * of implementing that interface. You have both choices, function callback or
+ * interface implementation.
+ */
+class MyKeyListener : public SwitchListener {
+private:
+    const char* whatKey;
+public:
+    // This is the constructor where we configure our instance
+    MyKeyListener(const char* what) {
+        whatKey = what;
+    }
+
+    // when a key is pressed, this is called
+    void onPressed(pinid_t pin, bool held) override {
+        logKeyPressed(pin,whatKey, held);
+        button = pin;
+    }
+    
+    // when a key is released this is called.
+    void onReleased(pinid_t pin, bool held) override {
+        Serial.print("Release ");
+        logKeyPressed(pin,whatKey, held);
+    }
+};
+
+MyKeyListener selectKeyListener("SELECT");
 
 //
 ///  setup CBUS - runs once at power on called from setup()
@@ -321,66 +357,6 @@ void setupCBUS()
   CBUS.begin();
 }
 
-void checkA0()
-{
- x = analogRead (0);
- if (x < 175){         // was 50
-  range = 1;
- } else if (x < 350){ // was 250
-  range = 2;
- } else if (x < 500){ // unchanged
-  range = 3;
- } else if (x < 800){ // was 650
-  range = 4;
- } else if (x < 850){ // unchanged
-  range = 5;
- } //else { range = 0; }
-
- if (range != prevrange) {
- Serial.print(range);
- Serial.print(" ");
- Serial.print(x);
- lcd.setCursor(10,1);
- switch (range) {
-  case 1:
-  {
-   lcd.print ("Right ");
-   DEBUG_PRINT(F(" Right"));
-   break;
-  }
-  case 2:
-  {
-   lcd.print ("Up    ");
-   DEBUG_PRINT(F(" Up"));
-   break;
-  }
-  case 3:
-  {
-   lcd.print ("Down  ");
-   DEBUG_PRINT(F(" Down"));
-   break;
-  }
-  case 4:
-  {
-   lcd.print ("Left  ");
-   DEBUG_PRINT(F(" Left"));
-   break;
-  }
-  case 5:
-  {
-   lcd.print ("Select");
-   DEBUG_PRINT(F(" Select"));
-   break;
-  }
-  default:
-  break;
- }
- prevrange = range;
- // For CBUS output
- button = range;
- }
-  
-}
 
 void runLEDs(){
   // Run the LED code
@@ -412,24 +388,42 @@ void setupModule()
 void setup1602() {
  lcd.begin(16, 2);
  lcd.setCursor(0,0);
- lcd.print("CAN1602BUT");
+ lcd.print("CAN1602PIN");
  lcd.setCursor(0,1);
  lcd.print("Press Key:");
 }
 
+void setupSwitches()
+{
+    // initialise the switches component with the DfRobot shield as the input method.
+    // Note that switches is the sole instance of SwitchInput
+    switches.initialise(dfRobotKeys, false); // df robot is always false for 2nd parameter.
+
+    // now we add the switches, each one just logs the key press, the last parameter to addSwitch
+    // is the repeat frequency is optional, when not set it implies not repeating.
+    switches.addSwitch(DF_KEY_DOWN, [](pinid_t pin, bool held) { logKeyPressed(pin,"DOWN  ", held);}, 20);
+    switches.addSwitch(DF_KEY_UP, [](pinid_t pin, bool held) { logKeyPressed(pin,"UP   ", held);}, 20);
+    switches.addSwitch(DF_KEY_LEFT, [](pinid_t pin, bool held) { logKeyPressed(pin,"LEFT  ", held);}, 20);
+    switches.addSwitch(DF_KEY_RIGHT, [](pinid_t pin, bool held) { logKeyPressed(pin,"RIGHT ", held);}, 20);
+    switches.onRelease(DF_KEY_RIGHT, [](pinid_t /*pin*/, bool) { Serial.println("RIGHT has been released");});
+    
+    switches.addSwitchListener(DF_KEY_SELECT, &selectKeyListener);
+}
+
 void setup()
 {
+  while(!Serial);
   Serial.begin (115200);
-  Serial << endl << endl << F("> ** CAN1602BUT ** ") << __FILE__ << endl;
+  Serial << endl << endl << "> ** CAN1602PIN ** " << __FILE__ << endl;
 
   setup1602();
   setupCBUS();
   setupModule();
+  setupSwitches();
 
   // Schedule tasks to run every 250 milliseconds.
   taskManager.scheduleFixedRate(250, runLEDs);
   taskManager.scheduleFixedRate(250, processSwitches);
-  taskManager.scheduleFixedRate(250, checkA0);
   taskManager.scheduleFixedRate(250, processSerialInput);
   taskManager.scheduleFixedRate(250, processButtons);
 
