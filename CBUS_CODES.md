@@ -19,6 +19,8 @@ I have not yet set up access to GitHub on the laptop I am using for testing. Tha
 
 I have added the arduino_dc_throttle code to the repository. At the moment it is stand alone and can be controlled from the Arduino IDE. I would like to have a version which could be controlled from another Arduino either through the Serial port or I2C.
 
+I want to develop a unit with a keypad and encoder as a CBUS module. I have used both in the past standalone, so will have the code somewhere. If this is on a MEGA it will have a spare serial port.
+
 ### 3rd June 
 
 Testing of CANTOTEM 1c beta 3 with criticalEvent code. A first test has been successful. Now I need to update the code in CAN1602BUT to display the correct message.
