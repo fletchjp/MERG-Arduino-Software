@@ -1,6 +1,8 @@
 ////////////////////////////////////////////////////////////////////////////////////
 // CAN1602PIN
 // Version using DfRobotInputAbstraction.h to model input pins.
+// This uses code from IoAbstraction examples dfRobotAnalogInSwitches 
+// and dfRobotRotaryEncoder
 ////////////////////////////////////////////////////////////////////////////////////
 // CAN1602BUT
 // Take code from CANALCDBUT to make a new code on the CANmINnOUT base.
@@ -106,12 +108,17 @@
 
 // IoAbstraction libraries
 #include <IoAbstraction.h>
-#include <AnalogDeviceAbstraction.h>
+#include <DfRobotInputAbstraction.h>
+//#include <AnalogDeviceAbstraction.h>
 #include <TaskManagerIO.h>
 #include <DeviceEvents.h>
 
 // IoAbstraction reference to the arduino pins.
-IoAbstractionRef arduinoPins = ioUsingArduino();
+//IoAbstractionRef arduinoPins = ioUsingArduino();
+// This uses the default settings for analog ranges.
+IoAbstractionRef dfRobotKeys = inputFromDfRobotShield();
+
+
 
 #define ANALOG_IN_PIN A0
 // here we create the abstraction over the standard arduino analog IO capabilities
