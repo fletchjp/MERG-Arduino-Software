@@ -10,6 +10,8 @@
 // Renamed NULL as THROTTLE_NULL on each occurence.
 // NULL is also defined in some headers.
 //////////////////////////////////////////////////////////////////////
+// Copied into MERG-Arduino-Software branch cbus_codes. July 2021.
+//////////////////////////////////////////////////////////////////////
 /*
   Copyright (C) John Purbrick 2021 (j_purbrick@yahoo.com)
 
