@@ -35,7 +35,7 @@ buttonRotaryEncoder is an IoAbstraction example which I want to change to match 
 
 I have just found two codes in the IoAbstraction library examples which relate to the DFRobot display and pins board which I am using in CAN1602BUT. They are dfRobitAnalogInSwitches and dfRobotRotaryEncoder. They are not so far as I can see mentioned in the main document. They use a header file DfRobotInputAbstraction.h which is documented in the reference material.
 
-The importance of this is that enables the analog input on the DFRobot display with buttons to be treated as though they are pins. I want now to explore using this.
+The importance of this is that enables the analog input on the DFRobot display with buttons to be treated as though they are pins. I have been exploring using this. I now have a new code CAN1602PIN which is derived from CAN1602BUT using the abstraction.
 
 
 ### 3rd June 
