@@ -25,6 +25,15 @@ I want to develop a unit with a keypad and encoder as a CBUS module. I have used
 
 I have also added matrixKeyboard2 which is an example which monitors a Keypad using KeyboardListener from IoAbstraction.
 
+I have now added some codes for use with an encoder.
+
+EncoderOnly is an Elegoo code for the encoder.
+
+WithEncoder is Elegoo code with encoder and stepper motor.
+
+buttonRotaryEncoder is an IoAbstraction example which I want to change to match the EncoderOnly pin use.
+
+
 ### 3rd June 
 
 Testing of CANTOTEM 1c beta 3 with criticalEvent code. A first test has been successful. Now I need to update the code in CAN1602BUT to display the correct message.
