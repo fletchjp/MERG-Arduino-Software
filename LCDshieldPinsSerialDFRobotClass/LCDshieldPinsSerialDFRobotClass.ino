@@ -5,11 +5,11 @@
 
 #include <IoAbstraction.h>
 #include <DfRobotInputAbstraction.h>
-//#include <AnalogDeviceAbstraction.h>
 #include <TaskManagerIO.h>
 #include <DeviceEvents.h>
 
 // This is the input pin where analog input is received.
+// It is in fact set as default defining dfRobotKeys.
 #define ANALOG_IN_PIN A0
 
 // here we create the abstraction over the standard arduino analog IO capabilities
@@ -39,10 +39,10 @@ const int pin_d7 = 7;
 const int pin_BL = 10; 
 LiquidCrystal lcd( pin_RS,  pin_EN,  pin_d4,  pin_d5,  pin_d6,  pin_d7);
 
-int x;
-int prevx = 0;
-int range;
-int prevrange = 0;
+//int x;
+//int prevx = 0;
+//int range;
+//int prevrange = 0;
 
 // Serial IO
 #define SERIAL_SPEED            19200   // Speed of the serial port.
