@@ -1,5 +1,6 @@
 // ioAbsEncodeOnly
 // Changing to use IoAbstraction methods as in buttonRotaryEncode example.
+// See myButtonRotaryEncoder example which does what I want to do.
 
 //www.elegoo.com
 //2016.12.12
