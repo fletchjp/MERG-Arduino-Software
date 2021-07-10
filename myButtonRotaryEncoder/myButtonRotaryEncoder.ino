@@ -63,7 +63,9 @@ void onEncoderChange(int newValue) {
 
 void setup() {
 
+  while(!Serial);
   Serial.begin(115200);
+  Serial.println("Button Rotary Encoder using IoAbstraction");
 
   // here we initialise as output the output pin we'll use
   ioDevicePinMode(boardIo, ledOutputPin, OUTPUT);
