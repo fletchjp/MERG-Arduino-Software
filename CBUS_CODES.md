@@ -37,6 +37,7 @@ I have just found two codes in the IoAbstraction library examples which relate t
 
 The importance of this is that enables the analog input on the DFRobot display with buttons to be treated as though they are pins. I have been exploring using this. I now have a new code CAN1602PIN which is derived from CAN1602BUT using the abstraction.
 
+I am also exploring the IoAbstraction methods for a rotary encoder. They also use buttons instead of the encoder. The first example is myButtonRotaryEncoder.
 
 ### 3rd June 
 
