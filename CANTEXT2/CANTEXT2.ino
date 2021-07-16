@@ -30,11 +30,15 @@
 //
 // Modified by Martin Da Costa (M6223) and John Fletcher (M6777)
 /**************************************************************************************
+  Version 2b beta 1
+  Bring into line with CBUS interface from CANTOTEM.
+*************************************************************************************/
+/**************************************************************************************
   Version 2a
   Allows configuration for either 8MHz or 16MHz CANBUS module crystal
   Replaces defs.h with pre-processing constants
   Corrects initial name printout on serial initialisation
-  Correects error in if statement in loop that prevented module switch from working
+  Corrects error in if statement in loop that prevented module switch from working
 *************************************************************************************/
 
 /*
@@ -138,6 +142,8 @@ IoAbstractionRef arduinoPins = ioUsingArduino();
 #include <CBUSLED.h>                // CBUS LEDs
 #include <CBUSconfig.h>             // module configuration
 #include <cbusdefs.h>               // MERG CBUS constants
+#include <CBUSParams.h>
+
 //////////////////////////////////////////////////////////////////////////////////////////////
 #if LCD_DISPLAY
 #define VERSION 2.0
@@ -165,8 +171,8 @@ void displaySetup();
 //////////////////////////////////////////////////////////////////////////////////////////////
 // constants
 const byte VER_MAJ = 2;                  // code major version
-const char VER_MIN = 'a';                // code minor version
-const byte VER_BETA = 0;                 // code beta sub-version
+const char VER_MIN = 'b';                // code minor version
+const byte VER_BETA = 1;                 // code beta sub-version
 const byte MODULE_ID = 99;               // CBUS module type
 
 const byte LED_GRN = 4;                  // CBUS green SLiM LED pin
@@ -183,6 +189,13 @@ const byte MODULE_SOUNDER    = 7;        // Module buzzer pin
 const byte BUZZER_TONE = 1000;   // Set the tone for the buzzer
 
 //////////////////////////////////////////////////////////////////////////////////////////////
+//CBUS pins
+const byte CAN_INT_PIN = 2;  // Only pin 2 and 3 support interrupts
+const byte CAN_CS_PIN = 10;
+//const byte CAN_SI_PIN = 11;  // Cannot be changed
+//const byte CAN_SO_PIN = 12;  // Cannot be changed
+//const byte CAN_SCK_PIN = 13;  // Cannot be changed
+
 // CBUS objects
 CBUS2515 CBUS;                      // CBUS object
 CBUSConfig config;                  // configuration object
@@ -283,15 +296,12 @@ byte ledOn;
 //
 int taskId = TASKMGR_INVALIDID; // Set to this value so that it won't get cancelled before it exists!
 
+
 //
-/// setup - runs once at power on
+///  setup CBUS - runs once at power on called from setup()
 //
-
-void setup() {
-
-  Serial.begin (115200);
-  Serial << endl << endl << F("> ** CANTEXT2 v2a ** ") << __FILE__ << endl;
-
+void setupCBUS()
+{
   // set config layout parameters
   config.EE_NVS_START = 10;
   config.EE_NUM_NVS = 10;
@@ -300,7 +310,7 @@ void setup() {
   config.EE_NUM_EVS = 1;
   config.EE_BYTES_PER_EVENT = (config.EE_NUM_EVS + 4);
 
-  // initialise and load configuration
+// initialise and load configuration
   config.setEEPROMtype(EEPROM_INTERNAL);
   config.begin();
 
@@ -311,31 +321,55 @@ void setup() {
   printConfig();
 
   // set module parameters
-  params[0] = 20;                     //  0 num params = 10
-  params[1] = 0xa5;                   //  1 manf = MERG, 165
-  params[2] = VER_MIN;                //  2 code minor version
-  params[3] = MODULE_ID;              //  3 module id, 99 = undefined
-  params[4] = config.EE_MAX_EVENTS;   //  4 num events
-  params[5] = config.EE_NUM_EVS;      //  5 num evs per event
-  params[6] = config.EE_NUM_NVS;      //  6 num NVs
-  params[7] = VER_MAJ;                //  7 code major version
-  params[8] = 0x07;                   //  8 flags = 7, FLiM, consumer/producer
-  params[9] = 0x32;                   //  9 processor id = 50
-  params[10] = PB_CAN;                // 10 interface protocol = CAN, 1
-  params[11] = 0x00;
-  params[12] = 0x00;
-  params[13] = 0x00;
-  params[14] = 0x00;
-  params[15] = '3';
-  params[16] = '2';
-  params[17] = '8';
-  params[18] = 'P';
-  params[19] = CPUM_ATMEL;
-  params[20] = VER_BETA;
+  CBUSParams params(config);
+  params.setVersion(VER_MAJ, VER_MIN, VER_BETA);
+  params.setModuleId(MODULE_ID);
+  params.setFlags(PF_FLiM | PF_COMBI);
 
   // assign to CBUS
-  CBUS.setParams(params);
+  CBUS.setParams(params.getParams());
   CBUS.setName(mname);
+
+  // register our CBUS event handler, to receive event messages of learned events
+  CBUS.setEventHandler(eventhandler);
+  // This will only process the defined opcodes.
+  CBUS.setFrameHandler(framehandler, opcodes, nopcodes);
+
+ // Retained for now.
+ // set LED and switch pins and assign to CBUS
+  ledGrn.setPin(LED_GRN);
+  ledYlw.setPin(LED_YLW);
+  CBUS.setLEDs(ledGrn, ledYlw);
+  CBUS.setSwitch(pb_switch);
+
+  // set CBUS LEDs to indicate mode
+  CBUS.indicateMode(config.FLiM);
+
+
+  // configure and start CAN bus and CBUS message processing
+  CBUS.setNumBuffers(2);         // more buffers = more memory used, fewer = less
+#if CANBUS8MHZ
+  CBUS.setOscFreq(8000000UL);   // select the crystal frequency of the CAN module to 8MHz
+#else
+  CBUS.setOscFreq(16000000UL);   // select the crystal frequency of the CAN module to 16Mhz
+#endif
+  //CBUS.setOscFreq(CAN_OSC_FREQ);   // select the crystal frequency of the CAN module
+  CBUS.setPins(CAN_CS_PIN, CAN_INT_PIN);           // select pins for CAN bus CE and interrupt connections
+  CBUS.begin();
+
+}
+
+//
+/// setup - runs once at power on
+//
+
+void setup() {
+
+  Serial.begin (115200);
+  Serial << endl << endl << F("> ** CANTEXT2 v2b beta 1 ** ") << __FILE__ << endl;
+
+  setupCBUS();
+
 
 // Initialise displays
 #if LCD_DISPLAY
@@ -368,28 +402,7 @@ void setup() {
     config.resetModule(ledGrn, ledYlw, pb_switch);
   }
 
-  // register our CBUS event handler, to receive event messages of learned events
-  CBUS.setEventHandler(eventhandler);
-  CBUS.setFrameHandler(framehandler, opcodes, nopcodes);
-
-  // set LED and switch pins and assign to CBUS
-  ledGrn.setPin(LED_GRN);
-  ledYlw.setPin(LED_YLW);
-  CBUS.setLEDs(ledGrn, ledYlw);
-  CBUS.setSwitch(pb_switch);
-
-  // set CBUS LEDs to indicate mode
-  CBUS.indicateMode(config.FLiM);
-
-  // configure and start CAN bus and CBUS message processing
-  CBUS.setNumBuffers(2);         // more buffers = more memory used, fewer = less
-#if CANBUS8MHZ
-  CBUS.setOscFreq(8000000UL);   // select the crystal frequency of the CAN module to 8MHz
-#else
-  CBUS.setOscFreq(16000000UL);   // select the crystal frequency of the CAN module to 16Mhz
-#endif
-  CBUS.setPins(10, 2);           // select pins for CAN bus CE and interrupt connections
-  CBUS.begin();
+ 
 
 #if GROVE
   ioDevicePinMode(arduinoPins, MODULE_SWITCH_PIN, LOW);
@@ -933,6 +946,36 @@ void processSerialInput(void) {
       case 'm':
         // free memory
         Serial << F("> free SRAM = ") << config.freeSRAM() << F(" bytes") << endl;
+        break;
+
+      case 'r':
+        // renegotiate
+        CBUS.renegotiate();
+        break;
+      case 'z':
+        // Reset module, clear EEPROM
+        static bool ResetRq = false;
+        static unsigned long ResWaitTime;
+        if (!ResetRq) {
+          // start timeout timer
+          Serial << F(">Reset & EEPROM wipe requested. Press 'z' again within 2 secs to confirm") << endl;
+          ResWaitTime = millis();
+          ResetRq = true;
+        }
+        else {
+          // This is a confirmed request
+          // 2 sec timeout
+          if (ResetRq && ((millis() - ResWaitTime) > 2000)) {
+            Serial << F(">timeout expired, reset not performed") << endl;
+            ResetRq = false;
+          }
+          else {
+            //Request confirmed within timeout
+            Serial << F(">RESETTING AND WIPING EEPROM") << endl;
+            config.resetModule();
+            ResetRq = false;
+          }
+        }
         break;
 
       case '\r':
