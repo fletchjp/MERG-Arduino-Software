@@ -15,6 +15,7 @@
 // Version 1c beta 3 Expand criticalEvent processing to include an opcode.
 // Version 1c beta 4 Expand criticalEvent processing to check that an opcode is available.
 // Version 1c beta 5 Make processSerialInput a task.
+// Version 1c beta 6 Use PROGMEM to reduce memory use for fixed data.
 ///////////////////////////////////////////////////////////////////////////////////
 // This is to run on the TOTEM Minilab with a CAN interface.
 // working from
@@ -119,7 +120,7 @@ IoAbstractionRef arduinoPins = ioUsingArduino();
 ////////////DEFINE MODULE/////////////////////////////////////////////////
 
 // module name
-unsigned char mname[7] = { 'T', 'O', 'T', 'E', 'M', ' ', ' ' };
+const unsigned char mname[7] PROGMEM = { 'T', 'O', 'T', 'E', 'M', ' ', ' ' };
 
 // forward function declarations
 void eventhandler(byte index, byte opc);
@@ -127,12 +128,12 @@ void framehandler(CANFrame *msg);
 
 // Set opcodes for polling events
 byte nopcodes = 9;
-byte opcodes[] = {OPC_ACON, OPC_ACOF, OPC_ARON, OPC_AROF, OPC_ASON, OPC_ASOF, OPC_AREQ, OPC_ASRQ, OPC_CANID }; 
+const byte opcodes[] PROGMEM = {OPC_ACON, OPC_ACOF, OPC_ARON, OPC_AROF, OPC_ASON, OPC_ASOF, OPC_AREQ, OPC_ASRQ, OPC_CANID }; 
 
 // constants
 const byte VER_MAJ = 1;         // code major version
 const char VER_MIN = 'c';       // code minor version
-const byte VER_BETA = 5;        // code beta sub-version
+const byte VER_BETA = 6;        // code beta sub-version
 const byte MODULE_ID = 99;      // CBUS module type
 
 const unsigned long CAN_OSC_FREQ = 8000000;     // Oscillator frequency on the CAN2515 board
@@ -141,8 +142,8 @@ const unsigned long CAN_OSC_FREQ = 8000000;     // Oscillator frequency on the C
 #define NUM_SWITCHES 2          // How many switchs are there?
 
 //Module pins available for use are Pins 3 - 9 and A0 - A5
-const byte LED[NUM_LEDS] = {8, 7};            // LED pin connections through typ. 1K8 resistor
-const byte SWITCH[NUM_SWITCHES] = {9, 6};     // Module Switch takes input to 0V.
+const byte LED[NUM_LEDS] PROGMEM = {8, 7};            // LED pin connections through typ. 1K8 resistor
+const byte SWITCH[NUM_SWITCHES] PROGMEM = {9, 6};     // Module Switch takes input to 0V.
 
 // module objects
 Bounce moduleSwitch[NUM_SWITCHES];  //  switch as input
