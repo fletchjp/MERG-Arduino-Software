@@ -20,6 +20,8 @@ I have on one occasion cherrypicked between branches.
 
 I have also learned how to delete a repository, one which I had forked and no longer needed.
 
+I had a strange experience today. I was working in the cbus_codes branch of MERG-Arduino-Software where I had two codes open to change things. I wanted to compare them with the code for CANCMDDC which is in the main branch of CANCMDDC2. So I changed directory in the open Explorer page and found it and opened it. When I came to save it I was back in the folder for MERG-Arduino-Software it was not there. Panic. Where is it? I saved a backup somewhere outside the GitHub structure. Then I realised it came from a different repository. The files were still there from last time I had used that repository. End of panic.
+
 ## Changing branches around
 
 I have done some interesting things with the CANCMDDC2 repository. I had been working in a branch called develop and wanted to make that the main branch. I started by renaming the existing main to old-main and then renaming develop to main. I also needed to change the default branch to the new main.
