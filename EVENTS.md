@@ -12,6 +12,8 @@ I have now found matrixKeyboard2 which is useful as it uses the KeyboardListener
 
 I now need to do the same for the other hardware.
 
+I have been bringing in some more of the Arduino CBUS codes and also making use of PROGMEM to reduce the use of memory.
+
 ## June 2021
 
 ## 24th June
