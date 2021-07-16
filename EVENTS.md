@@ -2,6 +2,14 @@
 
 Back to [README](README.md).
 
+## July 2021
+
+### 16th July
+
+I have been working on the CBUS codes bringing in some more examples and adapting them to the latest standards of CBUS interface.
+
+I have also found that one of them, CANTEXT, is tight on memory so I have been making use of PROGMEM to move const data to the program memory. This can be extended to other codes even though the memory there may not be so tight.
+
 ## May 2021
 
 ### 8th May
