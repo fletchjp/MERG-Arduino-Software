@@ -32,6 +32,8 @@
 /**************************************************************************************
   Version 2b beta 1
   Bring into line with CBUS interface from CANTOTEM.
+  This is tight on memory, which can be resolved by setting MERG_DISPLAY to 0
+  I have also put some data into program memory using PROGMEM.
 *************************************************************************************/
 /**************************************************************************************
   Version 2a
@@ -146,7 +148,7 @@ IoAbstractionRef arduinoPins = ioUsingArduino();
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 #if LCD_DISPLAY
-#define VERSION 2.0
+#define VERSION 2.1
 /* libraries for LCD display module */
 #include <Wire.h>    // Library for I2C comminications for display
 #include <hd44780.h>
@@ -209,10 +211,10 @@ CBUSSwitch pb_switch;               // switch object
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 // CBUS module parameters
-unsigned char params[21];
+// unsigned char params[21]; not used here.
 
 // module name
-unsigned char mname[7] = { 'T', 'e', 'x', 't', '2', ' ', ' ' };
+const unsigned char mname[7] PROGMEM = { 'T', 'e', 'x', 't', '2', ' ', ' ' };
 
 // forward function declarations
 void eventhandler(byte index, byte opc);
@@ -221,7 +223,7 @@ void checkSwitch(); // Forward declaration of the task function
 void toggle();      // Forward declaration of toggle task
 // Opcodes to be detected by framehandler
 byte nopcodes = 8;
-byte opcodes[] = {OPC_ACON, OPC_ACOF, OPC_ACON1, OPC_ACOF1, OPC_ACON2, OPC_ACOF2, OPC_ACON3, OPC_ACOF3 };
+const byte opcodes[] PROGMEM = {OPC_ACON, OPC_ACOF, OPC_ACON1, OPC_ACOF1, OPC_ACON2, OPC_ACOF2, OPC_ACON3, OPC_ACOF3 };
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 // Code finding out what message is to be displayed and holding the message texts.
@@ -402,7 +404,6 @@ void setup() {
     config.resetModule(ledGrn, ledYlw, pb_switch);
   }
 
- 
 
 #if GROVE
   ioDevicePinMode(arduinoPins, MODULE_SWITCH_PIN, LOW);
