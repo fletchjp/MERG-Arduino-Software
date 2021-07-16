@@ -14,6 +14,8 @@ I now need to do the same for the other hardware.
 
 I have been bringing in some more of the Arduino CBUS codes and also making use of PROGMEM to reduce the use of memory.
 
+I think that I had an example somewhere of a stepper motor code and at the moment I cannot find it. I bought some stepper motors in March 2021 and it is unlike me not to have tried one out.
+
 ## June 2021
 
 ## 24th June
