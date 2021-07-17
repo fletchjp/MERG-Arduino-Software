@@ -32,6 +32,8 @@
 /**************************************************************************************
   Version 2b beta 2
   Working to clear errors in display and buttons.
+  I have this working without MERG button and LEDs.
+  There is not enough memory to run the MERG display on bootup.
 *************************************************************************************/
   
 /**************************************************************************************
@@ -134,7 +136,7 @@ IoAbstractionRef arduinoPins = ioUsingArduino();
 // These are more things which need to be set.
 #define DEBUG         1 // set to 0 for no debug messages, 1 for messages to console
 #define LCD_DISPLAY   1 // set to 0 if 4x20 char LCD display is not present
-#define MERG_DISPLAY  1 // set to 0 to save memory by leaving this out.
+#define MERG_DISPLAY  0 // set to 0 to save memory by leaving this out.
 
 // Set GROVE 1 for a GROVE switch which is HIGH when pressed, otherwise 0
 #define GROVE 1
@@ -206,8 +208,8 @@ const byte CAN_CS_PIN = 10;
 // CBUS objects
 CBUS2515 CBUS;                      // CBUS object
 CBUSConfig config;                  // configuration object
-CBUSLED ledGrn, ledYlw;             // LED objects
-CBUSSwitch pb_switch;               // switch object
+//CBUSLED ledGrn, ledYlw;             // LED objects
+//CBUSSwitch pb_switch;               // switch object
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 // module objects replaced by IO_Abstraction devices.
@@ -341,9 +343,11 @@ void setupCBUS()
   CBUS.setEventHandler(eventhandler);
   // This will only process the defined opcodes.
   CBUS.setFrameHandler(framehandler, opcodes, nopcodes);
+  //Serial << F("> Exiting setFrameHandler") << endl;
 
  // Retained for now.
  // set LED and switch pins and assign to CBUS
+ /*
   ledGrn.setPin(LED_GRN);
   ledYlw.setPin(LED_YLW);
   CBUS.setLEDs(ledGrn, ledYlw);
@@ -351,19 +355,22 @@ void setupCBUS()
 
   // set CBUS LEDs to indicate mode
   CBUS.indicateMode(config.FLiM);
-
+*/
 
   // configure and start CAN bus and CBUS message processing
   CBUS.setNumBuffers(2);         // more buffers = more memory used, fewer = less
+  //Serial << F("> Exiting setNumBuffers") << endl;
 #if CANBUS8MHZ
   CBUS.setOscFreq(8000000UL);   // select the crystal frequency of the CAN module to 8MHz
 #else
   CBUS.setOscFreq(16000000UL);   // select the crystal frequency of the CAN module to 16Mhz
 #endif
   //CBUS.setOscFreq(CAN_OSC_FREQ);   // select the crystal frequency of the CAN module
-  CBUS.setPins(CAN_CS_PIN, CAN_INT_PIN);           // select pins for CAN bus CE and interrupt connections
+  //CBUS.setPins(10, 2);
+  CBUS.setPins(CAN_CS_PIN, CAN_INT_PIN); // select pins for CAN bus CE and interrupt connections
+  //Serial << F("> Exiting setPins") << endl;
   CBUS.begin();
-
+  //Serial << F("Exiting setupCBUS") << endl;
 }
 
 //
@@ -373,12 +380,12 @@ void setupCBUS()
 void setup() {
 
   Serial.begin (115200);
-  Serial << endl << endl << F("> ** CANTEXT2 v2b beta 1 ** ") << __FILE__ << endl;
+  Serial << endl << endl << F("> ** CANTEXT2 v2b beta 2 ** ") << __FILE__ << endl;
 
   setupCBUS();
-#if DEBUG
-  Serial << F("after setupCBUS()") << endl;
-#endif
+//#if DEBUG
+  //Serial << F("after setupCBUS()") << endl;
+//#endif
 // Initialise displays
 #if LCD_DISPLAY
   initialiseDisplay();
@@ -394,6 +401,7 @@ void setup() {
   displaySetup(); 
 #endif
   // initialise CBUS switch
+  /*
 #if GROVE
   pb_switch.setPin(SWITCH0, HIGH);
   Serial << F("> Switch set to go HIGH when pressed") << endl;
@@ -401,7 +409,7 @@ void setup() {
   pb_switch.setPin(SWITCH0, LOW);
   Serial << F("> Switch set to go LOW when pressed") << endl;
 #endif
- 
+
   // module reset - if switch is depressed at startup and module is in SLiM mode
   pb_switch.run();
 
@@ -409,7 +417,7 @@ void setup() {
     Serial << F("> switch was pressed at startup in SLiM mode") << endl;
     config.resetModule(ledGrn, ledYlw, pb_switch);
   }
-
+*/
 
 #if GROVE
   ioDevicePinMode(arduinoPins, MODULE_SWITCH_PIN, LOW);
