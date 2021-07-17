@@ -134,7 +134,7 @@ IoAbstractionRef arduinoPins = ioUsingArduino();
 //#define CANBUS8MHZ 1 // set to 0 for CANBUS module with 16MHz crystal
 //////////////////////////////////////////////////////////////////////////////////////////////
 // These are more things which need to be set.
-#define DEBUG         1 // set to 0 for no debug messages, 1 for messages to console
+#define DEBUG         0 // set to 0 for no debug messages, 1 for messages to console
 #define LCD_DISPLAY   1 // set to 0 if 4x20 char LCD display is not present
 #define MERG_DISPLAY  0 // set to 0 to save memory by leaving this out.
 
@@ -538,7 +538,7 @@ bool sendEvent(byte opCode,unsigned int eventNo)
     if (res) {
       Serial << F("> sent CBUS message with opCode [ 0x") << _HEX(opCode) << F(" ] and event No ") << eventNo << endl;
     } else {
-      Serial << F("> error sending CBUS event wit opcode [ 0x") <<  _HEX(opCode) << F(" ]") << endl;
+      Serial << F("> error sending CBUS event with opcode [ 0x") <<  _HEX(opCode) << F(" ]") << endl;
     }
 #endif
 #if LCD_DISPLAY
@@ -779,8 +779,6 @@ void initialiseDisplay()
 }
 
 #if MERG_DISPLAY
-void displayMergLogo()
-{
   // Creat a set of new characters
   const uint8_t mergLogo[][8] = {
     { B00001111, B00011111, B00011111, B00011111, B00011100, B00011100, B00011100, B00011100 }, // 0
@@ -793,9 +791,12 @@ void displayMergLogo()
     { B00011111, B00011111, B00011111, B00011111, B00011111, B00011111, B00011111, B00011111 }  // 7
   };
 
+void displayMergLogo()
+{
+
   customChars(mergLogo);
 
-  char chars[4][20] = {
+  const char chars[4][20] PROGMEM = {
   char(0), char(1), char(6), char(1), char(1), char(2), ' ', char(0), char(1), char(1), ' ', char(0), char(1), char(1), char(2), ' ', char(0), char(1), char(1), char(2),
   char(2), ' ',     char(4), ' ',     ' ',     char(2), ' ', char(2), ' ',     ' ',     ' ', char(2), ' ',     ' ',     char(2), ' ', char(2), ' ',     ' ',     ' ',
   char(7), ' ',     char(4), ' ',     ' ',     char(2), ' ', char(7), char(1), ' ',     ' ', char(7), char(1), char(1), char(6), ' ', char(7), ' ',     char(1), char(2),
