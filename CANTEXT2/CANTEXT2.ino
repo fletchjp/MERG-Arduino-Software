@@ -30,6 +30,11 @@
 //
 // Modified by Martin Da Costa (M6223) and John Fletcher (M6777)
 /**************************************************************************************
+  Version 2b beta 2
+  Working to clear errors in display and buttons.
+*************************************************************************************/
+  
+/**************************************************************************************
   Version 2b beta 1
   Bring into line with CBUS interface from CANTOTEM.
   This is tight on memory, which can be resolved by setting MERG_DISPLAY to 0
@@ -174,7 +179,7 @@ void displaySetup();
 // constants
 const byte VER_MAJ = 2;                  // code major version
 const char VER_MIN = 'b';                // code minor version
-const byte VER_BETA = 1;                 // code beta sub-version
+const byte VER_BETA = 2;                 // code beta sub-version
 const byte MODULE_ID = 99;               // CBUS module type
 
 const byte LED_GRN = 4;                  // CBUS green SLiM LED pin
@@ -371,12 +376,13 @@ void setup() {
   Serial << endl << endl << F("> ** CANTEXT2 v2b beta 1 ** ") << __FILE__ << endl;
 
   setupCBUS();
-
-
+#if DEBUG
+  Serial << F("after setupCBUS()") << endl;
+#endif
 // Initialise displays
 #if LCD_DISPLAY
   initialiseDisplay();
-  //delay(2000);
+  delay(2000);
   #if MERG_DISPLAY
 
   displayMergLogo();
@@ -645,6 +651,9 @@ void printConfig(void) {
   Serial << F("> © John Fletcher (MERG M6777) 2020") << endl;
 #if LCD_DISPLAY
    Serial << F("> LCD display available") << endl;
+#if MERG_DISPLAY
+   Serial << F("> MERG display available") << endl;
+#endif
 #endif
 #if DEBUG
    Serial << F("> Error code test noError: ") << noError << endl;
