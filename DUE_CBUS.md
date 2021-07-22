@@ -4,7 +4,7 @@
 
 This is a development from the CBUS Codes branch for work with the Arduino DUE.
 
-Now that I have two DUEs working, I am looking at more of the example software which is available.
+Now that I have two DUEs working with the board with 2 CAN interfaces, I am looking at more of the example software which is available. I also have a third DUE which I will use for other program work.
 
 Some of the examples will now work with DUE and AVR (MEGA or UNO).
 
