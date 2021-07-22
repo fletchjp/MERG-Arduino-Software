@@ -100,6 +100,10 @@ This example explores the implementation of Functor laws using FC++.
 
 This is a development of the ecoop1b example to look at monitoring changes using the subject/observer model. I have quite a lot of code for this which I am going to adapt.
 
+## SK Pang codes
+
+I have downloaded several of the example codes which come with the two channel CAN shield. These use the same due_can library used by Duncan's library CBUSSAM3X8E. There is also a can_common library.
+
 ## CBUS Codes
 
 This is a branch for the location of CBUS codes, some of which will be related to the codes in the main branch.
