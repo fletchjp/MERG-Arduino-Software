@@ -102,7 +102,10 @@ This is a development of the ecoop1b example to look at monitoring changes using
 
 ## SK Pang codes
 
-I have downloaded several of the example codes which come with the two channel CAN shield. These use the same due_can library used by Duncan's library CBUSSAM3X8E. There is also a can_common library.
+I have downloaded several of the example codes which come with the two channel CAN shield. These use the same due_can library used by Duncan's library CBUSSAM3X8E. 
+### due_can
+
+There are quite a lot of useful examples with due_can. It uses the  can_common library.
 
 ## CBUS Codes
 
