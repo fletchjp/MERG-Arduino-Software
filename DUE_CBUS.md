@@ -12,7 +12,9 @@ Some of the examples will now work with DUE and AVR (MEGA or UNO).
 
 I am now starting to test the code. I have some queries which I have sent to Duncan Greenwood.
 
-I now have a second DUE which for the moment has no CAN interface. I am using this for testing non CBUS code as the units lose CBUS configuration when software is reloaded.
+I now have a second DUE which now has a two CAN interface.
+
+I have been using this for testing non CBUS code as the units lose CBUS configuration when software is reloaded. I will do this now on a third DUE.
 
 ## Codes
 
