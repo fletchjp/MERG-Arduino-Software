@@ -16,6 +16,10 @@ I have been bringing in some more of the Arduino CBUS codes and also making use 
 
 I think that I had an example somewhere of a stepper motor code and at the moment I cannot find it. I bought some stepper motors in March 2021 and it is unlike me not to have tried one out.
 
+I now have some more of the DFRobot expansion boards and plan to fit them to a number of UNO, MEGA and DUE boards where I need the extra earth and power pins.
+
+I have begun to look at some of the DUE code examples.
+
 ## June 2021
 
 ## 24th June
