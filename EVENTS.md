@@ -20,7 +20,7 @@ I now have some more of the DFRobot expansion boards and plan to fit them to a n
 
 I have begun to look at some of the DUE code examples.
 
-There are a number of different scheduler libraries I had not found before. Some work only on DUE and some not on it at all. These are listed on Arduino RTOS Index on my ConnectedText wiki.
+There are a number of different scheduler libraries I had not found before. Some work only on DUE and some not on it at all. These are listed on Arduino RTOS Index on my ConnectedText wiki. This is getting quite complicated as there are a number of similar ones.
 
 
 ## June 2021
