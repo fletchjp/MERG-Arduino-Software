@@ -141,3 +141,7 @@ This is a version with an option to disable the signal code for testing without 
 
 I am also developing a version where the display is connected using an I2C backpack for all the connections except the A0 and reset.
 
+## Other DUE codes
+
+I am finding some more libraries which support multiple tasks. There is one called scheduler which is part of the official Arduino set although not for AVR boards so DUE only as far as I am concerned. It allows for multiple loops. See example MultipleBlinks.
+ 
