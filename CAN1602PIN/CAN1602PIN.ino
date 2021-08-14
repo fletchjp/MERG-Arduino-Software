@@ -140,6 +140,8 @@ const int pin_d7 = 7;
 const int pin_BL = 10; 
 LiquidCrystal lcd( pin_RS,  pin_EN,  pin_d4,  pin_d5,  pin_d6,  pin_d7);
 
+// Variables for buttons
+// Most are not needed here.
 //int x;
 //int prevx = 0;
 //int range;
