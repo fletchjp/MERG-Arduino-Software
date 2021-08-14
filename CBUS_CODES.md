@@ -17,7 +17,7 @@ I have not yet set up access to GitHub on the laptop I am using for testing. Tha
 
 ### 14th August
 
-I have ordered a device with 5 buttons to connect via an analog pin. I want to fit this to the TOTEM frame expanding CANTOTEM. I need to use the code from CAN1602BUT rather than CAN1602PIN which assumes the whole DfRobot shield.
+I have ordered a device with 5 buttons to connect via an analog pin. I want to fit this to the TOTEM frame expanding CANTOTEM. I have now used the code from CAN1602BUT rather than CAN1602PIN which assumes the whole DfRobot shield.
 
 ### 9th July
 
