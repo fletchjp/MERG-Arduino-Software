@@ -17,6 +17,8 @@
 // Version 1c beta 5 Make processSerialInput a task.
 // Version 1c beta 6 Use PROGMEM to reduce memory use for fixed data.
 ///////////////////////////////////////////////////////////////////////////////////
+// Version 2a beta 1 Bring in code for buttons from CAN1602BUT
+///////////////////////////////////////////////////////////////////////////////////
 // This is to run on the TOTEM Minilab with a CAN interface.
 // working from
 // TOTEMmINnOUT
@@ -102,13 +104,29 @@
 
 // IoAbstraction libraries
 #include <IoAbstraction.h>
+#include <AnalogDeviceAbstraction.h>
 #include <TaskManagerIO.h>
 // IoAbstraction reference to the arduino pins.
 IoAbstractionRef arduinoPins = ioUsingArduino();
 
+#define ANALOG_IN_PIN A0
+// here we create the abstraction over the standard arduino analog IO capabilities
+ArduinoAnalogDevice analog; // by default it assumes 10 bit read, 8 bit write
+
 // 3rd party libraries
 #include <Streaming.h>
 #include <Bounce2.h>
+
+// Variables for buttons
+int x;
+int prevx = 0;
+int range;
+int prevrange = 0;
+// Use these for the CBUS outputs
+int button;
+int prevbutton = 0;
+
+
 
 // CBUS library header files
 #include <CBUS2515.h>            // CAN controller and CBUS class
@@ -131,9 +149,9 @@ byte nopcodes = 9;
 const byte opcodes[] PROGMEM = {OPC_ACON, OPC_ACOF, OPC_ARON, OPC_AROF, OPC_ASON, OPC_ASOF, OPC_AREQ, OPC_ASRQ, OPC_CANID }; 
 
 // constants
-const byte VER_MAJ = 1;         // code major version
-const char VER_MIN = 'c';       // code minor version
-const byte VER_BETA = 6;        // code beta sub-version
+const byte VER_MAJ = 2;         // code major version
+const char VER_MIN = 'a';       // code minor version
+const byte VER_BETA = 1;        // code beta sub-version
 const byte MODULE_ID = 99;      // CBUS module type
 
 const unsigned long CAN_OSC_FREQ = 8000000;     // Oscillator frequency on the CAN2515 board
@@ -220,6 +238,68 @@ void setupCBUS()
   CBUS.setPins(CAN_CS_PIN, CAN_INT_PIN);           // select pins for CAN bus CE and interrupt connections
   CBUS.begin();
 }
+
+void checkA0()
+{
+ x = analogRead (0);
+ if (x < 175){         // was 50
+  range = 1;
+ } else if (x < 350){ // was 250
+  range = 2;
+ } else if (x < 500){ // unchanged
+  range = 3;
+ } else if (x < 800){ // was 650
+  range = 4;
+ } else if (x < 850){ // unchanged
+  range = 5;
+ } //else { range = 0; }
+if (range != prevrange) {
+ Serial.print(range);
+ Serial.print(" ");
+ Serial.print(x);
+ //lcd.setCursor(10,1);
+ switch (range) {
+  case 1:
+  {
+   //lcd.print ("Right ");
+   DEBUG_PRINT(F(" Right"));
+   break;
+  }
+  case 2:
+  {
+   //lcd.print ("Up    ");
+   DEBUG_PRINT(F(" Up"));
+   break;
+  }
+  case 3:
+  {
+   //lcd.print ("Down  ");
+   DEBUG_PRINT(F(" Down"));
+   break;
+  }
+  case 4:
+  {
+   //lcd.print ("Left  ");
+   DEBUG_PRINT(F(" Left"));
+   break;
+  }
+  case 5:
+  {
+   //lcd.print ("Select");
+   DEBUG_PRINT(F(" Select"));
+   break;
+  }
+  default:
+  break;
+ }
+ prevrange = range;
+ // For CBUS output
+ button = range;
+ }
+  
+}
+
+
 
 
 void runLEDs(){
@@ -327,7 +407,9 @@ void setup()
   // Schedule tasks to run every 250 milliseconds.
   taskManager.scheduleFixedRate(250, runLEDs);
   taskManager.scheduleFixedRate(250, processSwitches);
+  taskManager.scheduleFixedRate(250, checkA0);
   taskManager.scheduleFixedRate(250, processSerialInput);
+  taskManager.scheduleFixedRate(250, processButtons);
   taskManager.registerEvent(&criticalEvent);
 
   // end of setup
@@ -348,6 +430,18 @@ void loop()
 
 
  }
+
+void processButtons(void)
+{
+   // Send an event corresponding to the button, add NUM_SWITCHES to avoid switch events.
+   byte opCode;
+   if (button != prevbutton) {
+      DEBUG_PRINT(F("Button ") << button << F(" changed")); 
+      opCode = OPC_ACON;
+      sendEvent(opCode, button + NUM_SWITCHES);
+      prevbutton = button;
+   }
+}
 
 void processSwitches(void)
 {
