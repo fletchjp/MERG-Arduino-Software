@@ -19,6 +19,7 @@
 ///////////////////////////////////////////////////////////////////////////////////
 // Version 2a beta 1 Bring in code for buttons from CAN1602BUT
 // Version 2a beta 2 Change button detection values for the new hardware.
+// Version 2a beta 3 Initialise button = 0.
 ///////////////////////////////////////////////////////////////////////////////////
 // This is to run on the TOTEM Minilab with a CAN interface.
 // working from
@@ -124,7 +125,7 @@ int prevx = 0;
 int range;
 int prevrange = 0;
 // Use these for the CBUS outputs
-int button;
+int button = 0;
 int prevbutton = 0;
 
 

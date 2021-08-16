@@ -14,6 +14,7 @@
 // Version 1.0b beta9 Change event no of incoming error.
 // Version 1.0b beta10 Changes to code processing the incoming error.
 // Version 1.0b beta11 Make processSerialInput a task.
+// Version 1.0b beta12 Initialise button = 0.
 ////////////////////////////////////////////////////////////////////////////////////
 // CANTOTEM
 // Modification to start to use IoAbstraction and TaskManagerIO
@@ -138,7 +139,7 @@ int prevx = 0;
 int range;
 int prevrange = 0;
 // Use these for the CBUS outputs
-int button;
+int button = 0;
 int prevbutton = 0;
 
 // CBUS library header files
@@ -156,7 +157,7 @@ unsigned char mname[7] = { '1', '6', '0', '2', 'B', 'U', 'T' };
 // constants
 const byte VER_MAJ = 1;         // code major version
 const char VER_MIN = 'b';       // code minor version
-const byte VER_BETA = 11;        // code beta sub-version
+const byte VER_BETA = 12;        // code beta sub-version
 const byte MODULE_ID = 99;      // CBUS module type
 
 const unsigned long CAN_OSC_FREQ = 8000000;     // Oscillator frequency on the CAN2515 board
