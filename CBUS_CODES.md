@@ -19,7 +19,7 @@ I have not yet set up access to GitHub on the laptop I am using for testing. Tha
 
 I have ordered a device with 5 buttons to connect via an analog pin. I want to fit this to the TOTEM frame expanding CANTOTEM. I have now used the code from CAN1602BUT rather than CAN1602PIN which assumes the whole DfRobot shield.
 
-The buttons have now arrived and I have adjusted the button detection values in CANTOTEM to detect the buttons correctly.
+The buttons have now arrived and I have adjusted the button detection values in CANTOTEM to detect the buttons correctly. I now need to find a way to fix the buttons to the frame.
 
 ### 9th July
 
