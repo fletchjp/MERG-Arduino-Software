@@ -2,6 +2,10 @@
 
 Back to [README](README.md).
 
+## August 2021
+
+I have added a set of analog buttons to the TOTEM equipment and modified the CBUS CANTOTEM code to read them.
+
 ## July 2021
 
 I have been mainly working with CANCMDDC2 in its separate repository. I want now to use the cbus_codes branch here to develop some of the things which I want to put into the new version of CANCMDDC and some other CBUS codes.
