@@ -23,6 +23,8 @@
 // Version 2a beta 4 IDEA - test whether CBUS is available, but how?
 //                   I would like to be able to check so that I can be sure if NVs are available.
 //                   I would also like to prevent send event failures.
+//                   It turns out there is not an easy way to do that.
+//                   I will have to define something such as NO_CBUS for testing.
 ///////////////////////////////////////////////////////////////////////////////////
 // This is to run on the TOTEM Minilab with a CAN interface.
 // working from
