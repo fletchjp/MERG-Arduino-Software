@@ -18,6 +18,7 @@
 // Version 1c beta 6 Use PROGMEM to reduce memory use for fixed data.
 ///////////////////////////////////////////////////////////////////////////////////
 // Version 2a beta 1 Bring in code for buttons from CAN1602BUT
+// Version 2a beta 2 Change button detection values for the new hardware.
 ///////////////////////////////////////////////////////////////////////////////////
 // This is to run on the TOTEM Minilab with a CAN interface.
 // working from
@@ -151,7 +152,7 @@ const byte opcodes[] PROGMEM = {OPC_ACON, OPC_ACOF, OPC_ARON, OPC_AROF, OPC_ASON
 // constants
 const byte VER_MAJ = 2;         // code major version
 const char VER_MIN = 'a';       // code minor version
-const byte VER_BETA = 1;        // code beta sub-version
+const byte VER_BETA = 2;        // code beta sub-version
 const byte MODULE_ID = 99;      // CBUS module type
 
 const unsigned long CAN_OSC_FREQ = 8000000;     // Oscillator frequency on the CAN2515 board
@@ -242,15 +243,16 @@ void setupCBUS()
 void checkA0()
 {
  x = analogRead (0);
- if (x < 175){         // was 50
+ //Serial.println(x);
+ if (x < 20){         // 175 was 50
   range = 1;
- } else if (x < 350){ // was 250
+ } else if (x < 60){ // 350 was 250
   range = 2;
- } else if (x < 500){ // unchanged
+ } else if (x < 120){ // 500 was unchanged
   range = 3;
- } else if (x < 800){ // was 650
+ } else if (x < 200){ // 800 was 650
   range = 4;
- } else if (x < 850){ // unchanged
+ } else if (x < 400){ // 850 was unchanged
   range = 5;
  } //else { range = 0; }
 if (range != prevrange) {
@@ -262,31 +264,31 @@ if (range != prevrange) {
   case 1:
   {
    //lcd.print ("Right ");
-   DEBUG_PRINT(F(" Right"));
+   DEBUG_PRINT(F(" SW1 Left"));
    break;
   }
   case 2:
   {
    //lcd.print ("Up    ");
-   DEBUG_PRINT(F(" Up"));
+   DEBUG_PRINT(F(" SW2 Up"));
    break;
   }
   case 3:
   {
    //lcd.print ("Down  ");
-   DEBUG_PRINT(F(" Down"));
+   DEBUG_PRINT(F(" SW3 Down"));
    break;
   }
   case 4:
   {
    //lcd.print ("Left  ");
-   DEBUG_PRINT(F(" Left"));
+   DEBUG_PRINT(F(" SW4 Right"));
    break;
   }
   case 5:
   {
    //lcd.print ("Select");
-   DEBUG_PRINT(F(" Select"));
+   DEBUG_PRINT(F(" SW5 Select"));
    break;
   }
   default:
