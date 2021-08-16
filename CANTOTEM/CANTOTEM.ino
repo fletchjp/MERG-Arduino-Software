@@ -20,6 +20,9 @@
 // Version 2a beta 1 Bring in code for buttons from CAN1602BUT
 // Version 2a beta 2 Change button detection values for the new hardware.
 // Version 2a beta 3 Initialise button = 0.
+// Version 2a beta 4 IDEA - test whether CBUS is available, but how?
+//                   I would like to be able to check so that I can be sure if NVs are available.
+//                   I would also like to prevent send event failures.
 ///////////////////////////////////////////////////////////////////////////////////
 // This is to run on the TOTEM Minilab with a CAN interface.
 // working from
@@ -153,7 +156,7 @@ const byte opcodes[] PROGMEM = {OPC_ACON, OPC_ACOF, OPC_ARON, OPC_AROF, OPC_ASON
 // constants
 const byte VER_MAJ = 2;         // code major version
 const char VER_MIN = 'a';       // code minor version
-const byte VER_BETA = 2;        // code beta sub-version
+const byte VER_BETA = 4;        // code beta sub-version
 const byte MODULE_ID = 99;      // CBUS module type
 
 const unsigned long CAN_OSC_FREQ = 8000000;     // Oscillator frequency on the CAN2515 board
