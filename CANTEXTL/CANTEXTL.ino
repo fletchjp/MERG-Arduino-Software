@@ -4,7 +4,9 @@
 // I have still to figure out how to do this.
 /**************************************************************************************
   Version 1a beta 1
-  Initial ideas.
+  Initial ideas. Inactive code added for receiving a message.
+  I have not figured out the code for sending one.
+  #define CBUS_LONG_MESSAGE to activate the code.
 *************************************************************************************/
 //////////////////////////////////////////////////////////////////////////////////
 // CANTEXT2
@@ -198,6 +200,11 @@ CBUS2515 CBUS;                      // CBUS object
 CBUSConfig config;                  // configuration object
 //CBUSLED ledGrn, ledYlw;             // LED objects
 //CBUSSwitch pb_switch;               // switch object
+#ifdef CBUS_LONG_MESSAGE
+// The Ardunio CBUS library does not yet support this.
+// create an additional object at the top of the sketch:
+CBUSLongMessage cbus_long_message(&CBUS);   // CBUS long message object
+#endif
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 // module objects replaced by IO_Abstraction devices.
@@ -294,7 +301,20 @@ byte ledOn;
 //
 int taskId = TASKMGR_INVALIDID; // Set to this value so that it won't get cancelled before it exists!
 
+#ifdef CBUS_LONG_MESSAGE
+///////////////////////////////////////////////////////////////////////////////////////////////
+// Long message setting up.
+///////////////////////////////////////////////////////////////////////////////////////////////
+ // a list of stream IDs to subscribe to (this ID is defined by the sender):
+byte stream_ids[] = {1, 2, 3};
+ // a buffer for the message fragments to be assembled into
+// either sized to the maximum message length, or as much as you can afford
+const unsigned int buffer_size = 512
+byte long_message_data[buffer_size];
+ // create a handler function to receive completed long messages:
+void longmessagehandler(byte *fragment, unsigned int fragment_len, byte stream_id, byte status);
 
+#endif
 //
 ///  setup CBUS - runs once at power on called from setup()
 //
@@ -334,6 +354,13 @@ void setupCBUS()
   CBUS.setFrameHandler(framehandler, opcodes, nopcodes);
   //Serial << F("> Exiting setFrameHandler") << endl;
 
+#ifdef CBUS_LONG_MESSAGE
+ // subscribe to long messages and register handler
+cbus_long_message.subscribe(stream_ids, (sizeof(stream_ids) / sizeof(byte)), long_message_data, buffer_size, longmessagehandler);
+ // this method throttles the transmission so that it doesn't overwhelm the bus:
+void cbus_long_message.setDelay(byte delay_in_ms_between_messages);
+
+#endif
  // Retained for now.
  // set LED and switch pins and assign to CBUS
  /*
@@ -713,6 +740,13 @@ void eventhandler(byte index, CANFrame *msg) {
   return;
 }
 
+
+#ifdef CBUS_LONG_MESSAGE
+ void longmessagehandler(byte *fragment, unsigned int fragment_len, byte stream_id, byte status){
+ // I need an example for what goes in here.
+  
+ }
+#endif
 //
 /// print code version config details and copyright notice
 //
