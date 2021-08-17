@@ -2,6 +2,10 @@
 // CANTEXTL
 // This is a test file for sending and receiving long messages.
 // I have still to figure out how to do this.
+/**************************************************************************************
+  Version 1a beta 1
+  Initial ideas.
+*************************************************************************************/
 //////////////////////////////////////////////////////////////////////////////////
 // CANTEXT2
 // I am going to build CANTEXT again on top of the version changed by
@@ -33,34 +37,6 @@
 ///
 //
 // Modified by Martin Da Costa (M6223) and John Fletcher (M6777)
-/**************************************************************************************
-  Version 2b beta 4
-  Change code around to test events on opcode first.
-*************************************************************************************/
-/**************************************************************************************
-  Version 2b beta 3
-  Add empty dataEvent and define longEvent type
-*************************************************************************************/
-/**************************************************************************************
-  Version 2b beta 2
-  Working to clear errors in display and buttons.
-  I have this working without MERG button and LEDs.
-  There is not enough memory to run the MERG display on bootup.
-*************************************************************************************/
-  
-/**************************************************************************************
-  Version 2b beta 1
-  Bring into line with CBUS interface from CANTOTEM.
-  This is tight on memory, which can be resolved by setting MERG_DISPLAY to 0
-  I have also put some data into program memory using PROGMEM.
-*************************************************************************************/
-/**************************************************************************************
-  Version 2a
-  Allows configuration for either 8MHz or 16MHz CANBUS module crystal
-  Replaces defs.h with pre-processing constants
-  Corrects initial name printout on serial initialisation
-  Corrects error in if statement in loop that prevented module switch from working
-*************************************************************************************/
 
 /*
   Copyright (C) Duncan Greenwood 2017 (duncan_greenwood@hotmail.com)
@@ -191,9 +167,9 @@ void displaySetup();
 #endif
 //////////////////////////////////////////////////////////////////////////////////////////////
 // constants
-const byte VER_MAJ = 2;                  // code major version
-const char VER_MIN = 'b';                // code minor version
-const byte VER_BETA = 4;                 // code beta sub-version
+const byte VER_MAJ = 1;                  // code major version
+const char VER_MIN = 'a';                // code minor version
+const byte VER_BETA = 1;                 // code beta sub-version
 const byte MODULE_ID = 99;               // CBUS module type
 
 const byte LED_GRN = 4;                  // CBUS green SLiM LED pin
@@ -233,7 +209,7 @@ CBUSConfig config;                  // configuration object
 // unsigned char params[21]; not used here.
 
 // module name
-const unsigned char mname[7] PROGMEM = { 'T', 'e', 'x', 't', '2', ' ', ' ' };
+const unsigned char mname[7] PROGMEM = { 'T', 'e', 'x', 't', 'L', ' ', ' ' };
 
 // forward function declarations
 void eventhandler(byte index, byte opc);
