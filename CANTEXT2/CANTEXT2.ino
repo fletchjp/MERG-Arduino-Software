@@ -30,6 +30,10 @@
 //
 // Modified by Martin Da Costa (M6223) and John Fletcher (M6777)
 /**************************************************************************************
+  Version 2b beta 4
+  Change code around to test events on opcode first.
+*************************************************************************************/
+/**************************************************************************************
   Version 2b beta 3
   Add empty dataEvent and define longEvent type
 *************************************************************************************/
@@ -185,7 +189,7 @@ void displaySetup();
 // constants
 const byte VER_MAJ = 2;                  // code major version
 const char VER_MIN = 'b';                // code minor version
-const byte VER_BETA = 3;                 // code beta sub-version
+const byte VER_BETA = 4;                 // code beta sub-version
 const byte MODULE_ID = 99;               // CBUS module type
 
 const byte LED_GRN = 4;                  // CBUS green SLiM LED pin
@@ -582,7 +586,82 @@ void eventhandler(byte index, CANFrame *msg) {
   Serial << F("> op_code = ") << op_code << endl;
   Serial << F("> EV1 = ") << evval << endl;
 
-  // Event numbers are now tested against the enum of evemt types
+#define LOOP_ON_OP_CODES 1
+#if LOOP_ON_OP_CODES
+  switch (op_code)
+  {
+     // Event on and off
+     // Handle these together based on event no.
+     case OPC_ACON:
+     case OPC_ACOF:
+     // Event numbers are tested against the enum of event types
+     if (event_number == testEvent) {
+     // set the LED according to the opcode of the received event, if the first EV equals 1
+     // we use the blink() method of the LED object as an example
+       if (evval == 1)
+       {
+         if (op_code == OPC_ACON) {
+           Serial << F("> switching the LED to blink") << endl;
+           module_toggle.taskId = taskManager.scheduleFixedRate(200, &module_toggle);
+         } else if (op_code == OPC_ACOF) {
+           Serial << F("> switching the LED off") << endl;
+           // Check to make sure only a valid task gets cancelled.
+           if(module_toggle.taskId != TASKMGR_INVALIDID) taskManager.cancelTask(module_toggle.taskId);
+           // This is left in as the task could exit with the LED on.
+           ioDeviceDigitalWrite(arduinoPins, MODULE_LED_PIN, LOW);
+         }
+       }
+     } else if (event_number == emergencyEvent) {
+         if ( op_code == OPC_ACON) {
+#if DEBUG
+            serialPrintErrorln(emergencyStop);
+#endif
+#if LCD_DISPLAY
+            displayError(emergencyStop,0,3);
+#endif 
+            tone(buzzer,BUZZER_TONE);
+        } else { // op_code == OPC_ACOF to cancel the error message
+#if LCD_DISPLAY
+            displayError(blankError,0,3);
+#endif
+            noTone(buzzer);
+       }
+     }
+     break;
+     
+     case OPC_ACON1:
+     case OPC_ACOF1:
+       // event to display other error messages as indexed.
+       if (event_number == errorEvent) {
+         if( op_code == OPC_ACON1) {
+           // extract error index from event data
+           byte error = msg->data[5];
+           // Check for error in range
+           if ( (error < blankError) || (error > invalidError)) error = invalidError;
+#if DEBUG
+           serialPrintErrorln(error);
+#endif
+#if LCD_DISPLAY
+           displayError(error,0,3);
+#endif
+         } else { // op_code == OPC_ACOF1 to cancel the error message
+#if LCD_DISPLAY
+           displayError(blankError,0,3);
+#endif
+         }    
+
+      }
+      break;
+      default:
+      // event to display section data
+      // opcodes not sorted at the moment.
+      if (event_number == dataEvent) {
+    
+      }
+  }
+      
+#else
+  // Event numbers are now tested against the enum of event types
   if (event_number == testEvent) {
   // set the LED according to the opcode of the received event, if the first EV equals 1
   // we use the blink() method of the LED object as an example
@@ -649,6 +728,8 @@ void eventhandler(byte index, CANFrame *msg) {
   if (event_number == dataEvent) {
     
   }
+#endif
+
   return;
 }
 
