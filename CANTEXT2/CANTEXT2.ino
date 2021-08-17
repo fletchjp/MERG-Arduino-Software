@@ -138,9 +138,9 @@ IoAbstractionRef arduinoPins = ioUsingArduino();
 //#define CANBUS8MHZ 1 // set to 0 for CANBUS module with 16MHz crystal
 //////////////////////////////////////////////////////////////////////////////////////////////
 // These are more things which need to be set.
-#define DEBUG         0 // set to 0 for no debug messages, 1 for messages to console
+#define DEBUG         1 // set to 0 for no debug messages, 1 for messages to console
 #define LCD_DISPLAY   1 // set to 0 if 4x20 char LCD display is not present
-#define MERG_DISPLAY  0 // set to 0 to save memory by leaving this out.
+#define MERG_DISPLAY  1 // set to 0 to save memory by leaving this out.
 
 // Set GROVE 1 for a GROVE switch which is HIGH when pressed, otherwise 0
 #define GROVE 1
