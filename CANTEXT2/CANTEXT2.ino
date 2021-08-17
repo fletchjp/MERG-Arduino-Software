@@ -30,6 +30,10 @@
 //
 // Modified by Martin Da Costa (M6223) and John Fletcher (M6777)
 /**************************************************************************************
+  Version 2b beta 3
+  Add empty dataEvent and define longEvent type
+*************************************************************************************/
+/**************************************************************************************
   Version 2b beta 2
   Working to clear errors in display and buttons.
   I have this working without MERG button and LEDs.
@@ -251,6 +255,7 @@ enum eventTypes {
   emergencyEvent,
   errorEvent,
   dataEvent,
+  longEvent,
   invalidEvent
 };
 
@@ -640,6 +645,10 @@ void eventhandler(byte index, CANFrame *msg) {
     }    
   }
 
+  // event to display section data
+  if (event_number == dataEvent) {
+    
+  }
   return;
 }
 
