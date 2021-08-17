@@ -15,6 +15,10 @@ FCU.
 
 I have not yet set up access to GitHub on the laptop I am using for testing. That means that I have to take a copy of the code to it. At least I no longer have to worry about versions of the code as they are all available.
 
+### 17th August
+
+I have news from Duncan Greenwood that he is updating the Arduino CBUS library to support CBUS long messages. This is very exciting and I will be putting together an example for when the library is released.
+
 ### 14th & 16th August
 
 I have ordered a device with 5 buttons to connect via an analog pin. I want to fit this to the TOTEM frame expanding CANTOTEM. I have now used the code from CAN1602BUT rather than CAN1602PIN which assumes the whole DfRobot shield.
