@@ -309,11 +309,11 @@ int taskId = TASKMGR_INVALIDID; // Set to this value so that it won't get cancel
 byte stream_ids[] = {1, 2, 3};
  // a buffer for the message fragments to be assembled into
 // either sized to the maximum message length, or as much as you can afford
-const unsigned int buffer_size = 512
+const unsigned int buffer_size = 512;
 byte long_message_data[buffer_size];
  // create a handler function to receive completed long messages:
 void longmessagehandler(byte *fragment, unsigned int fragment_len, byte stream_id, byte status);
-
+const byte delay_in_ms_between_messages = 250;
 #endif
 //
 ///  setup CBUS - runs once at power on called from setup()
@@ -358,7 +358,7 @@ void setupCBUS()
  // subscribe to long messages and register handler
 cbus_long_message.subscribe(stream_ids, (sizeof(stream_ids) / sizeof(byte)), long_message_data, buffer_size, longmessagehandler);
  // this method throttles the transmission so that it doesn't overwhelm the bus:
-void cbus_long_message.setDelay(byte delay_in_ms_between_messages);
+void cbus_long_message.setDelay(delay_in_ms_between_messages);
 
 #endif
  // Retained for now.
@@ -463,6 +463,8 @@ void setup() {
 /// loop - runs forever
 //
 
+
+
 void loop() {
 
   //
@@ -471,6 +473,10 @@ void loop() {
 
   CBUS.process();
 
+
+#ifdef CBUS_LONG_MESSAGE
+  cbus_long_message.process();
+#endif
   //
   /// process console commands
   //
@@ -532,6 +538,12 @@ void checkSwitch()
     byte opCode = (!new_switch ? OPC_ACON : OPC_ACOF);
     unsigned int eventNo = 1; // Converted to 2 bytes for safety.
     sendEvent(opCode,eventNo);
+#ifdef CBUS_LONG_MESSAGE
+// Somewhere to send the long message.
+    while(cbus_long_message.is_sending()) { } //wait for previous message to finish.
+// bool cbus_long_message.sendLongMessage(const byte *msg, const unsigned int msg_len, const byte stream_id, const byte priority = DEFAULT_PRIORITY);
+
+#endif
   }
 }
 
@@ -744,6 +756,17 @@ void eventhandler(byte index, CANFrame *msg) {
 #ifdef CBUS_LONG_MESSAGE
  void longmessagehandler(byte *fragment, unsigned int fragment_len, byte stream_id, byte status){
  // I need an example for what goes in here.
+ // If the message is complete it will be in fragment and I can do something with it.
+     if ( CBUS_LONG_MESSAGE_COMPLETE ) {
+
+     } else if (CBUS_LONG_MESSAGE_INCOMPLETE) {
+
+     } else {  // CBUS_LONG_MESSAGE_SEQUENCE_ERROR
+               // CBUS_LONG_MESSAGE_TIMEOUT_ERROR,
+               // CBUS_LONG_MESSAGE_CRC_ERROR
+
+     } 
+ }
   
  }
 #endif
