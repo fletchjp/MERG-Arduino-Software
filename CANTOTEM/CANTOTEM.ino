@@ -704,6 +704,29 @@ void framehandler(CANFrame *msg) {
   return;
 }
 
+#ifdef CBUS_LONG_MESSAGE
+//
+// Handler to receive a long message 
+// 
+void longmessagehandler(byte *fragment, unsigned int fragment_len, byte stream_id, byte status){
+// I need an example for what goes in here.
+// If the message is complete it will be in fragment and I can do something with it.
+     if ( CBUS_LONG_MESSAGE_COMPLETE ) {
+     // handle complete message
+     } else if (CBUS_LONG_MESSAGE_INCOMPLETE) {
+     // handle incomplete message
+     } else {  // CBUS_LONG_MESSAGE_SEQUENCE_ERROR
+               // CBUS_LONG_MESSAGE_TIMEOUT_ERROR,
+               // CBUS_LONG_MESSAGE_CRC_ERROR
+               // raise an error?
+     } 
+ }
+  
+#endif
+
+//
+/// print code version config details and copyright notice
+//
 
 void printConfig(void)
 {
