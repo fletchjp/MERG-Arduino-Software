@@ -26,6 +26,11 @@
 //                   It turns out there is not an easy way to do that.
 //                   I will have to define something such as NO_CBUS for testing.
 ///////////////////////////////////////////////////////////////////////////////////
+// Version 3a beta 1 Bring in code for long messages from CANTEXTL
+//                   Initial ideas. Inactive code added for receiving a message.
+//                   I have not figured out the code for sending one.
+//                   #define CBUS_LONG_MESSAGE to activate the code.
+///////////////////////////////////////////////////////////////////////////////////
 // This is to run on the TOTEM Minilab with a CAN interface.
 // working from
 // TOTEMmINnOUT
@@ -156,9 +161,9 @@ byte nopcodes = 9;
 const byte opcodes[] PROGMEM = {OPC_ACON, OPC_ACOF, OPC_ARON, OPC_AROF, OPC_ASON, OPC_ASOF, OPC_AREQ, OPC_ASRQ, OPC_CANID }; 
 
 // constants
-const byte VER_MAJ = 2;         // code major version
+const byte VER_MAJ = 3;         // code major version
 const char VER_MIN = 'a';       // code minor version
-const byte VER_BETA = 4;        // code beta sub-version
+const byte VER_BETA = 1;        // code beta sub-version
 const byte MODULE_ID = 99;      // CBUS module type
 
 const unsigned long CAN_OSC_FREQ = 8000000;     // Oscillator frequency on the CAN2515 board
@@ -187,6 +192,11 @@ const byte CAN_CS_PIN = 10;
 // CBUS objects
 CBUS2515 CBUS;                      // CBUS object
 CBUSConfig config;                  // configuration object
+#ifdef CBUS_LONG_MESSAGE
+// The Ardunio CBUS library does not yet support this.
+// create an additional object at the top of the sketch:
+CBUSLongMessage cbus_long_message(&CBUS);   // CBUS long message object
+#endif
 
 // Event Nos for different events to be sent
 // enum base changed to avoid other events.
@@ -200,6 +210,21 @@ enum eventNos {
   requestEvent,
   invalidEvent
 };
+
+#ifdef CBUS_LONG_MESSAGE
+///////////////////////////////////////////////////////////////////////////////////////////////
+// Long message setting up.
+///////////////////////////////////////////////////////////////////////////////////////////////
+ // a list of stream IDs to subscribe to (this ID is defined by the sender):
+byte stream_ids[] = {1, 2, 3}; // These are the ones which this module will read.
+ // a buffer for the message fragments to be assembled into
+// either sized to the maximum message length, or as much as you can afford
+const unsigned int buffer_size = 128;
+byte long_message_data[buffer_size];
+ // create a handler function to receive completed long messages:
+void longmessagehandler(byte *fragment, unsigned int fragment_len, byte stream_id, byte status);
+const byte delay_in_ms_between_messages = 250;
+#endif
 
 //
 ///  setup CBUS - runs once at power on called from setup()
@@ -238,6 +263,13 @@ void setupCBUS()
   CBUS.setEventHandler(eventhandler);
   // This will only process the defined opcodes.
   CBUS.setFrameHandler(framehandler, opcodes, nopcodes);
+
+#ifdef CBUS_LONG_MESSAGE
+ // subscribe to long messages and register handler
+cbus_long_message.subscribe(stream_ids, (sizeof(stream_ids) / sizeof(byte)), long_message_data, buffer_size, longmessagehandler);
+ // this method throttles the transmission so that it doesn't overwhelm the bus:
+void cbus_long_message.setDelay(delay_in_ms_between_messages);
+#endif
 
   // configure and start CAN bus and CBUS message processing
   CBUS.setNumBuffers(2);         // more buffers = more memory used, fewer = less
@@ -429,6 +461,10 @@ void loop()
   // do CBUS message, switch and LED processing
   CBUS.process();
 
+#ifdef CBUS_LONG_MESSAGE
+  cbus_long_message.process();
+#endif
+ 
   // process console commands is now a task.
   // processSerialInput();
 
@@ -447,6 +483,13 @@ void processButtons(void)
       DEBUG_PRINT(F("Button ") << button << F(" changed")); 
       opCode = OPC_ACON;
       sendEvent(opCode, button + NUM_SWITCHES);
+#ifdef CBUS_LONG_MESSAGE
+// Somewhere to send the long message.
+      while(cbus_long_message.is_sending()) { } //wait for previous message to finish.
+// bool cbus_long_message.sendLongMessage(const byte *msg, const unsigned int msg_len, 
+//                        const byte stream_id, const byte priority = DEFAULT_PRIORITY);
+
+#endif
       prevbutton = button;
    }
 }
