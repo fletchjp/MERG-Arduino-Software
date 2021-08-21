@@ -306,7 +306,7 @@ int taskId = TASKMGR_INVALIDID; // Set to this value so that it won't get cancel
 // Long message setting up.
 ///////////////////////////////////////////////////////////////////////////////////////////////
  // a list of stream IDs to subscribe to (this ID is defined by the sender):
-byte stream_ids[] = {1, 2, 3};
+byte stream_ids[] = {1, 2, 3}; // These are the ones which this module will read.
  // a buffer for the message fragments to be assembled into
 // either sized to the maximum message length, or as much as you can afford
 const unsigned int buffer_size = 128;
@@ -359,8 +359,8 @@ void setupCBUS()
 cbus_long_message.subscribe(stream_ids, (sizeof(stream_ids) / sizeof(byte)), long_message_data, buffer_size, longmessagehandler);
  // this method throttles the transmission so that it doesn't overwhelm the bus:
 void cbus_long_message.setDelay(delay_in_ms_between_messages);
-
 #endif
+
  // Retained for now.
  // set LED and switch pins and assign to CBUS
  /*
@@ -541,7 +541,8 @@ void checkSwitch()
 #ifdef CBUS_LONG_MESSAGE
 // Somewhere to send the long message.
     while(cbus_long_message.is_sending()) { } //wait for previous message to finish.
-// bool cbus_long_message.sendLongMessage(const byte *msg, const unsigned int msg_len, const byte stream_id, const byte priority = DEFAULT_PRIORITY);
+// bool cbus_long_message.sendLongMessage(const byte *msg, const unsigned int msg_len, 
+//                       const byte stream_id, const byte priority = DEFAULT_PRIORITY);
 
 #endif
   }
@@ -754,9 +755,12 @@ void eventhandler(byte index, CANFrame *msg) {
 
 
 #ifdef CBUS_LONG_MESSAGE
- void longmessagehandler(byte *fragment, unsigned int fragment_len, byte stream_id, byte status){
- // I need an example for what goes in here.
- // If the message is complete it will be in fragment and I can do something with it.
+//
+// Handler to receive a long message 
+// 
+void longmessagehandler(byte *fragment, unsigned int fragment_len, byte stream_id, byte status){
+// I need an example for what goes in here.
+// If the message is complete it will be in fragment and I can do something with it.
      if ( CBUS_LONG_MESSAGE_COMPLETE ) {
      // handle complete message
      } else if (CBUS_LONG_MESSAGE_INCOMPLETE) {
@@ -766,10 +770,10 @@ void eventhandler(byte index, CANFrame *msg) {
                // CBUS_LONG_MESSAGE_CRC_ERROR
                // raise an error?
      } 
- }
+}
   
- }
 #endif
+
 //
 /// print code version config details and copyright notice
 //
