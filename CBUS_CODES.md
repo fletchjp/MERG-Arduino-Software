@@ -15,6 +15,10 @@ FCU.
 
 I have not yet set up access to GitHub on the laptop I am using for testing. That means that I have to take a copy of the code to it. At least I no longer have to worry about versions of the code as they are all available.
 
+### 21st August
+
+I have been adding code to send and receive the long messages to CANTEXTL and CANTOTEM. This code is currently locked out of use.
+
 ### 17th August
 
 I have news from Duncan Greenwood that he is updating the Arduino CBUS library to support CBUS long messages. This is very exciting and I will be putting together an example for when the library is released.
