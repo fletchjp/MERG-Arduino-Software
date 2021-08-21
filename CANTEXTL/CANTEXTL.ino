@@ -309,7 +309,7 @@ int taskId = TASKMGR_INVALIDID; // Set to this value so that it won't get cancel
 byte stream_ids[] = {1, 2, 3};
  // a buffer for the message fragments to be assembled into
 // either sized to the maximum message length, or as much as you can afford
-const unsigned int buffer_size = 512;
+const unsigned int buffer_size = 128;
 byte long_message_data[buffer_size];
  // create a handler function to receive completed long messages:
 void longmessagehandler(byte *fragment, unsigned int fragment_len, byte stream_id, byte status);
@@ -758,13 +758,13 @@ void eventhandler(byte index, CANFrame *msg) {
  // I need an example for what goes in here.
  // If the message is complete it will be in fragment and I can do something with it.
      if ( CBUS_LONG_MESSAGE_COMPLETE ) {
-
+     // handle complete message
      } else if (CBUS_LONG_MESSAGE_INCOMPLETE) {
-
+     // handle incomplete message
      } else {  // CBUS_LONG_MESSAGE_SEQUENCE_ERROR
                // CBUS_LONG_MESSAGE_TIMEOUT_ERROR,
                // CBUS_LONG_MESSAGE_CRC_ERROR
-
+               // raise an error?
      } 
  }
   
@@ -789,6 +789,9 @@ void printConfig(void) {
 #if MERG_DISPLAY
    Serial << F("> MERG display available") << endl;
 #endif
+#endif
+#if CBUS_LONG_MESSAGE
+   Serial << F("> Long message handling available") << endl;
 #endif
 #if DEBUG
    Serial << F("> Error code test noError: ") << noError << endl;
