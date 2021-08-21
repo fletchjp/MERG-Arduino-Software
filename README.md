@@ -88,7 +88,7 @@ I am now adding more examples. In particular ArduinoBoost166FunctionLazy is star
 
  This is going well and I am developing two modules CAN1602BUT and CANTOTEM.
 
- There is now the prospect of support for CBUS long messages. I am preparing CANTEXT2 to handle the long messages as input. I have started by changing it to sort incoming events on opcode first. I have started a new version called CANTEXTL to handle long events when the Arduino CBUS library is updated. I am hopeful of making some progress with this soon. I have added some more of the code needed to handle long messages. I hope to be able to test it soon.
+ There is now the prospect of support for CBUS long messages. I am preparing CANTEXT2 to handle the long messages as input. I have started by changing it to sort incoming events on opcode first. I have started a new version called CANTEXTL to handle long events when the Arduino CBUS library is updated. I am hopeful of making some progress with this soon. I have added some more of the code needed to handle long messages. I hope to be able to test it soon. I have also put the same code into CANTOTEM.
  
  I will need an update to the CBUSSAM3X8E library (not released) before I can do long events on the DUE. In the meantime it will work with the current release of CBUS, 1.1.15.
 
