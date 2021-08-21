@@ -8,6 +8,8 @@ Now that I have two DUEs working with the board with 2 CAN interfaces, I am look
 
 Some of the examples will now work with DUE and AVR (MEGA or UNO).
 
+I would like to start to add CBUS long message handling. This will depend on the release of a new version of the CBUSSAM3X8E library to support the extra functions.
+
 ## Testing
 
 I am now starting to test the code. I have some queries which I have sent to Duncan Greenwood.
@@ -20,7 +22,7 @@ I have been using this for testing non CBUS code as the units lose CBUS configur
 
 ### CANDUE
 
-This is a working copy of CBUS_empty_SAM3X8E_v1 for some exploration and testing.
+This is a working copy of CBUS_empty_SAM3X8E_v1 for some exploration and testing. This uses the library CBUSSAM3X8E from Duncan Greenwood.
 
 I have now added the serial commands 'r' and 'z' from CANmINnOUT to this example and changed its name and version.
 
