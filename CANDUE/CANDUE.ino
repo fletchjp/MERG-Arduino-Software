@@ -11,6 +11,7 @@
 /////////////////////////////////////////////////////////////////////////////
 // My working name for changes to the example from Duncan.
 // Note that the library DueFlashStorage is accessed from CBUSconfig
+// Note that the previously reported problem with the Streaming library has been fixed.
 // John Fletcher
 
 //
