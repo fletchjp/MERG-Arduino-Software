@@ -17,7 +17,7 @@ I have not yet set up access to GitHub on the laptop I am using for testing. Tha
 
 ### 21st and 23rd August
 
-I have been adding code to send and receive the long messages to CANTEXTL and CANTOTEM. This code has been locked out of use. I have now activated it successfully. I still need an example to complete the code.
+I have been adding code to send and receive the long messages to CANTEXTL and CANTOTEM. This code has been locked out of use. I have now activated it successfully using an update of Duncan's library. I now have examples which complete the codes. As yet these are not tested.
 
 ### 17th August
 
