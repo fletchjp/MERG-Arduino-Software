@@ -10,6 +10,7 @@
 // Version 1a beta 7 Change processSerialInput into a task
 ///////////////////////////////////////////////////////////////////////////////////
 // Version 2a beta 1 Bring in code for long messages from CANTEXTL and CANTOTEM.
+#define CBUS_LONG_MESSAGE
 ///////////////////////////////////////////////////////////////////////////////////
 // My working name for changes to the example from Duncan.
 // Note that the library DueFlashStorage is accessed from CBUSconfig
@@ -208,6 +209,11 @@ CBUSSAM3X8E CBUS;                   // CBUS object
 CBUSConfig config;                  // configuration object
 //CBUSLED ledGrn, ledYlw;             // two LED objects
 //CBUSSwitch pb_switch;               // switch object
+#ifdef CBUS_LONG_MESSAGE
+// The Ardunio CBUS library does now support this.
+// create an additional object at the top of the sketch:
+CBUSLongMessage cbus_long_message(&CBUS);   // CBUS long message object
+#endif
 
 // module name, must be 7 characters, space padded.
 unsigned char mname[7] = { 'D', 'U', 'E', ' ', ' ', ' ', ' ' };
@@ -215,6 +221,21 @@ unsigned char mname[7] = { 'D', 'U', 'E', ' ', ' ', ' ', ' ' };
 // forward function declarations
 void eventhandler(byte index, byte opc);
 void framehandler(CANFrame *msg);
+
+#ifdef CBUS_LONG_MESSAGE
+///////////////////////////////////////////////////////////////////////////////////////////////
+// Long message setting up.
+///////////////////////////////////////////////////////////////////////////////////////////////
+ // a list of stream IDs to subscribe to (this ID is defined by the sender):
+byte stream_ids[] = {1, 2, 3}; // These are the ones which this module will read.
+ // a buffer for the message fragments to be assembled into
+// either sized to the maximum message length, or as much as you can afford
+const unsigned int buffer_size = 128;
+byte long_message_data[buffer_size];
+ // create a handler function to receive completed long messages:
+void longmessagehandler(byte *fragment, unsigned int fragment_len, byte stream_id, byte status);
+const byte delay_in_ms_between_messages = 50;
+#endif
 
 //
 /// setup CBUS - runs once at power on from setup()
@@ -270,6 +291,14 @@ void setupCBUS()
 
   // register our CAN frame handler, to receive *every* CAN frame
   CBUS.setFrameHandler(framehandler);
+
+#ifdef CBUS_LONG_MESSAGE
+  // subscribe to long messages and register handler
+  cbus_long_message.subscribe(stream_ids, (sizeof(stream_ids) / sizeof(byte)), long_message_data, buffer_size, longmessagehandler);
+  // this method throttles the transmission so that it doesn't overwhelm the bus:
+  cbus_long_message.setDelay(delay_in_ms_between_messages);
+  cbus_long_message.setTimeout(1000);
+#endif
 
   // set CBUS LEDs to indicate the current mode
   CBUS.indicateMode(config.FLiM);
@@ -337,6 +366,10 @@ void loop() {
   //
 
   CBUS.process();
+
+#ifdef CBUS_LONG_MESSAGE
+  cbus_long_message.process();
+#endif
 
   //
   /// process console commands is now a task
@@ -448,6 +481,23 @@ bool sendEvent(byte opCode, unsigned int eventNo)
   return success;
 }
 
+#ifdef CBUS_LONG_MESSAGE
+// Example code not yet being used.
+void send_a_long_message() {
+   char msg[16];
+   byte stream_id = 1;
+// Somewhere to send the long message.
+   while(cbus_long_message.is_sending()) { } //wait for previous message to finish.
+// bool cbus_long_message.sendLongMessage(char *msg, const unsigned int msg_len, 
+//                        const byte stream_id, const byte priority = DEFAULT_PRIORITY);
+    strcpy(msg, "Hello world!");
+    if (cbus_long_message.sendLongMessage(msg, strlen(msg), stream_id) ) {
+      Serial << F("long message ") << msg << F(" sent to ") << stream_id << endl;
+    }
+
+}
+#endif
+
 //
 /// user-defined event processing function
 /// called from the CBUS library when a learned event is received
@@ -533,6 +583,39 @@ void framehandler(CANFrame *msg) {
   Serial << " ]" << endl;
   return;
 }
+
+#ifdef CBUS_LONG_MESSAGE
+   byte new_message = true;
+//
+// Handler to receive a long message 
+// 
+void longmessagehandler(byte *fragment, unsigned int fragment_len, byte stream_id, byte status){
+// I need an example for what goes in here.
+     fragment[fragment_len] = 0;
+// If the message is complete it will be in fragment and I can do something with it.
+     if( new_message) { // Print this only for the start of a message.
+        Serial << F("> user long message handler: stream = ") << stream_id << F(", fragment length = ") 
+               << fragment_len << F(", fragment = |");
+        new_message = false;
+     }
+     if ( CBUS_LONG_MESSAGE_INCOMPLETE ) {
+     // handle incomplete message
+        Serial.write(fragment, fragment_len);
+     } else if (CBUS_LONG_MESSAGE_COMPLETE) {
+     // handle complete message
+        Serial.write(fragment, fragment_len);
+        Serial << F("|, status = ") << status << endl;
+        new_message = true;  // reset for the next message
+     } else {  // CBUS_LONG_MESSAGE_SEQUENCE_ERROR
+               // CBUS_LONG_MESSAGE_TIMEOUT_ERROR,
+               // CBUS_LONG_MESSAGE_CRC_ERROR
+               // raise an error?
+        Serial << F("| Message error with  status = ") << status << endl;
+        new_message = true;  // reset for the next message
+     } 
+ }
+  
+#endif
 
 //
 /// print code version config details and copyright notice
