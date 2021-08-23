@@ -6,8 +6,9 @@
   Version 1a beta 1
   Initial ideas. Inactive code added for receiving a message.
   I have not figured out the code for sending one.
-  #define CBUS_LONG_MESSAGE to activate the code.
+  #define CBUS_LONG_MESSAGE 1 to activate the code.
 *************************************************************************************/
+#define CBUS_LONG_MESSAGE 1
 //////////////////////////////////////////////////////////////////////////////////
 // CANTEXT2
 // I am going to build CANTEXT again on top of the version changed by
@@ -355,10 +356,10 @@ void setupCBUS()
   //Serial << F("> Exiting setFrameHandler") << endl;
 
 #ifdef CBUS_LONG_MESSAGE
- // subscribe to long messages and register handler
-cbus_long_message.subscribe(stream_ids, (sizeof(stream_ids) / sizeof(byte)), long_message_data, buffer_size, longmessagehandler);
- // this method throttles the transmission so that it doesn't overwhelm the bus:
-void cbus_long_message.setDelay(delay_in_ms_between_messages);
+  // subscribe to long messages and register handler
+  cbus_long_message.subscribe(stream_ids, (sizeof(stream_ids) / sizeof(byte)), long_message_data, buffer_size, longmessagehandler);
+  // this method throttles the transmission so that it doesn't overwhelm the bus:
+  cbus_long_message.setDelay(delay_in_ms_between_messages);
 #endif
 
  // Retained for now.
