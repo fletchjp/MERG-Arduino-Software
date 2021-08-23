@@ -15,9 +15,9 @@ FCU.
 
 I have not yet set up access to GitHub on the laptop I am using for testing. That means that I have to take a copy of the code to it. At least I no longer have to worry about versions of the code as they are all available.
 
-### 21st August
+### 21st and 23rd August
 
-I have been adding code to send and receive the long messages to CANTEXTL and CANTOTEM. This code is currently locked out of use.
+I have been adding code to send and receive the long messages to CANTEXTL and CANTOTEM. This code has been locked out of use. I have now activated it successfully. I still need an example to complete the code.
 
 ### 17th August
 
