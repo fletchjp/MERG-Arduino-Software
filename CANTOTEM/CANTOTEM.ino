@@ -225,7 +225,7 @@ const unsigned int buffer_size = 128;
 byte long_message_data[buffer_size];
  // create a handler function to receive completed long messages:
 void longmessagehandler(byte *fragment, unsigned int fragment_len, byte stream_id, byte status);
-const byte delay_in_ms_between_messages = 250;
+const byte delay_in_ms_between_messages = 50;
 #endif
 
 //
@@ -271,6 +271,7 @@ void setupCBUS()
   cbus_long_message.subscribe(stream_ids, (sizeof(stream_ids) / sizeof(byte)), long_message_data, buffer_size, longmessagehandler);
   // this method throttles the transmission so that it doesn't overwhelm the bus:
   cbus_long_message.setDelay(delay_in_ms_between_messages);
+  cbus_long_message.setTimeout(1000);
 #endif
 
   // configure and start CAN bus and CBUS message processing
@@ -481,6 +482,10 @@ void processButtons(void)
 {
    // Send an event corresponding to the button, add NUM_SWITCHES to avoid switch events.
    byte opCode;
+#ifdef CBUS_LONG_MESSAGE
+   char msg[16];
+   byte stream_id = 1;
+#endif
    if (button != prevbutton) {
       DEBUG_PRINT(F("Button ") << button << F(" changed")); 
       opCode = OPC_ACON;
@@ -490,7 +495,10 @@ void processButtons(void)
       while(cbus_long_message.is_sending()) { } //wait for previous message to finish.
 // bool cbus_long_message.sendLongMessage(const byte *msg, const unsigned int msg_len, 
 //                        const byte stream_id, const byte priority = DEFAULT_PRIORITY);
-
+      strcpy(msg, "Hello world!");
+      if (cbus_long_message.sendLongMessage(msg, strlen(msg), stream_id) ) {
+        Serial << F("long message ") << msg << F(" sent to ") << stream_id << endl;
+      }
 #endif
       prevbutton = button;
    }
@@ -712,9 +720,13 @@ void framehandler(CANFrame *msg) {
 // 
 void longmessagehandler(byte *fragment, unsigned int fragment_len, byte stream_id, byte status){
 // I need an example for what goes in here.
+     fragment[fragment_len] = 0;
 // If the message is complete it will be in fragment and I can do something with it.
      if ( CBUS_LONG_MESSAGE_COMPLETE ) {
      // handle complete message
+        Serial << F("> user long message handler: stream = ") << stream_id << F(", fragment length = ") << fragment_len << F(", fragment = |");
+        Serial.write(fragment, fragment_len);
+        Serial << F("|, status = ") << status << endl;
      } else if (CBUS_LONG_MESSAGE_INCOMPLETE) {
      // handle incomplete message
      } else {  // CBUS_LONG_MESSAGE_SEQUENCE_ERROR
