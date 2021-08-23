@@ -7,6 +7,8 @@
   Initial ideas. Inactive code added for receiving a message.
   I have not figured out the code for sending one.
   #define CBUS_LONG_MESSAGE 1 to activate the code.
+  Partial code now activated.
+  It is now at 98% of program storage space.
 *************************************************************************************/
 #define CBUS_LONG_MESSAGE 1
 //////////////////////////////////////////////////////////////////////////////////
