@@ -740,7 +740,8 @@ void longmessagehandler(byte *fragment, unsigned int fragment_len, byte stream_i
                // CBUS_LONG_MESSAGE_TIMEOUT_ERROR,
                // CBUS_LONG_MESSAGE_CRC_ERROR
                // raise an error?
-         Serial << F("| Message error with  status = ") << status << endl;
+        Serial << F("| Message error with  status = ") << status << endl;
+        new_message = true;  // reset for the next message
      } 
  }
   
@@ -761,6 +762,12 @@ void printConfig(void)
   Serial << F("> © Duncan Greenwood (MERG M5767) 2021") << endl;
   Serial << F("> © John Fletcher (MERG M6777) 2021") << endl;
   Serial << F("> © Sven Rosvall (MERG M3777) 2021") << endl;
+
+#if CBUS_LONG_MESSAGE
+   Serial << F("> Long message handling available") << endl;
+#endif
+
+  
 }
 
 //
