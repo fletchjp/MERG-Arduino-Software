@@ -129,7 +129,7 @@ IoAbstractionRef arduinoPins = ioUsingArduino();
 // These are more things which need to be set.
 #define DEBUG         1 // set to 0 for no debug messages, 1 for messages to console
 #define LCD_DISPLAY   1 // set to 0 if 4x20 char LCD display is not present
-#define MERG_DISPLAY  1 // set to 0 to save memory by leaving this out.
+#define MERG_DISPLAY  0 // set to 0 to save memory by leaving this out.
 
 // Set GROVE 1 for a GROVE switch which is HIGH when pressed, otherwise 0
 #define GROVE 1
@@ -316,7 +316,7 @@ const unsigned int buffer_size = 128;
 byte long_message_data[buffer_size];
  // create a handler function to receive completed long messages:
 void longmessagehandler(byte *fragment, unsigned int fragment_len, byte stream_id, byte status);
-const byte delay_in_ms_between_messages = 250;
+const byte delay_in_ms_between_messages = 50;
 #endif
 //
 ///  setup CBUS - runs once at power on called from setup()
@@ -362,6 +362,7 @@ void setupCBUS()
   cbus_long_message.subscribe(stream_ids, (sizeof(stream_ids) / sizeof(byte)), long_message_data, buffer_size, longmessagehandler);
   // this method throttles the transmission so that it doesn't overwhelm the bus:
   cbus_long_message.setDelay(delay_in_ms_between_messages);
+  cbus_long_message.setTimeout(1000);
 #endif
 
  // Retained for now.
@@ -543,10 +544,15 @@ void checkSwitch()
     sendEvent(opCode,eventNo);
 #ifdef CBUS_LONG_MESSAGE
 // Somewhere to send the long message.
+    char msg[16];
+    byte stream_id = 1;
     while(cbus_long_message.is_sending()) { } //wait for previous message to finish.
 // bool cbus_long_message.sendLongMessage(const byte *msg, const unsigned int msg_len, 
 //                       const byte stream_id, const byte priority = DEFAULT_PRIORITY);
-
+    strcpy(msg, "Hello world!");
+    if (cbus_long_message.sendLongMessage(msg, strlen(msg), stream_id) ) {
+        Serial << F("long message ") << msg << F(" sent to ") << stream_id << endl;
+    }
 #endif
   }
 }
@@ -758,20 +764,33 @@ void eventhandler(byte index, CANFrame *msg) {
 
 
 #ifdef CBUS_LONG_MESSAGE
+   byte new_message = true;
 //
 // Handler to receive a long message 
 // 
 void longmessagehandler(byte *fragment, unsigned int fragment_len, byte stream_id, byte status){
 // I need an example for what goes in here.
+     fragment[fragment_len] = 0;
 // If the message is complete it will be in fragment and I can do something with it.
-     if ( CBUS_LONG_MESSAGE_COMPLETE ) {
-     // handle complete message
-     } else if (CBUS_LONG_MESSAGE_INCOMPLETE) {
+     if( new_message) { // Print this only for the start of a message.
+        Serial << F("> user long message handler: stream = ") << stream_id << F(", fragment length = ") 
+               << fragment_len << F(", fragment = |");
+        new_message = false;
+     }
+     if ( CBUS_LONG_MESSAGE_INCOMPLETE ) {
      // handle incomplete message
+         Serial.write(fragment, fragment_len);
+    } else if (CBUS_LONG_MESSAGE_COMPLETE) {
+     // handle incomplete message
+        Serial.write(fragment, fragment_len);
+        Serial << F("|, status = ") << status << endl;
+        new_message = true;  // reset for the next message
      } else {  // CBUS_LONG_MESSAGE_SEQUENCE_ERROR
                // CBUS_LONG_MESSAGE_TIMEOUT_ERROR,
                // CBUS_LONG_MESSAGE_CRC_ERROR
                // raise an error?
+        Serial << F("| Message error with  status = ") << status << endl;
+        new_message = true;  // reset for the next message
      } 
 }
   
