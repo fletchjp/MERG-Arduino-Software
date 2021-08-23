@@ -715,6 +715,7 @@ void framehandler(CANFrame *msg) {
 }
 
 #ifdef CBUS_LONG_MESSAGE
+   byte new_message = true;
 //
 // Handler to receive a long message 
 // 
@@ -722,17 +723,24 @@ void longmessagehandler(byte *fragment, unsigned int fragment_len, byte stream_i
 // I need an example for what goes in here.
      fragment[fragment_len] = 0;
 // If the message is complete it will be in fragment and I can do something with it.
-     if ( CBUS_LONG_MESSAGE_COMPLETE ) {
+     if( new_message) { // Print this only for the start of a message.
+        Serial << F("> user long message handler: stream = ") << stream_id << F(", fragment length = ") 
+               << fragment_len << F(", fragment = |");
+        new_message = false;
+     }
+     if ( CBUS_LONG_MESSAGE_INCOMPLETE ) {
+     // handle incomplete message
+        Serial.write(fragment, fragment_len);
+     } else if (CBUS_LONG_MESSAGE_COMPLETE) {
      // handle complete message
-        Serial << F("> user long message handler: stream = ") << stream_id << F(", fragment length = ") << fragment_len << F(", fragment = |");
         Serial.write(fragment, fragment_len);
         Serial << F("|, status = ") << status << endl;
-     } else if (CBUS_LONG_MESSAGE_INCOMPLETE) {
-     // handle incomplete message
+        new_message = true;  // reset for the next message
      } else {  // CBUS_LONG_MESSAGE_SEQUENCE_ERROR
                // CBUS_LONG_MESSAGE_TIMEOUT_ERROR,
                // CBUS_LONG_MESSAGE_CRC_ERROR
                // raise an error?
+         Serial << F("| Message error with  status = ") << status << endl;
      } 
  }
   
