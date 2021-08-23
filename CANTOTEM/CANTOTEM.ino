@@ -29,7 +29,9 @@
 // Version 3a beta 1 Bring in code for long messages from CANTEXTL
 //                   Initial ideas. Inactive code added for receiving a message.
 //                   I have not figured out the code for sending one.
-//                   #define CBUS_LONG_MESSAGE to activate the code.
+//                   #define CBUS_LONG_MESSAGE 1 to activate the code.
+#define CBUS_LONG_MESSAGE 1
+//                   Partial code now activated.
 ///////////////////////////////////////////////////////////////////////////////////
 // This is to run on the TOTEM Minilab with a CAN interface.
 // working from
@@ -265,10 +267,10 @@ void setupCBUS()
   CBUS.setFrameHandler(framehandler, opcodes, nopcodes);
 
 #ifdef CBUS_LONG_MESSAGE
- // subscribe to long messages and register handler
-cbus_long_message.subscribe(stream_ids, (sizeof(stream_ids) / sizeof(byte)), long_message_data, buffer_size, longmessagehandler);
- // this method throttles the transmission so that it doesn't overwhelm the bus:
-void cbus_long_message.setDelay(delay_in_ms_between_messages);
+  // subscribe to long messages and register handler
+  cbus_long_message.subscribe(stream_ids, (sizeof(stream_ids) / sizeof(byte)), long_message_data, buffer_size, longmessagehandler);
+  // this method throttles the transmission so that it doesn't overwhelm the bus:
+  cbus_long_message.setDelay(delay_in_ms_between_messages);
 #endif
 
   // configure and start CAN bus and CBUS message processing
