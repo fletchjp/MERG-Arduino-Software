@@ -8,7 +8,9 @@
 // Version 1a beta 5 Add missing return value from sendEvent
 // Version 1a beta 6 Change to use DEBUG_PRINT and add failure message from processSwitches
 // Version 1a beta 7 Change processSerialInput into a task
-/////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+// Version 2a beta 1 Bring in code for long messages from CANTEXTL and CANTOTEM.
+///////////////////////////////////////////////////////////////////////////////////
 // My working name for changes to the example from Duncan.
 // Note that the library DueFlashStorage is accessed from CBUSconfig
 // Note that the previously reported problem with the Streaming library has been fixed.
@@ -177,9 +179,9 @@
 #include <cbusdefs.h>               // MERG CBUS constants
 
 // constants
-const byte VER_MAJ = 1;                  // code major version
+const byte VER_MAJ = 2;                  // code major version
 const char VER_MIN = 'a';                // code minor version
-const byte VER_BETA = 7;                 // code beta sub-version
+const byte VER_BETA = 1;                 // code beta sub-version
 const byte MODULE_ID = 99;               // CBUS module type
 
 // These are not being used - not installed.
