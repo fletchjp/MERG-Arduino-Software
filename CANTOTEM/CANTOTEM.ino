@@ -30,7 +30,7 @@
 //                   Initial ideas. Inactive code added for receiving a message.
 //                   I have not figured out the code for sending one.
 //                   #define CBUS_LONG_MESSAGE to activate the code.
-#define CBUS_LONG_MESSAGE
+//#define CBUS_LONG_MESSAGE
 //                   Code now activated.
 //                   Assign a sending thread and listen on other threads.
 ///////////////////////////////////////////////////////////////////////////////////
@@ -222,10 +222,10 @@ enum eventNos {
 byte stream_ids[] = {11, 12, 13}; // These are the ones which this module will read.
  // a buffer for the message fragments to be assembled into
 // either sized to the maximum message length, or as much as you can afford
-const unsigned int buffer_size = 128;
+const unsigned int buffer_size = 16;
 byte long_message_data[buffer_size];
  // create a handler function to receive completed long messages:
-void longmessagehandler(byte *fragment, unsigned int fragment_len, byte stream_id, byte status);
+void longmessagehandler(char *fragment, unsigned int fragment_len, byte stream_id, byte status);
 const byte delay_in_ms_between_messages = 50;
 #endif
 
@@ -268,11 +268,13 @@ void setupCBUS()
   CBUS.setFrameHandler(framehandler, opcodes, nopcodes);
 
 #ifdef CBUS_LONG_MESSAGE
+  DEBUG_PRINT(F("> about to call to subscribe") );
   // subscribe to long messages and register handler
   cbus_long_message.subscribe(stream_ids, (sizeof(stream_ids) / sizeof(byte)), long_message_data, buffer_size, longmessagehandler);
   // this method throttles the transmission so that it doesn't overwhelm the bus:
   cbus_long_message.setDelay(delay_in_ms_between_messages);
   cbus_long_message.setTimeout(1000);
+  DEBUG_PRINT(F("> CBUS_LONG_MESSAGE subscribed") );
 #endif
 
   // configure and start CAN bus and CBUS message processing
@@ -484,8 +486,9 @@ void processButtons(void)
    // Send an event corresponding to the button, add NUM_SWITCHES to avoid switch events.
    byte opCode;
 #ifdef CBUS_LONG_MESSAGE
-   char msg[16];
+   char msg[32];
    byte stream_id = 14; // Sending stream number
+   int string_length; // Returned by snprintf. This may exceed the actual length.
 #endif
    if (button != prevbutton) {
       DEBUG_PRINT(F("Button ") << button << F(" changed")); 
@@ -496,7 +499,8 @@ void processButtons(void)
       while(cbus_long_message.is_sending()) { } //wait for previous message to finish.
 // bool cbus_long_message.sendLongMessage(const byte *msg, const unsigned int msg_len, 
 //                        const byte stream_id, const byte priority = DEFAULT_PRIORITY);
-      strcpy(msg, "Hello world!");
+//      strcpy(msg, "Hello world!");
+      string_length = snprintf(msg, 32, "Button %d changed", button);
       if (cbus_long_message.sendLongMessage(msg, strlen(msg), stream_id) ) {
         Serial << F("long message ") << msg << F(" sent to ") << stream_id << endl;
       }

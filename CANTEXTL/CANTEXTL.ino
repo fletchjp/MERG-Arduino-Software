@@ -545,12 +545,13 @@ void checkSwitch()
     sendEvent(opCode,eventNo);
 #ifdef CBUS_LONG_MESSAGE
 // Somewhere to send the long message.
-    char msg[16];
+    char msg[32];
     byte stream_id = 11; // Sending stream ID.
+    int string_length; // Returned by snprintf. This may exceed the actual length.
     while(cbus_long_message.is_sending()) { } //wait for previous message to finish.
 // bool cbus_long_message.sendLongMessage(const byte *msg, const unsigned int msg_len, 
 //                       const byte stream_id, const byte priority = DEFAULT_PRIORITY);
-    strcpy(msg, "Hello world!");
+    string_length = snprintf(msg, 32, "Button %d changed", new_switch);
     if (cbus_long_message.sendLongMessage(msg, strlen(msg), stream_id) ) {
         Serial << F("long message ") << msg << F(" sent to ") << stream_id << endl;
     }
