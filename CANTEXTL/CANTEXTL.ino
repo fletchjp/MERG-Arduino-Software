@@ -7,7 +7,8 @@
   Initial ideas. Inactive code added for receiving a message.
   I have not figured out the code for sending one.
   #define CBUS_LONG_MESSAGE to activate the code.
-  Partial code now activated.
+  Code now activated and MERG display disabled.
+  Assign a sending thread and listen on other threads.
   It is now at 98% of program storage space.
 *************************************************************************************/
 #define CBUS_LONG_MESSAGE
@@ -309,7 +310,7 @@ int taskId = TASKMGR_INVALIDID; // Set to this value so that it won't get cancel
 // Long message setting up.
 ///////////////////////////////////////////////////////////////////////////////////////////////
  // a list of stream IDs to subscribe to (this ID is defined by the sender):
-byte stream_ids[] = {1, 2, 3}; // These are the ones which this module will read.
+byte stream_ids[] = {12, 13, 14}; // These are the ones which this module will read.
  // a buffer for the message fragments to be assembled into
 // either sized to the maximum message length, or as much as you can afford
 const unsigned int buffer_size = 128;
@@ -545,7 +546,7 @@ void checkSwitch()
 #ifdef CBUS_LONG_MESSAGE
 // Somewhere to send the long message.
     char msg[16];
-    byte stream_id = 1;
+    byte stream_id = 11; // Sending stream ID.
     while(cbus_long_message.is_sending()) { } //wait for previous message to finish.
 // bool cbus_long_message.sendLongMessage(const byte *msg, const unsigned int msg_len, 
 //                       const byte stream_id, const byte priority = DEFAULT_PRIORITY);

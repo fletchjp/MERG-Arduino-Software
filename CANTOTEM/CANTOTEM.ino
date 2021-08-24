@@ -31,7 +31,8 @@
 //                   I have not figured out the code for sending one.
 //                   #define CBUS_LONG_MESSAGE to activate the code.
 #define CBUS_LONG_MESSAGE
-//                   Partial code now activated.
+//                   Code now activated.
+//                   Assign a sending thread and listen on other threads.
 ///////////////////////////////////////////////////////////////////////////////////
 // This is to run on the TOTEM Minilab with a CAN interface.
 // working from
@@ -218,7 +219,7 @@ enum eventNos {
 // Long message setting up.
 ///////////////////////////////////////////////////////////////////////////////////////////////
  // a list of stream IDs to subscribe to (this ID is defined by the sender):
-byte stream_ids[] = {1, 2, 3}; // These are the ones which this module will read.
+byte stream_ids[] = {11, 12, 13}; // These are the ones which this module will read.
  // a buffer for the message fragments to be assembled into
 // either sized to the maximum message length, or as much as you can afford
 const unsigned int buffer_size = 128;
@@ -484,7 +485,7 @@ void processButtons(void)
    byte opCode;
 #ifdef CBUS_LONG_MESSAGE
    char msg[16];
-   byte stream_id = 1;
+   byte stream_id = 14; // Sending stream number
 #endif
    if (button != prevbutton) {
       DEBUG_PRINT(F("Button ") << button << F(" changed")); 
