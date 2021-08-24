@@ -6,11 +6,11 @@
   Version 1a beta 1
   Initial ideas. Inactive code added for receiving a message.
   I have not figured out the code for sending one.
-  #define CBUS_LONG_MESSAGE 1 to activate the code.
+  #define CBUS_LONG_MESSAGE to activate the code.
   Partial code now activated.
   It is now at 98% of program storage space.
 *************************************************************************************/
-#define CBUS_LONG_MESSAGE 1
+#define CBUS_LONG_MESSAGE
 //////////////////////////////////////////////////////////////////////////////////
 // CANTEXT2
 // I am going to build CANTEXT again on top of the version changed by
@@ -816,7 +816,7 @@ void printConfig(void) {
    Serial << F("> MERG display available") << endl;
 #endif
 #endif
-#if CBUS_LONG_MESSAGE
+#ifdef CBUS_LONG_MESSAGE
    Serial << F("> Long message handling available") << endl;
 #endif
 #if DEBUG

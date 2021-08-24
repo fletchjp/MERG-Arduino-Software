@@ -29,8 +29,8 @@
 // Version 3a beta 1 Bring in code for long messages from CANTEXTL
 //                   Initial ideas. Inactive code added for receiving a message.
 //                   I have not figured out the code for sending one.
-//                   #define CBUS_LONG_MESSAGE 1 to activate the code.
-#define CBUS_LONG_MESSAGE 1
+//                   #define CBUS_LONG_MESSAGE to activate the code.
+#define CBUS_LONG_MESSAGE
 //                   Partial code now activated.
 ///////////////////////////////////////////////////////////////////////////////////
 // This is to run on the TOTEM Minilab with a CAN interface.
@@ -763,7 +763,7 @@ void printConfig(void)
   Serial << F("> © John Fletcher (MERG M6777) 2021") << endl;
   Serial << F("> © Sven Rosvall (MERG M3777) 2021") << endl;
 
-#if CBUS_LONG_MESSAGE
+#ifdef CBUS_LONG_MESSAGE
    Serial << F("> Long message handling available") << endl;
 #endif
 
