@@ -33,6 +33,7 @@
 #define CBUS_LONG_MESSAGE
 //                   Code now activated.
 //                   Assign a sending thread and listen on other threads.
+//                   This version now runs successfully off line from CBUS.
 ///////////////////////////////////////////////////////////////////////////////////
 // This is to run on the TOTEM Minilab with a CAN interface.
 // working from
