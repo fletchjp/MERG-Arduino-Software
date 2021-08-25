@@ -109,7 +109,7 @@
 // Digital / Analog pin 5     Not Used
 //////////////////////////////////////////////////////////////////////////
 
-#define DEBUG 1       // set to 0 for no serial debug
+#define DEBUG 1     // set to 0 for no serial debug
 
 #if DEBUG
 #define DEBUG_PRINT(S) Serial << S << endl
@@ -157,7 +157,7 @@ const unsigned char mname[7] PROGMEM = { 'T', 'O', 'T', 'E', 'M', ' ', ' ' };
 
 // forward function declarations
 void eventhandler(byte index, byte opc);
-void framehandler(CANFrame *msg);
+//void framehandler(CANFrame *msg);
 
 // Set opcodes for polling events
 byte nopcodes = 9;
@@ -265,7 +265,7 @@ void setupCBUS()
   // register our CBUS event handler, to receive event messages of learned events
   CBUS.setEventHandler(eventhandler);
   // This will only process the defined opcodes.
-  CBUS.setFrameHandler(framehandler, opcodes, nopcodes);
+  //CBUS.setFrameHandler(framehandler, opcodes, nopcodes);
 
 #ifdef CBUS_LONG_MESSAGE
   DEBUG_PRINT(F("> about to call to subscribe") );
@@ -672,52 +672,52 @@ void eventhandler(byte index, CANFrame *msg)
   }
 }
 
-void framehandler(CANFrame *msg) {
-
-  byte op_code = msg->data[0];
-  
-  // as an example, format and display the received frame
-
-#if DEBUG
-  Serial << F("[ ") << (msg->id & 0x7f) << F("] [") << msg->len << F("] [");
-  if ( msg->len > 0) {
-    for (byte d = 0; d < msg->len; d++) {
-      Serial << F(" 0x") << _HEX(msg->data[d]);
-    }
-  Serial << F(" ]") << endl;
-  }
-  if (nopcodes > 0) {
-    Serial << F("Opcodes [ ");
-    for(byte i = 0;  i < nopcodes; i++)
-    {
-       Serial << F(" 0x") << _HEX(opcodes[i]);
-    }
-    Serial << F(" ]") << endl;
-  }
-#endif
-
-  if (  op_code ==  OPC_CANID ) {
-  unsigned int node_number = (msg->data[1] << 8 ) + msg->data[2];
-  unsigned int new_CANId = msg->data[3];
-      Serial << F("> Frame to change CANId") << endl;
-      Serial << F("> Node No   ") << node_number << endl;
-      Serial << F("> new CANId ")  << new_CANId << endl;
-  }
-
-  if (nopcodes > 0) {
-      DEBUG_PRINT(F("Message received with Opcode [ 0x") << _HEX(msg->data[0]) << F(" ]") );
-    for(byte i = 0;  i < nopcodes; i++)
-    {
-       if ( msg->data[0] == opcodes[i]) {
-           DEBUG_PRINT(F("Message recognised with Opcode [ 0x") << _HEX(opcodes[i]) << F(" ]") );
-     // This will be executed if the code matches.
-           //messagehandler(msg); Not implemented yet
-           break;       
-        }
-    }
-  }
-  return;
-}
+//void framehandler(CANFrame *msg) {
+//
+//  byte op_code = msg->data[0];
+//  
+//  // as an example, format and display the received frame
+//
+//#if DEBUG
+//  Serial << F("[ ") << (msg->id & 0x7f) << F("] [") << msg->len << F("] [");
+//  if ( msg->len > 0) {
+//    for (byte d = 0; d < msg->len; d++) {
+//      Serial << F(" 0x") << _HEX(msg->data[d]);
+//    }
+//  Serial << F(" ]") << endl;
+//  }
+//  if (nopcodes > 0) {
+//    Serial << F("Opcodes [ ");
+//    for(byte i = 0;  i < nopcodes; i++)
+//    {
+//       Serial << F(" 0x") << _HEX(opcodes[i]);
+//    }
+//    Serial << F(" ]") << endl;
+//  }
+//#endif
+//
+//  if (  op_code ==  OPC_CANID ) {
+//  unsigned int node_number = (msg->data[1] << 8 ) + msg->data[2];
+//  unsigned int new_CANId = msg->data[3];
+//      Serial << F("> Frame to change CANId") << endl;
+//      Serial << F("> Node No   ") << node_number << endl;
+//      Serial << F("> new CANId ")  << new_CANId << endl;
+//  }
+//
+//  if (nopcodes > 0) {
+//      DEBUG_PRINT(F("Message received with Opcode [ 0x") << _HEX(msg->data[0]) << F(" ]") );
+//    for(byte i = 0;  i < nopcodes; i++)
+//    {
+//       if ( msg->data[0] == opcodes[i]) {
+//           DEBUG_PRINT(F("Message recognised with Opcode [ 0x") << _HEX(opcodes[i]) << F(" ]") );
+//     // This will be executed if the code matches.
+//           //messagehandler(msg); Not implemented yet
+//           break;       
+//        }
+//    }
+//  }
+//  return;
+//}
 
 #ifdef CBUS_LONG_MESSAGE
    byte new_message = true;
