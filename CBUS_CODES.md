@@ -8,6 +8,10 @@ I will not modify the other Markdown files in the branch, keeping information in
 
 These codes are part of development of modules for control of DC layouts using DC controllers for each track section.
 
+## CBUS Long Message codes
+
+CBUS long messages are sent using a stream, which has a stream number. The sending module sends to a specific number and the other modules listen to the streams as needed, not the one they send on. This means that I need to have a scheme for the allocation of the stream numbers. For the moment I will assign a different number to each module, using a series starting at 11. If there are multiple instances of a particular module code the numbers will have to be set in some other way, such as configuration. I can build in some checks. 
+
 ## Testing
 
 I am now starting testing of these codes with CBUS and 
