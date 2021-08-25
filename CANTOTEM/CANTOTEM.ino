@@ -30,7 +30,7 @@
 //                   Initial ideas. Inactive code added for receiving a message.
 //                   I have not figured out the code for sending one.
 //                   #define CBUS_LONG_MESSAGE to activate the code.
-//#define CBUS_LONG_MESSAGE
+#define CBUS_LONG_MESSAGE
 //                   Code now activated.
 //                   Assign a sending thread and listen on other threads.
 ///////////////////////////////////////////////////////////////////////////////////
