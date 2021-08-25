@@ -6,6 +6,7 @@
 // Version 2.0b beta 1 Change to use switches and listener.
 ////////////////////////////////////////////////////////////////////////////////////
 // Version 3.0a beta 1 Start version with long message code.
+#define CBUS_LONG_MESSAGE
 ////////////////////////////////////////////////////////////////////////////////////
 // CAN1602BUT
 // Take code from CANALCDBUT to make a new code on the CANmINnOUT base.
@@ -196,6 +197,11 @@ const byte CAN_CS_PIN = 15;  // Changed from 10 which is used for the display.
 // CBUS objects
 CBUS2515 CBUS;                      // CBUS object
 CBUSConfig config;                  // configuration object
+#ifdef CBUS_LONG_MESSAGE
+// The Ardunio CBUS library does not yet support this.
+// create an additional object at the top of the sketch:
+CBUSLongMessage cbus_long_message(&CBUS);   // CBUS long message object
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////////
 // Adapted from CANTEXT
@@ -317,6 +323,22 @@ public:
 
 MyKeyListener selectKeyListener("SELECT");
 
+#ifdef CBUS_LONG_MESSAGE
+///////////////////////////////////////////////////////////////////////////////////////////////
+// Long message setting up.
+///////////////////////////////////////////////////////////////////////////////////////////////
+const byte stream_id = 12; // Sending stream number - not the same as the ones to be read.
+// a list of stream IDs to subscribe to (this ID is defined by the sender):
+byte stream_ids[] = {11, 13, 14}; // These are the ones which this module will read.
+// a buffer for the message fragments to be assembled into
+// either sized to the maximum message length, or as much as you can afford
+const unsigned int buffer_size = 16;
+byte long_message_data[buffer_size];
+// create a handler function to receive completed long messages:
+void longmessagehandler(char *fragment, unsigned int fragment_len, byte stream_id, byte status);
+const byte delay_in_ms_between_messages = 50;
+#endif
+
 //
 ///  setup CBUS - runs once at power on called from setup()
 //
@@ -352,7 +374,19 @@ void setupCBUS()
 
   // register our CBUS event handler, to receive event messages of learned events
   CBUS.setEventHandler(eventhandler);
+  // This will only process the defined opcodes.
   CBUS.setFrameHandler(framehandler, opcodes, nopcodes);
+
+#ifdef CBUS_LONG_MESSAGE
+  //DEBUG_PRINT(F("> about to call to subscribe") );
+  // subscribe to long messages and register handler
+  cbus_long_message.subscribe(stream_ids, (sizeof(stream_ids) / sizeof(byte)), long_message_data, buffer_size, longmessagehandler);
+  // this method throttles the transmission so that it doesn't overwhelm the bus:
+  cbus_long_message.setDelay(delay_in_ms_between_messages);
+  cbus_long_message.setTimeout(1000);
+  //DEBUG_PRINT(F("> CBUS_LONG_MESSAGE subscribed") );
+#endif
+
 
   // configure and start CAN bus and CBUS message processing
   CBUS.setNumBuffers(2);         // more buffers = more memory used, fewer = less
@@ -406,10 +440,10 @@ void setupSwitches()
     // now we add the switches, each one just logs the key press, the last parameter to addSwitch
     // is the repeat frequency is optional, when not set it implies not repeating.
     switches.addSwitch(DF_KEY_DOWN, [](pinid_t pin, bool held) { logKeyPressed(pin,"DOWN  ", held);}, 20);
-    switches.addSwitch(DF_KEY_UP, [](pinid_t pin, bool held) { logKeyPressed(pin,"UP   ", held);}, 20);
+    switches.addSwitch(DF_KEY_UP, [](pinid_t pin, bool held) { logKeyPressed(pin,"UP    ", held);}, 20);
     switches.addSwitch(DF_KEY_LEFT, [](pinid_t pin, bool held) { logKeyPressed(pin,"LEFT  ", held);}, 20);
     switches.addSwitch(DF_KEY_RIGHT, [](pinid_t pin, bool held) { logKeyPressed(pin,"RIGHT ", held);}, 20);
-    switches.onRelease(DF_KEY_RIGHT, [](pinid_t /*pin*/, bool) { Serial.println("RIGHT has been released");});
+    //switches.onRelease(DF_KEY_RIGHT, [](pinid_t /*pin*/, bool) { Serial.println("RIGHT has been released");});
     
     switches.addSwitchListener(DF_KEY_SELECT, &selectKeyListener);
 }
@@ -443,6 +477,10 @@ void loop()
   // do CBUS message, switch and LED processing
   CBUS.process();
 
+#ifdef CBUS_LONG_MESSAGE
+  cbus_long_message.process();
+#endif
+
   // process console commands is now a task.
   // processSerialInput();
 
@@ -457,10 +495,25 @@ void processButtons(void)
 {
    // Send an event corresponding to the button, add NUM_SWITCHES to avoid switch events.
    byte opCode;
+#ifdef CBUS_LONG_MESSAGE
+   char msg[32];
+   int string_length; // Returned by snprintf. This may exceed the actual length.
+#endif
    if (button != prevbutton) {
       DEBUG_PRINT(F("Button ") << button << F(" changed")); 
       opCode = OPC_ACON;
       sendEvent(opCode, button + NUM_SWITCHES);
+#ifdef CBUS_LONG_MESSAGE
+// Somewhere to send the long message.
+      while(cbus_long_message.is_sending()) { } //wait for previous message to finish.
+// bool cbus_long_message.sendLongMessage(const byte *msg, const unsigned int msg_len, 
+//                        const byte stream_id, const byte priority = DEFAULT_PRIORITY);
+//      strcpy(msg, "Hello world!");
+      string_length = snprintf(msg, 32, "Button %d changed", button);
+      if (cbus_long_message.sendLongMessage(msg, strlen(msg), stream_id) ) {
+        Serial << F("long message ") << msg << F(" sent to ") << stream_id << endl;
+      }
+#endif
       prevbutton = button;
    }
 }
@@ -683,6 +736,40 @@ void framehandler(CANFrame *msg) {
 
 }
 
+#ifdef CBUS_LONG_MESSAGE
+   byte new_message = true;
+//
+// Handler to receive a long message 
+// 
+void longmessagehandler(byte *fragment, unsigned int fragment_len, byte stream_id, byte status){
+// I need an example for what goes in here.
+     fragment[fragment_len] = 0;
+// If the message is complete it will be in fragment and I can do something with it.
+     if( new_message) { // Print this only for the start of a message.
+        Serial << F("> user long message handler: stream = ") << stream_id << F(", fragment length = ") 
+               << fragment_len << F(", fragment = |");
+        new_message = false;
+     }
+     if ( CBUS_LONG_MESSAGE_INCOMPLETE ) {
+     // handle incomplete message
+        Serial.write(fragment, fragment_len);
+     } else if (CBUS_LONG_MESSAGE_COMPLETE) {
+     // handle complete message
+        Serial.write(fragment, fragment_len);
+        Serial << F("|, status = ") << status << endl;
+        new_message = true;  // reset for the next message
+     } else {  // CBUS_LONG_MESSAGE_SEQUENCE_ERROR
+               // CBUS_LONG_MESSAGE_TIMEOUT_ERROR,
+               // CBUS_LONG_MESSAGE_CRC_ERROR
+               // raise an error?
+        Serial << F("| Message error with  status = ") << status << endl;
+        new_message = true;  // reset for the next message
+     } 
+ }
+  
+#endif
+
+
 void printConfig(void)
 {
   // code version
@@ -694,6 +781,16 @@ void printConfig(void)
   Serial << F("> © Duncan Greenwood (MERG M5767) 2021") << endl;
   Serial << F("> © John Fletcher (MERG M6777) 2021") << endl;
   Serial << F("> © Sven Rosvall (MERG M3777) 2021") << endl;
+
+#ifdef CBUS_LONG_MESSAGE
+   Serial << F("> Long message handling available") << endl;
+   byte num_ids = (sizeof(stream_ids) / sizeof(byte));
+   Serial << F("> Sending on stream ") << stream_id << endl;
+   Serial << F("> Listening on ");
+   for (byte i = 0; i < num_ids; i++) Serial << stream_ids[i] << F(" ");
+   Serial << endl;
+#endif
+
 }
 
 //
