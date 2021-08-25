@@ -15,9 +15,13 @@ FCU.
 
 I have not yet set up access to GitHub on the laptop I am using for testing. That means that I have to take a copy of the code to it. At least I no longer have to worry about versions of the code as they are all available.
 
+### 25th August 
+
+I have found a bug in the updated of CBUS2515 and the codes are now working. More testing with long messages can now start. I have new ideas to follow up following a Zoom discussion.
+
 ### 21st and 23rd August
 
-I have been adding code to send and receive the long messages to CANTEXTL and CANTOTEM. This code has been locked out of use. I have now activated it successfully using an update of Duncan's library. I now have examples which complete the codes. As yet these are not tested.
+I have been adding code to send and receive the long messages to CANTEXTL and CANTOTEM. This code has been locked out of use. I have now activated it successfully using an update of Duncan's library. I now have examples which complete the codes. Initial off line tests failed.
 
 ### 17th August
 
