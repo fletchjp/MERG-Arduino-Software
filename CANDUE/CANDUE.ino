@@ -226,8 +226,9 @@ void framehandler(CANFrame *msg);
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // Long message setting up.
 ///////////////////////////////////////////////////////////////////////////////////////////////
- // a list of stream IDs to subscribe to (this ID is defined by the sender):
-byte stream_ids[] = {1, 2, 3}; // These are the ones which this module will read.
+const byte stream_id = 13; // This needs to be different from the ones being listened to.
+// a list of stream IDs to subscribe to (this ID is defined by the sender):
+byte stream_ids[] = {11, 12, 14}; // These are the ones which this module will read.
  // a buffer for the message fragments to be assembled into
 // either sized to the maximum message length, or as much as you can afford
 const unsigned int buffer_size = 128;
@@ -485,7 +486,6 @@ bool sendEvent(byte opCode, unsigned int eventNo)
 // Example code not yet being used.
 void send_a_long_message() {
    char msg[16];
-   byte stream_id = 1;
 // Somewhere to send the long message.
    while(cbus_long_message.is_sending()) { } //wait for previous message to finish.
 // bool cbus_long_message.sendLongMessage(char *msg, const unsigned int msg_len, 
