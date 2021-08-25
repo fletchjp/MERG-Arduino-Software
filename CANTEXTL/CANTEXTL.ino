@@ -312,13 +312,14 @@ int taskId = TASKMGR_INVALIDID; // Set to this value so that it won't get cancel
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // Long message setting up.
 ///////////////////////////////////////////////////////////////////////////////////////////////
- // a list of stream IDs to subscribe to (this ID is defined by the sender):
+const byte stream_id = 11; // Sending stream ID - not the same as the ones to be read.
+// a list of stream IDs to subscribe to (this ID is defined by the sender):
 byte stream_ids[] = {12, 13, 14}; // These are the ones which this module will read.
- // a buffer for the message fragments to be assembled into
+// a buffer for the message fragments to be assembled into
 // either sized to the maximum message length, or as much as you can afford
-const unsigned int buffer_size = 128;
+const unsigned int buffer_size = 32;
 byte long_message_data[buffer_size];
- // create a handler function to receive completed long messages:
+// create a handler function to receive completed long messages:
 void longmessagehandler(byte *fragment, unsigned int fragment_len, byte stream_id, byte status);
 const byte delay_in_ms_between_messages = 50;
 #endif
@@ -549,7 +550,6 @@ void checkSwitch()
 #ifdef CBUS_LONG_MESSAGE
 // Somewhere to send the long message.
     char msg[32];
-    byte stream_id = 11; // Sending stream ID.
     int string_length; // Returned by snprintf. This may exceed the actual length.
     while(cbus_long_message.is_sending()) { } //wait for previous message to finish.
 // bool cbus_long_message.sendLongMessage(const byte *msg, const unsigned int msg_len, 
