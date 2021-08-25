@@ -221,6 +221,7 @@ enum eventNos {
 // Long message setting up.
 ///////////////////////////////////////////////////////////////////////////////////////////////
  // a list of stream IDs to subscribe to (this ID is defined by the sender):
+const byte stream_id = 14; // Sending stream number - not the same as the ones to be read.
 byte stream_ids[] = {11, 12, 13}; // These are the ones which this module will read.
  // a buffer for the message fragments to be assembled into
 // either sized to the maximum message length, or as much as you can afford
@@ -270,13 +271,13 @@ void setupCBUS()
   CBUS.setFrameHandler(framehandler, opcodes, nopcodes);
 
 #ifdef CBUS_LONG_MESSAGE
-  DEBUG_PRINT(F("> about to call to subscribe") );
+  //DEBUG_PRINT(F("> about to call to subscribe") );
   // subscribe to long messages and register handler
   cbus_long_message.subscribe(stream_ids, (sizeof(stream_ids) / sizeof(byte)), long_message_data, buffer_size, longmessagehandler);
   // this method throttles the transmission so that it doesn't overwhelm the bus:
   cbus_long_message.setDelay(delay_in_ms_between_messages);
   cbus_long_message.setTimeout(1000);
-  DEBUG_PRINT(F("> CBUS_LONG_MESSAGE subscribed") );
+  //DEBUG_PRINT(F("> CBUS_LONG_MESSAGE subscribed") );
 #endif
 
   // configure and start CAN bus and CBUS message processing
@@ -489,7 +490,6 @@ void processButtons(void)
    byte opCode;
 #ifdef CBUS_LONG_MESSAGE
    char msg[32];
-   byte stream_id = 14; // Sending stream number
    int string_length; // Returned by snprintf. This may exceed the actual length.
 #endif
    if (button != prevbutton) {
@@ -772,6 +772,11 @@ void printConfig(void)
 
 #ifdef CBUS_LONG_MESSAGE
    Serial << F("> Long message handling available") << endl;
+   byte num_ids = (sizeof(stream_ids) / sizeof(byte));
+   Serial << F("> Sending on stream ") << stream_id << endl;
+   Serial << F("> Listening on ");
+   for (byte i = 0; i < num_ids; i++) Serial << stream_ids[i] << F(" ");
+   Serial << endl;
 #endif
 
   
