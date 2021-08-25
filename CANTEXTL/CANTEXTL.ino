@@ -10,6 +10,9 @@
   Code now activated and MERG display disabled.
   Assign a sending thread and listen on other threads.
   It is now at 98% of program storage space.
+#####################################################################################
+  Version 1a beta 2
+  Start on line testing.
 *************************************************************************************/
 #define CBUS_LONG_MESSAGE
 //////////////////////////////////////////////////////////////////////////////////
@@ -175,7 +178,7 @@ void displaySetup();
 // constants
 const byte VER_MAJ = 1;                  // code major version
 const char VER_MIN = 'a';                // code minor version
-const byte VER_BETA = 1;                 // code beta sub-version
+const byte VER_BETA = 2;                 // code beta sub-version
 const byte MODULE_ID = 99;               // CBUS module type
 
 const byte LED_GRN = 4;                  // CBUS green SLiM LED pin
