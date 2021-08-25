@@ -90,7 +90,7 @@ I am now adding more examples. In particular ArduinoBoost166FunctionLazy is star
 
  There is now the prospect of support for CBUS long messages. I am preparing CANTEXT2 to handle the long messages as input. I have started by changing it to sort incoming events on opcode first. I have started a new version called CANTEXTL to handle long events when the Arduino CBUS library is updated. I am hopeful of making some progress with this soon. I have added some more of the code needed to handle long messages. I hope to be able to test it soon. I have also put the same code into CANTOTEM.
  
- I will need an update to the CBUSSAM3X8E library (not released) before I can do long events on the DUE. In the meantime it will work with the current release of CBUS, 1.1.15.
+ I now have an update of the Arduino CBUS and CBUS2515 libraries to handle long events. I have had a problem with this which I think is now fixed so that I can start testing on the codes.
 
  ### due_cbus
 
@@ -99,6 +99,10 @@ I am now adding more examples. In particular ArduinoBoost166FunctionLazy is star
  I now have a module CANDUE which is now working.
 
  This branch is now developing and I have a second DUE because there is some interesting possibilities to develop functional software using FC++. This will not work on the AVRs (ordinary Arduinos) as the library support is different. This can be overcome by using ArduinoSTL.
+
+ I will need an update to the CBUSSAM3X8E library (not released) before I can do long events on the DUE. In the meantime it will work with the current release of CBUS, 1.1.15.
+
+  I now have an update of the Arduino CBUS and CBUSSAM3X8E libraries to handle long events. This is working and I can start testing on the long event code.
 
  ## Logos
 
