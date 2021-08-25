@@ -220,14 +220,14 @@ enum eventNos {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // Long message setting up.
 ///////////////////////////////////////////////////////////////////////////////////////////////
- // a list of stream IDs to subscribe to (this ID is defined by the sender):
 const byte stream_id = 14; // Sending stream number - not the same as the ones to be read.
+// a list of stream IDs to subscribe to (this ID is defined by the sender):
 byte stream_ids[] = {11, 12, 13}; // These are the ones which this module will read.
- // a buffer for the message fragments to be assembled into
+// a buffer for the message fragments to be assembled into
 // either sized to the maximum message length, or as much as you can afford
 const unsigned int buffer_size = 16;
 byte long_message_data[buffer_size];
- // create a handler function to receive completed long messages:
+// create a handler function to receive completed long messages:
 void longmessagehandler(char *fragment, unsigned int fragment_len, byte stream_id, byte status);
 const byte delay_in_ms_between_messages = 50;
 #endif
