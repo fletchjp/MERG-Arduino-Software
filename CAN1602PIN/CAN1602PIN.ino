@@ -3,7 +3,9 @@
 // Version using DfRobotInputAbstraction.h to model input pins.
 // This uses code from IoAbstraction examples dfRobotAnalogInSwitches 
 ////////////////////////////////////////////////////////////////////////////////////
-// Version 2.0b Beta 1 Change to use switches and listener.
+// Version 2.0b beta 1 Change to use switches and listener.
+////////////////////////////////////////////////////////////////////////////////////
+// Version 3.0a beta 1 Start version with long message code.
 ////////////////////////////////////////////////////////////////////////////////////
 // CAN1602BUT
 // Take code from CANALCDBUT to make a new code on the CANmINnOUT base.
@@ -163,7 +165,7 @@ int prevbutton = -1;
 unsigned char mname[7] = { '1', '6', '0', '2', 'P', 'I', 'N' };
 
 // constants
-const byte VER_MAJ = 2;         // code major version
+const byte VER_MAJ = 3;         // code major version
 const char VER_MIN = 'a';       // code minor version
 const byte VER_BETA = 1;        // code beta sub-version
 const byte MODULE_ID = 99;      // CBUS module type
