@@ -491,7 +491,7 @@ void send_a_long_message() {
 // bool cbus_long_message.sendLongMessage(char *msg, const unsigned int msg_len, 
 //                        const byte stream_id, const byte priority = DEFAULT_PRIORITY);
     strcpy(msg, "Hello world!");
-    if (cbus_long_message.sendLongMessage(msg, strlen(msg), stream_id) ) {
+    if (cbus_long_message.sendLongMessage((const byte *)msg, strlen(msg), stream_id) ) {
       Serial << F("long message ") << msg << F(" sent to ") << stream_id << endl;
     }
 
@@ -632,6 +632,9 @@ void printConfig(void) {
   Serial << F("> © Martin Da Costa (MERG M6223) 2021") << endl;
   Serial << F("> © John Fletcher (MERG M6777) 2021") << endl;
   Serial << F("> © Sven Rosvall (MERG M3777) 2021") << endl;
+#ifdef CBUS_LONG_MESSAGE
+  Serial << F("> CBUS Long message handling available") << endl;
+#endif
   return;
 }
 
