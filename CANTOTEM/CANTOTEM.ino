@@ -491,6 +491,7 @@ void processButtons(void)
 #ifdef CBUS_LONG_MESSAGE
    char msg[32];
    int string_length; // Returned by snprintf. This may exceed the actual length.
+   unsigned int message_length;
 #endif
    if (button != prevbutton) {
       DEBUG_PRINT(F("Button ") << button << F(" changed")); 
@@ -503,8 +504,15 @@ void processButtons(void)
 //                        const byte stream_id, const byte priority = DEFAULT_PRIORITY);
 //      strcpy(msg, "Hello world!");
       string_length = snprintf(msg, 32, "Button %d changed", button);
-      if (cbus_long_message.sendLongMessage(msg, strlen(msg), stream_id) ) {
-        Serial << F("long message ") << msg << F(" sent to ") << stream_id << endl;
+      message_length = strlen(msg);
+      if (message_length > 0) {
+        if (cbus_long_message.sendLongMessage(msg, message_length, stream_id) ) {
+           Serial << F("long message ") << msg << F(" sent to ") << stream_id << endl;
+        } else {
+           Serial << F("long message sending failed with message length ") << message_length << endl;
+        }
+      } else {
+        Serial << F("long message preparation failed with message length ") << message_length << endl;
       }
 #endif
       prevbutton = button;
