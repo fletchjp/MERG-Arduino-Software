@@ -32,7 +32,7 @@ I have found a bug in the updated of CBUS2515 and the codes are now working. Mor
 
 I did some testing with mixed results. CANTOTEM kept issuing events for a reason I don't understand. CAN1602PIN would not register with FCU and I think was not sending any events at all. CANDUE did work (it belongs on the other branch) and was useful to see what was going on. I did see some long messages from CANTOTEM, some with zero size which is worrying. I want to find the cause of the problem with CAN1602PIN.
 
-There must be a difference between the configurations on my different computers. When I compiled the CAN1602PIN code on the laptop it was bigger - too big to compile.
+There must be a difference between the configurations on my different computers. When I compiled the CAN1602PIN code on the laptop it was bigger - too big to compile. I tracked this down to different versions of several things. There were some libraries to update. The main difference is the AVR board version, which I had set at 1.8.2 on the main computer instead of the latest 1.8.3 which gives bigger binary files. I have set the laptop to 1.8.2 for now as well.
 
 ### 21st and 23rd August
 
