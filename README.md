@@ -92,6 +92,8 @@ I am now adding more examples. In particular ArduinoBoost166FunctionLazy is star
  
  I now have an update of the Arduino CBUS and CBUS2515 libraries to handle long events. I have had a problem with this which I think is now fixed so that I can start testing on the codes.
 
+ I have begun testing of the new version of the library. I had a problem with the code for CAN1602PIN being larger in size on one computer compared to another. I have tracked this down to the version of the AVR Board code in use. I had changed from 1.8.3 to 1.8.2 on the main computer for compatiblity with some C++ codes. That gives a smaller size of binary file. As some of the UNO codes are close to the limit I am going to use that for now. It is also important to keep libraries up to date.
+
  ### due_cbus
 
  This branch is for codes for the Arduino DUE to run CBUS.
@@ -102,7 +104,9 @@ I am now adding more examples. In particular ArduinoBoost166FunctionLazy is star
 
  I will need an update to the CBUSSAM3X8E library (not released) before I can do long events on the DUE. In the meantime it will work with the current release of CBUS, 1.1.15.
 
-  I now have an update of the Arduino CBUS and CBUSSAM3X8E libraries to handle long events. This is working and I can start testing on the long event code.
+ I now have an update of the Arduino CBUS and CBUSSAM3X8E libraries to handle long events. This is working and I can start testing on the long event code.
+
+
 
  ## Logos
 
