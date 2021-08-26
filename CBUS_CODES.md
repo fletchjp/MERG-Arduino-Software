@@ -10,7 +10,14 @@ These codes are part of development of modules for control of DC layouts using D
 
 ## CBUS Long Message codes
 
-CBUS long messages are sent using a stream, which has a stream number. The sending module sends to a specific number and the other modules listen to the streams as needed, not the one they send on. This means that I need to have a scheme for the allocation of the stream numbers. For the moment I will assign a different number to each module, using a series starting at 11. If there are multiple instances of a particular module code the numbers will have to be set in some other way, such as configuration. I can build in some checks. 
+CBUS long messages are sent using a stream, which has a stream number. The sending module sends to a specific number and the other modules listen to the streams as needed, not the one they send on. This means that I need to have a scheme for the allocation of the stream numbers. For the moment I will assign a different number to each module, using a series starting at 11. If there are multiple instances of a particular module code the numbers will have to be set in some other way, such as configuration. I can build in some checks.
+
+Sending streams assigned
+
+11  CANTEXTL - currently on old hardware
+12  CAN1602PIN 
+13
+14  CANTOTEM
 
 ## Testing
 
@@ -22,6 +29,8 @@ I have not yet set up access to GitHub on the laptop I am using for testing. Tha
 ### 25th August 
 
 I have found a bug in the updated of CBUS2515 and the codes are now working. More testing with long messages can now start. I have new ideas to follow up following a Zoom discussion.
+
+I did some testing with mixed results. CANTOTEM kept issuing events for a reason I don't understand. CAN1602PIN would not register with FCU and I think was not sending any events at all. CANDUE did work (it belongs on the other branch) and was useful to see what was going on. I did see some long messages from CANTOTEM, some with zero size which is worrying. I want to find the cause of the problem with CAN1602PIN.
 
 ### 21st and 23rd August
 
