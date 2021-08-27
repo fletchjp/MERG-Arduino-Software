@@ -35,6 +35,7 @@
 //                   Assign a sending thread and listen on other threads.
 //                   This version now runs successfully off line from CBUS.
 // Version 3a beta 2 Start on line testing of long messages.
+// Version 3a beta 3 Add code to check on long message length
 ///////////////////////////////////////////////////////////////////////////////////
 // This is to run on the TOTEM Minilab with a CAN interface.
 // working from
@@ -168,7 +169,7 @@ const byte opcodes[] PROGMEM = {OPC_ACON, OPC_ACOF, OPC_ARON, OPC_AROF, OPC_ASON
 // constants
 const byte VER_MAJ = 3;         // code major version
 const char VER_MIN = 'a';       // code minor version
-const byte VER_BETA = 2;        // code beta sub-version
+const byte VER_BETA = 3;        // code beta sub-version
 const byte MODULE_ID = 99;      // CBUS module type
 
 const unsigned long CAN_OSC_FREQ = 8000000;     // Oscillator frequency on the CAN2515 board
