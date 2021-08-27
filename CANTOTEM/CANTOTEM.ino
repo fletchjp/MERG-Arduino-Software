@@ -36,6 +36,7 @@
 //                   This version now runs successfully off line from CBUS.
 // Version 3a beta 2 Start on line testing of long messages.
 // Version 3a beta 3 Add code to check on long message length
+//                   Suspend critical event sending.
 ///////////////////////////////////////////////////////////////////////////////////
 // This is to run on the TOTEM Minilab with a CAN interface.
 // working from
@@ -545,9 +546,9 @@ void processSwitches(void)
             << (moduleSwitch[i].fell() ? F(" pressed, send 0x") : F(" released, send 0x")) << _HEX(opCode));
         is_success = sendEvent(opCode, (i + 1));
         // Temporary test code to trigger event.
-        criticalEvent.setEvent(opCode,testEvent);
+        //criticalEvent.setEvent(opCode,testEvent);
         // This is how to trigger something in the criticalEvent.
-        criticalEvent.markTriggeredAndNotify();
+        //criticalEvent.markTriggeredAndNotify();
 
         break;
 
@@ -597,9 +598,9 @@ void processSwitches(void)
   {
     DEBUG_PRINT(F("> One of the send message events failed"));
     // Choose here which opcode and event code to send
-    criticalEvent.setEvent(OPC_ACON,sendFailureEvent);
+    //criticalEvent.setEvent(OPC_ACON,sendFailureEvent);
     // This is how to trigger something in the criticalEvent.
-    criticalEvent.markTriggeredAndNotify();
+    //criticalEvent.markTriggeredAndNotify();
   }
 }
 
