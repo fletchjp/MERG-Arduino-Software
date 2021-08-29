@@ -6,6 +6,7 @@
 // Version 2.0b beta 1 Change to use switches and listener.
 ////////////////////////////////////////////////////////////////////////////////////
 // Version 3.0a beta 1 Start version with long message code.
+// Version 3.0a beta 2 Add error reporting for long message sending.
 #define CBUS_LONG_MESSAGE
 ////////////////////////////////////////////////////////////////////////////////////
 // CAN1602BUT
@@ -168,7 +169,7 @@ unsigned char mname[7] = { '1', '6', '0', '2', 'P', 'I', 'N' };
 // constants
 const byte VER_MAJ = 3;         // code major version
 const char VER_MIN = 'a';       // code minor version
-const byte VER_BETA = 1;        // code beta sub-version
+const byte VER_BETA = 2;        // code beta sub-version
 const byte MODULE_ID = 99;      // CBUS module type
 
 const unsigned long CAN_OSC_FREQ = 8000000;     // Oscillator frequency on the CAN2515 board
@@ -498,6 +499,7 @@ void processButtons(void)
 #ifdef CBUS_LONG_MESSAGE
    char msg[32];
    int string_length; // Returned by snprintf. This may exceed the actual length.
+   unsigned int message_length;
 #endif
    if (button != prevbutton) {
       DEBUG_PRINT(F("Button ") << button << F(" changed")); 
@@ -510,8 +512,15 @@ void processButtons(void)
 //                        const byte stream_id, const byte priority = DEFAULT_PRIORITY);
 //      strcpy(msg, "Hello world!");
       string_length = snprintf(msg, 32, "Button %d changed", button);
-      if (cbus_long_message.sendLongMessage(msg, strlen(msg), stream_id) ) {
-        Serial << F("long message ") << msg << F(" sent to ") << stream_id << endl;
+      message_length = strlen(msg);
+      if (message_length > 0) {
+        if (cbus_long_message.sendLongMessage(msg, strlen(msg), stream_id) ) {
+          Serial << F("long message ") << msg << F(" sent to ") << stream_id << endl;
+        } else {
+          Serial << F("long message sending ") << msg << F(" to ") << stream_id << F(" failed with message length ") << message_length << endl;
+        }
+      } else {
+        Serial << F("long message preparation failed with message length ") << message_length << endl;
       }
 #endif
       prevbutton = button;
