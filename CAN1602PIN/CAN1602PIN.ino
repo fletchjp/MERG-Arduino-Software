@@ -514,7 +514,7 @@ void processButtons(void)
       string_length = snprintf(msg, 32, "Button %d changed", button);
       message_length = strlen(msg);
       if (message_length > 0) {
-        if (cbus_long_message.sendLongMessage(msg, strlen(msg), stream_id) ) {
+        if (cbus_long_message.sendLongMessage(msg, message_length, stream_id) ) {
           Serial << F("long message ") << msg << F(" sent to ") << stream_id << endl;
         } else {
           Serial << F("long message sending ") << msg << F(" to ") << stream_id << F(" failed with message length ") << message_length << endl;
