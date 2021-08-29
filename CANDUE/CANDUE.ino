@@ -10,6 +10,7 @@
 // Version 1a beta 7 Change processSerialInput into a task
 ///////////////////////////////////////////////////////////////////////////////////
 // Version 2a beta 1 Bring in code for long messages from CANTEXTL and CANTOTEM.
+// Version 2a beta 2 Add error reporting when sending long messages.
 #define CBUS_LONG_MESSAGE
 ///////////////////////////////////////////////////////////////////////////////////
 // My working name for changes to the example from Duncan.
@@ -182,7 +183,7 @@
 // constants
 const byte VER_MAJ = 2;                  // code major version
 const char VER_MIN = 'a';                // code minor version
-const byte VER_BETA = 1;                 // code beta sub-version
+const byte VER_BETA = 2;                 // code beta sub-version
 const byte MODULE_ID = 99;               // CBUS module type
 
 // These are not being used - not installed.
@@ -485,16 +486,24 @@ bool sendEvent(byte opCode, unsigned int eventNo)
 #ifdef CBUS_LONG_MESSAGE
 // Example code not yet being used.
 void send_a_long_message() {
-   char msg[16];
+   char msg[32];
+   int string_length; // Returned by snprintf. This may exceed the actual length.
+   unsigned int message_length;
 // Somewhere to send the long message.
    while(cbus_long_message.is_sending()) { } //wait for previous message to finish.
 // bool cbus_long_message.sendLongMessage(char *msg, const unsigned int msg_len, 
 //                        const byte stream_id, const byte priority = DEFAULT_PRIORITY);
     strcpy(msg, "Hello world!");
-    if (cbus_long_message.sendLongMessage((const byte *)msg, strlen(msg), stream_id) ) {
-      Serial << F("long message ") << msg << F(" sent to ") << stream_id << endl;
+    message_length = strlen(msg);
+    if (message_length > 0) {
+        if (cbus_long_message.sendLongMessage((const byte *)msg, message_length, stream_id) ) {
+           Serial << F("long message ") << msg << F(" sent to ") << stream_id << endl;
+        } else {
+           Serial << F("long message sending ") << msg << F(" to ") << stream_id << F(" failed with message length ") << message_length << endl;
+        }
+    } else {
+        Serial << F("long message preparation failed with message length ") << message_length << endl;
     }
-
 }
 #endif
 
