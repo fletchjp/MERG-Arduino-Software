@@ -511,7 +511,7 @@ void processButtons(void)
         if (cbus_long_message.sendLongMessage(msg, message_length, stream_id) ) {
            Serial << F("long message ") << msg << F(" sent to ") << stream_id << endl;
         } else {
-           Serial << F("long message sending failed with message length ") << message_length << endl;
+           Serial << F("long message sending ") << msg << F(" to ") << stream_id << F(" failed with message length ") << message_length << endl;
         }
       } else {
         Serial << F("long message preparation failed with message length ") << message_length << endl;
