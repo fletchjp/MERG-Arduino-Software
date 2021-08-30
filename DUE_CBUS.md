@@ -40,6 +40,8 @@ I have also changer to use DEBUG_PRINT and added failure detection to processSwi
 
 I have documented the DUE pin map which is in a lot of ways similar to the Arduino MEGA although some pins have different uses.
 
+I have been extending this code to work with CBUS long messages.
+
 ### DUEFCPP
 
 This is an experimental code to look at getting FC++ working with the DUE. This is heavily modified to get rid of all use of <iostream> which is not supported. This means that all debug and traits output has been disabled. The code has a copy of the fcpp files.
