@@ -338,7 +338,7 @@ const unsigned int output_buffer_size = 32;
 char long_message_output_buffer[output_buffer_size];
 // a buffer for the message fragments to be assembled into
 // either sized to the maximum message length, or as much as you can afford
-const unsigned int input_buffer_size = 16;
+const unsigned int input_buffer_size = 32;
 byte long_message_data[input_buffer_size];
 // create a handler function to receive completed long messages:
 void longmessagehandler(char *fragment, unsigned int fragment_len, byte stream_id, byte status);
