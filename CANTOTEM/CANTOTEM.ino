@@ -39,6 +39,7 @@
 // Version 3a beta 4 Add arguments to long event failure message
 // Version 3a beta 5 Take out event send (temporary)
 //                   Change output buffer to make it global (permanent)
+// Version 3a beta 6 Correct error in long message handler.
 #define CBUS_LONG_MESSAGE
 ///////////////////////////////////////////////////////////////////////////////////
 // This is to run on the TOTEM Minilab with a CAN interface.
@@ -173,7 +174,7 @@ const byte opcodes[] PROGMEM = {OPC_ACON, OPC_ACOF, OPC_ARON, OPC_AROF, OPC_ASON
 // constants
 const byte VER_MAJ = 3;         // code major version
 const char VER_MIN = 'a';       // code minor version
-const byte VER_BETA = 5;        // code beta sub-version
+const byte VER_BETA = 6;        // code beta sub-version
 const byte MODULE_ID = 99;      // CBUS module type
 
 const unsigned long CAN_OSC_FREQ = 8000000;     // Oscillator frequency on the CAN2515 board
@@ -751,10 +752,10 @@ void longmessagehandler(byte *fragment, unsigned int fragment_len, byte stream_i
                << fragment_len << F(", fragment = |");
         new_message = false;
      }
-     if ( CBUS_LONG_MESSAGE_INCOMPLETE ) {
+     if ( status == CBUS_LONG_MESSAGE_INCOMPLETE ) {
      // handle incomplete message
         Serial.write(fragment, fragment_len);
-     } else if (CBUS_LONG_MESSAGE_COMPLETE) {
+     } else if (status == CBUS_LONG_MESSAGE_COMPLETE) {
      // handle complete message
         Serial.write(fragment, fragment_len);
         Serial << F("|, status = ") << status << endl;

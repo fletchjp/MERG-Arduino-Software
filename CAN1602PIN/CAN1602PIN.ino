@@ -9,6 +9,7 @@
 // Version 3.0a beta 2 Add error reporting for long message sending.
 // Version 3.0a beta 3 Take out event send (temporary)
 //                     Change output buffer to make it global (permanent)
+// Version 3.0a beta 4 Correct error in long message handler.
 #define CBUS_LONG_MESSAGE
 ////////////////////////////////////////////////////////////////////////////////////
 // CAN1602BUT
@@ -171,7 +172,7 @@ unsigned char mname[7] = { '1', '6', '0', '2', 'P', 'I', 'N' };
 // constants
 const byte VER_MAJ = 3;         // code major version
 const char VER_MIN = 'a';       // code minor version
-const byte VER_BETA = 3;        // code beta sub-version
+const byte VER_BETA = 4;        // code beta sub-version
 const byte MODULE_ID = 99;      // CBUS module type
 
 const unsigned long CAN_OSC_FREQ = 8000000;     // Oscillator frequency on the CAN2515 board
@@ -766,10 +767,10 @@ void longmessagehandler(byte *fragment, unsigned int fragment_len, byte stream_i
                << fragment_len << F(", fragment = |");
         new_message = false;
      }
-     if ( CBUS_LONG_MESSAGE_INCOMPLETE ) {
+     if ( status == CBUS_LONG_MESSAGE_INCOMPLETE ) {
      // handle incomplete message
         Serial.write(fragment, fragment_len);
-     } else if (CBUS_LONG_MESSAGE_COMPLETE) {
+     } else if (status == CBUS_LONG_MESSAGE_COMPLETE) {
      // handle complete message
         Serial.write(fragment, fragment_len);
         Serial << F("|, status = ") << status << endl;
