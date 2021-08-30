@@ -26,6 +26,10 @@ FCU.
 
 I have not yet set up access to GitHub on the laptop I am using for testing. That means that I have to take a copy of the code to it. At least I no longer have to worry about versions of the code as they are all available.
 
+### 30th August ###
+
+I now have the long message codes in CANTOTEM and CAN1602PIN working and have been able to transfer a message from both. For now I have turned off the sending of an event just before sending the long message as that messed up the long message. I also learned that the message buffer must be global (or at least outside the sending function) as a buffer within the function goes out of scope and the message content can be lost.
+
 ### 25th August 
 
 I have found a bug in the updated of CBUS2515 and the codes are now working. More testing with long messages can now start. I have new ideas to follow up following a Zoom discussion.
