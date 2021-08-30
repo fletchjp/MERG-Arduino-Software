@@ -11,6 +11,7 @@
 ///////////////////////////////////////////////////////////////////////////////////
 // Version 2a beta 1 Bring in code for long messages from CANTEXTL and CANTOTEM.
 // Version 2a beta 2 Add error reporting when sending long messages.
+// Version 2a beta 3 Correct error in long message handler.
 #define CBUS_LONG_MESSAGE
 ///////////////////////////////////////////////////////////////////////////////////
 // My working name for changes to the example from Duncan.
@@ -183,7 +184,7 @@
 // constants
 const byte VER_MAJ = 2;                  // code major version
 const char VER_MIN = 'a';                // code minor version
-const byte VER_BETA = 2;                 // code beta sub-version
+const byte VER_BETA = 3;                 // code beta sub-version
 const byte MODULE_ID = 99;               // CBUS module type
 
 // These are not being used - not installed.
@@ -607,10 +608,10 @@ void longmessagehandler(byte *fragment, unsigned int fragment_len, byte stream_i
                << fragment_len << F(", fragment = |");
         new_message = false;
      }
-     if ( CBUS_LONG_MESSAGE_INCOMPLETE ) {
+     if ( status == CBUS_LONG_MESSAGE_INCOMPLETE ) {
      // handle incomplete message
         Serial.write(fragment, fragment_len);
-     } else if (CBUS_LONG_MESSAGE_COMPLETE) {
+     } else if (status == CBUS_LONG_MESSAGE_COMPLETE) {
      // handle complete message
         Serial.write(fragment, fragment_len);
         Serial << F("|, status = ") << status << endl;
