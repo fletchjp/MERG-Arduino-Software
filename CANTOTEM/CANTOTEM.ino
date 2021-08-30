@@ -30,7 +30,6 @@
 //                   Initial ideas. Inactive code added for receiving a message.
 //                   I have not figured out the code for sending one.
 //                   #define CBUS_LONG_MESSAGE to activate the code.
-#define CBUS_LONG_MESSAGE
 //                   Code now activated.
 //                   Assign a sending thread and listen on other threads.
 //                   This version now runs successfully off line from CBUS.
@@ -38,6 +37,9 @@
 // Version 3a beta 3 Add code to check on long message length
 //                   Suspend critical event sending.
 // Version 3a beta 4 Add arguments to long event failure message
+// Version 3a beta 5 Take out event send (temporary)
+//                   Change output buffer to make it global (permanent)
+#define CBUS_LONG_MESSAGE
 ///////////////////////////////////////////////////////////////////////////////////
 // This is to run on the TOTEM Minilab with a CAN interface.
 // working from
@@ -171,7 +173,7 @@ const byte opcodes[] PROGMEM = {OPC_ACON, OPC_ACOF, OPC_ARON, OPC_AROF, OPC_ASON
 // constants
 const byte VER_MAJ = 3;         // code major version
 const char VER_MIN = 'a';       // code minor version
-const byte VER_BETA = 4;        // code beta sub-version
+const byte VER_BETA = 5;        // code beta sub-version
 const byte MODULE_ID = 99;      // CBUS module type
 
 const unsigned long CAN_OSC_FREQ = 8000000;     // Oscillator frequency on the CAN2515 board
@@ -226,9 +228,12 @@ enum eventNos {
 const byte stream_id = 14; // Sending stream number - not the same as the ones to be read.
 // a list of stream IDs to subscribe to (this ID is defined by the sender):
 byte stream_ids[] = {11, 12, 13}; // These are the ones which this module will read.
+// Long message output buffer which must be global otherwise it goes out of scope.
+const unsigned int output_buffer_size = 32;
+char long_message_output_buffer[output_buffer_size];
 // a buffer for the message fragments to be assembled into
 // either sized to the maximum message length, or as much as you can afford
-const unsigned int buffer_size = 16;
+const unsigned int buffer_size = 32;
 byte long_message_data[buffer_size];
 // create a handler function to receive completed long messages:
 void longmessagehandler(char *fragment, unsigned int fragment_len, byte stream_id, byte status);
@@ -492,27 +497,27 @@ void processButtons(void)
    // Send an event corresponding to the button, add NUM_SWITCHES to avoid switch events.
    byte opCode;
 #ifdef CBUS_LONG_MESSAGE
-   char msg[32];
+   //char long_message_output_buffer[output_buffer_size]; assigned globally
    int string_length; // Returned by snprintf. This may exceed the actual length.
    unsigned int message_length;
 #endif
    if (button != prevbutton) {
       DEBUG_PRINT(F("Button ") << button << F(" changed")); 
       opCode = OPC_ACON;
-      sendEvent(opCode, button + NUM_SWITCHES);
+      //sendEvent(opCode, button + NUM_SWITCHES);
 #ifdef CBUS_LONG_MESSAGE
 // Somewhere to send the long message.
       while(cbus_long_message.is_sending()) { } //wait for previous message to finish.
 // bool cbus_long_message.sendLongMessage(const byte *msg, const unsigned int msg_len, 
 //                        const byte stream_id, const byte priority = DEFAULT_PRIORITY);
 //      strcpy(msg, "Hello world!");
-      string_length = snprintf(msg, 32, "Button %d changed", button);
-      message_length = strlen(msg);
+      string_length = snprintf(long_message_output_buffer, output_buffer_size, "Button %d changed", button);
+      message_length = strlen(long_message_output_buffer);
       if (message_length > 0) {
-        if (cbus_long_message.sendLongMessage(msg, message_length, stream_id) ) {
-           Serial << F("long message ") << msg << F(" sent to ") << stream_id << endl;
+        if (cbus_long_message.sendLongMessage(long_message_output_buffer, message_length, stream_id) ) {
+           Serial << F("long message ") << long_message_output_buffer << F(" sent to ") << stream_id << endl;
         } else {
-           Serial << F("long message sending ") << msg << F(" to ") << stream_id << F(" failed with message length ") << message_length << endl;
+           Serial << F("long message sending ") << long_message_output_buffer << F(" to ") << stream_id << F(" failed with message length ") << message_length << endl;
         }
       } else {
         Serial << F("long message preparation failed with message length ") << message_length << endl;
