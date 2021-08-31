@@ -82,7 +82,7 @@ I am now adding more examples. In particular ArduinoBoost166FunctionLazy is star
 
  I have now modified the codes on both the branches to follow the changes in CANmINnOUT. There is no way to do this automatically.
 
- I now have the CBUS long event code working on both the AVR and DUE codes.
+ I now have the CBUS long event code working on both the AVR and DUE codes. I have done a lot of work towards having some examples working.
 
  ### cbus_codes
 
