@@ -1,4 +1,7 @@
-
+// CBUS_1in1out
+//
+// 1a beta 1 added r and z commands to the serial monitor to enable USB configuration.
+//           John Fletcher john@bunbury28.plus.com 31/08/2021
 //
 ///
 //
@@ -59,7 +62,7 @@
 // constants
 const byte VER_MAJ = 1;                  // code major version
 const char VER_MIN = 'a';                // code minor version
-const byte VER_BETA = 0;                 // code beta sub-version
+const byte VER_BETA = 1;                 // code beta sub-version
 const byte MODULE_ID = 99;               // CBUS module type
 
 const byte LED_GRN = 4;                  // CBUS green SLiM LED pin
@@ -394,6 +397,37 @@ void processSerialInput(void) {
       case 'm':
         // free memory
         Serial << F("> free SRAM = ") << config.freeSRAM() << F(" bytes") << endl;
+        break;
+
+      case 'r':
+        // renegotiate
+        CBUS.renegotiate();
+        break;
+
+      case 'z':
+        // Reset module, clear EEPROM
+        static bool ResetRq = false;
+        static unsigned long ResWaitTime;
+        if (!ResetRq) {
+          // start timeout timer
+          Serial << F(">Reset & EEPROM wipe requested. Press 'z' again within 2 secs to confirm") << endl;
+          ResWaitTime = millis();
+          ResetRq = true;
+        }
+        else {
+          // This is a confirmed request
+          // 2 sec timeout
+          if (ResetRq && ((millis() - ResWaitTime) > 2000)) {
+            Serial << F(">timeout expired, reset not performed") << endl;
+            ResetRq = false;
+          }
+          else {
+            //Request confirmed within timeout
+            Serial << F(">RESETTING AND WIPING EEPROM") << endl;
+            config.resetModule();
+            ResetRq = false;
+          }
+        }
         break;
 
       case '\r':
