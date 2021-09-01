@@ -13,6 +13,8 @@
 #####################################################################################
   Version 1a beta 2
   Start on line testing.
+  Version 1a beta 3
+  Bring into line with other codes which now work.
 *************************************************************************************/
 #define CBUS_LONG_MESSAGE
 //////////////////////////////////////////////////////////////////////////////////
@@ -178,7 +180,7 @@ void displaySetup();
 // constants
 const byte VER_MAJ = 1;                  // code major version
 const char VER_MIN = 'a';                // code minor version
-const byte VER_BETA = 2;                 // code beta sub-version
+const byte VER_BETA = 3;                 // code beta sub-version
 const byte MODULE_ID = 99;               // CBUS module type
 
 const byte LED_GRN = 4;                  // CBUS green SLiM LED pin
@@ -315,6 +317,9 @@ int taskId = TASKMGR_INVALIDID; // Set to this value so that it won't get cancel
 const byte stream_id = 11; // Sending stream ID - not the same as the ones to be read.
 // a list of stream IDs to subscribe to (this ID is defined by the sender):
 byte stream_ids[] = {12, 13, 14}; // These are the ones which this module will read.
+// Long message output buffer which must be global otherwise it goes out of scope.
+const unsigned int output_buffer_size = 32;
+char long_message_output_buffer[output_buffer_size];
 // a buffer for the message fragments to be assembled into
 // either sized to the maximum message length, or as much as you can afford
 const unsigned int buffer_size = 32;
@@ -529,6 +534,11 @@ Toggle module_toggle(MODULE_LED_PIN);
 // This code has been moved from the loop()
 void checkSwitch()
 {
+#ifdef CBUS_LONG_MESSAGE
+   //char long_message_output_buffer[output_buffer_size]; assigned globally
+   int string_length; // Returned by snprintf. This may exceed the actual length.
+   unsigned int message_length;
+#endif
   // Use IO_Abstraction method to read the switch pin.
   byte new_switch = ioDeviceDigitalReadS(arduinoPins, MODULE_SWITCH_PIN);
   bool button_has_changed = (new_switch != previous_switch);
@@ -546,17 +556,22 @@ void checkSwitch()
 #endif
     byte opCode = (!new_switch ? OPC_ACON : OPC_ACOF);
     unsigned int eventNo = 1; // Converted to 2 bytes for safety.
-    sendEvent(opCode,eventNo);
+    // Taken out of use for now because of interference.
+    //sendEvent(opCode,eventNo);
 #ifdef CBUS_LONG_MESSAGE
-// Somewhere to send the long message.
-    char msg[32];
-    int string_length; // Returned by snprintf. This may exceed the actual length.
     while(cbus_long_message.is_sending()) { } //wait for previous message to finish.
 // bool cbus_long_message.sendLongMessage(const byte *msg, const unsigned int msg_len, 
 //                       const byte stream_id, const byte priority = DEFAULT_PRIORITY);
-    string_length = snprintf(msg, 32, "Button %d changed", new_switch);
-    if (cbus_long_message.sendLongMessage(msg, strlen(msg), stream_id) ) {
-        Serial << F("long message ") << msg << F(" sent to ") << stream_id << endl;
+    string_length = snprintf(long_message_output_buffer, output_buffer_size, "Button %d changed", new_switch);
+    message_length = strlen(long_message_output_buffer);
+    if (message_length > 0) {
+        if (cbus_long_message.sendLongMessage(long_message_output_buffer, message_length, stream_id) ) {
+          Serial << F("long message ") << long_message_output_buffer << F(" sent to ") << stream_id << endl;
+        } else {
+          Serial << F("long message sending ") << long_message_output_buffer << F(" to ") << stream_id << F(" failed with message length ") << message_length << endl;
+        }
+    } else {
+        Serial << F("long message preparation failed with message length ") << message_length << endl;
     }
 #endif
   }
@@ -782,11 +797,11 @@ void longmessagehandler(byte *fragment, unsigned int fragment_len, byte stream_i
                << fragment_len << F(", fragment = |");
         new_message = false;
      }
-     if ( CBUS_LONG_MESSAGE_INCOMPLETE ) {
+     if ( status == CBUS_LONG_MESSAGE_INCOMPLETE ) {
      // handle incomplete message
          Serial.write(fragment, fragment_len);
-    } else if (CBUS_LONG_MESSAGE_COMPLETE) {
-     // handle incomplete message
+    } else if (status == CBUS_LONG_MESSAGE_COMPLETE) {
+     // handle complete message
         Serial.write(fragment, fragment_len);
         Serial << F("|, status = ") << status << endl;
         new_message = true;  // reset for the next message
