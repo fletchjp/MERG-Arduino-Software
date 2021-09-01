@@ -96,6 +96,8 @@ I am now adding more examples. In particular ArduinoBoost166FunctionLazy is star
 
  I have begun testing of the new version of the library. I had a problem with the code for CAN1602PIN being larger in size on one computer compared to another. I have tracked this down to the version of the AVR Board code in use. I had changed from 1.8.3 to 1.8.2 on the main computer for compatiblity with some C++ codes. That gives a smaller size of binary file. As some of the UNO codes are close to the limit I am going to use that for now. It is also important to keep libraries up to date.
 
+ I am testing a modified version of CBUSconfig for Duncan Greenwood.
+
  ### due_cbus
 
  This branch is for codes for the Arduino DUE to run CBUS.
