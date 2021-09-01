@@ -513,7 +513,6 @@ void processButtons(void)
       // Taken out of use for now because of interference.
       //sendEvent(opCode, button + NUM_SWITCHES);
 #ifdef CBUS_LONG_MESSAGE
-
 // Somewhere to send the long message.
       while(cbus_long_message.is_sending()) { } //wait for previous message to finish.
 // bool cbus_long_message.sendLongMessage(const byte *msg, const unsigned int msg_len, 
