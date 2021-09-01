@@ -2,6 +2,7 @@
 //
 // 1a beta 1 added r and z commands to the serial monitor to enable USB configuration.
 //           John Fletcher john@bunbury28.plus.com 31/08/2021
+// 1a beta 2 Added Duncan's modification for the ResetFlag
 //
 ///
 //
@@ -62,7 +63,7 @@
 // constants
 const byte VER_MAJ = 1;                  // code major version
 const char VER_MIN = 'a';                // code minor version
-const byte VER_BETA = 1;                 // code beta sub-version
+const byte VER_BETA = 2;                 // code beta sub-version
 const byte MODULE_ID = 99;               // CBUS module type
 
 const byte LED_GRN = 4;                  // CBUS green SLiM LED pin
@@ -134,10 +135,9 @@ void setupCBUS()
     config.resetModule(ledGrn, ledYlw, pb_switch);
   }
 
-  // opportunity to set default NVs after module reset
-  if (config.readEEPROM(5) == 99) {
-    Serial << F("> module has been reset") << endl;
-    config.writeEEPROM(5, 0);
+  // check if module has been reset and clear the flag
+  if (config.isResetFlagSet()) {
+    config.clearResetFlag();
   }
 
   // register our CBUS event handler, to receive event messages of learned events
