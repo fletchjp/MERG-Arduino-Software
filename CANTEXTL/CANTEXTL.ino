@@ -328,6 +328,7 @@ byte long_message_data[buffer_size];
 void longmessagehandler(byte *fragment, unsigned int fragment_len, byte stream_id, byte status);
 const byte delay_in_ms_between_messages = 50;
 #endif
+
 //
 ///  setup CBUS - runs once at power on called from setup()
 //
