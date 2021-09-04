@@ -511,9 +511,11 @@ void processButtons(void)
       DEBUG_PRINT(F("Button ") << button << F(" changed")); 
       opCode = OPC_ACON;
       // Taken out of use for now because of interference.
-      //sendEvent(opCode, button + NUM_SWITCHES);
+      sendEvent(opCode, button + NUM_SWITCHES);
 #ifdef CBUS_LONG_MESSAGE
 // Somewhere to send the long message.
+      // Trial to avoid problem where the first part of the long message is lost.
+      while (!CBUS.available()) { } //Wait for previous event to be sent.
       while(cbus_long_message.is_sending()) { } //wait for previous message to finish.
 // bool cbus_long_message.sendLongMessage(const byte *msg, const unsigned int msg_len, 
 //                        const byte stream_id, const byte priority = DEFAULT_PRIORITY);
@@ -522,12 +524,12 @@ void processButtons(void)
       message_length = strlen(long_message_output_buffer);
       if (message_length > 0) {
         if (cbus_long_message.sendLongMessage(long_message_output_buffer, message_length, stream_id) ) {
-          Serial << F("long message ") << long_message_output_buffer << F(" sent to ") << stream_id << endl;
+          Serial << "long message " << long_message_output_buffer << " sent to " << stream_id << endl;
         } else {
-          Serial << F("long message sending ") << long_message_output_buffer << F(" to ") << stream_id << F(" failed with message length ") << message_length << endl;
+          Serial << "long message sending " << long_message_output_buffer << " to " << stream_id << " failed with message length " << message_length << endl;
         }
       } else {
-        Serial << F("long message preparation failed with message length ") << message_length << endl;
+        //Serial << "long message preparation failed with message length " << message_length << endl;
       }
 #endif
       prevbutton = button;
@@ -736,6 +738,7 @@ void framehandler(CANFrame *msg) {
   }
 #endif
 
+#ifndef CBUS_LONG_MESSAGE
   if (nopcodes > 0) {
       DEBUG_PRINT(F("Message received with Opcode [ 0x") << _HEX(msg->data[0]) << F(" ]") );
     for(byte i = 0;  i < nopcodes; i++)
@@ -748,6 +751,7 @@ void framehandler(CANFrame *msg) {
         }
     }
   }
+#endif
   return;
 
 }
