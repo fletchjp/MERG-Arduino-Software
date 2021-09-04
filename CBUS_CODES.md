@@ -26,6 +26,10 @@ FCU.
 
 I have not yet set up access to GitHub on the laptop I am using for testing. That means that I have to take a copy of the code to it. At least I no longer have to worry about versions of the code as they are all available.
 
+### 4th September ###
+
+I have modified CAN1602PIN to trial using CBUS.available() to check whether a previous event has been cleared. This code is near to the memory limit for a UNO.
+
 ### 1st September ###
 
 I am using a modified version of CBUSconfig which allows for testing of reset.
