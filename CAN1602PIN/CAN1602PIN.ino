@@ -10,6 +10,7 @@
 // Version 3.0a beta 3 Take out event send (temporary)
 //                     Change output buffer to make it global (permanent)
 // Version 3.0a beta 4 Correct error in long message handler.
+// Version 3.0a beta 5 Take out is_available()
 #define CBUS_LONG_MESSAGE
 ////////////////////////////////////////////////////////////////////////////////////
 // CAN1602BUT
@@ -172,7 +173,7 @@ unsigned char mname[7] = { '1', '6', '0', '2', 'P', 'I', 'N' };
 // constants
 const byte VER_MAJ = 3;         // code major version
 const char VER_MIN = 'a';       // code minor version
-const byte VER_BETA = 4;        // code beta sub-version
+const byte VER_BETA = 5;        // code beta sub-version
 const byte MODULE_ID = 99;      // CBUS module type
 
 const unsigned long CAN_OSC_FREQ = 8000000;     // Oscillator frequency on the CAN2515 board
@@ -515,7 +516,7 @@ void processButtons(void)
 #ifdef CBUS_LONG_MESSAGE
 // Somewhere to send the long message.
       // Trial to avoid problem where the first part of the long message is lost.
-      while (!CBUS.available()) { } //Wait for previous event to be sent.
+      //while (!CBUS.available()) { } //Wait for previous event to be sent.
       while(cbus_long_message.is_sending()) { } //wait for previous message to finish.
 // bool cbus_long_message.sendLongMessage(const byte *msg, const unsigned int msg_len, 
 //                        const byte stream_id, const byte priority = DEFAULT_PRIORITY);
