@@ -40,6 +40,7 @@
 // Version 3a beta 5 Take out event send (temporary)
 //                   Change output buffer to make it global (permanent)
 // Version 3a beta 6 Correct error in long message handler.
+// Version 3a beta 7 Add bus_debug code
 #define CBUS_LONG_MESSAGE
 ///////////////////////////////////////////////////////////////////////////////////
 // This is to run on the TOTEM Minilab with a CAN interface.
@@ -174,7 +175,7 @@ const byte opcodes[] PROGMEM = {OPC_ACON, OPC_ACOF, OPC_ARON, OPC_AROF, OPC_ASON
 // constants
 const byte VER_MAJ = 3;         // code major version
 const char VER_MIN = 'a';       // code minor version
-const byte VER_BETA = 6;        // code beta sub-version
+const byte VER_BETA = 7;        // code beta sub-version
 const byte MODULE_ID = 99;      // CBUS module type
 
 const unsigned long CAN_OSC_FREQ = 8000000;     // Oscillator frequency on the CAN2515 board
@@ -295,6 +296,19 @@ void setupCBUS()
   CBUS.setPins(CAN_CS_PIN, CAN_INT_PIN);           // select pins for CAN bus CE and interrupt connections
   CBUS.begin();
 }
+
+void bus_debug(void) {
+
+  Serial << F("> transmit buffer sizes = ") << CBUS.canp->transmitBufferSize(0) << F(", ") << CBUS.canp->transmitBufferSize(1) << F(", ") << CBUS.canp->transmitBufferSize(2) << endl;
+  Serial << F("> transmit buffer counts = ") << CBUS.canp->transmitBufferCount(0) << F(", ") << CBUS.canp->transmitBufferCount(1) << F(", ") << CBUS.canp->transmitBufferCount(2) << endl;
+  Serial << F("> transmit buffer peaks = ") << CBUS.canp->transmitBufferPeakCount(0) << F(", ") << CBUS.canp->transmitBufferPeakCount(1) << F(", ") << CBUS.canp->transmitBufferPeakCount(2) << endl;
+  Serial << F("> receive buffer = ") << CBUS.canp->receiveBufferSize() << F(", ") << CBUS.canp->receiveBufferCount() << F(", ") << CBUS.canp->receiveBufferPeakCount() << endl;
+  Serial << F("> error flag register = ") << CBUS.canp->errorFlagRegister() << endl;
+  Serial << endl;
+
+  return;
+}
+
 
 void checkA0()
 {
@@ -523,6 +537,7 @@ void processButtons(void)
       } else {
         Serial << F("long message preparation failed with message length ") << message_length << endl;
       }
+      bus_debug(); // Print diagnostics.
 #endif
       prevbutton = button;
    }
