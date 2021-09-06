@@ -515,6 +515,7 @@ void processButtons(void)
       sendEvent(opCode, button + NUM_SWITCHES);
 #ifdef CBUS_LONG_MESSAGE
 // Somewhere to send the long message.
+      delay(250);
       // Trial to avoid problem where the first part of the long message is lost.
       //while (!CBUS.available()) { } //Wait for previous event to be sent.
       while(cbus_long_message.is_sending()) { } //wait for previous message to finish.

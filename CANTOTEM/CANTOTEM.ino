@@ -519,8 +519,9 @@ void processButtons(void)
    if (button != prevbutton) {
       DEBUG_PRINT(F("Button ") << button << F(" changed")); 
       opCode = OPC_ACON;
-      //sendEvent(opCode, button + NUM_SWITCHES);
+      sendEvent(opCode, button + NUM_SWITCHES);
 #ifdef CBUS_LONG_MESSAGE
+      delay(250);
 // Somewhere to send the long message.
       while(cbus_long_message.is_sending()) { } //wait for previous message to finish.
 // bool cbus_long_message.sendLongMessage(const byte *msg, const unsigned int msg_len, 
