@@ -1,3 +1,5 @@
+
+#define VERSION 2.4
 /////////////////////////////////////////////////////////////////////////////
 // CANDUE 
 // Version 1a beta 1 Initial operational test
@@ -12,6 +14,7 @@
 // Version 2a beta 1 Bring in code for long messages from CANTEXTL and CANTOTEM.
 // Version 2a beta 2 Add error reporting when sending long messages.
 // Version 2a beta 3 Correct error in long message handler.
+// Version 2a beta 4 Adding code to support 20 by 4 LCD Display.
 #define CBUS_LONG_MESSAGE
 ///////////////////////////////////////////////////////////////////////////////////
 // My working name for changes to the example from Duncan.
@@ -154,7 +157,9 @@
 
 /////////////////////////////////////////////////////////////////////////////////// 
 
-#define DEBUG 1       // set to 0 for no serial debug
+#define DEBUG         1 // set to 0 for no serial debug
+#define OLED_DISPLAY  0 // set to 0 if 128x32 OLED display is not present
+#define LCD_DISPLAY   0 // set to 0 if 4x20 char LCD display is not present
 
 #if DEBUG
 #define DEBUG_PRINT(S) Serial << S << endl
@@ -171,6 +176,14 @@
 // 3rd party libraries
 #include <Streaming.h>
 #include <Bounce2.h>
+#if LCD_DISPLAY || OLED_DISPLAY 
+#include <Wire.h>    // Library for I2C comminications for display
+  #if LCD_DISPLAY
+  /* libraries for LCD display module */
+  #include <hd44780.h>
+  #include <hd44780ioClass/hd44780_I2Cexp.h >
+  #endif
+#endif
 
 // CBUS library header files
 #include <CBUSSAM3X8E.h>            // CAN controller and CBUS class
@@ -181,10 +194,21 @@
 #include <CBUSParams.h>             // CBUS parameters
 #include <cbusdefs.h>               // MERG CBUS constants
 
+#if LCD_DISPLAY
+// The hd44780 library figures out what to do.  This corresponds to a display with an I2C expander pack.
+// I could provide alternatives for other hardware.
+hd44780_I2Cexp display(0x27);
+
+volatile unsigned long previousTurnon    = 0;
+volatile unsigned long alight            = 10000;
+volatile boolean       barGraphicsLoaded = false;
+volatile boolean       showingSpeeds     = false;
+#endif
+
 // constants
 const byte VER_MAJ = 2;                  // code major version
 const char VER_MIN = 'a';                // code minor version
-const byte VER_BETA = 3;                 // code beta sub-version
+const byte VER_BETA = 4;                 // code beta sub-version
 const byte MODULE_ID = 99;               // CBUS module type
 
 // These are not being used - not installed.
@@ -348,6 +372,21 @@ void setup()
 
   setupCBUS();
   setupModule();
+
+#if OLED_DISPLAY || LCD_DISPLAY
+  initialiseDisplay();
+  delay(2000);
+#if OLED_DISPLAY
+  displayImage(mergLogo);
+  displayImage(bnhmrsLogo);
+#endif
+
+#if LCD_DISPLAY
+  displayMergLogo();
+  delay(2000);
+#endif
+#endif
+
 
   // Schedule tasks to run every 250 milliseconds.
   taskManager.scheduleFixedRate(250, runLEDs);
@@ -645,9 +684,144 @@ void printConfig(void) {
 #ifdef CBUS_LONG_MESSAGE
   Serial << F("> CBUS Long message handling available") << endl;
 #endif
+  #if OLED_DISPLAY || LCD_DISPLAY
+    #if OLED_DISPLAY
+    Serial << F("> OLED display available") << endl;
+    #else
+    Serial << F("> LCD display available") << endl;
+    #endif
+  #endif
   return;
 }
 
+#if (OLED_DISPLAY || LCD_DISPLAY)
+
+void displayImage(const uint8_t *imageBitmap)
+{
+#if OLED_DISPLAY
+  // Clear the buffer.
+  display.clearDisplay();
+  // Show Merg logo on the display hardware.
+  display.drawBitmap(0, 0, imageBitmap, 128, 32, 1);
+  display.display();
+  // leave logo on screen for a while
+  delay(1500);
+#endif
+}
+
+void displayVersion()
+{
+#if OLED_DISPLAY
+  // Clear the buffer.
+  display.clearDisplay();
+  // display module name and version for a short time
+  display.setTextSize(2);
+  display.setTextColor(WHITE);
+  display.setCursor(20,8);
+  display.println("CANCMDDC");
+  display.setTextSize(1);
+  display.setCursor(60,24);
+  display.println("v2.3");
+  display.display();
+#endif
+#if LCD_DISPLAY
+  // Clear the buffer.
+  display.clear();
+
+  display.clear();
+  display.setCursor(3, 0);
+  display.write("CANCMDDC v");
+  display.print(VERSION);
+  display.setCursor(0, 1);
+  display.write(char(7));
+  display.setCursor(2, 1);
+  display.write("David W Radcliffe &");
+  display.setCursor(0, 2);
+  display.write("John Fletcher with");
+  display.setCursor(0, 3);
+  display.write("I.Morgan & M.Riddoch");
+
+#endif
+  delay(2000);
+}
+
+void initialiseDisplay()
+{
+#if OLED_DISPLAY
+  // by default, we'll generate the high voltage from the 3.3v line internally! (neat!)
+  display.begin(SSD1306_SWITCHCAPVCC, 0x3C);  // initialize with the I2C addr 0x3C (for the 128x32)
+  // Clear the buffer.
+  display.clearDisplay();
+#endif
+#if LCD_DISPLAY
+  display.begin(20, 4); // initialize the lcd for 20 chars 4 lines, turn on backlight
+  display.display();    // turn it on
+  display.clear();
+#endif
+}
+
+#if LCD_DISPLAY
+void displayMergLogo()
+{
+  // Creat a set of new characters
+  const uint8_t mergLogo[][8] = {
+    { B00001111, B00011111, B00011111, B00011111, B00011100, B00011100, B00011100, B00011100 }, // 0
+    { B00011111, B00011111, B00011111, B00011111, B00000000, B00000000, B00000000, B00000000 }, // 1
+    { B00011100, B00011100, B00011100, B00011100, B00011100, B00011100, B00011100, B00011100 }, // 2
+    { B00000000, B00000000, B00000000, B00000000, B00011111, B00011111, B00011111, B00011111 }, // 3
+    { B00000111, B00000111, B00000111, B00000111, B00000111, B00000111, B00000111, B00000111 }, // 4
+    { B00000000, B00000000, B00000000, B00000000, B00011111, B00011111, B00011111, B00011111 }, // 5
+    { B00011111, B00011111, B00011111, B00011111, B00001111, B00000111, B00000111, B00000111 }, // 6
+    { B00011111, B00011111, B00011111, B00011111, B00011111, B00011111, B00011111, B00011111 }  // 7
+  };
+
+//void displayMergLogo()
+//{
+  customChars(mergLogo);
+
+  char chars[4][20] = {
+  char(0), char(1), char(6), char(1), char(1), char(2), ' ', char(0), char(1), char(1), ' ', char(0), char(1), char(1), char(2), ' ', char(0), char(1), char(1), char(2),
+  char(2), ' ',     char(4), ' ',     ' ',     char(2), ' ', char(2), ' ',     ' ',     ' ', char(2), ' ',     ' ',     char(2), ' ', char(2), ' ',     ' ',     ' ',
+  char(7), ' ',     char(4), ' ',     ' ',     char(2), ' ', char(7), char(1), ' ',     ' ', char(7), char(1), char(1), char(6), ' ', char(7), ' ',     char(1), char(2),
+  char(7), ' ',     char(4), ' ',     ' ',     char(2), ' ', char(7), char(3), char(3), ' ', char(7), ' ',     ' ',     char(4), ' ', char(7), char(3), char(3), char(2)
+  };
+  displayLogo(chars);
+
+  delay(2000);
+}
+
+void customChars(const uint8_t chars[][8])
+{
+  for (int i = 0; i < 8; i++)
+  {
+    display.createChar(i, (uint8_t *)chars[i]);
+  }
+}
+
+#endif
+
+void displayLogo(const char chars[4][20])
+{
+#if LCD_DISPLAY
+  for (int i = 0; i < 4; i++)
+  {
+    display.setCursor(0, i);
+    displayChars(chars[i], 20);
+  }
+#endif
+}
+
+void displayChars(const char chars[20], int count)
+{
+#if LCD_DISPLAY
+  for (int j = 0; j < count; j++)
+  {
+    display.write(chars[j]);
+  }
+#endif
+}
+
+#endif
 //
 /// command interpreter for serial console input
 //
