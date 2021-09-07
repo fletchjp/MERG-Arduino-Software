@@ -98,6 +98,8 @@ I am now adding more examples. In particular ArduinoBoost166FunctionLazy is star
 
  I am testing a modified version of CBUSconfig for Duncan Greenwood. That is going well. I am starting to add the long message code to CANCMDDC. I have copied CANTEXTL into the master branch.
 
+ I am doing more testing on the long message code.
+
  ### due_cbus
 
  This branch is for codes for the Arduino DUE to run CBUS.
