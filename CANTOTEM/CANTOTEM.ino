@@ -292,7 +292,6 @@ void setupCBUS()
 #endif
 
   // configure and start CAN bus and CBUS message processing
-  CBUS.setNumBuffers(2);         // more buffers = more memory used, fewer = less
   CBUS.setOscFreq(CAN_OSC_FREQ);   // select the crystal frequency of the CAN module
   CBUS.setPins(CAN_CS_PIN, CAN_INT_PIN);           // select pins for CAN bus CE and interrupt connections
   CBUS.setNumBuffers(4,4); // Set TX buffers. Default for RX is 4.
