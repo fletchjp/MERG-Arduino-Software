@@ -11,6 +11,7 @@
 //                     Change output buffer to make it global (permanent)
 // Version 3.0a beta 4 Correct error in long message handler.
 // Version 3.0a beta 5 Take out is_available()
+// Version 3.0a beta 6 Add code to display message received.
 #define CBUS_LONG_MESSAGE
 ////////////////////////////////////////////////////////////////////////////////////
 // CAN1602BUT
@@ -173,7 +174,7 @@ unsigned char mname[7] = { '1', '6', '0', '2', 'P', 'I', 'N' };
 // constants
 const byte VER_MAJ = 3;         // code major version
 const char VER_MIN = 'a';       // code minor version
-const byte VER_BETA = 5;        // code beta sub-version
+const byte VER_BETA = 6;        // code beta sub-version
 const byte MODULE_ID = 99;      // CBUS module type
 
 const unsigned long CAN_OSC_FREQ = 8000000;     // Oscillator frequency on the CAN2515 board
@@ -779,6 +780,9 @@ void longmessagehandler(byte *fragment, unsigned int fragment_len, byte stream_i
      // handle complete message
         Serial.write(fragment, fragment_len);
         Serial << F("|, status = ") << status << endl;
+        // Write received message to the display.
+        lcd.setCursor(0, 0);
+        lcd.write((char*)fragment);
         new_message = true;  // reset for the next message
      } else {  // CBUS_LONG_MESSAGE_SEQUENCE_ERROR
                // CBUS_LONG_MESSAGE_TIMEOUT_ERROR,
