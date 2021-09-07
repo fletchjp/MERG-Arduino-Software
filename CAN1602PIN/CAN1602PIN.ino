@@ -109,8 +109,8 @@
 // Digital / Analog pin 5     Not Used - reserved for I2C
 //////////////////////////////////////////////////////////////////////////
 
-#define DEBUG 0       // set to 0 for no serial debug
-
+#define DEBUG       0   // set to 0 for no serial debug
+#define LCD_DISPLAY 1   // This has a 1602 display
 #if DEBUG
 #define DEBUG_PRINT(S) Serial << S << endl
 #else

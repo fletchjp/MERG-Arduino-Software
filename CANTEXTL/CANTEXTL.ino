@@ -1004,7 +1004,7 @@ void displayVersion()
 
   display.clear();
   display.setCursor(3, 0);
-  display.write("CANTEXT v");
+  display.write("CANTEXTL v");
   display.print(VERSION);
   display.setCursor(0, 1);
   //display.write(char(7));
