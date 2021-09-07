@@ -15,7 +15,10 @@
   Start on line testing.
   Version 1a beta 3
   Bring into line with other codes which now work.
+  Version 1a beta 4
+  Set TX buffers to 4 and take out delay
 *************************************************************************************/
+#define VERSION 1.4
 #define CBUS_LONG_MESSAGE
 //////////////////////////////////////////////////////////////////////////////////
 // CANTEXT2
@@ -133,7 +136,7 @@ IoAbstractionRef arduinoPins = ioUsingArduino();
 //#define CANBUS8MHZ 1 // set to 0 for CANBUS module with 16MHz crystal
 //////////////////////////////////////////////////////////////////////////////////////////////
 // These are more things which need to be set.
-#define DEBUG         1 // set to 0 for no debug messages, 1 for messages to console
+#define DEBUG         0 // set to 0 for no debug messages, 1 for messages to console
 #define LCD_DISPLAY   1 // set to 0 if 4x20 char LCD display is not present
 #define MERG_DISPLAY  0 // set to 0 to save memory by leaving this out.
 
@@ -154,7 +157,6 @@ IoAbstractionRef arduinoPins = ioUsingArduino();
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 #if LCD_DISPLAY
-#define VERSION 2.1
 /* libraries for LCD display module */
 #include <Wire.h>    // Library for I2C comminications for display
 #include <hd44780.h>
@@ -210,7 +212,6 @@ CBUSConfig config;                  // configuration object
 //CBUSLED ledGrn, ledYlw;             // LED objects
 //CBUSSwitch pb_switch;               // switch object
 #ifdef CBUS_LONG_MESSAGE
-// The Ardunio CBUS library does not yet support this.
 // create an additional object at the top of the sketch:
 CBUSLongMessage cbus_long_message(&CBUS);   // CBUS long message object
 #endif
@@ -389,7 +390,8 @@ void setupCBUS()
 */
 
   // configure and start CAN bus and CBUS message processing
-  CBUS.setNumBuffers(2);         // more buffers = more memory used, fewer = less
+  CBUS.setNumBuffers(4,4); // Set TX buffers. Default for RX is 4.
+  // more buffers = more memory used, fewer = less
   //Serial << F("> Exiting setNumBuffers") << endl;
 #if CANBUS8MHZ
   CBUS.setOscFreq(8000000UL);   // select the crystal frequency of the CAN module to 8MHz
@@ -558,7 +560,7 @@ void checkSwitch()
     byte opCode = (!new_switch ? OPC_ACON : OPC_ACOF);
     unsigned int eventNo = 1; // Converted to 2 bytes for safety.
     // Taken out of use for now because of interference.
-    //sendEvent(opCode,eventNo);
+    sendEvent(opCode,eventNo);
 #ifdef CBUS_LONG_MESSAGE
     while(cbus_long_message.is_sending()) { } //wait for previous message to finish.
 // bool cbus_long_message.sendLongMessage(const byte *msg, const unsigned int msg_len, 
@@ -805,6 +807,11 @@ void longmessagehandler(byte *fragment, unsigned int fragment_len, byte stream_i
      // handle complete message
         Serial.write(fragment, fragment_len);
         Serial << F("|, status = ") << status << endl;
+        // Write received message to the display.
+#if LCD_DISPLAY
+        display.setCursor(0, 0);
+        display.write((char*)fragment);
+#endif
         new_message = true;  // reset for the next message
      } else {  // CBUS_LONG_MESSAGE_SEQUENCE_ERROR
                // CBUS_LONG_MESSAGE_TIMEOUT_ERROR,
@@ -839,6 +846,11 @@ void printConfig(void) {
 #endif
 #ifdef CBUS_LONG_MESSAGE
    Serial << F("> Long message handling available") << endl;
+   byte num_ids = (sizeof(stream_ids) / sizeof(byte));
+   Serial << F("> Sending on stream ") << stream_id << endl;
+   Serial << F("> Listening on ");
+   for (byte i = 0; i < num_ids; i++) Serial << stream_ids[i] << F(" ");
+   Serial << endl;
 #endif
 #if DEBUG
    Serial << F("> Error code test noError: ") << noError << endl;
