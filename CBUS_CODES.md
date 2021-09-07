@@ -28,8 +28,11 @@ I have not yet set up access to GitHub on the laptop I am using for testing. Tha
 
 ### 7th September ###
 
-CAN1602PIN: add code to display the received message.
-CANTOTEM: exploring the buffering of output messages.
+CANTOTEM:   The buffering of output messages is a success.
+CAN1602PIN: add code to display the received message and add buffering.
+CANTEXTL:   add code for display and buffering.
+
+This provides a new standard for operations with the Arduino CBUS Library.
 
 ### 4th September ###
 
