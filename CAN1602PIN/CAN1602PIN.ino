@@ -12,6 +12,7 @@
 // Version 3.0a beta 4 Correct error in long message handler.
 // Version 3.0a beta 5 Take out is_available()
 // Version 3.0a beta 6 Add code to display message received.
+// Version 3.0a beta 7 Set TX buffers to 4 and take out delay
 #define CBUS_LONG_MESSAGE
 ////////////////////////////////////////////////////////////////////////////////////
 // CAN1602BUT
@@ -174,7 +175,7 @@ unsigned char mname[7] = { '1', '6', '0', '2', 'P', 'I', 'N' };
 // constants
 const byte VER_MAJ = 3;         // code major version
 const char VER_MIN = 'a';       // code minor version
-const byte VER_BETA = 6;        // code beta sub-version
+const byte VER_BETA = 7;        // code beta sub-version
 const byte MODULE_ID = 99;      // CBUS module type
 
 const unsigned long CAN_OSC_FREQ = 8000000;     // Oscillator frequency on the CAN2515 board
@@ -398,7 +399,8 @@ void setupCBUS()
 
 
   // configure and start CAN bus and CBUS message processing
-  CBUS.setNumBuffers(2);         // more buffers = more memory used, fewer = less
+  CBUS.setNumBuffers(4,4); // Set TX buffers. Default for RX is 4.
+  // more buffers = more memory used, fewer = less
   CBUS.setOscFreq(CAN_OSC_FREQ);   // select the crystal frequency of the CAN module
   CBUS.setPins(CAN_CS_PIN, CAN_INT_PIN);           // select pins for CAN bus CE and interrupt connections
   CBUS.begin();
@@ -516,9 +518,8 @@ void processButtons(void)
       sendEvent(opCode, button + NUM_SWITCHES);
 #ifdef CBUS_LONG_MESSAGE
 // Somewhere to send the long message.
-      delay(250);
+      //delay(250);
       // Trial to avoid problem where the first part of the long message is lost.
-      //while (!CBUS.available()) { } //Wait for previous event to be sent.
       while(cbus_long_message.is_sending()) { } //wait for previous message to finish.
 // bool cbus_long_message.sendLongMessage(const byte *msg, const unsigned int msg_len, 
 //                        const byte stream_id, const byte priority = DEFAULT_PRIORITY);
@@ -808,6 +809,12 @@ void printConfig(void)
   Serial << F("> © John Fletcher (MERG M6777) 2021") << endl;
   Serial << F("> © Sven Rosvall (MERG M3777) 2021") << endl;
 
+#if LCD_DISPLAY
+   Serial << F("> LCD display available") << endl;
+#if MERG_DISPLAY
+   Serial << F("> MERG display available") << endl;
+#endif
+#endif
 #ifdef CBUS_LONG_MESSAGE
    Serial << F("> Long message handling available") << endl;
    byte num_ids = (sizeof(stream_ids) / sizeof(byte));
