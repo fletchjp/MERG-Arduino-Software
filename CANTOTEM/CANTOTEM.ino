@@ -41,6 +41,7 @@
 //                   Change output buffer to make it global (permanent)
 // Version 3a beta 6 Correct error in long message handler.
 // Version 3a beta 7 Add bus_debug code
+// Version 3a beta 8 Set TX buffers to 4
 #define CBUS_LONG_MESSAGE
 ///////////////////////////////////////////////////////////////////////////////////
 // This is to run on the TOTEM Minilab with a CAN interface.
@@ -175,7 +176,7 @@ const byte opcodes[] PROGMEM = {OPC_ACON, OPC_ACOF, OPC_ARON, OPC_AROF, OPC_ASON
 // constants
 const byte VER_MAJ = 3;         // code major version
 const char VER_MIN = 'a';       // code minor version
-const byte VER_BETA = 7;        // code beta sub-version
+const byte VER_BETA = 8;        // code beta sub-version
 const byte MODULE_ID = 99;      // CBUS module type
 
 const unsigned long CAN_OSC_FREQ = 8000000;     // Oscillator frequency on the CAN2515 board
@@ -294,6 +295,7 @@ void setupCBUS()
   CBUS.setNumBuffers(2);         // more buffers = more memory used, fewer = less
   CBUS.setOscFreq(CAN_OSC_FREQ);   // select the crystal frequency of the CAN module
   CBUS.setPins(CAN_CS_PIN, CAN_INT_PIN);           // select pins for CAN bus CE and interrupt connections
+  CBUS.setNumBuffers(4,4); // Set TX buffers. Default for RX is 4.
   CBUS.begin();
 }
 
