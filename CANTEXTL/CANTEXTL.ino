@@ -17,8 +17,11 @@
   Bring into line with other codes which now work.
   Version 1a beta 4
   Set TX buffers to 4 and take out delay
+  Version 1a beta 5
+  Change arguments for longmessagehandler 
+  to match new release of libraries.
 *************************************************************************************/
-#define VERSION 1.4
+#define VERSION 1.5
 #define CBUS_LONG_MESSAGE
 //////////////////////////////////////////////////////////////////////////////////
 // CANTEXT2
@@ -182,7 +185,7 @@ void displaySetup();
 // constants
 const byte VER_MAJ = 1;                  // code major version
 const char VER_MIN = 'a';                // code minor version
-const byte VER_BETA = 3;                 // code beta sub-version
+const byte VER_BETA = 5;                 // code beta sub-version
 const byte MODULE_ID = 99;               // CBUS module type
 
 const byte LED_GRN = 4;                  // CBUS green SLiM LED pin
@@ -326,7 +329,7 @@ char long_message_output_buffer[output_buffer_size];
 const unsigned int buffer_size = 32;
 byte long_message_data[buffer_size];
 // create a handler function to receive completed long messages:
-void longmessagehandler(byte *fragment, unsigned int fragment_len, byte stream_id, byte status);
+void longmessagehandler(void *fragment, const unsigned int fragment_len, const byte stream_id, const byte status);
 const byte delay_in_ms_between_messages = 50;
 #endif
 
@@ -791,9 +794,9 @@ void eventhandler(byte index, CANFrame *msg) {
 //
 // Handler to receive a long message 
 // 
-void longmessagehandler(byte *fragment, unsigned int fragment_len, byte stream_id, byte status){
+void longmessagehandler(void *fragment, const unsigned int fragment_len, const byte stream_id, const byte status){
 // I need an example for what goes in here.
-     fragment[fragment_len] = 0;
+     //fragment[fragment_len] = 0;
 // If the message is complete it will be in fragment and I can do something with it.
      if( new_message) { // Print this only for the start of a message.
         Serial << F("> user long message handler: stream = ") << stream_id << F(", fragment length = ") 
@@ -802,10 +805,10 @@ void longmessagehandler(byte *fragment, unsigned int fragment_len, byte stream_i
      }
      if ( status == CBUS_LONG_MESSAGE_INCOMPLETE ) {
      // handle incomplete message
-         Serial.write(fragment, fragment_len);
+         Serial.write((char *)fragment, fragment_len);
     } else if (status == CBUS_LONG_MESSAGE_COMPLETE) {
      // handle complete message
-        Serial.write(fragment, fragment_len);
+        Serial.write((char *)fragment, fragment_len);
         Serial << F("|, status = ") << status << endl;
         // Write received message to the display.
 #if LCD_DISPLAY
