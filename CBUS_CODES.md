@@ -26,6 +26,13 @@ FCU.
 
 I have not yet set up access to GitHub on the laptop I am using for testing. That means that I have to take a copy of the code to it. At least I no longer have to worry about versions of the code as they are all available.
 
+### 8th September ###
+
+There are new versions of some of the Arduino CBUS libraries. There are some changes needed for all codes which use the long message part of the library. I will note here when the codes have been changed.
+
+CAN1602PIN now done.
+
+
 ### 7th September ###
 
 CANTOTEM:   The buffering of output messages is a success.
