@@ -1,5 +1,5 @@
 
-#define VERSION 2.4
+#define VERSION 2.5
 /////////////////////////////////////////////////////////////////////////////
 // CANDUE 
 // Version 1a beta 1 Initial operational test
@@ -15,6 +15,7 @@
 // Version 2a beta 2 Add error reporting when sending long messages.
 // Version 2a beta 3 Correct error in long message handler.
 // Version 2a beta 4 Adding code to support 20 by 4 LCD Display.
+// Version 2a beta 5 Modification for the new versions of the Arduino CBUS libraries.
 #define CBUS_LONG_MESSAGE
 ///////////////////////////////////////////////////////////////////////////////////
 // My working name for changes to the example from Duncan.
@@ -208,7 +209,7 @@ volatile boolean       showingSpeeds     = false;
 // constants
 const byte VER_MAJ = 2;                  // code major version
 const char VER_MIN = 'a';                // code minor version
-const byte VER_BETA = 4;                 // code beta sub-version
+const byte VER_BETA = 5;                 // code beta sub-version
 const byte MODULE_ID = 99;               // CBUS module type
 
 // These are not being used - not installed.
@@ -260,7 +261,7 @@ byte stream_ids[] = {11, 12, 14}; // These are the ones which this module will r
 const unsigned int buffer_size = 128;
 byte long_message_data[buffer_size];
  // create a handler function to receive completed long messages:
-void longmessagehandler(byte *fragment, unsigned int fragment_len, byte stream_id, byte status);
+void longmessagehandler(void *fragment, const unsigned int fragment_len, const byte stream_id, const byte status);
 const byte delay_in_ms_between_messages = 50;
 #endif
 
@@ -638,9 +639,9 @@ void framehandler(CANFrame *msg) {
 //
 // Handler to receive a long message 
 // 
-void longmessagehandler(byte *fragment, unsigned int fragment_len, byte stream_id, byte status){
+void longmessagehandler(void *fragment, const unsigned int fragment_len, const byte stream_id, const byte status){
 // I need an example for what goes in here.
-     fragment[fragment_len] = 0;
+     //fragment[fragment_len] = 0;
 // If the message is complete it will be in fragment and I can do something with it.
      if( new_message) { // Print this only for the start of a message.
         Serial << F("> user long message handler: stream = ") << stream_id << F(", fragment length = ") 
@@ -649,10 +650,10 @@ void longmessagehandler(byte *fragment, unsigned int fragment_len, byte stream_i
      }
      if ( status == CBUS_LONG_MESSAGE_INCOMPLETE ) {
      // handle incomplete message
-        Serial.write(fragment, fragment_len);
+        Serial.write((char *)fragment, fragment_len);
      } else if (status == CBUS_LONG_MESSAGE_COMPLETE) {
      // handle complete message
-        Serial.write(fragment, fragment_len);
+        Serial.write((char *)fragment, fragment_len);
         Serial << F("|, status = ") << status << endl;
         new_message = true;  // reset for the next message
      } else {  // CBUS_LONG_MESSAGE_SEQUENCE_ERROR
