@@ -15,6 +15,7 @@
 // Version 3.0a beta 7 Set TX buffers to 4 and take out delay
 // Version 3.0a beta 8 Change arguments for longmessagehandler 
 //                     to match new release of libraries.
+// Version 3.0a beta 9 reduce buffers to (2,2) to avoid crash.
 #define CBUS_LONG_MESSAGE
 ////////////////////////////////////////////////////////////////////////////////////
 // CAN1602BUT
@@ -177,7 +178,7 @@ unsigned char mname[7] = { '1', '6', '0', '2', 'P', 'I', 'N' };
 // constants
 const byte VER_MAJ = 3;         // code major version
 const char VER_MIN = 'a';       // code minor version
-const byte VER_BETA = 8;        // code beta sub-version
+const byte VER_BETA = 9;        // code beta sub-version
 const byte MODULE_ID = 99;      // CBUS module type
 
 const unsigned long CAN_OSC_FREQ = 8000000;     // Oscillator frequency on the CAN2515 board
@@ -465,7 +466,7 @@ void setup()
 {
   while(!Serial);
   Serial.begin (115200);
-  Serial << endl << endl << "> ** CAN1602PIN ** " << __FILE__ << endl;
+  Serial << endl << endl << F("> ** CAN1602PIN ** ") << __FILE__ << endl;
 
   setup1602();
   setupCBUS();
@@ -520,19 +521,15 @@ void processButtons(void)
       sendEvent(opCode, button + NUM_SWITCHES);
 #ifdef CBUS_LONG_MESSAGE
 // Somewhere to send the long message.
-      //delay(250);
       // Trial to avoid problem where the first part of the long message is lost.
       while(cbus_long_message.is_sending()) { } //wait for previous message to finish.
-// bool cbus_long_message.sendLongMessage(const byte *msg, const unsigned int msg_len, 
-//                        const byte stream_id, const byte priority = DEFAULT_PRIORITY);
-//      strcpy(msg, "Hello world!");
       string_length = snprintf(long_message_output_buffer, output_buffer_size, "Button %d changed", button);
       message_length = strlen(long_message_output_buffer);
       if (message_length > 0) {
         if (cbus_long_message.sendLongMessage(long_message_output_buffer, message_length, stream_id) ) {
-          Serial << "long message " << long_message_output_buffer << " sent to " << stream_id << endl;
+          Serial << F("long message ") << long_message_output_buffer << F(" sent to ") << stream_id << endl;
         } else {
-          Serial << "long message sending " << long_message_output_buffer << " to " << stream_id << " failed with message length " << message_length << endl;
+          Serial << F("long message sending ") << long_message_output_buffer << F(" to ") << stream_id << F(" failed with message length ") << message_length << endl;
         }
       } else {
         //Serial << "long message preparation failed with message length " << message_length << endl;
