@@ -30,7 +30,7 @@ I have not yet set up access to GitHub on the laptop I am using for testing. Tha
 
 There are new versions of some of the Arduino CBUS libraries. There are some changes needed for all codes which use the long message part of the library. I will note here when the codes have been changed.
 
-CAN1602PIN now done.
+CAN1602PIN now done. Buffers now (2,2) as (4,4) crashed.
 CANTOTEM now done.
 CANTEXTL now done.
 
