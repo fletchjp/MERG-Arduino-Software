@@ -16,7 +16,9 @@
 // Version 2a beta 3 Correct error in long message handler.
 // Version 2a beta 4 Adding code to support 20 by 4 LCD Display.
 // Version 2a beta 5 Modification for the new versions of the Arduino CBUS libraries.
+// Version 2a beta 6 Experimental multiple listening.
 #define CBUS_LONG_MESSAGE
+#define CBUS_LONG_MESSAGE_MULTIPLE_LISTEN
 ///////////////////////////////////////////////////////////////////////////////////
 // My working name for changes to the example from Duncan.
 // Note that the library DueFlashStorage is accessed from CBUSconfig
@@ -256,6 +258,9 @@ void framehandler(CANFrame *msg);
 const byte stream_id = 13; // This needs to be different from the ones being listened to.
 // a list of stream IDs to subscribe to (this ID is defined by the sender):
 byte stream_ids[] = {11, 12, 14}; // These are the ones which this module will read.
+#ifdef CBUS_LONG_MESSAGE_MULTIPLE_LISTEN
+bool receiving[] = {false,false,false};
+#endif
  // a buffer for the message fragments to be assembled into
 // either sized to the maximum message length, or as much as you can afford
 const unsigned int buffer_size = 128;
@@ -322,8 +327,12 @@ void setupCBUS()
 
 #ifdef CBUS_LONG_MESSAGE
   // subscribe to long messages and register handler
+#ifdef CBUS_LONG_MESSAGE_MULTIPLE_LISTEN
+  cbus_long_message.subscribe(stream_ids, (sizeof(stream_ids) / sizeof(byte)), receiving, long_message_data, buffer_size, longmessagehandler);
+#else
   cbus_long_message.subscribe(stream_ids, (sizeof(stream_ids) / sizeof(byte)), long_message_data, buffer_size, longmessagehandler);
-  // this method throttles the transmission so that it doesn't overwhelm the bus:
+#endif
+// this method throttles the transmission so that it doesn't overwhelm the bus:
   cbus_long_message.setDelay(delay_in_ms_between_messages);
   cbus_long_message.setTimeout(1000);
 #endif
