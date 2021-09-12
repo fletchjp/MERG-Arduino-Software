@@ -46,6 +46,8 @@ I have added code for use with a 20 by 4 LCD.
 
 This code is now modified to run with the new version of the Arduino CBUS libraries.
 
+I have a problem with the long message code which showed itself when I sent two messages at the same time to the CAN_DUE code and it did not cope. I now have an ammended version of the code which should copy, by rejecting any message which comes from a different stream while a message is being processed. I am about to test this. The modified code is for DUE only as there may not be memory for it on a UNO.
+
 ### DUEFCPP
 
 This is an experimental code to look at getting FC++ working with the DUE. This is heavily modified to get rid of all use of <iostream> which is not supported. This means that all debug and traits output has been disabled. The code has a copy of the fcpp files.
