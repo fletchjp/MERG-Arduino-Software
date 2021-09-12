@@ -1,5 +1,4 @@
- 
-#define VERSION 2.5
+#define VERSION 2.6
 /////////////////////////////////////////////////////////////////////////////
 // CANDUE 
 // Version 1a beta 1 Initial operational test
@@ -211,7 +210,7 @@ volatile boolean       showingSpeeds     = false;
 // constants
 const byte VER_MAJ = 2;                  // code major version
 const char VER_MIN = 'a';                // code minor version
-const byte VER_BETA = 5;                 // code beta sub-version
+const byte VER_BETA = 6;                 // code beta sub-version
 const byte MODULE_ID = 99;               // CBUS module type
 
 // These are not being used - not installed.
