@@ -692,6 +692,9 @@ void printConfig(void) {
   Serial << F("> © Sven Rosvall (MERG M3777) 2021") << endl;
 #ifdef CBUS_LONG_MESSAGE
   Serial << F("> CBUS Long message handling available") << endl;
+#ifdef CBUS_LONG_MESSAGE_MULTIPLE_LISTEN
+  Serial << F("> with multiple message modification") << endl;
+#endif
 #endif
   #if OLED_DISPLAY || LCD_DISPLAY
     #if OLED_DISPLAY
