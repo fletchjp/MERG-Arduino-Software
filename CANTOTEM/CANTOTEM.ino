@@ -44,6 +44,7 @@
 // Version 3a beta 8 Set TX buffers to 4
 // Version 3a beta 9 Change arguments for longmessagehandler 
 //                   to match new release of libraries.
+// Version 3a beta 10 Minor changes
 #define CBUS_LONG_MESSAGE
 ///////////////////////////////////////////////////////////////////////////////////
 // This is to run on the TOTEM Minilab with a CAN interface.
@@ -178,7 +179,7 @@ const byte opcodes[] PROGMEM = {OPC_ACON, OPC_ACOF, OPC_ARON, OPC_AROF, OPC_ASON
 // constants
 const byte VER_MAJ = 3;         // code major version
 const char VER_MIN = 'a';       // code minor version
-const byte VER_BETA = 9;        // code beta sub-version
+const byte VER_BETA = 10;       // code beta sub-version
 const byte MODULE_ID = 99;      // CBUS module type
 
 const unsigned long CAN_OSC_FREQ = 8000000;     // Oscillator frequency on the CAN2515 board
@@ -238,8 +239,8 @@ const unsigned int output_buffer_size = 32;
 char long_message_output_buffer[output_buffer_size];
 // a buffer for the message fragments to be assembled into
 // either sized to the maximum message length, or as much as you can afford
-const unsigned int buffer_size = 32;
-byte long_message_data[buffer_size];
+const unsigned int input_buffer_size = 32;
+byte long_message_data[input_buffer_size];
 // create a handler function to receive completed long messages:
 void longmessagehandler(void *fragment, const unsigned int fragment_len, const byte stream_id, const byte status);
 const byte delay_in_ms_between_messages = 50;
@@ -286,7 +287,7 @@ void setupCBUS()
 #ifdef CBUS_LONG_MESSAGE
   //DEBUG_PRINT(F("> about to call to subscribe") );
   // subscribe to long messages and register handler
-  cbus_long_message.subscribe(stream_ids, (sizeof(stream_ids) / sizeof(byte)), long_message_data, buffer_size, longmessagehandler);
+  cbus_long_message.subscribe(stream_ids, (sizeof(stream_ids) / sizeof(byte)), long_message_data, input_buffer_size, longmessagehandler);
   // this method throttles the transmission so that it doesn't overwhelm the bus:
   cbus_long_message.setDelay(delay_in_ms_between_messages);
   cbus_long_message.setTimeout(1000);
@@ -296,7 +297,7 @@ void setupCBUS()
   // configure and start CAN bus and CBUS message processing
   CBUS.setOscFreq(CAN_OSC_FREQ);   // select the crystal frequency of the CAN module
   CBUS.setPins(CAN_CS_PIN, CAN_INT_PIN);           // select pins for CAN bus CE and interrupt connections
-  CBUS.setNumBuffers(4,4); // Set TX buffers. Default for RX is 4.
+  CBUS.setNumBuffers(2,2); // Set TX buffers. Default for RX is 4.
   CBUS.begin();
 }
 
@@ -524,7 +525,7 @@ void processButtons(void)
       opCode = OPC_ACON;
       sendEvent(opCode, button + NUM_SWITCHES);
 #ifdef CBUS_LONG_MESSAGE
-      delay(250);
+      //delay(250);
 // Somewhere to send the long message.
       while(cbus_long_message.is_sending()) { } //wait for previous message to finish.
 // bool cbus_long_message.sendLongMessage(const byte *msg, const unsigned int msg_len, 
