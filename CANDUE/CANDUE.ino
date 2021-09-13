@@ -1,4 +1,4 @@
-#define VERSION 2.6
+#define VERSION 2.7
 /////////////////////////////////////////////////////////////////////////////
 // CANDUE 
 // Version 1a beta 1 Initial operational test
@@ -16,6 +16,8 @@
 // Version 2a beta 4 Adding code to support 20 by 4 LCD Display.
 // Version 2a beta 5 Modification for the new versions of the Arduino CBUS libraries.
 // Version 2a beta 6 Experimental multiple listening.
+// Version 2a beta 7 Use new library with a different implementation of multiple listening.
+//                   It compiles fine without multiple listening.
 #define CBUS_LONG_MESSAGE
 #define CBUS_LONG_MESSAGE_MULTIPLE_LISTEN
 ///////////////////////////////////////////////////////////////////////////////////
@@ -210,7 +212,7 @@ volatile boolean       showingSpeeds     = false;
 // constants
 const byte VER_MAJ = 2;                  // code major version
 const char VER_MIN = 'a';                // code minor version
-const byte VER_BETA = 6;                 // code beta sub-version
+const byte VER_BETA = 7;                 // code beta sub-version
 const byte MODULE_ID = 99;               // CBUS module type
 
 // These are not being used - not installed.
@@ -240,7 +242,11 @@ CBUSConfig config;                  // configuration object
 #ifdef CBUS_LONG_MESSAGE
 // The Ardunio CBUS library does now support this.
 // create an additional object at the top of the sketch:
+#ifdef CBUS_LONG_MESSAGE_MULTIPLE_LISTEN
+CBUSLongMessageEx cbus_long_message(&CBUS);   // CBUS long message object
+#else
 CBUSLongMessage cbus_long_message(&CBUS);   // CBUS long message object
+#endif
 #endif
 
 // module name, must be 7 characters, space padded.
@@ -258,7 +264,7 @@ const byte stream_id = 13; // This needs to be different from the ones being lis
 // a list of stream IDs to subscribe to (this ID is defined by the sender):
 byte stream_ids[] = {11, 12, 14}; // These are the ones which this module will read.
 #ifdef CBUS_LONG_MESSAGE_MULTIPLE_LISTEN
-bool receiving[] = {false,false,false};
+//bool receiving[] = {false,false,false};
 #endif
  // a buffer for the message fragments to be assembled into
 // either sized to the maximum message length, or as much as you can afford
@@ -327,7 +333,8 @@ void setupCBUS()
 #ifdef CBUS_LONG_MESSAGE
   // subscribe to long messages and register handler
 #ifdef CBUS_LONG_MESSAGE_MULTIPLE_LISTEN
-  cbus_long_message.subscribe(stream_ids, (sizeof(stream_ids) / sizeof(byte)), receiving, long_message_data, buffer_size, longmessagehandler);
+  cbus_long_message.allocateContexts();
+  cbus_long_message.subscribe(stream_ids, (sizeof(stream_ids) / sizeof(byte)), longmessagehandler);
 #else
   cbus_long_message.subscribe(stream_ids, (sizeof(stream_ids) / sizeof(byte)), long_message_data, buffer_size, longmessagehandler);
 #endif
