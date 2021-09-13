@@ -277,8 +277,9 @@ void CBUSLongMessage::processReceivedMessageFragment(const CANFrame *frame) {
 #endif
 		} 
 #ifdef CBUS_LONG_MESSAGE_MULTIPLE_LISTEN
+        // This covers the case where all listening has been turned off and continuation packets are found.
 		else {
-			    Serial << F("> L: received a continuation packet for stream id = ") << this_id 
+			    Serial << F("> L: ignored a continuation packet for stream id = ") << this_id 
 				       << F(" with sequence number ") << frame->data[2] << endl;			
 		}
 #endif
@@ -332,10 +333,10 @@ void CBUSLongMessage::processReceivedMessageFragment(const CANFrame *frame) {
 #ifdef CBUS_LONG_MESSAGE_MULTIPLE_LISTEN
 			Serial << F("> L: ignoring unexpected stream id =") << frame->data[1] << F(" section ") << frame->data[2]
 			       << F(" when expecting ") << _receive_stream_id << endl;
-	        byte wrong_index = index(frame->data[1]);
-  		    if (wrong_index < _num_stream_ids) { // check for illegal value.
-		      _receiving[wrong_index] = false;   // turn off receiving for it.
-		    }
+	        //byte wrong_index = index(frame->data[1]);
+  		    //if (wrong_index < _num_stream_ids) { // check for illegal value.
+		    //  _receiving[wrong_index] = false;   // turn off receiving for it.
+		    //}
 	        --_expected_next_receive_sequence_num; // So do not count it.
 #endif
 		}
@@ -362,10 +363,12 @@ void CBUSLongMessage::processReceivedMessageFragment(const CANFrame *frame) {
 		_receive_buffer_index = 0;
 		_is_receiving = false;
 #ifdef CBUS_LONG_MESSAGE_MULTIPLE_LISTEN
-        this_index = index(_receive_stream_id);
-		if (this_index < _num_stream_ids) { // check for illegal value.
-		   _receiving[this_index] = false;
-		}
+        // turn off listening on all streams to ensure any contiuations are ignored and to be ready for new messages.
+		for (i = 0; i < _num_stream_ids; i++) { _receiving[i] = false; } // turn off all listening.
+        //this_index = index(_receive_stream_id);
+		//if (this_index < _num_stream_ids) { // check for illegal value.
+		//   _receiving[this_index] = false;
+		//}
 #endif
 	}
 
