@@ -20,6 +20,10 @@ I have been using this for testing non CBUS code as the units lose CBUS configur
 
 ## Codes
 
+### CBUS library
+
+This is not technically DUE code. I have made a copy here of the working copy I am using to develop the Long Message Multiple Listening code which is currently not working. The current version is worse than the one before and unfortunately I did not make a backup from the working location in C:\Arduino\libraries. I will now back up here as I make changes.
+
 ### CANDUE
 
 This is a working copy of CBUS_empty_SAM3X8E_v1 for some exploration and testing. This uses the library CBUSSAM3X8E from Duncan Greenwood.
