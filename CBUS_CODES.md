@@ -28,7 +28,7 @@ I have not yet set up access to GitHub on the laptop I am using for testing. Tha
 
 ### 13th September
 
-Duncan has now taken things a step further and I need to adapt my codes to his new version. I am going to do the AVR ones first and leave the DUE unchanged for the moment.
+Duncan has now taken things a step further and I need to adapt my codes to his new version. I am going to do the AVR ones first and leave the DUE unchanged for the moment. In fact no changes are needed for the AVR codes sending and receiving effectively on one channel. Over to the DUE code.
 
 ### 8th September
 
