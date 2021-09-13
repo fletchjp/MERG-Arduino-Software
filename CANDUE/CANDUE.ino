@@ -23,7 +23,7 @@
 // Note that the library DueFlashStorage is accessed from CBUSconfig
 // Note that the previously reported problem with the Streaming library has been fixed.
 // Thoughts. I want to add some more events to explore working e.g. with a display.
-//           I am waiting to have the CBUS library updated so that I can use long messages.
+//           I am now working on the CBUS library updated so that I can use long messages.
 //           There are two CAN interfaces and I could explore using both of them.
 // John Fletcher
 
