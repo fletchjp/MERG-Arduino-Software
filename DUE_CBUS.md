@@ -18,6 +18,8 @@ I now have a second DUE which now has a two CAN interface.
 
 I have been using this for testing non CBUS code as the units lose CBUS configuration when software is reloaded. I will do this now on a third DUE.
 
+See below at CANDUE for the testing of CBUS Long Message handling.
+
 ## Codes
 
 ### CBUS library
@@ -53,6 +55,8 @@ I have added code for use with a 20 by 4 LCD.
 This code is now modified to run with the new version of the Arduino CBUS libraries.
 
 I have a problem with the long message code which showed itself when I sent two messages at the same time to the CAN_DUE code and it did not cope. I now have an ammended version of the code which should copy, by rejecting any message which comes from a different stream while a message is being processed. I am about to test this. The modified code is for DUE only as there may not be memory for it on a UNO.
+
+I have now tested a new version from Duncan Greenwood which deals with all the problems about receiving multiple messages.
 
 ### DUEFCPP
 
