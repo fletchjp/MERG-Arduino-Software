@@ -92,7 +92,8 @@ void setup() {
   // put your setup code here, to run once:
   Serial.begin(115200);
   pinMode(LED,OUTPUT);
-
+  Serial.println("Arduino state blink");
+  
   // Add transition from S0 to S1
   S0->addTransition(&transitionS0S1,S1);
   // Add transitions from S1 to S2 and back again.
