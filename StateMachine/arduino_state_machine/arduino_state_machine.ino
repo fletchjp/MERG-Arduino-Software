@@ -81,6 +81,7 @@ State* S5 = machine.addState(&state5);
 
 void setup() {
   Serial.begin(115200);
+  while(!Serial) { }
   pinMode(LED,OUTPUT);
   randomSeed(A0);
 
