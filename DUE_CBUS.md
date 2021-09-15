@@ -58,6 +58,13 @@ I have a problem with the long message code which showed itself when I sent two 
 
 I have now tested a new version from Duncan Greenwood which deals with all the problems about receiving multiple messages.
 
+### DUE_arduino_state_machine
+
+Example for the StateMachine library modified to work with the DUE.
+
+   // Only works on the DUE with the return type added ->bool
+   S0->addTransition( []()->bool{ //convert to (bool (*)())
+
 ### DUEFCPP
 
 This is an experimental code to look at getting FC++ working with the DUE. This is heavily modified to get rid of all use of <iostream> which is not supported. This means that all debug and traits output has been disabled. The code has a copy of the fcpp files.
