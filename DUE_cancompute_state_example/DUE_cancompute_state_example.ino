@@ -1,3 +1,5 @@
+// DUE_cancompute_state_example
+
 // DUE_arduino_state_machine
 // Modification to compile on the Arduino DUE
 
@@ -56,6 +58,10 @@ int randomState = 0;
 const int LED = 13;
 
 StateMachine machine = StateMachine();
+
+StateMachine rule1 = StateMachine();
+StateMachine rule2 = StateMachine();
+
 
 /*
  * Example of using a lambda (or anonymous function) callback
