@@ -96,7 +96,8 @@ void setup() {
    * that points to randomly selected states
    * Initially points to itself.
    */
-  S0->addTransition([](){
+   // Only works on the DUE with the return type added ->bool
+  S0->addTransition( []()->bool{ //convert to (bool (*)())
     randomState = random(0,6);
     Serial.print("Transitioning to random state ");
     Serial.println(randomState);
