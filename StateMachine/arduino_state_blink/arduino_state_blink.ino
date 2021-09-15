@@ -57,7 +57,7 @@ State* S1 = machine.addState([]() {
 State* S2 = machine.addState([]() {
     if(machine.executeOnce){
       Blink_State = WAIT;
-      Serial.println("State 1, wait");
+      Serial.println("State 2, wait");
       timeLastTransition = millis();
     }
 });
@@ -91,6 +91,7 @@ bool transitionS2S1(){
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(115200);
+  while(!Serial) { }
   pinMode(LED,OUTPUT);
   Serial.println("Arduino state blink");
   
@@ -106,5 +107,5 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   machine.run();
-  delay(STATE_DELAY);
+  //delay(STATE_DELAY);
 }
