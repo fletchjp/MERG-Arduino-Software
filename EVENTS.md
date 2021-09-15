@@ -6,6 +6,8 @@ Back to [README](README.md).
 
 I have been able to get the CBUS long message codes running and exchanging text messages. I now need also to update my codes to keep up with some changes in the Arduino CBUS libraries, affecting also the DUE codes.
 
+I have been making some new examples in the StateMachine folder
+
 ## August 2021
 
 I have added a set of analog buttons to the TOTEM equipment and modified the CBUS CANTOTEM code to read them.
