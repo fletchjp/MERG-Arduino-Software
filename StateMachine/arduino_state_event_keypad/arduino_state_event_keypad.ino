@@ -66,17 +66,18 @@ uint32_t timeLastTransition = 0;
 class Blinker : public BaseEvent {
   private: 
     byte blinker_pin;
+    char reset_key;
     static const uint32_t NEXT_CHECK_INTERVAL = 60UL * 1000UL; // 60 seconds away, maximum is about 1 hour.
   public:
     int taskId;
-    Blinker(int pin) : blinker_pin(pin) 
+    Blinker(int pin, char key) : blinker_pin(pin), reset_key(key) 
     { 
         taskId = TASKMGR_INVALIDID;
     }
     uint32_t timeOfNextCheck() override {  
       //Serial.println("Event Next Check");
        Blink_State = WAIT;
-       if (key_pressed == '0') { // This is S2S0
+       if (key_pressed == reset_key) { // This is S2S0
           Serial.println("Reset requested by key press");
           setStart();
        }  
@@ -109,7 +110,7 @@ class Blinker : public BaseEvent {
     ~Blinker() override = default;
 };
 
-Blinker blinker(LED);
+Blinker blinker(LED,'0'); // LED and reset key.
 
 //
 // We need a class that extends from KeyboardListener. this gets notified when
@@ -156,6 +157,7 @@ void setup() {
 
     Serial.println("Keyboard is initialised!");
     blinker.setStart();
+    // Note to register as an event here.
     taskManager.registerEvent(&blinker);
 }
 
