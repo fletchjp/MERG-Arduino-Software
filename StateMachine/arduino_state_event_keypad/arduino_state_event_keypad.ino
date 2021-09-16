@@ -2,6 +2,9 @@
 // Modify to include keypad
 // This example now runs IoAbstraction and TaskManagerIO to run the state machine.
 
+// This is equivalent to arduino_state_keypad and has lower memory and data.
+// The states S0 S1 and S2 referred to are from the other code.
+
 // Reset can be made by pressing key 0
 
 /*
