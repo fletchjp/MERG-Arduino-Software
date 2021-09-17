@@ -1,5 +1,10 @@
-// arduino_state_blink
+// arduino_state_blink_experiment
 // Simple example using the StateMachine library.
+// Exploring some ideas from the DC++EX coding.
+
+#define ALIAS_C_INT(name,value)    const int name=value; 
+#define ALIAS_C_UINT32(name,value) const uint32_t name=value; 
+#define ALIAS_UINT32(name,value)   uint32_t name=value; 
 
 /*
  * Converting example from 
@@ -27,8 +32,9 @@ enum { LED_off, LED_on } Led_State;
 
 enum { RESET, BLINK, WAIT } Blink_State;
 
-uint32_t timeLastTransition = 0;
- 
+//uint32_t timeLastTransition = 0;
+ALIAS_UINT32(timeLastTransition,0)
+
 /*
  * States for the blink_state machine.
  */
