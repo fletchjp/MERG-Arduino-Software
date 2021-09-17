@@ -33,7 +33,7 @@ StateMachine machine = StateMachine();
  * Transitions between states for the blink_state machine now in state_defs.h.
  */
 
-/*
+/* This is now replaced by add_transitions.h which is configurable.
 void add_transitions()
 {
   // Add transition from S0 to S1
@@ -52,7 +52,8 @@ void setup() {
   pinMode(LED,OUTPUT);
   Serial.println("Arduino state blink");
 
-  add_transitions();
+  //add_transitions();
+  #include "add_transitions.h"
 
 }
 

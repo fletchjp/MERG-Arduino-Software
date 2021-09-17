@@ -42,3 +42,5 @@
   s1->addTransition(&s1s2,s2); \
   s2->addTransition(&s2s1,s1); \
 }
+
+#define ADD_TRANSITION(start,transition,finish) start->addTransition(&transition,finish);
