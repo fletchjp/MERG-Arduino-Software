@@ -35,3 +35,10 @@
       time = millis(); \
     } \
 });
+
+#define ADD_TRANSITIONS(s0,s0s1,s1,s1s2,s2,s2s1) void add_transitions() \
+{ \
+  s0->addTransition(&s0s1,s1); \
+  s1->addTransition(&s1s2,s2); \
+  s2->addTransition(&s2s1,s1); \
+}

@@ -31,3 +31,5 @@ S_WAIT(S2,machine,Blink_State,WAIT,"State 2, wait",timeLastTransition)
 TRANSITION_DELAY(transitionS0S1,timeLastTransition,STATE_DELAY)
 TRANSITION_TRUE(transitionS1S2)
 TRANSITION_DELAY(transitionS2S1,timeLastTransition,STATE_DELAY)
+
+ADD_TRANSITIONS(S0,transitionS0S1,S1,transitionS1S2,S2,transitionS2S1)

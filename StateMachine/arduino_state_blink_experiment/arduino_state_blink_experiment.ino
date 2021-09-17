@@ -8,7 +8,7 @@ StateMachine machine = StateMachine();
 // Macros for the definitions
 #include "state_macros.h"
 
-// This now containes som definitions
+// This now containes some definitions
 #include "state_defs.h"
 
 /*
@@ -25,7 +25,6 @@ StateMachine machine = StateMachine();
  * I think that is up to the user.
  ***********************************************************/
 
-
 /*
  * States for the blink_state machine now in state_defs.h.
  */
@@ -34,19 +33,26 @@ StateMachine machine = StateMachine();
  * Transitions between states for the blink_state machine now in state_defs.h.
  */
 
-void setup() {
-  // put your setup code here, to run once:
-  Serial.begin(115200);
-  while(!Serial) { }
-  pinMode(LED,OUTPUT);
-  Serial.println("Arduino state blink");
-  
+/*
+void add_transitions()
+{
   // Add transition from S0 to S1
   S0->addTransition(&transitionS0S1,S1);
   // Add transitions from S1 to S2 and back again.
   S1->addTransition(&transitionS1S2,S2);
   S2->addTransition(&transitionS2S1,S1);
 
+}
+*/
+
+void setup() {
+  // put your setup code here, to run once:
+  Serial.begin(115200);
+  while(!Serial) { }
+  pinMode(LED,OUTPUT);
+  Serial.println("Arduino state blink");
+
+  add_transitions();
 
 }
 
