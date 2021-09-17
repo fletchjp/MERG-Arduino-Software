@@ -8,6 +8,10 @@ I have been able to get the CBUS long message codes running and exchanging text 
 
 I have been making some new examples in the StateMachine folder
 
+There are now a lot of examples as I am comparing using the StateMachine library with IoAbstraction, TaskManagerIO and KeyboardManager.
+
+I have also begun experiments with macros to define things and allow configuration as used in DCC++EX (with the help of Chris Harlow).
+
 ## August 2021
 
 I have added a set of analog buttons to the TOTEM equipment and modified the CBUS CANTOTEM code to read them.
