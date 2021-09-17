@@ -43,4 +43,6 @@
   s2->addTransition(&s2s1,s1); \
 }
 
-#define ADD_TRANSITION(start,transition,finish) start->addTransition(&transition,finish);
+//#define ADD_TRANSITION(start,transition,finish) start->addTransition(&transition,finish);
+
+#define addT(a,b) S##a->addTransition(&transitionS##a##S##b,S##b);
