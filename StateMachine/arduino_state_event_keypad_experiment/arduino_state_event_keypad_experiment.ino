@@ -17,20 +17,30 @@
 #include <TaskManagerIO.h>
 #include <KeyboardManager.h>
 
-const byte ROWS = 4; //four rows
-const byte COLS = 4; //four columns
+// Macros for the definitions
+#include "state_macros.h"
+#include "keypad_macros.h"
+// This now containes some definitions
+#include "state_defs.h"
+#include "keypad_defs.h"
+
+//This is all now in keypad_defs.h
+//const byte ROWS = 4; //four rows
+//const byte COLS = 4; //four columns
 //define the symbols on the buttons of the keypads
 // PROGMEM is important.
-const char layout[] PROGMEM = "123A456B789C*0#D"; // Chars have to be in a string.
+//const char layout[] PROGMEM = "123A456B789C*0#D"; // Chars have to be in a string.
 //  '1','2','3','A','4','5','6','B','7','8','9','C','*','0','#','D'
 //};
 // These are in order of Keypad pins from 1 to 8.
 // Pin 1 is on the left with the pad face up.
-byte rowPins[ROWS] = {9, 8, 7, 6}; //connect to the row pinouts of the keypad
-byte colPins[COLS] = {5, 4, 3, 2}; //connect to the column pinouts of the keypad
+//byte rowPins[ROWS] = {9, 8, 7, 6}; //connect to the row pinouts of the keypad
+//byte colPins[COLS] = {5, 4, 3, 2}; //connect to the column pinouts of the keypad
 // This seems fussy. ROWS and COLS will not work here.
-uint8_t rows = ROWS;
-uint8_t cols = COLS;
+//uint8_t rows = ROWS;
+//uint8_t cols = COLS;
+
+
 KeyboardLayout keyLayout(rows, cols, layout);
 
 //
@@ -42,10 +52,10 @@ MatrixKeyboardManager keyboard;
 // IoExpanders or shift registers instead.
 IoAbstractionRef arduinoIo = ioUsingArduino();
 
-const int STATE_DELAY = 5000;
-const int LED = 13;
+//const int STATE_DELAY = 5000;
+//const int LED = 13;
 
-char key_pressed = 'Z';
+//char key_pressed = 'Z';
 
 /***********************************************************
  * What do we mean by state?
@@ -57,11 +67,11 @@ char key_pressed = 'Z';
 
 // Global variables for the actual state.
 
-enum { LED_off, LED_on } Led_State;
+//enum { LED_off, LED_on } Led_State;
 
-enum { RESET, BLINK, WAIT } Blink_State;
+//enum { RESET, BLINK, WAIT } Blink_State;
 
-uint32_t timeLastTransition = 0;
+//uint32_t timeLastTransition = 0;
 
 class Blinker : public BaseEvent {
   private: 
