@@ -2,6 +2,9 @@
 // Simple example using the StateMachine library.
 // Exploring some ideas from the DC++EX coding.
 
+#include <StateMachine.h>
+StateMachine machine = StateMachine();
+
 // Macros for the definitions
 #include "state_macros.h"
 
@@ -13,9 +16,7 @@
  * https://arduinoplusplus.wordpress.com/2019/07/06/finite-state-machine-programming-basics-part-1/
  */
 
-#include <StateMachine.h>
 
-StateMachine machine = StateMachine();
 
 /***********************************************************
  * What do we mean by state?
@@ -26,40 +27,11 @@ StateMachine machine = StateMachine();
 
 
 /*
- * States for the blink_state machine.
+ * States for the blink_state machine now in state_defs.h.
  */
 
-// Reset
-State* S0 = machine.addState([]() {
-  if(machine.executeOnce){
-    Serial.println("State 0, reset");
-    digitalWrite(LED,LOW);
-    Blink_State = RESET;
-    Led_State = LED_off;
-    timeLastTransition = millis();
-  }
-});
-
-// Blink
-State* S1 = machine.addState([]() {
-    if(machine.executeOnce){
-      Blink_State = BLINK;
-      Serial.println("State 1, blink");
-      digitalWrite(LED, !digitalRead(LED));
-    }
-});
-
-// Wait
-State* S2 = machine.addState([]() {
-    if(machine.executeOnce){
-      Blink_State = WAIT;
-      Serial.println("State 2, wait");
-      timeLastTransition = millis();
-    }
-});
-
 /*
- * Transitions between states for the blink_state machine now in state_defs.h
+ * Transitions between states for the blink_state machine now in state_defs.h.
  */
 
 void setup() {

@@ -16,6 +16,14 @@ ALIAS_C_INT(LED,13)
 ALIAS_UINT32(timeLastTransition,0)
 
 /*
+ * States for the blink_state machine now in state_defs.h.
+ */
+
+S_RESET(S0,machine,Blink_State,RESET,"State 0, reset",LED,timeLastTransition)
+S_BLINK(S1,machine,Blink_State,BLINK,"State 1, blink",LED)
+S_WAIT(S2,machine,Blink_State,WAIT,"State 2, wait",timeLastTransition)
+
+/*
  * Transitions between states for the blink_state machine.
  * Each of these lines generates the transition function.
  */
