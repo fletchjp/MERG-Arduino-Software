@@ -59,30 +59,8 @@ State* S2 = machine.addState([]() {
 });
 
 /*
- * Transitions between states for the blink_state machine.
+ * Transitions between states for the blink_state machine now in state_defs.h
  */
-
-bool transitionS0S1(){
-    if (millis() - timeLastTransition >= STATE_DELAY) {
-      return true;
-    }
-    return false;
-}
-
-// Go straight away to the wait state.
-bool transitionS1S2(){
-    return true;
-}
-
-bool transitionS2S1(){
-    if (millis() - timeLastTransition >= STATE_DELAY) {
-      return true;
-    }
-    return false;
-}
-
-
-
 
 void setup() {
   // put your setup code here, to run once:
