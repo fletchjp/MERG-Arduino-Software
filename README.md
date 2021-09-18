@@ -197,6 +197,8 @@ I am now adding more examples. In particular ArduinoBoost166FunctionLazy is star
 
  Note that the overhead is greater using both libraries.
 
+ I have done some experiments on using headers for configuration which do not change the memory usage.
+
  ## Editors
 
  There is a choice of editors for working with GitHub. I am using Virtual Studio Code (VS Code). This recognises the Arduino files and generates .json configuration files. I am going to use .gitignore so that these files are not catalogued by GitHub although they do seem to get into the repository.
