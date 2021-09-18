@@ -53,26 +53,11 @@ Blinker blinker(LED,'0'); // LED and reset key.
 
 //
 // We need a class that extends from KeyboardListener. this gets notified when
-// there are changes in the keyboard state.
+// there are changes in the keyboard state. Now in keypadlistener.h
 //
-class MyKeyboardListener : public KeyboardListener {
-public:
-    void keyPressed(char key, bool held) override {
-        Serial.print("Key ");
-        Serial.print(key);
-        Serial.print(" is pressed, held = ");
-        Serial.println(held);
-        key_pressed = key;
-    }
+#include "keypadlistener.h"
 
-    void keyReleased(char key) override {
-        Serial.print("Released ");
-        Serial.println(key);
-        key_pressed = 'X';
-    }
-} myListener;
-
-
+MyKeyboardListener myListener;
 
 void setup() {
   // put your setup code here, to run once:
