@@ -47,6 +47,8 @@
 // Version 3a beta 10 Minor changes
 #define CBUS_LONG_MESSAGE
 ///////////////////////////////////////////////////////////////////////////////////
+// Version 4a beta 1 using DfRobotInputAbstraction.h to model input pins.
+///////////////////////////////////////////////////////////////////////////////////
 // This is to run on the TOTEM Minilab with a CAN interface.
 // working from
 // TOTEMmINnOUT
@@ -177,9 +179,9 @@ byte nopcodes = 9;
 const byte opcodes[] PROGMEM = {OPC_ACON, OPC_ACOF, OPC_ARON, OPC_AROF, OPC_ASON, OPC_ASOF, OPC_AREQ, OPC_ASRQ, OPC_CANID }; 
 
 // constants
-const byte VER_MAJ = 3;         // code major version
+const byte VER_MAJ = 4;         // code major version
 const char VER_MIN = 'a';       // code minor version
-const byte VER_BETA = 10;       // code beta sub-version
+const byte VER_BETA = 1;       // code beta sub-version
 const byte MODULE_ID = 99;      // CBUS module type
 
 const unsigned long CAN_OSC_FREQ = 8000000;     // Oscillator frequency on the CAN2515 board
