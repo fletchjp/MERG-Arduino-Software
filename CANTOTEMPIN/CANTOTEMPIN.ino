@@ -124,7 +124,7 @@
 // Digital / Analog pin 5     Not Used
 //////////////////////////////////////////////////////////////////////////
 
-#define DEBUG 1     // set to 0 for no serial debug
+#define DEBUG 0     // set to 0 for no serial debug
 
 #if DEBUG
 #define DEBUG_PRINT(S) Serial << S << endl
@@ -134,24 +134,24 @@
 
 // IoAbstraction libraries
 #include <IoAbstraction.h>
-#include <AnalogDeviceAbstraction.h>
+#include <DfRobotInputAbstraction.h>
 #include <TaskManagerIO.h>
-// IoAbstraction reference to the arduino pins.
-IoAbstractionRef arduinoPins = ioUsingArduino();
+#include <DeviceEvents.h>
+
+// This uses the default settings for analog ranges.
+IoAbstractionRef dfRobotKeys = inputFromDfRobotShield();
 
 #define ANALOG_IN_PIN A0
-// here we create the abstraction over the standard arduino analog IO capabilities
-ArduinoAnalogDevice analog; // by default it assumes 10 bit read, 8 bit write
 
 // 3rd party libraries
 #include <Streaming.h>
 #include <Bounce2.h>
 
 // Variables for buttons
-int x;
-int prevx = 0;
-int range;
-int prevrange = 0;
+//int x;
+//int prevx = 0;
+//int range;
+//int prevrange = 0;
 // Use these for the CBUS outputs
 int button = 0;
 int prevbutton = 0;
@@ -211,7 +211,7 @@ const byte CAN_CS_PIN = 10;
 CBUS2515 CBUS;                      // CBUS object
 CBUSConfig config;                  // configuration object
 #ifdef CBUS_LONG_MESSAGE
-// The Ardunio CBUS library does not yet support this.
+// The Ardunio CBUS library does now support this.
 // create an additional object at the top of the sketch:
 CBUSLongMessage cbus_long_message(&CBUS);   // CBUS long message object
 #endif
@@ -315,69 +315,33 @@ void bus_debug(void) {
   return;
 }
 
-
-void checkA0()
-{
- x = analogRead (0);
- //Serial.println(x);
- if (x < 20){         // 175 was 50
-  range = 1;
- } else if (x < 60){ // 350 was 250
-  range = 2;
- } else if (x < 120){ // 500 was unchanged
-  range = 3;
- } else if (x < 200){ // 800 was 650
-  range = 4;
- } else if (x < 400){ // 850 was unchanged
-  range = 5;
- } //else { range = 0; }
-if (range != prevrange) {
- Serial.print(range);
- Serial.print(" ");
- Serial.print(x);
- //lcd.setCursor(10,1);
- switch (range) {
-  case 1:
-  {
-   //lcd.print ("Right ");
-   DEBUG_PRINT(F(" SW1 Left"));
-   break;
-  }
-  case 2:
-  {
-   //lcd.print ("Up    ");
-   DEBUG_PRINT(F(" SW2 Up"));
-   break;
-  }
-  case 3:
-  {
-   //lcd.print ("Down  ");
-   DEBUG_PRINT(F(" SW3 Down"));
-   break;
-  }
-  case 4:
-  {
-   //lcd.print ("Left  ");
-   DEBUG_PRINT(F(" SW4 Right"));
-   break;
-  }
-  case 5:
-  {
-   //lcd.print ("Select");
-   DEBUG_PRINT(F(" SW5 Select"));
-   break;
-  }
-  default:
-  break;
- }
- prevrange = range;
- // For CBUS output
- button = range;
- }
-  
+void logKeyPressed(int pin,const char* whichKey, bool heldDown) {
+    Serial.print("Key ");
+    Serial.print(whichKey);
+    //lcd.setCursor(10,1);
+    //lcd.print (whichKey);
+    Serial.println(heldDown ? " Held" : " Pressed");
+    button = pin;
 }
 
 
+void setupSwitches()
+{
+    // initialise the switches component with the DfRobot shield as the input method.
+    // Note that switches is the sole instance of SwitchInput
+    switches.initialise(dfRobotKeys, false); // df robot is always false for 2nd parameter.
+
+    // now we add the switches, each one just logs the key press, the last parameter to addSwitch
+    // is the repeat frequency is optional, when not set it implies not repeating.
+    switches.addSwitch(DF_KEY_DOWN, [](pinid_t pin, bool held) { logKeyPressed(pin,"DOWN  ", held);}, 20);
+    switches.addSwitch(DF_KEY_UP, [](pinid_t pin, bool held) { logKeyPressed(pin,"UP    ", held);}, 20);
+    switches.addSwitch(DF_KEY_LEFT, [](pinid_t pin, bool held) { logKeyPressed(pin,"LEFT  ", held);}, 20);
+    switches.addSwitch(DF_KEY_RIGHT, [](pinid_t pin, bool held) { logKeyPressed(pin,"RIGHT ", held);}, 20);
+    switches.addSwitch(DF_KEY_SELECT, [](pinid_t pin, bool held) { logKeyPressed(pin,"SELECT ", held);}, 20);
+    //switches.onRelease(DF_KEY_RIGHT, [](pinid_t /*pin*/, bool) { Serial.println("RIGHT has been released");});
+    
+    //switches.addSwitchListener(DF_KEY_SELECT, &selectKeyListener);
+}
 
 
 void runLEDs(){
@@ -414,66 +378,6 @@ void setupModule()
  * wakes up task manager. When the event is triggered, is exec() method will be called.
  */
 
-// It is somewhat confusing that this event class is not a CBUS event - it is an event within the TaskManagerIO framework.
-// The idea is that this code can respond when something out of course happens in the other tasks which are running.
-// It is possible to have more than one instance of this class.
-class CriticalEvent : public BaseEvent {
-private:
-    volatile byte eventValue;
-    volatile byte opCode;
-    volatile bool called;
-    static const uint32_t NEXT_CHECK_INTERVAL = 600UL * 1000000UL; // 10 * 60 seconds away, maximum is about 1 hour.
-public:
-    CriticalEvent() {
-        eventValue = 0; opCode = 0; eventValue = 0;
-        called = false;
-    }
-
-    /**
-     * Here we tell task manager when we wish to be checked upon again, to see if we should execute. In polling events
-     * we'd do our check here, and mark it as triggered if our condition was met, here instead we just tell task manager
-     * not to call us for 60 seconds at a go
-     * @return the time to the next check
-     */
-    uint32_t timeOfNextCheck() override {
-        // Nothing to do here.
-        return 250UL * 1000UL;
-    }
-
-    /**
-     * This is called when the event is triggered.
-     * This code checks that an opcode and event no have been supplied using setEvent which must be called first.
-     * This means that this code is needed to set off an event.
-     *   criticalEvent.setEvent(opCode,testEvent);
-     *   criticalEvent.markTriggeredAndNotify();
-     */
-    void exec() override {
-        // Check that an opCode has been set.
-        if (called) {
-          Serial.print("Critical event ");
-          Serial.print(opCode);
-          Serial.print(" ");
-          Serial.println(eventValue);
-        // This sends a CBUS event to somewhere else.
-          sendEvent(opCode,eventValue);
-          called = false; // reset so that values must be sent again
-        } else {
-          Serial.println("Critical event called without data");
-        }
-    }
-
-    // This needs to be called by the code generating the critical event before triggering.
-    void setEvent(byte opcode,byte event) {
-      called = true;  // Set here to force setting of values
-      eventValue = event; opCode = opcode; 
-    }
-    
-    /**
-     * We should always provide a destructor.
-     */
-    ~CriticalEvent() override = default;
-} criticalEvent;
-
 void setup()
 {
   Serial.begin (115200);
@@ -481,14 +385,15 @@ void setup()
 
   setupCBUS();
   setupModule();
+  setupSwitches();
 
   // Schedule tasks to run every 250 milliseconds.
   taskManager.scheduleFixedRate(250, runLEDs);
   taskManager.scheduleFixedRate(250, processSwitches);
-  taskManager.scheduleFixedRate(250, checkA0);
+  //taskManager.scheduleFixedRate(250, checkA0);
   taskManager.scheduleFixedRate(250, processSerialInput);
   taskManager.scheduleFixedRate(250, processButtons);
-  taskManager.registerEvent(&criticalEvent);
+  //taskManager.registerEvent(&criticalEvent);
 
   // end of setup
   DEBUG_PRINT(F("> ready") << endl);
