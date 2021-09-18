@@ -139,7 +139,7 @@ IoAbstractionRef arduinoPins = ioUsingArduino();
 
 #define ANALOG_IN_PIN A0
 // here we create the abstraction over the standard arduino analog IO capabilities
-ArduinoAnalogDevice analog; // by default it assumes 10 bit read, 8 bit write
+//ArduinoAnalogDevice analog; // by default it assumes 10 bit read, 8 bit write
 
 // 3rd party libraries
 #include <Streaming.h>
