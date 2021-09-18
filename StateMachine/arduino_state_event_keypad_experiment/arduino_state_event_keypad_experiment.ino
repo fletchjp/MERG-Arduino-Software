@@ -4,6 +4,8 @@
 
 // Now also using header files to define various things.
 
+// I have also moved the Blinker code into blinker.h.
+
 // This is equivalent to arduino_state_keypad and has lower memory and data.
 // The states S0 S1 and S2 referred to are from the other code.
 
