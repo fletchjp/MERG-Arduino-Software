@@ -14,6 +14,8 @@ CBUS long messages are sent using a stream, which has a stream number. The sendi
 
 Sending streams assigned
 
+| No  | Program                              |
+| --- | ---                                  |
 | 11  | CANTEXTL - currently on old hardware |
 | 12  | CAN1602PIN                           |
 | 13  |                                      |
