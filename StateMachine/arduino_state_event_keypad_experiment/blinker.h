@@ -37,15 +37,15 @@ class Blinker : public BaseEvent {
       Blink_State = RESET;
       Led_State = LED_off;
       timeLastTransition = millis();
-      Serial.println("State 2, wait");
+      Serial.println("State 2, wait"); // This is S0S2 - there is no code needed.
     }     
     void exec() override {
       // State 1
       Blink_State = BLINK;
       Serial.println("State 1, blink");
       digitalWrite(blinker_pin, !digitalRead(blinker_pin));
-      timeLastTransition = millis();      
-      Serial.println("State 2, wait");
+      timeLastTransition = millis();
+      Serial.println("State 2, wait"); // This is S1S2 - there is no code needed.
     }  
     ~Blinker() override = default;
 };
