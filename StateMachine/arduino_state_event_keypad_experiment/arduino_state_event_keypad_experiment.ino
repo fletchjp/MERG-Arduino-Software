@@ -1,16 +1,22 @@
+/////////////////////////////////////////////////////////////////////////////////////////
 // arduino_state_event_keypad_experiment
 // Modify to include keypad
 // This example now runs IoAbstraction and TaskManagerIO to run the state machine.
-
+//
 // Now also using header files to define various things.
-
 // I have also moved the Blinker code into blinker.h.
-
+// Also the keypadlistener is in keypadlistener.h
+//
+// All the header files are now in definitions.h
+//
+//////////////////////////////////////////////////////////////////////////////////////
+//
 // This is equivalent to arduino_state_keypad and has lower memory and data.
 // The states S0 S1 and S2 referred to are from the other code.
-
+//
 // Reset can be made by pressing key 0
-
+//
+///////////////////////////////////////////////////////////////////////////////////////
 /*
  * Converting example from 
  * https://arduinoplusplus.wordpress.com/2019/07/06/finite-state-machine-programming-basics-part-1/
@@ -21,15 +27,9 @@
 #include <TaskManagerIO.h>
 #include <KeyboardManager.h>
 
-// Macros for the definitions
-#include "state_macros.h"
-#include "keypad_macros.h"
-// This now containes some definitions
-#include "state_defs.h"
-#include "keypad_defs.h"
+#include "definitions.h"
 
 KeyboardLayout keyLayout(rows, cols, layout);
-
 //
 // We need a keyboard manager class too
 //
@@ -46,8 +46,7 @@ IoAbstractionRef arduinoIo = ioUsingArduino();
  * I think that is up to the user.
  ***********************************************************/
 
-// Blinker now in header file
-#include "blinker.h"
+// Blinker now in header file blinker.h
 
 Blinker blinker(LED,'0'); // LED and reset key.
 
@@ -55,7 +54,6 @@ Blinker blinker(LED,'0'); // LED and reset key.
 // We need a class that extends from KeyboardListener. this gets notified when
 // there are changes in the keyboard state. Now in keypadlistener.h
 //
-#include "keypadlistener.h"
 
 MyKeyboardListener myListener;
 
