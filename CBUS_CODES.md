@@ -17,7 +17,9 @@ Sending streams assigned
 11  CANTEXTL - currently on old hardware
 12  CAN1602PIN 
 13
-14  CANTOTEM
+14  CANTOTEM / CANTOTEMPIN
+
+CANTOTEMPIN is a version of CANTOTEM using IoAbstraction for the buttons as with CAN1602PIN. This is not yet tested.
 
 ## Testing
 
