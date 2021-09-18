@@ -185,6 +185,10 @@ I am now adding more examples. In particular ArduinoBoost166FunctionLazy is star
 
  This does something more complicated using a class inheriting from AnalogInEvent. See the analogExample with the IoAbstraction library for the origin.
 
+ ### StateMachine
+
+ This is a collection of examples exploring the use of the Statemachine library. I am also working with some of the same examples using IoAbstraction and TaskManagerIO which I have used elsewhere and can be used to run the same examples. The StateMachine nature of the example is less clear - it is there.
+
  ## Editors
 
  There is a choice of editors for working with GitHub. I am using Virtual Studio Code (VS Code). This recognises the Arduino files and generates .json configuration files. I am going to use .gitignore so that these files are not catalogued by GitHub although they do seem to get into the repository.
