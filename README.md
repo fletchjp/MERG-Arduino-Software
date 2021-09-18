@@ -189,6 +189,14 @@ I am now adding more examples. In particular ArduinoBoost166FunctionLazy is star
 
  This is a collection of examples exploring the use of the Statemachine library. I am also working with some of the same examples using IoAbstraction and TaskManagerIO which I have used elsewhere and can be used to run the same examples. The StateMachine nature of the example is less clear - it is there.
 
+ Memory used is as follows (program/memory)
+
+ arduino_state_blink        (  6170 / 337 )    Base case with StateMachine
+ arduino_state_keypad       ( 11314 / 666 )    Add keypad using IoAbstraction
+ arduino_state_event_keypad (  8104 / 623 )    Use IoAbstraction for all actions
+
+ Note that the overhead is greater using both libraries.
+
  ## Editors
 
  There is a choice of editors for working with GitHub. I am using Virtual Studio Code (VS Code). This recognises the Arduino files and generates .json configuration files. I am going to use .gitignore so that these files are not catalogued by GitHub although they do seem to get into the repository.
