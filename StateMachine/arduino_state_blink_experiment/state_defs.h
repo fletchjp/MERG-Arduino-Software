@@ -32,4 +32,5 @@ TRANSITION_DELAY(transitionS0S1,timeLastTransition,STATE_DELAY)
 TRANSITION_TRUE(transitionS1S2)
 TRANSITION_DELAY(transitionS2S1,timeLastTransition,STATE_DELAY)
 
+// see add_transitions.h
 //ADD_TRANSITIONS(S0,transitionS0S1,S1,transitionS1S2,S2,transitionS2S1)
