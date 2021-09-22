@@ -1,5 +1,10 @@
 ////////////////////////////////////////////////////////////////////////////////////
 // CAN1602PINB - config name experiments.
+// This now works with a modified version of the CBUS and CBUS2515 libraries.
+// For now I will keep a separate file for comparison.
+// I am not changing the version number series.
+/////////////////////////////////////////////////////////////////////////////////////
+// This was the previous idea, now abandoned with header file cbus_config removed.
 // This would need access from CBUS.cpp to the header cbus_config.h here.
 // That turns out not to be possible with the Arduino IDE so this is not being pursued.
 ////////////////////////////////////////////////////////////////////////////////////
@@ -20,6 +25,7 @@
 //                     to match new release of libraries.
 // Version 3.0a beta 9 reduce buffers to (2,2) to avoid crash.
 #define CBUS_LONG_MESSAGE
+// Version 4.0a beta 1 Pass locally defined config object.
 ////////////////////////////////////////////////////////////////////////////////////
 // CAN1602BUT
 // Take code from CANALCDBUT to make a new code on the CANmINnOUT base.
@@ -185,9 +191,9 @@ int prevbutton = -1;
 unsigned char mname[7] = { '1', '6', '0', '2', 'P', 'I', 'N' };
 
 // constants
-const byte VER_MAJ = 3;         // code major version
+const byte VER_MAJ = 4;         // code major version
 const char VER_MIN = 'a';       // code minor version
-const byte VER_BETA = 9;        // code beta sub-version
+const byte VER_BETA = 1;        // code beta sub-version
 const byte MODULE_ID = 99;      // CBUS module type
 
 const unsigned long CAN_OSC_FREQ = 8000000;     // Oscillator frequency on the CAN2515 board
