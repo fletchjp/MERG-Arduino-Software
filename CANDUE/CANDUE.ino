@@ -18,6 +18,7 @@
 // Version 2a beta 6 Experimental multiple listening.
 // Version 2a beta 7 Use new library with a different implementation of multiple listening.
 //                   It compiles fine without multiple listening.
+// Version 2a beta 8 Pass config object to CBUS.
 #define CBUS_LONG_MESSAGE
 #define CBUS_LONG_MESSAGE_MULTIPLE_LISTEN
 ///////////////////////////////////////////////////////////////////////////////////
@@ -212,7 +213,7 @@ volatile boolean       showingSpeeds     = false;
 // constants
 const byte VER_MAJ = 2;                  // code major version
 const char VER_MIN = 'a';                // code minor version
-const byte VER_BETA = 7;                 // code beta sub-version
+const byte VER_BETA = 8;                 // code beta sub-version
 const byte MODULE_ID = 99;               // CBUS module type
 
 // These are not being used - not installed.
@@ -235,8 +236,9 @@ byte switchState[NUM_SWITCHES];
 //////////////////////////////////////////////////////////////////////////
 
 // CBUS objects
-CBUSSAM3X8E CBUS;                   // CBUS object
-CBUSConfig config;                  // configuration object
+//CBUSSAM3X8E CBUS;                   // CBUS object
+CBUSConfig config;                    // configuration object
+CBUSSAM3X8E CBUS(config);             // CBUS object passing config
 //CBUSLED ledGrn, ledYlw;             // two LED objects
 //CBUSSwitch pb_switch;               // switch object
 #ifdef CBUS_LONG_MESSAGE
