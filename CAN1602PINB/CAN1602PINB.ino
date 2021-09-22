@@ -214,8 +214,10 @@ const byte CAN_CS_PIN = 15;  // Changed from 10 which is used for the display.
 //const byte CAN_SCK_PIN = 13;  // Cannot be changed
 
 // CBUS objects
-CBUS2515 CBUS;                      // CBUS object
+//CBUS2515 CBUS;                      // CBUS object
 CBUSConfig cbus_config;                  // configuration object
+CBUS2515 CBUS(cbus_config);        // CBUS object
+
 #ifdef CBUS_LONG_MESSAGE
 // The Ardunio CBUS library does not yet support this.
 // create an additional object at the top of the sketch:
