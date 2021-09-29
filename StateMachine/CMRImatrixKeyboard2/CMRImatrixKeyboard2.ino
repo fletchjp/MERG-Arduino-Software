@@ -9,10 +9,13 @@
 
 // This version sets up the keyboard adapting the custom_keyboard example.
 
+#include <CMRI.h>
 #include <Wire.h>
 #include <IoAbstraction.h>
 #include <TaskManagerIO.h>
 #include <KeyboardManager.h>
+
+CMRI cmri; // defaults to a SMINI with address 0. SMINI = 24 inputs, 48 outputs
 
 //
 // We need to make a keyboard layout that the manager can use. choose one of the below.
@@ -57,22 +60,24 @@ IoAbstractionRef arduinoIo = ioUsingArduino();
 class MyKeyboardListener : public KeyboardListener {
 public:
     void keyPressed(char key, bool held) override {
-        Serial.print("Key ");
-        Serial.print(key);
-        Serial.print(" is pressed, held = ");
-        Serial.println(held);
+        //Serial.print("Key ");
+        //Serial.print(key);
+        //Serial.print(" is pressed, held = ");
+        //Serial.println(held);
     }
 
     void keyReleased(char key) override {
-        Serial.print("Released ");
-        Serial.println(key);
+        //Serial.print("Released ");
+        //Serial.println(key);
     }
 } myListener;
 
 void setup() {
-    while(!Serial);
-    Serial.begin(115200);
-
+    //while(!Serial);
+    //Serial.begin(115200);
+    Serial.begin(9600, SERIAL_8N2); // make sure this matches your speed set in JMRI
+    pinMode(13, OUTPUT);
+  
     // Converted to copy the arrays.
     for (byte i = 0; i < ROWS; i++)
       keyLayout.setRowPin(i, rowPins[i]);
@@ -86,10 +91,16 @@ void setup() {
     // start repeating at 850 millis then repeat every 350ms
     keyboard.setRepeatKeyMillis(850, 350);
 
-    Serial.println("Keyboard is initialised!");
+    //Serial.println("Keyboard is initialised!");
 }
 
 void loop() {
     // as this indirectly uses taskmanager, we must include this in loop.
     taskManager.runLoop();
+
+    // 1: main processing node of cmri library
+    cmri.process();
+
+    // 2: update output. Reads bit 0 of T packet and sets the LED to this
+    digitalWrite(13, cmri.get_bit(0));
 }
