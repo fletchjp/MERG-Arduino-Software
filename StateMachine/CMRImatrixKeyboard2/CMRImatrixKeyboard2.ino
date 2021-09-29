@@ -64,13 +64,13 @@ public:
         //Serial.print(key);
         //Serial.print(" is pressed, held = ");
         //Serial.println(held);
-        if (key == '1') cmri.set_bit(1, LOW);
+        //if (key == '1') cmri.set_bit(1, LOW);
     }
 
     void keyReleased(char key) override {
         //Serial.print("Released ");
         //Serial.println(key);
-        if (key == '1') cmri.set_bit(1, HIGH);
+        //if (key == '1') cmri.set_bit(1, HIGH);
     }
 } myListener;
 
