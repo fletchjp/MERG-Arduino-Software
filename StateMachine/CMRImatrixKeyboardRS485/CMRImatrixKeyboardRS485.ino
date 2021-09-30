@@ -9,11 +9,16 @@
 
 // This version sets up the keyboard adapting the custom_keyboard example.
 
+#include <Auto485.h>
 #include <CMRI.h>
 #include <Wire.h>
 #include <IoAbstraction.h>
 #include <TaskManagerIO.h>
 #include <KeyboardManager.h>
+
+// I am going to have to change the keypad pins or find another one for RS485
+//Auto485 bus(2);       // Pin 2 in for MAX485 (2–DE). Used along with Pins 0–RX and 1–TX
+
 
 CMRI cmri; // defaults to a SMINI with address 0. SMINI = 24 inputs, 48 outputs
 
