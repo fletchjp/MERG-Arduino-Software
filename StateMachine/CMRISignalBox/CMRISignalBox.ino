@@ -1,3 +1,12 @@
+// CMRISignalBox
+
+// I have already managed to get the previous version to communicate with JMRI using CMRI.
+
+// Now I want to be able to turn a signal on and off.
+
+// The first problem is that I cannot work offline with JMRI unless I fool it with the USB/RS485 plug.
+// I will use that for now and then switch to this when I am ready.
+
 /**
  * This example shows how to use the matrix keyboard support that's built into IoAbstraction,
  * it can be used out the box with either a 3x4 or 4x4 keypad, but you can modify it to use
