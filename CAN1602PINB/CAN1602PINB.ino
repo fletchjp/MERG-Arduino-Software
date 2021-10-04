@@ -225,7 +225,7 @@ CBUSConfig cbus_config;                  // configuration object
 CBUS2515 CBUS(cbus_config);        // CBUS object
 
 #ifdef CBUS_LONG_MESSAGE
-// The Ardunio CBUS library does not yet support this.
+// The Ardunio CBUS library does now support this.
 // create an additional object at the top of the sketch:
 CBUSLongMessage cbus_long_message(&CBUS);   // CBUS long message object
 #endif

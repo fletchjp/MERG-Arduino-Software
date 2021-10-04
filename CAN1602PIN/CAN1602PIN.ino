@@ -209,7 +209,7 @@ const byte CAN_CS_PIN = 15;  // Changed from 10 which is used for the display.
 CBUS2515 CBUS;                      // CBUS object
 CBUSConfig config;                  // configuration object
 #ifdef CBUS_LONG_MESSAGE
-// The Ardunio CBUS library does not yet support this.
+// The Ardunio CBUS library does now support this.
 // create an additional object at the top of the sketch:
 CBUSLongMessage cbus_long_message(&CBUS);   // CBUS long message object
 #endif
