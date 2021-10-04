@@ -20,7 +20,7 @@ class Blinker : public BaseEvent {
        if (key_pressed == reset_key) { // This is S2S0
           Serial.println("Reset requested by key press");
           setStart();
-       }  
+       }
        // This is the same as S0S1 and S2S1
        auto elapsed_millis = millis() - timeLastTransition;
        //Serial.println(elapsed_millis);

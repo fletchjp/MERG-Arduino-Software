@@ -46,6 +46,21 @@ IoAbstractionRef arduinoIo = ioUsingArduino();
  * I think that is up to the user.
  ***********************************************************/
 
+// In this case:
+
+// States:
+
+// S0 : start or reset with the LED low.
+// S1 : blink the LED changing the LED state.
+// S2 : wait a set time.
+
+// Transitions:
+
+// S0S2 : go to S2
+// S1S2 : go to S2
+// S2S1 : at the end of waiting, go to S1.
+// S2S0 : on key press break off and go to S0.
+
 // Blinker now in header file blinker.h
 
 Blinker blinker(LED,'0'); // LED and reset key.

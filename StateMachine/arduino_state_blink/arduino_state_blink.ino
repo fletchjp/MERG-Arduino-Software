@@ -33,7 +33,7 @@ uint32_t timeLastTransition = 0;
  * States for the blink_state machine.
  */
 
-// Reset
+// Reset and wait
 State* S0 = machine.addState([]() {
   if(machine.executeOnce){
     Serial.println("State 0, reset");
