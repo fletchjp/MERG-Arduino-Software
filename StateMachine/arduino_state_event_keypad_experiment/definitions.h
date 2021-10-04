@@ -3,8 +3,7 @@
 // Gather all the definitions into one file.
 
 // Macros for the definitions
-#include "state_macros.h"
-#include "keypad_macros.h"
+#include "all_macros.h"
 // This now containes some definitions
 #include "state_defs.h"
 #include "keypad_defs.h"
