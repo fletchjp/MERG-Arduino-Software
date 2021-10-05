@@ -25,10 +25,11 @@ CANTOTEMPIN is a version of CANTOTEM using IoAbstraction for the buttons as with
 
 ## Testing
 
-I am now starting testing of these codes with CBUS and 
-FCU.
+I am now starting testing of these codes with CBUS and FCU.
 
 I have not yet set up access to GitHub on the laptop I am using for testing. That means that I have to take a copy of the code to it. At least I no longer have to worry about versions of the code as they are all available.
+
+I have now tested the new versions of the AVR and DUE codes with more flexibility on the CBUS config object which can now be named in the sketch main code if there is a clash as there is with the Menu library. There is a very small memory overhead and a few more bytes of data.
 
 ### 13th September
 
