@@ -10,6 +10,12 @@ I have found out a lot more about Arduino configuration. I was having some probl
 
 At the moment I have solutions to one problem on branches "avr-gcc" which are not yet merged.
 
+## DECISION
+
+I have decided to stop using VSCODE and to delete it from my computer. This is because I have limited space on the C:\ drive and it uses too much memory which cannot be moved to the E:\ drive.
+
+I have not deleted the configuration files as I could be able to use it again on another computer with more C:\ space.
+
 ## Problems, some solved and some not.
 
  I have been having some strange errors. One of them looks like this:
