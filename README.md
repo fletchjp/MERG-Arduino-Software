@@ -112,7 +112,9 @@ I am now adding more examples. In particular ArduinoBoost166FunctionLazy is star
 
  I now have an update of the Arduino CBUS and CBUSSAM3X8E libraries to handle long events. This is working and I can start testing on the long event code.
 
+### RP2040
 
+This is a branch for codes for the Arduino NANO RP2040 connect using the Arduino-pico software.
 
  ## Logos
 
