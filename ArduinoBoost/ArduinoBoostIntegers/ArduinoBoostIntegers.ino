@@ -9,7 +9,7 @@
 using namespace std;
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(115200);
   cout << "Feed me an integers." << endl;
 }
 
