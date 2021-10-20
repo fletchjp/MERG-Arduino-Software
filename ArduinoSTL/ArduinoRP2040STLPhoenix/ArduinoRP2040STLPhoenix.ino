@@ -1,9 +1,25 @@
 // Arduino RP2040 Boost tests
 
+// This fails with the following link error.
+// c:/users/user/appdata/local/arduino15/packages/rp2040/tools/pqt-gcc/1.3.1-a-7855b0c/bin/../lib/gcc/arm-none-eabi/10.3.0/../../../../arm-none-eabi/bin/ld.exe:
+// c:/users/user/appdata/local/arduino15/packages/rp2040/tools/pqt-gcc/1.3.1-a-7855b0c/bin/../lib/gcc/arm-none-eabi/10.3.0/../../../../arm-none-eabi/lib/thumb\libstdc++.a(locale.o):
+// in function `get_locale_cache_mutex': /workdir/repo/gcc-gnu/libstdc++-v3/src/c++98/locale.cc:36: undefined reference to `__sync_synchronize'
+
 #undef F
 #include <boost_utility_result_of.hpp>
 #include <boost_function.hpp>
 #include <boost_bind.hpp>
+//#include <boost_locale.hpp> Not the answer
+#include <boost_phoenix_core.hpp>
+// Adding the contents of boost_phoenix_core.hpp one by one.
+//#include <boost_phoenix_version.hpp>
+//#include <boost_phoenix_core_limits.hpp>
+//#include <boost_phoenix_core_actor.hpp>
+//#include <boost_phoenix_core_debug.hpp> Aha this is it. Can I manage without it? It seems so.
+//#include <boost_phoenix_core_is_actor.hpp>
+#include <boost_phoenix_bind.hpp>
+#include <boost_phoenix_operator_comparison.hpp>
+#include <boost_phoenix_stl_algorithm_transformation.hpp>
 #include <string>
 #include <vector>
 
@@ -56,6 +72,39 @@ void delete_value2(std::vector< std::string > &list, const std::string & value)
     list.end() );
 }
 
+///////////////////////////////////////////////////////
+// Third example using boost phoenix for the comparison
+///////////////////////////////////////////////////////
+
+namespace phx = boost::phoenix;
+using phx::placeholders::arg1;
+using phx::placeholders::arg2;
+
+void delete_value3(std::vector< std::string > &list, const std::string & value)
+{
+  list.erase( std::remove_if(
+        list.begin(),
+        list.end(),
+        // This needs header boost/phoenix/operator/comparison.
+        // arg1 is a Boost.Phoenix placeholder.
+        arg1 == phx::cref( value ) ), 
+        list.end() );
+}
+
+//////////////////////////////////////////////////////////////
+// Fourth example using boost phoenix for the algorithm as well
+//////////////////////////////////////////////////////////////
+
+void delete_value4(std::vector< std::string > &list, const std::string & value)
+{
+  // This needs header boost/phoenix/stl/algorithm/transformation
+  // It uses two Boost.Phoenix placeholders.
+  list.erase( phx::remove_if( arg1, arg2 )
+            ( list, arg1 == phx::cref( value ) ),
+            list.end() );
+}
+
+
 void out_string(const std::string  &s)
 {
   Serial.println( s.c_str() );
@@ -76,7 +125,7 @@ void setup() {
   Serial.print(t2);
   Serial.println(" millis");
   delay(2000);
-  Serial.println("Arduino RP2040 Boost Test");
+  Serial.println("Arduino RP2040 Boost Phoenix Test");
   std::string value = "goose";
 
   std::vector< std::string > list1 = make_list();
@@ -88,6 +137,14 @@ void setup() {
   std::vector< std::string > list2 = make_list();
   delete_value2(list2,value);
   show_list1(list2);
+  Serial.println("--------");
+  std::vector< std::string > list3 = make_list();
+  delete_value3(list3,value);
+  show_list1(list3);
+  Serial.println("--------");
+  std::vector< std::string > list4 = make_list();
+  delete_value4(list4,value);
+  show_list1(list4);
   Serial.println("--------");
   pinMode(LED_BUILTIN, OUTPUT);
 
