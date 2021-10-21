@@ -1,4 +1,6 @@
+//////////////////////////////////////////////////////////
 // Arduino RP2040 Boost tests
+//////////////////////////////////////////////////////////
 
 #undef F
 #include <boost_utility_result_of.hpp>
@@ -56,6 +58,10 @@ void delete_value2(std::vector< std::string > &list, const std::string & value)
     list.end() );
 }
 
+//////////////////////////////////////////////////////////
+// Functions common to all examples
+//////////////////////////////////////////////////////////
+
 void out_string(const std::string  &s)
 {
   Serial.println( s.c_str() );
@@ -65,6 +71,9 @@ void show_list1( const std::vector< std::string > &list )
 {
   std::for_each(list.begin(), list.end(), out_string);
 }
+
+//////////////////////////////////////////////////////////
+
 
 void setup() {
   Serial.begin(115200);
@@ -92,6 +101,8 @@ void setup() {
   pinMode(LED_BUILTIN, OUTPUT);
 
 }
+
+//////////////////////////////////////////////////////////
 
 void loop() {
   digitalWrite(LED_BUILTIN, HIGH);   // turn the LED on (HIGH is the voltage level)

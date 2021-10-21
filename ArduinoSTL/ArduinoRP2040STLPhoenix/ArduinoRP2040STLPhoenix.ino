@@ -1,4 +1,6 @@
+//////////////////////////////////////////////////////////
 // Arduino RP2040 Boost Phoenix tests
+//////////////////////////////////////////////////////////
 
 // This is a comparison of several ways of deleting an entry from a list of strings.
 
@@ -109,6 +111,9 @@ void delete_value4(std::vector< std::string > &list, const std::string & value)
             list.end() );
 }
 
+//////////////////////////////////////////////////////////
+// Functions common to all examples
+//////////////////////////////////////////////////////////
 
 void out_string(const std::string  &s)
 {
@@ -119,6 +124,9 @@ void show_list1( const std::vector< std::string > &list )
 {
   std::for_each(list.begin(), list.end(), out_string);
 }
+
+//////////////////////////////////////////////////////////
+
 
 void setup() {
   Serial.begin(115200);
@@ -154,6 +162,8 @@ void setup() {
   pinMode(LED_BUILTIN, OUTPUT);
 
 }
+
+//////////////////////////////////////////////////////////
 
 void loop() {
   digitalWrite(LED_BUILTIN, HIGH);   // turn the LED on (HIGH is the voltage level)
