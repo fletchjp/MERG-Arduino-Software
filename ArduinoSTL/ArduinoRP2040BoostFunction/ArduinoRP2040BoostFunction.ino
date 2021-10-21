@@ -116,7 +116,7 @@ void setup() {
   while (!Serial && ((millis() - t1) <= 10000));
   t2 = millis() - t1;
   Serial << "Waited for " << t2 << " millis" << endl;
-  delay(2000);
+  delay(5000);
   Serial  << "Arduino RP2040 Boost Function Test" << endl;
   Serial.println("--------");
 
@@ -211,6 +211,20 @@ void setup() {
     Serial << "g22 does not contain f2" << endl;
   }
   Serial.println("--------");
+  pointer_to_func2 p2; // Instance of pointer to type.
+  if (check(p2,g2)) {
+    Serial << "g2 contains p2;  (*p2)(2,3) = ";
+    p2 = *g2.target<pointer_to_func2>();
+    Serial << (*p2)(2,3) << endl;
+  }
+  if (check(p2,g22)) {
+    Serial << "g22 contains p2; (*p2)(3,4) = ";
+    p2 = *g22.target<pointer_to_func2>();
+    Serial << (*p2)(3,4) << endl;
+  }
+
+  
+  Serial.println("--------");
   if (contains(&f3,g3)) {
     Serial << "g3 contains f3" << endl;
   } else {
@@ -220,6 +234,18 @@ void setup() {
     Serial << "g33 contains f3" << endl;
   } else {
     Serial << "g33 does not contain f3" << endl;
+  }
+  Serial.println("--------");
+  pointer_to_func3 p3; // Instance of pointer to type.
+  if (check(p3,g3)) {
+    Serial << "g3 contains p3;  (*p3)(1,2,3) = ";
+    p3 = *g3.target<pointer_to_func3>();
+    Serial << (*p3)(1,2,3) << endl;
+  }
+  if (check(p3,g33)) {
+    Serial << "g33 contains p3; (*p3)(2,3,4) = ";
+    p3 = *g33.target<pointer_to_func3>();
+    Serial << (*p3)(2,3,4) << endl;
   }
 
   Serial.println("--------");
