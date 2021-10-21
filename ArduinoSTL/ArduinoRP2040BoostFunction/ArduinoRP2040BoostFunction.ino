@@ -2,12 +2,26 @@
 // Arduino RP2040 Boost Function
 //////////////////////////////////////////////////////////
 
+#include <exception>
+#include <stdexcept>
+
+// Dummies to sort out compilation
+namespace boost {
+
+  void throw_exception( std::exception & e ) { }
+  void throw_exception(const std::exception & e ) { }
+  void throw_exception( std::runtime_error& e) { }
+  void throw_exception(const std::runtime_error& e) { }
+
+}
+
 #undef F
 #include <boost_utility_result_of.hpp>
 #include <boost_function.hpp>
 #include <boost_bind.hpp>
 #include <string>
 #include <vector>
+
 
 // 3rd party libraries
 #include <Streaming.h>
@@ -101,8 +115,6 @@ void setup() {
 
   boost::function0<int> g00(f0);
   boost::function<int()> g0(f0);
-  // First order function definitions cause a crash.
-  // This has now stopped because of other changes I have made!!
   boost::function1<int,int> g11(f1);
   boost::function<int(int x)> g1(f1);
 
@@ -113,6 +125,18 @@ void setup() {
   typedef boost::function0<int>  type00;
   typedef boost::function1<int,int>  type11;
   typedef boost::function<int(int)>  type1;
+
+  Serial << "f0()  = " << f0() << endl;
+  Serial << "g00() = " << g00() << endl;
+  Serial << "g0()  = " << g0() << endl;
+
+  pointer_to_func0 p0; // Instance of pointer to type.
+  if (check(p0,g0)) {
+    Serial << "g0 contains p0;  (*p0)()    = ";
+    p0 = *g0.target<pointer_to_func0>();
+    Serial << (*p0)() << endl;
+  }
+
 
   pinMode(LED_BUILTIN, OUTPUT);
 
