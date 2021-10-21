@@ -9,6 +9,9 @@
 #include <string>
 #include <vector>
 
+// 3rd party libraries
+#include <Streaming.h>
+
 //////////////////////////////////////////////////////////
 // This is for an adapted copy from BoostFC++ operator.hpp
 //////////////////////////////////////////////////////////
@@ -69,6 +72,20 @@ typedef int (*pointer_to_func0)();
 typedef int (*pointer_to_func1)(int);
 typedef int (*pointer_to_func2)(int,int);
 
+template <typename F,typename G>
+bool contains(const F& f,const G &g)
+{
+  if (g.template target<F>())
+  return (*g.template target<F>() == *f);
+  else return false;
+}
+
+template <typename F,typename G>
+bool check(const F& f,const G &g)
+{
+  return (g.template target<F>());
+}
+
 //////////////////////////////////////////////////////////
 
 
@@ -78,11 +95,26 @@ void setup() {
   unsigned long t2;
   while (!Serial && ((millis() - t1) <= 10000));
   t2 = millis() - t1;
-  Serial.print("Waited for ");
-  Serial.print(t2);
-  Serial.println(" millis");
+  Serial << "Waited for " << t2 << " millis" << endl;
   delay(2000);
-  Serial.println("Arduino RP2040 Boost Function Test");
+  Serial  << "Arduino RP2040 Boost Function Test" << endl;
+
+  boost::function0<int> g00(f0);
+  boost::function<int()> g0(f0);
+  // First order function definitions cause a crash.
+  // This has now stopped because of other changes I have made!!
+  boost::function1<int,int> g11(f1);
+  boost::function<int(int x)> g1(f1);
+
+  boost::function2<int,int,int> g22(f2);
+  boost::function<int(int x,int y)> g2(f2);
+
+  typedef boost::function<int()> type0;
+  typedef boost::function0<int>  type00;
+  typedef boost::function1<int,int>  type11;
+  typedef boost::function<int(int)>  type1;
+
+  pinMode(LED_BUILTIN, OUTPUT);
 
 }
 
@@ -91,5 +123,11 @@ void setup() {
 
 
 void loop() {
-  
+  digitalWrite(LED_BUILTIN, HIGH);   // turn the LED on (HIGH is the voltage level)
+  Serial.println("Arduino blink ON");
+  delay(1000);                       // wait for a second
+  digitalWrite(LED_BUILTIN, LOW);    // turn the LED off by making the voltage LOW
+  Serial.println("Arduino blink OFF");
+  delay(1000);                       // wait for a second
+
 }
