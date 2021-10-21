@@ -82,9 +82,15 @@ int f2(int x, int y)
   return x + y;
 }
 
+int f3(int x, int y, int z)
+{
+  return x + y + z;
+}
+
 typedef int (*pointer_to_func0)();
 typedef int (*pointer_to_func1)(int);
 typedef int (*pointer_to_func2)(int,int);
+typedef int (*pointer_to_func3)(int,int,int);
 
 template <typename F,typename G>
 bool contains(const F& f,const G &g)
@@ -112,6 +118,7 @@ void setup() {
   Serial << "Waited for " << t2 << " millis" << endl;
   delay(2000);
   Serial  << "Arduino RP2040 Boost Function Test" << endl;
+  Serial.println("--------");
 
   boost::function0<int> g00(f0);
   boost::function<int()> g0(f0);
@@ -121,14 +128,22 @@ void setup() {
   boost::function2<int,int,int> g22(f2);
   boost::function<int(int x,int y)> g2(f2);
 
+  boost::function3<int,int,int,int> g33(f3);
+  boost::function<int(int x,int y,int z)> g3(f3);
+
   typedef boost::function<int()> type0;
   typedef boost::function0<int>  type00;
   typedef boost::function1<int,int>  type11;
   typedef boost::function<int(int)>  type1;
+  typedef boost::function2<int,int,int>  type22;
+  typedef boost::function<int(int, int)>  type2;
+  typedef boost::function3<int,int,int,int>  type33;
+  typedef boost::function<int(int, int,int)>  type3;
 
   Serial << "f0()  = " << f0() << endl;
   Serial << "g00() = " << g00() << endl;
   Serial << "g0()  = " << g0() << endl;
+  Serial.println("--------");
 
   pointer_to_func0 p0; // Instance of pointer to type.
   if (check(p0,g0)) {
@@ -136,8 +151,79 @@ void setup() {
     p0 = *g0.target<pointer_to_func0>();
     Serial << (*p0)() << endl;
   }
+  if(*g0.target<pointer_to_func0>() == f0) {
+    Serial << "g0 contains f0" << endl;
+  } else {
+    Serial << "g0 does not contain f0" << endl;
+  }
+  Serial.println("--------");
+  int (*p11)(int) ;
+  pointer_to_func1 p1; // Instance of pointer to type.
+  p1 = &f1;
+  p11 = &f1;
+  Serial << "f1(1)  = " << f1(1) << endl;
+  Serial << "(*p1)(2)  = " << (*p1)(2) << endl;
+  Serial << "(*p11)(3)  = " << (*p11)(3) << endl;
+  Serial << "g1(3)  = " << g1(3) << endl;
+  Serial << "g11(4)  = " << g11(4) << endl;
+  Serial.println("--------");
+   if(*g11.target<pointer_to_func1>() == f1) {
+    Serial << "g11 contains f1" << endl;
+  } else {
+    Serial << "g11 does not contain f1" << endl;
+  }
+  if(*g2.target<pointer_to_func2>() == f2) {
+    Serial << "g2 contains f2" << endl;
+  } else {
+    Serial << "g2 does not contain f2" << endl;
+  }
 
+  if(g1.contains(&f1)) {
+    Serial << "g1 does have a valid pointer for f1" << endl;
+  }
 
+  if(g11.contains(&f1)) {
+    Serial << "g11 does have a valid pointer for f1" << endl;
+    // For some reason the next line throws even though it has a valid value with AVR.
+    g11.target<pointer_to_func1>();
+  }
+
+/* fails for g1  and g11 for AVR */
+  if(g11.target<pointer_to_func1>()) {
+    Serial << "g11 does have a valid pointer for f1" << endl;
+  }
+  if(!g1.target<pointer_to_func2>()) {
+    Serial << "g1 does not have a valid pointer for f2" << endl;
+  }
+
+  if(!g2.target<pointer_to_func1>()) {
+    Serial << "g2 does not have a valid pointer for f1" << endl;
+  }
+  Serial.println("--------");
+  if (contains(&f2,g2)) {
+    Serial << "g2 contains f2" << endl;
+  } else {
+    Serial << "g2 does not contain f2" << endl;
+  }
+  if (contains(&f2,g22)) {
+    Serial << "g22 contains f2" << endl;
+  } else {
+    Serial << "g22 does not contain f2" << endl;
+  }
+  Serial.println("--------");
+  if (contains(&f3,g3)) {
+    Serial << "g3 contains f3" << endl;
+  } else {
+    Serial << "g3 does not contain f3" << endl;
+  }
+  if (contains(&f3,g33)) {
+    Serial << "g33 contains f3" << endl;
+  } else {
+    Serial << "g33 does not contain f3" << endl;
+  }
+
+  Serial.println("--------");
+  delay(5000);
   pinMode(LED_BUILTIN, OUTPUT);
 
 }
