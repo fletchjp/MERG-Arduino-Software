@@ -1,13 +1,17 @@
 //////////////////////////////////////////////////////////
-// Arduino RP2040 Boost tests
+// Arduino RP2040 Standard tests
+// This version does not use Boost Libraries
+// It also uses delay_without_delaying
 //////////////////////////////////////////////////////////
 
 #undef F
-#include <boost_utility_result_of.hpp>
-#include <boost_function.hpp>
-#include <boost_bind.hpp>
+// Boost replaced by std:: equivalents as I did not have the libraries
+//#include <boost_utility_result_of.hpp>
+//#include <boost_function.hpp>
+//#include <boost_bind.hpp>
 #include <string>
 #include <vector>
+#include <algorithm>
 
 ////////////////////////////////////////////
 // Set up the list here
@@ -36,9 +40,9 @@ void delete_value1(std::vector< std::string > &list )
   list.erase( std::remove_if( list.begin(), list.end(), IsGoose ), list.end() );
 }
 
-/////////////////////////////////////////////
-// Second example using boost bind
-//////////////////////////////////////////////
+/////////////////////////////////////////////////////
+// Second example using standard bind and placeholder
+/////////////////////////////////////////////////////
 
 bool isValue(const std::string &s1, const std::string &s2)
 {
@@ -51,10 +55,10 @@ void delete_value2(std::vector< std::string > &list, const std::string & value)
     std::remove_if(
         list.begin(),
         list.end(),
-        boost::bind(
+        std::bind(
             isValue, // &isValue works as well.
-            _1, // Boost.Bind placeholder
-            boost::cref( value ) ) ),
+            std::placeholders::_1, // std placeholder
+            std::cref( value ) ) ),
     list.end() );
 }
 
@@ -74,6 +78,19 @@ void show_list1( const std::vector< std::string > &list )
 
 //////////////////////////////////////////////////////////
 
+// This comes from the cdc_multi example
+// Helper: non-blocking "delay" alternative.
+boolean delay_without_delaying(unsigned long time) {
+  // return false if we're still "delaying", true if time ms has passed.
+  // this should look a lot like "blink without delay"
+  static unsigned long previousmillis = 0;
+  unsigned long currentmillis = millis();
+  if (currentmillis - previousmillis >= time) {
+    previousmillis = currentmillis;
+    return true;
+  }
+  return false;
+}
 
 void setup() {
   Serial.begin(115200);
@@ -98,18 +115,24 @@ void setup() {
   delete_value2(list2,value);
   show_list1(list2);
   Serial.println("--------");
+  // Test this routine
+  while (!delay_without_delaying(5000) ) { };
   pinMode(LED_BUILTIN, OUTPUT);
-
 }
 
 //////////////////////////////////////////////////////////
+int LEDstate = 0;
 
 void loop() {
-  digitalWrite(LED_BUILTIN, HIGH);   // turn the LED on (HIGH is the voltage level)
-  Serial.println("Arduino blink ON");
-  delay(1000);                       // wait for a second
-  digitalWrite(LED_BUILTIN, LOW);    // turn the LED off by making the voltage LOW
-  Serial.println("Arduino blink OFF");
-  delay(1000);                       // wait for a second
-
+  // My first attempt had two separate loops which did not work consistently.
+  if (delay_without_delaying(1000)) {
+    LEDstate = !LEDstate;
+    digitalWrite(LED_BUILTIN, LEDstate);
+    //digitalWrite(LED_BUILTIN, HIGH);   // turn the LED on (HIGH is the voltage level)
+    if (LEDstate) {
+      Serial.println("Arduino blink ON");
+    } else {
+      Serial.println("Arduino blink OFF");
+    }
+  }
 }
