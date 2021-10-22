@@ -247,7 +247,15 @@ void setup() {
     p3 = *g33.target<pointer_to_func3>();
     Serial << (*p3)(2,3,4) << endl;
   }
-
+  Serial.println("--------");
+  using namespace infix;
+  Serial << "Infix for boost::function2" << endl;
+  int z = 2 ^g2^ 3;
+  int z2 = 3 ^g22^ 4;
+  int z3 = 3 ^g22^ 4 ^g22^ 5;
+  Serial << "2 ^g2^  3 = " << z << endl;
+  Serial << "3 ^g22^ 4 = " << z2 << endl;
+  Serial << "3 ^g22^ 4 ^g22^ 5 = " << z3 << endl;
   Serial.println("--------");
   delay(5000);
   pinMode(LED_BUILTIN, OUTPUT);
