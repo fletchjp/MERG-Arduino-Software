@@ -257,6 +257,12 @@ void setup() {
   Serial << "3 ^g22^ 4 = " << z2 << endl;
   Serial << "3 ^g22^ 4 ^g22^ 5 = " << z3 << endl;
   Serial.println("--------");
+  //using namespace std::placeholders;
+  auto f3a = boost::bind(f3,1,_1,_2);
+  Serial << "auto f3a = boost::bind(f3,1,_1,_2)" << endl;
+  int z4 = f3a(2,3);
+  Serial << "f3a(2,3) = " << z4 << endl;
+  Serial.println("--------");
   delay(5000);
   pinMode(LED_BUILTIN, OUTPUT);
 
