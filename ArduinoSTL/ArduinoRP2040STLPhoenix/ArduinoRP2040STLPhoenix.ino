@@ -127,6 +127,19 @@ void show_list1( const std::vector< std::string > &list )
 
 //////////////////////////////////////////////////////////
 
+// This comes from the cdc_multi example
+// Helper: non-blocking "delay" alternative.
+boolean delay_without_delaying(unsigned long time) {
+  // return false if we're still "delaying", true if time ms has passed.
+  // this should look a lot like "blink without delay"
+  static unsigned long previousmillis = 0;
+  unsigned long currentmillis = millis();
+  if (currentmillis - previousmillis >= time) {
+    previousmillis = currentmillis;
+    return true;
+  }
+  return false;
+}
 
 void setup() {
   Serial.begin(115200);
@@ -159,18 +172,24 @@ void setup() {
   delete_value4(list4,value);
   show_list1(list4);
   Serial.println("--------");
+  while (!delay_without_delaying(5000) ) { };
   pinMode(LED_BUILTIN, OUTPUT);
 
 }
 
 //////////////////////////////////////////////////////////
 
-void loop() {
-  digitalWrite(LED_BUILTIN, HIGH);   // turn the LED on (HIGH is the voltage level)
-  Serial.println("Arduino blink ON");
-  delay(1000);                       // wait for a second
-  digitalWrite(LED_BUILTIN, LOW);    // turn the LED off by making the voltage LOW
-  Serial.println("Arduino blink OFF");
-  delay(1000);                       // wait for a second
+int LEDstate = 0;
 
+void loop() {
+  if (delay_without_delaying(1000)) {
+    LEDstate = !LEDstate;
+    digitalWrite(LED_BUILTIN, LEDstate);
+    //digitalWrite(LED_BUILTIN, HIGH);   // turn the LED on (HIGH is the voltage level)
+    if (LEDstate) {
+      Serial.println("Arduino blink ON");
+    } else {
+      Serial.println("Arduino blink OFF");
+    }
+  }
 }
