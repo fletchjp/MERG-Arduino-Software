@@ -29,6 +29,7 @@
 #include <boost_phoenix_stl_algorithm_transformation.hpp>
 #include <string>
 #include <vector>
+#include <functional>
 
 ////////////////////////////////////////////
 // Set up the list here
@@ -47,14 +48,16 @@ std::vector< std::string > make_list() {
 // First example using standard library only
 //////////////////////////////////////////////
 
-bool IsGoose( const std::string& s )
+bool IsNotGoose( const std::string& s )
 {
-  return s == "goose";
+  return s != "goose";
 }
 
+// Demonstration of use of std::not_fn which is new in C++17
+// https://en.cppreference.com/w/cpp/utility/functional/not_fn
 void delete_value1(std::vector< std::string > &list )
 {
-  list.erase( std::remove_if( list.begin(), list.end(), IsGoose ), list.end() );
+  list.erase( std::remove_if( list.begin(), list.end(), std::not_fn(IsNotGoose) ), list.end() );
 }
 
 /////////////////////////////////////////////
