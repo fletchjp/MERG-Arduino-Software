@@ -14,6 +14,8 @@
 
 #undef F
 #define BOOST_PHOENIX_NO_LAZY_EXCEPTIONS
+// Only needed for developments beyond Boost 1.66.0 which are not in any released Boost
+#define BOOST_PHOENIX_FUNCTION_LAZY_USE_MP11
 
 #include <boost_utility_result_of.hpp>
 #include <boost_function.hpp>
