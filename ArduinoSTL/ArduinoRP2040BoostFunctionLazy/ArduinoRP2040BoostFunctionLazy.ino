@@ -42,6 +42,17 @@ namespace boost {
 #include <Streaming.h>
 
 //////////////////////////////////////////////////////////
+// std::decay which I have somehow missed from C++11.
+// also decay_t = typename decay<T>::type; since C++14
+// https://en.cppreference.com/w/cpp/types/decay
+//////////////////////////////////////////////////////////
+
+template <typename T, typename U>
+struct decay_equiv : 
+    std::is_same<typename std::decay<T>::type, U>::type 
+{};
+
+//////////////////////////////////////////////////////////
 // This is for an adapted copy from BoostFC++ operator.hpp
 //////////////////////////////////////////////////////////
 namespace infix  {
@@ -102,11 +113,27 @@ operator^( const LHS& lhs, const boost::phoenix::function<F>& f ) {
   return InfixOpThingyPhoenix<LHS,boost::phoenix::function<F> >(lhs,f);
 }
 
+// Experiment using std::decay which I had not heard of before.
+namespace impl {
+     //   RTFFXY   == ReturnTypeFunctoidFwithXandY   (used in thunk2)
+      template <class F,class X,class Y>
+      struct RTFFXY {
+          typedef typename std::decay<F>::type FType;
+          typedef typename std::decay<X>::type XType;
+          typedef typename std::decay<Y>::type YType;
+          typedef typename boost::result_of<FType(XType,YType)>::type FR;
+          typedef typename boost::result_of<FR()>::type RR;
+          typedef typename boost::phoenix::impl::remove_RC<RR>::type RType;
+          typedef RType type;
+      };
+}
+
 template <class LHS, class FF, class RHS>
 // This is part of phoenix function lazy prelude.
 // The headers for this are supplied above.
 // One of the things supplied is easy ways to get the return types.
-inline typename boost::phoenix::impl::RTFFXY<FF,LHS,RHS>::type
+//inline typename boost::phoenix::impl::RTFFXY<FF,LHS,RHS>::type
+inline typename impl::RTFFXY<FF,LHS,RHS>::type // local experiment
 operator^( const InfixOpThingyPhoenix<LHS,FF>& x, const RHS& rhs ) {
   return x.f( x.lhs, rhs )();
 }
