@@ -36,6 +36,7 @@ namespace boost {
 #include <boost/phoenix/operator.hpp>
 // Headers for lazy  prelude operations.
 #define BOOST_NO_CXX14_CONSTEXPR // for now
+#define BOOST_PHOENIX_FUNCTION_LAZY_USE_MP11
 #include <lazy_prelude.hpp>
 #include <lazy_signature.hpp>
 #include <string>
