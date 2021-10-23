@@ -5,6 +5,8 @@
 
 #include <exception>
 #include <stdexcept>
+#include <functional>
+
 
 // Dummies to sort out compilation
 namespace boost {
@@ -20,6 +22,14 @@ namespace boost {
 #include <boost_utility_result_of.hpp>
 #include <boost_function.hpp>
 #include <boost_bind.hpp>
+#include <boost_phoenix_core.hpp>
+#include <boost_phoenix_bind.hpp>
+#include <boost_phoenix_operator_comparison.hpp>
+#include <boost_phoenix_stl_algorithm_transformation.hpp>
+#include <boost_phoenix_function.hpp>
+// Headers for use of phoenix lazy operations.
+#include <boost_phoenix_function_lazy_prelude.hpp>
+#include <boost_phoenix_function_lazy_signature.hpp>
 #include <string>
 #include <vector>
 
@@ -61,6 +71,41 @@ operator^( const InfixOpThingy<LHS,FF>& x, const RHS& rhs ) {
    return x.f( x.lhs, rhs );
 }
 
+  /////////////////////////////////////////////////////////////
+  // Phoenix version
+  // Note that there has to be a distinct version
+  // of InfixOpThingy to chose the correct second operator.
+  // Also that the second operator returns the final value.
+  // The return type has been used from lazy_signature.hpp
+  ////////////////////////////////////////////////////////////
+template <class LHS, class Fun>
+struct InfixOpThingyPhoenix {
+   // Note that storing const&s here relies on the fact that temporaries
+   // are guaranteed to live for the duration of the full-expression in
+   // which they are created.  There's no need to create copies.
+   const LHS& lhs;
+   const Fun& f;
+   InfixOpThingyPhoenix( const LHS& l, const Fun& ff ) : lhs(l), f(ff) {}
+  // This is an experiment to enable  1 ^f() for a 1 argument function.
+  // It messes things for the two argument case.
+  //typename boost::result_of<Fun(LHS)>::type
+  // operator()() const { return f(lhs); }
+};
+
+template <class LHS, class F>
+inline InfixOpThingyPhoenix<LHS,boost::phoenix::function<F> >
+operator^( const LHS& lhs, const boost::phoenix::function<F>& f ) {
+  return InfixOpThingyPhoenix<LHS,boost::phoenix::function<F> >(lhs,f);
+}
+
+template <class LHS, class FF, class RHS>
+// This is part of phoenix function lazy prelude.
+// The headers for this are supplied above.
+// One of the things supplied is easy ways to get the return types.
+inline typename boost::phoenix::impl::RTFFXY<FF,LHS,RHS>::type
+operator^( const InfixOpThingyPhoenix<LHS,FF>& x, const RHS& rhs ) {
+  return x.f( x.lhs, rhs )();
+}
 
 }
 
@@ -109,6 +154,19 @@ bool check(const F& f,const G &g)
 
 //////////////////////////////////////////////////////////
 
+// This comes from the cdc_multi example
+// Helper: non-blocking "delay" alternative.
+boolean delay_without_delaying(unsigned long time) {
+  // return false if we're still "delaying", true if time ms has passed.
+  // this should look a lot like "blink without delay"
+  static unsigned long previousmillis = 0;
+  unsigned long currentmillis = millis();
+  if (currentmillis - previousmillis >= time) {
+    previousmillis = currentmillis;
+    return true;
+  }
+  return false;
+}
 
 void setup() {
   Serial.begin(115200);
@@ -117,8 +175,9 @@ void setup() {
   while (!Serial && ((millis() - t1) <= 10000));
   t2 = millis() - t1;
   Serial << "Waited for " << t2 << " millis" << endl;
-  delay(5000);
-  Serial  << "Arduino RP2040 Boost Function Test" << endl;
+  while (!delay_without_delaying(5000) ) { };
+  //delay(5000);
+  Serial  << "Arduino RP2040 Boost Lazy Function Test" << endl;
   Serial.println("--------");
 
   boost::function0<int> g00(f0);
@@ -260,11 +319,75 @@ void setup() {
   Serial.println("--------");
   //using namespace std::placeholders;
   auto f3a = boost::bind(f3,1,_1,_2);
+  // Bound function has to be wrapped as a boost function.
+  boost::function<int(int x,int y)> g3a(f3a);
   Serial << "auto f3a = boost::bind(f3,1,_1,_2)" << endl;
+  Serial << "boost::function<int(int x,int y)> g3a(f3a);" << endl;
   int z4 = f3a(2,3);
   Serial << "f3a(2,3) = " << z4 << endl;
+  int z5 = 2 ^g3a^ 3;
+  Serial << "g3a(2,3) = " << z5 << endl;
+  Serial << "-----------------------" << endl;
+  Serial << "Boost phoenix lazy examples." << endl;
+  Serial << "-----------------------" << endl;
+  namespace phx = boost::phoenix;
+  using boost::phoenix::arg_names::arg1;
+  using boost::phoenix::arg_names::arg2;
+  using boost::phoenix::local_names::_a;
+  using boost::phoenix::local_names::_b;
+  Serial << "phx::plus(2,3)() = " << phx::plus(2,3)() << endl;
+  int ph  =  2 ^phx::plus^ 3;
+  int ph2 =  3 ^phx::minus^ 2;
+  Serial << "2 ^phx::plus^ 3  = " << ph  << endl;
+  Serial << "3 ^phx::minus^ 2 = " << ph2  << endl;
+  Serial << "-----------------------" << endl;
+  using namespace boost::phoenix;
+  int a = 123;
+  int b = 256;
+  Serial << "plus(arg1, arg2)(a, b) = "
+            << phx::plus(arg1, arg2)(a, b) << endl;
+  Serial << "plus(arg1, b)(a)       = "
+            << plus(arg1, b)(a) << endl;
+  Serial << "plus(a, arg2)(a,b)     = "
+            << plus(a, arg2)(a,b) << endl;
+  Serial << "plus(a, arg1)(b)       = "
+            << plus(a, arg1)(b) << endl;
+  Serial << "minus(a, b)()          = "
+            << minus(a, b)() << endl;
+  Serial << "plus(minus(a, b),b)()             = "
+            << plus(minus(a, b),b)() << endl;
+  Serial << "plus(minus(arg1, b),b)(a)         = "
+            << plus(minus(arg1, b),b)(a) << endl;
+  Serial << "plus(minus(arg1, arg2),b)(a,b)    = "
+            << plus(minus(arg1, arg2),b)(a,b) << endl;
+  Serial << "plus(minus(arg1, arg2),arg2)(a,b) = "
+            << plus(minus(arg1, arg2),arg2)(a,b) << endl;
+
+    Serial << "===============================" << endl;
+    Serial << "Other numerical operators" << endl;
+    Serial << "===============================" << endl;
+    Serial << "multiplies(arg1,arg2)(3,6) = "
+            << multiplies(arg1,arg2)(3,6) << endl;
+    Serial << "divides(arg2,arg1)(3,6) = "
+            << divides(arg2,arg1)(3,6) << endl;
+    Serial << "modulus(arg2,arg1)(4,6) = "
+            << modulus(arg2,arg1)(4,6) << endl;
+// This clashes with min in Serial.
+//  int res = phx::min(arg1,arg2)(4,6);
+//  Serial << "phx::min(arg1,arg2)(4,6) = "
+//         << phx::min(arg1,arg2)(4,6) << endl;
+    Serial << "phx::max(arg1,arg2)(4,6) = "
+              << phx::max(arg1,arg2)(4,6) << endl;
+    Serial << "inc(arg1)(a) = "
+              << inc(arg1)(a) << endl;
+    Serial << "dec(arg1)(a) = "
+              << dec(arg1)(a) << endl;
+    Serial << "negate(arg1)(a) = "
+              << negate(arg1)(a) << endl;
   Serial.println("--------");
-  delay(5000);
+
+  //delay(5000);
+  while (!delay_without_delaying(5000) ) { };
   pinMode(LED_BUILTIN, OUTPUT);
 
 }
