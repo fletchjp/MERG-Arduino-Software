@@ -6,6 +6,7 @@
 #include <exception>
 #include <stdexcept>
 #include <functional>
+#include <type_traits>
 
 
 // Dummies to sort out compilation
@@ -34,6 +35,7 @@ namespace boost {
 #include <boost_phoenix_function_lazy_signature.hpp>
 #include <string>
 #include <vector>
+//#include <boost_mp11_list.hpp>
 
 
 // 3rd party libraries
