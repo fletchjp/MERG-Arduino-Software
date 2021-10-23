@@ -31,19 +31,98 @@
 #include <boost_phoenix_bind.hpp>
 #include <boost_phoenix_operator_comparison.hpp>
 #include <boost_phoenix_stl_algorithm_transformation.hpp>
-#include <boost_mp11_list.hpp>
+#include <boost_mp11.hpp>
 #include <string>
 #include <vector>
 #include <functional>
 #include <type_traits>
+#include <typeinfo>
 
 
 // 3rd party libraries
 #include <Streaming.h>
 
+///////////////////////////////////////////////
+// mp11 definitions from boost_mp11_explore.cpp
+///////////////////////////////////////////////
+
 using namespace boost::mp11;
 
+
+// Definitions from https://rawgit.com/pdimov/mp11/master/doc/html/mp11.html
+
+// Turning the example into an actual list.
+template <class X> using  listX = mp_list< mp_list<char[], void>, mp_list<>,
+                                  std::tuple<int, float, char>, std::pair<int, float>,
+                                  std::shared_ptr<X> >;
+
+// Metafunctions
+template<class...> using F1 = void;
+
+template<class T> using F2 = T*;
+
+template<class... T> using F3 = std::integral_constant<std::size_t, sizeof...(T)>;
+
+// Quoted metafunctions
+struct Q1 { template<class...> using fn = void; };
+
+struct Q2 { template<class T> using fn = T*; };
+
+struct Q3 { template<class... T> using fn =
+  std::integral_constant<std::size_t, sizeof...(T)>; };
+
+// Map examples
+using M1 = std::tuple<std::pair<int, int*>, std::pair<float, float*>,
+    std::pair<void, void*>>;
+
+using M2 = mp_list<mp_list<int, int*>, mp_list<float>,
+    mp_list<char, char[1], char[2]>>;
+
+
+
+////////////////////////////////////////////
+// More examples from
+// http://pdimov.com/cpp2/simple_cxx11_metaprogramming.html
+
+using list3_mp11 = mp_rename<std::tuple<int, float, void*>, mp_list>;
+
 using list_mp11 = mp_list<int, char, float, double, void>;
+
+//mp_quote_trait<F> transforms the C++03-style trait F into a quoted metafunction.
+// This seems to be missing from the include files athough in the documentation.
+// It now works with the current version. - so do I have to define it or not?
+/*
+template<template<class...> class F> struct mp_quote_trait
+{
+    template<class... T> using fn = typename F<T...>::type;
+};
+*/
+// Code Example 42. Using mp_quote_trait with std::add_pointer
+
+using QT_L1 = mp_list<int, void, float>;
+//using QT_1  = mp_quote_trait<std::add_pointer>;
+using QT_R1 = mp_transform_q<mp_quote_trait<std::add_pointer>, QT_L1>;
+  // mp_list<int*, void*, float*>
+
+// I came across this while trying to understand mp_inherit which is used in this case
+// and is assumed to be self explanatory.
+
+// Set contains uses inherit
+typedef mp_set_contains<QT_L1,int>::type set_result_L1;
+
+// I have then set out to find a version of mp_quote_trait which will handle it. Here it is.
+
+// Extensions to MP11 invented to handle case of set_contains.
+template<template<class, class> class F> struct mp_quote_trait_S_V
+{
+  template<class S, class V> using fn = typename F<S,V>::type;
+};
+
+template<class Q, class S, class V> using mp_invoke_S_V = typename Q::template fn<S,V>;
+
+using mp_set_contains_q_t = mp_quote_trait_S_V<mp_set_contains>;
+
+typedef mp_invoke_S_V<mp_set_contains_q_t,QT_R1,int*> set_result_R1;
 
 
 ////////////////////////////////////////////
@@ -92,7 +171,7 @@ void delete_value2(std::vector< std::string > &list, const std::string & value)
         list.end(),
         boost::bind(
             isValue, // &isValue works as well.
-            _1, // Boost.Bind placeholder
+            boost::placeholders::_1, // Boost.Bind placeholder
             boost::cref( value ) ) ),
     list.end() );
 }
