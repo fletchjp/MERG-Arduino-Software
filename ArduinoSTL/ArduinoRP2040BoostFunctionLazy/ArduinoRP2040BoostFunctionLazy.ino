@@ -457,6 +457,37 @@ void setup() {
               << lambda(_a = arg1)[_a + arg1](a)(b) << endl;
     Serial << "lambda(_a = arg1,_b = arg2)[_a + _b](a,b)()  = "
               << lambda(_a = arg1,_b = arg2)[_a + _b](a,b)() << endl;
+    Serial << "===============================" << endl;
+    Serial << "make_pair return problem solved" << endl;
+    Serial << "===============================" << endl;
+    a = 99;
+    double c = 2.14;
+    std::pair<int,int> ab0 = std::make_pair(a,b);
+    Serial << "std::make_pair(a,b)            = (";
+    Serial << ab0.first << "," << ab0.second << ")" << endl;
+    std::pair<int,int> ab1 = phx::make_pair(a,b)();
+    Serial << "phx::make_pair(a,b)()          = (";
+    Serial << ab1.first << "," << ab1.second << ")" << endl;
+    std::pair<int,int> ab4 = phx::make_pair(arg1,b)(a);
+    Serial << "phx::make_pair(arg1,b)(a)      = (";
+    Serial << ab4.first << "," << ab4.second << ")" << endl;
+    std::pair<int,int> ab5 = phx::make_pair(arg1,arg2)(a,b);
+    Serial << "phx::make_pair(arg1,arg2)(a,b) = (";
+    Serial << ab5.first << "," << ab5.second << ")" << endl;
+    Serial << "================================" << endl;
+    std::pair<int,double> ac0 = std::make_pair(a,c);
+    Serial << "std::make_pair(a,c)            = (";
+    Serial << ac0.first << "," << ac0.second << ")" << endl;
+    std::pair<int,double> ac1 = phx::make_pair(a,c)();
+    Serial << "phx::make_pair(a,c)()          = (";
+    Serial << ac1.first << "," << ac1.second << ")" << endl;
+    std::pair<int,double> ac2 = phx::make_pair(arg1,c)(a);
+    Serial << "phx::make_pair(arg1,c)(a)      = (";
+    Serial << ac2.first << "," << ac2.second << ")" << endl;
+    std::pair<int,double> ac3 = phx::make_pair(arg1,arg2)(a,c);
+    Serial << "phx::make_pair(arg1,arg2)(a,c) = (";
+    Serial << ac3.first << "," << ac3.second << ")" << endl;
+    Serial << "============================" << endl;
     Serial << "-----------------------" << endl;
     Serial << "Boost phoenix lazy examples." << endl;
     Serial << "-----------------------" << endl;
@@ -570,7 +601,7 @@ void setup() {
   Serial.println("--------");
 
   //delay(5000);
-  while (!delay_without_delaying(5000) ) { };
+  while (!delay_without_delaying(20000) ) { };
   pinMode(LED_BUILTIN, OUTPUT);
 
 }
