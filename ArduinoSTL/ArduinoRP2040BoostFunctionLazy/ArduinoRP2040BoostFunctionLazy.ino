@@ -487,6 +487,13 @@ void setup() {
     std::pair<int,double> ac3 = phx::make_pair(arg1,arg2)(a,c);
     Serial << "phx::make_pair(arg1,arg2)(a,c) = (";
     Serial << ac3.first << "," << ac3.second << ")" << endl;
+    using phx::apply;
+    Serial << "============================" << endl;
+    Serial << "apply tests on lazy_objects"  << endl;
+    Serial << "============================" << endl;
+    Serial << "apply(0,inc,1)() = " << apply(0,inc,1)() << endl;
+    Serial << "apply(3,inc,1)() = " << apply(3,inc,1)() << endl;
+    Serial << "apply(5,arg1,1)(inc) = " << apply(5,arg1,1)(inc) << endl;
     Serial << "============================" << endl;
     Serial << "-----------------------" << endl;
     Serial << "Boost phoenix lazy examples." << endl;
