@@ -124,6 +124,17 @@ using mp_set_contains_q_t = mp_quote_trait_S_V<mp_set_contains>;
 
 typedef mp_invoke_S_V<mp_set_contains_q_t,QT_R1,int*> set_result_R1;
 
+// How to use the boolean result.
+typedef mp_if<set_result_R1,int*,void> type_result;
+
+using T1 = mp_transform<std::add_pointer_t, std::tuple<int, float>>;
+
+// This is using mp_quote_trait to sort out the problem with C++11.
+using mp_q_add_pointer_t = mp_quote_trait<std::add_pointer>;
+using T1a = mp_transform_q<mp_q_add_pointer_t, std::tuple<int, float>>;
+
+using T2 = mp_transform<mp_list, std::tuple<int, float>>;
+
 
 ////////////////////////////////////////////
 // Set up the list here
@@ -273,6 +284,10 @@ void setup() {
   Serial << "Examples with mp_size<T>" << endl;
   Serial << "==============================================================" << endl;
   Serial << "mp_size<list_mp11>::value : " << mp_size<list_mp11>::value << endl;;
+  Serial << "mp_size<list3_mp11>::value : " << mp_size<list3_mp11>::value << endl;;
+  Serial << "mp_size<M1>::value    : " << mp_size<M1>::value << endl;;
+  Serial << "mp_size<M2>::value    : " << mp_size<M2>::value << endl;;
+  Serial << "==============================================================" << endl;
   Serial.println("--------");
   while (!delay_without_delaying(5000) ) { };
   pinMode(LED_BUILTIN, OUTPUT);
