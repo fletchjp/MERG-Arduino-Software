@@ -114,6 +114,7 @@ operator^( const LHS& lhs, const boost::phoenix::function<F>& f ) {
 }
 
 // Experiment using std::decay which I had not heard of before.
+// I have used this to reimplement RTFFXY from phoenix function lazy prelude.
 namespace impl {
      //   RTFFXY   == ReturnTypeFunctoidFwithXandY   (used in thunk2)
       template <class F,class X,class Y>
@@ -133,6 +134,7 @@ template <class LHS, class FF, class RHS>
 // The headers for this are supplied above.
 // One of the things supplied is easy ways to get the return types.
 //inline typename boost::phoenix::impl::RTFFXY<FF,LHS,RHS>::type
+// Now using the local version
 inline typename impl::RTFFXY<FF,LHS,RHS>::type // local experiment
 operator^( const InfixOpThingyPhoenix<LHS,FF>& x, const RHS& rhs ) {
   return x.f( x.lhs, rhs )();
