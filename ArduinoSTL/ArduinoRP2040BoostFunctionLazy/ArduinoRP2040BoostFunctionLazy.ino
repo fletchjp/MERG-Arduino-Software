@@ -19,6 +19,8 @@ namespace boost {
 }
 
 #undef F
+#define BOOST_PHOENIX_NO_LAZY_EXCEPTIONS
+
 #include <boost_utility_result_of.hpp>
 #include <boost_function.hpp>
 #include <boost_bind.hpp>
@@ -424,6 +426,115 @@ void setup() {
               << lambda(_a = arg1)[_a + arg1](a)(b) << endl;
     Serial << "lambda(_a = arg1,_b = arg2)[_a + _b](a,b)()  = "
               << lambda(_a = arg1,_b = arg2)[_a + _b](a,b)() << endl;
+    Serial << "-----------------------" << endl;
+    Serial << "Boost phoenix lazy examples." << endl;
+    Serial << "-----------------------" << endl;
+    Serial << "============================" << endl;
+    Serial << "list<T> tests" << endl;
+    Serial << "============================" << endl;
+    using phx::list;
+    using phx::cons;
+    list<int> l0;
+    list<int> l1 = cons(1,l0);
+    list<int> l2 = cons(2,l1);
+    list<int> l3 = cons(3,l2);
+    list<int> l4 = cons(4,l3);
+    Serial << "head(l1)()           = " << head(l1)() << endl;
+    Serial << "head(arg1)(l1)       = " << head(arg1)(l1) << endl;
+    Serial << "head(l2)()           = " << head(l2)() << endl;
+    Serial << "head(tail(l2))()     = " << head(tail(l2))() << endl;
+    Serial << "head(tail(arg1))(l2) = " << head(tail(arg1))(l2) << endl;
+    Serial << "-----------------------" << endl;
+    typedef phx::list_iterator<int> list_iterator_int;
+    list_iterator_int li;
+    Serial << "l1 = ( ";
+    for (li = l1.begin(); li != l1.end(); li++)
+      Serial << *li << " ";
+    Serial << ")" << endl;
+    Serial << "l2 = ( ";
+    for (li = l2.begin(); li != l2.end(); li++)
+      Serial << *li << " ";
+    Serial << ")" << endl;
+    Serial << "l3 = ( ";
+    for (li = l3.begin(); li != l3.end(); li++)
+      Serial << *li << " ";
+    Serial << ")" << endl;
+    Serial << "l4 = ( ";
+    for (li = l4.begin(); li != l4.end(); li++)
+      Serial << *li << " ";
+    Serial << ")" << endl;
+    list<int> l5 = cons(5,NIL);
+    Serial << "l5 = ( ";
+    for (li = l5.begin(); li != l5.end(); li++)
+      Serial << *li << " ";
+    Serial << ")" << endl;
+    Serial << "list<int> l6 = take(2,l4)();" << endl;
+    list<int> l6 = take(2,l4)();
+    Serial << "l6 = ( ";
+    for (li = l6.begin(); li != l6.end(); li++)
+      Serial << *li << " ";
+    Serial << ")" << endl;
+    list<int> l7 = cons(7,take(2,l4));
+    Serial << "list<int> l7 = cons(7,take(2,l4));" << endl;
+    Serial << "l7 = ( ";
+    for (li = l7.begin(); li != l7.end(); li++)
+      Serial << *li << " ";
+    Serial << ")" << endl;
+    // I am surprised that this one works.
+    list<int> l8 = take(1,take(3,l4))();
+    Serial << "list<int> l8 = take(1,take(3,l4))();" << endl;
+    Serial << "l8 = ( ";
+    for (li = l8.begin(); li != l8.end(); li++)
+      Serial << *li << " ";
+    Serial << ")" << endl;
+    if (l8 < l7) Serial << "(l8 < l7) is true" << endl;
+    list<int> l9 = list_with<>()(1,2,3,4,5);
+    Serial << "list<int> l9 = list_with<>()(1,2,3,4,5);" << endl;
+    Serial << "l9 = ( ";
+    for (li = l9.begin(); li != l9.end(); li++)
+      Serial << *li << " ";
+    Serial << ")" << endl;
+    list<int> l10 = cat(l8,NIL);
+    Serial << "list<int> l10 = cat(l8,NIL);" << endl;
+    Serial << "l10 = ( ";
+    for (li = l10.begin(); li != l10.end(); li++)
+      Serial << *li << " ";
+    Serial << ")" << endl;
+    list<int> l11 = cat(l0,l9);
+    Serial << "list<int> l11 = cat(l0,l9);" << endl;
+    Serial << "l11 = ( ";
+    for (li = l11.begin(); li != l11.end(); li++)
+      Serial << *li << " ";
+    Serial << ")" << endl;
+    list<int> l12 = cat(l10,l9);
+    Serial << "list<int> l12 = cat(l10,l9);" << endl;
+    Serial << "l12 = ( ";
+    for (li = l12.begin(); li != l12.end(); li++)
+      Serial << *li << " ";
+    Serial << ")" << endl;
+    list<int> l13 = cat(l8,take(2,l4));
+    Serial << "list<int> l13 = cat(l8,take(2,l4));" << endl;
+    Serial << "l13 = ( ";
+    for (li = l13.begin(); li != l13.end(); li++)
+      Serial << *li << " ";
+    Serial << ")" << endl;
+    list<int> l14 = all_but_last(l13)();
+    Serial << "list<int> l14 = all_but_last(l13)();" << endl;
+    Serial << "l14 = ( ";
+    for (li = l14.begin(); li != l14.end(); li++)
+      Serial << *li << " ";
+    Serial << ")" << endl;
+    list<int> l15 = drop(2,l12)();
+    Serial << "list<int> l15 = drop(2,l12)();" << endl;
+    Serial << "l15 = ( ";
+    for (li = l15.begin(); li != l15.end(); li++)
+      Serial << *li << " ";
+    Serial << ")" << endl;
+    list<int> l16 = cons(arg1,l0)(16);
+    Serial << "l16 = ( ";
+    for (li = l16.begin(); li != l16.end(); li++)
+      Serial << *li << " ";
+    Serial << ")" << endl;
 
   Serial.println("--------");
 
