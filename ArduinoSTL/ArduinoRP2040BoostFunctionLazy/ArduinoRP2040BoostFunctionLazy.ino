@@ -384,6 +384,47 @@ void setup() {
               << dec(arg1)(a) << endl;
     Serial << "negate(arg1)(a) = "
               << negate(arg1)(a) << endl;
+    Serial << "===============================" << endl;
+    Serial << "Odds and ends" << endl;
+    Serial << "===============================" << endl;
+    Serial << "id(arg1)(a) = "
+              << id(arg1)(a) << endl;
+    Serial << "=====================================" << endl;
+    Serial << "operations with operators" << endl;
+    Serial << "arg1(x) returns the first argument" << endl;
+    Serial << "arg2(x,y) returns the second argument" << endl;
+    Serial << "=====================================" << endl;
+    Serial << "(arg1 + arg2)(a,b)            = "
+              << (arg1 + arg2)(a, b) << endl;
+    Serial << "(arg1 - arg2)(a,b)            = "
+              << (arg1 - arg2)(a, b) << endl;
+    Serial << "(plus(arg1,arg2) - arg2)(a,b) = "
+              << (plus(arg1,arg2) - arg2)(a, b) << endl;
+    // This is not a good idea
+    //Serial << "arg1(plus)(a,b) = "
+    //          << arg1(plus)(a,b)<< endl;
+    //Serial << "(arg1(a,arg2) - arg2)(plus,b) = "
+    //          << (arg1(a,arg2) - arg2)(plus,b) << endl;
+    // This does NOT work.
+    //Serial << "(arg1 ^plus^ arg2)(a, b) = " << (arg1 ^plus^ arg2)(a, b) << endl; 
+    Serial << "=========================" << endl;
+    Serial << "let and lambda versions  " << endl;
+    Serial << "=========================" << endl;
+    // These require the header phoenix/scope.hpp
+    Serial << "let(_a = arg1,_b = arg2)[_a + _b](a,b)       = "
+              << let(_a = arg1,_b = arg2)[_a + _b](a,b) << endl;
+    Serial << "lambda[arg1 + arg2]()(a,b)                   = "
+              << lambda[arg1 + arg2]()(a,b) << endl;
+    // This one does not compile.
+    //Serial << "lambda()[arg1 + arg2]()(a,b)                 = "
+    //          << lambda()[arg1 + arg2]()(a,b) << endl;
+    Serial << "lambda(_a = arg1)[_a + arg2](a)(a,b)         = "
+              << lambda(_a = arg1)[_a + arg2](a)(a,b) << endl;
+    Serial << "lambda(_a = arg1)[_a + arg1](a)(b)           = "
+              << lambda(_a = arg1)[_a + arg1](a)(b) << endl;
+    Serial << "lambda(_a = arg1,_b = arg2)[_a + _b](a,b)()  = "
+              << lambda(_a = arg1,_b = arg2)[_a + _b](a,b)() << endl;
+
   Serial.println("--------");
 
   //delay(5000);
