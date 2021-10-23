@@ -1,6 +1,8 @@
 //////////////////////////////////////////////////////////
 // Arduino RP2040 Standard tests
 // This version does not use Boost Libraries
+// I am going to use this to develop 
+// new understanding of C++17 std features.
 // It also uses delay_without_delaying
 //////////////////////////////////////////////////////////
 
@@ -12,6 +14,11 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <type_traits>
+
+// 3rd party libraries
+#include <Streaming.h>
+
 
 ////////////////////////////////////////////
 // Set up the list here
@@ -77,6 +84,17 @@ void show_list1( const std::vector< std::string > &list )
 }
 
 //////////////////////////////////////////////////////////
+// std::decay which I have somehow missed from C++11.
+// also decay_t = typename decay<T>::type; since C++14
+// https://en.cppreference.com/w/cpp/types/decay
+//////////////////////////////////////////////////////////
+
+template <typename T, typename U>
+struct decay_equiv : 
+    std::is_same<typename std::decay<T>::type, U>::type 
+{};
+
+//////////////////////////////////////////////////////////
 
 // This comes from the cdc_multi example
 // Helper: non-blocking "delay" alternative.
@@ -114,6 +132,14 @@ void setup() {
   std::vector< std::string > list2 = make_list();
   delete_value2(list2,value);
   show_list1(list2);
+  Serial.println("--------");
+    Serial << "bools as alpha not available, 1 = true\n" 
+           << decay_equiv<int, int>::value << '\n'
+           << decay_equiv<int&, int>::value << '\n'
+           << decay_equiv<int&&, int>::value << '\n'
+           << decay_equiv<const int&, int>::value << '\n'
+           << decay_equiv<int[2], int*>::value << '\n'
+           << decay_equiv<int(int), int(*)(int)>::value << endl;
   Serial.println("--------");
   // Test this routine
   while (!delay_without_delaying(5000) ) { };
