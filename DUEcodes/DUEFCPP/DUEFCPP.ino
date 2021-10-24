@@ -2,7 +2,7 @@
 // Demo of FC++ Maybe operation
 // This will work on ARDUINO DUE but not on AVR boards.
 
-#include "fcpp/prelude.h"
+#include "fcpp_prelude.h"
 
 #include <Streaming.h>
 

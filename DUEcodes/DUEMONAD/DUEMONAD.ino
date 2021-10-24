@@ -5,7 +5,7 @@
 // Function 6, 7 and 8 now operational.
 #define FCPP152
 #define FCPP_ENABLE_LAMBDA
-#include "fcpp/prelude.h"
+#include "fcpp_prelude.h"
 
 #include <Streaming.h>
 
