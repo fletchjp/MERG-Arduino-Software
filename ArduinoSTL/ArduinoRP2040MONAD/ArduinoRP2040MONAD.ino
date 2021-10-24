@@ -1,4 +1,7 @@
-// DUEMONAD
+////////////////////////////////////////////////////////////////
+// Arduino RP2040 Monad
+////////////////////////////////////////////////////////////////
+// was DUEMONAD
 // Demo of FC++ Maybe Monad operations
 // This will work on ARDUINO DUE but not on AVR boards.
 // 5 parameter functoids and more for example working.
@@ -273,10 +276,35 @@ void explore_bindm()
     Serial << "---------------------" << endl;
 }
 
+//////////////////////////////////////////////////////////
+
+// This comes from the cdc_multi example
+// Helper: non-blocking "delay" alternative.
+boolean delay_without_delaying(unsigned long time) {
+  // return false if we're still "delaying", true if time ms has passed.
+  // this should look a lot like "blink without delay"
+  static unsigned long previousmillis = 0;
+  unsigned long currentmillis = millis();
+  if (currentmillis - previousmillis >= time) {
+    previousmillis = currentmillis;
+    return true;
+  }
+  return false;
+}
+
 void setup() {
   // put your setup code here, to run once:
   Serial.begin (115200);
-  Serial << endl << endl << F("> DUEFCPP ** ") << __FILE__ << endl;
+  unsigned long t1 = millis();
+  unsigned long t2;
+  while (!Serial && ((millis() - t1) <= 10000));
+  t2 = millis() - t1;
+  Serial.print("Waited for ");
+  Serial.print(t2);
+  Serial.println(" millis");
+  while (!delay_without_delaying(5000) ) { };
+
+  Serial << endl << endl << "Arduino RP2040 FC++ Monads " << __FILE__ << endl;
   Serial << "Some simple FC++ Monad operations" << endl;
   Serial << "plus(1,2) = " << plus(1,2) << endl;
   Serial << "plus(1.5,2.3) = " << plus(1.5,2.3) << endl;
@@ -371,6 +399,8 @@ void setup() {
   Serial << "Length of odds is " << length(odds) << endl;
   Serial << "sum of the odds is " << sum_odds << endl;
   explore_bindm();
+  while (!delay_without_delaying(5000) ) { };
+
 }
 
 void loop() {
