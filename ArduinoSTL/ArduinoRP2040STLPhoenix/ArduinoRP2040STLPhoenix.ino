@@ -156,7 +156,7 @@ void setup() {
   Serial.print("Waited for ");
   Serial.print(t2);
   Serial.println(" millis");
-  delay(2000);
+  while (!delay_without_delaying(5000) ) { };
   Serial.println("Arduino RP2040 Boost Phoenix Test");
   std::string value = "goose";
 
