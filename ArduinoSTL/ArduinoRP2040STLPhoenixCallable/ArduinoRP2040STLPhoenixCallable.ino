@@ -1,6 +1,10 @@
 //////////////////////////////////////////////////////////
-// Arduino RP2040 Boost Phoenix tests
-//////////////////////////////////////////////////////////
+// Arduino RP2040 Boost Phoenix Callable tests
+// Adding examples from FC++NewCode\callable_traits_throwassert_example.cpp
+// https://www.boost.org/doc/libs/master/libs/callable_traits/doc/html/index.html
+////////////////////////////////////////////////////////////////////////////
+// ThrowAssert is not usable with the Arduino-Pico system which does not support exceptions.
+////////////////////////////////////////////////////////////////////////////
 
 // This is a comparison of several ways of deleting an entry from a list of strings.
 
@@ -27,9 +31,12 @@
 #include <boost_phoenix_bind.hpp>
 #include <boost_phoenix_operator_comparison.hpp>
 #include <boost_phoenix_stl_algorithm_transformation.hpp>
+#include <boost_callable_traits.hpp>
 #include <string>
 #include <vector>
 #include <functional>
+#include <type_traits>
+#include <tuple>
 
 
 // 3rd party libraries
@@ -132,6 +139,62 @@ void show_list1( const std::vector< std::string > &list )
   std::for_each(list.begin(), list.end(), out_string);
 }
 
+//////////////////////////////////////////////////////////
+
+namespace ct = boost::callable_traits;
+
+// This function template helps keep our example code neat
+template<typename A, typename B>
+void assert_same(){ static_assert(std::is_same<A, B>::value, ""); }
+
+// Adding things from example/return_type.cpp
+using expect = int;
+
+// foo is a function object
+struct foo {
+    void operator()(int, char, float) const {}
+    int bar(int x) const { return x; }
+};
+
+struct foo2 {
+    int operator()(int x, char, float) const { return x; }
+    int bar(int x) const { return x; }
+};
+
+struct foo3 {
+    void bar() const {}
+};
+
+using pmf2     = int(foo2::*)(int, char, float) const;
+
+template<typename T>
+void test() {
+    using result = ct::return_type_t<T>;
+    static_assert(std::is_same<expect, result>{}, "");
+}
+
+using const_removed = ct::remove_member_const_t<decltype(&foo3::bar)>;
+
+static_assert(std::is_same<const_removed, void(foo3::*)()>::value, "");
+
+void callable_tests() {
+  // This is how to get pmf to a member function
+    int (foo2::* pmf2bar)(int) const = &foo2::bar;
+
+    // Use args_t to retrieve a parameter list as a std::tuple:
+    assert_same<
+        ct::args_t<foo>,
+        std::tuple<int, char, float>
+    >();
+
+    // arg_at_t gives us indexed access to a parameter list
+    /* This is not now included.
+    assert_same<
+        ct::arg_at_t<1, foo>,
+        char
+    >();
+    */
+}
 //////////////////////////////////////////////////////////
 
 // This comes from the cdc_multi example
