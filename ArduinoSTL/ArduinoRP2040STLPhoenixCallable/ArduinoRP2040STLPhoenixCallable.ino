@@ -191,6 +191,7 @@ void callable_tests() {
 
     // arg_at_t gives us indexed access to a parameter list
     /* This is not now included.
+     * It was removed in the review for Boost acceptance.
     assert_same<
         ct::arg_at_t<1, foo>,
         char
