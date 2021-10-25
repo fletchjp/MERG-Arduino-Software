@@ -243,17 +243,18 @@ struct Circle {
   void draw() const { Serial << "Circle"; }
 };
 
-drawable ds(Square{});
-drawable dc(Circle{});
-
+//drawable ds(Square{});
+//drawable dc(Circle{});
 /*
- * This does not compile.
+ * This does not compile without this declaration
+ * which is not needed in the example code.
  */
-/*
-void f(drawable const& d) {
+void f(drawable const &d);
+
+void f(drawable const &d) {
   d.draw();
 }
-*/
+
 
 
 //////////////////////////////////////////////////////////
@@ -306,11 +307,11 @@ void setup() {
   while (!delay_without_delaying(5000) ) { };
   Serial << "Dyno example" << endl;
   Serial.println("--------");
-  //f(Square{}); // prints Square
-  ds.draw();
+  f(Square{}); // prints Square
+  //ds.draw();
   Serial << endl;
-  //f(Circle{}); // prints Circle
-  dc.draw();
+  f(Circle{}); // prints Circle
+  //dc.draw();
   Serial << endl;
   Serial.println("--------");
 
