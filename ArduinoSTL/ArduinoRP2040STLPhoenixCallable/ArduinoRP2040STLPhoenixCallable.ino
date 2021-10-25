@@ -2,6 +2,7 @@
 // Arduino RP2040 Boost Phoenix Callable tests
 // Adding examples from FC++NewCode\callable_traits_throwassert_example.cpp
 // https://www.boost.org/doc/libs/master/libs/callable_traits/doc/html/index.html
+// There is quite a lot which can be done using callable traits.
 ////////////////////////////////////////////////////////////////////////////
 // ThrowAssert is not usable with the Arduino-Pico system which does not support exceptions.
 ////////////////////////////////////////////////////////////////////////////
@@ -173,6 +174,7 @@ void test() {
     static_assert(std::is_same<expect, result>{}, "");
 }
 
+// Example adapted from the manual.
 using const_removed = ct::remove_member_const_t<decltype(&foo3::bar)>;
 
 static_assert(std::is_same<const_removed, void(foo3::*)()>::value, "");
