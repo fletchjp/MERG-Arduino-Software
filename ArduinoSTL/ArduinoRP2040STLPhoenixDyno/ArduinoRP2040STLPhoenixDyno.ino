@@ -3,6 +3,7 @@
 // Adding examples from FC++NewCode\callable_traits_throwassert_example.cpp
 // https://www.boost.org/doc/libs/master/libs/callable_traits/doc/html/index.html
 // There is quite a lot which can be done using callable traits.
+// I have now added an example of use of the dyno library as well.
 ////////////////////////////////////////////////////////////////////////////
 // ThrowAssert is not usable with the Arduino-Pico system which does not support exceptions.
 ////////////////////////////////////////////////////////////////////////////
