@@ -34,13 +34,19 @@
 #include <boost_phoenix_operator_comparison.hpp>
 #include <boost_phoenix_stl_algorithm_transformation.hpp>
 #include <boost_callable_traits.hpp>
+#include <cstddef>
 #include <string>
+#include <array>
+#include <iterator>
+#include <utility>
 #include <vector>
 #include <functional>
 #include <type_traits>
 #include <tuple>
 // default_concept_map disabled as it uses typeid which is not available for the RP2040 
 #include <dyno.hpp>
+#include <dyno_testing.hpp>
+#include <dyno_any_iterator.hpp>
 
 
 // 3rd party libraries
@@ -256,7 +262,81 @@ void f(drawable const &d) {
   d.draw();
 }
 
+//
+// Example of creating a naive equivalent to `std::function` using the library.
+//
 
+template <typename Signature>
+struct Callable;
+
+template <typename R, typename ...Args>
+struct Callable<R(Args...)> : decltype(dyno::requires(
+  dyno::CopyConstructible{},
+  dyno::MoveConstructible{},
+  dyno::Destructible{},
+  "call"_s = dyno::function<R (dyno::T const&, Args...)>
+)) { };
+
+template <typename R, typename ...Args, typename F>
+auto const dyno::default_concept_map<Callable<R(Args...)>, F> = dyno::make_concept_map(
+  "call"_s = [](F const& f, Args ...args) -> R {
+    return f(std::forward<Args>(args)...);
+  }
+);
+
+// Provide the default storage policy as in dyno/poly.hpp
+template <typename Signature, typename StoragePolicy = dyno::remote_storage>
+struct basic_function;
+
+template <typename R, typename ...Args, typename StoragePolicy>
+struct basic_function<R(Args...), StoragePolicy> {
+  template <typename F = R(Args...)>
+  basic_function(F&& f) : poly_{std::forward<F>(f)} { }
+
+  R operator()(Args ...args) const
+  { return poly_.virtual_("call"_s)(poly_, std::forward<Args>(args)...); }
+
+private:
+  dyno::poly<Callable<R(Args...)>, StoragePolicy> poly_;
+};
+
+template <typename Signature>
+using function = basic_function<Signature>;
+
+template <typename Signature>
+using function_sbo = basic_function<Signature, dyno::sbo_storage<16>>;
+
+template <typename Signature>
+using function_view = basic_function<Signature, dyno::non_owning_storage>;
+
+template <typename Signature> // could also templatize the size
+using inplace_function = basic_function<Signature, dyno::local_storage<32>>;
+
+//
+// Tests
+//
+
+struct ToStringAdd {
+  ToStringAdd(int num) : num_(num) { }
+  std::string to_string_add(int i) const { return std::to_string(num_ + i); }
+  int num_;
+};
+
+struct ToStringSub {
+  ToStringSub(int num) : num_(num) { }
+  std::string to_string_sub(int i) const { return std::to_string(num_ - i); }
+  int num_;
+};
+
+struct ToString {
+  std::string operator()(int i) const { return std::to_string(i); }
+};
+
+void test_functions() {
+    inplace_function<std::string(int)> tostring = std::to_string;
+    std::string one = tostring(1);
+    Serial << "one = " << one.c_str() << endl;
+}
 
 //////////////////////////////////////////////////////////
 
@@ -315,8 +395,24 @@ void setup() {
   //dc.draw();
   Serial << endl;
   Serial.println("--------");
+  ////////////////////////////////////////////////////////////////////////////
+  // Iteration
+  ////////////////////////////////////////////////////////////////////////////
+  {
+    using Iterator = any_iterator<int, std::forward_iterator_tag>;
+    std::vector<int> input{1, 2, 3, 4};
+    std::vector<int> result;
 
-  
+    //Iterator first{input.begin()}, last{input.end()};
+    //for (; first != last; ++first) {
+    //  result.push_back(*first);
+    //}
+    //DYNO_CHECK(result == input);
+  }
+  Serial.println("--------");
+  test_functions();
+  Serial.println("--------");
+ 
   pinMode(LED_BUILTIN, OUTPUT);
 
 }
