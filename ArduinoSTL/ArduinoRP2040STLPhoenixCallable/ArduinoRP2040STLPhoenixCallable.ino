@@ -197,7 +197,14 @@ void callable_tests() {
         char
     >();
     */
+    // This is the equivalent operation using the tuple returned by ct::args_t.
+    using SelectedType = std::tuple_element_t<1,ct::args_t<foo>>;
+    assert_same<
+        SelectedType,
+        char
+    >();
 }
+
 //////////////////////////////////////////////////////////
 
 // This comes from the cdc_multi example
