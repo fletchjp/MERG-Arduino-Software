@@ -208,6 +208,55 @@ void callable_tests() {
 }
 
 //////////////////////////////////////////////////////////
+using namespace dyno::literals;
+
+// Note that I am leaving out the std::ostream argument as that will be Serial.
+
+// Define the interface of something that can be drawn
+struct Drawable : decltype(dyno::requires(
+  "draw"_s = dyno::method<void () const>
+)) { };
+
+// Define how concrete types can fulfill that interface
+template <typename T>
+auto const dyno::default_concept_map<Drawable, T> = dyno::make_concept_map(
+  "draw"_s = [](T const& self) { self.draw(); }
+);
+
+// Define an object that can hold anything that can be drawn.
+struct drawable {
+  template <typename T>
+  drawable(T x) : poly_{x} { }
+
+  void draw() const
+  { poly_.virtual_("draw"_s)(); }
+
+private:
+  dyno::poly<Drawable> poly_;
+};
+
+struct Square {
+  void draw() const { Serial << "Square"; }
+};
+
+struct Circle {
+  void draw() const { Serial << "Circle"; }
+};
+
+drawable ds(Square{});
+drawable dc(Circle{});
+
+/*
+ * This does not compile.
+ */
+/*
+void f(drawable const& d) {
+  d.draw();
+}
+*/
+
+
+//////////////////////////////////////////////////////////
 
 // This comes from the cdc_multi example
 // Helper: non-blocking "delay" alternative.
@@ -233,7 +282,7 @@ void setup() {
   Serial.print(t2);
   Serial.println(" millis");
   while (!delay_without_delaying(5000) ) { };
-  Serial.println("Arduino RP2040 Boost Phoenix Test");
+  Serial.println("Arduino RP2040 Boost Phoenix Dyno Test");
   std::string value = "goose";
 
   std::vector< std::string > list1 = make_list();
@@ -255,6 +304,15 @@ void setup() {
   show_list1(list4);
   Serial.println("--------");
   while (!delay_without_delaying(5000) ) { };
+  Serial << "Dyno example" << endl;
+  Serial.println("--------");
+  //f(Square{}); // prints Square
+  ds.draw();
+  Serial << endl;
+  //f(Circle{}); // prints Circle
+  dc.draw();
+  Serial << endl;
+  Serial.println("--------");
 
   
   pinMode(LED_BUILTIN, OUTPUT);
