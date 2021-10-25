@@ -38,6 +38,8 @@
 #include <functional>
 #include <type_traits>
 #include <tuple>
+// default_concept_map disabled as it uses typeid which is not available for the RP2040 
+#include <dyno.hpp>
 
 
 // 3rd party libraries
