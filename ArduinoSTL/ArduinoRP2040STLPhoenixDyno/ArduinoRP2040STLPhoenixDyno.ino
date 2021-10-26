@@ -216,27 +216,28 @@ void callable_tests() {
 }
 
 //////////////////////////////////////////////////////////
-using namespace dyno::literals;
+// These can replace the string literals and are better with C++17
+static auto foobar = DYNO_STRING("foobar");
+// I am defining these as dyno_something to avoid name clashes
+// They could be in a namespace.
+static auto dyno_call = DYNO_STRING("call");
+static auto dyno_draw = DYNO_STRING("draw");
 
-//https://stackoverflow.com/questions/8001207/compile-time-typeid-without-rtti-with-gcc?rq=1
-/*
-template <typename T>
-std::type_info my_typeid(T t) {
-  return what??
-};
-*/
+using namespace dyno::literals;
 
 // Note that I am leaving out the std::ostream argument as that will be Serial.
 
 // Define the interface of something that can be drawn
 struct Drawable : decltype(dyno::requires(
-  "draw"_s = dyno::method<void () const>
+  dyno_draw = dyno::method<void () const>
+//  "draw"_s = dyno::method<void () const>
 )) { };
 
 // Define how concrete types can fulfill that interface
 template <typename T>
 auto const dyno::default_concept_map<Drawable, T> = dyno::make_concept_map(
-  "draw"_s = [](T const& self) { self.draw(); }
+  dyno_draw = [](T const& self) { self.draw(); }
+//  "draw"_s = [](T const& self) { self.draw(); }
 );
 
 // Define an object that can hold anything that can be drawn.
@@ -283,12 +284,14 @@ struct Callable<R(Args...)> : decltype(dyno::requires(
   dyno::CopyConstructible{},
   dyno::MoveConstructible{},
   dyno::Destructible{},
-  "call"_s = dyno::function<R (dyno::T const&, Args...)>
+  dyno_call = dyno::function<R (dyno::T const&, Args...)>
+  //"call"_s = dyno::function<R (dyno::T const&, Args...)>
 )) { };
 
 template <typename R, typename ...Args, typename F>
 auto const dyno::default_concept_map<Callable<R(Args...)>, F> = dyno::make_concept_map(
-  "call"_s = [](F const& f, Args ...args) -> R {
+//  "call"_s = [](F const& f, Args ...args) -> R {
+    dyno_call = [](F const& f, Args ...args) -> R {
     return f(std::forward<Args>(args)...);
   }
 );
@@ -345,6 +348,43 @@ void test_functions() {
     inplace_function<std::string(int)> tostring = std::to_string;
     std::string one = tostring(1);
     Serial << "one = " << one.c_str() << endl;
+}
+
+void test_iterators() {
+  ////////////////////////////////////////////////////////////////////////////
+  // Iteration
+  ////////////////////////////////////////////////////////////////////////////
+  {
+    using Iterator = any_iterator<int, std::forward_iterator_tag>;
+    std::vector<int> input{1, 2, 3, 4};
+    std::vector<int> result;
+
+    Iterator first{input.begin()}, last{input.end()};
+    for (; first != last; ++first) {
+      result.push_back(*first);
+    }
+    if (result != input ) Serial << "Iterator test 1 failed" << endl;
+    else  Serial << "Iterator test 1 succeeded" << endl;
+    //DYNO_CHECK(result == input);
+  }
+
+  {
+    using Iterator = any_iterator<int, std::bidirectional_iterator_tag>;
+    std::array<int, 4> input{{1, 2, 3, 4}};
+    std::array<int, 4> result;
+    std::reverse_iterator<Iterator> first{Iterator{input.end()}},
+                                    last{Iterator{input.begin()}};
+    Iterator out{result.begin()};
+
+    for (; first != last; ++first, ++out) {
+      *out = *first;
+    }
+    std::array<int, 4> expected{{4, 3, 2, 1}};
+    if (result != expected ) Serial << "Iterator test 2 failed" << endl;
+    else  Serial << "Iterator test 2 succeeded" << endl;
+    //DYNO_CHECK(result == expected);
+  }
+  
 }
 
 //////////////////////////////////////////////////////////
@@ -404,22 +444,7 @@ void setup() {
   //dc.draw();
   Serial << endl;
   Serial.println("--------");
-  ////////////////////////////////////////////////////////////////////////////
-  // Iteration
-  ////////////////////////////////////////////////////////////////////////////
-  {
-    using Iterator = any_iterator<int, std::forward_iterator_tag>;
-    std::vector<int> input{1, 2, 3, 4};
-    std::vector<int> result;
-
-    Iterator first{input.begin()}, last{input.end()};
-    for (; first != last; ++first) {
-      result.push_back(*first);
-    }
-    if (result[0] != input[0]) Serial << "Iterator test failed" << endl;
-    else  Serial << "Iterator test succeeded" << endl;
-    //DYNO_CHECK(result == input);
-  }
+  test_iterators();
   Serial.println("--------");
   test_functions();
   Serial.println("--------");
