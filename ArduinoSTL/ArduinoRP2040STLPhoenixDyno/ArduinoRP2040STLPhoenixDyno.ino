@@ -234,8 +234,13 @@ struct Drawable : decltype(dyno::requires(
 )) { };
 
 // Define how concrete types can fulfill that interface
+// I have changed this from being the named default_concept_map
+// as that is then picked up by the std::vector<T> which fails.
+// When I do it like this it works for the Square case.
+// The alternative is used for Circle and the vector<T> case also works.
 template <typename T>
-auto const dyno::default_concept_map<Drawable, T> = dyno::make_concept_map(
+//auto const dyno::default_concept_map<Drawable, T> = dyno::make_concept_map(
+auto const dyno::concept_map<Drawable, T> = dyno::make_concept_map(
   dyno_draw = [](T const& self) { self.draw(); }
 //  "draw"_s = [](T const& self) { self.draw(); }
 );
@@ -468,7 +473,7 @@ void setup() {
   //dc.draw();
   // Parametric Concept Map example
   //Serial << endl;
-  //f(std::vector<int>{1, 2, 3}); // prints "1 2 3 "
+  f(std::vector<int>{1, 2, 3}); // prints "1 2 3 "
   Serial << endl;
   Serial.println("--------");
   test_iterators();
