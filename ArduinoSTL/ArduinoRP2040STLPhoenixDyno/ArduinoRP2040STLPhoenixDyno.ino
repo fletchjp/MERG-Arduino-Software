@@ -246,7 +246,7 @@ struct drawable {
   drawable(T x) : poly_{x} { }
 
   void draw() const
-  { poly_.virtual_("draw"_s)(); }
+  { poly_.virtual_(dyno_draw)(); }
 
 private:
   dyno::poly<Drawable> poly_;
@@ -260,6 +260,14 @@ struct Circle {
   void draw() const { Serial << "Circle"; }
 };
 
+//Circle now prints triangle
+template <>
+auto dyno::concept_map<Drawable, Circle> = dyno::make_concept_map(
+  dyno_draw = [](Circle const& circle) {
+    Serial << "triangle" << endl;
+  }
+);
+
 //drawable ds(Square{});
 //drawable dc(Circle{});
 /*
@@ -271,6 +279,22 @@ void f(drawable const &d);
 void f(drawable const &d) {
   d.draw();
 }
+
+// Extensions of drawable from the Readme.
+
+// Parametric concept map
+// This does not work as it expects to fulfil the default concept map as well.
+template <typename T>
+auto const dyno::concept_map<Drawable, std::vector<T>
+//, std::void_t<decltype(Serial << std::declval<T>())>
+> = dyno::make_concept_map(
+//  "draw"_s = [](std::vector<T> const& v) {
+    dyno_draw = [](std::vector<T> const& v) {
+    for (auto const& x : v)
+      Serial << x << ' ';
+  }
+);
+
 
 //
 // Example of creating a naive equivalent to `std::function` using the library.
@@ -442,6 +466,9 @@ void setup() {
   Serial << endl;
   f(Circle{}); // prints Circle
   //dc.draw();
+  // Parametric Concept Map example
+  //Serial << endl;
+  //f(std::vector<int>{1, 2, 3}); // prints "1 2 3 "
   Serial << endl;
   Serial.println("--------");
   test_iterators();
