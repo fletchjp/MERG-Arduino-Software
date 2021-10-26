@@ -43,6 +43,7 @@
 #include <functional>
 #include <type_traits>
 #include <tuple>
+#include <typeinfo>
 // default_concept_map disabled as it uses typeid which is not available for the RP2040 
 #include <dyno.hpp>
 #include <dyno_testing.hpp>
@@ -216,6 +217,14 @@ void callable_tests() {
 
 //////////////////////////////////////////////////////////
 using namespace dyno::literals;
+
+//https://stackoverflow.com/questions/8001207/compile-time-typeid-without-rtti-with-gcc?rq=1
+/*
+template <typename T>
+std::type_info my_typeid(T t) {
+  return what??
+};
+*/
 
 // Note that I am leaving out the std::ostream argument as that will be Serial.
 
@@ -403,10 +412,12 @@ void setup() {
     std::vector<int> input{1, 2, 3, 4};
     std::vector<int> result;
 
-    //Iterator first{input.begin()}, last{input.end()};
-    //for (; first != last; ++first) {
-    //  result.push_back(*first);
-    //}
+    Iterator first{input.begin()}, last{input.end()};
+    for (; first != last; ++first) {
+      result.push_back(*first);
+    }
+    if (result[0] != input[0]) Serial << "Iterator test failed" << endl;
+    else  Serial << "Iterator test succeeded" << endl;
     //DYNO_CHECK(result == input);
   }
   Serial.println("--------");
