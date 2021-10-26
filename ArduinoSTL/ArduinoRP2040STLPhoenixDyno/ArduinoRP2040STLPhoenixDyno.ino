@@ -300,8 +300,8 @@ void f(drawable const &d) {
 
 // Parametric concept map
 // This does not work as it expects to fulfil the default concept map as well
-// until that is modified to exclude this case.
-// The documentation does not make this clear.
+// until that is modified to exclude this case - see the code for that higher up.
+// The documentation does not make it clear that this is needed.
 // I had to read the code of concept_map.hpp to find out more.
 // I also found some examples using std::enable_if_t in builtin.hpp
 template <typename T>
@@ -314,6 +314,87 @@ auto const dyno::concept_map<Drawable, std::vector<T>
       Serial << x << ' ';
   }
 );
+
+// Non member functions. The code for this is in the README with no example of its use which I can find.
+// I do not understand the wording here. They are not non member functions.
+
+// Define the interface of something that can be eaten
+struct Eatable : decltype(dyno::requires(
+  "eat"_s = dyno::function<void (dyno::T const&)>
+)) { };
+
+// Define how concrete types can fulfill that interface
+template <typename T>
+auto const dyno::default_concept_map<Eatable, T> = dyno::make_concept_map(
+  "eat"_s = [](T const& self) { self.eat(); }
+  //           ^^^^^^^^^^^^^^ matches the concept definition
+);
+
+// Define an object that can hold anything that can be eaten.
+struct eatable {
+  template <typename T>
+  eatable(T x) : poly_{x} { }
+
+  void eat() const
+  { poly_.virtual_("eat"_s)(poly_); }
+  //                        ^^^^^ passing the poly explicitly
+
+private:
+  dyno::poly<Eatable> poly_;
+};
+
+struct Cake {
+  void eat() const { Serial << "cake" << endl; }
+};
+
+void g(eatable const &e);
+
+void g(eatable const &e)
+{
+   e.eat();
+}
+
+struct Anything : decltype(dyno::requires(
+  "anything"_s = dyno::function<void (dyno::T const&)>
+)) { };
+
+template <typename T>
+auto const dyno::default_concept_map<Anything, T> = dyno::make_concept_map(
+  "anything"_s = [](T const& self) { self(); } // Note that it calls itself.
+  //           ^^^^^^^^^^^^^^ matches the concept definition
+);
+
+// Define an object that can hold anything that can be eaten.
+struct anything {
+  template <typename T>
+  anything(T x) : poly_{x} { }
+
+  void operator()() const
+  { poly_.virtual_("anything"_s)(poly_); }
+  //                        ^^^^^ passing the poly explicitly
+
+private:
+  dyno::poly<Anything> poly_;
+};
+
+// The requirement on an anything struct is to implement operator()().
+struct Cheese {
+  void operator()() const { Serial << "cheese" << endl; }
+};
+
+// Here is how to excute a non-member function, via a wrapper struct!
+void fromage() { Serial << "fromage" << endl; }
+
+struct Fromage {
+  void operator()() const { fromage(); }
+};
+
+void h(anything const &a);
+
+void h(anything const &a)
+{
+   a();
+}
 
 
 //
@@ -388,10 +469,19 @@ struct ToString {
   std::string operator()(int i) const { return std::to_string(i); }
 };
 
+
+
 void test_functions() {
     inplace_function<std::string(int)> tostring = std::to_string;
     std::string one = tostring(1);
     Serial << "one = " << one.c_str() << endl;
+    {
+        auto lambda = [](std::string const& s) {
+             return s.size();
+        };
+        function<int(std::string const&)> sizefn = lambda;
+        Serial << "sizefn(\"abcdef\") = " << sizefn("abcdef") << endl;
+    }
 }
 
 void test_iterators() {
@@ -490,6 +580,9 @@ void setup() {
   //Serial << endl;
   f(std::vector<int>{1, 2, 3}); // prints "1 2 3 "
   Serial << endl;
+  g(Cake{});
+  h(Cheese{});
+  h(Fromage{});
   Serial.println("--------");
   test_iterators();
   Serial.println("--------");
