@@ -238,9 +238,18 @@ struct Drawable : decltype(dyno::requires(
 // as that is then picked up by the std::vector<T> which fails.
 // When I do it like this it works for the Square case.
 // The alternative is used for Circle and the vector<T> case also works.
-template <typename T>
-//auto const dyno::default_concept_map<Drawable, T> = dyno::make_concept_map(
-auto const dyno::concept_map<Drawable, T> = dyno::make_concept_map(
+// It may be possible to reinstate the default_concept_map with a third template parameter
+// using std::enable_if_t<something> to turn it on and off as needed.
+// I have a hint for that in dyno/concept_map.hpp but not an example.
+template <class T>
+struct is_not_std_vector { static const bool value=true; };
+template <class T>
+struct is_not_std_vector<std::vector<T> > { static const bool value=false; };
+// This does now work
+// It makes sure that the default concept map is NOT uses when T is a std::vector object.
+template <class T>
+auto const dyno::default_concept_map<Drawable, T, std::enable_if_t<is_not_std_vector<T>::value> > = dyno::make_concept_map(
+//auto const dyno::concept_map<Drawable, T> = dyno::make_concept_map(
   dyno_draw = [](T const& self) { self.draw(); }
 //  "draw"_s = [](T const& self) { self.draw(); }
 );
