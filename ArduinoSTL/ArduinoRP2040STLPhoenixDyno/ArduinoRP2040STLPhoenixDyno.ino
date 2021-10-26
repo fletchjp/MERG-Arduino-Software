@@ -241,6 +241,8 @@ struct Drawable : decltype(dyno::requires(
 // It may be possible to reinstate the default_concept_map with a third template parameter
 // using std::enable_if_t<something> to turn it on and off as needed.
 // I have a hint for that in dyno/concept_map.hpp but not an example.
+// Source for the code to test for std::vector. There must be an official version.
+// https://stackoverflow.com/questions/9392777/enable-template-only-for-some-stdvectort2-type
 template <class T>
 struct is_not_std_vector { static const bool value=true; };
 template <class T>
