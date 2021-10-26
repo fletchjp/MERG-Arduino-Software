@@ -297,7 +297,11 @@ void f(drawable const &d) {
 // Extensions of drawable from the Readme.
 
 // Parametric concept map
-// This does not work as it expects to fulfil the default concept map as well.
+// This does not work as it expects to fulfil the default concept map as well
+// until that is modified to exclude this case.
+// The documentation does not make this clear.
+// I had to read the code of concept_map.hpp to find out more.
+// I also found some examples using std::enable_if_t in builtin.hpp
 template <typename T>
 auto const dyno::concept_map<Drawable, std::vector<T>
 //, std::void_t<decltype(Serial << std::declval<T>())>
