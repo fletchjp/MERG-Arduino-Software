@@ -4,6 +4,18 @@
 // https://github.com/badair/eraserface
 //////////////////////////////////////////////////////////////////////
 
+#include <exception>
+#include <stdexcept>
+
+// Dummies to sort out compilation
+namespace boost {
+
+  void throw_exception( std::exception & e ) { }
+  void throw_exception(const std::exception & e ) { }
+  void throw_exception( std::runtime_error& e) { }
+  void throw_exception(const std::runtime_error& e) { }
+
+}
 #undef F
 #include <memory>
 #include <boost_callable_traits.hpp>
