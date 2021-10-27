@@ -1,6 +1,9 @@
 //////////////////////////////////////////////////////////////////////
 // Arduino RP2040 Eraserface Inherit
 // This is an implementation of the example observer2_callable.cpp
+// I have added an Eraserface interface for the FC++ Observers which did not exist before.
+// This makes it easy to switch between observers which only observe one subject each.
+// Subjects can be observered by more than one observer.
 //////////////////////////////////////////////////////////////////////
 // Applying callable traits and eraserface to the observer pattern.
 // I have now built interfaces for subject and observer
