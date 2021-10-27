@@ -61,10 +61,10 @@ typedef boost::function<void (B*)>  B_type;
 typedef vector< F_type > V_type;
 
 class B : public A {
-   int state;
+   int b_state;
 public:
-   B() : state(0) {}
-   int get_state() const { return state; }
+   B() : b_state(0) {}
+   int get_state() const { return b_state; }
   //using std::static_cast<void (B::*)()>(void (A::notify)());
   // void notify() {
   //    Serial << "Calling A::notify();" << endl; A::notify();
@@ -88,8 +88,8 @@ public:
     //static_cast<void (B::*)()>(void (A::notify)() );
   }
    void inc() {
-     state++;
-     Serial << "B notifies state as " << state << endl;
+     b_state++;
+     Serial << "B notifies state as " << b_state << endl;
      //A::notify();
      b_notify(this);
    }
@@ -101,7 +101,7 @@ DEFINE_ERASERFACE(A_interface,
       ((attach,      void(F_type) ))
       ((notify,      void() ))
       ((something,   int()  ))
-                  ((get_observers, V_type() ))
+      ((get_observers, V_type() ))
 );
 
 DEFINE_ERASERFACE(B_interface,
@@ -109,7 +109,7 @@ DEFINE_ERASERFACE(B_interface,
                   ((test,        void() ))
       ((notify,      void() ))
       ((something,   int()  ))
-                  ((get_observers, V_type() ))
+      ((get_observers, V_type() ))
       ((bb_notify,   void() ))
       ((aa_notify,   void() ))
       ((inc   ,      void() ))
