@@ -1,5 +1,8 @@
 //////////////////////////////////////////////////////////////////////
 // Arduino RP2040 Eraserface
+// This is an implementation of the basic example with the Eraserface code.
+// https://github.com/badair/eraserface
+// The only changes have been to use Serial for the output.
 //////////////////////////////////////////////////////////////////////
 
 #include <memory>
