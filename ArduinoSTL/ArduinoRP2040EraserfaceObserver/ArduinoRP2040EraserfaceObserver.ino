@@ -230,8 +230,6 @@ fcpp::Fun0<int> nullfun0 = fcpp::ptr_to_fun(&nullfun);
 
 template <class E>
 class FcppSubject : public BarebonesSubject<E> {
-  // At the moment this only stores one function to be called.
-  // This needs to be made into a vector etc.
   typedef typename  fcpp::Fun0<int> fun_type;
   fcpp::Fun0<int> f_ ;
   typedef std::pair<E, fun_type> fcpp_value_type;
@@ -308,20 +306,29 @@ protected:
 
 template <class Subject>
 class ConcreteObserver {
+public:
+  typedef typename Subject::Event Event;
+private:
   Subject& subject_;
   typedef fcpp::Fun0<int> fun_type;
   // This now collects the functoid for use when detaching.
   fun_type f_;
   bool attached_;
+  typedef std::pair<Event, fun_type> fcpp_value_type;
+  //typedef std::vector<fun_type> fun_container;
+  typedef std::vector<fcpp_value_type> fcpp_container;
+  fcpp_container fcpp_data_;
 public:
-  typedef typename Subject::Event Event;
   Event event_;
   ConcreteObserver (Subject &s, Event e) : subject_(s), event_(e) {
     // Store the attached function.    
     f_ = fcpp::curry( fcpp::ptr_to_fun( &ConcreteObserver::be_notified), this);
+    // This is now stored in a vector.
+    fcpp_data_.push_back(std::make_pair(e,f_));
     attached_ = s.AttachFcpp( f_, e);
   }
   // At the moment an observer only observes one thing. Do I want more than this?
+  // I am starting to develop that possibility.
   // Observers detach themselves by calling the subject to do this.
   bool AttachFcpp(Subject &s, Event e)
   {
@@ -368,6 +375,21 @@ DEFINE_ERASERFACE(fcpp_subject_interface,
       ((NotifyAllFcpp,   void() ))
 );
 
+//////////////////////////////////////////////////////////
+
+// This comes from the cdc_multi example
+// Helper: non-blocking "delay" alternative.
+boolean delay_without_delaying(unsigned long time) {
+  // return false if we're still "delaying", true if time ms has passed.
+  // this should look a lot like "blink without delay"
+  static unsigned long previousmillis = 0;
+  unsigned long currentmillis = millis();
+  if (currentmillis - previousmillis >= time) {
+    previousmillis = currentmillis;
+    return true;
+  }
+  return false;
+}
 
 void setup() {
   Serial.begin(115200);
@@ -378,6 +400,7 @@ void setup() {
   Serial.print("Waited for ");
   Serial.print(t2);
   Serial.println(" millis");
+  while (!delay_without_delaying(5000) ) { };
   Serial << "Eraserface observer example" << endl;
 
   typedef BaseSubject<int> MySubject;
@@ -505,10 +528,24 @@ void setup() {
   Serial << "=====================================" << endl;
   Serial << "End of testing"  << endl;
   Serial << "=====================================" << endl;
+  while (!delay_without_delaying(5000) ) { };
+  pinMode(LED_BUILTIN, OUTPUT);
 
 }
 
+int LEDstate = 0;
+
 void loop() {
   // put your main code here, to run repeatedly:
+  if (delay_without_delaying(1000)) {
+    LEDstate = !LEDstate;
+    digitalWrite(LED_BUILTIN, LEDstate);
+    //digitalWrite(LED_BUILTIN, HIGH);   // turn the LED on (HIGH is the voltage level)
+    if (LEDstate) {
+      Serial.println("Arduino blink ON");
+    } else {
+      Serial.println("Arduino blink OFF");
+    }
+  }
 
 }
