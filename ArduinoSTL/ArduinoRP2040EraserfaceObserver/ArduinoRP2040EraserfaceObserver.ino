@@ -316,15 +316,15 @@ private:
   bool attached_;
   typedef std::pair<Event, fun_type> fcpp_value_type;
   //typedef std::vector<fun_type> fun_container;
-  typedef std::vector<fcpp_value_type> fcpp_container;
-  fcpp_container fcpp_data_;
+  //typedef std::vector<fcpp_value_type> fcpp_container;
+  //fcpp_container fcpp_data_;
 public:
   Event event_;
   ConcreteObserver (Subject &s, Event e) : subject_(s), event_(e) {
     // Store the attached function.    
     f_ = fcpp::curry( fcpp::ptr_to_fun( &ConcreteObserver::be_notified), this);
-    // This is now stored in a vector.
-    fcpp_data_.push_back(std::make_pair(e,f_));
+    // This is now stored in a vector. No action is taken to delete it.
+    // fcpp_data_.push_back(std::make_pair(e,f_));
     attached_ = s.AttachFcpp( f_, e);
   }
   // At the moment an observer only observes one thing. Do I want more than this?
@@ -334,6 +334,7 @@ public:
   {
     // Detach from current attachment.
     if (attached_) attached_ = !subject_.DetachFcpp(f_);
+    //fcpp_data_.push_back(std::make_pair(e,f_));
     attached_ = s.AttachFcpp( f_, e); event_ = e;
     return attached_;
   } 
@@ -346,7 +347,7 @@ public:
   {
     attached_ = !s.DetachFcpp(f_,e);
     return !attached_;
- }
+  }
 private:
   // Not to be called except from subject via functoid.
   int be_notified() {
