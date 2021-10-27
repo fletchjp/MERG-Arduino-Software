@@ -328,7 +328,7 @@ public:
     attached_ = s.AttachFcpp( f_, e);
   }
   // At the moment an observer only observes one thing. Do I want more than this?
-  // I am starting to develop that possibility.
+  // I am starting to develop that possibility. No don't do this.
   // Observers detach themselves by calling the subject to do this.
   bool AttachFcpp(Subject &s, Event e)
   {
@@ -365,6 +365,7 @@ private:
   typedef MyFcppSubjectImpl::ObserverID  MyFcppSubjectImpl_p;
 
   typedef fcpp::Fun0<int> Observer_type;
+  typedef FcppSubject<int> Subject_type;
 
 // Now the FC++ version, which has to be different as the members
 // are different, although they could be changed.
@@ -374,6 +375,15 @@ DEFINE_ERASERFACE(fcpp_subject_interface,
       ((DetachFcpp,      bool(Observer_type) ))
       ((Notify,          void() ))
       ((NotifyAllFcpp,   void() ))
+);
+
+typedef  FcppBareSubject<int> BareConcrete;
+
+// I have now all working, only Attach and NotifyAll tested.
+DEFINE_ERASERFACE(fcpp_observer_interface,
+      ((AttachFcpp,      bool(BareConcrete&,Event) ))
+      ((DetachFcpp,      bool(BareConcrete&,Event) ))
+      ((DetachFcpp,      bool(BareConcrete&) ))
 );
 
 //////////////////////////////////////////////////////////
@@ -474,7 +484,7 @@ void setup() {
   //fcpp_subject_interface  fcpp_i_sub = fcppsubject2;
  
   typedef  FcppBareSubject<int> BareConcrete;
- typedef  ConcreteObserver<MyFcppSubjectImpl> Concrete;
+  typedef  ConcreteObserver<MyFcppSubjectImpl> Concrete;
   Concrete concrete2(fcppsubject2,2);
   Concrete concrete4(fcppsubject2,4);
   Concrete concrete6(fcppsubject2,6);
@@ -490,6 +500,7 @@ void setup() {
   ConcreteObserver<BareConcrete> barefcppobserver5(bareconcrete11,13);
 
   fcpp_subject_interface  fcpp_i_sub = bareconcrete10;
+  fcpp_observer_interface fcpp_i_obs = barefcppobserver1;
 
   Serial << "fcppsubject2.NotifyAllFcpp(); notifies all linked to the object." << endl;
   Serial << "============================================" << endl;
@@ -525,7 +536,11 @@ void setup() {
     Serial << "barefcppobserver1.AttachFcpp(bareconcrete11,13) done (delete previous)"
               << endl;
   bareconcrete11.NotifyAllFcpp();
-
+  Serial << "============================================" << endl;
+  Serial << "fcpp_i_obs = barefcppobserver1;" << endl;
+  fcpp_i_obs = barefcppobserver1;
+  if (fcpp_i_obs.DetachFcpp(bareconcrete11,13))
+    Serial << "fcpp_i_obs.DetachFcpp(bareconcrete11,13) done" << endl;
   Serial << "=====================================" << endl;
   Serial << "End of testing"  << endl;
   Serial << "=====================================" << endl;
