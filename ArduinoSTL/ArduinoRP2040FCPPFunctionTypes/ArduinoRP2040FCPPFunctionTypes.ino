@@ -3,6 +3,7 @@
 // Starting from old example member_function_types
 // This used Boost Function Types and I am going to compare Boost Callable Traits.
 // The old examples all work.
+// Starting comparison with callable traits.
 //////////////////////////////////////////////////////////////////////
 // was DUEFCPP
 // Demo of FC++ Maybe operation
@@ -17,6 +18,9 @@
 #include <typeinfo>
 #include <string>
 #include <boost_core_demangle.hpp>
+#include <boost_callable_traits.hpp>
+#include <tuple>
+
 //#include <boost_units/detail/utility.hpp>
 // I cannot get to it the usual way as BoostForArduino does not go to the detail level with headers.
 // This is what is in there
@@ -66,6 +70,8 @@ using boost::units::detail::demangle;
 
 #include <Streaming.h>
 
+namespace ct = boost::callable_traits;
+
 // This came from https://software.intel.com/en-us/forums/topic/501879
 // where it is a problem with intel compiler.
 template<class T1 = int, class T2 = int>
@@ -112,24 +118,35 @@ void tests() {
     typedef boost::mpl::at_c<boost::function_types::parameter_types<foo_type>,2>::type
         arg2;
 
+    // Callable traits equivalent.
+    typedef ct::args_t<foo_type> foo_type_tuple;
+    int ct_arity = std::tuple_size_v<foo_type_tuple>;
+    typedef std::tuple_element_t<1,foo_type_tuple> ct_arg1;
+    typedef std::tuple_element_t<2,foo_type_tuple> ct_arg2;
+
     typedef BOOST_TYPEOF_TPL(&bar::foot<int>)
         foot_type;
     int arity_foot = boost::function_types::function_arity<foot_type>::value;
+    int ct_arity_foot = std::tuple_size_v<ct::args_t<foot_type>>;
 
     // This only works for a single argument.
     typedef BOOST_TYPEOF_TPL(&bar::fooxyz<int>)
         fooxyz_type;
     int arity_fooxyz = boost::function_types::function_arity<fooxyz_type>::value;
+    int ct_arity_fooxyz= std::tuple_size_v<ct::args_t<fooxyz_type>>;
 
     Serial << demangle(typeid(foo_type).name()).c_str() << endl;
     Serial << "arity = " << arity << endl;
+    Serial << "ct_arity = " << ct_arity << endl;
     Serial << demangle(typeid(arg1).name()).c_str() << ",";
     Serial << demangle(typeid(arg2).name()).c_str() << endl;
 
     Serial << demangle(typeid(foot_type).name()).c_str() << endl;
-    Serial << "arity = " << arity_foot << endl;
+    Serial << "arity_foot = " << arity_foot << endl;
+    Serial << "ct_arity_foot = " << ct_arity_foot << endl;
     Serial << demangle(typeid(fooxyz_type).name()).c_str() << endl;
-    Serial << "arity = " << arity_fooxyz << endl;
+    Serial << "arity_fooxyz = " << arity_fooxyz << endl;
+    Serial << "ct_arity_fooxyz = " << ct_arity_fooxyz << endl;
     return;
 }
 
@@ -188,8 +205,11 @@ void setup() {
 
   Serial << "Length of odds is " << length(odds) << endl;
   Serial << "sum of the odds is " << sum_odds << endl;
+  Serial << "--------------------------" << endl;
   tests();
+  Serial << "--------------------------" << endl;
   Serial << "Return from tests" << endl;
+  Serial << "--------------------------" << endl;
   while (!delay_without_delaying(5000) ) { };
   pinMode(LED_BUILTIN, OUTPUT);
 
