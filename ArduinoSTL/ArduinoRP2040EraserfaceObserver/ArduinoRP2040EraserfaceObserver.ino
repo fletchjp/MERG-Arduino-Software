@@ -540,6 +540,8 @@ void setup() {
               << endl;
   bareconcrete11.NotifyAllFcpp();
   Serial << "============================================" << endl;
+  Serial << "Test of ERASERFACE interface for observers." << endl;
+  Serial << "============================================" << endl;
   Serial << "fcpp_i_obs = barefcppobserver1;" << endl;
   fcpp_i_obs = barefcppobserver1;
   if (fcpp_i_obs.DetachFcpp(bareconcrete11,13))
