@@ -2,6 +2,7 @@
 // Arduino RP2040 FC++ Function Type
 // Starting from old example member_function_types
 // This used Boost Function Types and I am going to compare Boost Callable Traits.
+// The old examples all work.
 //////////////////////////////////////////////////////////////////////
 // was DUEFCPP
 // Demo of FC++ Maybe operation
@@ -188,11 +189,25 @@ void setup() {
   Serial << "Length of odds is " << length(odds) << endl;
   Serial << "sum of the odds is " << sum_odds << endl;
   tests();
+  Serial << "Return from tests" << endl;
   while (!delay_without_delaying(5000) ) { };
+  pinMode(LED_BUILTIN, OUTPUT);
 
 }
 
+int LEDstate = 0;
+
 void loop() {
   // put your main code here, to run repeatedly:
+  if (delay_without_delaying(1000)) {
+    LEDstate = !LEDstate;
+    digitalWrite(LED_BUILTIN, LEDstate);
+    //digitalWrite(LED_BUILTIN, HIGH);   // turn the LED on (HIGH is the voltage level)
+    if (LEDstate) {
+      Serial.println("Arduino blink ON");
+    } else {
+      Serial.println("Arduino blink OFF");
+    }
+  }
 
 }
