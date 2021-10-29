@@ -92,12 +92,13 @@ struct Drawable_plus : public Drawable {
   template <typename T>
   Drawable_plus(T x) : Drawable(x) {}
   // Both need to be implemented if the non-const one is needed.
-  DYNO_CONST_MEMBER_VOID(draw, cdraw)
-  DYNO_NON_CONST_MEMBER_VOID(draw, Drawable )
+  //DYNO_CONST_MEMBER_VOID(draw, cdraw)
+  //DYNO_NON_CONST_MEMBER_VOID(draw, Drawable )
   //DYNO_CONST_MEMBER_VOID_ARGS(one, Drawable)
   // These are equivalent to the macros.
-  //void draw() const { cdraw(out); }
-  //void draw() { Drawable::draw(out); }
+  // These compile while the macro version does not.
+  void draw() const { cdraw(); }
+  void draw() { Drawable::draw(); }
 };
 
 template<typename Arg1,typename Arg2>
@@ -125,6 +126,50 @@ struct Circle {
   {  Serial << arg1 << " " << arg2 << " "; }
 };
 
+// Advance declarations are needed here.
+void fc(Drawable const& d);
+void fca(Drawable_plus const& d, const int& arg);
+void fcb(Drawable_plus const& d, const int& arg1, const double& arg2 );
+void fcp(Drawable_plus const& d);
+void fnc(Drawable && d);
+void fncp(Drawable_plus && d, const int& arg1, const double& arg2);
+
+
+void fc(Drawable const& d) {
+  d.cdraw();  // calls the const version directly
+}
+
+//void fca(Drawable_plus<int,double> const& d, const int& arg)
+void fca(Drawable_plus const& d, const int& arg)
+{
+  d.draw();
+  d.one(arg);
+}
+
+//void fcb(Drawable_plus<int,double> const& d, const int& arg1, const double& arg2 )
+void fcb(Drawable_plus const& d, const int& arg1, const double& arg2 )
+{
+  d.draw();
+  d.two(arg1,arg2);
+}
+
+//void fcp(Drawable_plus<int,double> const& d)
+void fcp(Drawable_plus const& d)
+{
+  d.draw(); // calls the const version
+}
+
+void fnc(Drawable && d) {
+  d.draw(); // calls the non-const version directly
+}
+
+  //void fncp(Drawable_plus<int,double> && d, const int& arg1, const double& arg2)
+void fncp(Drawable_plus && d, const int& arg1, const double& arg2)
+{
+  d.draw(); // calls the non-const version
+  d.one(arg1);
+  d.two(arg1+1,arg2);
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -363,9 +408,25 @@ void setup() {
   Serial.println("Arduino RP2040 Dyno Macro Tests");
   Serial.println("--------");
   while (!delay_without_delaying(5000) ) { };
-  Serial << "Dyno example" << endl;
+  Serial << "Dyno examples" << endl;
   Serial.println("--------");
+  Square<int,double> s;
+  Circle c;
+  fc(s); // prints Square (c)
+  fc(c); // prints Circle (c)
+  fcp(s); // prints Square (c)
+  fcp(c); // prints Circle (c)
+  fnc(s); // prints Square (nc)
+  fnc(c); // prints Circle (nc)
   Serial << endl;
+  fca(s,2);
+  fca(c,3);
+  fcb(s,4,4.5);
+  Serial << endl;
+  fncp(s,5,7.5); // prints Square (nc) 5 6 7.5
+  fncp(c,8,10.5); // prints Circle (nc) 8 9 10.5  
+  Serial << endl;
+  Serial.println("--------");
   g(Cake{});
   h(Cheese{});
   h(Fromage{});
