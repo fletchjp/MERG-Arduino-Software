@@ -54,17 +54,22 @@ static auto dyno_draw = DYNO_STRING("draw");
 // Implemented for one arg to get things going.
 // The use is optional as the member functions can be implemented directly,
 // see below.
+// Taking out the template T which was for the output argument
 #define DYNO_CONST_MEMBER_VOID(name, cname)            \
-  template <typename T> void name(T& t) const { cname(t); }
+  void name() const { cname(); }
+//  template <typename T> void name(T& t) const { cname(t); }
 #define DYNO_CONST_MEMBER(ret, name, cname)           \
-  template <typename T> ret name(T& t) const { return cname(t); }
+  ret name() const { return cname(); }
+//  template <typename T> ret name(T& t) const { return cname(t); }
 #define DYNO_NON_CONST_MEMBER_VOID(name, base)            \
-  template <typename T> void name(T& t) { base::name(t); }
+  void name() { base::name(); }
+//  template <typename T> void name(T& t) { base::name(t); }
 #define DYNO_NON_CONST_MEMBER(ret, name, base)            \
-  template <typename T> ret name(T& t) { return base::name(t); }
+  ret name() { return base::name(); }
+//  template <typename T> ret name(T& t) { return base::name(t); }
 #define DYNO_CONST_MEMBER_VOID_ARGS(name, cname)            \
-  template <typename T,typename ...Args> void name(T& t,Args... args) \
-    const { cname(t,args...); }
+  template <typename ...Args> void name(Args... args) \
+    const { cname(args...); }
 #define DYNO_CONST_MEMBER_ARGS(ret, name, cname)            \
   template <typename ...Args> ret name(Args... args) const { return cname(args...); }
 #define DYNO_NON_CONST_MEMBER_VOID_ARGS(name, base)           \
@@ -92,13 +97,17 @@ struct Drawable_plus : public Drawable {
   template <typename T>
   Drawable_plus(T x) : Drawable(x) {}
   // Both need to be implemented if the non-const one is needed.
-  //DYNO_CONST_MEMBER_VOID(draw, cdraw)
-  //DYNO_NON_CONST_MEMBER_VOID(draw, Drawable )
-  //DYNO_CONST_MEMBER_VOID_ARGS(one, Drawable)
+  DYNO_CONST_MEMBER_VOID(draw, cdraw)
+  DYNO_NON_CONST_MEMBER_VOID(draw, Drawable )
+  //DYNO_CONST_MEMBER_VOID_ARGS(one, draw )
   // These are equivalent to the macros.
   // These compile while the macro version does not.
-  void draw() const { cdraw(); }
-  void draw() { Drawable::draw(); }
+  //void draw() const { cdraw(); }
+  //void draw() { Drawable::draw(); }
+  template <typename Arg1>
+  void one(const Arg1& a1) const { one(a1); }
+  template <typename Arg1,typename Arg2>
+  void two(const Arg1& a1,const Arg2& a2) const { two(a1,a2); }
 };
 
 template<typename Arg1,typename Arg2>
