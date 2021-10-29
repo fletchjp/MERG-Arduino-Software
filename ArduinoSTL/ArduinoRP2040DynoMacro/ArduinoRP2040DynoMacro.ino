@@ -85,7 +85,8 @@ DYNO_INTERFACE(Drawable,
   (draw, void () ),
   (cdraw, void () const),
   (one, void (const Arg1&) const ),
-  (two, void (const Arg1&,const Arg2&) const )
+  (two, void (const Arg1&,const Arg2&) const ),
+  (value, Arg1 () const )
 );
 
 // This is a way to add the extra member function to Drawable.
@@ -97,13 +98,13 @@ struct Drawable_plus : public Drawable {
   template <typename T>
   Drawable_plus(T x) : Drawable(x) {}
   // Both need to be implemented if the non-const one is needed.
-  DYNO_CONST_MEMBER_VOID(draw, cdraw)
-  DYNO_NON_CONST_MEMBER_VOID(draw, Drawable )
+  //DYNO_CONST_MEMBER_VOID(draw, cdraw)
+  //DYNO_NON_CONST_MEMBER_VOID(draw, Drawable )
   //DYNO_CONST_MEMBER_VOID_ARGS(one, draw )
   // These are equivalent to the macros.
   // These compile while the macro version does not.
-  //void draw() const { cdraw(); }
-  //void draw() { Drawable::draw(); }
+  void draw() const { cdraw(); }
+  void draw() { Drawable::draw(); }
   template <typename Arg1>
   void one(const Arg1& a1) const { one(a1); }
   template <typename Arg1,typename Arg2>
@@ -112,7 +113,8 @@ struct Drawable_plus : public Drawable {
 
 template<typename Arg1,typename Arg2>
 struct Square {
-  void draw() { Serial << "Square (nc) "; }
+  int s;
+  void draw() { Serial << "Square (nc) "; s = 1; }
   // This is not needed as the link is made in Drawable_plus.
   // void draw() const { cdraw(out); }
   void cdraw() const { Serial << "Square (c) "; }
@@ -120,10 +122,12 @@ struct Square {
   {  Serial << arg1 << " "; }
   void two(const Arg1& arg1, const Arg2& arg2) const
   { Serial << arg1 << " " << arg2 << " "; }
+  Arg1 value() const { return s; }
 };
 
 struct Circle {
-  void draw() { Serial<< "Circle (nc) "; }
+  int c;
+  void draw() { Serial<< "Circle (nc) "; c = 2; }
   // This is not needed as the link is made in Drawable_plus.
   // void draw() const { cdraw(out); }
   void cdraw() const { Serial << "Circle (c) "; }
@@ -133,6 +137,8 @@ struct Circle {
   template <typename Arg1,typename Arg2>
   void two(const Arg1& arg1, const Arg2& arg2) const
   {  Serial << arg1 << " " << arg2 << " "; }
+  //template <typename Arg1>
+  int value() const { return c; }
 };
 
 // Advance declarations are needed here.
@@ -429,11 +435,13 @@ void setup() {
   fnc(c); // prints Circle (nc)
   Serial << endl;
   fca(s,2);
-  fca(c,3);
-  fcb(s,4,4.5);
+  //fca(c,3);
+  //fcb(s,4,4.5);
   Serial << endl;
-  fncp(s,5,7.5); // prints Square (nc) 5 6 7.5
-  fncp(c,8,10.5); // prints Circle (nc) 8 9 10.5  
+  //fncp(s,5,7.5); // prints Square (nc) 5 6 7.5
+  //fncp(c,8,10.5); // prints Circle (nc) 8 9 10.5  
+  //Serial << "c.value() = " << c.value() << endl;
+  //Serial << "s.value() = " << s.value() << endl;
   Serial << endl;
   Serial.println("--------");
   g(Cake{});
