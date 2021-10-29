@@ -32,103 +32,6 @@
 // 3rd party libraries
 #include <Streaming.h>
 
-////////////////////////////////////////////
-// Set up the list here
-////////////////////////////////////////////
-
-std::vector< std::string > make_list() {
-  std::vector< std::string > list;
-  list.push_back( "duck" );
-  list.push_back( "duck" );
-  list.push_back( "goose" );
-  return list;
-}
-
-
-//////////////////////////////////////////////
-// First example using standard library only
-//////////////////////////////////////////////
-
-bool IsNotGoose( const std::string& s )
-{
-  return s != "goose";
-}
-
-// Demonstration of use of std::not_fn which is new in C++17
-// https://en.cppreference.com/w/cpp/utility/functional/not_fn
-void delete_value1(std::vector< std::string > &list )
-{
-  list.erase( std::remove_if( list.begin(), list.end(), std::not_fn(IsNotGoose) ), list.end() );
-}
-
-/////////////////////////////////////////////
-// Second example using boost bind
-//////////////////////////////////////////////
-
-bool isValue(const std::string &s1, const std::string &s2)
-{
-  return s1==s2;
-}
-
-void delete_value2(std::vector< std::string > &list, const std::string & value)
-{
-  list.erase(
-    std::remove_if(
-        list.begin(),
-        list.end(),
-        boost::bind(
-            isValue, // &isValue works as well.
-            _1, // Boost.Bind placeholder
-            boost::cref( value ) ) ),
-    list.end() );
-}
-
-///////////////////////////////////////////////////////
-// Third example using boost phoenix for the comparison
-///////////////////////////////////////////////////////
-
-namespace phx = boost::phoenix;
-using phx::placeholders::arg1;
-using phx::placeholders::arg2;
-
-void delete_value3(std::vector< std::string > &list, const std::string & value)
-{
-  list.erase( std::remove_if(
-        list.begin(),
-        list.end(),
-        // This needs header boost/phoenix/operator/comparison.
-        // arg1 is a Boost.Phoenix placeholder.
-        arg1 == phx::cref( value ) ), 
-        list.end() );
-}
-
-//////////////////////////////////////////////////////////////
-// Fourth example using boost phoenix for the algorithm as well
-//////////////////////////////////////////////////////////////
-
-void delete_value4(std::vector< std::string > &list, const std::string & value)
-{
-  // This needs header boost/phoenix/stl/algorithm/transformation
-  // It uses two Boost.Phoenix placeholders.
-  list.erase( phx::remove_if( arg1, arg2 )
-            ( list, arg1 == phx::cref( value ) ),
-            list.end() );
-}
-
-//////////////////////////////////////////////////////////
-// Functions common to all examples
-//////////////////////////////////////////////////////////
-
-void out_string(const std::string  &s)
-{
-  Serial.println( s.c_str() );
-}
-
-void show_list1( const std::vector< std::string > &list )
-{
-  std::for_each(list.begin(), list.end(), out_string);
-}
-
 //////////////////////////////////////////////////////////
 
 namespace ct = boost::callable_traits;
@@ -526,26 +429,7 @@ void setup() {
   Serial.print(t2);
   Serial.println(" millis");
   while (!delay_without_delaying(5000) ) { };
-  Serial.println("Arduino RP2040 Boost Phoenix Dyno Test");
-  std::string value = "goose";
-
-  std::vector< std::string > list1 = make_list();
-  show_list1(list1);
-  Serial.println("--------");
-  delete_value1(list1);
-  show_list1(list1);
-  Serial.println("--------");
-  std::vector< std::string > list2 = make_list();
-  delete_value2(list2,value);
-  show_list1(list2);
-  Serial.println("--------");
-  std::vector< std::string > list3 = make_list();
-  delete_value3(list3,value);
-  show_list1(list3);
-  Serial.println("--------");
-  std::vector< std::string > list4 = make_list();
-  delete_value4(list4,value);
-  show_list1(list4);
+  Serial.println("Arduino RP2040 Dyno Macro Tests");
   Serial.println("--------");
   while (!delay_without_delaying(5000) ) { };
   Serial << "Dyno example" << endl;
