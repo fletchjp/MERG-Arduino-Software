@@ -180,7 +180,7 @@ using const_removed = ct::remove_member_const_t<decltype(&foo3::bar)>;
 static_assert(std::is_same<const_removed, void(foo3::*)()>::value, "");
 
 void callable_tests() {
-  // This is how to get pmf to a member function
+  // This is how to get pmf to a member function (pmf == pointer to a member function)
     int (foo2::* pmf2bar)(int) const = &foo2::bar;
 
     // Use args_t to retrieve a parameter list as a std::tuple:
@@ -190,7 +190,7 @@ void callable_tests() {
     >();
 
     // arg_at_t gives us indexed access to a parameter list
-    /* This is not now included.
+    /* This is not now included in callable traits.
      * It was removed in the review for Boost acceptance.
     assert_same<
         ct::arg_at_t<1, foo>,
