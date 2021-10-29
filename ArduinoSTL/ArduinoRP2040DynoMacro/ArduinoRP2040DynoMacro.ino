@@ -40,64 +40,6 @@ namespace ct = boost::callable_traits;
 template<typename A, typename B>
 void assert_same(){ static_assert(std::is_same<A, B>::value, ""); }
 
-// Adding things from example/return_type.cpp
-using expect = int;
-
-// foo is a function object
-struct foo {
-    void operator()(int, char, float) const {}
-    int bar(int x) const { return x; }
-};
-
-struct foo2 {
-    int operator()(int x, char, float) const { return x; }
-    int bar(int x) const { return x; }
-};
-
-struct foo3 {
-    void bar() const {}
-};
-
-using pmf2     = int(foo2::*)(int, char, float) const;
-
-template<typename T>
-void test() {
-    using result = ct::return_type_t<T>;
-    static_assert(std::is_same<expect, result>{}, "");
-}
-
-// Example adapted from the manual.
-using const_removed = ct::remove_member_const_t<decltype(&foo3::bar)>;
-
-static_assert(std::is_same<const_removed, void(foo3::*)()>::value, "");
-
-void callable_tests() {
-  // This is how to get pmf to a member function
-    int (foo2::* pmf2bar)(int) const = &foo2::bar;
-
-    // Use args_t to retrieve a parameter list as a std::tuple:
-    assert_same<
-        ct::args_t<foo>,
-        std::tuple<int, char, float>
-    >();
-
-    // arg_at_t gives us indexed access to a parameter list
-    /* This is not now included.
-     * It was removed in the review for Boost acceptance.
-    assert_same<
-        ct::arg_at_t<1, foo>,
-        char
-    >();
-    */
-    // This is the equivalent operation using the tuple returned by ct::args_t.
-    using SelectedType = std::tuple_element_t<1,ct::args_t<foo>>;
-    assert_same<
-        SelectedType,
-        char
-    >();
-}
-
-//////////////////////////////////////////////////////////
 // These can replace the string literals and are better with C++17
 static auto foobar = DYNO_STRING("foobar");
 // I am defining these as dyno_something to avoid name clashes
@@ -105,97 +47,11 @@ static auto foobar = DYNO_STRING("foobar");
 static auto dyno_call = DYNO_STRING("call");
 static auto dyno_draw = DYNO_STRING("draw");
 
-using namespace dyno::literals;
 
-// Note that I am leaving out the std::ostream argument as that will be Serial.
-
-// Define the interface of something that can be drawn
-struct Drawable : decltype(dyno::requires(
-  dyno_draw = dyno::method<void () const>
-//  "draw"_s = dyno::method<void () const>
-)) { };
-
-// Define how concrete types can fulfill that interface
-// I have changed this from being the named default_concept_map
-// as that is then picked up by the std::vector<T> which fails.
-// When I do it like this it works for the Square case.
-// The alternative is used for Circle and the vector<T> case also works.
-// It may be possible to reinstate the default_concept_map with a third template parameter
-// using std::enable_if_t<something> to turn it on and off as needed.
-// I have a hint for that in dyno/concept_map.hpp but not an example.
-// Source for the code to test for std::vector. There must be an official version.
-// https://stackoverflow.com/questions/9392777/enable-template-only-for-some-stdvectort2-type
-template <class T>
-struct is_not_std_vector { static const bool value=true; };
-template <class T>
-struct is_not_std_vector<std::vector<T> > { static const bool value=false; };
-// This does now work
-// It makes sure that the default concept map is NOT uses when T is a std::vector object.
-template <class T>
-auto const dyno::default_concept_map<Drawable, T, std::enable_if_t<is_not_std_vector<T>::value> > = dyno::make_concept_map(
-//auto const dyno::concept_map<Drawable, T> = dyno::make_concept_map(
-  dyno_draw = [](T const& self) { self.draw(); }
-//  "draw"_s = [](T const& self) { self.draw(); }
-);
-
-// Define an object that can hold anything that can be drawn.
-struct drawable {
-  template <typename T>
-  drawable(T x) : poly_{x} { }
-
-  void draw() const
-  { poly_.virtual_(dyno_draw)(); }
-
-private:
-  dyno::poly<Drawable> poly_;
-};
-
-struct Square {
-  void draw() const { Serial << "Square"; }
-};
-
-struct Circle {
-  void draw() const { Serial << "Circle"; }
-};
-
-//Circle now prints triangle
-template <>
-auto dyno::concept_map<Drawable, Circle> = dyno::make_concept_map(
-  dyno_draw = [](Circle const& circle) {
-    Serial << "triangle" << endl;
-  }
-);
-
-//drawable ds(Square{});
-//drawable dc(Circle{});
-/*
- * This does not compile without this declaration
- * which is not needed in the example code.
- */
-void f(drawable const &d);
-
-void f(drawable const &d) {
-  d.draw();
-}
 
 // Extensions of drawable from the Readme.
 
-// Parametric concept map
-// This does not work as it expects to fulfil the default concept map as well
-// until that is modified to exclude this case - see the code for that higher up.
-// The documentation does not make it clear that this is needed.
-// I had to read the code of concept_map.hpp to find out more.
-// I also found some examples using std::enable_if_t in builtin.hpp
-template <typename T>
-auto const dyno::concept_map<Drawable, std::vector<T>
-//, std::void_t<decltype(Serial << std::declval<T>())>
-> = dyno::make_concept_map(
-//  "draw"_s = [](std::vector<T> const& v) {
-    dyno_draw = [](std::vector<T> const& v) {
-    for (auto const& x : v)
-      Serial << x << ' ';
-  }
-);
+
 
 // Non member functions. The code for this is in the README with no example of its use which I can find.
 // I do not understand the wording here. They are not non member functions.
@@ -434,14 +290,6 @@ void setup() {
   while (!delay_without_delaying(5000) ) { };
   Serial << "Dyno example" << endl;
   Serial.println("--------");
-  f(Square{}); // prints Square
-  //ds.draw();
-  Serial << endl;
-  f(Circle{}); // prints Circle
-  //dc.draw();
-  // Parametric Concept Map example
-  //Serial << endl;
-  f(std::vector<int>{1, 2, 3}); // prints "1 2 3 "
   Serial << endl;
   g(Cake{});
   h(Cheese{});
