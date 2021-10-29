@@ -95,6 +95,7 @@ DYNO_INTERFACE(Drawable,
 // although not needed here.
 //template <typename Arg1,typename Arg2>
 struct Drawable_plus : public Drawable {
+  Arg1 x = -1;
   template <typename T>
   Drawable_plus(T x) : Drawable(x) {}
   // Both need to be implemented if the non-const one is needed.
@@ -109,11 +110,12 @@ struct Drawable_plus : public Drawable {
   void one(const Arg1& a1) const { one(a1); }
   template <typename Arg1,typename Arg2>
   void two(const Arg1& a1,const Arg2& a2) const { two(a1,a2); }
+  Arg1 value() const { return x; }
 };
 
 template<typename Arg1,typename Arg2>
 struct Square {
-  int s;
+  int s = 0;
   void draw() { Serial << "Square (nc) "; s = 1; }
   // This is not needed as the link is made in Drawable_plus.
   // void draw() const { cdraw(out); }
@@ -126,7 +128,7 @@ struct Square {
 };
 
 struct Circle {
-  int c;
+  int c = 0;
   void draw() { Serial<< "Circle (nc) "; c = 2; }
   // This is not needed as the link is made in Drawable_plus.
   // void draw() const { cdraw(out); }
@@ -143,7 +145,8 @@ struct Circle {
 
 // Advance declarations are needed here.
 void fc(Drawable const& d);
-void fca(Drawable_plus const& d, const int& arg);
+void fca(Drawable_plus const& d, const int& arg1);
+void fnca(Drawable_plus && d, const int& arg1);
 void fcb(Drawable_plus const& d, const int& arg1, const double& arg2 );
 void fcp(Drawable_plus const& d);
 void fnc(Drawable && d);
@@ -155,10 +158,20 @@ void fc(Drawable const& d) {
 }
 
 //void fca(Drawable_plus<int,double> const& d, const int& arg)
-void fca(Drawable_plus const& d, const int& arg)
+void fca(Drawable_plus const& d, const int& arg1)
 {
   d.draw();
-  d.one(arg);
+  Serial << "d.value() = " << d.value();
+  // This call is crashing.
+  //d.one(arg1);
+}
+
+void fnca(Drawable_plus && d, const int& arg1)
+{
+  d.draw();
+  Serial << "d.value() = " << d.value();
+  // This call is crashing.
+  //d.one(arg1);
 }
 
 //void fcb(Drawable_plus<int,double> const& d, const int& arg1, const double& arg2 )
@@ -176,6 +189,7 @@ void fcp(Drawable_plus const& d)
 
 void fnc(Drawable && d) {
   d.draw(); // calls the non-const version directly
+  Serial << "d.value() = " << d.value() << endl;
 }
 
   //void fncp(Drawable_plus<int,double> && d, const int& arg1, const double& arg2)
@@ -433,16 +447,25 @@ void setup() {
   fcp(c); // prints Circle (c)
   fnc(s); // prints Square (nc)
   fnc(c); // prints Circle (nc)
+  Serial << "c.value() = " << c.value() << " should be 2 " << endl;
+  Serial << "s.value() = " << s.value() << " should be 1 " << endl;
   Serial << endl;
   fca(s,2);
+  fnca(s,2);
   //fca(c,3);
   //fcb(s,4,4.5);
   Serial << endl;
   //fncp(s,5,7.5); // prints Square (nc) 5 6 7.5
   //fncp(c,8,10.5); // prints Circle (nc) 8 9 10.5  
-  //Serial << "c.value() = " << c.value() << endl;
-  //Serial << "s.value() = " << s.value() << endl;
-  Serial << endl;
+  // These calls report 0 so there has been no value change.
+  Serial << "c.value() = " << c.value() << " should be 2 " << endl;
+  Serial << "s.value() = " << s.value() << " should be 1 " << endl;
+  // Direct calls are to the non const call.
+  s.draw();
+  Serial << "s.value() = " << s.value() << " should be 1 " << endl;
+  c.draw();
+  Serial << "c.value() = " << c.value() << " should be 2 " << endl;
+  //Serial << endl;
   Serial.println("--------");
   g(Cake{});
   h(Cheese{});
