@@ -47,11 +47,86 @@ static auto foobar = DYNO_STRING("foobar");
 static auto dyno_call = DYNO_STRING("call");
 static auto dyno_draw = DYNO_STRING("draw");
 
+///////////////////////////////////////////////////////////////////////////////////////
+// Code for the new examples.
+///////////////////////////////////////////////////////////////////////////////////////
+
+// Implemented for one arg to get things going.
+// The use is optional as the member functions can be implemented directly,
+// see below.
+#define DYNO_CONST_MEMBER_VOID(name, cname)            \
+  template <typename T> void name(T& t) const { cname(t); }
+#define DYNO_CONST_MEMBER(ret, name, cname)           \
+  template <typename T> ret name(T& t) const { return cname(t); }
+#define DYNO_NON_CONST_MEMBER_VOID(name, base)            \
+  template <typename T> void name(T& t) { base::name(t); }
+#define DYNO_NON_CONST_MEMBER(ret, name, base)            \
+  template <typename T> ret name(T& t) { return base::name(t); }
+#define DYNO_CONST_MEMBER_VOID_ARGS(name, cname)            \
+  template <typename T,typename ...Args> void name(T& t,Args... args) \
+    const { cname(t,args...); }
+#define DYNO_CONST_MEMBER_ARGS(ret, name, cname)            \
+  template <typename ...Args> ret name(Args... args) const { return cname(args...); }
+#define DYNO_NON_CONST_MEMBER_VOID_ARGS(name, base)           \
+  template <typename ...Args> void name(Args... args) { base::name(args...); }
+#define DYNO_NON_CONST_MEMBER_ARGS(ret, name, base)           \
+  template <typename ...Args> ret name(Args... args) { return base::name(args...); }
+
+// The best I can do is typedefs which could be changed.
+typedef int Arg1;
+typedef double Arg2;
+
+DYNO_INTERFACE(Drawable,
+  (draw, void () ),
+  (cdraw, void () const),
+  (one, void (const Arg1&) const ),
+  (two, void (const Arg1&,const Arg2&) const )
+);
+
+// This is a way to add the extra member function to Drawable.
+// It also needs the constructor
+// It is a way to make a templated version as well
+// although not needed here.
+//template <typename Arg1,typename Arg2>
+struct Drawable_plus : public Drawable {
+  template <typename T>
+  Drawable_plus(T x) : Drawable(x) {}
+  // Both need to be implemented if the non-const one is needed.
+  DYNO_CONST_MEMBER_VOID(draw, cdraw)
+  DYNO_NON_CONST_MEMBER_VOID(draw, Drawable )
+  //DYNO_CONST_MEMBER_VOID_ARGS(one, Drawable)
+  // These are equivalent to the macros.
+  //void draw() const { cdraw(out); }
+  //void draw() { Drawable::draw(out); }
+};
+
+template<typename Arg1,typename Arg2>
+struct Square {
+  void draw() { Serial << "Square (nc) "; }
+  // This is not needed as the link is made in Drawable_plus.
+  // void draw() const { cdraw(out); }
+  void cdraw() const { Serial << "Square (c) "; }
+  void one(const Arg1& arg1) const
+  {  Serial << arg1 << " "; }
+  void two(const Arg1& arg1, const Arg2& arg2) const
+  { Serial << arg1 << " " << arg2 << " "; }
+};
+
+struct Circle {
+  void draw() { Serial<< "Circle (nc) "; }
+  // This is not needed as the link is made in Drawable_plus.
+  // void draw() const { cdraw(out); }
+  void cdraw() const { Serial << "Circle (c) "; }
+  template <typename Arg1>
+  void one(const Arg1& arg1) const
+  {  Serial << arg1 << " "; }
+  template <typename Arg1,typename Arg2>
+  void two(const Arg1& arg1, const Arg2& arg2) const
+  {  Serial << arg1 << " " << arg2 << " "; }
+};
 
 
-// Extensions of drawable from the Readme.
-
-
+///////////////////////////////////////////////////////////////////////////////////////
 
 // Non member functions. The code for this is in the README with no example of its use which I can find.
 // I do not understand the wording here. They are not non member functions.
