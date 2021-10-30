@@ -557,7 +557,7 @@ void test_functions() {
     Serial << "new_fromage() : "; new_fromage();
     Serial << "new_double_gloucester() : "; new_double_gloucester();
     std::vector<inplace_function<void()>> cheese_choice = { fromage, double_gloucester};
-    cheese_choice[0];
+    cheese_choice[0]();
 }
 
 void test_iterators() {
