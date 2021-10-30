@@ -520,6 +520,7 @@ struct ToString {
   std::string operator()(int i) const { return std::to_string(i); }
 };
 
+// This is now a generic function which could be used on anything which satisfies Object.
 template <typename Obj>
 void test_objects() {
   //using Object_int = Obj<int>;
