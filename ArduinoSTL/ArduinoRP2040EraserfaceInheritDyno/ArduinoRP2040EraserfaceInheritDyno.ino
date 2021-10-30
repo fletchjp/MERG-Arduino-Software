@@ -22,6 +22,7 @@ namespace boost {
 #include <type_traits>
 #include <vector>
 #include <boost_function.hpp>
+#include <dyno.hpp>
 #include <eraserface.hpp>
 
 #include <Streaming.h>
@@ -29,6 +30,21 @@ namespace boost {
 using std::vector;
 
 typedef boost::function0<void> F_type;
+
+//////////////////////////////////////////////////////////////
+// The following comment is from when I worked on this before.
+// There is reference in the Dyno code of non const usage.
+// In view of the problems with the macro example I am unsure
+// what can be done here.
+///////////////////////////////////////////////////////////////
+// Define the interface so that notify_const can be called.
+// This is now working.
+// It seems it can only handle const functions.
+DYNO_INTERFACE(HasNotify,
+  (notify_const, void () const)
+//  (notify,       void () )
+);
+
 
 class A {
    typedef vector< F_type > V;
