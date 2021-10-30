@@ -77,9 +77,15 @@ DYNO_INTERFACE(Drawable,
   (two, void (const Arg1&,const Arg2&) const )
 );
 
+/////////////////////////////////////////////////////////////
+// I think this example is wrong.
+// The interface macro is creating two object,
+// the definition and the concept map.
+/////////////////////////////////////////////////////////////
 // This is a way to add the extra member function to Drawable.
 // It also needs the constructor
 // It is a way to make a templated version as well
+// I don't know how I thought of it.
 // although not needed here.
 //template <typename Arg1,typename Arg2>
 struct Drawable_plus : public Drawable {
@@ -97,7 +103,7 @@ struct Drawable_plus : public Drawable {
   //void one(const Arg1& a1) const { one(a1); }
   //template <typename Arg1,typename Arg2>
   //void two(const Arg1& a1,const Arg2& a2) const { two(a1,a2); }
-  DYNO_CONST_MEMBER_ARGS(Arg2,add,add,args...)
+  //DYNO_CONST_MEMBER_ARGS(Arg2,add,add,args...)
 };
 
 template<typename Arg1,typename Arg2>
@@ -110,7 +116,7 @@ struct Square {
   {  Serial << arg1 << " "; }
   void two(const Arg1& arg1, const Arg2& arg2) const
   { Serial << arg1 << " " << arg2 << " "; }
-  Arg2 add(Arg1 a,Arg2 b) const { return a+b; }
+  //Arg2 add(Arg1 a,Arg2 b) const { return a+b; }
 };
 
 struct Circle {
@@ -124,7 +130,7 @@ struct Circle {
   template <typename Arg1,typename Arg2>
   void two(const Arg1& arg1, const Arg2& arg2) const
   {  Serial << arg1 << " " << arg2 << " "; }
-  Arg2 add(Arg1 a,Arg2 b) const { return a+b; }
+  //Arg2 add(Arg1 a,Arg2 b) const { return a+b; }
 };
 
 // Advance declarations are needed here.
