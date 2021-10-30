@@ -64,8 +64,8 @@ static auto dyno_draw = DYNO_STRING("draw");
 #define DYNO_CONST_MEMBER_VOID_ARGS(name, cname)            \
   template <typename ...Args> void name(Args... args) \
     const { cname(args...); }
-#define DYNO_CONST_MEMBER_ARGS(ret, name, cname)            \
-  template <typename ...Args> ret name(Args... args) const { return cname(args...); }
+#define DYNO_CONST_MEMBER_ARGS(ret, name, cname, args)            \
+  template <typename ...Args> ret name(Args... args) const { return cname(args); }
 
 // The best I can do is typedefs which could be changed.
 typedef int Arg1;
@@ -85,6 +85,7 @@ DYNO_INTERFACE(Drawable,
 struct Drawable_plus : public Drawable {
   template <typename T>
   Drawable_plus(T x) : Drawable(x) {}
+  // None of these are needed as they exist in Drawable
   // Both need to be implemented if the non-const one is needed.
   //DYNO_CONST_MEMBER_VOID(draw, cdraw)
   //DYNO_NON_CONST_MEMBER_VOID(draw, Drawable )
@@ -92,10 +93,11 @@ struct Drawable_plus : public Drawable {
   // These are equivalent to the macros.
   // These compile while the macro version does not.
   //void draw() const { cdraw(); }
-  template <typename Arg1>
-  void one(const Arg1& a1) const { one(a1); }
-  template <typename Arg1,typename Arg2>
-  void two(const Arg1& a1,const Arg2& a2) const { two(a1,a2); }
+  //template <typename Arg1>
+  //void one(const Arg1& a1) const { one(a1); }
+  //template <typename Arg1,typename Arg2>
+  //void two(const Arg1& a1,const Arg2& a2) const { two(a1,a2); }
+  DYNO_CONST_MEMBER_ARGS(Arg2,add,add,args...)
 };
 
 template<typename Arg1,typename Arg2>
@@ -108,6 +110,7 @@ struct Square {
   {  Serial << arg1 << " "; }
   void two(const Arg1& arg1, const Arg2& arg2) const
   { Serial << arg1 << " " << arg2 << " "; }
+  Arg2 add(Arg1 a,Arg2 b) const { return a+b; }
 };
 
 struct Circle {
@@ -121,7 +124,7 @@ struct Circle {
   template <typename Arg1,typename Arg2>
   void two(const Arg1& arg1, const Arg2& arg2) const
   {  Serial << arg1 << " " << arg2 << " "; }
-  //template <typename Arg1>
+  Arg2 add(Arg1 a,Arg2 b) const { return a+b; }
 };
 
 // Advance declarations are needed here.
@@ -129,7 +132,8 @@ void fc(Drawable const& d);
 void fca(Drawable const& d, const int& arg1);
 void fcb(Drawable const& d, const int& arg1, const double& arg2 );
 void fcp(Drawable_plus const& d);
-
+void fcpa(Drawable_plus const& d, const int& arg1);
+void fcpb(Drawable_plus const& d, const int& arg1, const double& arg2 );
 
 void fc(Drawable const& d) {
   d.draw();  // calls the const version directly
@@ -139,8 +143,8 @@ void fc(Drawable const& d) {
 void fca(Drawable const& d, const int& arg1)
 {
   d.draw();
-  // This call is crashing.
   d.one(arg1);
+  //Serial << d.add(arg1,arg2);
 }
 
 //void fcb(Drawable_plus<int,double> const& d, const int& arg1, const double& arg2 )
@@ -156,6 +160,19 @@ void fcp(Drawable_plus const& d)
   d.draw(); // calls the const version
 }
 
+//void fcp(Drawable_plus<int,double> const& d)
+void fcpa(Drawable_plus const& d, const int& arg1)
+{
+  d.draw(); // calls the const version
+  d.one(arg1);
+}
+
+void fcpb(Drawable_plus const& d, const int& arg1, const double& arg2 )
+{
+  d.draw();
+  d.two(arg1,arg2);
+  //Serial << d.add(arg1,arg2);
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -406,6 +423,10 @@ void setup() {
   fca(s,2);
   fca(c,3);
   fcb(s,4,4.5);
+  Serial << endl;
+  fcpa(s,5);
+  fcpa(c,6);
+  fcpb(s,7,7.5);
   Serial << endl;
   Serial.println("--------");
   g(Cake{});
