@@ -61,21 +61,11 @@ static auto dyno_draw = DYNO_STRING("draw");
 #define DYNO_CONST_MEMBER(ret, name, cname)           \
   ret name() const { return cname(); }
 //  template <typename T> ret name(T& t) const { return cname(t); }
-//#define DYNO_NON_CONST_MEMBER_VOID(name, base)            \
-//  void name() { base::name(); }
-//  template <typename T> void name(T& t) { base::name(t); }
-#define DYNO_NON_CONST_MEMBER(ret, name, base)            \
-//  ret name() { return base::name(); }
-//  template <typename T> ret name(T& t) { return base::name(t); }
 #define DYNO_CONST_MEMBER_VOID_ARGS(name, cname)            \
   template <typename ...Args> void name(Args... args) \
     const { cname(args...); }
 #define DYNO_CONST_MEMBER_ARGS(ret, name, cname)            \
   template <typename ...Args> ret name(Args... args) const { return cname(args...); }
-//#define DYNO_NON_CONST_MEMBER_VOID_ARGS(name, base)           \
-//  template <typename ...Args> void name(Args... args) { base::name(args...); }
-//#define DYNO_NON_CONST_MEMBER_ARGS(ret, name, base)           \
-//  template <typename ...Args> ret name(Args... args) { return base::name(args...); }
 
 // The best I can do is typedefs which could be changed.
 typedef int Arg1;
@@ -136,8 +126,8 @@ struct Circle {
 
 // Advance declarations are needed here.
 void fc(Drawable const& d);
-void fca(Drawable_plus const& d, const int& arg1);
-void fcb(Drawable_plus const& d, const int& arg1, const double& arg2 );
+void fca(Drawable const& d, const int& arg1);
+void fcb(Drawable const& d, const int& arg1, const double& arg2 );
 void fcp(Drawable_plus const& d);
 
 
@@ -146,7 +136,7 @@ void fc(Drawable const& d) {
 }
 
 //void fca(Drawable_plus<int,double> const& d, const int& arg)
-void fca(Drawable_plus const& d, const int& arg1)
+void fca(Drawable const& d, const int& arg1)
 {
   d.draw();
   // This call is crashing.
@@ -154,7 +144,7 @@ void fca(Drawable_plus const& d, const int& arg1)
 }
 
 //void fcb(Drawable_plus<int,double> const& d, const int& arg1, const double& arg2 )
-void fcb(Drawable_plus const& d, const int& arg1, const double& arg2 )
+void fcb(Drawable const& d, const int& arg1, const double& arg2 )
 {
   d.draw();
   d.two(arg1,arg2);
@@ -414,8 +404,8 @@ void setup() {
   fcp(c); // prints Circle (c)
   Serial << endl;
   fca(s,2);
-  //fca(c,3);
-  //fcb(s,4,4.5);
+  fca(c,3);
+  fcb(s,4,4.5);
   Serial << endl;
   Serial.println("--------");
   g(Cake{});
