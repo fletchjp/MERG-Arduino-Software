@@ -144,7 +144,6 @@ void fca(Drawable const& d, const int& arg1)
 {
   d.draw();
   d.one(arg1);
-  //Serial << d.add(arg1,arg2);
 }
 
 //void fcb(Drawable_plus<int,double> const& d, const int& arg1, const double& arg2 )
@@ -171,7 +170,7 @@ void fcpb(Drawable_plus const& d, const int& arg1, const double& arg2 )
 {
   d.draw();
   d.two(arg1,arg2);
-  //Serial << d.add(arg1,arg2);
+  //Serial << d.add(arg1,arg2); This crashes.
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
