@@ -36,6 +36,9 @@ typedef boost::function0<void> F_type;
 // There is reference in the Dyno code of non const usage.
 // In view of the problems with the macro example I am unsure
 // what can be done here.
+// The point of Dyno is to build a common interface which can be 
+// reused on different types.
+// Use with non const objects is tricky.
 ///////////////////////////////////////////////////////////////
 // Define the interface so that notify_const can be called.
 // This is now working.
