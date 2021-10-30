@@ -81,6 +81,7 @@ DYNO_INTERFACE(Drawable,
 // I think this example is wrong.
 // The interface macro is creating two object,
 // the definition and the concept map.
+// It may be that I condfused Dyno with Eraserface.
 /////////////////////////////////////////////////////////////
 // This is a way to add the extra member function to Drawable.
 // It also needs the constructor
