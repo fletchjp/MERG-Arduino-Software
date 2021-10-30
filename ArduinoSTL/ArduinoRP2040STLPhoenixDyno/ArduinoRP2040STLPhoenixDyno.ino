@@ -4,6 +4,12 @@
 // https://www.boost.org/doc/libs/master/libs/callable_traits/doc/html/index.html
 // There is quite a lot which can be done using callable traits.
 // I have now added an example of use of the dyno library as well.
+// There are some good examples now including the one with the cheeses which shows
+// how to switch between nonmember functions with the same call structure.
+////////////////////////////////////////////////////////////////////////////
+// Note: The point made in the Dyno documentation is that it can be done
+//       at compile time using templates. The point is to provide run time
+//       polymorphism.
 ////////////////////////////////////////////////////////////////////////////
 // ThrowAssert is not usable with the Arduino-Pico system which does not support exceptions.
 ////////////////////////////////////////////////////////////////////////////
@@ -318,6 +324,8 @@ auto const dyno::concept_map<Drawable, std::vector<T>
 // Non member functions. The code for this is in the README with no example of its use which I can find.
 // I do not understand the wording here. They are not non member functions.
 
+
+
 // Define the interface for an object
 template <typename X>
 struct Object : decltype(dyno::requires(
@@ -427,11 +435,14 @@ struct Cheese {
 // Here is how to excute a non-member function, via a wrapper struct!
 void fromage() { Serial << "fromage" << endl; }
 
-//typedef void fromage() fromage_type;
+//typedef void (fromage)() fromage_type;
 
 struct Fromage {
   void operator()() const { fromage(); }
 };
+
+// This one has no wrapper function.
+void double_gloucester() { Serial << "double Gloucester" << endl; }
 
 /*
 template <typename F>
@@ -541,6 +552,12 @@ void test_functions() {
         function<int(std::string const&)> sizefn = lambda;
         Serial << "sizefn(\"abcdef\") = " << sizefn("abcdef") << endl;
     }
+    inplace_function<void()> new_fromage = fromage;
+    inplace_function<void()> new_double_gloucester = double_gloucester;
+    Serial << "new_fromage() : "; new_fromage();
+    Serial << "new_double_gloucester() : "; new_double_gloucester();
+    std::vector<inplace_function<void()>> cheese_choice = { fromage, double_gloucester};
+    cheese_choice[0];
 }
 
 void test_iterators() {
