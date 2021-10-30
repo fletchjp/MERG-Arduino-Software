@@ -9,7 +9,7 @@
 ////////////////////////////////////////////////////////////////////////////
 // Note: The point made in the Dyno documentation is that it can be done
 //       at compile time using templates. The point is to provide run time
-//       polymorphism.
+//       polymorphism. I have made progress with this with the cheeses example.
 ////////////////////////////////////////////////////////////////////////////
 // ThrowAssert is not usable with the Arduino-Pico system which does not support exceptions.
 ////////////////////////////////////////////////////////////////////////////
