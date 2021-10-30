@@ -46,7 +46,7 @@
 #include <typeinfo>
 // default_concept_map disabled as it uses typeid which is not available for the RP2040 
 #include <dyno.hpp>
-#include <dyno_testing.hpp>
+//#include <dyno_testing.hpp>
 #include <dyno_any_iterator.hpp>
 
 
@@ -318,6 +318,48 @@ auto const dyno::concept_map<Drawable, std::vector<T>
 // Non member functions. The code for this is in the README with no example of its use which I can find.
 // I do not understand the wording here. They are not non member functions.
 
+// Define the interface for an object
+template <typename X>
+struct Object : decltype(dyno::requires(
+  "get"_s = dyno::function<X (dyno::T const&)>,
+  "set"_s = dyno::function<void (dyno::T &,X const &)>
+)) { };
+
+// Define how concrete types can fulfill that interface
+template <typename X,typename T>
+auto const dyno::default_concept_map<Object<X>, T> = dyno::make_concept_map(
+  "get"_s = [](T const& self) { self.get(); },
+  //           ^^^^^^^^^^^^^^ matches the concept definition
+  "set"_s = [](T& self,X const& x) { self.set(x); }
+);
+
+template <typename X>
+struct object {
+//  typedef X X_type;
+  template <typename T>
+  object(T t) : poly_{t} { }
+
+  X get() const
+  { poly_.virtual_("get"_s)(poly_); }
+  //                        ^^^^^ passing the poly explicitly
+  void set(X const & x)
+  { poly_.virtual_("set"_s)(poly_)(x); }
+
+private:
+  dyno::poly<Object<X> > poly_;
+  
+};
+
+template <typename X>
+struct Example {
+  typedef X X_type;
+  X x_;
+  Example() : x_(X(0)) { }
+  void set(X const& x) { x_ = x; }
+  X get() const { return x_; } 
+};
+
+
 // Define the interface of something that can be eaten
 struct Eatable : decltype(dyno::requires(
   "eat"_s = dyno::function<void (dyno::T const&)>
@@ -385,9 +427,18 @@ struct Cheese {
 // Here is how to excute a non-member function, via a wrapper struct!
 void fromage() { Serial << "fromage" << endl; }
 
+//typedef void fromage() fromage_type;
+
 struct Fromage {
   void operator()() const { fromage(); }
 };
+
+/*
+template <typename F>
+struct AnyCheese {
+  void operator()() const { F(); }
+};
+*/
 
 void h(anything const &a);
 
@@ -469,7 +520,14 @@ struct ToString {
   std::string operator()(int i) const { return std::to_string(i); }
 };
 
-
+template <typename Obj>
+void test_objects() {
+  //using Object_int = Obj<int>;
+  typedef typename Obj::X_type X;
+  Obj obj1, obj2;
+  obj1.set(1); obj2.set(2);
+  Serial << obj1.get() + obj2.get() << endl;
+}
 
 void test_functions() {
     inplace_function<std::string(int)> tostring = std::to_string;
@@ -583,10 +641,15 @@ void setup() {
   g(Cake{});
   h(Cheese{});
   h(Fromage{});
+//  h(AnyCheese<Fromage>{});
+//  h(AnyCheese<fromage_type>{});
   Serial.println("--------");
   test_iterators();
   Serial.println("--------");
   test_functions();
+  Serial.println("--------");
+  Serial << "test_objects<Example<int>>() = ";
+  test_objects<Example<int>>();
   Serial.println("--------");
  
   pinMode(LED_BUILTIN, OUTPUT);
