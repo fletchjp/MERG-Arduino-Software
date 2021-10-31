@@ -2,7 +2,7 @@
 
 #undef F
 #include <cstdio>
-#include <PicoThread.h>
+//#include <PicoThread.h>
 #include <boost_spirit.hpp>
 
 void setup() {
