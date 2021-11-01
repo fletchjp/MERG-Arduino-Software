@@ -77,6 +77,15 @@ boolean delay_without_delaying(unsigned long time) {
   return false;
 }
 
+// Generic template adapted
+template<class T>
+inline Print &operator <<(Print &stream, const boost::rational<T> &arg)
+{ // Basic version - there are some special cases.
+  stream.print(arg.numerator()); stream.print("/"); 
+  stream.print(arg.denominator()); return stream; 
+}
+
+
 void setup() {
   // put your setup code here, to run once:
   Serial.begin (115200);
@@ -88,10 +97,11 @@ void setup() {
   Serial.print(t2);
   Serial.println(" millis");
   while (!delay_without_delaying(5000) ) { };
-  Serial << endl << endl << "DUEBoostMetaparseRational ** " << endl << __FILE__ << endl;
+  Serial << "DUEBoostMetaparseRational ** " << endl << __FILE__ << endl;
   Serial << "Some simple Boost Metaparse operations" << endl;
   const boost::rational<int> x = RATIONAL("1/3");
   // Serial << does not support this type.
+  Serial << x << endl;
   Serial << x.numerator() << "/" << x.denominator() << endl;
 }
 
