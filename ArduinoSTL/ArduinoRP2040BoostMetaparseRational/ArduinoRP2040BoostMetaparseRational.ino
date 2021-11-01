@@ -61,6 +61,20 @@ typedef build_parser<entire_input<rational_grammar>> rational_parser;
 #define RATIONAL(s) \
   (rational_parser::apply<BOOST_METAPARSE_STRING(s)>::type::run())
 
+// Generic template for Streaming adapted to support boost::rational<T>.
+template<class T>
+inline Print &operator <<(Print &stream, const boost::rational<T> &arg) 
+{ // Basic version - there are some special cases e.g. numerator = 0 and denominator = 1
+  T num   = arg.numerator();
+  T denom = arg.denominator();
+  stream.print(num);
+  if (num != 0 && denom != 1) {
+       stream.print("/"); 
+       stream.print(denom);
+  }
+  return stream;
+}
+
 //////////////////////////////////////////////////////////
 
 // This comes from the cdc_multi example
@@ -77,21 +91,6 @@ boolean delay_without_delaying(unsigned long time) {
   return false;
 }
 
-// Generic template for Streaming adapted to support boost::rational<T>.
-template<class T>
-inline Print &operator <<(Print &stream, const boost::rational<T> &arg)
-{ // Basic version - there are some special cases e.g. numerator = 0 and denominator = 1
-  T num   = arg.numerator();
-  T denom = arg.denominator();
-  stream.print(num);
-  if (num != 0 && denom != 1) {
-       stream.print("/"); 
-       stream.print(denom);
-  }
-  return stream;
-}
-
-
 void setup() {
   // put your setup code here, to run once:
   Serial.begin (115200);
@@ -103,7 +102,7 @@ void setup() {
   Serial.print(t2);
   Serial.println(" millis");
   while (!delay_without_delaying(5000) ) { };
-  Serial << "DUEBoostMetaparseRational ** " << endl << __FILE__ << endl;
+  Serial << "ArduinoRP2040BoostMetaparseRational ** " << endl << __FILE__ << endl;
   Serial << "Some simple Boost Metaparse operations" << endl;
   const boost::rational<int> x = RATIONAL("1/3");
   // Serial << does not support this type unless it is extended.
