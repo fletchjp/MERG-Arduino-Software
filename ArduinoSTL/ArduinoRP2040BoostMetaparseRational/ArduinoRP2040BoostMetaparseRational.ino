@@ -8,6 +8,9 @@
 #include <cstdio>
 #include <string>
 #include <boost_metaparse.hpp>
+#include <boost_type_index.hpp>
+#include <boost_rational.hpp>
+#include <boost_config.hpp>
 
 // This will need to be implemented somehow.
 template <class Num, class Denom>
