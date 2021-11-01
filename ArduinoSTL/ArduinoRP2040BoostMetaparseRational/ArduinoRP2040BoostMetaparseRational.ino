@@ -1,6 +1,20 @@
 // ArduinoRP2040BoostMetaparseRational
 // I have put -Wno_narrowing into platform.txt
 
+
+#include <exception>
+#include <stdexcept>
+
+// Dummies to sort out compilation
+namespace boost {
+
+  void throw_exception( std::exception & e ) { }
+  void throw_exception(const std::exception & e ) { }
+  void throw_exception( std::runtime_error& e) { }
+  void throw_exception(const std::runtime_error& e) { }
+
+}
+
 #include <Streaming.h>
 
 #undef F
@@ -76,6 +90,7 @@ void setup() {
   while (!delay_without_delaying(5000) ) { };
   Serial << endl << endl << "DUEBoostMetaparseRational ** " << endl << __FILE__ << endl;
   Serial << "Some simple Boost Metaparse operations" << endl;
+  const boost::rational<int> x = RATIONAL("1/3");
 
 }
 
