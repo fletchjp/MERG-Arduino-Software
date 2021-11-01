@@ -21,6 +21,11 @@
 #include <exception>
 #include <stdexcept>
 
+// Solution to the sync_synchronize problem
+//https://www.vexforum.com/t/i-am-learning-arm-none-eabi-compiler-recently-i-want-to-ask-some-questions/73973
+#include <iostream> 
+extern "C" void __sync_synchronize() {}
+
 // Dummies to sort out compilation
 namespace boost {
 
@@ -30,6 +35,8 @@ namespace boost {
   void throw_exception(const std::runtime_error& e) { }
 
 }
+
+
 
 #include <string>
 // This does not work. Input types are not a good enough match.
@@ -50,9 +57,13 @@ inline Print &operator <<(Print &stream, const char *arg)
 #include <cstdio>
 //#include <PicoThread.h>
 #define BOOST_SPIRIT_SINGLE_GRAMMAR_INSTANCE
-#define BOOST_SPIRIT_DEBUG_OUT Serial
-//#include <boost_spirit_include_qi.hpp>
+// No longer used - all changes restored in the files.
+//#define BOOST_SPIRIT_DEBUG_OUT Serial
+#include <boost_spirit_include_qi.hpp>
+#include <boost_spirit_include_karma.hpp>
 //#include <boost_spirit.hpp>
+
+using namespace boost::spirit;
 
 //////////////////////////////////////////////////////////
 
@@ -89,6 +100,18 @@ void setup() {
   Serial << tag << endl;
   std::string rule("rule");
   Serial << rule.c_str() << endl;
+  Serial << "------------------------------" << endl;
+  Serial << "Boost Spirit Qi Parser" << endl;
+  Serial << "------------------------------" << endl;
+  std::string s("123");
+  auto it = s.begin();
+  bool match = qi::parse(it, s.end(), ascii::digit);
+  Serial << match << " ";
+  if (it != s.end()) Serial << std::string{it, s.end()}.c_str();
+  Serial << endl;
+  Serial << "------------------------------" << endl;
+  Serial << "Boost Spirit Karma Generator" << endl;
+  Serial << "------------------------------" << endl;
   Serial << "------------------------------" << endl;
 }
 
