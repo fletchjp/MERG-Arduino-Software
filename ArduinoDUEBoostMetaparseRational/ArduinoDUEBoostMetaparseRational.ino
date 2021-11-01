@@ -29,12 +29,12 @@ struct rational {
   typedef rational type;
 
   // This explains why the example did not compile!!!
-/*  
+
   static boost::rational<int> run()
   {
     return boost::rational<int>(Num::type::value, Denom::type::value);
   }
-*/
+
 
 };
 
@@ -74,7 +74,7 @@ typedef
 typedef build_parser<entire_input<rational_grammar>> rational_parser;
 
 #define RATIONAL(s) \
-  (rational_parser::apply<BOOST_METAPARSE_STRING(s)>::type())
+  (rational_parser::apply<BOOST_METAPARSE_STRING(s)>::type::run())
 #define RATIONAL_TYPE(s) \
   (rational_parser::apply<BOOST_METAPARSE_STRING(s)>::type)
 
@@ -95,12 +95,13 @@ void setup() {
   // However, this does not run because of a problem with boost::rational not having all the functions available. 
   //const boost::rational<int> r1 = RATIONAL("1/3");
   // This now works without the "run" to convert to boost::rational
-  auto r1 = RATIONAL("1/3");
+  //auto r1 = RATIONAL("1/3");
   //extract_first<RATIONAL_TYPE("1/3")>::type::value;
   // I would like to extract the two types from r1 to get to the values.
   // I have not figured out how to do this.
   //auto r1_1 = typeid(r1)::type1::value;
   //Serial << r1.name() << endl;
+  //boost::rational<int> x = RATIONAL("1/3");
 #endif  
 typedef Example<int,double> E1;
 typedef extract_first<E1> type1;  
