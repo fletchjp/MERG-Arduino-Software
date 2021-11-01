@@ -82,10 +82,14 @@ void setup() {
   while (!delay_without_delaying(5000) ) { };
   Serial << "ArduinoRP2040BoostSpiritExample ** " << endl << __FILE__ << endl;
   Serial << "Some simple Boost Spirit operations" << endl;
+  Serial << "------------------------------" << endl;
+  Serial << "Tests of operator << defines" << endl;
+  Serial << "------------------------------" << endl;
   char const *tag = "tag";
   Serial << tag << endl;
   std::string rule("rule");
   Serial << rule.c_str() << endl;
+  Serial << "------------------------------" << endl;
 }
 
 //////////////////////////////////////////////////////////
