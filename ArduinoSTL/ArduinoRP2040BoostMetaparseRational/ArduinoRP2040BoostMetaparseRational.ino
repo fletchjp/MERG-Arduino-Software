@@ -1,7 +1,10 @@
 // ArduinoRP2040BoostMetaparseRational
+// I have put -Wno_narrowing into platform.txt
 
+#include <Streaming.h>
 
 #undef F
+#undef min // This is also needed.
 #include <cstdio>
 #include <string>
 #include <boost_metaparse.hpp>
