@@ -41,6 +41,7 @@ namespace boost {
 
 
 #include <string>
+#include <vector>
 // This does not work. Input types are not a good enough match.
 template<class T>
 inline Print &operator <<(Print &stream, const std::string &arg)
