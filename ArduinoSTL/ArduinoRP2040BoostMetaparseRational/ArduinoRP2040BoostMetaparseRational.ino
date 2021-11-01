@@ -77,12 +77,18 @@ boolean delay_without_delaying(unsigned long time) {
   return false;
 }
 
-// Generic template adapted
+// Generic template for Streaming adapted to support boost::rational<T>.
 template<class T>
 inline Print &operator <<(Print &stream, const boost::rational<T> &arg)
-{ // Basic version - there are some special cases.
-  stream.print(arg.numerator()); stream.print("/"); 
-  stream.print(arg.denominator()); return stream; 
+{ // Basic version - there are some special cases e.g. numerator = 0 and denominator = 1
+  T num   = arg.numerator();
+  T denom = arg.denominator();
+  stream.print(num);
+  if (num != 0 && denom != 1) {
+       stream.print("/"); 
+       stream.print(denom);
+  }
+  return stream;
 }
 
 
@@ -100,9 +106,12 @@ void setup() {
   Serial << "DUEBoostMetaparseRational ** " << endl << __FILE__ << endl;
   Serial << "Some simple Boost Metaparse operations" << endl;
   const boost::rational<int> x = RATIONAL("1/3");
-  // Serial << does not support this type.
+  // Serial << does not support this type unless it is extended.
   Serial << x << endl;
   Serial << x.numerator() << "/" << x.denominator() << endl;
+  Serial << RATIONAL("0/3") << endl;
+  Serial << RATIONAL("3/1") << endl;
+  
 }
 
 //////////////////////////////////////////////////////////
