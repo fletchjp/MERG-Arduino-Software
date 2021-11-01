@@ -21,19 +21,41 @@ template <class Num, class Denom>
 struct rational {
 //  Num num;
 //  Denom denom;
-//  rational() {}
+  typedef std::tuple<Num,Denom> tuple_type;
+  typedef Num type1;
+  typedef Denom type2;
+  rational() {}
 //  rational(Num n, Denom d) : num(n), denom(d) { }
   typedef rational type;
 
   // This explains why the example did not compile!!!
-  
+/*  
   static boost::rational<int> run()
   {
     return boost::rational<int>(Num::type::value, Denom::type::value);
   }
-
+*/
 
 };
+
+// Idea for template type extraction - see https://stackoverflow.com/questions/64795375/extracting-templates-from-templated-class
+template <typename T>
+struct extract_first {};
+template <typename T>
+struct extract_second {};
+
+template <template <typename...> class ClassTemplate, typename... ClassTemplateParams>
+struct extract_first<ClassTemplate<ClassTemplateParams...> > {
+    using type = typename std::tuple_element<0, std::tuple<ClassTemplateParams...> >::type;
+};
+template <template <typename...> class ClassTemplate, typename... ClassTemplateParams>
+struct extract_second<ClassTemplate<ClassTemplateParams...> > {
+    using type = typename std::tuple_element<1, std::tuple<ClassTemplateParams...> >::type;
+};
+
+
+template <typename T1, typename T2>
+struct Example { };
 
 using namespace boost::metaparse;
 
@@ -52,11 +74,15 @@ typedef
 typedef build_parser<entire_input<rational_grammar>> rational_parser;
 
 #define RATIONAL(s) \
-  (rational_parser::apply<BOOST_METAPARSE_STRING(s)>::type::run())
+  (rational_parser::apply<BOOST_METAPARSE_STRING(s)>::type())
+#define RATIONAL_TYPE(s) \
+  (rational_parser::apply<BOOST_METAPARSE_STRING(s)>::type)
 
 using exp_parser1 = build_parser<int_>;
 
 using boost::mpl::apply_wrap1;
+using boost::mpl::_1;
+using boost::mpl::_2;
 
 void setup() {
   Serial.begin (115200);
@@ -68,8 +94,17 @@ void setup() {
   // I have corrected this to be more like the example.
   // However, this does not run because of a problem with boost::rational not having all the functions available. 
   //const boost::rational<int> r1 = RATIONAL("1/3");
-  //auto r1 = RATIONAL("1/3");
+  // This now works without the "run" to convert to boost::rational
+  auto r1 = RATIONAL("1/3");
+  //extract_first<RATIONAL_TYPE("1/3")>::type::value;
+  // I would like to extract the two types from r1 to get to the values.
+  // I have not figured out how to do this.
+  //auto r1_1 = typeid(r1)::type1::value;
+  //Serial << r1.name() << endl;
 #endif  
+typedef Example<int,double> E1;
+typedef extract_first<E1> type1;  
+typedef extract_second<E1> type2;  
   // put your setup code here, to run once:
   //auto one_third = RATIONAL("1/3");
   //std::string s = "1/3";
@@ -83,6 +118,7 @@ void setup() {
   //auto another = rational_parser::apply<BOOST_METAPARSE_STRING("1/3")>::type();
   //Serial << another << endl;
   auto what = exp_parser1::apply<boost::metaparse::string<'1'>>::type();
+  // apply_wrap1 is boost mpl which explains why it is not in the metaparse manual.
   auto what2 = apply_wrap1<exp_parser1,boost::metaparse::string<'1'>>::type::value;
   Serial << "result of applywrap1 " << what2 << endl;
 }
