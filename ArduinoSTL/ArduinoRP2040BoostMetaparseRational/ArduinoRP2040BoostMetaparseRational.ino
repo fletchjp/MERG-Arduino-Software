@@ -91,7 +91,8 @@ void setup() {
   Serial << endl << endl << "DUEBoostMetaparseRational ** " << endl << __FILE__ << endl;
   Serial << "Some simple Boost Metaparse operations" << endl;
   const boost::rational<int> x = RATIONAL("1/3");
-
+  // Serial << does not support this type.
+  Serial << x.numerator() << "/" << x.denominator() << endl;
 }
 
 //////////////////////////////////////////////////////////
