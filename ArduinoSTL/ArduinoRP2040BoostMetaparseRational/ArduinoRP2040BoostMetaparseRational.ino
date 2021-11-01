@@ -105,11 +105,15 @@ void setup() {
   Serial << "ArduinoRP2040BoostMetaparseRational ** " << endl << __FILE__ << endl;
   Serial << "Some simple Boost Metaparse operations" << endl;
   const boost::rational<int> x = RATIONAL("1/3");
+  Serial << "------------------------------" << endl;
+  Serial << "Output examples" << endl;
+  Serial << "------------------------------" << endl;
   // Serial << does not support this type unless it is extended.
   Serial << x << endl;
   Serial << x.numerator() << "/" << x.denominator() << endl;
   Serial << RATIONAL("0/3") << endl;
   Serial << RATIONAL("3/1") << endl;
+  Serial << "------------------------------" << endl;
   
 }
 
