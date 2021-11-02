@@ -181,14 +181,16 @@ void setup() {
         //]
     }
 /* This compiles without a direct reference to boost::phoenix::bind. */
-/* However there is no output from this or the next one
+/* However there is no output from this or the next one */
+/*
     { // example using boost phoenix bind with a plain function
         char const *first = "{46}", *last = first + std::strlen(first);
-        using boost::phoenix::placeholders::arg1;
-        parse(first, last, '{' >> int_[&print, arg1] >> '}');
+        using boost::spirit::qi::_1;
+        parse(first, last, '{' >> int_[&print, _1] >> '}');
          //]
     }
-
+ */
+/*
     { // example using boost.phoenix.bind with a member function
 
         char const *first = "{47}", *last = first + std::strlen(first);
