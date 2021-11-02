@@ -7,18 +7,6 @@
 
 #undef F
 #undef min
-/* Needed for DUE?
-#undef round
-#undef B1
-#undef B2
-#undef B3
-#undef B4
-#undef B5
-#undef B6
-#undef B7
-#undef TC1
-#undef TC2
-*/
 
 #include <exception>
 #include <stdexcept>
