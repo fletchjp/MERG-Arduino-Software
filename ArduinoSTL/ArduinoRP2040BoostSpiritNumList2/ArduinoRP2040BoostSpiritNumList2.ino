@@ -1,6 +1,6 @@
 // ArduinoRP2040BoostSpiritNumList2
 
-// Taken from spirit/example/q1/num_list2 and spirit/example/karma/num_list1
+// Taken from spirit/example/q1/num_list2
 
 // 3rd party libraries
 #include <Streaming.h>
@@ -128,8 +128,8 @@ void setup() {
   Serial.print("Waited for ");
   Serial.print(t2);
   Serial.println(" millis");
-  while (!delay_without_delaying(5000) ) { };
-  Serial << "ArduinoRP2040BoostSpiritNumList1 ** " << endl << __FILE__ << endl;
+  while (!delay_without_delaying(10000) ) { };
+  Serial << "ArduinoRP2040BoostSpiritNumList2 ** " << endl << __FILE__ << endl;
   Serial << "Some simple Boost Spirit operations" << endl;
   Serial << "------------------------------" << endl;
   Serial << "Boost Spirit Qi Parser" << endl;
@@ -169,6 +169,7 @@ void setup() {
   //Serial << "------------------------------" << endl;
   //Serial << "Boost Spirit Karma Generator" << endl;
   //Serial << "------------------------------" << endl;
+  while (!delay_without_delaying(10000) ) { };
   Serial << "------------------------------" << endl;
   pinMode(LED_BUILTIN, OUTPUT);
 }
