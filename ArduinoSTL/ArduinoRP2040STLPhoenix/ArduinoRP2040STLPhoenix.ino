@@ -117,6 +117,24 @@ void delete_value4(std::vector< std::string > &list, const std::string & value)
             list.end() );
 }
 
+///////////////////////////////////////////////////////
+// Fifth example using boost phoenix bind for the bind and for the comparison
+///////////////////////////////////////////////////////
+
+
+void delete_value5(std::vector< std::string > &list, const std::string & value)
+{
+  list.erase(
+    std::remove_if(
+        list.begin(),
+        list.end(),
+        boost::phoenix::bind(
+            isValue, // &isValue works as well.
+            arg1, // Boost.Bind placeholder
+            boost::cref( value ) ) ),
+    list.end() );
+}
+
 //////////////////////////////////////////////////////////
 // Functions common to all examples
 //////////////////////////////////////////////////////////
