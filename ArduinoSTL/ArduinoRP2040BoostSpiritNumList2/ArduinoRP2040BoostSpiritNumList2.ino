@@ -1,24 +1,12 @@
 // ArduinoRP2040BoostSpiritNumList2
 
-// Taken from spirit/example/q1/num_list2 
+// Taken from spirit/example/q1/num_list2 and spirit/example/karma/num_list1
 
 // 3rd party libraries
 #include <Streaming.h>
 
 #undef F
 #undef min
-/* Needed for DUE?
-#undef round
-#undef B1
-#undef B2
-#undef B3
-#undef B4
-#undef B5
-#undef B6
-#undef B7
-#undef TC1
-#undef TC2
-*/
 
 #include <exception>
 #include <stdexcept>
@@ -72,7 +60,7 @@ inline Print &operator <<(Print &stream, const char *arg)
 using namespace boost::spirit;
 
 //////////////////////////////////////////////////////////
-// num_list1 example
+// num_list2 example
 //////////////////////////////////////////////////////////
 
 namespace client
@@ -182,6 +170,7 @@ void setup() {
   //Serial << "Boost Spirit Karma Generator" << endl;
   //Serial << "------------------------------" << endl;
   Serial << "------------------------------" << endl;
+  pinMode(LED_BUILTIN, OUTPUT);
 }
 
 //////////////////////////////////////////////////////////
