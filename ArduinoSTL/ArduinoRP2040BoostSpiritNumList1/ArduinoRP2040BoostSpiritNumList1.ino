@@ -1,6 +1,6 @@
 // ArduinoRP2040BoostSpiritNumList1
 
-// Taken from spirit/example/q1/num_list1 
+// Taken from spirit/example/q1/num_list1 and spirit/example/karma/num_list1
 
 // 3rd party libraries
 #include <Streaming.h>
@@ -42,6 +42,7 @@ namespace boost {
 
 #include <string>
 #include <vector>
+#include <list>
 // This does not work. Input types are not a good enough match.
 template<class T>
 inline Print &operator <<(Print &stream, const std::string &arg)
@@ -75,14 +76,15 @@ using namespace boost::spirit;
 namespace client
 {
     namespace qi = boost::spirit::qi;
+    namespace karma = boost::spirit::karma;
     namespace ascii = boost::spirit::ascii;
 
     ///////////////////////////////////////////////////////////////////////////
-    //  Our number list parser
+    //  Our number list parser enhanced as in karma/num_list1
     ///////////////////////////////////////////////////////////////////////////
     //[tutorial_numlist1
     template <typename Iterator>
-    bool parse_numbers(Iterator first, Iterator last)
+    bool parse_numbers(Iterator first, Iterator last, std::list<double> &v)
     {
         using qi::double_;
         using qi::phrase_parse;
@@ -92,13 +94,36 @@ namespace client
             first,                          /*< start iterator >*/
             last,                           /*< end iterator >*/
             double_ >> *(',' >> double_),   /*< the parser >*/
-            space                           /*< the skip-parser >*/
+            space,                          /*< the skip-parser >*/
+            v
         );
         if (first != last) // fail if we did not get a full match
             return false;
         return r;
     }
     //]
+
+    ///////////////////////////////////////////////////////////////////////////
+    //  Our number list generator
+    ///////////////////////////////////////////////////////////////////////////
+    //[tutorial_karma_numlist1
+    template <typename OutputIterator>
+    bool generate_numbers(OutputIterator& sink, std::list<double> const& v)
+    {
+        using karma::double_;
+        using karma::generate_delimited;
+        using ascii::space;
+
+        bool r = generate_delimited(
+            sink,                           // destination: output iterator
+            double_ << *(',' << double_),   // the generator
+            space,                          // the delimiter-generator
+            v                               // the data to output 
+        );
+        return r;
+    }
+    //]
+
 }
 
 
@@ -133,6 +158,7 @@ void setup() {
   Serial << "Some simple Boost Spirit operations" << endl;
   Serial << "------------------------------" << endl;
   Serial << "Boost Spirit Qi Parser" << endl;
+  Serial << "Boost Spirit Karma Generator" << endl;
   Serial << "------------------------------" << endl;
   Serial << "A comma separated list of numbers.\n";
   std::string str("1.5, 2.765, -1.987");
@@ -144,26 +170,38 @@ void setup() {
        //if (str.empty() || str[0] == 'q' || str[0] == 'Q')
        //     break;
         n++;
-        if (client::parse_numbers(str.begin(), str.end()))
+        std::list<double> v;      // here we put the data to generate
+        if (client::parse_numbers(str.begin(), str.end(), v))
         {
             Serial << "---------------------\n";
             Serial << "Parsing succeeded\n";
             Serial << str.c_str() << " Parses OK: " << endl;
-        }
+            std::string generated;
+            std::back_insert_iterator<std::string> sink(generated);
+            if (!client::generate_numbers(sink, v))
+            {
+                Serial << "-------------------------\n";
+                Serial << "Generating failed\n";
+                Serial << "-------------------------\n";
+            }
+            else
+            {
+                Serial << "-------------------------\n";
+                Serial << "Generated: " << generated.c_str() << "\n";
+                Serial << "-------------------------\n";
+            }
+          }
         else
         {
             Serial << "-------------------------\n";
             Serial << "Parsing failed\n";
             Serial << "-------------------------\n";
         }
-        //if(str.begin() == str.end() ) break;
   }
 
   
-  //Serial << "------------------------------" << endl;
-  //Serial << "Boost Spirit Karma Generator" << endl;
-  //Serial << "------------------------------" << endl;
   Serial << "------------------------------" << endl;
+  pinMode(LED_BUILTIN, OUTPUT);
 }
 
 //////////////////////////////////////////////////////////
