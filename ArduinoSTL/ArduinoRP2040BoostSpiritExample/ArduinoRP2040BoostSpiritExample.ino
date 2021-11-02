@@ -113,6 +113,7 @@ void setup() {
   Serial << "Boost Spirit Karma Generator" << endl;
   Serial << "------------------------------" << endl;
   Serial << "------------------------------" << endl;
+  pinMode(LED_BUILTIN, OUTPUT);
 }
 
 //////////////////////////////////////////////////////////
