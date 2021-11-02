@@ -196,6 +196,10 @@ void setup() {
   delete_value4(list4,value);
   show_list1(list4);
   Serial.println("--------");
+  std::vector< std::string > list5 = make_list();
+  delete_value5(list5,value);
+  show_list1(list5);
+  Serial.println("--------");
   while (!delay_without_delaying(5000) ) { };
   pinMode(LED_BUILTIN, OUTPUT);
 
