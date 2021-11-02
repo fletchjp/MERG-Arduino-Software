@@ -121,7 +121,6 @@ void delete_value4(std::vector< std::string > &list, const std::string & value)
 // Fifth example using boost phoenix bind for the bind and for the comparison
 ///////////////////////////////////////////////////////
 
-
 void delete_value5(std::vector< std::string > &list, const std::string & value)
 {
   list.erase(
@@ -133,6 +132,32 @@ void delete_value5(std::vector< std::string > &list, const std::string & value)
             arg1, // Boost.Bind placeholder
             boost::cref( value ) ) ),
     list.end() );
+}
+
+///////////////////////////////////////////////////////
+// Sixth example using boost phoenix directly for the comparison
+///////////////////////////////////////////////////////
+
+void delete_value6(std::vector< std::string > &list, const std::string & value)
+{
+  list.erase(
+    std::remove_if(
+        list.begin(),
+        list.end(),
+        arg1 == phx::cref( value ) ),
+    list.end() );
+}
+
+///////////////////////////////////////////////////////
+// Seventh example using boost phoenix directly for the comparison
+///////////////////////////////////////////////////////
+
+void delete_value7(std::vector< std::string > &list, const std::string & value)
+{
+  list.erase(
+    phx::remove_if( arg1, arg2 )
+        (list, arg1 == phx::cref( value ) ),
+         list.end() );
 }
 
 //////////////////////////////////////////////////////////
@@ -180,25 +205,33 @@ void setup() {
 
   std::vector< std::string > list1 = make_list();
   show_list1(list1);
-  Serial.println("--------");
+  Serial.println("--------1");
   delete_value1(list1);
   show_list1(list1);
-  Serial.println("--------");
+  Serial.println("--------2");
   std::vector< std::string > list2 = make_list();
   delete_value2(list2,value);
   show_list1(list2);
-  Serial.println("--------");
+  Serial.println("--------3");
   std::vector< std::string > list3 = make_list();
   delete_value3(list3,value);
   show_list1(list3);
-  Serial.println("--------");
+  Serial.println("--------4");
   std::vector< std::string > list4 = make_list();
   delete_value4(list4,value);
   show_list1(list4);
-  Serial.println("--------");
+  Serial.println("--------5");
   std::vector< std::string > list5 = make_list();
   delete_value5(list5,value);
   show_list1(list5);
+  Serial.println("--------6");
+  std::vector< std::string > list6 = make_list();
+  delete_value6(list6,value);
+  show_list1(list6);
+  Serial.println("--------7");
+  std::vector< std::string > list7 = make_list();
+  delete_value7(list7,value);
+  show_list1(list7);
   Serial.println("--------");
   while (!delay_without_delaying(5000) ) { };
   pinMode(LED_BUILTIN, OUTPUT);
