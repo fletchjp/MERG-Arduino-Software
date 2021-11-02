@@ -55,13 +55,26 @@ inline Print &operator <<(Print &stream, const char *arg)
 #include <boost_spirit_include_phoenix_core.hpp>
 #include <boost_spirit_include_phoenix_operator.hpp>
 #include <boost_spirit_include_phoenix_stl.hpp>
+#include <boost_spirit_include_phoenix_bind.hpp>
+#include <boost_phoenix_bind_bind_function.hpp>
+//#include <boost_lambda_lambda.hpp>
+#include <boost_bind.hpp>
+#include <boost_bind_placeholders.hpp>
+
 //#include <boost_spirit.hpp>
 
 using namespace boost::spirit;
 
 //////////////////////////////////////////////////////////
-// num_list2 example
+// actions example
 //////////////////////////////////////////////////////////
+
+// Presented are various ways to attach semantic actions
+//  * Using plain function pointer
+//  * Using simple function object
+//  * Using boost.bind with a plain function
+//  * Using boost.bind with a member function
+//  * Using boost.lambda
 
 namespace client
 {
@@ -69,41 +82,31 @@ namespace client
     namespace ascii = boost::spirit::ascii;
     namespace phoenix = boost::phoenix;
 
-    ///////////////////////////////////////////////////////////////////////////
-    //  Our number list parser
-    ///////////////////////////////////////////////////////////////////////////
-    //[tutorial_numlist1
-    template <typename Iterator>
-    bool parse_numbers(Iterator first, Iterator last, std::vector<double>& v)
+    // A plain function
+    void print(int const& i)
     {
-        using qi::double_;
-        using qi::phrase_parse;
-        using qi::_1;
-        using ascii::space;
-        //using phoenix::push_back;
-
-        bool r = phrase_parse(
-            first,                          /*< start iterator >*/
-            last,                           /*< end iterator >*/
-            //  Begin grammar
-            (
-                double_ % ','
-                //double_[push_back(phoenix::ref(v), _1)] % ','
-                //  >> *(',' >> double_[push_back(phoenix::ref(v), _1)])
-            )
-            ,
-            //  End grammar
-            space,                           /*< the skip-parser >*/
-            v                                /*< the vector to be filled >*/
-        );
-        if (first != last) // fail if we did not get a full match
-            return false;
-        return r;
+        Serial << i << endl;
     }
-    //]
+
+    // A member function
+    struct writer
+    {
+        void print(int const& i) const
+        {
+            Serial << i << endl;
+        }
+    };
+
+    // A function object
+    struct print_action
+    {
+        void operator()(int const& i, qi::unused_type, qi::unused_type) const
+        {
+            Serial << i << endl;
+        }
+    };
+
 }
-
-
 
 //////////////////////////////////////////////////////////
 
@@ -131,43 +134,84 @@ void setup() {
   Serial.print(t2);
   Serial.println(" millis");
   while (!delay_without_delaying(10000) ) { };
-  Serial << "ArduinoRP2040BoostSpiritNumList4 ** " << endl << __FILE__ << endl;
+  Serial << "ArduinoRP2040BoostSpiritActions ** " << endl << __FILE__ << endl;
   Serial << "Some simple Boost Spirit operations" << endl;
   Serial << "------------------------------" << endl;
   Serial << "Boost Spirit Qi Parser" << endl;
   Serial << "------------------------------" << endl;
-  Serial << "A comma separated list of numbers.\n";
-  std::string str("1.5, 2.765, -1.987");
-  Serial << str.c_str() << endl;
-  int len = str.length();
-  int n = 0;
-  while (n < 1)
-  {
-       //if (str.empty() || str[0] == 'q' || str[0] == 'Q')
-       //     break;
-        n++;
-        std::vector<double> v;
-        if (client::parse_numbers(str.begin(), str.end(), v))
-        {
-            Serial << "---------------------\n";
-            Serial << "Parsing succeeded\n";
-            Serial << str.c_str() << " Parses OK: " << endl;
-            
-            for (std::vector<double>::size_type i = 0; i < v.size(); ++i)
-                Serial << i << ": " << v[i] << endl;
-
-            Serial << "\n-------------------------\n";
-        }
-        else
-        {
-            Serial << "-------------------------\n";
-            Serial << "Parsing failed\n";
-            Serial << "-------------------------\n";
-        }
-        //if(str.begin() == str.end() ) break;
-  }
-
   
+    using boost::spirit::qi::int_;
+    using boost::spirit::qi::parse;
+    using client::print;
+    using client::writer;
+    using client::print_action;
+
+    { // example using plain function
+
+        char const *first = "{42}", *last = first + std::strlen(first);
+        //[tutorial_attach_actions1
+        parse(first, last, '{' >> int_[&print] >> '}');
+        //]
+    }
+
+    { // example using simple function object
+
+        char const *first = "{43}", *last = first + std::strlen(first);
+        //[tutorial_attach_actions2
+        parse(first, last, '{' >> int_[print_action()] >> '}');
+        //]
+    }
+
+   { // example using boost.bind with a plain function
+
+        char const *first = "{44}", *last = first + std::strlen(first);
+        //[tutorial_attach_actions3
+        using boost::placeholders::_1;
+        parse(first, last, '{' >> int_[boost::bind(&print, _1)] >> '}');
+        //]
+    }
+
+    { // example using boost.bind with a member function
+
+        char const *first = "{45}", *last = first + std::strlen(first);
+        //[tutorial_attach_actions4
+        using boost::placeholders::_1;
+        writer w;
+        parse(first, last, '{' >> int_[boost::bind(&writer::print, &w, _1)] >> '}');
+        //]
+    }
+/* This compiles without a direct reference to boost::phoenix::bind. */
+/* However there is no output from this or the next one
+    { // example using boost phoenix bind with a plain function
+        char const *first = "{46}", *last = first + std::strlen(first);
+        using boost::phoenix::placeholders::arg1;
+        parse(first, last, '{' >> int_[&print, arg1] >> '}');
+         //]
+    }
+
+    { // example using boost.phoenix.bind with a member function
+
+        char const *first = "{47}", *last = first + std::strlen(first);
+        //[tutorial_attach_actions4
+        using boost::phoenix::placeholders::arg1;
+        writer w;
+        parse(first, last, '{' >> int_[&writer::print, &w, arg1] >> '}');
+        //]
+    }
+*/
+
+/* This is not working. It does not like Serial in there.
+    { // example using boost.lambda
+
+        namespace lambda = boost::lambda;
+        char const *first = "{46}", *last = first + std::strlen(first);
+        using lambda::_1;
+        //[tutorial_attach_actions5
+        parse(first, last, '{' >> int_[Serial << _1 << '\n'] >> '}');
+        //]
+    }
+*/
+  Serial << "------------------------------" << endl;
   //Serial << "------------------------------" << endl;
   //Serial << "Boost Spirit Karma Generator" << endl;
   //Serial << "------------------------------" << endl;
