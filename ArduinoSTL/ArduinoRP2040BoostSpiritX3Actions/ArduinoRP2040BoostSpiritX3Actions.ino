@@ -44,17 +44,8 @@ inline Print &operator <<(Print &stream, const char *arg)
 }
 
 #include <cstdio>
-//#include <PicoThread.h>
-//#define BOOST_SPIRIT_SINGLE_GRAMMAR_INSTANCE
-// No longer used - all changes restored in the files.
-//#define BOOST_SPIRIT_DEBUG_OUT Serial
 
-//#include <boost_mpl_identity.hpp>
-//#define BOOST_SPIRIT_X3_NO_RTTI
 #include <boost_spirit_home_x3.hpp>
-//#include <boost_spirit_home_x3_support_context.hpp>
-
-//using namespace boost::spirit;
 
 //////////////////////////////////////////////////////////
 // actions example
@@ -63,6 +54,21 @@ inline Print &operator <<(Print &stream, const char *arg)
 // Presented are various ways to attach semantic actions
 //  * Using plain function pointer
 //  * Using simple function object
+
+namespace client
+{
+    namespace x3 = boost::spirit::x3;
+    using x3::_attr;
+
+    struct print_action
+    {
+        template <typename Context>
+        void operator()(Context const& ctx) const
+        {
+            Serial << _attr(ctx) << endl;
+        }
+    };
+}
 
 
 //////////////////////////////////////////////////////////
@@ -91,8 +97,23 @@ void setup() {
   Serial.print(t2);
   Serial.println(" millis");
   while (!delay_without_delaying(10000) ) { };
-  Serial << "ArduinoRP2040BoostSpiritActions ** " << endl << __FILE__ << endl;
-  Serial << "Some simple Boost Spirit operations" << endl;
+  Serial << "ArduinoRP2040BoostSpiritX3Actions ** " << endl << __FILE__ << endl;
+  Serial << "Some simple Boost Spirit X3 operations" << endl;
+    using boost::spirit::x3::int_;
+    using boost::spirit::x3::parse;
+    using client::print_action;
+   { // example using function object
+
+        char const *first = "{43}", *last = first + std::strlen(first);
+        parse(first, last, '{' >> int_[print_action()] >> '}');
+    }
+
+    { // example using C++14 lambda
+
+        char const *first = "{44}", *last = first + std::strlen(first);
+        auto f = [](auto& ctx){ Serial << _attr(ctx) << endl; };
+        parse(first, last, '{' >> int_[f] >> '}');
+    }
 
   Serial << "------------------------------" << endl;
   //Serial << "------------------------------" << endl;
