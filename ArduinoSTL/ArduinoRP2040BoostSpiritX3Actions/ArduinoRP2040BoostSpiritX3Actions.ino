@@ -47,11 +47,14 @@ inline Print &operator <<(Print &stream, const char *arg)
 
 #include <cstdio>
 //#include <PicoThread.h>
-#define BOOST_SPIRIT_SINGLE_GRAMMAR_INSTANCE
+//#define BOOST_SPIRIT_SINGLE_GRAMMAR_INSTANCE
 // No longer used - all changes restored in the files.
 //#define BOOST_SPIRIT_DEBUG_OUT Serial
 
-#include <boost_spirit_home_x3_core.hpp>
+//#include <boost_mpl_identity.hpp>
+#define BOOST_SPIRIT_X3_NO_TTI
+#include <boost_spirit_home_x3_core_parse.hpp>
+//#include <boost_spirit_home_x3_support_context.hpp>
 
 //using namespace boost::spirit;
 
