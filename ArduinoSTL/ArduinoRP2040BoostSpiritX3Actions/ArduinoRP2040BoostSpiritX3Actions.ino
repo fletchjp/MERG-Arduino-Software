@@ -8,6 +8,7 @@
 #undef F
 #undef min
 
+
 #include <exception>
 #include <stdexcept>
 
@@ -26,8 +27,6 @@ namespace boost {
 
 }
 
-
-
 #include <string>
 #include <vector>
 // This does not work. Input types are not a good enough match.
@@ -44,7 +43,6 @@ inline Print &operator <<(Print &stream, const char *arg)
   return stream;
 }
 
-
 #include <cstdio>
 //#include <PicoThread.h>
 //#define BOOST_SPIRIT_SINGLE_GRAMMAR_INSTANCE
@@ -52,8 +50,8 @@ inline Print &operator <<(Print &stream, const char *arg)
 //#define BOOST_SPIRIT_DEBUG_OUT Serial
 
 //#include <boost_mpl_identity.hpp>
-#define BOOST_SPIRIT_X3_NO_TTI
-#include <boost_spirit_home_x3_core_parse.hpp>
+//#define BOOST_SPIRIT_X3_NO_RTTI
+#include <boost_spirit_home_x3.hpp>
 //#include <boost_spirit_home_x3_support_context.hpp>
 
 //using namespace boost::spirit;
@@ -65,10 +63,6 @@ inline Print &operator <<(Print &stream, const char *arg)
 // Presented are various ways to attach semantic actions
 //  * Using plain function pointer
 //  * Using simple function object
-//  * Using boost.bind with a plain function
-//  * Using boost.bind with a member function
-//  * Using boost.lambda
-
 
 
 //////////////////////////////////////////////////////////
