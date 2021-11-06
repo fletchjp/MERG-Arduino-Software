@@ -1,6 +1,9 @@
 // ArduinoRP2040BoostSpiritX3NumList1
 
-// Taken from spirit/example/x3/num_list/num_list1 and spirit/example/karma/num_list1 (suspended)
+// Taken from spirit/example/x3/num_list/num_list1 
+// The V2 version of this file used spirit/example/karma/num_list1
+// That is not compatible with the X3 code.
+// I have heard it mentioned that there should be an X3 version of karma.
 
 // 3rd party libraries
 #include <Streaming.h>
