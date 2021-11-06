@@ -4,6 +4,7 @@
 // The V2 version of this file used spirit/example/karma/num_list1
 // That is not compatible with the X3 code.
 // I have heard it mentioned that there should be an X3 version of karma.
+// This does not yet exist in Spirit X3 V3.0.9 (Boost 1.77.0)
 
 // 3rd party libraries
 #include <Streaming.h>
