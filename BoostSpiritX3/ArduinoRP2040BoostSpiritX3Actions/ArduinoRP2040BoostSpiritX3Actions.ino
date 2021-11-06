@@ -1,6 +1,6 @@
 // ArduinoRP2040BoostSpiritX3Actions
 
-// Taken from spirit/example/q1/actions
+// Taken from spirit/example/x3/actions
 
 // 3rd party libraries
 #include <Streaming.h>
