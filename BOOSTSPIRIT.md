@@ -4,6 +4,8 @@ I am planning to use Boost Spirit for the parsing of input such as the CANCOMPUT
 
 It is also capable of generating strings from structured data and so could be used to pass strings over CBUS.
 
+Link to [RP2040 page](RP2040.md)
+
 ## Boost Spirit Examples
 
 This is becoming an important area of work as it is possible that Boost Spirit could be used to decode CANCOMPUTE files with possible enhancements.
@@ -92,4 +94,4 @@ This is copied from the member_function_types example. The examples all work and
 
 ## Back to RP2040
 
-[RP2040](RP2040.md)
+[RP2040 page](RP2040.md)
