@@ -68,29 +68,19 @@ I have listened to the beginning of a talk by Joel De Guzman when he was startin
 
 There was due to be a version of karma for X3 which does not exist yet.
 
+I am working through the Boost Spirit X3 examples.
+
 ### ArduinoRP2040BoostSpiritX3Actions
 
 An exploration of some ways of using Boost Spirit X3 in comparison with the other version of this file.
 
-## FC++ Examples
+### ArduinoRP2040BoostSpiritX3NumList1
 
-I have brought in two existing examples **DUEFCPP** and **DUEMONAD**.
+Taken from spirit/example/x3/num_list/num_list1
 
-These examples use FC++ instead of BoostFC++ as there is much more done there.
+### ArduinoRP2040BoostSpiritX3NumList2
 
-I have made an Arduino library called **fcpp** which will run with these examples instead of them having their own copies.
-
-### ArduinoRP2040FCPP
-
-This is renamed from the existing examples **DUEFCPP**
-
-### ArduinoRP2040MONAD
- 
-This is renamed from the existing examples **DUEMONAD**
-
-### ArduinoRP2040FCPPFunctionTypes
-
-This is copied from the member_function_types example. The examples all work and I have also added comparisons with callable_traits.
+Taken from spirit/example/x3/num_list/num_list2
 
 ## Back to RP2040
 
