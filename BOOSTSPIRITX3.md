@@ -48,6 +48,13 @@ Taken from spirit/example/x3/Roman
 
 This shows how to combine parsers into a more complex operations.
 
+### ArduinoRP2040BoostSpiritX3Employee
+
+Taken from spirit/example/x3/employee
+
+This shows how to input data to a structure.
+
+I have not been able to use the boost Fusion output option and have made my own output routine.
 
 ## Back to Boost Spirit and RP2040
 
