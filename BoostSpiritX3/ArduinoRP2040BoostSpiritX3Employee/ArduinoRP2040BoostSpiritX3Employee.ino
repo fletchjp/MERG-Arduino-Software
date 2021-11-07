@@ -60,6 +60,9 @@ inline Print &operator <<(Print &stream, const char *arg)
 #include <boost_spirit_home_x3.hpp>
 #include <boost/fusion/include/adapt_struct.hpp>
 //#include <boost/fusion/include/io.hpp>
+//#include <boost/fusion/sequence.hpp>
+//#include <boost/fusion/include/sequence.hpp>
+
 
 namespace client { namespace ast
 {
@@ -176,6 +179,7 @@ void setup() {
   using boost::spirit::x3::ascii::space;
   typedef std::string::const_iterator iterator_type;
   using client::parser::employee; // Our parser
+  //using namespace boost::fusion;
 
   std::string str("employee{33, \"Jones\", \"John\", 300.5 }");
   Serial << str << endl;
@@ -202,6 +206,9 @@ void setup() {
             Serial << "---------------------\n";
             Serial << "Parsing succeeded\n";
             Serial << "got: " << emp << endl;
+
+            int x = boost::fusion::at_c<0>(emp) ;
+            Serial << "test: " << x << endl;
 
             Serial << "\n-------------------------\n";
 
