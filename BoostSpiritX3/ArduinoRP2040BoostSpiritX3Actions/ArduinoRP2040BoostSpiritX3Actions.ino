@@ -30,13 +30,13 @@ namespace boost {
 #include <string>
 #include <vector>
 // This does not work. Input types are not a good enough match.
-template<class T>
+//template<class T>
 inline Print &operator <<(Print &stream, const std::string &arg)
 {
   stream.print(arg.c_str());
   return stream;
 }
-template<class T>
+//template<class T>
 inline Print &operator <<(Print &stream, const char *arg)
 {
   stream.print(arg);
