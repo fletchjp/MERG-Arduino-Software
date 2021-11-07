@@ -2,6 +2,16 @@
 
 // Taken from spirit/example/x3/num_list/num_list2
 
+/*
+ * https://ostack.cn/?qa=302784/
+That warning is telling you that there was a subtle ABI change
+(actually a conformance fix) between 6 and 7.1,
+such that libraries built with 6.x or earlier may not work properly
+when called from code built with 7.x (and vice-versa).
+As long as all your C++ code is built with GCC 7.1 or later, you can safely ignore this warning.
+To disable it, pass -Wno-psabi to the compiler
+ * /
+
 // 3rd party libraries
 #include <Streaming.h>
 
