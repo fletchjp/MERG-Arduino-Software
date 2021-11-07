@@ -68,7 +68,7 @@ I have listened to the beginning of a talk by Joel De Guzman when he was startin
 
 There was due to be a version of karma for X3 which does not exist yet.
 
-I am working through the Boost Spirit X3 examples.
+I am working through the Boost Spirit X3 examples. These take the user through a series of stages which introduce the features of X3 in an organised way.
 
 I have now solved a propblem of some warning messages by adding -Wno-pasabi to the cpp flags.
 
