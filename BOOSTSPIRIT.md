@@ -80,9 +80,27 @@ An exploration of some ways of using Boost Spirit X3 in comparison with the othe
 
 Taken from spirit/example/x3/num_list/num_list1
 
+These examples do the same example introducing features one by one.
+
 ### ArduinoRP2040BoostSpiritX3NumList2
 
 Taken from spirit/example/x3/num_list/num_list2
+
+From this point on the results are stored in a vector.
+
+### ArduinoRP2040BoostSpiritX3NumList3
+
+Taken from spirit/example/x3/num_list/num_list3
+
+### ArduinoRP2040BoostSpiritX3NumList4
+
+Taken from spirit/example/x3/num_list/num_list4
+
+### ArduinoRP2040BoostSpiritX3Roman
+
+Taken from spirit/example/x3/Roman
+
+This shows how to combine parsers into a more complex operations.
 
 ## Back to RP2040
 
