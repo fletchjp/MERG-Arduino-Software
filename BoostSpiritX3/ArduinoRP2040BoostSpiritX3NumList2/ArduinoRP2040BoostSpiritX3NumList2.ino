@@ -10,7 +10,7 @@ such that libraries built with 6.x or earlier may not work properly
 when called from code built with 7.x (and vice-versa).
 As long as all your C++ code is built with GCC 7.1 or later, you can safely ignore this warning.
 To disable it, pass -Wno-psabi to the compiler
- * /
+ */
 
 // 3rd party libraries
 #include <Streaming.h>
