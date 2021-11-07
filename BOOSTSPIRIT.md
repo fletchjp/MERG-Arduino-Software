@@ -70,6 +70,8 @@ There was due to be a version of karma for X3 which does not exist yet.
 
 I am working through the Boost Spirit X3 examples.
 
+I have now solved a propblem of some warning messages by adding -Wno-pasabi to the cpp flags.
+
 ### ArduinoRP2040BoostSpiritX3Actions
 
 An exploration of some ways of using Boost Spirit X3 in comparison with the other version of this file.
