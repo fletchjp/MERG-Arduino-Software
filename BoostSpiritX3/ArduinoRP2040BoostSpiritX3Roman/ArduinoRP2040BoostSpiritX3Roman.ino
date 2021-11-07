@@ -165,7 +165,7 @@ namespace client
             )
         ;
 
-        BOOST_SPIRIT_DEFINE(roman);
+        BOOST_SPIRIT_DEFINE(roman); // Note: this macro picks up the definition of roman_def.
     }
 }
 
@@ -201,10 +201,15 @@ void setup() {
   Serial << "Some simple Boost Spirit X3 operations" << endl;
   Serial << "------------------------------" << endl;
   Serial << "Boost Spirit X3 Parser" << endl;
-  //Serial << "Boost Spirit Karma Generator" << endl;
   Serial << "------------------------------" << endl;
-  Serial << "A comma separated list of numbers.\n";
-  std::string str("1.5, 2.765, -1.987");
+  Serial << "A Roman number.\n";
+
+  typedef std::string::const_iterator iterator_type;
+  using client::parser::roman; // Our parser
+
+  std::string str("MCCXXVIII");
+  unsigned result;
+
   Serial << str.c_str() << endl;
   int len = str.length();
   int n = 0;
@@ -213,15 +218,16 @@ void setup() {
        //if (str.empty() || str[0] == 'q' || str[0] == 'Q')
        //     break;
         n++;
-        std::vector<double> v;      // here we put the data to be stored
-        if (client::parse_numbers(str.begin(), str.end(), v))
+
+        iterator_type iter = str.begin();
+        iterator_type const end = str.end();
+        bool r = parse(iter, end, roman, result);
+
+        if (r && iter == end)
         {
             Serial << "---------------------\n";
             Serial << "Parsing succeeded\n";
-            Serial << str.c_str() << " Parses OK: " << endl;
-
-            for (std::vector<double>::size_type i = 0; i < v.size(); ++i)
-                Serial << i << ": " << v[i] << endl;
+            Serial << "Result = " << result << endl;
 
             Serial << "\n-------------------------\n";
 
