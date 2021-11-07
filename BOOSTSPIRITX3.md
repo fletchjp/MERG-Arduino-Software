@@ -56,6 +56,8 @@ This shows how to input data to a structure.
 
 I have not been able to use the boost Fusion output option and have made my own output routine.
 
+I have been able to test using Boost Fusion access routines.
+
 ## Back to Boost Spirit and RP2040
 
 [Boost Spirit page](BOOSTSPIRIT.md) | [RP2040 page](RP2040.md)
