@@ -51,4 +51,4 @@ This shows how to combine parsers into a more complex operations.
 
 ## Back to Boost Spirit and RP2040
 
-[Boost Spirit page](BOOSTSPIRIT.md) [RP2040 page](RP2040.md)
+[Boost Spirit page](BOOSTSPIRIT.md) | [RP2040 page](RP2040.md)
