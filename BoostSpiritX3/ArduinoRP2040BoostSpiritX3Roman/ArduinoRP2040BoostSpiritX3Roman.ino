@@ -42,13 +42,13 @@ namespace boost {
 #include <vector>
 #include <list>
 // This does not work. Input types are not a good enough match.
-template<class T>
+//template<class T>
 inline Print &operator <<(Print &stream, const std::string &arg)
 {
   stream.print(arg.c_str());
   return stream;
 }
-template<class T>
+//template<class T>
 inline Print &operator <<(Print &stream, const char *arg)
 {
   stream.print(arg);
@@ -210,7 +210,7 @@ void setup() {
   std::string str("MCCXXVIII");
   unsigned result;
 
-  Serial << str.c_str() << endl;
+  Serial << str << endl;
   int len = str.length();
   int n = 0;
   while (n < 1)
