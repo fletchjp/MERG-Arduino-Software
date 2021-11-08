@@ -5,6 +5,10 @@
 // This example shows how to break down the employee example into separate files for different parts of the code.
 
 // What I need to do is to import all the files except the main file and then adapt this code to run it.
+// This has proved to be fairly easy. I had to edit ast.hpp to change to the output operator based on Serial.
+// There is a difference in the phrase_paese statement where employee has become employee().
+
+
 
 /*
  * https://ostack.cn/?qa=302784/
@@ -72,80 +76,6 @@ inline Print &operator <<(Print &stream, const char *arg)
 #include "employee.hpp"
 
 
-namespace client { namespace ast
-{
-    ///////////////////////////////////////////////////////////////////////////
-    //  Our employee struct
-    ///////////////////////////////////////////////////////////////////////////
-    struct employee
-    {
-        int age;
-        std::string surname;
-        std::string forename;
-        double salary;
-    };
-
-    //using boost::fusion::operator<<;
-    // I cannot use the fusion IO so I am instead doing this which works.
-    inline Print &operator <<(Print &stream, const employee &emp)
-    {
-       stream.print("[");
-       stream.print(emp.age);
-       stream.print(",");
-       stream.print(emp.surname.c_str());
-       stream.print(",");
-       stream.print(emp.forename.c_str());
-       stream.print(",");
-       stream.print(emp.salary);       
-       stream.print("]");
-      return stream;
-    }
-
-}}
-
-// We need to tell fusion about our employee struct
-// to make it a first-class fusion citizen. This has to
-// be in global scope.
-
-BOOST_FUSION_ADAPT_STRUCT(client::ast::employee,
-    age, surname, forename, salary
-)
-
-namespace client
-{
-    ///////////////////////////////////////////////////////////////////////////////
-    //  Our employee parser
-    ///////////////////////////////////////////////////////////////////////////////
-    namespace parser
-    {
-        namespace x3 = boost::spirit::x3;
-        namespace ascii = boost::spirit::x3::ascii;
-
-        using x3::int_;
-        using x3::lit;
-        using x3::double_;
-        using x3::lexeme;
-        using ascii::char_;
-
-        x3::rule<class employee, ast::employee> const employee = "employee";
-
-        auto const quoted_string = lexeme['"' >> +(char_ - '"') >> '"'];
-
-        auto const employee_def =
-            lit("employee")
-            >> '{'
-            >>  int_ >> ','
-            >>  quoted_string >> ','
-            >>  quoted_string >> ','
-            >>  double_
-            >>  '}'
-            ;
-
-        BOOST_SPIRIT_DEFINE(employee);
-    }
-}
-
-
 //////////////////////////////////////////////////////////
 
 // This comes from the cdc_multi example
@@ -185,8 +115,10 @@ void setup() {
 
 
   using boost::spirit::x3::ascii::space;
-  typedef std::string::const_iterator iterator_type;
-  using client::parser::employee; // Our parser
+  using iterator_type = std::string::const_iterator;
+  using client::employee;
+  //typedef std::string::const_iterator iterator_type;
+  //using client::parser::employee; // Our parser
   //using namespace boost::fusion;
 
   std::string str("employee{33, \"Jones\", \"John\", 300.5 }");
@@ -203,7 +135,7 @@ void setup() {
         client::ast::employee emp;
         iterator_type iter = str.begin();
         iterator_type const end = str.end();
-        bool r = phrase_parse(iter, end, employee, space, emp);
+        bool r = phrase_parse(iter, end, employee(), space, emp);
 
         if (r && iter == end)
         {
