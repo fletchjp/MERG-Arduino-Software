@@ -7,7 +7,12 @@
 #if !defined(BOOST_SPIRIT_X3_MINIMAL_AST_HPP)
 #define BOOST_SPIRIT_X3_MINIMAL_AST_HPP
 
-#include <boost/fusion/include/io.hpp>
+//#include <boost/fusion/include/io.hpp>
+// 3rd party libraries
+#include <Streaming.h>
+
+#undef F
+
 
 #include <iostream>
 #include <string>
@@ -25,7 +30,22 @@ namespace client { namespace ast
         double salary;
     };
 
-    using boost::fusion::operator<<;
+    // I cannot use the fusion IO so I am instead doing this which works.
+    inline Print &operator <<(Print &stream, const employee &emp)
+    {
+       stream.print("[");
+       stream.print(emp.age);
+       stream.print(",");
+       stream.print(emp.surname.c_str());
+       stream.print(",");
+       stream.print(emp.forename.c_str());
+       stream.print(",");
+       stream.print(emp.salary);       
+       stream.print("]");
+      return stream;
+    }
+
+    //using boost::fusion::operator<<;
 }}
 
 #endif
