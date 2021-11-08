@@ -1,6 +1,10 @@
-// ArduinoRP2040BoostSpiritX3Employee
+// ArduinoRP2040BoostSpiritX3Minimal
 
-// Taken from spirit/example/x3/employee
+// Taken from spirit/example/x3/minimal in Boost 1.77.0
+
+// This example shows how to break down the employee example into separate files for different parts of the code.
+
+// What I need to do is to import all the files except the main file and then adapt this code to run it.
 
 /*
  * https://ostack.cn/?qa=302784/
@@ -62,6 +66,10 @@ inline Print &operator <<(Print &stream, const char *arg)
 //#include <boost/fusion/include/io.hpp>
 //#include <boost/fusion/sequence.hpp>
 //#include <boost/fusion/include/sequence.hpp>
+
+#include "ast.hpp"
+#include "ast_adapted.hpp"
+#include "employee.hpp"
 
 
 namespace client { namespace ast
