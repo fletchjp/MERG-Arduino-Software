@@ -58,6 +58,16 @@ I have not been able to use the boost Fusion output option and have made my own 
 
 I have been able to test using Boost Fusion access routines.
 
+### ArduinoRP2040BoostSpiritX3Minimal
+
+This is a version of the employee example broken into separate files for the different parts of the problem.
+
+The idea is that they can be considered separately and may be components of different problems.
+
+This example is not in Boost 1.66.0. I have taken it from Boost 1.77.0.
+
+It was not difficult to adapt using code from the employee example.
+
 ## Back to Boost Spirit and RP2040
 
 [Boost Spirit page](BOOSTSPIRIT.md) | [RP2040 page](RP2040.md)
