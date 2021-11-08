@@ -308,7 +308,7 @@ void setup() {
   Serial.print("Waited for ");
   Serial.print(t2);
   Serial.println(" millis");
-  while (!delay_without_delaying(5000) ) { };
+  while (!delay_without_delaying(20000) ) { };
   Serial << "ArduinoRP2040BoostSpiritNumList1 ** " << endl << __FILE__ << endl;
   Serial << "Some simple Boost Spirit X3 operations" << endl;
   Serial << "------------------------------" << endl;
@@ -322,14 +322,15 @@ void setup() {
   // Get the source of the 2nd employee and print it
   auto pos = positions.position_of(ast[1]); // zero based of course!
   Serial << "Here's the 2nd employee:" << endl;
-  Serial << std::string(pos.begin(), pos.end()) << endl;
+  //auto res = (pos.begin(), pos.end());
+  //auto res1 = pos.begin();
+  // Direct access to the vector which works and the pos version does not
+  Serial << ast[1] << endl;
+  //Serial << std::string(pos.begin(), pos.end()) << endl;
 
-  Serial << "/////////////////////////////////////////////////////////\n\n";
-  Serial << "             An employee parser for Spirit...\n\n";
-  Serial << "/////////////////////////////////////////////////////////\n\n";
-
-
-
+  //Serial << "/////////////////////////////////////////////////////////\n\n";
+  //Serial << "             An employee parser for Spirit...\n\n";
+  //Serial << "/////////////////////////////////////////////////////////\n\n";
   
   Serial << "------------------------------" << endl;
   pinMode(LED_BUILTIN, OUTPUT);
