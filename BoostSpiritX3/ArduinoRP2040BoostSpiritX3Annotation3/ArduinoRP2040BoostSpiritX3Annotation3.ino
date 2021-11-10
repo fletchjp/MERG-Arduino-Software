@@ -4,6 +4,7 @@
 
 // Adding an employee number (which will become a key)
 // Change the structure to {number,{employee}}
+// number will be the key.
 
 /*
  * https://ostack.cn/?qa=302784/
