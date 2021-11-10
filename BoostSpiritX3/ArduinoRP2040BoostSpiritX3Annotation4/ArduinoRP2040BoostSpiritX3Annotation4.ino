@@ -8,8 +8,8 @@
 // This has been a useful learning experience as I had to add new features
 // to change the structure. Also the last error message was because the parsing did not
 // match the declared structures and it noticed.
-// I next want to find a way to build a map<number,employee>
-// and check for duplicate numbers.
+// This now builds a map<number,employee>
+// although not yet with a check for duplicate numbers.
 
 /*
  * https://ostack.cn/?qa=302784/
