@@ -50,14 +50,14 @@ namespace boost {
 #include <string>
 #include <vector>
 #include <list>
-// This does not work. Input types are not a good enough match.
-//template<class T>
+#include <map>
+// This does now work.
 inline Print &operator <<(Print &stream, const std::string &arg)
 {
   stream.print(arg.c_str());
   return stream;
 }
-//template<class T>
+
 inline Print &operator <<(Print &stream, const char *arg)
 {
   stream.print(arg);
@@ -243,10 +243,13 @@ namespace client
 using iterator_type = std::string::const_iterator;
 using position_cache = boost::spirit::x3::position_cache<std::vector<iterator_type>>;
 
+std::map<int,client::ast::employee> ast_map;
+
 std::vector<client::ast::entry>
 parse(std::string const& input, position_cache& positions)
 {
     using boost::spirit::x3::ascii::space;
+    using boost::fusion::at_c;
 
     std::vector<client::ast::entry> ast;
     iterator_type iter = input.begin();
@@ -281,6 +284,7 @@ parse(std::string const& input, position_cache& positions)
         {
             //Serial << "got a result " << endl;
             Serial << "got: " << emp << endl;
+            ast_map.insert(std::make_pair(at_c<0>(emp),at_c<1>(emp)));
         }
         Serial << "\n-------------------------\n";
 
@@ -385,6 +389,7 @@ void setup() {
   int x = at_c<0>(ast[1]);
   auto emp = at_c<1>(ast[1]);
   Serial << x << ":" << emp << endl;
+  Serial << x << ":" << ast_map[x] << endl;
   //Serial << std::string(pos.begin(), pos.end()) << endl;
 
   //Serial << "/////////////////////////////////////////////////////////\n\n";
