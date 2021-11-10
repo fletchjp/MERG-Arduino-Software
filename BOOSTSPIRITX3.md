@@ -68,6 +68,12 @@ This example is not in Boost 1.66.0. I have taken it from Boost 1.77.0.
 
 It was not difficult to adapt using code from the employee example.
 
+### ArduinoRP2040BoostSpiritX3Annotation
+
+This extends the employee example using annotation to add access iterators.
+
+I have not succeeded in getting the new features to work properly.
+
 ## Back to Boost Spirit and RP2040
 
 [Boost Spirit page](BOOSTSPIRIT.md) | [RP2040 page](RP2040.md)
