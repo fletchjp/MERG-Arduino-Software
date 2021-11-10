@@ -82,6 +82,8 @@ This extends the Annotation example to add an employee number.
 
 This extends the Annotation example to add an entry structure with number separate.
 
+I am learning how to change the structures.
+
 ## Back to Boost Spirit and RP2040
 
 [Boost Spirit page](BOOSTSPIRIT.md) | [RP2040 page](RP2040.md)
