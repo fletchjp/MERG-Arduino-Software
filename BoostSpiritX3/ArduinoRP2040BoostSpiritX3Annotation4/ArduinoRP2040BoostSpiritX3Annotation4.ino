@@ -11,6 +11,8 @@
 // This now builds a map<number,employee>
 // although not yet with a check for duplicate numbers.
 
+// This one builds the map in the parsing and does not check for duplicates.
+
 /*
  * https://ostack.cn/?qa=302784/
 That warning is telling you that there was a subtle ABI change
