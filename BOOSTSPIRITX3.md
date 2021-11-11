@@ -84,6 +84,16 @@ This extends the Annotation example to add an entry structure with number separa
 
 I am learning how to change the structures.
 
+### ArduinoRP2040BoostSpiritX3Annotation4
+
+This extends the Annotation example to add building a map using the number as a key.
+
+Note that the map entry is made using a std::pair.
+
+### ArduinoRP2040BoostSpiritX3Annotation4
+
+This extends the Annotation example to check the map for a duplicate key and not make that entry.
+
 ## Back to Boost Spirit and RP2040
 
 [Boost Spirit page](BOOSTSPIRIT.md) | [RP2040 page](RP2040.md)
