@@ -12,13 +12,15 @@
  * CMRI turnout control changed to. Two Bit, Pulsed Output.
  *
  * Two sensor feedback
+ *
+ * CMRI cmri defaults to a SMINI with address 0. SMINI = 24 inputs, 48 outputs
+ *
  */
 
 #include <CMRI.h>
 #include <Servo.h>
 
-CMRI cmri; // defaults to a SMINI with address 0. SMINI = 24 inputs, 48 outputs
-
+CMRI cmri; 
 /*--------------------------------------------------------------------*/
 
 // defining Pin allocation
