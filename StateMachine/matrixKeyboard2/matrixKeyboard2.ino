@@ -1,4 +1,6 @@
 /**
+ * @section Example
+ * 
  * This example shows how to use the matrix keyboard support that's built into IoAbstraction,
  * it can be used out the box with either a 3x4 or 4x4 keypad, but you can modify it to use
  * any matrix keyboard quite easily.
@@ -90,6 +92,6 @@ void setup() {
 }
 
 void loop() {
-    // as this indirectly uses taskmanager, we must include this in loop.
+/** as this indirectly uses taskmanager, we must include taskManager.runLoop(); in loop. */
     taskManager.runLoop();
 }
