@@ -1,6 +1,11 @@
-// ArduinoRP2040BoostSpiritX3Actions
-
-// Taken from spirit/example/x3/actions
+/// @file ArduinoRP2040BoostSpiritX3Actions.ino
+/// @brief Example of Boost Spirit X3 Actions
+///
+/// Boost Spirit 3.0.0 is included from Arduino Boost (Boost 1.66.0)
+/// This is taken from spirit/example/x3/actions
+/// and adapted to run on the Arduino NANO RP2040 connect.
+///
+/// This has involved a number of adaptions to the Arduino environment.
 
 // 3rd party libraries
 #include <Streaming.h>
@@ -11,15 +16,14 @@
 
 #include <exception>
 #include <stdexcept>
-
-// Solution to the sync_synchronize problem
-//https://www.vexforum.com/t/i-am-learning-arm-none-eabi-compiler-recently-i-want-to-ask-some-questions/73973
 #include <iostream> 
+
+/// Solution to the sync_synchronize problem
+/// https://www.vexforum.com/t/i-am-learning-arm-none-eabi-compiler-recently-i-want-to-ask-some-questions/73973
 extern "C" void __sync_synchronize() {}
 
-// Dummies to sort out compilation
 namespace boost {
-
+  /// Dummies to sort out compilation
   void throw_exception( std::exception & e ) { }
   void throw_exception(const std::exception & e ) { }
   void throw_exception( std::runtime_error& e) { }
@@ -29,14 +33,15 @@ namespace boost {
 
 #include <string>
 #include <vector>
-// This does not work. Input types are not a good enough match.
-//template<class T>
+
+/// This provides an operator for streaming the output of std::string.
 inline Print &operator <<(Print &stream, const std::string &arg)
 {
   stream.print(arg.c_str());
   return stream;
 }
-//template<class T>
+
+/// This provides an operator for streaming the output of char*.
 inline Print &operator <<(Print &stream, const char *arg)
 {
   stream.print(arg);
@@ -48,12 +53,12 @@ inline Print &operator <<(Print &stream, const char *arg)
 #include <boost_spirit_home_x3.hpp>
 
 //////////////////////////////////////////////////////////
-// actions example
+/// actions example
 //////////////////////////////////////////////////////////
-
-// Presented are various ways to attach semantic actions
-//  * Using plain function pointer
-//  * Using simple function object
+///
+/// Presented are various ways to attach semantic actions
+///  * Using plain function pointer
+///  * Using simple function object
 
 namespace client
 {
@@ -74,10 +79,10 @@ namespace client
 //////////////////////////////////////////////////////////
 
 // This comes from the cdc_multi example
-// Helper: non-blocking "delay" alternative.
+/// Helper: non-blocking "delay" alternative.
 boolean delay_without_delaying(unsigned long time) {
-  // return false if we're still "delaying", true if time ms has passed.
-  // this should look a lot like "blink without delay"
+  /// return false if we're still "delaying", true if time ms has passed.
+  /// this should look a lot like "blink without delay"
   static unsigned long previousmillis = 0;
   unsigned long currentmillis = millis();
   if (currentmillis - previousmillis >= time) {
@@ -87,7 +92,7 @@ boolean delay_without_delaying(unsigned long time) {
   return false;
 }
 void setup() {
-  // put your setup code here, to run once:
+  /// put your setup code here, to run once:
   Serial.begin (115200);
   unsigned long t1 = millis();
   unsigned long t2;
@@ -102,13 +107,13 @@ void setup() {
     using boost::spirit::x3::int_;
     using boost::spirit::x3::parse;
     using client::print_action;
-   { // example using function object
+   { /// example using function object
 
         char const *first = "{43}", *last = first + std::strlen(first);
         parse(first, last, '{' >> int_[print_action()] >> '}');
     }
 
-    { // example using C++14 lambda
+    { /// example using C++14 lambda
 
         char const *first = "{44}", *last = first + std::strlen(first);
         auto f = [](auto& ctx){ Serial << _attr(ctx) << endl; };
@@ -129,7 +134,7 @@ void setup() {
 int LEDstate = 0;
 
 void loop() {
-  // put your main code here, to run repeatedly:
+  /// put your main code here, to run repeatedly:
   if (delay_without_delaying(1000)) {
     LEDstate = !LEDstate;
     digitalWrite(LED_BUILTIN, LEDstate);
