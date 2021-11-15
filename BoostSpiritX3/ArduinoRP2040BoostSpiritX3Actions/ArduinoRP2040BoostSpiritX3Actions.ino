@@ -17,38 +17,11 @@
 #include <exception>
 #include <stdexcept>
 #include <iostream> 
-
-/// Solution to the sync_synchronize problem
-/// https://www.vexforum.com/t/i-am-learning-arm-none-eabi-compiler-recently-i-want-to-ask-some-questions/73973
-extern "C" void __sync_synchronize() {}
-
-namespace boost {
-  /// Dummies to sort out compilation
-  void throw_exception( std::exception & e ) { }
-  void throw_exception(const std::exception & e ) { }
-  void throw_exception( std::runtime_error& e) { }
-  void throw_exception(const std::runtime_error& e) { }
-
-}
-
 #include <string>
 #include <vector>
-
-/// This provides an operator for streaming the output of std::string.
-inline Print &operator <<(Print &stream, const std::string &arg)
-{
-  stream.print(arg.c_str());
-  return stream;
-}
-
-/// This provides an operator for streaming the output of char*.
-inline Print &operator <<(Print &stream, const char *arg)
-{
-  stream.print(arg);
-  return stream;
-}
-
 #include <cstdio>
+
+#include "ArduinoCode.h"
 
 #include <boost_spirit_home_x3.hpp>
 
