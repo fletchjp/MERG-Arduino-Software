@@ -16,3 +16,9 @@ It now also checks for duplicate key values and does not enter any duplicates.
 Common features have been moved to ArduinoCode.h which can be used in other examples.
 
 This file only runs on the Arduino NANO RP2040 connect.
+
+I have not been able to get the annotation to the original source string to work.
+
+There is also an issue between the vector output and the map if some duplicate entries are left out.
+
+I do not have a use at the moment for the annotation.
