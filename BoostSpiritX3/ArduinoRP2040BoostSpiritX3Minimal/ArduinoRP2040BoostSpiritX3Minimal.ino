@@ -1,5 +1,5 @@
-/// @file ArduinoRP2040BoostSpiritX3Minimal
-///
+/// @file ArduinoRP2040BoostSpiritX3Minimal.ino
+/// @brief Example of Boost Spirit X3 Minimal Files
 ///
 /// Taken from spirit/example/x3/minimal in Boost 1.77.0
 ///
