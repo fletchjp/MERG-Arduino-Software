@@ -2,6 +2,8 @@
 /// @brief Arduino RP2040 code for Boost Spirit X3
 ///
 /// This file is common for the Boost Spirit X3 examples.
+///
+/// It provides adaption for Boost 1.66.0 code to work with the Arduino RP2040.
 
 #ifndef ARDUINO_CODE_H
 #define ARDUINO_CODE_H
