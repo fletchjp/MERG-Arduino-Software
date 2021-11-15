@@ -25,35 +25,36 @@
 //const char pgmLayout[] PROGMEM = "charsColByRow";
 //KeyboardLayout layout(rows, cols, const char* pgmLayout)
 
-const byte ROWS = 4; //four rows
-const byte COLS = 4; //four columns
-//define the symbols on the buttons of the keypads
-// PROGMEM is important.
+const byte ROWS = 4; /// four rows
+const byte COLS = 4; /// four columns
+/// define the symbols on the buttons of the keypads
+/// PROGMEM is important.
 const char layout[] PROGMEM = "123A456B789C*0#D"; // Chars have to be in a string.
 //  '1','2','3','A','4','5','6','B','7','8','9','C','*','0','#','D'
 //};
-// These are in order of Keypad pins from 1 to 8.
-// Pin 1 is on the left with the pad face up.
+/// These are in order of Keypad pins from 1 to 8.
+/// Pin 1 is on the left with the pad face up.
 byte rowPins[ROWS] = {9, 8, 7, 6}; //connect to the row pinouts of the keypad
 byte colPins[COLS] = {5, 4, 3, 2}; //connect to the column pinouts of the keypad
-// This seems fussy. ROWS and COLS will not work here.
+/// This seems fussy. ROWS and COLS will not work here.
 uint8_t rows = ROWS;
 uint8_t cols = COLS;
+/// Set up the keyLayout
 KeyboardLayout keyLayout(rows, cols, layout);
 
-//
-// We need a keyboard manager class too
-//
+///
+/// We need a keyboard manager class too
+///
 MatrixKeyboardManager keyboard;
 
-// this examples connects the pins directly to an arduino but you could use
-// IoExpanders or shift registers instead.
+/// this example connects the pins directly to an arduino but you could use
+/// IoExpanders or shift registers instead.
 IoAbstractionRef arduinoIo = ioUsingArduino();
 
-//
-// We need a class that extends from KeyboardListener. this gets notified when
-// there are changes in the keyboard state.
-//
+///
+/// We need a class that extends from KeyboardListener. This gets notified when
+/// there are changes in the keyboard state.
+///
 class MyKeyboardListener : public KeyboardListener {
 public:
     void keyPressed(char key, bool held) override {
@@ -70,6 +71,7 @@ public:
 } myListener;
 
 void setup() {
+/// setup 
     while(!Serial);
     Serial.begin(115200);
 
@@ -79,11 +81,11 @@ void setup() {
     for (byte i = 0; i < COLS; i++)
       keyLayout.setColPin(i, colPins[i]);
 
-    // create the keyboard mapped to arduino pins and with the layout chosen above.
-    // it will callback our listener
+    /// create the keyboard mapped to arduino pins and with the layout chosen above.
+    /// It will callback our listener
     keyboard.initialise(arduinoIo, &keyLayout, &myListener);
 
-    // start repeating at 850 millis then repeat every 350ms
+    /// start repeating at 850 millis then repeat every 350ms
     keyboard.setRepeatKeyMillis(850, 350);
 
     Serial.println("Keyboard is initialised!");

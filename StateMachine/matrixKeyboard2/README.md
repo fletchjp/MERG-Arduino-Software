@@ -1,6 +1,6 @@
-# matrixKeyboard2
-
 @mainpage Keypad Example
+
+## matrixKeyboard2
 
 An Arduino sketch which uses a IoAbstraction libraries to control a keypad.
  
@@ -10,3 +10,5 @@ An Arduino sketch which uses a IoAbstraction libraries to control a keypad.
  It just sends the characters that are typed on the keyboard to Serial. The keyboard in This
  example is connected directly to Arduino pins, but could just as easily be connected over
  a PCF8574, MCP23017 or other IoAbstraction.
+ This version sets up the keyboard adapting the custom_keyboard example.
+ 
