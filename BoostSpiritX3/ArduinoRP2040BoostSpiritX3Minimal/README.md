@@ -13,6 +13,8 @@ and adapted to run on the Arduino NANO RP2040 connect.
 
 This has involved a number of adaptions to the Arduino environment which are contained in the sketch file.
 
+All the files have now been adapted for Doxygen to give information.
+
 Common features are in ArduinoCode.h which can be used in other examples.
 
 This file only runs on the Arduino NANO RP2040 connect.
