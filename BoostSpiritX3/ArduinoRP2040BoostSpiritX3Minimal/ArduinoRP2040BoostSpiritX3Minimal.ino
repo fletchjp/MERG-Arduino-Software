@@ -1,16 +1,15 @@
-// ArduinoRP2040BoostSpiritX3Minimal
+/// @file ArduinoRP2040BoostSpiritX3Minimal
+///
+///
+/// Taken from spirit/example/x3/minimal in Boost 1.77.0
+///
+/// This example shows how to break down the employee example into separate files for different parts of the code.
+///
+/// What I needed to do was to import all the files except the main file and then adapt this code to run it.
+/// This has proved to be fairly easy. I had to edit ast.hpp to change to the output operator based on Serial.
+/// There is a difference in the phrase_parse statement where employee has become employee().
 
-// Taken from spirit/example/x3/minimal in Boost 1.77.0
-
-// This example shows how to break down the employee example into separate files for different parts of the code.
-
-// What I need to do is to import all the files except the main file and then adapt this code to run it.
-// This has proved to be fairly easy. I had to edit ast.hpp to change to the output operator based on Serial.
-// There is a difference in the phrase_paese statement where employee has become employee().
-
-
-
-/*
+/**
  * https://ostack.cn/?qa=302784/
 That warning is telling you that there was a subtle ABI change
 (actually a conformance fix) between 6 and 7.1,
@@ -28,48 +27,15 @@ To disable it, pass -Wno-psabi to the compiler
 
 #include <exception>
 #include <stdexcept>
-
-// Solution to the sync_synchronize problem
-//https://www.vexforum.com/t/i-am-learning-arm-none-eabi-compiler-recently-i-want-to-ask-some-questions/73973
-#include <iostream> 
-extern "C" void __sync_synchronize() {}
-
-// Dummies to sort out compilation
-namespace boost {
-
-  void throw_exception( std::exception & e ) { }
-  void throw_exception(const std::exception & e ) { }
-  void throw_exception( std::runtime_error& e) { }
-  void throw_exception(const std::runtime_error& e) { }
-
-}
-
-
-
 #include <string>
 #include <vector>
 #include <list>
-// This does not work. Input types are not a good enough match.
-//template<class T>
-inline Print &operator <<(Print &stream, const std::string &arg)
-{
-  stream.print(arg.c_str());
-  return stream;
-}
-//template<class T>
-inline Print &operator <<(Print &stream, const char *arg)
-{
-  stream.print(arg);
-  return stream;
-}
-
-
 #include <cstdio>
+
+#include "ArduinoCode.h"
+
 #include <boost_spirit_home_x3.hpp>
 #include <boost/fusion/include/adapt_struct.hpp>
-//#include <boost/fusion/include/io.hpp>
-//#include <boost/fusion/sequence.hpp>
-//#include <boost/fusion/include/sequence.hpp>
 
 #include "ast.hpp"
 #include "ast_adapted.hpp"
