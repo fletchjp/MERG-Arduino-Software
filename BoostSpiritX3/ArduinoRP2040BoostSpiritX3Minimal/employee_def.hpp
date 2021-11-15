@@ -1,3 +1,7 @@
+/// @file employee_def.hpp
+/// @brief Provide the employee parser definition
+///
+/// This is needed for the parser.
 /*=============================================================================
     Copyright (c) 2002-2018 Joel de Guzman
 
@@ -17,7 +21,7 @@
 namespace client
 {
     ///////////////////////////////////////////////////////////////////////////////
-    //  Our employee parser definition
+    ///  Our employee parser definition
     ///////////////////////////////////////////////////////////////////////////////
     namespace parser
     {
