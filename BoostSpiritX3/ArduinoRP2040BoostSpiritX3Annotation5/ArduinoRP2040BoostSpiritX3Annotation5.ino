@@ -1,15 +1,17 @@
-// ArduinoRP2040BoostSpiritX3Annotation4
-
-// Taken from spirit/example/x3/annotation from Boost 1.77.0
-
-// Adding an employee number (which will become a key)
-// Change the structure to {number,{employee}}
-// number will be the key.
-// This has been a useful learning experience as I had to add new features
-// to change the structure. Also the last error message was because the parsing did not
-// match the declared structures and it noticed.
-// This now builds a map<number,employee>
-// This builds the map in the parsing and I am extending this to check for duplicates.
+/// @file ArduinoRP2040BoostSpiritX3Annotation5.ino
+/// @brief Annotation example extended to save a map
+///
+/// Taken from spirit/example/x3/annotation from Boost 1.77.0
+///
+/// Adding an employee number (which will become a key)
+/// Change the structure to {number,{employee}}
+/// number will be the key.
+///
+/// This has been a useful learning experience as I had to add new features
+/// to change the structure. Also the last error message was because the parsing did not
+/// match the declared structures and it noticed.
+/// This now builds a map<number,employee>
+/// This builds the map in the parsing and checks for duplicates.
 
 /*
  * https://ostack.cn/?qa=302784/
@@ -29,57 +31,24 @@ To disable it, pass -Wno-psabi to the compiler
 
 #include <exception>
 #include <stdexcept>
-
-// Solution to the sync_synchronize problem
-//https://www.vexforum.com/t/i-am-learning-arm-none-eabi-compiler-recently-i-want-to-ask-some-questions/73973
-#include <iostream> 
-extern "C" void __sync_synchronize() {}
-
-// Dummies to sort out compilation
-namespace boost {
-
-  void throw_exception( std::exception & e ) { }
-  void throw_exception(const std::exception & e ) { }
-  void throw_exception( std::runtime_error& e) { }
-  void throw_exception(const std::runtime_error& e) { }
-
-}
-
-
-
 #include <string>
 #include <vector>
 #include <list>
 #include <map>
-// This does now work.
-inline Print &operator <<(Print &stream, const std::string &arg)
-{
-  stream.print(arg.c_str());
-  return stream;
-}
-
-inline Print &operator <<(Print &stream, const char *arg)
-{
-  stream.print(arg);
-  return stream;
-}
-
-
 #include <cstdio>
+
+#include "ArduinoCode.h"
+
 #include <boost_config_warning_disable.hpp>
 #include <boost_spirit_home_x3.hpp>
 #include <boost/spirit/home/x3/support/ast/position_tagged.hpp>
 #include <boost/fusion/include/adapt_struct.hpp>
-//#include <boost/fusion/include/io.hpp>
-//#include <boost/fusion/sequence.hpp>
-//#include <boost/fusion/include/sequence.hpp>
-
 
 namespace client { namespace ast
 {
 
     ///////////////////////////////////////////////////////////////////////////
-    //  Our AST (employee and person structs)
+    ///  Our AST (employee and person structs)
     ///////////////////////////////////////////////////////////////////////////
     namespace x3 = boost::spirit::x3;
 
@@ -109,8 +78,7 @@ namespace client { namespace ast
         employee emp;
     };
 
-    //using boost::fusion::operator<<;
-    // I cannot use the fusion IO so I am instead doing this which works.
+    /// I cannot use the fusion IO so I am instead doing this which works.
     inline Print &operator <<(Print &stream, const entry &ent)
     {
        stream.print("[");
@@ -127,7 +95,7 @@ namespace client { namespace ast
       return stream;
     }
 
-    // I cannot use the fusion IO so I am instead doing this which works.
+    /// I cannot use the fusion IO so I am instead doing this which works.
     inline Print &operator <<(Print &stream, const employee &emp)
     {
        stream.print("[");
@@ -145,9 +113,9 @@ namespace client { namespace ast
 
 }}
 
-// We need to tell fusion about our employee struct
-// to make it a first-class fusion citizen. This has to
-// be in global scope.
+/// We need to tell fusion about our employee struct
+/// to make it a first-class fusion citizen. This has to
+/// be in global scope.
 
 BOOST_FUSION_ADAPT_STRUCT(client::ast::person,
     first_name, last_name
