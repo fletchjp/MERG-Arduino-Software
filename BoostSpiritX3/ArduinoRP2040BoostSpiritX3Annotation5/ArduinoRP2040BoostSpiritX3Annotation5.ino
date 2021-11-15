@@ -52,6 +52,7 @@ namespace client { namespace ast
     ///////////////////////////////////////////////////////////////////////////
     namespace x3 = boost::spirit::x3;
 
+    /// person struct has first_name and last_name
     struct person : x3::position_tagged
     {
         person(
@@ -65,6 +66,7 @@ namespace client { namespace ast
         std::string first_name, last_name;
     };
 
+    /// employee struct adds age and salary to person
     struct employee : x3::position_tagged
     {
         int age;
@@ -72,6 +74,7 @@ namespace client { namespace ast
         double salary;
     };
 
+    /// entry struct adds employee number (unique key)
     struct entry : x3::position_tagged
     {
         int number;
@@ -113,8 +116,8 @@ namespace client { namespace ast
 
 }}
 
-/// We need to tell fusion about our employee struct
-/// to make it a first-class fusion citizen. This has to
+/// We need to tell fusion about the person, employee and entry structs
+/// to make it first-class fusion citizens. This has to
 /// be in global scope.
 
 BOOST_FUSION_ADAPT_STRUCT(client::ast::person,
@@ -138,7 +141,7 @@ namespace client
         namespace ascii = boost::spirit::x3::ascii;
 
         ///////////////////////////////////////////////////////////////////////
-        //  Our annotation handler
+        ///  Our annotation handler
         ///////////////////////////////////////////////////////////////////////
 
         // tag used to get the position cache from the context
@@ -156,7 +159,7 @@ namespace client
         };
 
     ///////////////////////////////////////////////////////////////////////////////
-    //  Our employee parser
+    ///  Our employee parser
     ///////////////////////////////////////////////////////////////////////////////
 
         using x3::int_;
@@ -205,7 +208,7 @@ namespace client
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-// Our main parse entry point
+/// Our main parse entry point
 ///////////////////////////////////////////////////////////////////////////////
 
 using iterator_type = std::string::const_iterator;
@@ -241,9 +244,6 @@ parse(std::string const& input, position_cache& positions)
 
     if (r && iter == end)
     {
-        //std::cout << boost::fusion::tuple_open('[');
-        //std::cout << boost::fusion::tuple_close(']');
-        //std::cout << boost::fusion::tuple_delimiter(", ");
 
         Serial << "-------------------------\n";
         Serial << "Parsing succeeded\n";
@@ -272,8 +272,8 @@ parse(std::string const& input, position_cache& positions)
     return ast;
 }
 
-// Sample input:
-
+/// Sample input:
+///
 std::string input = R"(
 {
     1001,
@@ -328,6 +328,7 @@ boolean delay_without_delaying(unsigned long time) {
   }
   return false;
 }
+
 void setup() {
   // put your setup code here, to run once:
   Serial.begin (115200);
@@ -346,28 +347,25 @@ void setup() {
   Serial << "------------------------------" << endl;
   Serial << "Annotated Employee structure example.\n";
 
+  ///////////////////////////////////////////////////////////
+  ////An employee parser for Spirit...
+  ///////////////////////////////////////////////////////////
+
+
   position_cache positions{input.begin(), input.end()};
   auto ast = parse(input, positions);
 
   using boost::fusion::at_c;
   
-  // Get the source of the 2nd employee and print it
+  /// Get the source of the 2nd employee and print it
   auto pos = positions.position_of(ast[1]); // zero based of course!
   Serial << "Here's the 2nd employee:" << endl;
-  //auto res = (pos.begin(), pos.end());
-  //auto res1 = pos.begin();
-  //Serial << "*res1 : " << *res1 << endl; This causes a crash.
-  // Direct access to the vector which works and the pos version does not
+  /// Direct access to the vector which works and the pos version does not
   Serial << ast[1] << endl;
   int x = at_c<0>(ast[1]);
   auto emp = at_c<1>(ast[1]);
   Serial << x << ":" << emp << endl;
   Serial << x << ":" << ast_map[x] << endl;
-  //Serial << std::string(pos.begin(), pos.end()) << endl;
-
-  //Serial << "/////////////////////////////////////////////////////////\n\n";
-  //Serial << "             An employee parser for Spirit...\n\n";
-  //Serial << "/////////////////////////////////////////////////////////\n\n";
   
   Serial << "------------------------------" << endl;
   pinMode(LED_BUILTIN, OUTPUT);
