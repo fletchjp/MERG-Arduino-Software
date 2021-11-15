@@ -1,3 +1,7 @@
+/// @file employee.cpp
+/// @brief Build the instances of the types for the parser
+///
+/// This is needed for the parser.
 /*=============================================================================
     Copyright (c) 2001-2018 Joel de Guzman
 
