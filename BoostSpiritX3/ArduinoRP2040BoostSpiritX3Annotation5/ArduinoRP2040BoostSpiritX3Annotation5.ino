@@ -213,16 +213,22 @@ namespace client
 
 using iterator_type = std::string::const_iterator;
 using position_cache = boost::spirit::x3::position_cache<std::vector<iterator_type>>;
+using vector_type = std::vector<client::ast::entry>;
+using map_type = std::map<int,client::ast::employee>;
 
-std::map<int,client::ast::employee> ast_map;
+//std::map<int,client::ast::employee> ast_map;
+map_type ast_map;
 
-std::vector<client::ast::entry>
-parse(std::string const& input, position_cache& positions)
+
+// For some reason this line will not compile with a line break before parse.
+//std::vector<client::ast::entry>
+vector_type parse(std::string const& input, position_cache& positions)
 {
     using boost::spirit::x3::ascii::space;
     using boost::fusion::at_c;
 
-    std::vector<client::ast::entry> ast;
+//    std::vector<client::ast::entry> ast;
+    vector_type ast;
     iterator_type iter = input.begin();
     iterator_type const end = input.end();
 
