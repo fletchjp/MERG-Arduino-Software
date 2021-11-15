@@ -1,3 +1,10 @@
+/// @file ast_adapted.hpp
+/// @brief Adapt employee struct for Boost Fusion
+///
+/// We need to tell fusion about our employee struct
+/// to make it a first-class fusion citizen. This has to
+/// be in global scope.
+
 /*=============================================================================
     Copyright (c) 2002-2018 Joel de Guzman
 
