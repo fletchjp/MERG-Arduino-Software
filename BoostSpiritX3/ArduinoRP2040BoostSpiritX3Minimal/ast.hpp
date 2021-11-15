@@ -1,4 +1,10 @@
-/*=============================================================================
+/// @file ast.hpp
+/// @brief Our employee AST struct
+///
+/// This defines the struct to receive the parsed data.
+
+
+/**=============================================================================
     Copyright (c) 2002-2018 Joel de Guzman
 
     Distributed under the Boost Software License, Version 1.0. (See accompanying
@@ -19,9 +25,9 @@
 
 namespace client { namespace ast
 {
-    ///////////////////////////////////////////////////////////////////////////
-    //  Our employee AST struct
-    ///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+///  Our employee AST struct employee
+///////////////////////////////////////////////////////////////////////////
     struct employee
     {
         int age;
@@ -30,7 +36,7 @@ namespace client { namespace ast
         double salary;
     };
 
-    // I cannot use the fusion IO so I am instead doing this which works.
+    /// I cannot use the fusion IO so I am instead doing this which works.
     inline Print &operator <<(Print &stream, const employee &emp)
     {
        stream.print("[");
