@@ -9,10 +9,13 @@
 ///
 /// This has involved a number of adaptions to the Arduino environment.
 ///
+/// At the moment this example compiles without the annotation
+///
+/// I have attempted to remove all of the error handling as it uses exceptions. 
 // 
 ///
-//  Example:
-//
+///  Example Data:
+///
 //  {
 //      "color" = "blue"
 //      "size" = "29 cm."
