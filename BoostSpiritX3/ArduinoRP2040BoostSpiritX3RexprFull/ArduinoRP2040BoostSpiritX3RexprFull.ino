@@ -9,7 +9,7 @@
 ///
 /// This has involved a number of adaptions to the Arduino environment.
 ///
-/// At the moment this example compiles without the annotation
+/// At the moment this example compiles without the annotation and gives no parsing output at all.
 ///
 /// I have attempted to remove all of the error handling as it uses exceptions. 
 // 
