@@ -80,7 +80,9 @@ namespace rexpr { namespace parser
 
     // We want error-handling only for the start (outermost) rexpr
     // rexpr is the same as rexpr_inner but without error-handling (see error_handler.hpp)
-    struct rexpr_class : x3::annotate_on_success, error_handler_base {};
+    //struct rexpr_class : x3::annotate_on_success, error_handler_base {};
+    // I have taken out the error handling as it uses exceptions.
+    struct rexpr_class : x3::annotate_on_success /*, error_handler_base*/ {};
 }}
 
 namespace rexpr

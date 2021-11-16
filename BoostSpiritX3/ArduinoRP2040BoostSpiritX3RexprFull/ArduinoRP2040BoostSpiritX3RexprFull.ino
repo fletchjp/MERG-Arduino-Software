@@ -5,14 +5,11 @@
 /// This is taken from spirit/example/x3/rexpr/rexpr_full
 /// and adapted to run on the Arduino NANO RP2040 connect.
 ///
+/// The main code is in rexpr/rexpr_full/test/parse_rexpr_test.cpp
+///
 /// This has involved a number of adaptions to the Arduino environment.
 ///
-///////////////////////////////////////////////////////////////////////////////
-///
-///  A simple parser for X3 intended as a minimal starting point.
-///  'rexpr' is a parser for a language resembling a minimal subset
-///  of json, but limited to a dictionary (composed of key=value pairs)
-///  where the value can itself be a string or a recursive dictionary.
+// 
 ///
 //  Example:
 //
@@ -41,6 +38,10 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <iterator>
+#include <algorithm>
+#include <sstream>
+
 #include <cstdio>
 
 #include "ArduinoCode.h"
@@ -52,11 +53,11 @@
 #include <boost/fusion/include/std_pair.hpp>
 #include <boost/fusion/include/io.hpp>
 
-#include "rexpr_def.hpp"
+#include "ast.hpp"
+#include "rexpr.hpp"
+#include "error_handler.hpp"
 #include "config.hpp"
-
-
-
+#include "printer.hpp"
 
 /// Sample input:
 ///
@@ -70,14 +71,6 @@ std::string input = R"(
       }
   }
 )";
-
-namespace rexpr { namespace parser
-{
-    BOOST_SPIRIT_INSTANTIATE(
-        rexpr_type, iterator_type, context_type);
-}}
-
-
 
 //////////////////////////////////////////////////////////
 
