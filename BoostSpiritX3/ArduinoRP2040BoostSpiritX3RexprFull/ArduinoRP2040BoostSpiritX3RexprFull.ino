@@ -59,6 +59,17 @@
 #include "config.hpp"
 #include "printer.hpp"
 
+//#include "rexpr_def.hpp"
+//#include "config.hpp"
+
+/*
+namespace rexpr { namespace parser
+{
+    BOOST_SPIRIT_INSTANTIATE(
+        rexpr_type, iterator_type, context_type);
+}}
+*/
+
 /// Sample input:
 ///
 std::string input = R"(
@@ -102,34 +113,22 @@ void setup() {
   Serial << "Boost Spirit X3 parsing" << endl;
 
     // I need to sort out the input here.
-    std::string storage = input; // We will read the contents here.
-/*
-    using client::parser::rexpr; // Our grammar
-    client::ast::rexpr ast; // Our tree
+    std::string source = input; // We will read the contents here.
 
+    using rexpr::rexpr; // Our grammar
+    using rexpr::parser::iterator_type;
+    iterator_type iter(source.begin());
+    iterator_type const end(source.end());
+
+    // Our AST
+    rexpr::ast::rexpr ast;
+
+
+
+    // Go forth and parse!
     using boost::spirit::x3::ascii::space;
-    std::string::const_iterator iter = storage.begin();
-    std::string::const_iterator end = storage.end();
-    bool r = phrase_parse(iter, end, rexpr, space, ast);
+    bool success = phrase_parse(iter, end, rexpr(), space, ast);
 
-    if (r && iter == end)
-    {
-        Serial << "-------------------------\n";
-        Serial << "Parsing succeeded\n";
-        Serial << "-------------------------\n";
-        client::ast::rexpr_printer printer;
-        printer(ast);
-    }
-    else
-    {
-        std::string::const_iterator some = iter+30;
-        std::string context(iter, (some>end)?end:some);
-        Serial << "-------------------------\n";
-        Serial << "Parsing failed\n";
-        Serial << "stopped at: \": " << context << "...\"\n";
-        Serial << "-------------------------\n";
-    }
-*/
 
   Serial << "------------------------------" << endl;
   while (!delay_without_delaying(10000) ) { };
