@@ -1,12 +1,12 @@
 @mainpage
 
-## ArduinoRP2040BoostSpiritX3Rexpr
+## ArduinoRP2040BoostSpiritX3Rexpr Full
 
-### Example of Boost Spirit X3 Rexpr
+### Example of Boost Spirit X3 Rexpr Full
 
 Boost Spirit 3.0.0 is included from Arduino Boost (Boost 1.66.0)
 
-This is taken from spirit/example/x3/rexpr_min/rexpr 
+This is taken from spirit/example/x3/rexpr/rexpr_full 
 and adapted to run on the Arduino NANO RP2040 connect.
 
 This has involved a number of adaptions to the Arduino environment which are contained in the sketch file.
