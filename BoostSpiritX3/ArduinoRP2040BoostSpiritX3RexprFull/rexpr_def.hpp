@@ -60,10 +60,10 @@ namespace rexpr { namespace parser
         quoted_string | rexpr_inner;
 
     auto const rexpr_key_value_def =
-        quoted_string > '=' > rexpr_value;
+        quoted_string >> '=' >> rexpr_value;
 
     auto const rexpr_inner_def =
-        '{' > *rexpr_key_value > '}';
+        '{' >> *rexpr_key_value >> '}';
 
     auto const rexpr_def = rexpr_inner_def;
 
