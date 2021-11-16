@@ -62,17 +62,6 @@
 #include "config.hpp"
 #include "printer.hpp"
 
-//#include "rexpr_def.hpp"
-//#include "config.hpp"
-
-/*
-namespace rexpr { namespace parser
-{
-    BOOST_SPIRIT_INSTANTIATE(
-        rexpr_type, iterator_type, context_type);
-}}
-*/
-
 /// Sample input:
 ///
 std::string input = R"(
