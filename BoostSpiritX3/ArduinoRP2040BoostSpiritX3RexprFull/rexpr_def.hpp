@@ -13,7 +13,7 @@
 #include "rexpr.hpp"
 
 #include <boost/spirit/home/x3.hpp>
-#include <boost/spirit/home/x3/support/utility/annotate_on_success.hpp>
+//#include <boost/spirit/home/x3/support/utility/annotate_on_success.hpp>
 
 namespace rexpr { namespace parser
 {
@@ -73,16 +73,35 @@ namespace rexpr { namespace parser
     // Annotation and Error handling
     ///////////////////////////////////////////////////////////////////////////
 
+        ///////////////////////////////////////////////////////////////////////
+        ///  Our annotation handler (copied from Annotation examples)
+        ///////////////////////////////////////////////////////////////////////
+
+        // tag used to get the position cache from the context
+        struct position_cache_tag;
+
+        struct annotate_position
+        {
+            template <typename T, typename Iterator, typename Context>
+            inline void on_success(Iterator const& first, Iterator const& last
+            , T& ast, Context const& context)
+            {
+                auto& position_cache = x3::get<position_cache_tag>(context).get();
+                position_cache.annotate(ast, first, last);
+            }
+        };
+
+
     // We want these to be annotated with the iterator position.
-    struct rexpr_value_class : x3::annotate_on_success {};
-    struct rexpr_key_value_class : x3::annotate_on_success {};
-    struct rexpr_inner_class : x3::annotate_on_success {};
+    struct rexpr_value_class /* : x3::annotate_position /*_on_success*/ {};
+    struct rexpr_key_value_class /*: x3::annotate_position /*_on_success*/ {};
+    struct rexpr_inner_class /*: x3::annotate_position /*_on_success*/ {};
 
     // We want error-handling only for the start (outermost) rexpr
     // rexpr is the same as rexpr_inner but without error-handling (see error_handler.hpp)
     //struct rexpr_class : x3::annotate_on_success, error_handler_base {};
     // I have taken out the error handling as it uses exceptions.
-    struct rexpr_class : x3::annotate_on_success /*, error_handler_base*/ {};
+    struct rexpr_class /* : annotate_position /*_on_success , error_handler_base*/ {};
 }}
 
 namespace rexpr
