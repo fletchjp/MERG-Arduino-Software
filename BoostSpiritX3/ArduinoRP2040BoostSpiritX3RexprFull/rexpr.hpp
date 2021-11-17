@@ -1,3 +1,7 @@
+/// @file rexpr.hpp
+/// @brief Rexpr public interface for the parser.
+///
+/// This is needed for the parser.
 /*=============================================================================
     Copyright (c) 2001-2015 Joel de Guzman
 

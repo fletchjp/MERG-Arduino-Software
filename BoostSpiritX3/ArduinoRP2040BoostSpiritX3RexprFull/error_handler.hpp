@@ -1,3 +1,8 @@
+/// @file error_handler.hpp
+/// @brief Error handling for the parser.
+///
+/// This is not needed for the parser this case as it is not supported.
+
 /*=============================================================================
     Copyright (c) 2001-2015 Joel de Guzman
 

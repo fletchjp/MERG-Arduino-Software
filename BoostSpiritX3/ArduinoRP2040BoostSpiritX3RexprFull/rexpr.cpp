@@ -1,3 +1,8 @@
+/// @file rexpr.cpp
+/// @brief Instantiate the Rexpr types .
+///
+/// This is needed for the parser.
+
 /*=============================================================================
     Copyright (c) 2001-2015 Joel de Guzman
 

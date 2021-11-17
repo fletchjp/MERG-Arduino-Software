@@ -1,3 +1,8 @@
+/// @file ast.hpp
+/// @brief Rexpr AST struct
+///
+/// This defines the struct to receive the parsed data.
+
 /*=============================================================================
     Copyright (c) 2001-2015 Joel de Guzman
 

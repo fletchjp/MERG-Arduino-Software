@@ -1,3 +1,7 @@
+/// @file config.hpp
+/// @brief Configure iterator_type and context_type for the parser.
+///
+/// This is needed for the parser. It has been changed to remove error handling.
 /*=============================================================================
     Copyright (c) 2001-2015 Joel de Guzman
 

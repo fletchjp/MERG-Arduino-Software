@@ -1,3 +1,8 @@
+/// @file printer.hpp
+/// @brief Output from the parser.
+///
+/// This has been adapted for the Arduino environment
+
 /*=============================================================================
     Copyright (c) 2001-2015 Joel de Guzman
 

@@ -1,3 +1,10 @@
+/// @file rexpr_def.hpp
+/// @brief Rexpr parser definition
+///
+/// Error handling has been disabled.
+///
+/// Annotation has been removed temporarily.
+
 /*=============================================================================
     Copyright (c) 2001-2015 Joel de Guzman
 
