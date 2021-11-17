@@ -11,7 +11,7 @@
 ///
 /// At the moment this example compiles without the annotation 
 /// and gives no parsing output at all. This is because I had left out that part
-/// of the code.
+/// of the code. It now says parsing is a success but gives no output.
 ///
 /// I have attempted to remove all of the error handling as it uses exceptions. 
 /// 
@@ -124,8 +124,6 @@ void setup() {
 
     // Our AST
     rexpr::ast::rexpr ast;
-
-
 
     // Go forth and parse!
     using boost::spirit::x3::ascii::space;
