@@ -94,8 +94,15 @@ void setup() {
  
      ast v{123};
      Serial << "ast v{123};" << endl;
-     Serial << boost::get<int>(v) << endl;               
-
+     Serial << boost::get<int>(v) << endl;
+     v = "test";              
+     Serial << boost::get<std::string>(v) << endl;
+     v = true;
+     Serial << boost::get<bool>(v) << endl;
+     v = 3.14;
+     Serial << boost::get<double>(v) << endl;
+     //Serial << v << endl;
+    
   }
   Serial << "------------------------------" << endl;
   while (!delay_without_delaying(10000) ) { };
