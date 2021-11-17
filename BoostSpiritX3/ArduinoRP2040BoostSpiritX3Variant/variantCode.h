@@ -1,6 +1,7 @@
 /// @file variantCode.h
 /// @brief Arduino RP2040 code for Boost Spirit X3 Variant
 ///
+/// This provides an example including operator<< for the whole variant.
 ///
 /// It provides adaption for Boost 1.66.0 code to work with the Arduino RP2040.
 
@@ -11,13 +12,14 @@
 namespace x3 = boost::spirit::x3;
 
 struct none {};
-/*
-inline std::strstream &operator <<(std::strstream stream, const none)
+
+template <typename out>
+inline out &operator <<(out &stream, const none)
 {
     stream << std::string("none") << std::ends;
     return stream;
 }
-*/
+
 inline Print &operator <<(Print &stream, const none)
 {
   stream.print("none");
@@ -26,8 +28,8 @@ inline Print &operator <<(Print &stream, const none)
 
 
 using variant = x3::variant<
-      //  none,
-        bool
+        none
+      , bool
       , std::string
       , int
       , double
@@ -49,26 +51,8 @@ struct ast : variant
         variant::operator=(std::string{s});
         return *this;
     }
-    //typedef ast ast_type;
 
-
-/*
-// Stream output for a variant type.
-   inline Print &operator <<(Print &stream)
-   {
-      std::strstream s;
-      s << (*this).get() << std::ends;
-      stream.print(s.str());
-      return stream;
-   }
-*/
- //   friend Print &operator <<(Print &, const ast &);
 };
-
-
-//using ast::operator<<;
-
-//typedef ast ast_type;
 
 
 // Stream output for a variant type.
