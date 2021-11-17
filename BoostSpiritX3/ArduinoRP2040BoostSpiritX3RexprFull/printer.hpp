@@ -22,34 +22,34 @@ namespace rexpr { namespace ast
     {
         typedef void result_type;
 
-        rexpr_printer(std::ostream& out, int indent = 0)
-          : out(out), indent(indent) {}
+        rexpr_printer(int indent = 0)
+          : indent(indent) {}
 
         void operator()(rexpr const& ast) const
         {
-            out << '{' << std::endl;
+            Serial << '{' << endl;
             for (auto const& entry : ast.entries)
             {
                 tab(indent+tabsize);
-                out << '"' << entry.first << "\" = ";
-                boost::apply_visitor(rexpr_printer(out, indent+tabsize), entry.second);
+                Serial << '"' << entry.first << "\" = ";
+                boost::apply_visitor(rexpr_printer(indent+tabsize), entry.second);
             }
             tab(indent);
-            out << '}' << std::endl;
+            Serial << '}' << endl;
         }
 
         void operator()(std::string const& text) const
         {
-            out << '"' << text << '"' << std::endl;
+            Serial << '"' << text << '"' << endl;
         }
 
         void tab(int spaces) const
         {
             for (int i = 0; i < spaces; ++i)
-                out << ' ';
+                Serial << ' ';
         }
 
-        std::ostream& out;
+        //std::ostream& out;
         int indent;
     };
 }}
