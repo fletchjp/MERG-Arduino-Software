@@ -15,6 +15,8 @@ Error handling has been permanently disabled as exceptions are not supported.
 
 Annotation has been temporarily disabled.
 
+This now gives the same output as the simple version for the test data.
+
 Common features have been moved to ArduinoCode.h which can be used in other examples.
 
 This file only runs on the Arduino NANO RP2040 connect.
