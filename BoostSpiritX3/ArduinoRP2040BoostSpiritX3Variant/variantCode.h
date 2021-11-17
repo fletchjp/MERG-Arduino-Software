@@ -13,6 +13,7 @@ namespace x3 = boost::spirit::x3;
 
 struct none {};
 
+/// If an object does not have an output operator, one is needed. 
 template <typename out>
 inline out &operator <<(out &stream, const none)
 {
@@ -25,7 +26,6 @@ inline Print &operator <<(Print &stream, const none)
   stream.print("none");
   return stream;
 }
-
 
 using variant = x3::variant<
         none
@@ -55,7 +55,7 @@ struct ast : variant
 };
 
 
-// Stream output for a variant type.
+/// Stream output for a variant type provided operators exist for all the alternatives.
 inline Print &operator <<(Print &stream, const ast &arg)
 {
    std::strstream s;
