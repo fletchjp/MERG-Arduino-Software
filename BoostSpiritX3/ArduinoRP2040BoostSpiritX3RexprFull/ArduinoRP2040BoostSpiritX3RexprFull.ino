@@ -9,10 +9,20 @@
 ///
 /// This has involved a number of adaptions to the Arduino environment.
 ///
-/// At the moment this example compiles without the annotation and gives no parsing output at all.
+/// At the moment this example compiles without the annotation 
+/// and gives no parsing output at all. This is because I had left out that part
+/// of the code.
 ///
 /// I have attempted to remove all of the error handling as it uses exceptions. 
-// 
+/// 
+///////////////////////////////////////////////////////////////////////////////
+///
+///  This is an extended version of the simple parser for X3 in 
+///  ArduinoRP2040BoostSpiritX3Rexpr as a minimal starting point.
+///  'rexpr' is a parser for a language resembling a minimal subset
+///  of json, but limited to a dictionary (composed of key=value pairs)
+///  where the value can itself be a string or a recursive dictionary.
+///
 ///
 ///  Example Data:
 ///
@@ -120,6 +130,26 @@ void setup() {
     // Go forth and parse!
     using boost::spirit::x3::ascii::space;
     bool success = phrase_parse(iter, end, rexpr(), space, ast);
+
+    if (success && iter == end)
+    {
+        Serial << "-------------------------\n";
+        Serial << "Parsing succeeded\n";
+        Serial << "-------------------------\n";
+        rexpr::ast::rexpr_printer(ast);
+        //printer(ast);
+    }
+    else
+    {
+        std::string::const_iterator some = iter+30;
+        std::string context(iter, (some>end)?end:some);
+        Serial << "-------------------------\n";
+        Serial << "Parsing failed\n";
+        Serial << "stopped at: \": " << context << "...\"\n";
+        Serial << "-------------------------\n";
+    }
+ 
+
 
 
   Serial << "------------------------------" << endl;
