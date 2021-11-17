@@ -10,8 +10,7 @@
 /// This has involved a number of adaptions to the Arduino environment.
 ///
 /// At the moment this example compiles without the annotation 
-/// and gives no parsing output at all. This is because I had left out that part
-/// of the code. It now says parsing is a success but gives no output.
+/// and gives the same output as the simple version.
 ///
 /// I have attempted to remove all of the error handling as it uses exceptions. 
 /// 
@@ -116,7 +115,9 @@ void setup() {
 
     // I need to sort out the input here.
     std::string source = input; // We will read the contents here.
-
+    Serial << "------------------------------" << endl;
+    Serial << "Source :" << endl << source << endl;
+    Serial << "------------------------------" << endl;
     using rexpr::rexpr; // Our grammar
     using rexpr::parser::iterator_type;
     iterator_type iter(source.begin());
@@ -134,7 +135,7 @@ void setup() {
         Serial << "-------------------------\n";
         Serial << "Parsing succeeded\n";
         Serial << "-------------------------\n";
-        rexpr::ast::rexpr_printer(ast);
+        rexpr::ast::rexpr_printer()(ast);
         //printer(ast);
     }
     else
