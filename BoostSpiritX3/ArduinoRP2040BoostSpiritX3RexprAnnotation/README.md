@@ -1,8 +1,8 @@
 @mainpage
 
-## ArduinoRP2040BoostSpiritX3Rexpr Full
+## ArduinoRP2040BoostSpiritX3Rexpr Annotation
 
-### Example of Boost Spirit X3 Rexpr Full
+### Example of Boost Spirit X3 Rexpr Annotation
 
 Boost Spirit 3.0.0 is included from Arduino Boost (Boost 1.66.0)
 
@@ -13,7 +13,7 @@ This has involved a number of adaptions to the Arduino environment which are con
 
 Error handling has been permanently disabled as exceptions are not supported.
 
-Annotation has been temporarily disabled.
+Annotation being restored in this example.
 
 This now gives the same output as the simple version for the test data.
 
