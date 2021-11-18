@@ -2,6 +2,9 @@
 /// @brief Rexpr AST annotation
 ///
 /// This defines the annotation for the parsed data.
+///
+/// This is not needed as the annotation is defined in rexpr_def.hpp
+///
 
 /*=============================================================================
     Copyright (c) 2001-2015 Joel de Guzman
