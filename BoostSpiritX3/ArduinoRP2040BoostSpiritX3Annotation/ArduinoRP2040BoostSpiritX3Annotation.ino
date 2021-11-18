@@ -20,43 +20,11 @@ To disable it, pass -Wno-psabi to the compiler
 
 #include <exception>
 #include <stdexcept>
-
-// Solution to the sync_synchronize problem
-//https://www.vexforum.com/t/i-am-learning-arm-none-eabi-compiler-recently-i-want-to-ask-some-questions/73973
-#include <iostream> 
-extern "C" void __sync_synchronize() {}
-
-// Dummies to sort out compilation
-namespace boost {
-
-  void throw_exception( std::exception & e ) { }
-  void throw_exception(const std::exception & e ) { }
-  void throw_exception( std::runtime_error& e) { }
-  void throw_exception(const std::runtime_error& e) { }
-
-}
-
-
-
-#include <string>
-#include <vector>
-#include <list>
-// This does not work. Input types are not a good enough match.
-//template<class T>
-inline Print &operator <<(Print &stream, const std::string &arg)
-{
-  stream.print(arg.c_str());
-  return stream;
-}
-//template<class T>
-inline Print &operator <<(Print &stream, const char *arg)
-{
-  stream.print(arg);
-  return stream;
-}
-
-
 #include <cstdio>
+
+#include "ArduinoCode.h"
+
+
 #include <boost_config_warning_disable.hpp>
 #include <boost_spirit_home_x3.hpp>
 #include <boost/spirit/home/x3/support/ast/position_tagged.hpp>
