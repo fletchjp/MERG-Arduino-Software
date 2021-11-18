@@ -12,6 +12,11 @@
 /// At the moment this example compiles without the annotation 
 /// and gives the same output as the simple version.
 ///
+/// In this example I am going to restore the annotation.
+///
+/// I have brought in quite a lot of things which were not in the example, using the Annotation example.
+/// It now compiles and has a link error which needs to be sorted out.
+///
 /// I have attempted to remove all of the error handling as it uses exceptions. 
 /// 
 ///////////////////////////////////////////////////////////////////////////////
@@ -66,6 +71,7 @@
 #include <boost/fusion/include/io.hpp>
 
 #include "ast.hpp"
+#include "annotation.hpp"
 #include "rexpr.hpp"
 #include "error_handler.hpp"
 #include "config.hpp"
@@ -120,15 +126,29 @@ void setup() {
     Serial << "------------------------------" << endl;
     using rexpr::rexpr; // Our grammar
     using rexpr::parser::iterator_type;
+    using rexpr::parser::position_cache_tag;
+    using position_cache = boost::spirit::x3::position_cache<std::vector<iterator_type>>;
     iterator_type iter(source.begin());
     iterator_type const end(source.end());
+    position_cache positions{input.begin(), input.end()};
 
     // Our AST
     rexpr::ast::rexpr ast;
 
+    using boost::spirit::x3::with;
+
+    auto const parser =
+        // we pass our position_cache to the parser so we can access
+        // it later in our on_sucess handlers
+        with<position_cache_tag>(std::ref(positions))
+        [
+            rexpr()
+        ];
+
+
     // Go forth and parse!
     using boost::spirit::x3::ascii::space;
-    bool success = phrase_parse(iter, end, rexpr(), space, ast);
+    bool success = phrase_parse(iter, end, parser, space, ast);
 
     if (success && iter == end)
     {
