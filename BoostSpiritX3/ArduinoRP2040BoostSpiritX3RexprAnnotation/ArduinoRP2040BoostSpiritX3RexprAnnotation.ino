@@ -71,7 +71,6 @@
 #include <boost/fusion/include/io.hpp>
 
 #include "ast.hpp"
-//#include "annotation.hpp" No longer needed - see rexpr_def.hpp
 #include "rexpr_def.hpp"
 #include "rexpr.hpp"
 #include "error_handler.hpp"
