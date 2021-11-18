@@ -71,7 +71,8 @@
 #include <boost/fusion/include/io.hpp>
 
 #include "ast.hpp"
-#include "annotation.hpp"
+//#include "annotation.hpp" No longer needed - see rexpr_def.hpp
+#include "rexpr_def.hpp"
 #include "rexpr.hpp"
 #include "error_handler.hpp"
 #include "config.hpp"
@@ -89,6 +90,14 @@ std::string input = R"(
       }
   }
 )";
+
+namespace rexpr
+{
+    parser::rexpr_type const& rexpr()
+    {
+        return parser::rexpr;
+    }
+}
 
 //////////////////////////////////////////////////////////
 

@@ -11,8 +11,8 @@
     Distributed under the Boost Software License, Version 1.0. (See accompanying
     file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 =============================================================================*/
-#if !defined(BOOST_SPIRIT_X3_REPR_REXPR_DEF_HPP)
-#define BOOST_SPIRIT_X3_REPR_REXPR_DEF_HPP
+#if !defined(BOOST_SPIRIT_X3_REXPR_REXPR_DEF_HPP)
+#define BOOST_SPIRIT_X3_REXPR_REXPR_DEF_HPP
 
 #include "ast.hpp"
 #include "ast_adapted.hpp"
@@ -118,7 +118,9 @@ namespace rexpr { namespace parser
     // I have taken out the error handling as it uses exceptions.
     struct rexpr_class /* : annotate_position /*_on_success , error_handler_base*/ {};
 }}
-
+/*
+ * Moved to the main program as here the compiler complains it is defined twice!!
+ * This may be because it is also called in rexpr.cpp.
 namespace rexpr
 {
     parser::rexpr_type const& rexpr()
@@ -126,5 +128,5 @@ namespace rexpr
         return parser::rexpr;
     }
 }
-
+*/
 #endif

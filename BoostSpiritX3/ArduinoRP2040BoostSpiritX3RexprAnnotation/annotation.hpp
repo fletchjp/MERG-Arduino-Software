@@ -12,6 +12,7 @@
 #if !defined(BOOST_SPIRIT_X3_REPR_ANNOTATION_HPP)
 #define BOOST_SPIRIT_X3_REPR_ANNOTATION_HPP
 
+/*
 namespace rexpr
 {
     namespace parser
@@ -39,4 +40,5 @@ namespace rexpr
 
     }
 }
+*/
 #endif
