@@ -72,6 +72,7 @@
 
 #include "ast.hpp"
 #include "rexpr_def.hpp"
+#include "annotation.hpp"
 #include "rexpr.hpp"
 #include "error_handler.hpp"
 #include "config.hpp"
