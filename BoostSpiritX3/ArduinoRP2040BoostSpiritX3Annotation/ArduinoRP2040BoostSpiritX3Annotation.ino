@@ -1,4 +1,4 @@
-// ArduinoRP2040BoostSpiritX3Annotation
+/// @file ArduinoRP2040BoostSpiritX3Annotation
 
 // Taken from spirit/example/x3/annotation from Boost 1.77.0
 
@@ -21,6 +21,9 @@ To disable it, pass -Wno-psabi to the compiler
 #include <exception>
 #include <stdexcept>
 #include <cstdio>
+#include <string>
+#include <vector>
+#include <list>
 
 #include "ArduinoCode.h"
 
@@ -163,8 +166,7 @@ namespace client
 using iterator_type = std::string::const_iterator;
 using position_cache = boost::spirit::x3::position_cache<std::vector<iterator_type>>;
 
-std::vector<client::ast::employee>
-parse(std::string const& input, position_cache& positions)
+std::vector<client::ast::employee> parse(std::string const& input, position_cache& positions)
 {
     using boost::spirit::x3::ascii::space;
 
