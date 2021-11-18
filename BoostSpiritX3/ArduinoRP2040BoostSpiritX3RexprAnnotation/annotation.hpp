@@ -1,9 +1,9 @@
 /// @file annotation.hpp
-/// @brief Rexpr AST annotation
+/// @brief Rexpr AST annotation definitions
 ///
 /// This defines the annotation for the parsed data.
 ///
-/// This is not needed as the annotation is defined in rexpr_def.hpp
+/// This now replaces the definition in rexpr_def.hpp
 ///
 
 /*=============================================================================
@@ -15,7 +15,8 @@
 #if !defined(BOOST_SPIRIT_X3_REPR_ANNOTATION_HPP)
 #define BOOST_SPIRIT_X3_REPR_ANNOTATION_HPP
 
-/*
+#include "config.hpp"
+
 namespace rexpr
 {
     namespace parser
@@ -43,5 +44,5 @@ namespace rexpr
 
     }
 }
-*/
+
 #endif
