@@ -1,6 +1,7 @@
-/// @file ArduinoRP2040BoostSpiritX3Annotation
-
-// Taken from spirit/example/x3/annotation from Boost 1.77.0
+/// @file ArduinoRP2040BoostSpiritX3Annotation.ino
+/// @brief Annotation example 
+///
+/// Taken from spirit/example/x3/annotation from Boost 1.77.0
 
 /*
  * https://ostack.cn/?qa=302784/
