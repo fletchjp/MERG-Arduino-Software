@@ -13,6 +13,8 @@
 /// and gives the same output as the simple version.
 ///
 /// I have attempted to remove all of the error handling as it uses exceptions. 
+///
+/// This is now running experimentally with X3 version 3.0.9 from Boost 1..77.0
 /// 
 ///////////////////////////////////////////////////////////////////////////////
 ///
