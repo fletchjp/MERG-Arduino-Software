@@ -18,7 +18,8 @@
 #include "ast_adapted.hpp"
 #include "error_handler.hpp"
 #include "rexpr.hpp"
-#include "annotation.hpp"
+//#include "annotation.hpp"
+#include "config.hpp"
 
 #include <boost/spirit/home/x3.hpp>
 //#include <boost/spirit/home/x3/support/ast/position_tagged.hpp>
@@ -97,9 +98,26 @@ namespace rexpr { namespace parser
         //  Our annotation handler
         ///////////////////////////////////////////////////////////////////////
 
+        // Correction from here for 'no matching function' error
+        // https://stackoverflow.com/questions/57262850/boost-spirit-x3-not-compiling
+        // except that it does not work. More thinking is needed.
+        
         // tag used to get the position cache from the context
         struct position_cache_tag;
+        // Added code not working
+        /*
+        using position_cache = boost::spirit::x3::position_cache<std::vector<iterator_type>>;
+        */
+        //using position_cache = boost::spirit::x3::position_cache;
+        /*
+        using simple_context_type = x3::phrase_parse_context<x3::ascii::space_type>::type;
 
+        using context_type = boost::spirit::x3::context<
+            rexpr::parser::position_cache_tag,
+            std::reference_wrapper<position_cache>, 
+            simple_context_type
+        >;
+        */
         struct annotate_position
         {
             template <typename T, typename Iterator, typename Context>
@@ -112,7 +130,7 @@ namespace rexpr { namespace parser
         };
 
     // We want these to be annotated with the iterator position.
-    struct rexpr_value_class /* : annotate_position /*_on_success*/ {};
+    struct rexpr_value_class  : annotate_position /*_on_success*/ {};
     struct rexpr_key_value_class /* : x3::annotate_position /*_on_success*/ {};
     //struct rexpr_inner_class /* : x3::annotate_position /*_on_success*/ {};
 
