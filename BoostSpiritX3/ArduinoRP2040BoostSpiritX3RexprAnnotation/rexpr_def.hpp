@@ -118,6 +118,8 @@ namespace rexpr { namespace parser
             simple_context_type
         >;
         */
+        // Another discussion which may help.
+        // https://stackoverflow.com/questions/65614720/boost-spirit-x3-tokenizer-with-annotation-does-not-work
         struct annotate_position
         {
             template <typename T, typename Iterator, typename Context>
