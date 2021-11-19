@@ -132,7 +132,7 @@ namespace rexpr { namespace parser
         };
 
     // We want these to be annotated with the iterator position.
-    struct rexpr_value_class  : annotate_position /*_on_success*/ {};
+    struct rexpr_value_class /* : annotate_position /*_on_success*/ {};
     struct rexpr_key_value_class /* : x3::annotate_position /*_on_success*/ {};
     //struct rexpr_inner_class /* : x3::annotate_position /*_on_success*/ {};
 
