@@ -42,7 +42,7 @@ namespace client { namespace ast
 {
 
     ///////////////////////////////////////////////////////////////////////////
-    //  Our AST (employee and person structs)
+    ///  Our AST (employee and person structs)
     ///////////////////////////////////////////////////////////////////////////
     namespace x3 = boost::spirit::x3;
 
@@ -66,8 +66,7 @@ namespace client { namespace ast
         double salary;
     };
 
-    //using boost::fusion::operator<<;
-    // I cannot use the fusion IO so I am instead doing this which works.
+    /// I cannot use the fusion IO so I am instead doing this which works.
     inline Print &operator <<(Print &stream, const employee &emp)
     {
        stream.print("[");
@@ -84,9 +83,9 @@ namespace client { namespace ast
 
 }}
 
-// We need to tell fusion about our employee struct
-// to make it a first-class fusion citizen. This has to
-// be in global scope.
+/// We need to tell fusion about our employee struct
+/// to make it a first-class fusion citizen. This has to
+/// be in global scope.
 
 BOOST_FUSION_ADAPT_STRUCT(client::ast::person,
     first_name, last_name
@@ -96,22 +95,25 @@ BOOST_FUSION_ADAPT_STRUCT(client::ast::employee,
     age, who, salary
 )
 
+
 namespace client
 {
     namespace parser
     {
+        ///////////////////////////////////////////////////////////////////////
+        ///  Our annotation handler
+        ///////////////////////////////////////////////////////////////////////
         namespace x3 = boost::spirit::x3;
         namespace ascii = boost::spirit::x3::ascii;
 
-        ///////////////////////////////////////////////////////////////////////
-        //  Our annotation handler
-        ///////////////////////////////////////////////////////////////////////
-
-        // tag used to get the position cache from the context
+        /// tag used to get the position cache from the context
         struct position_cache_tag;
 
+        /// annotate_position
+        ///
         struct annotate_position
         {
+            /// on_success
             template <typename T, typename Iterator, typename Context>
             inline void on_success(Iterator const& first, Iterator const& last
             , T& ast, Context const& context)
@@ -122,7 +124,7 @@ namespace client
         };
 
     ///////////////////////////////////////////////////////////////////////////////
-    //  Our employee parser
+    ///  Our employee parser
     ///////////////////////////////////////////////////////////////////////////////
 
         using x3::int_;
@@ -161,12 +163,13 @@ namespace client
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-// Our main parse entry point
+/// Our main parse entry point
 ///////////////////////////////////////////////////////////////////////////////
 
 using iterator_type = std::string::const_iterator;
 using position_cache = boost::spirit::x3::position_cache<std::vector<iterator_type>>;
 
+/// parse
 std::vector<client::ast::employee> parse(std::string const& input, position_cache& positions)
 {
     using boost::spirit::x3::ascii::space;
