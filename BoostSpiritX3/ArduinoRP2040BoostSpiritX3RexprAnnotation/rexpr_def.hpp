@@ -90,6 +90,27 @@ namespace rexpr { namespace parser
     // Annotation and Error handling
     ///////////////////////////////////////////////////////////////////////////
 
+        namespace x3 = boost::spirit::x3;
+        namespace ascii = boost::spirit::x3::ascii;
+
+        ///////////////////////////////////////////////////////////////////////
+        //  Our annotation handler
+        ///////////////////////////////////////////////////////////////////////
+
+        // tag used to get the position cache from the context
+        struct position_cache_tag;
+
+        struct annotate_position
+        {
+            template <typename T, typename Iterator, typename Context>
+            inline void on_success(Iterator const& first, Iterator const& last
+            , T& ast, Context const& context)
+            {
+                auto& position_cache = x3::get<position_cache_tag>(context).get();
+                position_cache.annotate(ast, first, last);
+            }
+        };
+
     // We want these to be annotated with the iterator position.
     struct rexpr_value_class /* : annotate_position /*_on_success*/ {};
     struct rexpr_key_value_class /* : x3::annotate_position /*_on_success*/ {};
