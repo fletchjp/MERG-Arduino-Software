@@ -3,12 +3,21 @@
 ///
 /// Taken from https://stackoverflow.com/questions/65614720/boost-spirit-x3-tokenizer-with-annotation-does-not-work
 
+// 3rd party libraries
+#include <Streaming.h>
+
+#undef F
+#undef min
 
 
-
+#include <exception>
+#include <stdexcept>
 #include <iostream>
 #include <iomanip>
 #include <variant>
+
+#include "ArduinoCode.h"
+
 #include <boost/spirit/home/x3.hpp>
 #include <boost/spirit/home/x3/support/ast/position_tagged.hpp>
 namespace x3 = boost::spirit::x3;
