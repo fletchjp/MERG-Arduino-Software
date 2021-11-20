@@ -15,9 +15,12 @@
 #include <iostream>
 #include <iomanip>
 #include <variant>
+#include <string>
+#include <sstream>
 
 #include "ArduinoCode.h"
 
+#include <boost_config_warning_disable.hpp>
 #include <boost/spirit/home/x3.hpp>
 #include <boost/spirit/home/x3/support/ast/position_tagged.hpp>
 namespace x3 = boost::spirit::x3;
@@ -57,10 +60,36 @@ namespace {
     }
 }
 
-
+// This comes from the cdc_multi example
+/// Helper: non-blocking "delay" alternative.
+boolean delay_without_delaying(unsigned long time) {
+  /// return false if we're still "delaying", true if time ms has passed.
+  /// this should look a lot like "blink without delay"
+  static unsigned long previousmillis = 0;
+  unsigned long currentmillis = millis();
+  if (currentmillis - previousmillis >= time) {
+    previousmillis = currentmillis;
+    return true;
+  }
+  return false;
+}
 
 void setup() {
   // put your setup code here, to run once:
+  /// put your setup code here, to run once:
+  Serial.begin (115200);
+  unsigned long t1 = millis();
+  unsigned long t2;
+  while (!Serial && ((millis() - t1) <= 10000));
+  t2 = millis() - t1;
+  Serial.print("Waited for ");
+  Serial.print(t2);
+  Serial.println(" millis");
+  while (!delay_without_delaying(10000) ) { };
+  Serial << "ArduinoRP2040BoostSpiritX3Comments ** " << endl << __FILE__ << endl;
+  Serial << "Boost Spirit X3 parsing" << endl;
+
+ 
     using It             = std::string::const_iterator;
     using position_cache = x3::position_cache<std::vector<It>>;
 
@@ -75,20 +104,42 @@ void setup() {
 
     std::vector<Token> tokens;
     if (parse(begin(content), end(content), parser >> x3::eoi, tokens)) {
-        std::cout << "Found " << tokens.size() << " tokens" << std::endl;
+        Serial << "Found " << tokens.size() << " tokens" << endl;
 
         for (auto& token : tokens) {
             auto pos = positions.position_of(token);
-            std::cout
-                << (token.index() ? "space" : "comment") << "\t"
-                << std::quoted(std::string_view(&*pos.begin(), pos.size()))
-                << std::endl;
+            std::string s; //("space");
+            if (token.index()) s = "space"; else s = "comment";
+            //auto what = std::string(token.index() ? "space" : "comment");
+            std::stringstream ss;
+            ss << std::quoted(std::string_view(&*pos.begin(), pos.size()));
+            Serial
+                << s << "\t"
+                << ss.str()
+                << endl;
         }
     }
+  Serial << "------------------------------" << endl;
+  while (!delay_without_delaying(10000) ) { };
+  Serial << "------------------------------" << endl;
+  pinMode(LED_BUILTIN, OUTPUT);
 }
-}
+
+//////////////////////////////////////////////////////////
+
+int LEDstate = 0;
 
 void loop() {
   // put your main code here, to run repeatedly:
+  if (delay_without_delaying(1000)) {
+    LEDstate = !LEDstate;
+    digitalWrite(LED_BUILTIN, LEDstate);
+    //digitalWrite(LED_BUILTIN, HIGH);   // turn the LED on (HIGH is the voltage level)
+    if (LEDstate) {
+      Serial.println("Arduino blink ON");
+    } else {
+      Serial.println("Arduino blink OFF");
+    }
+  }
 
 }
