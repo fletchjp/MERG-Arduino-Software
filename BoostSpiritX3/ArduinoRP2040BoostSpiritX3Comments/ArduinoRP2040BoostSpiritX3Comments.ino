@@ -2,6 +2,11 @@
 /// @brief Boost Spirit X3 comments example with annotation
 ///
 /// Taken from https://stackoverflow.com/questions/65614720/boost-spirit-x3-tokenizer-with-annotation-does-not-work
+///
+/// This example is the first time I have been able to get annotation to work.
+///
+/// I think this is a good basis for further experiments.
+
 
 // 3rd party libraries
 #include <Streaming.h>
@@ -28,14 +33,20 @@ namespace x3 = boost::spirit::x3;
 struct SingleLineComment{};
 struct Whitespace       {};
 
+/// This uses std::variant.
+/// Perhaps explore using X3 variant instead.
 using Variant = std::variant<SingleLineComment, Whitespace>;
 
+/// Token structure
 struct Token : Variant, x3::position_tagged {
     using Variant::Variant;
 };
 
-namespace {
+/// namespace for the project changed from anonymous namespace
+namespace project {
     struct position_cache_tag;
+    
+    /// Parser namespace
     namespace Parser {
         struct annotate_position {
             template <typename T, typename Iterator, typename Context>
@@ -44,16 +55,18 @@ namespace {
                     position_cache.annotate(ast, first, last);
                 }
         };
-               // unique on success hook classes
+        
+        /// unique on success hook classes
         template <typename> struct Hook {}; // no annotate_position mix-in
         template <> struct Hook<Token> : annotate_position   {};
 
+        /// definition of as lambda function used to generate the rules
         template <typename T>
         static auto constexpr as = [](auto p, char const* name = typeid(decltype(p)).name()) {
             return x3::rule<Hook<T>, T> {name} = p;
         };
 
-        // rule definitions
+        /// rule definitions
         auto singleLineComment = as<SingleLineComment>("//" >> x3::omit[*(x3::char_ - x3::eol)]);
         auto whitespace        = as<Whitespace>       (x3::omit[+x3::ascii::space]);
         auto token             = as<Token>            (singleLineComment | whitespace, "token");
@@ -93,6 +106,7 @@ void setup() {
     using It             = std::string::const_iterator;
     using position_cache = x3::position_cache<std::vector<It>>;
 
+/// Example data
     std::string const content = R"(// first single line comment
 
 // second single line comment
@@ -100,18 +114,21 @@ void setup() {
     )";
     position_cache positions{content.begin(), content.end()};
 
-    auto parser = x3::with<position_cache_tag>(positions)[*Parser::token];
+    using project::position_cache_tag;
 
+    auto parser = x3::with<position_cache_tag>(positions)[*project::Parser::token];
+
+     /// vector for token results
     std::vector<Token> tokens;
     if (parse(begin(content), end(content), parser >> x3::eoi, tokens)) {
         Serial << "Found " << tokens.size() << " tokens" << endl;
 
         for (auto& token : tokens) {
             auto pos = positions.position_of(token);
-            std::string s; //("space");
+            std::string s;
             if (token.index()) s = "space"; else s = "comment";
-            //auto what = std::string(token.index() ? "space" : "comment");
-            std::stringstream ss;
+             std::stringstream ss;
+            /// std::quoted is new in C++14
             ss << std::quoted(std::string_view(&*pos.begin(), pos.size()));
             Serial
                 << s << "\t"
