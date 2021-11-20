@@ -28,6 +28,7 @@
 #include <boost_config_warning_disable.hpp>
 #include <boost/spirit/home/x3.hpp>
 #include <boost/spirit/home/x3/support/ast/position_tagged.hpp>
+//#include <boost/spirit/home/x3/support/ast/variant.hpp>
 namespace x3 = boost::spirit::x3;
 
 struct SingleLineComment{};
@@ -36,6 +37,9 @@ struct Whitespace       {};
 /// This uses std::variant.
 /// Perhaps explore using X3 variant instead.
 using Variant = std::variant<SingleLineComment, Whitespace>;
+// Using X3 variant needs a change lower down.
+// It still fails with an error replated to std::move
+//using Variant = x3::variant<SingleLineComment, Whitespace>;
 
 /// Token structure
 struct Token : Variant, x3::position_tagged {
@@ -46,8 +50,10 @@ struct Token : Variant, x3::position_tagged {
 namespace project {
     struct position_cache_tag;
     
-    /// Parser namespace
+    /// Parser namespace defines the parser structure for the problem.
     namespace Parser {
+
+        /// annotate_position provides the on_success operator
         struct annotate_position {
             template <typename T, typename Iterator, typename Context>
                 inline void on_success(Iterator first, Iterator last, T &ast, Context const &context) const {
@@ -57,8 +63,11 @@ namespace project {
         };
         
         /// unique on success hook classes
-        template <typename> struct Hook {}; // no annotate_position mix-in
-        template <> struct Hook<Token> : annotate_position   {};
+
+        /// no annotate_position mix-in
+        template <typename> struct Hook {};
+        /// When there is a specialisation it is annotated.
+        template <> struct Hook<Token> : annotate_position   {}; 
 
         /// definition of as lambda function used to generate the rules
         template <typename T>
@@ -66,8 +75,9 @@ namespace project {
             return x3::rule<Hook<T>, T> {name} = p;
         };
 
-        /// rule definitions
+        /// rule definition - singleLineComment
         auto singleLineComment = as<SingleLineComment>("//" >> x3::omit[*(x3::char_ - x3::eol)]);
+        /// rule definition - Whitespace
         auto whitespace        = as<Whitespace>       (x3::omit[+x3::ascii::space]);
         auto token             = as<Token>            (singleLineComment | whitespace, "token");
     }
@@ -127,6 +137,8 @@ void setup() {
             auto pos = positions.position_of(token);
             std::string s;
             if (token.index()) s = "space"; else s = "comment";
+            // This for x3::variant
+            //if (token.get().which()) s = "space"; else s = "comment";
              std::stringstream ss;
             /// std::quoted is new in C++14
             ss << std::quoted(std::string_view(&*pos.begin(), pos.size()));
