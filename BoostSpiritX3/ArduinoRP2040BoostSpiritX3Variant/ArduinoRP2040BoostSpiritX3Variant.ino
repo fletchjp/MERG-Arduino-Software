@@ -88,7 +88,14 @@ void setup() {
      std::stringstream sbv;
      sbv << bv << std::ends;
      Serial << sbv.str() << endl;
- 
+
+     typedef x3::variant<int,double> x3_type;
+     typedef x3::variant<int,bv_type> x3_rtype; // recursive type
+     typedef x3::variant<int,x3::forward_ast<bv_type>> x3_frtype; // recursive type
+     x3_type x3_2(2);
+     //x3_rtype x3_r2(x3_2); //Not supported.
+     //x3_frtype x3_fr2(x3_2); //Not supported.
+
      ast v{123};
      Serial << "ast v{123};" << endl;
      Serial << boost::get<int>(v) << endl;
