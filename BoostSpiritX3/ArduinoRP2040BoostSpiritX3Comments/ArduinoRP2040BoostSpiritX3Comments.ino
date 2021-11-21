@@ -6,6 +6,11 @@
 /// This example is the first time I have been able to get annotation to work.
 ///
 /// I think this is a good basis for further experiments.
+///
+/// There is one problem which is that it uses std::variant instead of boost::variant.
+/// I would like to standardise on x3::variant and therefore boost::variant which allows recursion.
+///
+/// I have attempted to convert this code so far without success.
 
 
 // 3rd party libraries
