@@ -34,7 +34,7 @@
 #include <exception>
 #include <stdexcept>
 #include <iostream> 
-#include <strstream>
+#include <sstream>
 #include <string>
 #include <vector>
 #include <cstdio>
@@ -79,7 +79,7 @@ void setup() {
   {
      boost::variant<int,double> bv(3);
      Serial << bv.which() << endl;
-     std::strstream sbv;
+     std::stringstream sbv;
      sbv << bv << std::ends;
      Serial << sbv.str() << endl;
  
@@ -95,7 +95,7 @@ void setup() {
      v = 3.14;
      Serial << boost::get<double>(v) << endl;
      Serial << v.get().which() << endl;
-     std::strstream sv;
+     std::stringstream sv;
      sv << v.get() << std::ends; // Nothing
      Serial << sv.str() << endl;
      

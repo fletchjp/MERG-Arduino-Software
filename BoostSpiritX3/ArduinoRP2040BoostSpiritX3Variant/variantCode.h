@@ -5,6 +5,7 @@
 ///
 /// It provides adaption for Boost 1.66.0 code to work with the Arduino RP2040.
 
+#include "ArduinoCode.h"
 
 #ifndef VARIANT_CODE_H
 #define VARIANT_CODE_H
@@ -58,9 +59,9 @@ struct ast : variant
 /// Stream output for a variant type provided operators exist for all the alternatives.
 inline Print &operator <<(Print &stream, const ast &arg)
 {
-   std::strstream s;
+   std::stringstream s;
    s << arg.get() << std::ends;
-   stream.print(s.str());
+   stream.print(s.str().c_str());
    return stream;
 }
 
