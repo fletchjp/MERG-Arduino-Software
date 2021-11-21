@@ -11,6 +11,9 @@ and adapted to run on the Arduino NANO RP2040 connect.
 
 Some of the definitions only work when moved to the header file variantCode.h 
 
+I have added some more code for std::variant obtained from here:
+https://stackoverflow.com/questions/61392947/transitioning-boost-spirit-parser-from-boostvariant-to-stdvariant/61409717#61409717
+
 This has involved a number of adaptions to the Arduino environment which are contained in the sketch file.
 
 Common features have been moved to ArduinoCode.h which can be used in other examples.
