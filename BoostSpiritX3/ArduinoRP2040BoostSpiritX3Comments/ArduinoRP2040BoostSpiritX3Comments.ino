@@ -40,10 +40,10 @@ struct SingleLineComment{};
 struct Whitespace       {};
 
 /// This uses std::variant.
-/// Perhaps explore using X3 variant instead.
-// using Variant = std::variant<SingleLineComment, Whitespace>;
-// Using X3 variant needs a change lower down.
-// It was failing with an error replated to std::move
+/// I am now using X3 variant instead.
+/// using Variant = std::variant<SingleLineComment, Whitespace>;
+/// Using X3 variant needs a change lower down.
+/// It was failing with an error replated to std::move
 using Variant = x3::variant<SingleLineComment, Whitespace>;
 
 /// Token structure
