@@ -19,6 +19,8 @@
 ///
 /// X3 Variant is based on Boost Variant
 ///
+/// I have included some simple examples of the recursive use of boost::variant types.
+///
 //////////////////////////////////////////////////////////
 /// x3 variant example
 /// Definition code now in variantCode.h
@@ -77,7 +79,11 @@ void setup() {
   Serial << "Some simple Boost Spirit X3 variant operations" << endl;
  
   {
+     typedef boost::variant<int,double> bv_type;
+     typedef boost::variant<int,bv_type> bv_rtype; // recursive type
      boost::variant<int,double> bv(3);
+     bv_type bv2(2);
+     bv_rtype bvr2(bv2);
      Serial << bv.which() << endl;
      std::stringstream sbv;
      sbv << bv << std::ends;
