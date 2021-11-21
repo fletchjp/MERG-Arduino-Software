@@ -10,7 +10,7 @@
 /// There is one problem which is that it uses std::variant instead of boost::variant.
 /// I would like to standardise on x3::variant and therefore boost::variant which allows recursion.
 ///
-/// I have attempted to convert this code so far without success.
+/// I have now converted this code to use x3::variant. It needed an operator= copied from the Rexpr example.
 
 
 // 3rd party libraries
@@ -33,7 +33,7 @@
 #include <boost_config_warning_disable.hpp>
 #include <boost/spirit/home/x3.hpp>
 #include <boost/spirit/home/x3/support/ast/position_tagged.hpp>
-//#include <boost/spirit/home/x3/support/ast/variant.hpp>
+#include <boost/spirit/home/x3/support/ast/variant.hpp>
 namespace x3 = boost::spirit::x3;
 
 struct SingleLineComment{};
@@ -41,14 +41,15 @@ struct Whitespace       {};
 
 /// This uses std::variant.
 /// Perhaps explore using X3 variant instead.
-using Variant = std::variant<SingleLineComment, Whitespace>;
+// using Variant = std::variant<SingleLineComment, Whitespace>;
 // Using X3 variant needs a change lower down.
-// It still fails with an error replated to std::move
-//using Variant = x3::variant<SingleLineComment, Whitespace>;
+// It was failing with an error replated to std::move
+using Variant = x3::variant<SingleLineComment, Whitespace>;
 
 /// Token structure
 struct Token : Variant, x3::position_tagged {
     using Variant::Variant;
+    using Variant::operator=; // This is what was needed to get x3 variant working.
 };
 
 /// namespace for the project changed from anonymous namespace
@@ -141,9 +142,9 @@ void setup() {
         for (auto& token : tokens) {
             auto pos = positions.position_of(token);
             std::string s;
-            if (token.index()) s = "space"; else s = "comment";
+            //if (token.index()) s = "space"; else s = "comment";
             // This for x3::variant
-            //if (token.get().which()) s = "space"; else s = "comment";
+            if (token.get().which()) s = "space"; else s = "comment";
              std::stringstream ss;
             /// std::quoted is new in C++14
             ss << std::quoted(std::string_view(&*pos.begin(), pos.size()));
