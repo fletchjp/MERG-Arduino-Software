@@ -11,6 +11,8 @@
 /// I would like to standardise on x3::variant and therefore boost::variant which allows recursion.
 ///
 /// I have now converted this code to use x3::variant. It needed an operator= copied from the Rexpr example.
+///
+/// See the ArduinoRP2040BoostSpiritX3Variant.ino example for some code to go the other way to std::variant.
 
 
 // 3rd party libraries
