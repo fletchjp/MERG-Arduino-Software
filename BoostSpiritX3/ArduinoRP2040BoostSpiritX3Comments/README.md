@@ -16,6 +16,8 @@ This is a significant development as it is the first example where I have been a
 
 I think this example provides a good starting point for further experiments.
 
+I have now changed from using std::variant to x3::variant in this code.
+
 This has involved a number of adaptions to the Arduino environment which are contained in the sketch file.
 
 Common features have been moved to ArduinoCode.h which can be used in other examples.
