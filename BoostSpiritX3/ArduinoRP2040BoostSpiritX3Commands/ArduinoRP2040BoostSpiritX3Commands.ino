@@ -40,52 +40,19 @@
 
 namespace x3 = boost::spirit::x3;
 
+#include "variantCode.h"
 
-struct SingleLineComment{};
-struct Whitespace       {};
-struct Define           {
-    Define(std::string const &name = "") : name(name) {}
-    std::string name;
-}; /// for define command
-struct When             {}; /// for when command
 /*struct QuotedString     {
     QuotedString(std::string const &str = "") : str(str) {}
     std::string str;
 };*/
-namespace client { namespace ast
-{
 
-/// person struct has first_name and last_name 
-struct person : x3::position_tagged
-{
-       person(
-            std::string const& first_name = ""
-          , std::string const& last_name = ""
-       )
-          : first_name(first_name)
-          , last_name(last_name)
-       {}
-
-       std::string first_name, last_name;
-};
-
-}
-}
 
 BOOST_FUSION_ADAPT_STRUCT(client::ast::person,
     first_name, last_name
 )
 
 //using client::ast::person;
-
-/// I am now using X3 variant.
-using Variant = x3::variant<SingleLineComment, Whitespace, Define, When , client::ast::person>;
-
-/// Token structure
-struct Token : Variant, x3::position_tagged {
-    using Variant::Variant;
-    using Variant::operator=; // This is what was needed to get x3 variant working.
-};
 
 /// namespace for the project changed from anonymous namespace
 namespace project {
@@ -188,7 +155,7 @@ void setup() {
 define $name1 = NN:0 EN:1
 define $name2 = NN:0 EN:2
 when state($name1) is off within 1sec send on$name2
-// John Fletcher
+"John","Fletcher"
 )";
 /*{ 
   "John", 
@@ -226,8 +193,10 @@ when state($name1) is off within 1sec send on$name2
               ss << std::quoted(std::string_view(&*pos.begin(), pos.size()));
               Serial
                   << s << "\t"
-                  << ss.str()
-                  << endl;
+                  << ss.str();
+              if (which == 4) Serial << " : "  << token << endl; 
+              Serial << endl;
+              
             } //else {
               //Serial << s << " " << pos.size() << endl;
               //}
