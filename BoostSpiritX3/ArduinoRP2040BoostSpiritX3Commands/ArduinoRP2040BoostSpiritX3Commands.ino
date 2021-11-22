@@ -27,6 +27,8 @@
 #include <variant>
 #include <string>
 #include <sstream>
+#include <cstdio>
+
 
 #include "ArduinoCode.h"
 
@@ -38,8 +40,16 @@ namespace x3 = boost::spirit::x3;
 
 struct SingleLineComment{};
 struct Whitespace       {};
-struct Define           {}; /// for define command
+struct Define           {
+    Define(std::string const &name = "") : name(name) {}
+    std::string name;
+}; /// for define command
 struct When             {}; /// for when command
+/*struct QuotedString     {
+    QuotedString(std::string const &str = "") : str(str) {}
+    std::string str;
+};*/
+
 
 /// I am now using X3 variant.
 using Variant = x3::variant<SingleLineComment, Whitespace, Define, When>;
@@ -79,6 +89,15 @@ namespace project {
             return x3::rule<Hook<T>, T> {name} = p;
         };
 
+        namespace ascii = boost::spirit::x3::ascii;
+
+        using boost::spirit::x3::lexeme;
+        using ascii::char_;
+        struct quoted_string_class;
+        x3::rule<quoted_string_class, std::string> const quoted_string = "quoted_string";
+        auto const quoted_string_def = lexeme['"' >> +(char_ - '"') >> '"'];
+        BOOST_SPIRIT_DEFINE(quoted_string);
+
         /// rule definition - singleLineComment
         auto singleLineComment = as<SingleLineComment>("//" >> x3::omit[*(x3::char_ - x3::eol)]);
         /// rule definition - Whitespace
@@ -87,7 +106,8 @@ namespace project {
         auto define            = as<Define>           ("define" >> x3::omit[*(x3::char_ - x3::eol)]);
         /// rule definition - When - for the moment just identify the keyword.
         auto when              = as<When>             ("when" >> x3::omit[*(x3::char_ - x3::eol)]);
-        auto token             = as<Token>            (singleLineComment | whitespace | define | when, "token");
+        //auto quotedString      = as<QuotedString>     (lexeme['"' >> +(char_ - '"') >> '"']);
+        auto token             = as<Token>            (singleLineComment | whitespace | define | when | quoted_string, "token");
     }
 }
 
@@ -133,6 +153,7 @@ void setup() {
 define $name1 = NN:0 EN:1
 define $name2 = NN:0 EN:2
 when state($name1) is off within 1sec send on$name2
+"hereIsAquote"
 )";
     position_cache positions{content.begin(), content.end()};
 
@@ -155,6 +176,7 @@ when state($name1) is off within 1sec send on$name2
               case 1 : s = "space"; break;
               case 2 : s = "define"; break;
               case 3 : s = "when"; break;
+              case 4 : s = "quotedString"; break;
               default: s = "unknown"; break;
             }
              std::stringstream ss;
