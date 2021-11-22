@@ -1,4 +1,4 @@
-/// @file ArduinoRP2040BoostSpiritX3Commandss.ino
+/// @file ArduinoRP2040BoostSpiritX3Commands.ino
 /// @brief Boost Spirit X3 commands example with annotation
 ///
 /// Extension of the comments example taken from
@@ -6,10 +6,14 @@
 ///
 /// The comments example is the first time I have been able to get annotation to work.
 ///
-/// I now want to extend it to parse commands as well.
+/// I have now started to explore how to parse commands as well.
+///
+/// For the moment I am parsing the person command and getting back the values parsed.
 ///
 /// This code to uses x3::variant after experiments with the comments example.
-
+///
+/// I have now reached a point where I can get access to the content of a person object.
+///
 /// See the ArduinoRP2040BoostSpiritX3Commands.ino example.
 
 
@@ -107,8 +111,7 @@ namespace project {
         auto define            = as<Define>           ("define" >> x3::omit[*(x3::char_ - x3::eol)]);
         /// rule definition - When - for the moment just identify the keyword.
         auto when              = as<When>             ("when" >> x3::omit[*(x3::char_ - x3::eol)]);
-        //auto person            = as<Person>           ("{" >> quoted_string >> "," >> quoted_string >> "}");
-        //auto quotedString      = as<QuotedString>     (lexeme['"' >> +(char_ - '"') >> '"']);
+        /// rule definition - Token- this is the Variant for all the rules.
         auto token             = as<Token>            (singleLineComment | whitespace | define | when | person, "token");
     }
 }

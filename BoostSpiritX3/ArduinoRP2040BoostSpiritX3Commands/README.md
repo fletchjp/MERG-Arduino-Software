@@ -12,13 +12,15 @@ This is extended from this example for comments:
 https://stackoverflow.com/questions/65614720/boost-spirit-x3-tokenizer-with-annotation-does-not-work
 and adapted to run on the Arduino NANO RP2040 connect.
 
+I have now changed from using std::variant to x3::variant in this code.
+
 I am developing parsing experiments.
 
 I am attempting to combine the rules from comments with the rules from Rexpr which are done differently.
 
-So far I have been able to implement person but it does not parse properly.
+So far I have been able to implement person which does now parse properly.
 
-I have now changed from using std::variant to x3::variant in this code.
+I have now also been able to set up printing of the parsed data for a person.
 
 This has involved a number of adaptions to the Arduino environment which are contained in the sketch file.
 

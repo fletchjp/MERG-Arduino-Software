@@ -1,6 +1,8 @@
 /// @file variantCode.h
 /// @brief Arduino RP2040 code for Boost Spirit X3 Variant
 ///
+/// I get tidier code after moving all the rules definitions into the namespace client::ast.
+///
 /// This provides an example including operator<< for the whole variant.
 ///
 /// It provides adaption for Boost 1.66.0 code to work with the Arduino RP2040.
@@ -14,12 +16,19 @@
 
 namespace x3 = boost::spirit::x3;
 
+namespace client { namespace ast
+{
+
+/// single line comment
 struct SingleLineComment{};
+/// whitespace
 struct Whitespace       {};
+/// for define command
 struct Define           {
     Define(std::string const &name = "") : name(name) {}
     std::string name;
-}; /// for define command
+};
+/// for when command
 struct When             {}; /// for when command
 
 /// If an object does not have an output operator, one is needed. 
@@ -72,8 +81,6 @@ inline Print &operator <<(Print &stream, When)
    return stream;
 }
 
-namespace client { namespace ast
-{
 /// person struct has first_name and last_name 
 struct person : x3::position_tagged
 {
@@ -110,8 +117,14 @@ inline Print &operator <<(Print &stream, const person &arg)
 
 }}
 
+using client::ast::SingleLineComment;
+using client::ast::Whitespace;
+using client::ast::Define;
+using client::ast::When;
+using client::ast::person;
+
 /// I am now using X3 variant.
-using Variant = x3::variant<SingleLineComment, Whitespace, Define, When , client::ast::person>;
+using Variant = x3::variant<SingleLineComment, Whitespace, Define, When , person>;
 
 /// Stream output for a variant type provided operators exist for all the alternatives.
 inline Print &operator <<(Print &stream, const Variant &arg)
@@ -122,11 +135,10 @@ inline Print &operator <<(Print &stream, const Variant &arg)
    return stream;
 }
 
-/// Token structure
+/// Token structure to hold all the variant options.
 struct Token : Variant, x3::position_tagged {
     using Variant::Variant;
     using Variant::operator=; // This is what was needed to get x3 variant working.
-   // using Variant::operator<<;
 };
 
 inline Print &operator <<(Print &stream, const Token &arg)
