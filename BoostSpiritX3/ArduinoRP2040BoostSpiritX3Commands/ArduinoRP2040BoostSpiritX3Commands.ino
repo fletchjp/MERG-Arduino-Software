@@ -36,7 +36,10 @@
 #include <boost/spirit/home/x3.hpp>
 #include <boost/spirit/home/x3/support/ast/position_tagged.hpp>
 #include <boost/spirit/home/x3/support/ast/variant.hpp>
+#include <boost/fusion/include/adapt_struct.hpp>
+
 namespace x3 = boost::spirit::x3;
+
 
 struct SingleLineComment{};
 struct Whitespace       {};
@@ -49,10 +52,34 @@ struct When             {}; /// for when command
     QuotedString(std::string const &str = "") : str(str) {}
     std::string str;
 };*/
+namespace client { namespace ast
+{
 
+/// person struct has first_name and last_name 
+struct person : x3::position_tagged
+{
+       person(
+            std::string const& first_name = ""
+          , std::string const& last_name = ""
+       )
+          : first_name(first_name)
+          , last_name(last_name)
+       {}
+
+       std::string first_name, last_name;
+};
+
+}
+}
+
+BOOST_FUSION_ADAPT_STRUCT(client::ast::person,
+    first_name, last_name
+)
+
+//using client::ast::person;
 
 /// I am now using X3 variant.
-using Variant = x3::variant<SingleLineComment, Whitespace, Define, When>;
+using Variant = x3::variant<SingleLineComment, Whitespace, Define, When , client::ast::person>;
 
 /// Token structure
 struct Token : Variant, x3::position_tagged {
@@ -93,10 +120,17 @@ namespace project {
 
         using boost::spirit::x3::lexeme;
         using ascii::char_;
+        
         struct quoted_string_class;
+        struct person_class;
+
         x3::rule<quoted_string_class, std::string> const quoted_string = "quoted_string";
+        x3::rule<person_class, client::ast::person> const person = "person";
+
         auto const quoted_string_def = lexeme['"' >> +(char_ - '"') >> '"'];
-        BOOST_SPIRIT_DEFINE(quoted_string);
+        auto const person_def = quoted_string >> ',' >> quoted_string;
+         
+        BOOST_SPIRIT_DEFINE(quoted_string,person);
 
         /// rule definition - singleLineComment
         auto singleLineComment = as<SingleLineComment>("//" >> x3::omit[*(x3::char_ - x3::eol)]);
@@ -106,8 +140,9 @@ namespace project {
         auto define            = as<Define>           ("define" >> x3::omit[*(x3::char_ - x3::eol)]);
         /// rule definition - When - for the moment just identify the keyword.
         auto when              = as<When>             ("when" >> x3::omit[*(x3::char_ - x3::eol)]);
+        //auto person            = as<Person>           ("{" >> quoted_string >> "," >> quoted_string >> "}");
         //auto quotedString      = as<QuotedString>     (lexeme['"' >> +(char_ - '"') >> '"']);
-        auto token             = as<Token>            (singleLineComment | whitespace | define | when | quoted_string, "token");
+        auto token             = as<Token>            (singleLineComment | whitespace | define | when | person, "token");
     }
 }
 
@@ -153,7 +188,7 @@ void setup() {
 define $name1 = NN:0 EN:1
 define $name2 = NN:0 EN:2
 when state($name1) is off within 1sec send on$name2
-"hereIsAquote"
+{ "John", "Fletcher" }
 )";
     position_cache positions{content.begin(), content.end()};
 
@@ -176,7 +211,7 @@ when state($name1) is off within 1sec send on$name2
               case 1 : s = "space"; break;
               case 2 : s = "define"; break;
               case 3 : s = "when"; break;
-              case 4 : s = "quotedString"; break;
+              case 4 : s = "person"; break;
               default: s = "unknown"; break;
             }
              std::stringstream ss;
