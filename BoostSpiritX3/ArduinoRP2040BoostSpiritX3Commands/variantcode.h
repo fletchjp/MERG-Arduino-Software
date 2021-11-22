@@ -3,6 +3,11 @@
 ///
 /// I get tidier code after moving all the rules definitions into the namespace client::ast.
 ///
+/// The next task is to parse the define command and get the data into a map keyed on the name.
+/// I have already done something simular in the annotation series.
+/// One way to approach this would be to duplicate the example there.
+/// The question is how to extract data from some tokens but not others.
+///
 /// This provides an example including operator<< for the whole variant.
 ///
 /// It provides adaption for Boost 1.66.0 code to work with the Arduino RP2040.
