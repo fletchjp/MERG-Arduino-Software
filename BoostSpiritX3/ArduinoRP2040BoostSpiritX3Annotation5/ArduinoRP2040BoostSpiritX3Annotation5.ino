@@ -12,6 +12,10 @@
 /// match the declared structures and it noticed.
 /// This now builds a map<number,employee>
 /// This builds the map in the parsing and checks for duplicates.
+///
+/// I have been taking things from here and adding them to the commands example.
+/// Perhaps I should be working the other way around and bring things into here.
+
 
 /*
  * https://ostack.cn/?qa=302784/
