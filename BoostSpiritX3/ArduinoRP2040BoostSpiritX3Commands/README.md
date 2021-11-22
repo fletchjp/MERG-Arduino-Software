@@ -14,6 +14,10 @@ and adapted to run on the Arduino NANO RP2040 connect.
 
 I am developing parsing experiments.
 
+I am attempting to combine the rules from comments with the rules from Rexpr which are done differently.
+
+So far I have been able to implement person but it does not parse properly.
+
 I have now changed from using std::variant to x3::variant in this code.
 
 This has involved a number of adaptions to the Arduino environment which are contained in the sketch file.
