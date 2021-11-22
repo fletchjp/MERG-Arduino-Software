@@ -58,8 +58,8 @@ BOOST_FUSION_ADAPT_STRUCT(client::ast::person,
 
 //using client::ast::person;
 
-/// namespace for the project changed from anonymous namespace
-namespace project {
+/// namespace for the project changed from anonymous namespace to client to match client::ast.
+namespace client {
     struct position_cache_tag;
     
     /// Parser namespace defines the parser structure for the problem.
@@ -168,9 +168,9 @@ when state($name1) is off within 1sec send on$name2
    
     position_cache positions{content.begin(), content.end()};
 
-    using project::position_cache_tag;
+    using client::position_cache_tag;
 
-    auto parser = x3::with<position_cache_tag>(positions)[*project::Parser::token];
+    auto parser = x3::with<position_cache_tag>(positions)[*client::Parser::token];
 
      /// vector for token results
     std::vector<Token> tokens;
