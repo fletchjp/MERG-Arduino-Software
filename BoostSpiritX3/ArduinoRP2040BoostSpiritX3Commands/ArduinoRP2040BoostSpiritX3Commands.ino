@@ -188,8 +188,14 @@ void setup() {
 define $name1 = NN:0 EN:1
 define $name2 = NN:0 EN:2
 when state($name1) is off within 1sec send on$name2
-{ "John", "Fletcher" }
+// John Fletcher
 )";
+/*{ 
+  "John", 
+  "Fletcher" 
+}*/
+    
+   
     position_cache positions{content.begin(), content.end()};
 
     using project::position_cache_tag;
