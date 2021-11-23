@@ -94,6 +94,9 @@ namespace client {
         namespace ascii = boost::spirit::x3::ascii;
 
         using boost::spirit::x3::lexeme;
+        using boost::spirit::x3::skip;
+        using boost::spirit::x3::space;
+        using boost::spirit::x3::lit;
         using ascii::char_;
         
         struct quoted_string_class;
@@ -103,7 +106,7 @@ namespace client {
         x3::rule<Person_class, client::ast::Person> const Person = "person";
 
         auto const quoted_string_def = lexeme['"' >> +(char_ - '"') >> '"'];
-        auto const Person_def = quoted_string >> ',' >> quoted_string;
+        auto const Person_def = lit("person ") >> quoted_string >> ',' >> quoted_string;
          
         BOOST_SPIRIT_DEFINE(quoted_string,Person);
 
@@ -162,7 +165,7 @@ void setup() {
 define $name1 = NN:0 EN:1
 define $name2 = NN:0 EN:2
 when state($name1) is off within 1sec send on$name2
-"John","Fletcher"
+person "John","Fletcher"
 )";
 
    
@@ -207,6 +210,7 @@ when state($name1) is off within 1sec send on$name2
         }
     } else {
           Serial << "parsing failed" << endl;
+          Serial << "Found " << tokens.size() << " tokens" << endl;
     }
   Serial << "------------------------------" << endl;
   while (!delay_without_delaying(10000) ) { };
