@@ -160,11 +160,7 @@ define $name2 = NN:0 EN:2
 when state($name1) is off within 1sec send on$name2
 "John","Fletcher"
 )";
-/*{ 
-  "John", 
-  "Fletcher" 
-}*/
-    
+
    
     position_cache positions{content.begin(), content.end()};
 
@@ -187,7 +183,8 @@ when state($name1) is off within 1sec send on$name2
               case 1 : s = "space"; break;
               case 2 : s = "define"; break;
               case 3 : s = "when"; break;
-              case 4 : s = "person"; break;
+              case 4 : s = "person"; 
+              break;
               default: s = "unknown"; break;
             }
              std::stringstream ss;
