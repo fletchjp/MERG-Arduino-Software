@@ -29,21 +29,21 @@ namespace client { namespace ast
 struct SingleLineComment{};
 /// whitespace
 struct Whitespace       {};
-
+/// event structure to store the results from parsing define statements
 struct Event : x3::position_tagged           {
     Event(std::string const &name = "", int n = 0, int e = 0) : name(name), nn(n), en(e) {}
     std::string name;
     int nn; // Node number
     int en; // Event number
 };
-/// for define command
+/// for define command - no longer used.
 struct Define           {
     Define(std::string const &name = "", int n = 0, int e = 0) : name(name), nn(n), en(e) {}
     std::string name;
     int nn; // Node number
     int en; // Event number
 };
-/// for when command
+/// for when command - the next target.
 struct When             {}; /// for when command
 
 /// If an object does not have an output operator, one is needed. 
