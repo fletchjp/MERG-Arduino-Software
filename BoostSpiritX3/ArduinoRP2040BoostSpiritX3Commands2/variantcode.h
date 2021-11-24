@@ -99,11 +99,15 @@ struct Person : x3::position_tagged
        std::string first_name, last_name;
 };
 
+/// to receive parsed results.
+std::vector<Person> people; 
+
 /// Output operator for a Person object
 template <typename out>
 inline out &operator <<(out &stream, const Person &arg)
 {
    //std::stringstream s;
+   people.push_back(Person(arg.first_name,arg.last_name));
    stream << arg.first_name << " " << arg.last_name << std::ends;
    //stream.print(s.str().c_str());
    return stream;

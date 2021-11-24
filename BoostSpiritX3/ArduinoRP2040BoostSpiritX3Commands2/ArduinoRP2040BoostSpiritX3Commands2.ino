@@ -14,7 +14,7 @@
 ///
 /// I have changed the rule name from person to Person.
 /// I put in the keyword "person" and can now parse discarding spaces e.g. person "John" "Fletcher" using omit[+space].
-/// I realised there was a clue in the way Whitespace works. I will now store the results.
+/// I realised there was a clue in the way Whitespace works. I can now store the results in a vector.
 ///
 /// I think I am now in a position where I can start to parse the Define command. I need to sort out how to store the results.
 ///
@@ -209,13 +209,12 @@ person "John","Fletcher"
               Serial
                   << s << "\t"
                   << ss.str();
-              if (which == 4) Serial << " : "  << token << endl; 
+              if (which == 4) Serial << " : "  << token; 
               Serial << endl;
               
-            } //else {
-              //Serial << s << " " << pos.size() << endl;
-              //}
+            } 
         }
+        Serial << client::ast::people.size() << " person entries found" << endl;
     } else {
           Serial << "parsing failed" << endl;
           Serial << "Found " << tokens.size() << " tokens" << endl;
