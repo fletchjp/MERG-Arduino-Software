@@ -130,8 +130,13 @@ namespace client {
         x3::rule<quoted_string_class, std::string> const quoted_string = "quoted_string";
         x3::rule<Person_class, client::ast::Person> const Person = "person";
 
-        auto const event_name_def = lexeme[ +(char_ ) ];
-        auto const event_def = lit("define") >> omit[+space] >> quoted_string >> omit[+space] >> '=' 
+        /// Adapted from https://stackoverflow.com/questions/59759810/how-do-you-get-a-string-out-of-a-boost-spirit-x3-lexeme-parser
+        x3::rule<class identifier_rule_, std::string> const identifier_rule = "identifier_rule";
+        auto const identifier_rule_def = x3::lexeme[(x3::alpha | x3::char_('$')) >> *(x3::alnum)];
+        BOOST_SPIRIT_DEFINE(identifier_rule)
+
+        /// The event rule parses an identifier and two numbers
+        auto const event_def = lit("define") >> omit[+space] >> identifier_rule >> omit[+space] >> '=' 
                                              >> omit[+space] >> lit("NN:") >> int_
                                              >> omit[+space] >> lit("EN:") >> int_;
                                              //>> x3::omit[*(x3::char_ - x3::eol)];
@@ -139,7 +144,7 @@ namespace client {
         /// The person rule uses omit[+space] to discard spaces after a keyword.
         auto const Person_def = lit("person") >> omit[+space] >> quoted_string >> ',' >> quoted_string;
          
-        BOOST_SPIRIT_DEFINE(event_name,event,quoted_string,Person);
+        BOOST_SPIRIT_DEFINE(event,quoted_string,Person);
 
         /// rules defined like this cannot accept subrules such as quoted string.
         /// rule definition - singleLineComment
@@ -194,8 +199,8 @@ void setup() {
 // second single line comment
 
 // define example which is not yet being parsed
-define "$name1" = NN:0 EN:1
-define "$name2" = NN:0 EN:2
+define $name1 = NN:0 EN:1
+define $name2 = NN:0 EN:2
 when state($name1) is off within 1sec send on$name2
 person "John","Fletcher"
 )";
