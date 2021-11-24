@@ -24,4 +24,8 @@ So far I have been able to implement person which does now parse properly.
 
 I have now also been able to set up printing of the parsed data for a person. This includes discarding the spaces after the keyword using omit[+space]
 
+I have now extended this to parse the event information from define statements and store the results in a map indexed on the name,
+
+This will be needed for the next stage of decoding when statements.
+
 This file only runs on the Arduino NANO RP2040 connect.
