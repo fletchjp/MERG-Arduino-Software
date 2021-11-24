@@ -29,8 +29,10 @@ struct SingleLineComment{};
 struct Whitespace       {};
 /// for define command
 struct Define           {
-    Define(std::string const &name = "") : name(name) {}
+    Define(std::string const &name = "", int n = 0, int e = 0) : name(name), nn(n), en(e) {}
     std::string name;
+    int nn; // Node number
+    int en; // Event number
 };
 /// for when command
 struct When             {}; /// for when command

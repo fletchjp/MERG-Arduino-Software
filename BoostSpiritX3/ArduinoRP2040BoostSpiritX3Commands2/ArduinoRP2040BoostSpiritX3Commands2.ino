@@ -66,6 +66,10 @@ BOOST_FUSION_ADAPT_STRUCT(client::ast::Person,
     first_name, last_name
 )
 
+BOOST_FUSION_ADAPT_STRUCT(client::ast::Define,
+    name, nn, en
+)
+
 //using client::ast::person;
 
 /// namespace for the project changed from anonymous namespace to client to match client::ast.
