@@ -22,10 +22,6 @@ I am attempting to combine the rules from comments with the rules from Rexpr whi
 
 So far I have been able to implement person which does now parse properly.
 
-I have now also been able to set up printing of the parsed data for a person.
-
-This has involved a number of adaptions to the Arduino environment which are contained in the sketch file.
-
-Common features have been moved to ArduinoCode.h which can be used in other examples.
+I have now also been able to set up printing of the parsed data for a person. This includes discarding the spaces after the keyword using omit[+space]
 
 This file only runs on the Arduino NANO RP2040 connect.
