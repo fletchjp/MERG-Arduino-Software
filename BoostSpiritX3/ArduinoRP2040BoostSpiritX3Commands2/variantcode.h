@@ -120,14 +120,6 @@ inline Print &operator <<(Print &stream, const person &arg)
 }
 */
 
-}}
-
-using client::ast::SingleLineComment;
-using client::ast::Whitespace;
-using client::ast::Define;
-using client::ast::When;
-using client::ast::Person;
-
 /// I am now using X3 variant.
 using Variant = x3::variant<SingleLineComment, Whitespace, Define, When , Person>;
 
@@ -154,6 +146,18 @@ inline Print &operator <<(Print &stream, const Token &arg)
    stream.print(s.str().c_str());
    return stream;
 }
+
+
+}}
+
+using client::ast::SingleLineComment;
+using client::ast::Whitespace;
+using client::ast::Define;
+using client::ast::When;
+using client::ast::Person;
+using client::ast::Variant;
+using client::ast::Token;
+
 
 
 #endif
