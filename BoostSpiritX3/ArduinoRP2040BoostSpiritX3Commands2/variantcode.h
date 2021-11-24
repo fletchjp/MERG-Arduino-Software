@@ -27,6 +27,13 @@ namespace client { namespace ast
 struct SingleLineComment{};
 /// whitespace
 struct Whitespace       {};
+
+struct Event            {
+    Event(std::string const &name = "", int n = 0, int e = 0) : name(name), nn(n), en(e) {}
+    std::string name;
+    int nn; // Node number
+    int en; // Event number
+};
 /// for define command
 struct Define           {
     Define(std::string const &name = "", int n = 0, int e = 0) : name(name), nn(n), en(e) {}
@@ -63,14 +70,14 @@ inline Print &operator <<(Print &stream, SingleLineComment)
 }
 
 template <typename out>
-inline out &operator <<(out &stream, const Define)
+inline out &operator <<(out &stream, const Event)
 {
     stream << std::string("define") << std::ends;
     return stream;
 }
 
 
-inline Print &operator <<(Print &stream, Define)
+inline Print &operator <<(Print &stream, Event)
 {
    return stream;
 }
@@ -104,12 +111,19 @@ struct Person : x3::position_tagged
 /// to receive parsed results.
 std::vector<Person> people; 
 
+/// Store the result
+inline void store(const Person &arg)
+{
+    people.push_back(Person(arg.first_name,arg.last_name));
+}
+
 /// Output operator for a Person object
 template <typename out>
 inline out &operator <<(out &stream, const Person &arg)
 {
    //std::stringstream s;
-   people.push_back(Person(arg.first_name,arg.last_name));
+   store(arg);
+   //people.push_back(Person(arg.first_name,arg.last_name));
    stream << arg.first_name << " " << arg.last_name << std::ends;
    //stream.print(s.str().c_str());
    return stream;
@@ -126,7 +140,7 @@ inline Print &operator <<(Print &stream, const person &arg)
 */
 
 /// I am now using X3 variant.
-using Variant = x3::variant<SingleLineComment, Whitespace, Define, When , Person>;
+using Variant = x3::variant<SingleLineComment, Whitespace, Event, When , Person>;
 
 /// Stream output for a variant type provided operators exist for all the alternatives.
 inline Print &operator <<(Print &stream, const Variant &arg)
@@ -158,6 +172,7 @@ inline Print &operator <<(Print &stream, const Token &arg)
 using client::ast::SingleLineComment;
 using client::ast::Whitespace;
 using client::ast::Define;
+using client::ast::Event;
 using client::ast::When;
 using client::ast::Person;
 using client::ast::Variant;

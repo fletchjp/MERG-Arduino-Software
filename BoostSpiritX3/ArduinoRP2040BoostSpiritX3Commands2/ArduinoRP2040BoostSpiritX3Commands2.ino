@@ -66,7 +66,7 @@ BOOST_FUSION_ADAPT_STRUCT(client::ast::Person,
     first_name, last_name
 )
 
-BOOST_FUSION_ADAPT_STRUCT(client::ast::Define,
+BOOST_FUSION_ADAPT_STRUCT(client::ast::Event,
     name, nn, en
 )
 
@@ -116,6 +116,8 @@ namespace client {
         x3::rule<quoted_string_class, std::string> const quoted_string = "quoted_string";
         x3::rule<Person_class, client::ast::Person> const Person = "person";
 
+        
+        auto const event_name_def = lexeme[ +(char_ ) ];
         auto const quoted_string_def = lexeme['"' >> +(char_ - '"') >> '"'];
         /// The person rule uses omit[+space] to discard spaces after a keyword.
         auto const Person_def = lit("person") >> omit[+space] >> quoted_string >> ',' >> quoted_string;
@@ -127,11 +129,11 @@ namespace client {
         /// rule definition - Whitespace
         auto whitespace        = as<Whitespace>       (x3::omit[+x3::ascii::space]);
         /// rule definition - Define - for the moment just identify the keyword.
-        auto define            = as<Define>           ("define" >> x3::omit[*(x3::char_ - x3::eol)]);
+        auto event             = as<Event>            ("define" >> x3::omit[*(x3::char_ - x3::eol)]);
         /// rule definition - When - for the moment just identify the keyword.
         auto when              = as<When>             ("when" >> x3::omit[*(x3::char_ - x3::eol)]);
         /// rule definition - Token- this is the Variant for all the rules.
-        auto token             = as<Token>            (singleLineComment | whitespace | define | when | Person, "token");
+        auto token             = as<Token>            (singleLineComment | whitespace | event | when | Person, "token");
     }
 }
 
@@ -200,7 +202,7 @@ person "John","Fletcher"
             {
               case 0 : s = "comment"; break;
               case 1 : s = "space"; break;
-              case 2 : s = "define"; break;
+              case 2 : s = "event"; break;
               case 3 : s = "when"; break;
               case 4 : s = "person"; 
               break;
@@ -213,7 +215,7 @@ person "John","Fletcher"
               Serial
                   << s << "\t"
                   << ss.str();
-              if (which == 4) Serial << " : "  << token; 
+              if (which == 4) Serial << " : "  << token; //store(token);
               Serial << endl;
               
             } 
