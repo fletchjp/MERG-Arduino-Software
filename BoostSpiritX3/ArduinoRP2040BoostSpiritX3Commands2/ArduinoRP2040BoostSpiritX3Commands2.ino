@@ -14,7 +14,11 @@
 ///
 /// I have changed the rule name from person to Person.
 /// I put in the keyword "person" and can now parse discarding spaces e.g. person "John" "Fletcher" using omit[+space].
-/// I realised there was a clue in the way Whitespace works.
+/// I realised there was a clue in the way Whitespace works. I will now store the results.
+///
+/// I think I am now in a position where I can start to parse the Define command. I need to sort out how to store the results.
+///
+/// I think what it needed is overloaded functions which will store the results in arrays or maps as needed. I have prototypes for this.
 ///
 /// This code to uses x3::variant after experiments with the comments example.
 ///
@@ -34,6 +38,8 @@
 #include <iomanip>
 #include <variant>
 #include <string>
+#include <vector>
+#include <map>
 #include <sstream>
 #include <cstdio>
 
