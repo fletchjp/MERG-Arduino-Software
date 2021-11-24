@@ -13,10 +13,10 @@
 /// I am starting a new copy to extend the commands.
 ///
 /// I have changed the rule name from person to Person.
+/// I put in the keyword "person" and can now parse discarding spaces e.g. person "John" "Fletcher" using omit[+space].
+/// I realised there was a clue in the way Whitespace works.
 ///
 /// This code to uses x3::variant after experiments with the comments example.
-///
-/// I have now reached a point where I can get access to the content of a person object.
 ///
 /// See the ArduinoRP2040BoostSpiritX3Commands.ino example.
 
@@ -94,8 +94,9 @@ namespace client {
         namespace ascii = boost::spirit::x3::ascii;
 
         using boost::spirit::x3::lexeme;
+        using boost::spirit::x3::omit;
         using boost::spirit::x3::skip;
-        using boost::spirit::x3::space;
+        using boost::spirit::x3::ascii::space;
         using boost::spirit::x3::lit;
         using ascii::char_;
         
@@ -106,7 +107,8 @@ namespace client {
         x3::rule<Person_class, client::ast::Person> const Person = "person";
 
         auto const quoted_string_def = lexeme['"' >> +(char_ - '"') >> '"'];
-        auto const Person_def = lit("person ") >> quoted_string >> ',' >> quoted_string;
+        /// The person rule uses omit[+space] to discard spaces after a keyword.
+        auto const Person_def = lit("person") >> omit[+space] >> quoted_string >> ',' >> quoted_string;
          
         BOOST_SPIRIT_DEFINE(quoted_string,Person);
 
