@@ -28,7 +28,7 @@ struct SingleLineComment{};
 /// whitespace
 struct Whitespace       {};
 
-struct Event            {
+struct Event : x3::position_tagged           {
     Event(std::string const &name = "", int n = 0, int e = 0) : name(name), nn(n), en(e) {}
     std::string name;
     int nn; // Node number
@@ -69,15 +69,31 @@ inline Print &operator <<(Print &stream, SingleLineComment)
    return stream;
 }
 
+std::map<std::string,std::pair<int,int>> events;
+
 template <typename out>
-inline out &operator <<(out &stream, const Event)
+inline out &operator <<(out &stream, const Event& arg)
+{
+    stream << std::string("event ") << arg.name << " " << arg.nn << " " << arg.en << std::ends;
+    return stream;
+}
+
+
+inline Print &operator <<(Print &stream, Event)
+{
+   return stream;
+}
+
+
+template <typename out>
+inline out &operator <<(out &stream, const Define)
 {
     stream << std::string("define") << std::ends;
     return stream;
 }
 
 
-inline Print &operator <<(Print &stream, Event)
+inline Print &operator <<(Print &stream, Define)
 {
    return stream;
 }
@@ -112,6 +128,8 @@ struct Person : x3::position_tagged
 std::vector<Person> people; 
 
 /// Store the result
+/// I don't yet know how to overload the store function for different arg types
+/// within Variant. I can call it from the overloaded operator<<
 inline void store(const Person &arg)
 {
     people.push_back(Person(arg.first_name,arg.last_name));

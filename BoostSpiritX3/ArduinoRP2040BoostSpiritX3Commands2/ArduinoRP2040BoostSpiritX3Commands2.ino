@@ -16,7 +16,16 @@
 /// I put in the keyword "person" and can now parse discarding spaces e.g. person "John" "Fletcher" using omit[+space].
 /// I realised there was a clue in the way Whitespace works. I can now store the results in a vector.
 ///
-/// I think I am now in a position where I can start to parse the Define command. I need to sort out how to store the results.
+/// I think I am now in a position where I can start to parse the Event command - renamed from Define.
+///
+/// I will need to sort out how to store the results.
+///
+/// At the moment it does not work with an error message like this;
+/// deduced conflicting types for parameter 'Iterator' ('std::__cxx11::basic_string<char>' and 'client::ast::Event')
+///  196 |         detail::move_to(src, dest, typename attribute_category<Dest>::type());
+
+
+
 ///
 /// I think what it needed is overloaded functions which will store the results in arrays or maps as needed. I have prototypes for this.
 ///
@@ -108,28 +117,37 @@ namespace client {
         using boost::spirit::x3::skip;
         using boost::spirit::x3::ascii::space;
         using boost::spirit::x3::lit;
+        using boost::spirit::x3::int_;
         using ascii::char_;
         
+        struct event_name_class;
+        struct event_class;
         struct quoted_string_class;
         struct Person_class;
 
+        x3::rule<event_name_class, std::string> const event_name = "event_name";
+        x3::rule<event_class, client::ast::Event>   const event = "event";
         x3::rule<quoted_string_class, std::string> const quoted_string = "quoted_string";
         x3::rule<Person_class, client::ast::Person> const Person = "person";
 
-        
         auto const event_name_def = lexeme[ +(char_ ) ];
+        auto const event_def = lit("define") >> omit[+space] >> quoted_string >> omit[+space] >> '=' 
+                                             >> omit[+space] >> lit("NN:") >> int_
+                                             >> omit[+space] >> lit("EN:") >> int_;
+                                             //>> x3::omit[*(x3::char_ - x3::eol)];
         auto const quoted_string_def = lexeme['"' >> +(char_ - '"') >> '"'];
         /// The person rule uses omit[+space] to discard spaces after a keyword.
         auto const Person_def = lit("person") >> omit[+space] >> quoted_string >> ',' >> quoted_string;
          
-        BOOST_SPIRIT_DEFINE(quoted_string,Person);
+        BOOST_SPIRIT_DEFINE(event_name,event,quoted_string,Person);
 
+        /// rules defined like this cannot accept subrules such as quoted string.
         /// rule definition - singleLineComment
         auto singleLineComment = as<SingleLineComment>("//" >> x3::omit[*(x3::char_ - x3::eol)]);
         /// rule definition - Whitespace
         auto whitespace        = as<Whitespace>       (x3::omit[+x3::ascii::space]);
         /// rule definition - Define - for the moment just identify the keyword.
-        auto event             = as<Event>            ("define" >> x3::omit[*(x3::char_ - x3::eol)]);
+        auto define             = as<Define>            ("define" >> x3::omit[*(x3::char_ - x3::eol)]);
         /// rule definition - When - for the moment just identify the keyword.
         auto when              = as<When>             ("when" >> x3::omit[*(x3::char_ - x3::eol)]);
         /// rule definition - Token- this is the Variant for all the rules.
@@ -176,8 +194,8 @@ void setup() {
 // second single line comment
 
 // define example which is not yet being parsed
-define $name1 = NN:0 EN:1
-define $name2 = NN:0 EN:2
+define "name1" = NN:0 EN:1
+define "name2" = NN:0 EN:2
 when state($name1) is off within 1sec send on$name2
 person "John","Fletcher"
 )";
@@ -215,7 +233,7 @@ person "John","Fletcher"
               Serial
                   << s << "\t"
                   << ss.str();
-              if (which == 4) Serial << " : "  << token; //store(token);
+              if (which == 2 || which == 4) Serial << " : "  << token; //store(token);
               Serial << endl;
               
             } 
