@@ -16,18 +16,12 @@
 /// I put in the keyword "person" and can now parse discarding spaces e.g. person "John" "Fletcher" using omit[+space].
 /// I realised there was a clue in the way Whitespace works. I can now store the results in a vector.
 ///
-/// I think I am now in a position where I can start to parse the Event command - renamed from Define.
+/// I have now succeeded in parsing the define statements to store an Event - renamed from Define.
 ///
-/// I will need to sort out how to store the results.
+/// I have also sorted out how to store the results and also check for duplicate names.
 ///
-/// At the moment it does not work with an error message like this;
-/// deduced conflicting types for parameter 'Iterator' ('std::__cxx11::basic_string<char>' and 'client::ast::Event')
-///  196 |         detail::move_to(src, dest, typename attribute_category<Dest>::type());
-
-
-
 ///
-/// I think what it needed is overloaded functions which will store the results in arrays or maps as needed. I have prototypes for this.
+/// I think have overloaded functions called store to store Person results in a vector and Event results in a map.
 ///
 /// This code to uses x3::variant after experiments with the comments example.
 ///
