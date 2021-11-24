@@ -1,7 +1,8 @@
 /// @file variantCode.h
-/// @brief Arduino RP2040 code for Boost Spirit X3 Variant
+/// @brief Variant client ast code for Boost Spirit X3 Commands2
 ///
 /// I get tidier code after moving all the rules definitions into the namespace client::ast.
+/// I have now also moved Variant and Token in as well.
 ///
 /// The next task is to parse the define command and get the data into a map keyed on the name.
 /// I have already done something simular in the annotation series.
@@ -9,8 +10,6 @@
 /// The question is how to extract data from some tokens but not others.
 ///
 /// This provides an example including operator<< for the whole variant.
-///
-/// It provides adaption for Boost 1.66.0 code to work with the Arduino RP2040.
 
 #ifndef VARIANT_CODE_H
 #define VARIANT_CODE_H
