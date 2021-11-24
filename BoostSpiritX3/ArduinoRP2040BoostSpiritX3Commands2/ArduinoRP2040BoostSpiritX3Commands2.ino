@@ -194,8 +194,8 @@ void setup() {
 // second single line comment
 
 // define example which is not yet being parsed
-define "name1" = NN:0 EN:1
-define "name2" = NN:0 EN:2
+define "$name1" = NN:0 EN:1
+define "$name2" = NN:0 EN:2
 when state($name1) is off within 1sec send on$name2
 person "John","Fletcher"
 )";
@@ -238,6 +238,7 @@ person "John","Fletcher"
               
             } 
         }
+        Serial << client::ast::events.size() << " event definitions found" << endl;
         Serial << client::ast::people.size() << " person entries found" << endl;
     } else {
           Serial << "parsing failed" << endl;

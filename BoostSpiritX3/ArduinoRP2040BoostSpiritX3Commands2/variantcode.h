@@ -14,6 +14,8 @@
 #ifndef VARIANT_CODE_H
 #define VARIANT_CODE_H
 
+// 3rd party libraries
+//#include <Streaming.h>
 
 #include <boost/spirit/home/x3/support/ast/variant.hpp>
 #include "ArduinoCode.h"
@@ -71,10 +73,20 @@ inline Print &operator <<(Print &stream, SingleLineComment)
 
 std::map<std::string,std::pair<int,int>> events;
 
+inline void store(const Event &arg)
+{
+    if (events.count(arg.name) > 0) {
+       Serial << "Duplicate event name " /*<< arg.name.c_str()*/ << endl;
+    } else {
+       events.insert(std::make_pair(arg.name,std::make_pair(arg.nn,arg.en)));
+    }
+}
+
 template <typename out>
 inline out &operator <<(out &stream, const Event& arg)
 {
     stream << std::string("event ") << arg.name << " " << arg.nn << " " << arg.en << std::ends;
+    store(arg);
     return stream;
 }
 
@@ -127,7 +139,7 @@ struct Person : x3::position_tagged
 /// to receive parsed results.
 std::vector<Person> people; 
 
-/// Store the result
+/// Store the result for person
 /// I don't yet know how to overload the store function for different arg types
 /// within Variant. I can call it from the overloaded operator<<
 inline void store(const Person &arg)
