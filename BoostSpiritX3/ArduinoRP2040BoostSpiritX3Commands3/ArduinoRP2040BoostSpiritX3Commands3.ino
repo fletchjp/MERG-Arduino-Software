@@ -120,6 +120,8 @@ namespace client {
         struct event_name_class;
         struct event_class;
         struct state_class;
+        struct received_class;
+        struct item_class;
         struct quoted_string_class;
         struct Person_class;
 
@@ -132,11 +134,13 @@ namespace client {
           }
         } const on_off;
         
-        x3::rule<event_name_class, std::string> const event_name = "event_name";
-        x3::rule<event_class, client::ast::Event>   const event = "event";
-        x3::rule<state_class, client::ast::State>   const state = "state";
-        x3::rule<quoted_string_class, std::string> const quoted_string = "quoted_string";
-        x3::rule<Person_class, client::ast::Person> const Person = "person";
+        x3::rule<event_name_class, std::string>           const event_name = "event_name";
+        x3::rule<event_class, client::ast::Event>         const event = "event";
+        x3::rule<state_class, client::ast::State>         const state = "state";
+        x3::rule<received_class, client::ast::Received>   const received = "received";
+        x3::rule<item_class, client::ast::Item>           const item = "item";
+        x3::rule<quoted_string_class, std::string>        const quoted_string = "quoted_string";
+        x3::rule<Person_class, client::ast::Person>       const Person = "person";
 
         /// Adapted from https://stackoverflow.com/questions/59759810/how-do-you-get-a-string-out-of-a-boost-spirit-x3-lexeme-parser
         x3::rule<class identifier_rule_, std::string> const identifier_rule = "identifier_rule";
@@ -145,6 +149,10 @@ namespace client {
 
         /// The state rule parses an identifier and its state
         auto const state_def = lit("state(") >> identifier_rule >> ")" >> omit[+space] >> "is" >> omit[+space] >> on_off;
+        /// The received rule parses an identifier and the state to be queried
+        auto const received_def = lit("received(") >> identifier_rule >> ")" >> omit[+space] >> "is" >> omit[+space] >> on_off;
+        /// The item rule parses on/off$name
+        auto const item_def = on_off >> identifier_rule;
         /// The event rule parses an identifier and two numbers
         auto const event_def = lit("define") >> omit[+space] >> identifier_rule >> omit[+space] >> '=' 
                                              >> omit[+space] >> lit("NN:") >> int_
@@ -154,7 +162,7 @@ namespace client {
         /// The person rule uses omit[+space] to discard spaces after a keyword.
         auto const Person_def = lit("person") >> omit[+space] >> quoted_string >> ',' >> quoted_string;
          
-        BOOST_SPIRIT_DEFINE(state,event,quoted_string,Person);
+        BOOST_SPIRIT_DEFINE(state,received,item,event,quoted_string,Person);
 
         /// rules defined like this cannot accept subrules such as quoted string.
         /// rule definition - singleLineComment
