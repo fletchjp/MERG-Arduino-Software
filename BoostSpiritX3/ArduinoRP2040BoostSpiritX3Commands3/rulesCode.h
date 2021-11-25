@@ -64,6 +64,7 @@ namespace client {
         using client::ast::on_off_t;
         using client::ast::boolean_t;
         using client::ast::sequence_t;
+        using client::ast::time_unit_t;
         
         struct event_name_class;
         struct event_class;
@@ -99,6 +100,14 @@ namespace client {
           }
         } const sequence;
 
+        /// time unit table to parse s sec ms
+        struct time_unit_table : x3::symbols<time_unit_t> {
+        time_unit_table() {
+            add ("s"  ,   time_unit_t::s)
+                ("sec",   time_unit_t::sec)
+                ("ms" ,   time_unit_t::ms);
+          }
+        } const time_unit;
 
         x3::rule<event_name_class, std::string>           const event_name = "event_name";
         x3::rule<event_class, client::ast::Event>         const event = "event"; /// $name = NN:nn EN:en 
