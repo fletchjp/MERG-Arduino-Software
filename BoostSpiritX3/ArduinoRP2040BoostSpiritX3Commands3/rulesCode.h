@@ -7,6 +7,8 @@
 /// At the same time I have had a look at the CANCOMPUTE grammar and there is more to it than I remembered.
 /// https://www.merg.org.uk/merg_wiki/doku.php?id=cbus:cancompute
 ///
+/// Parsing from enums into a struct adapted from:
+/// https://stackoverflow.com/questions/37749344/parsing-into-structs-with-boolean-or-enum-members-with-boost-spirit-x3
 
 
 #ifndef RULES_CODE_H
@@ -71,8 +73,8 @@ namespace client {
         struct quoted_string_class;
         struct Person_class;
 
-        /// Parsing on off into a struct adapted from:
-        /// https://stackoverflow.com/questions/37749344/parsing-into-structs-with-boolean-or-enum-members-with-boost-spirit-x3
+
+        /// on_off table parsing on off into a struct.
         struct on_off_table : x3::symbols<on_off_t> {
         on_off_table() {
             add ("off", on_off_t::off)
