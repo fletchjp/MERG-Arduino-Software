@@ -53,6 +53,26 @@ struct State           {
     on_off_t on_off;
 };
 
+/// Received has the same structure as State
+struct Received           {
+    Received(std::string const &name = "",on_off_t on_off = on_off_t::off) : name(name), on_off(on_off) { }
+    std::string name;
+    on_off_t on_off;
+};
+
+/// Item on/off$name is used in several contexts.
+struct Item              {
+    Item(on_off_t on_off = on_off_t::off, std::string const &name = "") : on_off(on_off), name(name) { }
+    on_off_t on_off;
+    std::string name;
+};
+
+// Delay time
+struct Delay {
+  Delay(int time=0) : time(time) {}
+  int time;
+};
+
 /// for when command - the next target.
 /// Simple example
 /// when state($name1) is off within 1sec send on$name2
