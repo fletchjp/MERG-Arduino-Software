@@ -61,6 +61,7 @@ namespace client {
         using ascii::char_;
         using client::ast::on_off_t;
         using client::ast::boolean_t;
+        using client::ast::sequence_t;
         
         struct event_name_class;
         struct event_class;
@@ -79,6 +80,7 @@ namespace client {
           }
         } const on_off;
 
+        /// boolean table to parse and or not
         struct boolean_table : x3::symbols<boolean_t> {
         boolean_table() {
             add ("and",   boolean_t::and_)
@@ -86,6 +88,15 @@ namespace client {
                 ("not",   boolean_t::not_);
           }
         } const and_or_not;
+
+        /// sequence table to parse before after 
+        struct sequence_table : x3::symbols<sequence_t> {
+        sequence_table() {
+            add ("before", sequence_t::before)
+                ("after" , sequence_t::after);
+          }
+        } const sequence;
+
 
         x3::rule<event_name_class, std::string>           const event_name = "event_name";
         x3::rule<event_class, client::ast::Event>         const event = "event"; /// $name = NN:nn EN:en 
@@ -103,7 +114,7 @@ namespace client {
 
         /// The state rule parses an identifier and its state
         auto const state_def = lit("state(") >> identifier_rule >> ")" >> omit[+space] >> "is" >> omit[+space] >> on_off;
-        /// The received rule parses an identifier and the state to be queried
+        /// The received rule parses an identifier
         auto const received_def = lit("received(") >> identifier_rule >> ")";
         /// The item rule parses on/off$name
         auto const item_def = on_off >> identifier_rule;
