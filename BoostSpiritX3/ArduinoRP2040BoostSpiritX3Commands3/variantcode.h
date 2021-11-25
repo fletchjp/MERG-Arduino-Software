@@ -44,8 +44,14 @@ struct Define           {
     int en; // Event number
 };
 
-/// to hold state on or off.
+/// to hold state off on.
 enum class on_off_t { off, on };
+
+/// to hold boolean operators and or not.
+enum class boolean_t { and, or, not };
+
+/// to hold sequence operators before after.
+enum class sequence_t { before, after };
 
 /// State to store the state objects
 struct State           {
@@ -54,11 +60,10 @@ struct State           {
     on_off_t on_off;
 };
 
-/// Received has the same structure as State
+/// Received ($name) has nearly the same structure as State
 struct Received           {
-    Received(std::string const &name = "",on_off_t on_off = on_off_t::off) : name(name), on_off(on_off) { }
+    Received(std::string const &name = "") : name(name) { }
     std::string name;
-    on_off_t on_off;
 };
 
 /// Item on/off$name is used in several contexts.
