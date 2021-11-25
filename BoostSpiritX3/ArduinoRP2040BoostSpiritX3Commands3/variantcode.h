@@ -43,7 +43,19 @@ struct Define           {
     int nn; // Node number
     int en; // Event number
 };
+
+enum class on_off_t { off, on };
+
+/// State to store the state objects
+struct State           {
+    State(std::string const &name = "",on_off_t on_off = on_off_t::off) : name(name), on_off(on_off) { }
+    std::string name;
+    on_off_t on_off;
+};
+
 /// for when command - the next target.
+/// Simple example
+/// when state($name1) is off within 1sec send on$name2
 struct When             {}; /// for when command
 
 /// If an object does not have an output operator, one is needed. 

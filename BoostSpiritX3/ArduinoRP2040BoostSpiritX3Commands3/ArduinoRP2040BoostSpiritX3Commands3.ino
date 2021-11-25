@@ -68,6 +68,11 @@ BOOST_FUSION_ADAPT_STRUCT(client::ast::Event,
     name, nn, en
 )
 
+BOOST_FUSION_ADAPT_STRUCT(client::ast::State,
+    name, on_off
+)
+
+
 //using client::ast::person;
 
 /// namespace for the project changed from anonymous namespace to client to match client::ast.
@@ -99,6 +104,7 @@ namespace client {
             return x3::rule<Hook<T>, T> {name} = p;
         };
 
+        namespace x3 = boost::spirit::x3;
         namespace ascii = boost::spirit::x3::ascii;
 
         using boost::spirit::x3::lexeme;
@@ -107,15 +113,26 @@ namespace client {
         using boost::spirit::x3::ascii::space;
         using boost::spirit::x3::lit;
         using boost::spirit::x3::int_;
+        //using boost::spirit::x3::add;
         using ascii::char_;
+        using client::ast::on_off_t;
         
         struct event_name_class;
         struct event_class;
+        struct state_class;
         struct quoted_string_class;
         struct Person_class;
 
+        struct on_off_table : x3::symbols<on_off_t> {
+        on_off_table() {
+            add ("off"   , on_off_t::off)
+                ("on" ,    on_off_t::on);
+          }
+        } const on_off;
+        
         x3::rule<event_name_class, std::string> const event_name = "event_name";
         x3::rule<event_class, client::ast::Event>   const event = "event";
+        x3::rule<state_class, client::ast::State>   const state = "state";
         x3::rule<quoted_string_class, std::string> const quoted_string = "quoted_string";
         x3::rule<Person_class, client::ast::Person> const Person = "person";
 
@@ -124,6 +141,8 @@ namespace client {
         auto const identifier_rule_def = x3::lexeme[(x3::alpha | x3::char_('$')) >> *(x3::alnum)];
         BOOST_SPIRIT_DEFINE(identifier_rule)
 
+        /// The state rule parses an identifier and its state
+        auto const state_def = lit("state(") >> identifier_rule >> ")" >> omit[+space] >> "is" >> omit[+space] >> on_off;
         /// The event rule parses an identifier and two numbers
         auto const event_def = lit("define") >> omit[+space] >> identifier_rule >> omit[+space] >> '=' 
                                              >> omit[+space] >> lit("NN:") >> int_
@@ -133,7 +152,7 @@ namespace client {
         /// The person rule uses omit[+space] to discard spaces after a keyword.
         auto const Person_def = lit("person") >> omit[+space] >> quoted_string >> ',' >> quoted_string;
          
-        BOOST_SPIRIT_DEFINE(event,quoted_string,Person);
+        BOOST_SPIRIT_DEFINE(state,event,quoted_string,Person);
 
         /// rules defined like this cannot accept subrules such as quoted string.
         /// rule definition - singleLineComment
