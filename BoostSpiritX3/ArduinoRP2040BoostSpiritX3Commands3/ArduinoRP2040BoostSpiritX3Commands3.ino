@@ -123,6 +123,8 @@ namespace client {
         struct quoted_string_class;
         struct Person_class;
 
+        /// Parsing into a struct adapted from:
+        /// https://stackoverflow.com/questions/37749344/parsing-into-structs-with-boolean-or-enum-members-with-boost-spirit-x3
         struct on_off_table : x3::symbols<on_off_t> {
         on_off_table() {
             add ("off"   , on_off_t::off)
