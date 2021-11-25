@@ -16,6 +16,8 @@ I am starting a third example to extend the command processing to cover "when" c
 
 I will start with a simple command and extend it to cover recursive operation.
 
+I have been developing the enums needed for the various cases to be parsed.
+
 There is also work to be done to store the resulting structures.
 
 I have now changed from using std::variant to x3::variant in this code.
