@@ -1,5 +1,13 @@
 /// @file rulesCode.h
 /// @brief rules client parser code for Boost Spirit X3 Commands3
+///
+/// I have moved the rules out of the top level into this separate file.
+/// I now find that I have enough tools and knowledge of Boost Spirit X3 that it is easier to build new items.
+/// There is still a big task to do with storage of the results.
+/// At the same time I have had a look at the CANCOMPUTE grammar and there is more to it than I remembered.
+/// https://www.merg.org.uk/merg_wiki/doku.php?id=cbus:cancompute
+///
+
 
 #ifndef RULES_CODE_H
 #define RULES_CODE_H
@@ -71,9 +79,9 @@ namespace client {
         } const on_off;
 
         x3::rule<event_name_class, std::string>           const event_name = "event_name";
-        x3::rule<event_class, client::ast::Event>         const event = "event";
-        x3::rule<state_class, client::ast::State>         const state = "state";
-        x3::rule<received_class, client::ast::Received>   const received = "received";
+        x3::rule<event_class, client::ast::Event>         const event = "event"; /// $name = NN:nn EN:en 
+        x3::rule<state_class, client::ast::State>         const state = "state"; /// state($name) is on/off   
+        x3::rule<received_class, client::ast::Received>   const received = "received"; /// received($name)
         x3::rule<item_class, client::ast::Item>           const item = "item";
         x3::rule<quoted_string_class, std::string>        const quoted_string = "quoted_string";
         x3::rule<Person_class, client::ast::Person>       const Person = "person";
@@ -87,7 +95,7 @@ namespace client {
         /// The state rule parses an identifier and its state
         auto const state_def = lit("state(") >> identifier_rule >> ")" >> omit[+space] >> "is" >> omit[+space] >> on_off;
         /// The received rule parses an identifier and the state to be queried
-        auto const received_def = lit("received(") >> identifier_rule >> ")" >> omit[+space] >> "is" >> omit[+space] >> on_off;
+        auto const received_def = lit("received(") >> identifier_rule >> ")";
         /// The item rule parses on/off$name
         auto const item_def = on_off >> identifier_rule;
         /// The event rule parses an identifier and two numbers
