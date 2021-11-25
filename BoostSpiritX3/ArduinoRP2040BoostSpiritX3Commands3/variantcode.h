@@ -44,6 +44,7 @@ struct Define           {
     int en; // Event number
 };
 
+/// to hold state on or off.
 enum class on_off_t { off, on };
 
 /// State to store the state objects
@@ -67,9 +68,9 @@ struct Item              {
     std::string name;
 };
 
-// Delay time
-struct Delay {
-  Delay(int time=0) : time(time) {}
+/// Time for within or delay
+struct Time {
+  Time(int time=0) : time(time) {}
   int time;
 };
 
@@ -103,8 +104,10 @@ inline Print &operator <<(Print &stream, SingleLineComment)
    return stream;
 }
 
+/// Store parsed events
 std::map<std::string,std::pair<int,int>> events;
 
+/// Store an event - checking for duplicate
 inline void store(const Event &arg)
 {
     if (events.count(arg.name) > 0) {
