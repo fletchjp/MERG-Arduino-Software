@@ -60,6 +60,7 @@ namespace client {
         //using boost::spirit::x3::add;
         using ascii::char_;
         using client::ast::on_off_t;
+        using client::ast::boolean_t;
         
         struct event_name_class;
         struct event_class;
@@ -69,14 +70,22 @@ namespace client {
         struct quoted_string_class;
         struct Person_class;
 
-        /// Parsing into a struct adapted from:
+        /// Parsing on off into a struct adapted from:
         /// https://stackoverflow.com/questions/37749344/parsing-into-structs-with-boolean-or-enum-members-with-boost-spirit-x3
         struct on_off_table : x3::symbols<on_off_t> {
         on_off_table() {
-            add ("off"   , on_off_t::off)
-                ("on" ,    on_off_t::on);
+            add ("off", on_off_t::off)
+                ("on" , on_off_t::on);
           }
         } const on_off;
+
+        struct boolean_table : x3::symbols<boolean_t> {
+        boolean_table() {
+            add ("and",   boolean_t::and_)
+                ("or" ,   boolean_t::or_)
+                ("not",   boolean_t::not_);
+          }
+        } const and_or_not;
 
         x3::rule<event_name_class, std::string>           const event_name = "event_name";
         x3::rule<event_class, client::ast::Event>         const event = "event"; /// $name = NN:nn EN:en 

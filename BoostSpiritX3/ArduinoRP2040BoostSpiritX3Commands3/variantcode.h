@@ -48,7 +48,8 @@ struct Define           {
 enum class on_off_t { off, on };
 
 /// to hold boolean operators and or not.
-enum class boolean_t { and, or, not };
+/// and or not are reserved by C++
+enum class boolean_t { and_, or_, not_ };
 
 /// to hold sequence operators before after.
 enum class sequence_t { before, after };
