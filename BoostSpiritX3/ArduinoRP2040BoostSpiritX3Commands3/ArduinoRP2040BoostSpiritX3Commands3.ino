@@ -12,6 +12,8 @@
 ///
 /// There is also work to be done to store the resulting structures.
 ///
+/// There is a lot more to the full CANCOMPUTE than I realised. There is a logical structure to follow.
+///
 /// I have now succeeded in parsing the define statements to store an Event - renamed from Define.
 ///
 /// I have also sorted out how to store the results and also check for duplicate names.
