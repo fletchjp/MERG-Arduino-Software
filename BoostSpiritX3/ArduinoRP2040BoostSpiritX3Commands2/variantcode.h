@@ -181,9 +181,7 @@ inline Print &operator <<(Print &stream, const Variant &arg)
    return stream;
 }
 
-/// Token structure to hold all the variant options.
-/// This is the heart of the parsing structure.
-/// New elements can be added by changing the definition of Variant 
+/// Token structure to hold all the variant options. This is the heart of the parsing structure. New elements can be added by changing the definition of Variant 
 struct Token : Variant, x3::position_tagged {
     using Variant::Variant;
     using Variant::operator=; // This is what was needed to get x3 variant working.
