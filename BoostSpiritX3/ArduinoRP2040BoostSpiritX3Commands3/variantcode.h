@@ -84,10 +84,28 @@ struct Time {
   time_unit_t time_unit;
 };
 
+struct BooleanTerm   {}; /// needs to be a Variant
+
+struct BooleanExpression {}; /// which can have multiple terms
+
+struct Action   {}; /// needs to be a Variant
+
+struct Actions {}; /// which can have multiple terms
+
+
 /// for when command - the next target.
 /// Simple example
 /// when state($name1) is off within 1sec send on$name2
-struct When             {}; /// for when command
+/// Description from https://www.merg.org.uk/merg_wiki/doku.php?id=cbus:cancompute
+/// Where <rule> is:
+///   "when" <booleanExpression> "within" <time> <actions> ["then" <actions>] ";"
+struct When /*: x3::position_tagged */ {
+  When() {}
+  BooleanExpression expression;
+  Time time;
+  Actions actions;
+  Actions then_actions; /// not always needed
+}; /// for when command
 
 /// If an object does not have an output operator, one is needed. 
 template <typename out>
