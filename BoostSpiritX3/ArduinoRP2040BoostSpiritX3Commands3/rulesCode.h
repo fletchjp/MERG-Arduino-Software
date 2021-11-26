@@ -162,7 +162,7 @@ namespace client {
         // rule definition - When - for the moment just identify the keyword.
         //auto when              = as<When>             ("when" >> x3::omit[*(x3::char_ - x3::eol)]);
         /// rule definition - Token- this is the Variant for all the rules.
-        auto token             = as<Token>            (singleLineComment | whitespace | event | when |Person, "token");
+        auto token             = as<Token>            (singleLineComment | whitespace | event | when | Person, "token");
     }
 }
 
