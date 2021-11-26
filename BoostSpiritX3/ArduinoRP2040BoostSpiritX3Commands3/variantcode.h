@@ -334,7 +334,7 @@ inline Print &operator <<(Print &stream, const person &arg)
 */
 
 /// I am now using X3 variant.
-using Variant = x3::variant<SingleLineComment, Whitespace, Event, State_ , Person, Time, Item>;
+using Variant = x3::variant<SingleLineComment, Whitespace, Event, State_ , Person, Time, Item, When>;
 
 /// Stream output for a variant type provided operators exist for all the alternatives.
 inline Print &operator <<(Print &stream, const Variant &arg)
