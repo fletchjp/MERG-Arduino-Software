@@ -72,12 +72,35 @@ struct Received           {
     std::string name;
 };
 
+
 /// Item on/off$name is used in several contexts.
 struct Item /*: x3::position_tagged */            {
     Item(on_off_t on_off = on_off_t::off, std::string const &name = "") : on_off(on_off), name(name) { }
     on_off_t on_off;
     std::string name;
 };
+
+/// to receive parsed items.
+std::vector<Item> some_items;
+
+/// @brief store an Item value
+///
+/// I have made the vector an argument as there will be different locations to be used.
+inline void store(std::vector<Item> &items, const Item &arg)
+{
+    items.push_back(Item(arg.on_off,arg.name));
+}
+
+/// Item output operator
+template <typename out>
+inline out &operator <<(out &stream, const Item& arg)
+{
+    stream << std::string("item ");
+    if (arg.on_off == on_off_t::off) stream << "off"; else stream << "on";
+    stream << arg.name << std::ends;
+    store(some_items,arg);
+    return stream;
+}
 
 /// Time for within or delay with time unit
 struct Time /*: x3::position_tagged */ {
@@ -311,7 +334,7 @@ inline Print &operator <<(Print &stream, const person &arg)
 */
 
 /// I am now using X3 variant.
-using Variant = x3::variant<SingleLineComment, Whitespace, Event, State_ , Person, Time>;
+using Variant = x3::variant<SingleLineComment, Whitespace, Event, State_ , Person, Time, Item>;
 
 /// Stream output for a variant type provided operators exist for all the alternatives.
 inline Print &operator <<(Print &stream, const Variant &arg)

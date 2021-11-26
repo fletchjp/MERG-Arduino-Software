@@ -138,7 +138,7 @@ namespace client {
         /// The received rule parses an identifier
         auto const received_def = lit("received(") >> identifier_rule >> ")";
         /// The item rule parses on/off$name
-        auto const item_def = on_off >> identifier_rule;
+        auto const item_def = lit("item") >> omit[+space] >> on_off >> identifier_rule;
          /// The item rule parses on/off$name
         auto const time_def = "within" >> omit[+space] >> int_ >> time_unit;
         /// The event rule parses an identifier and two numbers
@@ -173,7 +173,7 @@ namespace client {
         // rule definition - When - for the moment just identify the keyword.
         //auto when              = as<When>             ("when" >> x3::omit[*(x3::char_ - x3::eol)]);
         /// rule definition - Token- this is the Variant for all the rules.
-        auto token             = as<Token>            (singleLineComment | whitespace | event | state_ | Person | time, "token");
+        auto token             = as<Token>            (singleLineComment | whitespace | event | state_ | Person | time | item, "token");
     }
 }
 

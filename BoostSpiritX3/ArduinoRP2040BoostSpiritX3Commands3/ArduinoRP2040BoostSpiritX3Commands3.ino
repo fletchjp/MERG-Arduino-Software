@@ -140,6 +140,7 @@ person "John","Fletcher"
 state($name1) is off
 state($name2) is on
 within 1s
+item on$name2
 )";
 
 //when $name1 is off within 1sec send on$name2
@@ -169,6 +170,7 @@ within 1s
               case 4 : s = "person"; 
               break;
               case 5 : s = "time"; break;
+              case 6 : s = "item"; break;
               default: s = "unknown"; break;
             }
              std::stringstream ss;
@@ -178,14 +180,15 @@ within 1s
               Serial
                   << s << "\t"
                   << ss.str();
-              if (which > 1 && which < 6) Serial << " : "  << token; //store(token);
+              if (which > 1 && which < 7) Serial << " : "  << token; //store(token);
               Serial << endl;
               
             } 
         }
         Serial << client::ast::events.size() << " event definitions found" << endl;
-        Serial << client::ast::some_states.size() << " state definitions found" << endl;
-        Serial << client::ast::some_times.size() << " time definitions found" << endl;
+        Serial << client::ast::some_states.size() << " state items found" << endl;
+        Serial << client::ast::some_times.size() << " time items found" << endl;
+        Serial << client::ast::some_items.size() << " item entries found" << endl;
         Serial << client::ast::people.size() << " person entries found" << endl;
     } else {
           Serial << "parsing failed" << endl;
