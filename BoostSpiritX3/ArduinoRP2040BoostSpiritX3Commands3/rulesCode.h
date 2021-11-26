@@ -141,11 +141,11 @@ namespace client {
         auto const item_def = on_off >> identifier_rule;
          /// The item rule parses on/off$name
         auto const time_def = int_ >> time_unit;
-       /// The event rule parses an identifier and two numbers
+        /// The event rule parses an identifier and two numbers
         auto const event_def = lit("define") >> omit[+space] >> identifier_rule >> omit[+space] >> '=' 
                                              >> omit[+space] >> lit("NN:") >> int_
                                              >> omit[+space] >> lit("EN:") >> int_;
-                                             //>> x3::omit[*(x3::char_ - x3::eol)];
+        /// Simple version of when rule with one state and one item.
         auto const when_def = lit("when") >> omit[+space] >> state >> omit[+space] 
                               >> "within" >> omit[+space] >> time >> omit[+space] >> item;
         auto const quoted_string_def = lexeme['"' >> +(char_ - '"') >> '"'];
