@@ -138,7 +138,7 @@ namespace client {
         /// The received rule parses an identifier
         auto const received_def = lit("received(") >> identifier_rule >> ")";
         /// The item rule parses on/off$name
-        auto const item_def = on_off >> identifier_rule;
+        auto const item_def = "send" >> omit[+space] >> on_off >> identifier_rule;
          /// The item rule parses on/off$name
         auto const time_def = "within" >> omit[+space] >> int_ >> time_unit;
         /// The event rule parses an identifier and two numbers

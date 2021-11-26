@@ -140,7 +140,8 @@ person "John","Fletcher"
 state($name1) is off
 state($name2) is on
 within 1s
-on$name2
+send on$name2
+
 )";
 
 //when $name1 is off within 1sec send on$name2

@@ -95,7 +95,7 @@ inline void store(std::vector<Item> &items, const Item &arg)
 template <typename out>
 inline out &operator <<(out &stream, const Item& arg)
 {
-    stream << std::string("item ");
+    stream << std::string("send ");
     if (arg.on_off == on_off_t::off) stream << "off"; else stream << "on";
     stream << arg.name << std::ends;
     store(some_items,arg);
