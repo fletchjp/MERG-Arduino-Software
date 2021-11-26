@@ -2,8 +2,10 @@
 /// @brief rules client parser code for Boost Spirit X3 Commands3
 ///
 /// I have moved the rules out of the top level into this separate file.
+///
 /// I now find that I have enough tools and knowledge of Boost Spirit X3 that it is easier to build new items.
 /// There is still a big task to do with storage of the results.
+///
 /// At the same time I have had a look at the CANCOMPUTE grammar and there is more to it than I remembered.
 /// https://www.merg.org.uk/merg_wiki/doku.php?id=cbus:cancompute
 ///
@@ -44,7 +46,10 @@ namespace client {
         /// When there is a specialisation it is annotated.
         template <> struct Hook<Token> : annotate_position   {}; 
 
-        /// definition of as lambda function used to generate the rules
+        /// @brief definition of as lambda function used to generate sone of the rules
+        ///
+        /// Rules defined using as cannot accept subrules such as quoted string.
+        /// Those are defined using BOOST_SPIRIT_DEFINE.
         template <typename T>
         static auto constexpr as = [](auto p, char const* name = typeid(decltype(p)).name()) {
             return x3::rule<Hook<T>, T> {name} = p;
@@ -117,7 +122,8 @@ namespace client {
         x3::rule<quoted_string_class, std::string>        const quoted_string = "quoted_string";
         x3::rule<Person_class, client::ast::Person>       const Person = "person";
 
-
+        /// @brief identifier rule to parse a string without quote marks
+        ///
         /// Adapted from https://stackoverflow.com/questions/59759810/how-do-you-get-a-string-out-of-a-boost-spirit-x3-lexeme-parser
         x3::rule<class identifier_rule_, std::string> const identifier_rule = "identifier_rule";
         auto const identifier_rule_def = x3::lexeme[(x3::alpha | x3::char_('$')) >> *(x3::alnum)];
@@ -139,7 +145,7 @@ namespace client {
         auto const Person_def = lit("person") >> omit[+space] >> quoted_string >> ',' >> quoted_string;
          
         BOOST_SPIRIT_DEFINE(state,received,item,event,quoted_string,Person);
-        /// rules defined like this cannot accept subrules such as quoted string.
+        
         /// rule definition - singleLineComment
         auto singleLineComment = as<SingleLineComment>("//" >> x3::omit[*(x3::char_ - x3::eol)]);
         /// rule definition - Whitespace

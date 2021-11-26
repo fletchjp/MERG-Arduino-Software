@@ -22,8 +22,9 @@
 
 namespace x3 = boost::spirit::x3;
 
-namespace client { namespace ast
-{
+namespace client { 
+     /// ast namespace defines the ast structure for the problem.
+     namespace ast {
 
 /// single line comment
 struct SingleLineComment{};
@@ -104,17 +105,23 @@ struct Actions {
    std::vector<Action> actions;
 }; 
 
-/// Simple example of when command
-/// when state($name1) is off within 1sec send on$name2
+/// @brief When command is not called Rule as that will get confusing with X3 rules.
+///
+/// simple example: when state($name1) is off within 1sec send on$name2
+///
 /// Description from https://www.merg.org.uk/merg_wiki/doku.php?id=cbus:cancompute
-/// Where <rule> is:
-///   "when" <booleanExpression> "within" <time> <actions> ["then" <actions>] ";"
-struct When /*: x3::position_tagged */ {
+///
+/// Where 'rule' is:
+///   "when" 'booleanExpression' "within" 'time' 'actions' ["then" 'actions'] ";"
+struct When /*: x3::position_tagged */ { ///< position tagging to be added when there is an active rule.
   When() {}
+  /// expressions collected here
   BooleanExpression expression;
+  /// time for the rule
   Time time;
+  /// actions when the expression is true
   Actions actions;
-  /// not always needed
+  /// actions when the expresion is false, not always needed
   Actions then_actions; 
 };
 
@@ -213,7 +220,8 @@ struct Person : x3::position_tagged
 /// to receive parsed results.
 std::vector<Person> people; 
 
-/// Store the result for person
+/// @brief Store the result for person
+////
 /// I don't yet know how to overload the store function for different arg types
 /// within Variant. I can call it from the overloaded operator<<
 inline void store(const Person &arg)
@@ -255,13 +263,16 @@ inline Print &operator <<(Print &stream, const Variant &arg)
    return stream;
 }
 
-/// Token structure to hold all the variant options. This is the heart of the parsing structure. New elements can be added by changing the definition of Variant 
+/// @brief Token structure to hold all the variant options.
+///
+/// This is the heart of the parsing structure. New elements can be added by changing the definition of Variant 
 struct Token : Variant, x3::position_tagged {
     using Variant::Variant;
     using Variant::operator=; // This is what was needed to get x3 variant working.
 };
 
-/// Print operator for a Token
+/// @brief Print operator for a Token
+///
 /// This is able to output from all of the variants if they have an operator <<.
 inline Print &operator <<(Print &stream, const Token &arg)
 {
