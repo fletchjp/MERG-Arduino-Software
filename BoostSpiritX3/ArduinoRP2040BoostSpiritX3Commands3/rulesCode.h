@@ -154,7 +154,11 @@ namespace client {
          
         BOOST_SPIRIT_DEFINE(state,received,item,time,event,quoted_string,Person);
 
-        /// Simple version of when rule with one state and one item.
+        /// @brief Simple version of when rule with one state and one item.
+        ///
+        /// For some reason this rule did not parse when I set it up.
+        /// I have separated out the state part and that does now work.
+        /// I think the next stage is to get the other two components time and item working separately.
         auto const when_def = lit("when") >> omit[+space] >> state >> omit[+space] 
                               >> "within" >> omit[+space] >> time >> omit[+space] >> item;
 

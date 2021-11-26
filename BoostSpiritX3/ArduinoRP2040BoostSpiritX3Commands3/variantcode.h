@@ -191,13 +191,24 @@ inline Print &operator <<(Print &stream, Event)
    return stream;
 }
 
+/// to receive parsed results.
+std::vector<State> some_states;
+
+/// @brief store a State value
+///
+/// I have made the vector an argument as there will be different locations to be used.
+inline void store(std::vector<State> &states, const State &arg)
+{
+    states.push_back(State(arg.name,arg.on_off));
+}
+
 template <typename out>
 inline out &operator <<(out &stream, const State& arg)
 {
     stream << std::string("state ") << arg.name << " ";
     if (arg.on_off == on_off_t::off) stream << "off"; else stream << "on";
     stream << std::ends;
-    //store(arg);
+    store(some_states,arg);
     return stream;
 }
 

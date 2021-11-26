@@ -18,6 +18,10 @@
 ///
 /// I have also sorted out how to store the results and also check for duplicate names.
 ///
+/// I am having a lot of problems getting the when rule to parse data.
+///
+/// I have broken it down into stages and now have the state part parsing O.K. and outputting data.
+///
 /// I think have overloaded functions called store to store Person results in a vector and Event results in a map.
 ///
 /// This code to uses x3::variant after experiments with the comments example.
@@ -134,6 +138,7 @@ define $name1 = NN:0 EN:1
 define $name2 = NN:0 EN:2
 person "John","Fletcher"
 state($name1) is off
+state($name2) is on
 )";
 
 //when $name1 is off within 1sec send on$name2
@@ -177,6 +182,7 @@ state($name1) is off
             } 
         }
         Serial << client::ast::events.size() << " event definitions found" << endl;
+        Serial << client::ast::some_states.size() << " state definitions found" << endl;
         Serial << client::ast::people.size() << " person entries found" << endl;
     } else {
           Serial << "parsing failed" << endl;
