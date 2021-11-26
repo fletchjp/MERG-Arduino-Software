@@ -145,14 +145,20 @@ namespace client {
         auto const event_def = lit("define") >> omit[+space] >> identifier_rule >> omit[+space] >> '=' 
                                              >> omit[+space] >> lit("NN:") >> int_
                                              >> omit[+space] >> lit("EN:") >> int_;
-        /// Simple version of when rule with one state and one item.
-        auto const when_def = lit("when") >> omit[+space] >> state >> omit[+space] 
-                              >> "within" >> omit[+space] >> time >> omit[+space] >> item;
+        // Simple version of when rule with one state and one item.
+        //auto const when_def = lit("when") >> omit[+space] >> state >> omit[+space] 
+        //                     >> "within" >> omit[+space] >> time >> omit[+space] >> item;
         auto const quoted_string_def = lexeme['"' >> +(char_ - '"') >> '"'];
         /// The person rule uses omit[+space] to discard spaces after a keyword.
         auto const Person_def = lit("person") >> omit[+space] >> quoted_string >> ',' >> quoted_string;
          
-        BOOST_SPIRIT_DEFINE(state,received,item,time,event,when,quoted_string,Person);
+        BOOST_SPIRIT_DEFINE(state,received,item,time,event,quoted_string,Person);
+
+        /// Simple version of when rule with one state and one item.
+        auto const when_def = lit("when") >> omit[+space] >> state >> omit[+space] 
+                              >> "within" >> omit[+space] >> time >> omit[+space] >> item;
+
+        BOOST_SPIRIT_DEFINE(when);
         
         /// rule definition - singleLineComment
         auto singleLineComment = as<SingleLineComment>("//" >> x3::omit[*(x3::char_ - x3::eol)]);
@@ -163,7 +169,7 @@ namespace client {
         // rule definition - When - for the moment just identify the keyword.
         //auto when              = as<When>             ("when" >> x3::omit[*(x3::char_ - x3::eol)]);
         /// rule definition - Token- this is the Variant for all the rules.
-        auto token             = as<Token>            (singleLineComment | whitespace | event | when | Person, "token");
+        auto token             = as<Token>            (singleLineComment | whitespace | event | state | Person, "token");
     }
 }
 

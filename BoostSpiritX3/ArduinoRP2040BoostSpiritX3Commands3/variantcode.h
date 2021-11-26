@@ -73,14 +73,14 @@ struct Received           {
 };
 
 /// Item on/off$name is used in several contexts.
-struct Item : x3::position_tagged             {
+struct Item /*: x3::position_tagged */            {
     Item(on_off_t on_off = on_off_t::off, std::string const &name = "") : on_off(on_off), name(name) { }
     on_off_t on_off;
     std::string name;
 };
 
 /// Time for within or delay with time unit
-struct Time : x3::position_tagged {
+struct Time /*: x3::position_tagged */ {
   Time(int time=0,time_unit_t time_unit=time_unit_t::s) : time(time), time_unit(time_unit) {}
   int time;
   time_unit_t time_unit;
@@ -191,6 +191,15 @@ inline Print &operator <<(Print &stream, Event)
    return stream;
 }
 
+template <typename out>
+inline out &operator <<(out &stream, const State& arg)
+{
+    stream << std::string("state ") << arg.name << " ";
+    if (arg.on_off == on_off_t::off) stream << "off"; else stream << "on";
+    stream << std::ends;
+    //store(arg);
+    return stream;
+}
 
 template <typename out>
 inline out &operator <<(out &stream, const Define)
@@ -266,7 +275,7 @@ inline Print &operator <<(Print &stream, const person &arg)
 */
 
 /// I am now using X3 variant.
-using Variant = x3::variant<SingleLineComment, Whitespace, Event, When , Person>;
+using Variant = x3::variant<SingleLineComment, Whitespace, Event, State , Person>;
 
 /// Stream output for a variant type provided operators exist for all the alternatives.
 inline Print &operator <<(Print &stream, const Variant &arg)
@@ -303,11 +312,13 @@ using client::ast::SingleLineComment;
 using client::ast::Whitespace;
 using client::ast::Define;
 using client::ast::Event;
+using client::ast::State;
+using client::ast::Time;
+using client::ast::Item;
 using client::ast::When;
 using client::ast::Person;
 using client::ast::Variant;
 using client::ast::Token;
-
 
 
 #endif

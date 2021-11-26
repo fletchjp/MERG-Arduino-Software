@@ -133,9 +133,11 @@ void setup() {
 define $name1 = NN:0 EN:1
 define $name2 = NN:0 EN:2
 person "John","Fletcher"
-when state($name1) is off within 1sec send on$name2
+state($name1) is off
 )";
 
+//when $name1 is off within 1sec send on$name2
+//state(
    
     position_cache positions{content.begin(), content.end()};
 
@@ -157,7 +159,7 @@ when state($name1) is off within 1sec send on$name2
               case 0 : s = "comment"; break;
               case 1 : s = "space"; break;
               case 2 : s = "event"; break;
-              case 3 : s = "when"; break;
+              case 3 : s = "state"; break;
               case 4 : s = "person"; 
               break;
               default: s = "unknown"; break;
@@ -169,7 +171,7 @@ when state($name1) is off within 1sec send on$name2
               Serial
                   << s << "\t"
                   << ss.str();
-              if (which == 2 || which == 4) Serial << " : "  << token; //store(token);
+              if (which > 1 && which < 5) Serial << " : "  << token; //store(token);
               Serial << endl;
               
             } 
