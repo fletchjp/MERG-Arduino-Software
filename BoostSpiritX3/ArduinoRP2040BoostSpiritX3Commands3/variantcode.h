@@ -60,8 +60,8 @@ enum class sequence_t { before, after };
 enum class time_unit_t { s, sec, ms };
 
 /// State to store the state objects
-struct State : x3::position_tagged          {
-    State(std::string const &name = "",on_off_t on_off = on_off_t::off) : name(name), on_off(on_off) { }
+struct State_ : x3::position_tagged          {
+    State_(std::string const &name = "",on_off_t on_off = on_off_t::off) : name(name), on_off(on_off) { }
     std::string name;
     on_off_t on_off;
 };
@@ -86,7 +86,7 @@ struct Time /*: x3::position_tagged */ {
   time_unit_t time_unit;
 };
 
-using TermVariant = x3::variant<State, Received>;
+using TermVariant = x3::variant<State_, Received>;
 
 /// BooleanTerm needs to be a variant
 struct BooleanTerm : TermVariant  {};
@@ -116,9 +116,9 @@ struct Actions {
 ///   "when" 'booleanExpression' "within" 'time' 'actions' ["then" 'actions'] ";"
 /// Simple version for now.
 struct When : x3::position_tagged   { ///< position tagging to be added when there is an active rule.
-  When(State const & expr = State(), Time const &time = Time(), Item const &acts = Item()) : expression(expr), time(time), actions(acts)  {}
+  When(State_ const & expr = State_(), Time const &time = Time(), Item const &acts = Item()) : expression(expr), time(time), actions(acts)  {}
   /// expressions collected here
-  State expression;
+  State_ expression;
   /// time for the rule
   Time time;
   /// actions when the expression is true
@@ -139,6 +139,16 @@ struct When //: x3::position_tagged  { ///< position tagging to be added when th
   Actions then_actions; 
 };
 */
+
+template <typename out>
+inline out &operator <<(out &stream, const When &arg)
+{
+    stream << std::string("when ") << arg.expression << " within " << arg.time << " " << arg.actions;
+    stream << std::ends;
+    return stream;
+}
+
+
 /// If an object does not have an output operator, one is needed. 
 template <typename out>
 inline out &operator <<(out &stream, const Whitespace)
@@ -192,18 +202,18 @@ inline Print &operator <<(Print &stream, Event)
 }
 
 /// to receive parsed results.
-std::vector<State> some_states;
+std::vector<State_> some_states;
 
 /// @brief store a State value
 ///
 /// I have made the vector an argument as there will be different locations to be used.
-inline void store(std::vector<State> &states, const State &arg)
+inline void store(std::vector<State_> &states, const State_ &arg)
 {
-    states.push_back(State(arg.name,arg.on_off));
+    states.push_back(State_(arg.name,arg.on_off));
 }
 
 template <typename out>
-inline out &operator <<(out &stream, const State& arg)
+inline out &operator <<(out &stream, const State_& arg)
 {
     stream << std::string("state ") << arg.name << " ";
     if (arg.on_off == on_off_t::off) stream << "off"; else stream << "on";
@@ -225,18 +235,33 @@ inline Print &operator <<(Print &stream, Define)
    return stream;
 }
 
-template <typename out>
-inline out &operator <<(out &stream, const When)
+/// to receive parsed results.
+std::vector<Time> some_times;
+
+/// @brief store a Time value
+///
+/// I have made the vector an argument as there will be different locations to be used.
+inline void store(std::vector<Time> &times, const Time &arg)
 {
-    stream << std::string("when") << std::ends;
+    times.push_back(Time(arg.time,arg.time_unit));
+}
+
+template <typename out>
+inline out &operator <<(out &stream, const Time &arg)
+{
+    stream << std::string("time ") << arg.time;
+    if (arg.time_unit == time_unit_t::ms) stream << "ms"; else stream << "s";
+    stream << std::ends; 
+    store(some_times,arg);
     return stream;
 }
 
+/*
 inline Print &operator <<(Print &stream, When)
 {
    return stream;
 }
-
+*/
 /// Person struct has first_name and last_name 
 struct Person : x3::position_tagged
 {
@@ -286,7 +311,7 @@ inline Print &operator <<(Print &stream, const person &arg)
 */
 
 /// I am now using X3 variant.
-using Variant = x3::variant<SingleLineComment, Whitespace, Event, State , Person>;
+using Variant = x3::variant<SingleLineComment, Whitespace, Event, State_ , Person, Time>;
 
 /// Stream output for a variant type provided operators exist for all the alternatives.
 inline Print &operator <<(Print &stream, const Variant &arg)
@@ -323,7 +348,7 @@ using client::ast::SingleLineComment;
 using client::ast::Whitespace;
 using client::ast::Define;
 using client::ast::Event;
-using client::ast::State;
+using client::ast::State_;
 using client::ast::Time;
 using client::ast::Item;
 using client::ast::When;

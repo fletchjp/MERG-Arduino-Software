@@ -74,7 +74,7 @@ BOOST_FUSION_ADAPT_STRUCT(client::ast::Event,
     name, nn, en
 )
 
-BOOST_FUSION_ADAPT_STRUCT(client::ast::State,
+BOOST_FUSION_ADAPT_STRUCT(client::ast::State_,
     name, on_off
 )
 
@@ -139,6 +139,7 @@ define $name2 = NN:0 EN:2
 person "John","Fletcher"
 state($name1) is off
 state($name2) is on
+within 1s
 )";
 
 //when $name1 is off within 1sec send on$name2
@@ -167,6 +168,7 @@ state($name2) is on
               case 3 : s = "state"; break;
               case 4 : s = "person"; 
               break;
+              case 5 : s = "time"; break;
               default: s = "unknown"; break;
             }
              std::stringstream ss;
@@ -176,13 +178,14 @@ state($name2) is on
               Serial
                   << s << "\t"
                   << ss.str();
-              if (which > 1 && which < 5) Serial << " : "  << token; //store(token);
+              if (which > 1 && which < 6) Serial << " : "  << token; //store(token);
               Serial << endl;
               
             } 
         }
         Serial << client::ast::events.size() << " event definitions found" << endl;
         Serial << client::ast::some_states.size() << " state definitions found" << endl;
+        Serial << client::ast::some_times.size() << " time definitions found" << endl;
         Serial << client::ast::people.size() << " person entries found" << endl;
     } else {
           Serial << "parsing failed" << endl;

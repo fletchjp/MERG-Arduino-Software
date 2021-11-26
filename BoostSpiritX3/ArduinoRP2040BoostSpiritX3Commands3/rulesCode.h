@@ -118,7 +118,7 @@ namespace client {
 
         x3::rule<event_name_class, std::string>           const event_name = "event_name";
         x3::rule<event_class, client::ast::Event>         const event = "event"; ///< $name = NN:nn EN:en 
-        x3::rule<state_class, client::ast::State>         const state = "state"; ///< state($name) is on/off   
+        x3::rule<state_class, client::ast::State_>        const state_ = "state"; ///< state($name) is on/off   
         x3::rule<received_class, client::ast::Received>   const received = "received"; ///< received($name)
         x3::rule<item_class, client::ast::Item>           const item = "item";
         x3::rule<time_class, client::ast::Time>           const time = "time";
@@ -134,13 +134,13 @@ namespace client {
         BOOST_SPIRIT_DEFINE(identifier_rule)
 
         /// The state rule parses an identifier and its state
-        auto const state_def = lit("state(") >> identifier_rule >> ")" >> omit[+space] >> "is" >> omit[+space] >> on_off;
+        auto const state__def = lit("state(") >> identifier_rule >> ")" >> omit[+space] >> "is" >> omit[+space] >> on_off;
         /// The received rule parses an identifier
         auto const received_def = lit("received(") >> identifier_rule >> ")";
         /// The item rule parses on/off$name
         auto const item_def = on_off >> identifier_rule;
          /// The item rule parses on/off$name
-        auto const time_def = int_ >> time_unit;
+        auto const time_def = "within" >> omit[+space] >> int_ >> time_unit;
         /// The event rule parses an identifier and two numbers
         auto const event_def = lit("define") >> omit[+space] >> identifier_rule >> omit[+space] >> '=' 
                                              >> omit[+space] >> lit("NN:") >> int_
@@ -152,15 +152,15 @@ namespace client {
         /// The person rule uses omit[+space] to discard spaces after a keyword.
         auto const Person_def = lit("person") >> omit[+space] >> quoted_string >> ',' >> quoted_string;
          
-        BOOST_SPIRIT_DEFINE(state,received,item,time,event,quoted_string,Person);
+        BOOST_SPIRIT_DEFINE(state_,received,item,time,event,quoted_string,Person);
 
         /// @brief Simple version of when rule with one state and one item.
         ///
         /// For some reason this rule did not parse when I set it up.
         /// I have separated out the state part and that does now work.
         /// I think the next stage is to get the other two components time and item working separately.
-        auto const when_def = lit("when") >> omit[+space] >> state >> omit[+space] 
-                              >> "within" >> omit[+space] >> time >> omit[+space] >> item;
+        auto const when_def = lit("when") >> omit[+space] >> state_ >> omit[+space] 
+                                  >> time >> omit[+space] >> item;
 
         BOOST_SPIRIT_DEFINE(when);
         
@@ -173,7 +173,7 @@ namespace client {
         // rule definition - When - for the moment just identify the keyword.
         //auto when              = as<When>             ("when" >> x3::omit[*(x3::char_ - x3::eol)]);
         /// rule definition - Token- this is the Variant for all the rules.
-        auto token             = as<Token>            (singleLineComment | whitespace | event | state | Person, "token");
+        auto token             = as<Token>            (singleLineComment | whitespace | event | state_ | Person | time, "token");
     }
 }
 
