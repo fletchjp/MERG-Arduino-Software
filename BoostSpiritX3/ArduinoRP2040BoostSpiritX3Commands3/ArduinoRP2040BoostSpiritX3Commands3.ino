@@ -132,8 +132,8 @@ void setup() {
 // define example which is now being parsed
 define $name1 = NN:0 EN:1
 define $name2 = NN:0 EN:2
-when state($name1) is off within 1sec send on$name2
 person "John","Fletcher"
+when state($name1) is off within 1sec send on$name2
 )";
 
    
