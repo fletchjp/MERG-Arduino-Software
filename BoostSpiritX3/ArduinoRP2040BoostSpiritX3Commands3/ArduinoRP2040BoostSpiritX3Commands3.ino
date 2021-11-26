@@ -70,6 +70,23 @@ BOOST_FUSION_ADAPT_STRUCT(client::ast::Event,
     name, nn, en
 )
 
+BOOST_FUSION_ADAPT_STRUCT(client::ast::State,
+    name, on_off
+)
+
+BOOST_FUSION_ADAPT_STRUCT(client::ast::Item,
+    on_off, name
+)
+
+BOOST_FUSION_ADAPT_STRUCT(client::ast::Time,
+    time, time_unit
+)
+
+BOOST_FUSION_ADAPT_STRUCT(client::ast::When,
+    expression, time, actions
+)
+
+
 /// Rules moved into rulesCode.h
 #include "rulesCode.h"
 

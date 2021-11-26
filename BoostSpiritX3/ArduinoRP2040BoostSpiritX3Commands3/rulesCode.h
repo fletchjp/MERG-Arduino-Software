@@ -76,6 +76,8 @@ namespace client {
         struct state_class;
         struct received_class;
         struct item_class;
+        struct time_class;
+        struct when_class;
         struct quoted_string_class;
         struct Person_class;
 
@@ -115,10 +117,12 @@ namespace client {
         } const time_unit;
 
         x3::rule<event_name_class, std::string>           const event_name = "event_name";
-        x3::rule<event_class, client::ast::Event>         const event = "event"; /// $name = NN:nn EN:en 
-        x3::rule<state_class, client::ast::State>         const state = "state"; /// state($name) is on/off   
-        x3::rule<received_class, client::ast::Received>   const received = "received"; /// received($name)
+        x3::rule<event_class, client::ast::Event>         const event = "event"; ///< $name = NN:nn EN:en 
+        x3::rule<state_class, client::ast::State>         const state = "state"; ///< state($name) is on/off   
+        x3::rule<received_class, client::ast::Received>   const received = "received"; ///< received($name)
         x3::rule<item_class, client::ast::Item>           const item = "item";
+        x3::rule<time_class, client::ast::Time>           const time = "time";
+        x3::rule<when_class, client::ast::When>           const when = "when";       
         x3::rule<quoted_string_class, std::string>        const quoted_string = "quoted_string";
         x3::rule<Person_class, client::ast::Person>       const Person = "person";
 
@@ -135,16 +139,19 @@ namespace client {
         auto const received_def = lit("received(") >> identifier_rule >> ")";
         /// The item rule parses on/off$name
         auto const item_def = on_off >> identifier_rule;
-        /// The event rule parses an identifier and two numbers
+         /// The item rule parses on/off$name
+        auto const time_def = int_ >> time_unit;
+       /// The event rule parses an identifier and two numbers
         auto const event_def = lit("define") >> omit[+space] >> identifier_rule >> omit[+space] >> '=' 
                                              >> omit[+space] >> lit("NN:") >> int_
                                              >> omit[+space] >> lit("EN:") >> int_;
                                              //>> x3::omit[*(x3::char_ - x3::eol)];
+        auto const when_def = lit("when") >> omit[+space] >> state >> omit[+space] >> time >> omit[+space] >> item;
         auto const quoted_string_def = lexeme['"' >> +(char_ - '"') >> '"'];
         /// The person rule uses omit[+space] to discard spaces after a keyword.
         auto const Person_def = lit("person") >> omit[+space] >> quoted_string >> ',' >> quoted_string;
          
-        BOOST_SPIRIT_DEFINE(state,received,item,event,quoted_string,Person);
+        BOOST_SPIRIT_DEFINE(state,received,item,time,event,when,quoted_string,Person);
         
         /// rule definition - singleLineComment
         auto singleLineComment = as<SingleLineComment>("//" >> x3::omit[*(x3::char_ - x3::eol)]);
@@ -152,10 +159,10 @@ namespace client {
         auto whitespace        = as<Whitespace>       (x3::omit[+x3::ascii::space]);
         /// rule definition - Define - for the moment just identify the keyword.
         auto define             = as<Define>            ("define" >> x3::omit[*(x3::char_ - x3::eol)]);
-        /// rule definition - When - for the moment just identify the keyword.
-        auto when              = as<When>             ("when" >> x3::omit[*(x3::char_ - x3::eol)]);
+        // rule definition - When - for the moment just identify the keyword.
+        //auto when              = as<When>             ("when" >> x3::omit[*(x3::char_ - x3::eol)]);
         /// rule definition - Token- this is the Variant for all the rules.
-        auto token             = as<Token>            (singleLineComment | whitespace | event | when | Person, "token");
+        auto token             = as<Token>            (singleLineComment | whitespace | event | when |Person, "token");
     }
 }
 

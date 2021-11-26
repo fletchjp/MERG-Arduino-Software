@@ -114,8 +114,21 @@ struct Actions {
 ///
 /// Where 'rule' is:
 ///   "when" 'booleanExpression' "within" 'time' 'actions' ["then" 'actions'] ";"
-struct When /*: x3::position_tagged */ { ///< position tagging to be added when there is an active rule.
-  When() {}
+/// Simple version for now.
+struct When : x3::position_tagged   { ///< position tagging to be added when there is an active rule.
+  When(State const & expr = State(), Time const &time = Time(), Item const &acts = Item()) : expression(expr), time(time), actions(acts)  {}
+  /// expressions collected here
+  State expression;
+  /// time for the rule
+  Time time;
+  /// actions when the expression is true
+  Item actions;
+  /// actions when the expresion is false, not always needed
+  ///Actions then_actions; 
+};
+/*
+struct When //: x3::position_tagged  { ///< position tagging to be added when there is an active rule.
+  When(BooleanExpression const & expr, Time const &time, Actions const &acts) : expression(expr), time(time), actions(acts)  {}
   /// expressions collected here
   BooleanExpression expression;
   /// time for the rule
@@ -125,7 +138,7 @@ struct When /*: x3::position_tagged */ { ///< position tagging to be added when 
   /// actions when the expresion is false, not always needed
   Actions then_actions; 
 };
-
+*/
 /// If an object does not have an output operator, one is needed. 
 template <typename out>
 inline out &operator <<(out &stream, const Whitespace)
