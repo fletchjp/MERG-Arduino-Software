@@ -1,13 +1,14 @@
 /// @file variantCode.h
 /// @brief Variant client ast code for Boost Spirit X3 Commands3
 ///
-/// I get tidier code after moving all the rules definitions into the namespace client::ast.
+/// I get tidier code after moving all the ast definitions into the namespace client::ast.
 /// I have now also moved Variant and Token in as well.
 ///
-/// The next task is to parse the define command and get the data into a map keyed on the name.
-/// I have already done something simular in the annotation series.
-/// One way to approach this would be to duplicate the example there.
-/// The question is how to extract data from some tokens but not others.
+/// I have now parsed the "define" command and get the data into a map keyed on the name.
+///
+/// I am starting to develop the structures needed for "when" commands which need more variants to cover the cases.
+///
+/// The question is how to extract data from the tokens.
 ///
 /// This provides an example including operator<< for the whole variant.
 
