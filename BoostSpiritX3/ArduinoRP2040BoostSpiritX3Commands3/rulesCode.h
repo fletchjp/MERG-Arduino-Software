@@ -146,7 +146,8 @@ namespace client {
                                              >> omit[+space] >> lit("NN:") >> int_
                                              >> omit[+space] >> lit("EN:") >> int_;
                                              //>> x3::omit[*(x3::char_ - x3::eol)];
-        auto const when_def = lit("when") >> omit[+space] >> state >> omit[+space] >> time >> omit[+space] >> item;
+        auto const when_def = lit("when") >> omit[+space] >> state >> omit[+space] 
+                              >> "within" >> omit[+space] >> time >> omit[+space] >> item;
         auto const quoted_string_def = lexeme['"' >> +(char_ - '"') >> '"'];
         /// The person rule uses omit[+space] to discard spaces after a keyword.
         auto const Person_def = lit("person") >> omit[+space] >> quoted_string >> ',' >> quoted_string;

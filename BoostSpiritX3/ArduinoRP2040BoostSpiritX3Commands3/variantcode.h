@@ -60,7 +60,7 @@ enum class sequence_t { before, after };
 enum class time_unit_t { s, sec, ms };
 
 /// State to store the state objects
-struct State           {
+struct State : x3::position_tagged          {
     State(std::string const &name = "",on_off_t on_off = on_off_t::off) : name(name), on_off(on_off) { }
     std::string name;
     on_off_t on_off;
@@ -73,14 +73,14 @@ struct Received           {
 };
 
 /// Item on/off$name is used in several contexts.
-struct Item              {
+struct Item : x3::position_tagged             {
     Item(on_off_t on_off = on_off_t::off, std::string const &name = "") : on_off(on_off), name(name) { }
     on_off_t on_off;
     std::string name;
 };
 
 /// Time for within or delay with time unit
-struct Time {
+struct Time : x3::position_tagged {
   Time(int time=0,time_unit_t time_unit=time_unit_t::s) : time(time), time_unit(time_unit) {}
   int time;
   time_unit_t time_unit;
