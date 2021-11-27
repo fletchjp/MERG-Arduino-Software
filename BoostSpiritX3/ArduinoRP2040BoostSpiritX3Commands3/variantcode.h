@@ -97,7 +97,7 @@ inline out &operator <<(out &stream, const Item& arg)
 {
     stream << std::string("send ");
     if (arg.on_off == on_off_t::off) stream << "off"; else stream << "on";
-    stream << arg.name << std::ends;
+    stream << arg.name;
     store(some_items,arg);
     return stream;
 }
@@ -240,7 +240,6 @@ inline out &operator <<(out &stream, const State_& arg)
 {
     stream << std::string("state ") << arg.name << " ";
     if (arg.on_off == on_off_t::off) stream << "off"; else stream << "on";
-    stream << std::ends;
     store(some_states,arg);
     return stream;
 }
@@ -274,7 +273,6 @@ inline out &operator <<(out &stream, const Time &arg)
 {
     stream << std::string("time ") << arg.time;
     if (arg.time_unit == time_unit_t::ms) stream << "ms"; else stream << "s";
-    stream << std::ends; 
     store(some_times,arg);
     return stream;
 }
@@ -305,7 +303,7 @@ std::vector<Person> people;
 /// @brief Store the result for person
 ////
 /// I don't yet know how to overload the store function for different arg types
-/// within Variant. I can call it from the overloaded operator<<
+/// within Variant. I can call them from the overloaded operator<<
 inline void store(const Person &arg)
 {
     people.push_back(Person(arg.first_name,arg.last_name));

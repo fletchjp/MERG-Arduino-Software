@@ -22,6 +22,8 @@
 ///
 /// I have broken it down into stages and now have the state part parsing O.K. and outputting data.
 ///
+/// I have now at last succeeded with the when statement in a simplified form.
+///
 /// I think have overloaded functions called store to store Person results in a vector and Event results in a map.
 ///
 /// This code to uses x3::variant after experiments with the comments example.
@@ -141,11 +143,11 @@ state($name1) is off
 state($name2) is on
 within 1s
 send on$name2
-
+when state($name1) is off within 1sec send on$name2
 )";
 
 //when $name1 is off within 1sec send on$name2
-//state(
+
    
     position_cache positions{content.begin(), content.end()};
 
@@ -171,7 +173,8 @@ send on$name2
               case 4 : s = "person"; 
               break;
               case 5 : s = "time"; break;
-              case 6 : s = "item"; break;
+              case 6 : s = "send"; break;
+              case 7 : s = "when"; break;
               default: s = "unknown"; break;
             }
              std::stringstream ss;
@@ -181,7 +184,7 @@ send on$name2
               Serial
                   << s << "\t"
                   << ss.str();
-              if (which > 1 && which < 7) Serial << " : "  << token; //store(token);
+              if (which > 1 && which < 8) Serial << " : "  << token; //store(token);
               Serial << endl;
               
             } 
