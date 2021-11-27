@@ -12,6 +12,8 @@ This is extended from this example for comments:
 https://stackoverflow.com/questions/65614720/boost-spirit-x3-tokenizer-with-annotation-does-not-work
 and adapted to run on the Arduino NANO RP2040 connect.
 
+I have now changed from using std::variant to x3::variant in this code.
+
 I am starting a third example to extend the command processing to cover "when" commands.
 
 I will start with a simple command and extend it to cover recursive operation.
@@ -20,18 +22,12 @@ I have been developing the enums needed for the various cases to be parsed.
 
 There is also work to be done to store the resulting structures.
 
-I have now changed from using std::variant to x3::variant in this code.
-
-I am developing parsing experiments.
-
-I am attempting to combine the rules from comments with the rules from Rexpr which are done differently.
-
-So far I have been able to implement person which does now parse properly.
-
 I have now also been able to set up printing of the parsed data for a person. This includes discarding the spaces after the keyword using omit[+space]
 
 I have now extended this to parse the event information from define statements and store the results in a map indexed on the name,
 
-This will be needed for the next stage of decoding when statements.
+I have now reached the next stage of decoding a simple when statement.
+
+More work is needed to cover the cases with multiple terms.
 
 This file only runs on the Arduino NANO RP2040 connect.
