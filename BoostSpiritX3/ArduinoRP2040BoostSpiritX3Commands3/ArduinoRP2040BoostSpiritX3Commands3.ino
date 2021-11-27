@@ -6,9 +6,9 @@
 ///
 /// The comments example is the first time I have been able to get annotation to work.
 ///
-/// I am starting a third example to extend the command processing to cover "when" commands.
+/// I am starting a third commands example to extend the command processing to cover "when" commands.
 ///
-/// I will start with a simple command and extend it to cover recursive operation.
+/// I have started with a simple command and will extend it to cover recursive operation.
 ///
 /// There is also work to be done to store the resulting structures.
 ///
@@ -123,7 +123,7 @@ void setup() {
   Serial.print(t2);
   Serial.println(" millis");
   while (!delay_without_delaying(10000) ) { };
-  Serial << "ArduinoRP2040BoostSpiritX3Comments ** " << endl << __FILE__ << endl;
+  Serial << "ArduinoRP2040BoostSpiritX3Commands3 ** " << endl << __FILE__ << endl;
   Serial << "Boost Spirit X3 parsing" << endl;
 
  
@@ -222,3 +222,37 @@ void loop() {
   }
 
 }
+
+/*  Output from this code:
+
+Waited for 8541 millis
+ArduinoRP2040BoostSpiritX3Commands3 ** 
+E:\GitHub\Arduino\MERG-Arduino-Software\BoostSpiritX3\ArduinoRP2040BoostSpiritX3Commands3\ArduinoRP2040BoostSpiritX3Commands3.ino
+Boost Spirit X3 parsing
+Found 22 tokens
+comment  "// first single line comment"
+space "
+
+"
+comment "// second single line comment"
+space "
+
+"
+comment "// define example which is now being parsed"
+event "define $name1 = NN:0 EN:1" : event $name1 0 1
+event "define $name2 = NN:0 EN:2" : event $name2 0 2
+person  "person \"John\",\"Fletcher\"" : John Fletcher
+state "state($name1) is off" : state $name1 off
+state "state($name2) is on" : state $name2 on
+time  "within 1s" : time 1s
+send  "send on$name2" : send on$name2
+when  "when state($name1) is off within 1sec send on$name2" : when state $name1 off within time 1s send on$name2
+2 event definitions found
+3 state items found
+2 time items found
+2 item entries found
+1 person entries found
+------------------------------
+
+ */
+ 
