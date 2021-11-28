@@ -6,7 +6,9 @@
 ///
 /// The comments example is the first time I have been able to get annotation to work.
 ///
-/// I am starting a third commands example to extend the command processing to cover "when" commands.
+/// This is the fourth commands example.
+///
+/// I am extending the third commands example to extend the processing of "when" commands.
 ///
 /// I have started with a simple command and will extend it to cover recursive operation.
 ///
