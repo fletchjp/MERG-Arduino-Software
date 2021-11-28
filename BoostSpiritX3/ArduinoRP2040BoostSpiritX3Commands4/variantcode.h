@@ -154,8 +154,15 @@ struct When : x3::position_tagged   { ///< position tagging to be added when the
 /// @brief WhenFull is a temporary name for the fuller implementation of When
 ///
 /// Note that the types of the struct member objects are different.
+///
+/// The member objects are (except for Time) now compound objects and there is an extra one for the then_actions.
+/// I need to work out how to store the contents of the objects in such a way that they can be used.
+/// Also I need to check that the names exist in the table of definitions.
+///
 struct WhenFull : x3::position_tagged  { ///< position tagging to be added when there is an active rule.
-  WhenFull(BooleanExpression const & expr = BooleanExpression(), Time const &time = Time(), Actions const &acts = Actions()) : expression(expr), time(time), actions(acts)  {}
+  WhenFull(BooleanExpression const & expr = BooleanExpression(), Time const &time = Time(),
+           Actions const &acts = Actions(), Actions const &then_acts = Actions()) 
+  : expression(expr), time(time), actions(acts), then_actions(then_acts)  {}
   /// expressions collected here
   BooleanExpression expression;
   /// time for the rule
