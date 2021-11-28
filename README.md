@@ -116,6 +116,8 @@ I am now adding more examples. In particular ArduinoBoost166FunctionLazy is star
 
 This is a branch for codes for the Arduino NANO RP2040 connect using the Arduino-pico software.
 
+This is where a lot of work has been going on in November 2021.
+
  ## Logos
 
  Exploring the use of logos of different sizes.
