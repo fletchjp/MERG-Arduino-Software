@@ -169,7 +169,7 @@ struct WhenFull : x3::position_tagged  { ///< position tagging to be added when 
   Time time;
   /// actions when the expression is true
   Actions actions;
-  /// actions when the expresion is false, not always needed
+  /// actions when the expresion is false, not always needed. 
   Actions then_actions; 
 };
 
