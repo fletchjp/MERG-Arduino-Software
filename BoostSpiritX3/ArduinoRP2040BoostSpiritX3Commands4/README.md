@@ -18,6 +18,8 @@ This is the fourth commands example.
 
 I am extending the third example to extend the processing of the "when" commands.
 
+I think there is a lot I can learn from the Spirit X3 rexpr example about how to use variants.
+
 I will start with a simple command and extend it to cover recursive operation.
 
 I have been developing the enums needed for the various cases to be parsed.

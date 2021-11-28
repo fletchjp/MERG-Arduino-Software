@@ -10,6 +10,8 @@
 ///
 /// I am extending the third commands example to extend the processing of "when" commands.
 ///
+/// I think there is a lot I can learn from the Spirit X3 rexpr example about how to use variants.
+///
 /// I have started with a simple command and will extend it to cover recursive operation.
 ///
 /// There is also work to be done to store the resulting structures.

@@ -8,6 +8,8 @@
 ///
 /// I am starting to develop the structures needed for "when" commands which need more variants to cover the cases.
 ///
+/// I think there is a lot I can learn from the Sprit X3 rexpr example 
+///
 /// The question is how to extract data from the tokens.
 ///
 /// This provides an example including operator<< for the whole variant.
