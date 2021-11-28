@@ -149,9 +149,13 @@ struct When : x3::position_tagged   { ///< position tagging to be added when the
   /// actions when the expresion is false, not always needed
   ///Actions then_actions; 
 };
-/*
-struct When //: x3::position_tagged  { ///< position tagging to be added when there is an active rule.
-  When(BooleanExpression const & expr, Time const &time, Actions const &acts) : expression(expr), time(time), actions(acts)  {}
+
+
+/// @brief WhenFull is a temporary name for the fuller implementation of When
+///
+/// Note that the types of the struct member objects are different.
+struct WhenFull : x3::position_tagged  { ///< position tagging to be added when there is an active rule.
+  WhenFull(BooleanExpression const & expr = BooleanExpression(), Time const &time = Time(), Actions const &acts = Actions()) : expression(expr), time(time), actions(acts)  {}
   /// expressions collected here
   BooleanExpression expression;
   /// time for the rule
@@ -161,7 +165,6 @@ struct When //: x3::position_tagged  { ///< position tagging to be added when th
   /// actions when the expresion is false, not always needed
   Actions then_actions; 
 };
-*/
 
 template <typename out>
 inline out &operator <<(out &stream, const When &arg)
