@@ -1,6 +1,7 @@
 // RP2040FCPP
 // Demo of FC++ Maybe operation
 // This is modified from the version which will work on ARDUINO DUE and also on AVR boards.
+// This is more or less a duplicate of DUEFCPP on the RP2040.
 
 // 3rd party libraries
 #include <Streaming.h>
