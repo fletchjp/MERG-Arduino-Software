@@ -81,6 +81,11 @@ template<typename... TYPES>
 void foo2(const A<TYPES...>& a) {
 }
 
+template<typename... TYPES>
+struct foo3 {
+  int bar3() { return 0; }  
+};
+
 struct bar {
     int foo(int, char) { return 0; }
     template <class T>
@@ -109,6 +114,10 @@ boolean delay_without_delaying(unsigned long time) {
 
 void tests() {
     foo2(A<double>());
+
+    
+    typedef BOOST_TYPEOF(&foo3<double>::bar3)
+        bar3_type;
 
     typedef BOOST_TYPEOF(&bar::foo)
         foo_type;
@@ -147,6 +156,9 @@ void tests() {
     Serial << demangle(typeid(fooxyz_type).name()).c_str() << endl;
     Serial << "arity_fooxyz = " << arity_fooxyz << endl;
     Serial << "ct_arity_fooxyz = " << ct_arity_fooxyz << endl;
+
+    Serial << demangle(typeid(bar3_type).name()).c_str() << endl;
+    
     return;
 }
 
