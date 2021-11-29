@@ -172,8 +172,8 @@ void setup() {
   Serial.print("Waited for ");
   Serial.print(t2);
   Serial.println(" millis");
-  while (!delay_without_delaying(5000) ) { };
-  Serial << endl << endl << " Arduino RP2040 FC++ " << __FILE__ << endl;
+  while (!delay_without_delaying(10000) ) { };
+  Serial << endl << endl << " Arduino RP2040 FC++ " << endl << __FILE__ << endl;
   Serial << "Some simple FC++ operations" << endl;
   Serial << "plus(1,2) = " << plus(1,2) << endl;
   Serial << "plus(1.5,2.3) = " << plus(1.5,2.3) << endl;
