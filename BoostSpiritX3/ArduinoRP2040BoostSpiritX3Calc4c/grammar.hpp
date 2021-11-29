@@ -1,3 +1,5 @@
+/// @file grammar.hpp
+/// @brief grammar code for example calc4c
 /*=============================================================================
     Copyright (c) 2001-2014 Joel de Guzman
     Copyright (c) 2013-2014 Agustin Berge
@@ -17,11 +19,18 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#if defined(_MSC_VER)
-# pragma warning(disable: 4345)
-#endif
+//#if defined(_MSC_VER)
+//# pragma warning(disable: 4345)
+//#endif
 
-#include <boost/config/warning_disable.hpp>
+// 3rd party libraries
+#include <Streaming.h>
+
+#undef F
+#undef min
+
+
+#include <boost_config_warning_disable.hpp>
 #include <boost/spirit/home/x3.hpp>
 #include <boost/spirit/home/x3/support/ast/variant.hpp>
 #include <boost/variant/recursive_variant.hpp>
@@ -91,17 +100,17 @@ namespace client { namespace ast
         typedef void result_type;
 
         void operator()(nil) const {}
-        void operator()(unsigned int n) const { std::cout << n; }
+        void operator()(unsigned int n) const { Serial << n; }
 
         void operator()(operation const& x) const
         {
             boost::apply_visitor(*this, x.operand_);
             switch (x.operator_)
             {
-                case '+': std::cout << " add"; break;
-                case '-': std::cout << " subt"; break;
-                case '*': std::cout << " mult"; break;
-                case '/': std::cout << " div"; break;
+                case '+': Serial << " add"; break;
+                case '-': Serial << " subt"; break;
+                case '*': Serial << " mult"; break;
+                case '/': Serial << " div"; break;
             }
         }
 
@@ -110,8 +119,8 @@ namespace client { namespace ast
             boost::apply_visitor(*this, x.operand_);
             switch (x.sign)
             {
-                case '-': std::cout << " neg"; break;
-                case '+': std::cout << " pos"; break;
+                case '-': Serial << " neg"; break;
+                case '+': Serial << " pos"; break;
             }
         }
 
@@ -120,7 +129,7 @@ namespace client { namespace ast
             boost::apply_visitor(*this, x.first);
             for (operation const& oper: x.rest)
             {
-                std::cout << ' ';
+                Serial << ' ';
                 (*this)(oper);
             }
         }

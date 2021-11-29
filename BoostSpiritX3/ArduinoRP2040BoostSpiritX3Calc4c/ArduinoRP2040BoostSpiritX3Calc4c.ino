@@ -47,154 +47,8 @@
 #include <boost/fusion/include/std_pair.hpp>
 #include <boost/fusion/include/io.hpp>
 
-///////////////////////////////////////////////////////////////////////////////
-//  Our AST
-///////////////////////////////////////////////////////////////////////////////
-namespace client { namespace ast
-{
-    namespace fusion = boost::fusion;
-    namespace x3 = boost::spirit::x3;
-
-    struct rexpr;
-
-    struct rexpr_value : x3::variant<
-            std::string
-          , x3::forward_ast<rexpr>
-        >
-    {
-        using base_type::base_type;
-        using base_type::operator=;
-    };
-
-    typedef std::map<std::string, rexpr_value> rexpr_map;
-    typedef std::pair<std::string, rexpr_value> rexpr_key_value;
-
-    struct rexpr
-    {
-        rexpr_map entries;
-    };
-}}
-
-// We need to tell fusion about our rexpr struct
-// to make it a first-class fusion citizen
-BOOST_FUSION_ADAPT_STRUCT(client::ast::rexpr,
-    entries
-)
-
-///////////////////////////////////////////////////////////////////////////////
-//  AST processing
-///////////////////////////////////////////////////////////////////////////////
-namespace client { namespace ast
-{
-    ///////////////////////////////////////////////////////////////////////////
-    //  Print out the rexpr tree
-    ///////////////////////////////////////////////////////////////////////////
-    int const tabsize = 4;
-
-    struct rexpr_printer
-    {
-        typedef void result_type;
-
-        rexpr_printer(int indent = 0)
-          : indent(indent) {}
-
-        void operator()(rexpr const& ast) const
-        {
-            Serial << '{' << endl;
-            for (auto const& entry : ast.entries)
-            {
-                tab(indent+tabsize);
-                Serial << '"' << entry.first << "\" = ";
-                boost::apply_visitor(rexpr_printer(indent+tabsize), entry.second);
-            }
-            tab(indent);
-            //Serial << "    " << endl;
-            Serial << '}' << endl;
-        }
-
-        void operator()(std::string const& text) const
-        {
-            Serial << '"' << text << '"' << endl;
-        }
-
-        void tab(int spaces) const
-        {
-            for (int i = 0; i < spaces; ++i)
-                Serial << ' ';
-        }
-
-        int indent;
-    };
-}}
-
-///////////////////////////////////////////////////////////////////////////////
-//  Our rexpr grammar
-///////////////////////////////////////////////////////////////////////////////
-namespace client { namespace parser
-{
-    namespace x3 = boost::spirit::x3;
-    namespace ascii = boost::spirit::x3::ascii;
-
-    using x3::lit;
-    using x3::lexeme;
-
-    using ascii::char_;
-    using ascii::string;
-
-    x3::rule<class rexpr_value, ast::rexpr_value>
-        rexpr_value = "rexpr_value";
-
-    x3::rule<class rexpr, ast::rexpr>
-        rexpr = "rexpr";
-
-    x3::rule<class rexpr_key_value, ast::rexpr_key_value>
-        rexpr_key_value = "rexpr_key_value";
-
-    auto const quoted_string =
-        lexeme['"' >> *(char_ - '"') >> '"'];
-
-    auto const rexpr_value_def =
-        quoted_string | rexpr;
-
-    auto const rexpr_key_value_def =
-        quoted_string >> '=' >> rexpr_value;
-
-    auto const rexpr_def =
-        '{' >> *rexpr_key_value >> '}';
-
-    BOOST_SPIRIT_DEFINE(rexpr_value, rexpr, rexpr_key_value);
-}}
-
-/// Sample input:
-///
-std::string input = R"(
-  {
-      "color" = "blue"
-      "size" = "29 cm."
-      "position" = {
-          "x" = "123"
-          "y" = "456"
-      }
-  }
-)";
 
 
-
-//////////////////////////////////////////////////////////
-
-// This comes from the cdc_multi example
-/// Helper: non-blocking "delay" alternative.
-boolean delay_without_delaying(unsigned long time) {
-  /// return false if we're still "delaying", true if time ms has passed.
-  /// this should look a lot like "blink without delay"
-  static unsigned long previousmillis = 0;
-  unsigned long currentmillis = millis();
-  if (currentmillis - previousmillis >= time) {
-    previousmillis = currentmillis;
-    return true;
-  }
-  return false;
-}
 void setup() {
   /// put your setup code here, to run once:
   Serial.begin (115200);
@@ -210,34 +64,52 @@ void setup() {
   Serial << "Boost Spirit X3 parsing" << endl;
 
     // I need to sort out the input here.
-    std::string storage = input; // We will read the contents here.
+    //std::string storage = input; // We will read the contents here.
 
-    using client::parser::rexpr; // Our grammar
-    client::ast::rexpr ast; // Our tree
+    Serial << "/////////////////////////////////////////////////////////\n\n";
+    Serial << "Expression parser...\n\n";
+    Serial << "/////////////////////////////////////////////////////////\n\n";
+ 
+    typedef std::string::const_iterator iterator_type;
+    typedef client::ast::program ast_program;
+    typedef client::ast::printer ast_print;
+    typedef client::ast::eval ast_eval;
 
-    using boost::spirit::x3::ascii::space;
-    std::string::const_iterator iter = storage.begin();
-    std::string::const_iterator end = storage.end();
-    bool r = phrase_parse(iter, end, rexpr, space, ast);
-
-    if (r && iter == end)
+    std::string str;
+    while (std::getline(std::cin, str))
     {
-        Serial << "-------------------------\n";
-        Serial << "Parsing succeeded\n";
-        Serial << "-------------------------\n";
-        client::ast::rexpr_printer printer;
-        printer(ast);
-    }
-    else
-    {
-        std::string::const_iterator some = iter+30;
-        std::string context(iter, (some>end)?end:some);
-        Serial << "-------------------------\n";
-        Serial << "Parsing failed\n";
-        Serial << "stopped at: \": " << context << "...\"\n";
-        Serial << "-------------------------\n";
+        if (str.empty() || str[0] == 'q' || str[0] == 'Q')
+            break;
+
+        auto& calc = client::calculator;    // Our grammar
+        ast_program program;                // Our program (AST)
+        ast_print print;                    // Prints the program
+        ast_eval eval;                      // Evaluates the program
+
+        iterator_type iter = str.begin();
+        iterator_type end = str.end();
+        boost::spirit::x3::ascii::space_type space;
+        bool r = phrase_parse(iter, end, calc, space, program);
+
+        if (r && iter == end)
+        {
+            Serial << "-------------------------\n";
+            Serial << "Parsing succeeded\n";
+            print(program);
+            Serial << "\nResult: " << eval(program) << endl;
+            Serial << "-------------------------\n";
+        }
+        else
+        {
+            std::string rest(iter, end);
+            Serial << "-------------------------\n";
+            Serial << "Parsing failed\n";
+            Serial << "stopped at: \"" << rest << "\"\n";
+            Serial << "-------------------------\n";
+        }
     }
 
+    Serial << "Bye... :-) \n\n";
 
   Serial << "------------------------------" << endl;
   while (!delay_without_delaying(10000) ) { };
