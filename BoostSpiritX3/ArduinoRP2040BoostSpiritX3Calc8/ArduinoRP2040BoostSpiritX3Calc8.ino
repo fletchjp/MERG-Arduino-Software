@@ -5,6 +5,8 @@
 /// This is taken from spirit/example/x3/calc/calc8 from Boost 1.77.0
 /// and adapted to run on the Arduino NANO RP2040 connect.
 ///
+/// At the moment this runs with correct input and crashes using an undefined variable.
+///
 /// This has involved a number of adaptions to the Arduino environment.
 ///
 ///////////////////////////////////////////////////////////////////////////////
@@ -60,8 +62,9 @@
 
 /// Example data
 std::string const input = R"( var a = 123;
-   var b = 456;\n);
-   var c = a + b * 2;
+   var b = 456;
+   var d = 1;
+   var c = a + b * 2 + d;
 
 )";
 
@@ -76,7 +79,7 @@ void setup() {
   Serial.print(t2);
   Serial.println(" millis");
   while (!delay_without_delaying(10000) ) { };
-  Serial << "ArduinoRP2040BoostSpiritX3Calc4c ** " << endl << __FILE__ << endl;
+  Serial << "ArduinoRP2040BoostSpiritX3Calc8 ** " << endl << __FILE__ << endl;
   Serial << "Boost Spirit X3 parsing" << endl;
 
     // I need to sort out the input here.
@@ -135,11 +138,11 @@ void setup() {
             vm.execute(program());
 
             Serial << "-------------------------\n";
-            Serial << "Assembler----------------\n\n";
+            Serial << "Assembler----------------\n";
             program.print_assembler();
 
             Serial << "-------------------------\n";
-            Serial << "Results------------------\n\n";
+            Serial << "Results------------------\n";
             program.print_variables(vm.get_stack());
         }
         else
