@@ -47,7 +47,8 @@
 #include <boost/fusion/include/std_pair.hpp>
 #include <boost/fusion/include/io.hpp>
 
-
+/// Example data
+std::string const input = R"( (1 + 2) * (3 + 4) )";
 
 void setup() {
   /// put your setup code here, to run once:
@@ -60,7 +61,7 @@ void setup() {
   Serial.print(t2);
   Serial.println(" millis");
   while (!delay_without_delaying(10000) ) { };
-  Serial << "ArduinoRP2040BoostSpiritX3Rexpr ** " << endl << __FILE__ << endl;
+  Serial << "ArduinoRP2040BoostSpiritX3Calc4c ** " << endl << __FILE__ << endl;
   Serial << "Boost Spirit X3 parsing" << endl;
 
     // I need to sort out the input here.
@@ -75,11 +76,12 @@ void setup() {
     typedef client::ast::printer ast_print;
     typedef client::ast::eval ast_eval;
 
-    std::string str;
-    while (std::getline(std::cin, str))
-    {
-        if (str.empty() || str[0] == 'q' || str[0] == 'Q')
-            break;
+    std::string str = input;
+    Serial << "input: " << input << endl;
+    //while (begin(input) != end(input))
+    //{
+        //if (str.empty() || str[0] == 'q' || str[0] == 'Q')
+        //    break;
 
         auto& calc = client::calculator;    // Our grammar
         ast_program program;                // Our program (AST)
@@ -107,7 +109,7 @@ void setup() {
             Serial << "stopped at: \"" << rest << "\"\n";
             Serial << "-------------------------\n";
         }
-    }
+    //}
 
     Serial << "Bye... :-) \n\n";
 

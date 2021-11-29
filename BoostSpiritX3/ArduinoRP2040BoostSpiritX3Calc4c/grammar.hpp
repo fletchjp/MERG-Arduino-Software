@@ -1,5 +1,5 @@
 /// @file grammar.hpp
-/// @brief grammar code for example calc4c
+/// @brief grammar header for example calc4c
 /*=============================================================================
     Copyright (c) 2001-2014 Joel de Guzman
     Copyright (c) 2013-2014 Agustin Berge
