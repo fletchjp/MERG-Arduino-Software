@@ -1,3 +1,5 @@
+/// @file expression_def.hpp
+/// @brief definition of the expression type
 /*=============================================================================
     Copyright (c) 2001-2014 Joel de Guzman
 

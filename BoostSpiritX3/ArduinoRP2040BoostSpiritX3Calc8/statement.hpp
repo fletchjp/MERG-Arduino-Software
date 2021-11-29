@@ -1,3 +1,5 @@
+/// @file statement.hpp
+/// @brief rule declaration for the statement type
 /*=============================================================================
     Copyright (c) 2001-2014 Joel de Guzman
 

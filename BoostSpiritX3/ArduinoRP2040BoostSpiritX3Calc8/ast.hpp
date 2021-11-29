@@ -1,3 +1,5 @@
+/// @file ast.hpp
+/// @brief defintion of the ast
 /*=============================================================================
     Copyright (c) 2001-2014 Joel de Guzman
 
@@ -7,7 +9,7 @@
 #if !defined(BOOST_SPIRIT_X3_CALC8_AST_HPP)
 #define BOOST_SPIRIT_X3_CALC8_AST_HPP
 
-#include <boost/spirit/home/x3/support/ast/variant.hpp>
+#include <boost_spirit_home_x3_support_ast_variant.hpp>
 #include <boost/spirit/home/x3/support/ast/position_tagged.hpp>
 #include <boost/fusion/include/io.hpp>
 #include <list>
@@ -83,7 +85,8 @@ namespace client { namespace ast
     typedef std::list<statement> statement_list;
 
     // print functions for debugging
-    inline std::ostream& operator<<(std::ostream& out, nil)
+    template <typename Out>
+    inline Out& operator<<(Out& out, nil)
     {
         out << "nil";
         return out;

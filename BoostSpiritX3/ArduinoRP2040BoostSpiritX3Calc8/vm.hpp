@@ -1,3 +1,5 @@
+/// @file vm.hpp
+/// @brief definition of the virtual machine
 /*=============================================================================
     Copyright (c) 2001-2014 Joel de Guzman
 

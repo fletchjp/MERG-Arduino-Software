@@ -1,3 +1,5 @@
+/// @file ast_adapted.hpp
+/// @brief adaption of the ast
 /*=============================================================================
     Copyright (c) 2001-2014 Joel de Guzman
 

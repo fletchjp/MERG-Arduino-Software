@@ -1,3 +1,5 @@
+/// @file statement_def.hpp
+/// @brief definitions for the statement rule
 /*=============================================================================
     Copyright (c) 2001-2014 Joel de Guzman
 
@@ -68,7 +70,8 @@ namespace client { namespace parser
       , variable
     );
 
-    struct statement_class : error_handler_base, x3::annotate_on_success {};
+    /// This change is needed to take out error handling.
+    struct statement_class : /*error_handler_base,*/ x3::annotate_on_success {};
     struct assignment_class : x3::annotate_on_success {};
     struct variable_class : x3::annotate_on_success {};
 }}

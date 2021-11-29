@@ -1,3 +1,5 @@
+/// @file common.hpp
+/// @brief common defintions for the identifier
 /*=============================================================================
     Copyright (c) 2001-2014 Joel de Guzman
 

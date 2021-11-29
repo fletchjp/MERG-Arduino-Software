@@ -1,3 +1,5 @@
+/// @file compiler.hpp
+/// @brief declarations for the compiler
 /*=============================================================================
     Copyright (c) 2001-2011 Joel de Guzman
 

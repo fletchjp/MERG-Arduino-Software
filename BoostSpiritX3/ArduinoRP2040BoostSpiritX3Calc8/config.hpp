@@ -1,3 +1,7 @@
+/// @file config.hpp
+/// @brief configuration of the parser
+///
+/// This may need more changes to remove error handler references.
 /*=============================================================================
     Copyright (c) 2001-2014 Joel de Guzman
 

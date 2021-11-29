@@ -1,3 +1,5 @@
+/// @file error_handler.hpp
+/// @brief error handler - may not be used.
 /*=============================================================================
     Copyright (c) 2001-2014 Joel de Guzman
 

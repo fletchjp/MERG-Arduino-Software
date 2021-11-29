@@ -1,3 +1,5 @@
+/// @file compiler.cpp
+/// @brief function bodies for the compiler
 /*=============================================================================
     Copyright (c) 2001-2014 Joel de Guzman
 

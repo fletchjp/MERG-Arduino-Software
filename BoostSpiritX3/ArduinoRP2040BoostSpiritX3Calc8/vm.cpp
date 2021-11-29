@@ -1,3 +1,5 @@
+/// @file vm.cpp
+/// @brief execute function for the virtual machine
 /*=============================================================================
     Copyright (c) 2001-2014 Joel de Guzman
 

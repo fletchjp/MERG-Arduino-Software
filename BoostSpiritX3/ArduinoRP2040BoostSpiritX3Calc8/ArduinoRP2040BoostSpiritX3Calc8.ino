@@ -57,8 +57,13 @@
 #include <boost/fusion/include/std_pair.hpp>
 #include <boost/fusion/include/io.hpp>
 
+
 /// Example data
-std::string const input = R"( (1 + 2) * (3 + 4) )";
+std::string const input = R"( var a = 123;
+   var b = 456;\n);
+   var c = a + b * 2;
+
+)";
 
 void setup() {
   /// put your setup code here, to run once:
@@ -119,35 +124,35 @@ void setup() {
     using boost::spirit::x3::ascii::space;
     bool success = phrase_parse(iter, end, parser, space, ast);
 
-    std::cout << "-------------------------\n";
+    Serial << "-------------------------\n";
 
     if (success && iter == end)
     {
         if (compile(ast))
         {
-            std::cout << "Success\n";
-            std::cout << "-------------------------\n";
+            Serial << "Success\n";
+            Serial << "-------------------------\n";
             vm.execute(program());
 
-            std::cout << "-------------------------\n";
-            std::cout << "Assembler----------------\n\n";
+            Serial << "-------------------------\n";
+            Serial << "Assembler----------------\n\n";
             program.print_assembler();
 
-            std::cout << "-------------------------\n";
-            std::cout << "Results------------------\n\n";
+            Serial << "-------------------------\n";
+            Serial << "Results------------------\n\n";
             program.print_variables(vm.get_stack());
         }
         else
         {
-            std::cout << "Compile failure\n";
+            Serial << "Compile failure\n";
         }
     }
     else
     {
-        std::cout << "Parse failure\n";
+        Serial << "Parse failure\n";
     }
 
-    std::cout << "-------------------------\n\n";
+    Serial << "-------------------------\n\n";
 
     Serial << "Bye... :-) \n\n";
 
