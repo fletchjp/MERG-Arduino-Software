@@ -1,21 +1,24 @@
-/// @file ArduinoRP2040BoostSpiritX3Calc4c.ino
-/// @brief Example of Boost Spirit X3 Calc4c
+/// @file ArduinoRP2040BoostSpiritX3Calc8.ino
+/// @brief Example of Boost Spirit X3 Calc8
 ///
 /// Boost Spirit 3.0.0 is included from Arduino Boost (Boost 1.66.0)
-/// This is taken from spirit/example/x3/calc/calc4c
+/// This is taken from spirit/example/x3/calc/calc8 from Boost 1.77.0
 /// and adapted to run on the Arduino NANO RP2040 connect.
 ///
 /// This has involved a number of adaptions to the Arduino environment.
 ///
 ///////////////////////////////////////////////////////////////////////////////
 ///
-///  A Calculator example demonstrating generation of AST. The AST,
-///  once created, is traversed, 1) To print its contents and
-///  2) To evaluate the result.
+///  Now we'll introduce variables and assignment. This time, we'll also
+///  be renaming some of the rules -- a strategy for a grander scheme
+///  to come ;-)
 ///
-///  [ JDG April 28, 2008 ]      For BoostCon 2008
+///  This version also shows off grammar modularization. Here you will
+///  see how expressions and statements are built as modular grammars.
+///
+///  [ JDG April 9, 2007 ]       spirit2
 ///  [ JDG February 18, 2011 ]   Pure attributes. No semantic actions.
-///  [ JDG January 9, 2013 ]     Spirit X3
+///  [ JDG May 17, 2014 ]        Ported from qi calc7 example.
 ///
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -38,7 +41,14 @@
 
 #include "ArduinoCode.h"
 
-#include "grammar.hpp"
+#include "ast.hpp"
+#include "vm.hpp"
+#include "compiler.hpp"
+#include "statement.hpp"
+#include "error_handler.hpp"
+#include "config.hpp"
+#include <iostream>
+
 
 #include <boost_config_warning_disable.hpp>
 #include <boost_spirit_home_x3.hpp>
@@ -68,48 +78,76 @@ void setup() {
     //std::string storage = input; // We will read the contents here.
 
     Serial << "/////////////////////////////////////////////////////////\n\n";
-    Serial << "Expression parser...\n\n";
+    Serial << "Statement parser...\n\n";
     Serial << "/////////////////////////////////////////////////////////\n\n";
- 
-    typedef std::string::const_iterator iterator_type;
-    typedef client::ast::program ast_program;
-    typedef client::ast::printer ast_print;
-    typedef client::ast::eval ast_eval;
+    Serial << "Type some statements... ";
+    Serial << "An empty line ends input, compiles, runs and prints results\n\n";
+    Serial << "Example:\n\n";
+    Serial << "    var a = 123;\n";
+    Serial << "    var b = 456;\n";
+    Serial << "    var c = a + b * 2;\n\n";
+    Serial << "-------------------------\n";
 
-    std::string str = input;
+    std::string source = input;
     Serial << "input: " << input << endl;
-    //while (begin(input) != end(input))
-    //{
-        //if (str.empty() || str[0] == 'q' || str[0] == 'Q')
-        //    break;
 
-        auto& calc = client::calculator;    // Our grammar
-        ast_program program;                // Our program (AST)
-        ast_print print;                    // Prints the program
-        ast_eval eval;                      // Evaluates the program
+    using client::parser::iterator_type;
+    iterator_type iter(source.begin());
+    iterator_type end(source.end());
 
-        iterator_type iter = str.begin();
-        iterator_type end = str.end();
-        boost::spirit::x3::ascii::space_type space;
-        bool r = phrase_parse(iter, end, calc, space, program);
+    client::vmachine vm;                                    // Our virtual machine
+    client::code_gen::program program;                      // Our VM program
+    client::ast::statement_list ast;                        // Our AST
 
-        if (r && iter == end)
+    using boost::spirit::x3::with;
+    using client::parser::error_handler_type;
+    using client::parser::error_handler_tag;
+    error_handler_type error_handler(iter, end, std::cerr); // Our error handler
+
+    // Our compiler
+    client::code_gen::compiler compile(program, error_handler);
+
+    // Our parser
+    auto const parser =
+        // we pass our error handler to the parser so we can access
+        // it later on in our on_error and on_sucess handlers
+        with<error_handler_tag>(std::ref(error_handler))
+        [
+            client::statement()
+        ];
+
+    using boost::spirit::x3::ascii::space;
+    bool success = phrase_parse(iter, end, parser, space, ast);
+
+    std::cout << "-------------------------\n";
+
+    if (success && iter == end)
+    {
+        if (compile(ast))
         {
-            Serial << "-------------------------\n";
-            Serial << "Parsing succeeded\n";
-            print(program);
-            Serial << "\nResult: " << eval(program) << endl;
-            Serial << "-------------------------\n";
+            std::cout << "Success\n";
+            std::cout << "-------------------------\n";
+            vm.execute(program());
+
+            std::cout << "-------------------------\n";
+            std::cout << "Assembler----------------\n\n";
+            program.print_assembler();
+
+            std::cout << "-------------------------\n";
+            std::cout << "Results------------------\n\n";
+            program.print_variables(vm.get_stack());
         }
         else
         {
-            std::string rest(iter, end);
-            Serial << "-------------------------\n";
-            Serial << "Parsing failed\n";
-            Serial << "stopped at: \"" << rest << "\"\n";
-            Serial << "-------------------------\n";
+            std::cout << "Compile failure\n";
         }
-    //}
+    }
+    else
+    {
+        std::cout << "Parse failure\n";
+    }
+
+    std::cout << "-------------------------\n\n";
 
     Serial << "Bye... :-) \n\n";
 
