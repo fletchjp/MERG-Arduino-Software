@@ -11,6 +11,25 @@
 #include <boost/variant/apply_visitor.hpp>
 #include <boost/assert.hpp>
 #include <iostream>
+// 3rd party libraries
+#include <Streaming.h>
+
+/// @brief This provides an operator for streaming the output of std::string.
+///
+/// I have added this here as putting in ArduinoCode.h gives duplicate defintions.
+inline Print &operator <<(Print &stream, const std::string &arg)
+{
+  stream.print(arg.c_str());
+  return stream;
+}
+
+/// This provides an operator for streaming the output of char*.
+inline Print &operator <<(Print &stream, const char *arg)
+{
+  stream.print(arg);
+  return stream;
+}
+
 
 namespace client { namespace code_gen
 {
@@ -50,7 +69,7 @@ namespace client { namespace code_gen
     {
         for (auto const& p : variables)
         {
-            std::cout << "    " << p.first << ": " << stack[p.second] << std::endl;
+            Serial << "    " << p.first << ": " << stack[p.second] << endl;
         }
     }
 
@@ -63,8 +82,8 @@ namespace client { namespace code_gen
         for (pair const& p : variables)
         {
             locals[p.second] = p.first;
-            std::cout << "local       "
-                << p.first << ", @" << p.second << std::endl;
+            Serial << "local       "
+                << p.first << ", @" << p.second << endl;
         }
 
         while (pc != code.end())
@@ -72,39 +91,39 @@ namespace client { namespace code_gen
             switch (*pc++)
             {
                 case op_neg:
-                    std::cout << "op_neg" << std::endl;
+                    Serial << "op_neg" << endl;
                     break;
 
                 case op_add:
-                    std::cout << "op_add" << std::endl;
+                    Serial << "op_add" << endl;
                     break;
 
                 case op_sub:
-                    std::cout << "op_sub" << std::endl;
+                    Serial << "op_sub" << endl;
                     break;
 
                 case op_mul:
-                    std::cout << "op_mul" << std::endl;
+                    Serial << "op_mul" << endl;
                     break;
 
                 case op_div:
-                    std::cout << "op_div" << std::endl;
+                    Serial << "op_div" << endl;
                     break;
 
                 case op_load:
-                    std::cout << "op_load     " << locals[*pc++] << std::endl;
+                    Serial << "op_load     " << locals[*pc++] << endl;
                     break;
 
                 case op_store:
-                    std::cout << "op_store    " << locals[*pc++] << std::endl;
+                    Serial << "op_store    " << locals[*pc++] << endl;
                     break;
 
                 case op_int:
-                    std::cout << "op_int      " << *pc++ << std::endl;
+                    Serial << "op_int      " << *pc++ << endl;
                     break;
 
                 case op_stk_adj:
-                    std::cout << "op_stk_adj  " << *pc++ << std::endl;
+                    Serial << "op_stk_adj  " << *pc++ << endl;
                     break;
             }
         }
