@@ -100,21 +100,6 @@ BOOST_FUSION_ADAPT_STRUCT(client::ast::When,
 /// Rules moved into rulesCode.h
 #include "rulesCode.h"
 
-
-// This comes from the cdc_multi example
-/// Helper: non-blocking "delay" alternative.
-boolean delay_without_delaying(unsigned long time) {
-  /// return false if we're still "delaying", true if time ms has passed.
-  /// this should look a lot like "blink without delay"
-  static unsigned long previousmillis = 0;
-  unsigned long currentmillis = millis();
-  if (currentmillis - previousmillis >= time) {
-    previousmillis = currentmillis;
-    return true;
-  }
-  return false;
-}
-
 void setup() {
   // put your setup code here, to run once:
   /// put your setup code here, to run once:
