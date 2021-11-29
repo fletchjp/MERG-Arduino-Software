@@ -3,6 +3,7 @@
 // Switch to use lazy prelude files.
 // Adding Boost Phoenix lazy examples.
 // This now compiles with the new library LazyPrelude
+// Removed #define BOOST_NO_CXX14_CONSTEXPR 
 //////////////////////////////////////////////////////////
 
 #include <exception>
