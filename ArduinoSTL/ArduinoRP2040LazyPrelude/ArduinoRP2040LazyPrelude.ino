@@ -10,6 +10,9 @@
 #include <functional>
 #include <type_traits>
 
+/// Solution to the sync_synchronize problem
+/// https://www.vexforum.com/t/i-am-learning-arm-none-eabi-compiler-recently-i-want-to-ask-some-questions/73973
+extern "C" void __sync_synchronize() {}
 
 // Dummies to sort out compilation
 namespace boost {
@@ -35,7 +38,13 @@ namespace boost {
 #include <boost/phoenix/scope.hpp>
 #include <boost/phoenix/operator.hpp>
 // Headers for lazy  prelude operations.
-#define BOOST_NO_CXX14_CONSTEXPR // for now
+// Memory use with the #define BOOST_NO_CXX14_CONSTEXPR
+// Sketch uses 84268 bytes (0%) of program storage space. Maximum is 16773120 bytes.
+// Global variables use 11456 bytes (4%) of dynamic memory, leaving 250688 bytes for local variables. Maximum is 262144 bytes.
+//#define BOOST_NO_CXX14_CONSTEXPR // for now
+// Memory use without the #define BOOST_NO_CXX14_CONSTEXPR
+// Sketch uses 251744 bytes (1%) of program storage space. Maximum is 16773120 bytes.
+// Global variables use 17320 bytes (6%) of dynamic memory, leaving 244824 bytes for local variables. Maximum is 262144 bytes.
 #define BOOST_PHOENIX_FUNCTION_LAZY_USE_MP11
 #include <lazy_prelude.hpp>
 #include <lazy_signature.hpp>
