@@ -9,6 +9,8 @@ Boost Spirit 3.0.0 is included from Arduino Boost (Boost 1.66.0) and Boost Spiri
 This is taken from spirit/example/x3/calc/calc8 from Boost 1.77.0 
 and adapted to run on the Arduino NANO RP2040 connect.
 
+I have changed expectation (>) to sequence (>>) in the code.
+
 This has involved a number of adaptions to the Arduino environment which are contained in the sketch file.
 
 Common features have been moved to ArduinoCode.h which can be used in other examples.

@@ -7,6 +7,8 @@
 ///
 /// At the moment this runs with correct input and crashes using an undefined variable.
 ///
+/// I have changed expectation (>) to sequence (>>) in the code.
+///
 /// This has involved a number of adaptions to the Arduino environment.
 ///
 ///////////////////////////////////////////////////////////////////////////////
