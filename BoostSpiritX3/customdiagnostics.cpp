@@ -63,7 +63,8 @@ namespace parser {
             return x3::error_handler_result::fail;
         }
     };
-	  struct annotate_position {
+	
+	struct annotate_position {
         template <typename T, typename Iterator, typename Context>
         inline void on_success(const Iterator &first, const Iterator &last, T &ast, const Context &context)
         {
@@ -86,29 +87,7 @@ namespace parser {
     auto const person_def
         = name > ',' > name
         ;
-  struct annotate_position {
-        template <typename T, typename Iterator, typename Context>
-        inline void on_success(const Iterator &first, const Iterator &last, T &ast, const Context &context)
-        {
-            auto &position_cache = x3::get<annotate_position>(context).get();
-            position_cache.annotate(ast, first, last);
-        }
-    };
 
-    struct quoted_string_class : annotate_position {};
-    struct person_class : annotate_position {};
-    struct employee_class : error_handler, annotate_position {};
-
-    x3::rule<quoted_string_class, ast::name>     const name = "name";
-    x3::rule<person_class,        ast::person>   const person        = "person";
-    x3::rule<employee_class,      ast::employee> const employee      = "employee";
-
-    auto const name_def
-        = x3::lexeme['"' >> +(x3::char_ - '"') >> '"']
-        ;
-    auto const person_def
-        = name > ',' > name
-        ;
     auto const employee_def
         = '{' > x3::int_ > ',' > person > ',' > x3::double_ > '}'
         ;
