@@ -1,5 +1,7 @@
 /// @file expression_def.hpp
 /// @brief definition of the expression type
+///
+/// Changed expectation (>) to sequence (>>)
 /*=============================================================================
     Copyright (c) 2001-2014 Joel de Guzman
 
@@ -43,28 +45,28 @@ namespace client { namespace parser
 
     auto const additive_expr_def =
         multiplicative_expr
-        >> *(   (char_('+') > multiplicative_expr)
-            |   (char_('-') > multiplicative_expr)
+        >> *(   (char_('+') >> multiplicative_expr)
+            |   (char_('-') >> multiplicative_expr)
             )
         ;
 
     auto const multiplicative_expr_def =
         unary_expr
-        >> *(   (char_('*') > unary_expr)
-            |   (char_('/') > unary_expr)
+        >> *(   (char_('*') >> unary_expr)
+            |   (char_('/') >> unary_expr)
             )
         ;
 
     auto const unary_expr_def =
             primary_expr
-        |   (char_('-') > primary_expr)
-        |   (char_('+') > primary_expr)
+        |   (char_('-') >> primary_expr)
+        |   (char_('+') >> primary_expr)
         ;
 
     auto const primary_expr_def =
             uint_
         |   identifier
-        |   '(' > expression > ')'
+        |   '(' >> expression >> ')'
         ;
 
     auto const expression_def = additive_expr;

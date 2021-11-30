@@ -42,23 +42,24 @@ namespace client { namespace parser
     assignment_type const assignment = "assignment";
     variable_type const variable = "variable";
 
-    /// Import the expression rule
+ /// Import the expression rule
     namespace { auto const& expression = client::expression(); }
 
     auto const statement_list_def =
         +(variable_declaration | assignment)
         ;
 
+ /// replacing expectation (>) with sequence (>>) for now.
     auto const variable_declaration_def =
             lexeme["var" >> !(alnum | '_')] /// make sure we have whole words
-        >   assignment
+        >>   assignment
         ;
 
     auto const assignment_def =
             variable
-        >   '='
-        >   expression
-        >   ';'
+        >>   '='
+        >>   expression
+        >>   ';'
         ;
 
     auto const variable_def = identifier;
