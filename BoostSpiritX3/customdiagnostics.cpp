@@ -145,7 +145,7 @@ int main() {
 }
 
 
-/* Expected outpw
+/* Expected output
 
 With custom diagnostics only:
 Parsing succeeded
