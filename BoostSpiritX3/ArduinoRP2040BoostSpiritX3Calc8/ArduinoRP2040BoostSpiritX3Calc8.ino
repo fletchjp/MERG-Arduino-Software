@@ -73,12 +73,12 @@ void setup() {
   Serial.begin (115200);
   unsigned long t1 = millis();
   unsigned long t2;
-  while (!Serial && ((millis() - t1) <= 10000));
+  while (!Serial && ((millis() - t1) <= 20000));
   t2 = millis() - t1;
   Serial.print("Waited for ");
   Serial.print(t2);
   Serial.println(" millis");
-  while (!delay_without_delaying(10000) ) { };
+  while (!delay_without_delaying(20000) ) { };
   Serial << "ArduinoRP2040BoostSpiritX3Calc8 ** " << endl << __FILE__ << endl;
   Serial << "Boost Spirit X3 parsing" << endl;
 
