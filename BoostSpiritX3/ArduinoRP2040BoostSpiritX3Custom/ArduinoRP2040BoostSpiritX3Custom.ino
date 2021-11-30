@@ -1,4 +1,4 @@
-l/// @file ArduinoRP2040BoostSpiritX3Custom
+/// @file ArduinoRP2040BoostSpiritX3Custom
 /// @brief The employee example using custom error handling.
 ///
 /// Taken from spirit/example/x3/employee and adapted using code from
@@ -28,6 +28,7 @@ l/// @file ArduinoRP2040BoostSpiritX3Custom
 //#include <boost/fusion/sequence.hpp>
 //#include <boost/fusion/include/sequence.hpp>
 
+namespace x3 = boost::spirit::x3;
 
 namespace ast
 {
@@ -62,20 +63,59 @@ namespace ast
 // We need to tell fusion about our employee struct
 // to make it a first-class fusion citizen. This has to
 // be in global scope.
+BOOST_FUSION_ADAPT_STRUCT(ast::person, first_name, last_name)
+BOOST_FUSION_ADAPT_STRUCT(ast::employee, age, who, salary)
 
-BOOST_FUSION_ADAPT_STRUCT(client::ast::employee,
-    age, surname, forename, salary
-)
+namespace custom {
+    struct diagnostics_handler_tag;
 
-namespace client
-{
+    template <typename It> struct diagnostics_handler {
+        It _first, _last;
+        std::ostream& _os;
+
+        void operator()(It err_first, std::string const& error_message) const {
+            size_t line_no = 1;
+            auto bol = _first;
+            for (auto it = bol; it != err_first; ++it)
+                if (*it == '\n') {
+                    bol = it+1;
+                    line_no += 1;
+                }
+
+            _os << "L:"<< line_no
+                << ":" << std::distance(bol, err_first)
+                << " " << error_message << "\n";
+        }
+    };
+
+} // namespace custom
+
+
     ///////////////////////////////////////////////////////////////////////////////
     //  Our employee parser
     ///////////////////////////////////////////////////////////////////////////////
-    namespace parser
-    {
-        namespace x3 = boost::spirit::x3;
-        namespace ascii = boost::spirit::x3::ascii;
+namespace parser
+{
+    namespace x3 = boost::spirit::x3;
+    namespace ascii = boost::spirit::x3::ascii;
+
+    struct error_handler {
+        template <typename It, typename E, typename Ctx>
+        x3::error_handler_result on_error(It&, It const&, E const& x, Ctx const& ctx) {
+            auto& handler = x3::get<custom::diagnostics_handler_tag>(ctx);
+            handler(x.where(), "error: expecting: " + x.which());
+            return x3::error_handler_result::fail;
+        }
+    };
+
+    struct annotate_position {
+        template <typename T, typename Iterator, typename Context>
+        inline void on_success(const Iterator &first, const Iterator &last, T &ast, const Context &context)
+        {
+            auto &position_cache = x3::get<annotate_position>(context).get();
+            position_cache.annotate(ast, first, last);
+        }
+    };
 
         using x3::int_;
         using x3::lit;
@@ -83,40 +123,72 @@ namespace client
         using x3::lexeme;
         using ascii::char_;
 
-        x3::rule<class employee, ast::employee> const employee = "employee";
+    struct quoted_string_class : annotate_position {};
+    struct person_class : annotate_position {};
+    struct employee_class : error_handler, annotate_position {};
 
-        auto const quoted_string = lexeme['"' >> +(char_ - '"') >> '"'];
+    x3::rule<quoted_string_class, ast::name>     const name = "name";
+    x3::rule<person_class,        ast::person>   const person        = "person";
+    x3::rule<class employee, ast::employee> const employee = "employee";
 
-        auto const employee_def =
-            lit("employee")
-            >> '{'
-            >>  int_ >> ','
-            >>  quoted_string >> ','
-            >>  quoted_string >> ','
-            >>  double_
-            >>  '}'
-            ;
+    auto const name_def
+        = x3::lexeme['"' >> +(x3::char_ - '"') >> '"']
+        ;
+    auto const person_def
+        = name > ',' > name
+        ;
 
-        BOOST_SPIRIT_DEFINE(employee);
+    auto const employee_def
+        = '{' > x3::int_ > ',' > person > ',' > x3::double_ > '}'
+        ;
+
+    BOOST_SPIRIT_DEFINE(name, person, employee)
+
+    auto const employees = employee >> *(',' >> employee);
+
+}
+
+void parse(std::string const& input) {
+    using It = std::string::const_iterator;
+
+    It iter = input.begin(), end = input.end();
+    x3::position_cache<std::vector<It> > pos_cache(iter, end);
+    custom::diagnostics_handler<It> diags { iter, end, std::clog };
+
+    auto const parser =
+        x3::with<parser::annotate_position>(std::ref(pos_cache)) [
+            x3::with<custom::diagnostics_handler_tag>(diags) [
+                 parser::employees
+            ]
+        ];
+
+    std::vector<ast::employee> ast;
+    if (phrase_parse(iter, end, parser >> x3::eoi, x3::space, ast)) {
+        std::cout << "Parsing succeeded\n";
+
+        for (auto const& emp : ast) {
+            std::cout << "got: " << emp << std::endl;
+
+            diags(pos_cache.position_of(emp.who.last_name).begin(), "note: that's a nice last name");
+            diags(pos_cache.position_of(emp.who).begin(), "warning: the whole person could be nice?");
+        }
+    } else {
+        std::cout << "Parsing failed\n";
+        ast.clear();
     }
 }
 
-
+//////////////////////////////////////////////////////////
+static std::string const
+    good_input = R"({ 23, "Amanda", "Stefanski", 1000.99 },
+        { 35, "Angie", "Chilcote", 2000.99 }
+    )", 
+    bad_input = R"(
+        { 23,
+ 'Amanda', "Stefanski", 1000.99 },
+    )";
 //////////////////////////////////////////////////////////
 
-// This comes from the cdc_multi example
-// Helper: non-blocking "delay" alternative.
-boolean delay_without_delaying(unsigned long time) {
-  // return false if we're still "delaying", true if time ms has passed.
-  // this should look a lot like "blink without delay"
-  static unsigned long previousmillis = 0;
-  unsigned long currentmillis = millis();
-  if (currentmillis - previousmillis >= time) {
-    previousmillis = currentmillis;
-    return true;
-  }
-  return false;
-}
 void setup() {
   // put your setup code here, to run once:
   Serial.begin (115200);
@@ -128,7 +200,7 @@ void setup() {
   Serial.print(t2);
   Serial.println(" millis");
   while (!delay_without_delaying(5000) ) { };
-  Serial << "ArduinoRP2040BoostSpiritNumList1 ** " << endl << __FILE__ << endl;
+  Serial << "ArduinoRP2040BoostSpiritCustom ** " << endl << __FILE__ << endl;
   Serial << "Some simple Boost Spirit X3 operations" << endl;
   Serial << "------------------------------" << endl;
   Serial << "Boost Spirit X3 Parser" << endl;
@@ -139,53 +211,12 @@ void setup() {
   Serial << "             An employee parser for Spirit...\n\n";
   Serial << "/////////////////////////////////////////////////////////\n\n";
 
+  Serial << "With custom diagnostics only:" << endl;
+  parse(good_input);
 
-  using boost::spirit::x3::ascii::space;
-  typedef std::string::const_iterator iterator_type;
-  using client::parser::employee; // Our parser
-  //using namespace boost::fusion;
+  Serial << "\n\n ----- Now with parse error:" << endl;
+  parse(bad_input);
 
-  std::string str("employee{33, \"Jones\", \"John\", 300.5 }");
-  Serial << str << endl;
-  //Serial << str.c_str() << endl;
-  int len = str.length();
-  int n = 0;
-  while (n < 1)
-  {
-       //if (str.empty() || str[0] == 'q' || str[0] == 'Q')
-       //     break;
-        n++;
-
-        client::ast::employee emp;
-        iterator_type iter = str.begin();
-        iterator_type const end = str.end();
-        bool r = phrase_parse(iter, end, employee, space, emp);
-
-        if (r && iter == end)
-        {
-            //Serial << boost::fusion::tuple_open('[');
-            //Serial << boost::fusion::tuple_close(']');
-            //Serial << boost::fusion::tuple_delimiter(", ");
-
-            Serial << "---------------------\n";
-            Serial << "Parsing succeeded\n";
-            Serial << "got: " << emp << endl;
-
-            int x = boost::fusion::at_c<0>(emp) ;
-            Serial << "test: " << x << endl;
-
-            Serial << "\n-------------------------\n";
-
-        }
-        else
-        {
-            Serial << "-------------------------\n";
-            Serial << "Parsing failed\n";
-            Serial << "-------------------------\n";
-        }
-  }
-
-  
   Serial << "------------------------------" << endl;
   pinMode(LED_BUILTIN, OUTPUT);
 }
