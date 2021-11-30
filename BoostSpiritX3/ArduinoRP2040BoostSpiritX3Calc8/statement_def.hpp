@@ -1,5 +1,7 @@
 /// @file statement_def.hpp
 /// @brief definitions for the statement rule
+///
+/// Modified to remove error_handler_base because it uses exceptions.
 /*=============================================================================
     Copyright (c) 2001-2014 Joel de Guzman
 
@@ -40,7 +42,7 @@ namespace client { namespace parser
     assignment_type const assignment = "assignment";
     variable_type const variable = "variable";
 
-    // Import the expression rule
+    /// Import the expression rule
     namespace { auto const& expression = client::expression(); }
 
     auto const statement_list_def =
@@ -48,7 +50,7 @@ namespace client { namespace parser
         ;
 
     auto const variable_declaration_def =
-            lexeme["var" >> !(alnum | '_')] // make sure we have whole words
+            lexeme["var" >> !(alnum | '_')] /// make sure we have whole words
         >   assignment
         ;
 
@@ -70,7 +72,7 @@ namespace client { namespace parser
       , variable
     );
 
-    /// This change is needed to take out error handling.
+    /// The removal of error_handler_base is needed to take out error handling.
     struct statement_class : /*error_handler_base,*/ x3::annotate_on_success {};
     struct assignment_class : x3::annotate_on_success {};
     struct variable_class : x3::annotate_on_success {};
