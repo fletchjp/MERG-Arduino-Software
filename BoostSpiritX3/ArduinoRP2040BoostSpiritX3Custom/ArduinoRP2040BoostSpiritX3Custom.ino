@@ -1,18 +1,8 @@
-/// @file ArduinoRP2040BoostSpiritX3Custom
+l/// @file ArduinoRP2040BoostSpiritX3Custom
 /// @brief The employee example using custom error handling.
 ///
 /// Taken from spirit/example/x3/employee and adapted using code from
 /// https://stackoverflow.com/questions/61721421/customizing-the-full-error-message-for-expectation-failures-boostspiritx3
-
-/*
- * https://ostack.cn/?qa=302784/
-That warning is telling you that there was a subtle ABI change
-(actually a conformance fix) between 6 and 7.1,
-such that libraries built with 6.x or earlier may not work properly
-when called from code built with 7.x (and vice-versa).
-As long as all your C++ code is built with GCC 7.1 or later, you can safely ignore this warning.
-To disable it, pass -Wno-psabi to the compiler
- */
 
 // 3rd party libraries
 #include <Streaming.h>
@@ -31,7 +21,6 @@ To disable it, pass -Wno-psabi to the compiler
 
 #include "ArduinoCode.h"
 
-
 #include <boost_spirit_home_x3.hpp>
 #include <boost/spirit/home/x3/support/ast/position_tagged.hpp>
 #include <boost/fusion/include/adapt_struct.hpp>
@@ -40,19 +29,18 @@ To disable it, pass -Wno-psabi to the compiler
 //#include <boost/fusion/include/sequence.hpp>
 
 
-namespace client { namespace ast
+namespace ast
 {
-    ///////////////////////////////////////////////////////////////////////////
-    //  Our employee struct
-    ///////////////////////////////////////////////////////////////////////////
-    struct employee
-    {
-        int age;
-        std::string surname;
-        std::string forename;
-        double salary;
+    struct name : std::string, x3::position_tagged {
+        using std::string::string;
+        using std::string::operator=;
     };
+    struct person   : x3::position_tagged { ast::name first_name, last_name; };
+    struct employee : x3::position_tagged { int age; person who; double salary; };
+    using boost::fusion::operator<<;
 
+    
+/*
     //using boost::fusion::operator<<;
     // I cannot use the fusion IO so I am instead doing this which works.
     inline Print &operator <<(Print &stream, const employee &emp)
@@ -68,8 +56,8 @@ namespace client { namespace ast
        stream.print("]");
       return stream;
     }
-
-}}
+*/
+}
 
 // We need to tell fusion about our employee struct
 // to make it a first-class fusion citizen. This has to
