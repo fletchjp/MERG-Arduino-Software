@@ -1,8 +1,13 @@
-/// @file ArduinoRP2040BoostSpiritX3Custom
+/// @file ArduinoRP2040BoostSpiritX3Custom.ino
 /// @brief The employee example using custom error handling.
 ///
 /// Taken from spirit/example/x3/employee and adapted using code from
 /// https://stackoverflow.com/questions/61721421/customizing-the-full-error-message-for-expectation-failures-boostspiritx3
+///
+/// I now have the annotation of success working. The error message is not being called.
+///
+///
+
 
 // 3rd party libraries
 #include <Streaming.h>
@@ -41,23 +46,23 @@ namespace ast
     using boost::fusion::operator<<;
 
     
-/*
+
     //using boost::fusion::operator<<;
     // I cannot use the fusion IO so I am instead doing this which works.
     inline Print &operator <<(Print &stream, const employee &emp)
     {
-       stream.print("[");
+       stream.print("(");
        stream.print(emp.age);
-       stream.print(",");
-       stream.print(emp.surname.c_str());
-       stream.print(",");
-       stream.print(emp.forename.c_str());
-       stream.print(",");
+       stream.print(" (");
+       stream.print(emp.who.first_name.c_str());
+       stream.print(" ");
+       stream.print(emp.who.last_name.c_str());
+       stream.print(") ");
        stream.print(emp.salary);       
-       stream.print("]");
+       stream.print(")");
       return stream;
     }
-*/
+
 }
 
 // We need to tell fusion about our employee struct
@@ -71,7 +76,7 @@ namespace custom {
 
     template <typename It> struct diagnostics_handler {
         It _first, _last;
-        std::ostream& _os;
+        //std::ostream& _os;
 
         void operator()(It err_first, std::string const& error_message) const {
             size_t line_no = 1;
@@ -82,9 +87,9 @@ namespace custom {
                     line_no += 1;
                 }
 
-            _os << "L:"<< line_no
-                << ":" << std::distance(bol, err_first)
-                << " " << error_message << "\n";
+            Serial  << "L:"<< line_no
+                    << ":" << std::distance(bol, err_first)
+                    << " " << error_message << "\n";
         }
     };
 
@@ -104,6 +109,7 @@ namespace parser
         x3::error_handler_result on_error(It&, It const&, E const& x, Ctx const& ctx) {
             auto& handler = x3::get<custom::diagnostics_handler_tag>(ctx);
             handler(x.where(), "error: expecting: " + x.which());
+            Serial << "x.which() : " <<  x.which() << endl;
             return x3::error_handler_result::fail;
         }
     };
@@ -117,11 +123,6 @@ namespace parser
         }
     };
 
-        using x3::int_;
-        using x3::lit;
-        using x3::double_;
-        using x3::lexeme;
-        using ascii::char_;
 
     struct quoted_string_class : annotate_position {};
     struct person_class : annotate_position {};
@@ -153,7 +154,7 @@ void parse(std::string const& input) {
 
     It iter = input.begin(), end = input.end();
     x3::position_cache<std::vector<It> > pos_cache(iter, end);
-    custom::diagnostics_handler<It> diags { iter, end, std::clog };
+    custom::diagnostics_handler<It> diags { iter, end }; //std::clog };
 
     auto const parser =
         x3::with<parser::annotate_position>(std::ref(pos_cache)) [
@@ -164,16 +165,16 @@ void parse(std::string const& input) {
 
     std::vector<ast::employee> ast;
     if (phrase_parse(iter, end, parser >> x3::eoi, x3::space, ast)) {
-        std::cout << "Parsing succeeded\n";
+        Serial << "Parsing succeeded\n";
 
         for (auto const& emp : ast) {
-            std::cout << "got: " << emp << std::endl;
+            Serial << "got: " << emp << endl;
 
             diags(pos_cache.position_of(emp.who.last_name).begin(), "note: that's a nice last name");
             diags(pos_cache.position_of(emp.who).begin(), "warning: the whole person could be nice?");
         }
     } else {
-        std::cout << "Parsing failed\n";
+        Serial << "Parsing failed\n";
         ast.clear();
     }
 }
