@@ -155,6 +155,7 @@ void parse(std::string const& input) {
     } else {
         Serial << "Parsing failed\n";
         Serial << "iter has " << *iter << endl;
+        diags(iter,"attempt to diagnose");
         ast.clear();
     }
 }
