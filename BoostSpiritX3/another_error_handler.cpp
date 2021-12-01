@@ -2,6 +2,7 @@
 /// @brief collecting some further ideas.
 
 /// There are a lot of different ideas and it is not clear to me how they all fit together.
+/// I am going to try out some ideas.
 
 /// https://stackoverflow.com/questions/57048008/spirit-x3-is-this-error-handling-approach-useful/57067207#57067207
 
