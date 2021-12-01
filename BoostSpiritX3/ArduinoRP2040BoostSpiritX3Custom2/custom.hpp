@@ -1,7 +1,17 @@
 /// @file custom.hpp
 /// @brief Implementation code for custom diagnostics.
 ///
-/// 
+/// This code is the complete problem from the source except for the main program code.
+///
+/// The main change is to use my own output operator for the employee objects.
+///
+/// https://stackoverflow.com/questions/61721421/customizing-the-full-error-message-for-expectation-failures-boostspiritx3
+///
+/// At the moment the code works except for the call back to the on_error() function as the print added in it does not get executed.
+///
+/// The diagnostics handler does get called for the case with good input.
+///
+/// I have added more code for the error handler with the same result.
 
 
 #ifndef CUSTOM_HPP
@@ -17,12 +27,9 @@ namespace ast
     };
     struct person   : x3::position_tagged { ast::name first_name, last_name; };
     struct employee : x3::position_tagged { int age; person who; double salary; };
-    using boost::fusion::operator<<;
-
-    
 
     //using boost::fusion::operator<<;
-    // I cannot use the fusion IO so I am instead doing this which works.
+    /// I cannot use the fusion IO so I am instead doing this which works.
     inline Print &operator <<(Print &stream, const employee &emp)
     {
        stream.print("(");
@@ -39,6 +46,7 @@ namespace ast
 
 }
 
+/// custom namespace for the diagnostics handler
 namespace custom {
     struct diagnostics_handler_tag;
 
@@ -61,15 +69,16 @@ namespace custom {
         }
     };
 
-} // namespace custom
+} /// namespace custom
 
-    ///////////////////////////////////////////////////////////////////////////////
-    //  Our employee parser
-    ///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+///  Our employee parser
+///////////////////////////////////////////////////////////////////////////////
 namespace parser
 {
     namespace x3 = boost::spirit::x3;
     namespace ascii = boost::spirit::x3::ascii;
+    struct error_handler_tag;
 
     struct error_handler {
         template <typename It, typename E, typename Ctx>
@@ -122,10 +131,13 @@ void parse(std::string const& input) {
     It iter = input.begin(), end = input.end();
     x3::position_cache<std::vector<It> > pos_cache(iter, end);
     custom::diagnostics_handler<It> diags { iter, end }; //std::clog };
+    //parser::error_handler errors;
 
     auto const parser =
         x3::with<parser::annotate_position>(std::ref(pos_cache)) [
             x3::with<custom::diagnostics_handler_tag>(diags) [
+                 //x3::with<parser::error_handler_tag>(errors)
+                 //[ parser::employees ]
                  parser::employees
             ]
         ];
@@ -142,6 +154,7 @@ void parse(std::string const& input) {
         }
     } else {
         Serial << "Parsing failed\n";
+        Serial << "iter has " << *iter << endl;
         ast.clear();
     }
 }
