@@ -11,7 +11,9 @@
 ///
 /// The diagnostics handler does get called for the case with good input.
 ///
-/// I have added more code for the error handler with the same result.
+/// I have added more code for the error handler with the same result so I took it out again.
+///
+/// I have now been able to print out something from the failure case.
 
 
 #ifndef CUSTOM_HPP
@@ -155,7 +157,11 @@ void parse(std::string const& input) {
     } else {
         Serial << "Parsing failed\n";
         Serial << "iter has " << *iter << endl;
-        diags(iter,"attempt to diagnose");
+        diags(iter," is the location of the failure");
+        // Found here: 
+        // https://stackoverflow.com/questions/31553900/avoid-throwing-expectation-failure-when-expectation-parser-fails
+        if (iter != end )
+           Serial << "Remaining unparsed: " << std::string(iter,end) << endl;
         ast.clear();
     }
 }
