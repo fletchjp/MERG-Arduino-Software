@@ -75,14 +75,14 @@ void setup() {
         It iter = input.begin(), end = input.end();
         Value v;
         std::vector<std::string> diags;
-/*
- *      This won't compile without exceptions.
+
+///      This won't compile without exceptions.
         if (parse(iter, end, x3::with<D>(diags) [square::peg::entry_point], v)) {
             //Serial << "Result value: " << v;
         } else {
             Serial << "Parsing failed";
         }
-*/
+
         Serial << " with " << diags.size() << " diagnostics messages: \n";
 
         for(auto& msg: diags) {
