@@ -1,5 +1,7 @@
 /// @file error_handling_eh.cpp
 /// @brief this looks interesting
+///
+/// https://stackoverflow.com/questions/57048008/spirit-x3-is-this-error-handling-approach-useful
 
 //#define BOOST_SPIRIT_X3_DEBUG
 #include <boost/fusion/adapted.hpp>
