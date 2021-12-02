@@ -9,7 +9,7 @@
 /// I now have the annotation of success working. The error message is not being called.
 /// In this version the code is moved to custom.hpp. The result is unchanged.
 ///
-///
+/// I have also added some code to look at the situation on failure.
 
 
 // 3rd party libraries
