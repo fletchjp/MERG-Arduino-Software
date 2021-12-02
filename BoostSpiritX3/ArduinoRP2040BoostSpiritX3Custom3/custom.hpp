@@ -160,9 +160,12 @@ void parse(std::string const& input) {
             diags(pos_cache.position_of(emp.who).begin(), "warning: the whole person could be nice?");
         }
     } else {
+        using E = boost::spirit::x3::expectation_failure<It>;
         Serial << "Parsing failed\n";
         Serial << "iter has " << *iter << endl;
+        E e(iter,"test of expectation failure");
         diags(iter," is the location of the failure");
+        
         // Found here: 
         // https://stackoverflow.com/questions/31553900/avoid-throwing-expectation-failure-when-expectation-parser-fails
         if (iter != end )
