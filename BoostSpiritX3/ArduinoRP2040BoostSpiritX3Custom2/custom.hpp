@@ -71,17 +71,20 @@ namespace custom {
         }
     };
 
-} /// namespace custom
+} // namespace custom
 
 ///////////////////////////////////////////////////////////////////////////////
 ///  Our employee parser
 ///////////////////////////////////////////////////////////////////////////////
+
+/// Parser namespace
 namespace parser
 {
     namespace x3 = boost::spirit::x3;
     namespace ascii = boost::spirit::x3::ascii;
     struct error_handler_tag;
 
+/// error handler
     struct error_handler {
         template <typename It, typename E, typename Ctx>
         x3::error_handler_result on_error(It&, It const&, E const& x, Ctx const& ctx) {
@@ -92,6 +95,7 @@ namespace parser
         }
     };
 
+/// annotate position
     struct annotate_position {
         template <typename T, typename Iterator, typename Context>
         inline void on_success(const Iterator &first, const Iterator &last, T &ast, const Context &context)
@@ -127,6 +131,7 @@ namespace parser
 
 }
 
+/// parse function
 void parse(std::string const& input) {
     using It = std::string::const_iterator;
 

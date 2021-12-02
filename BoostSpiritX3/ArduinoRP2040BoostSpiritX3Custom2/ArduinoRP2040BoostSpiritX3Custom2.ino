@@ -82,9 +82,11 @@ void setup() {
   Serial << "/////////////////////////////////////////////////////////\n\n";
 
   Serial << "With custom diagnostics only:" << endl;
+  /// Good input case
   parse(good_input);
 
   Serial << "\n\n ----- Now with parse error:" << endl;
+  /// Bad input case
   parse(bad_input);
 
   Serial << "------------------------------" << endl;
