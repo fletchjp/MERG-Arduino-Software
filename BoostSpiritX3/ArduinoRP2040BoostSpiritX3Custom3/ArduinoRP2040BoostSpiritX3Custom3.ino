@@ -11,7 +11,14 @@
 ///
 /// I have also added some code to look at the situation on failure.
 ///
-/// Further experiments to see what can be done.
+/// This example now finds the error information for the first error without using exceptions. 
+///
+/// This depends on a modification to Boost Spirit X3 in file \boost\spirit\home\x3\directive\expect.hpp.
+/// This is only active if BOOST_SPIRIT_X3_NO_EXCEPTION is defined.
+/// 
+/// The modification uses a global variable called boost::spirit::x3::where_was_I defined as std::vector<std::string>
+///
+/// This can be inspected when there is a failure.
 
 
 // 3rd party libraries
@@ -31,7 +38,7 @@
 
 #include "ArduinoCode.h"
 
-/// Experimental
+/// This switches off exceptions and provides a different way to get error information.
 #define BOOST_SPIRIT_X3_NO_EXCEPTION
 #include <boost_spirit_home_x3.hpp>
 #include <boost/spirit/home/x3/support/ast/position_tagged.hpp>
