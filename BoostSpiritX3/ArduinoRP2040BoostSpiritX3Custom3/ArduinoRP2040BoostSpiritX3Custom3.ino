@@ -36,10 +36,10 @@
 #include <list>
 #include <cstdio>
 
-#include "ArduinoCode.h"
-
 /// This switches off exceptions and provides a different way to get error information.
 #define BOOST_SPIRIT_X3_NO_EXCEPTION
+#include "ArduinoCode.h"
+
 #include <boost_spirit_home_x3.hpp>
 #include <boost/spirit/home/x3/support/ast/position_tagged.hpp>
 #include <boost/fusion/include/adapt_struct.hpp>

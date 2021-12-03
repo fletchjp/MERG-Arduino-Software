@@ -35,6 +35,8 @@ inline Print &operator <<(Print &stream, const char *arg)
   return stream;
 }
 
+//////////////////////////////////////////////////////////
+
 // This comes from the cdc_multi example
 /// Helper: non-blocking "delay" alternative.
 boolean delay_without_delaying(unsigned long time) {
@@ -49,6 +51,7 @@ boolean delay_without_delaying(unsigned long time) {
   return false;
 }
 
+
 #ifdef BOOST_SPIRIT_X3_NO_EXCEPTION
 namespace boost { namespace spirit { namespace x3
 {
@@ -56,5 +59,6 @@ namespace boost { namespace spirit { namespace x3
   std::vector<std::string> where_was_I;
 }}}
 #endif
+
 
 #endif
