@@ -18,7 +18,7 @@
 /// 
 /// The modification uses a global variable called boost::spirit::x3::where_was_I defined as std::vector<std::string>
 ///
-/// This can be inspected when there is a failure.
+/// This can be inspected when there is a failure. This uses the custom diagnostics handler which is not problem dependent.
 
 
 // 3rd party libraries
