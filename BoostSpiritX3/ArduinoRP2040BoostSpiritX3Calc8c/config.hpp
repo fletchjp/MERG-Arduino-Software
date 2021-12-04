@@ -35,7 +35,7 @@ namespace client { namespace parser
       //, bool ,
         client::parser::position_cache_tag
       , std::reference_wrapper<position_cache_type>
-//      ,  custom::diagnostics_handler_tag
+//      , custom::diagnostics_handler_tag
 //      , std::reference_wrapper<diagnostics_handler_type>
 #else
         error_handler_tag
