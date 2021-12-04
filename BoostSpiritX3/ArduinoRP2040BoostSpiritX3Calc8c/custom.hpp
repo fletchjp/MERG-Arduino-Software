@@ -31,6 +31,4 @@ namespace custom {
 
 } // namespace custom
 
-
-
 #endif
