@@ -79,9 +79,28 @@ namespace client { namespace parser
       , primary_expr
     );
 
+#ifdef BOOST_SPIRIT_X3_NO_EXCEPTION
+     typedef std::string::const_iterator iterator_type;
+     struct position_cache_tag;
+     using position_cache = boost::spirit::x3::position_cache<std::vector<iterator_type>>;
+
+/// This also needs a change in the context_type defined in config.hpp
+    struct annotate_position {
+        template <typename T, typename Iterator, typename Context>
+        inline void on_success(const Iterator &first, const Iterator &last, T &ast, const Context &context)
+        {            
+            auto &position_cache = x3::get<position_cache_tag>(context).get();
+            //auto &position_cache = x3::get<annotate_position>(context).get();
+            position_cache.annotate(ast, first, last);
+        }
+    };
+
+    struct unary_expr_class : annotate_position {};
+    struct primary_expr_class : annotate_position {};
+#else
     struct unary_expr_class : x3::annotate_on_success {};
     struct primary_expr_class : x3::annotate_on_success {};
-
+#endif
 }}
 
 namespace client
