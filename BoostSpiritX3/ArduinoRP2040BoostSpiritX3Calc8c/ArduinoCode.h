@@ -58,6 +58,13 @@ namespace boost { namespace spirit { namespace x3
   /// This has to be declared somewhere in the user code.
   std::vector<std::string> where_was_I;
 }}}
+
+/// This is here to avoid a failure to define in the main program.
+namespace client {
+  namespace parser {
+    struct position_cache_tag;
+  }
+}
 #endif
 
 
