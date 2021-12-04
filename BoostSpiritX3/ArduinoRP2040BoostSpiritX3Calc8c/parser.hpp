@@ -79,6 +79,13 @@ bool parse(std::string const& source) {
 
     if (success && iter == end)
     {
+        for (auto const& statement : ast) {
+            // I need to sort out an output statement.
+            //Serial << "got: " << statement << endl;
+            diags(pos_cache.position_of(ast).begin(), " trial to see what happens");
+        }
+        Serial << "-------------------------\n";
+      
         if (compile(ast))
         {
             Serial << "Success\n";
