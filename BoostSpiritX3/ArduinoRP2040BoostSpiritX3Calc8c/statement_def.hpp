@@ -83,7 +83,8 @@ namespace client { namespace parser
     struct annotate_position {
         template <typename T, typename Iterator, typename Context>
         inline void on_success(const Iterator &first, const Iterator &last, T &ast, const Context &context)
-        {            auto &position_cache = x3::get<position_cache_tag>(context).get();
+        {            
+            auto &position_cache = x3::get<position_cache_tag>(context).get();
             //auto &position_cache = x3::get<annotate_position>(context).get();
             position_cache.annotate(ast, first, last);
         }
@@ -103,10 +104,12 @@ namespace client { namespace parser
 
 namespace client
 {
+  
     parser::statement_type const& statement()
     {
         return parser::statement;
     }
+
 }
 
 #endif
