@@ -102,9 +102,13 @@ namespace parser
         {
             auto &position_cache = x3::get<annotate_position>(context).get();
             position_cache.annotate(ast, first, last);
+            //int x = Context{};
         }
+    
     };
 
+/// type of Context
+/// 'boost::spirit::x3::context<boost::spirit::x3::parse_pass_context_tag, bool, boost::spirit::x3::context<custom::diagnostics_handler_tag, custom::diagnostics_handler<__gnu_cxx::__normal_iterator<const char*, std::__cxx11::basic_string<char> > >, boost::spirit::x3::context<parser::annotate_position, std::reference_wrapper<boost::spirit::x3::position_cache<std::vector<__gnu_cxx::__normal_iterator<const char*, std::__cxx11::basic_string<char> > > > >, boost::spirit::x3::context<boost::spirit::x3::skipper_tag, const boost::spirit::x3::char_class<boost::spirit::char_encoding::standard, boost::spirit::x3::space_tag>, boost::spirit::x3::unused_type> > > >::context(<brace-enclosed initializer list>)'
 
     struct quoted_string_class : annotate_position {};
     struct person_class : annotate_position {};
