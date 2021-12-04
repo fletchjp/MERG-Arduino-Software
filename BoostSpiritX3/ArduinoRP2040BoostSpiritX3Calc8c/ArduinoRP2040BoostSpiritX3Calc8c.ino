@@ -57,6 +57,7 @@
 #include "vm.hpp"
 #include "compiler.hpp"
 #include "statement.hpp"
+#include "expression.hpp"
 //#include "statement_def.hpp"
 #include "error_handler.hpp"
 #include "config.hpp"
@@ -115,14 +116,10 @@ void setup() {
 
     std::string source = input;
     Serial << "input: " << input << endl;
+    Serial << "-------------------------\n";
 
 /// parse function moved to parser.hpp
     bool success = parse(source);
-
-    Serial << "-------------------------\n";
-
- 
-
     Serial << "-------------------------\n\n";
 
     Serial << "Bye... :-) \n\n";
