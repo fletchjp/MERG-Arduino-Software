@@ -15,6 +15,10 @@
 ///
 /// I have now got this down to a single undefined reference to do with parse_rule.
 ///
+/// I found that was due to a lack of modifications in the expression code.
+///
+/// The parser is now in a separate file parser.hpp
+///
 /// This has involved a number of adaptions to the Arduino environment.
 ///
 ///////////////////////////////////////////////////////////////////////////////
