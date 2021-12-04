@@ -2,6 +2,21 @@
 /// @brief parser for custom diagnostics handler
 ///
 /// Copied from main program
+///
+/// This is the focus of the remaining problem.
+///
+/// There is an undefined reference to client::parser::parse_rule with a very long name.
+///
+/// It seems that the parse rule for the parser is not being instantiated.
+
+// without diagnostics handler
+// undefined reference to 
+// `_ZN6client6parser10parse_ruleIN9__gnu_cxx17__normal_iteratorIPKcNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEEN5boost6spirit2x37contextINS0_18position_cache_tagESt17reference_wrapperINSF_14position_cacheISt6vectorISC_SaISC_EEEEENSG_INSF_11skipper_tagEKNSF_10char_classINSE_13char_encoding5asciiENSF_9space_tagEEENSF_11unused_typeEEEEEEEbNSF_6detail7rule_idINS0_16expression_classEEERT_RKS13_RKT0_RNS_3ast10expressionE'
+// collect2.exe: error: ld returned 1 exit status
+
+// with diagnostics handler
+//`_ZN6client6parser10parse_ruleIN9__gnu_cxx17__normal_iteratorIPKcNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEEN5boost6spirit2x37contextIN6custom23diagnostics_handler_tagENSH_19diagnostics_handlerISC_EENSG_INS0_18position_cache_tagESt17reference_wrapperINSF_14position_cacheISt6vectorISC_SaISC_EEEEENSG_INSF_11skipper_tagEKNSF_10char_classINSE_13char_encoding5asciiENSF_9space_tagEEENSF_11unused_typeEEEEEEEEEbNSF_6detail7rule_idINS0_16expression_classEEERT_RKS18_RKT0_RNS_3ast10expressionE'
+// collect2.exe: error: ld returned 1 exit status
 
 #ifndef PARSER_HPP
 #define PARSER_HPP
@@ -9,8 +24,6 @@
 #include "ast.hpp"
 #include "vm.hpp"
 #include "compiler.hpp"
-
-#include "statement_def.hpp"
 
 namespace x3 = boost::spirit::x3;
 
