@@ -11,6 +11,5 @@
 
 namespace client { namespace parser
 {
-    using context_type = x3::phrase_parse_context<x3::ascii::space_type>::type;
     BOOST_SPIRIT_INSTANTIATE(expression_type, iterator_type, context_type);
 }}
