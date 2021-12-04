@@ -13,6 +13,8 @@
 ///
 /// I thought that this would be easy. I am struggling to sort out the parser configuration.
 ///
+/// I have now got this down to a single undefined reference to do with parse_rule.
+///
 /// This has involved a number of adaptions to the Arduino environment.
 ///
 ///////////////////////////////////////////////////////////////////////////////
@@ -55,7 +57,7 @@
 #include "vm.hpp"
 #include "compiler.hpp"
 #include "statement.hpp"
-#include "statement_def.hpp"
+//#include "statement_def.hpp"
 #include "error_handler.hpp"
 #include "config.hpp"
 #include "custom.hpp"
@@ -137,11 +139,13 @@ void setup() {
     client::code_gen::compiler compile(program, error_handler);
 
 #ifdef BOOST_SPIRIT_X3_NO_EXCEPTION
+    /// change the tag in the with for the position cache. 
     auto const parser =
-         with<client::parser::annotate_position>(std::ref(pos_cache)) [
-            with<custom::diagnostics_handler_tag>(diags) [
+         //with<client::parser::annotate_position>(std::ref(pos_cache)) [
+         with<client::parser::position_cache_tag>(std::ref(pos_cache)) [
+            //with<custom::diagnostics_handler_tag>(diags) [
                  client::statement()
-            ]
+            //]
         ];
 #else
     // Our parser
