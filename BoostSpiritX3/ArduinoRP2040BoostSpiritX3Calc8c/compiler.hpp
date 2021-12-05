@@ -52,7 +52,12 @@ namespace client { namespace code_gen
         typedef std::function<
             void(x3::position_tagged, std::string const&)>
         error_handler_type;
-
+#ifdef BOOST_SPIRIT_X3_NO_EXCEPTION
+        compiler(
+            client::code_gen::program& program)
+          : program(program)
+        {}
+#else
         template <typename ErrorHandler>
         compiler(
             client::code_gen::program& program
@@ -63,7 +68,7 @@ namespace client { namespace code_gen
                 { error_handler(pos, msg); }
             )
         {}
-
+#endif
         bool operator()(ast::nil) const { BOOST_ASSERT(0); return false; }
         bool operator()(unsigned int x) const;
         bool operator()(ast::variable const& x) const;
@@ -75,7 +80,9 @@ namespace client { namespace code_gen
         bool operator()(ast::statement_list const& x) const;
 
         client::code_gen::program& program;
+#ifndef BOOST_SPIRIT_X3_NO_EXCEPTION
         error_handler_type error_handler;
+#endif
     };
 }}
 
