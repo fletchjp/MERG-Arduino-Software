@@ -21,6 +21,8 @@
 ///
 /// I still cannot get it working with the diagnostics and I think the problem is in the compiler code which is still doing error handling.
 ///
+/// I have now found that there was a problem with the context_type where only one with<> can be handled at one time.
+///
 /// This has involved a number of adaptions to the Arduino environment.
 ///
 ///////////////////////////////////////////////////////////////////////////////
