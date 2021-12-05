@@ -33,9 +33,9 @@ namespace client { namespace parser
 #ifdef BOOST_SPIRIT_X3_NO_EXCEPTION
       //  x3::parse_pass_context_tag
       //, bool ,
-        custom::diagnostics_handler_tag
-      , std::reference_wrapper<diagnostics_handler_type>
-      , client::parser::position_cache_tag
+      //  custom::diagnostics_handler_tag
+      //, std::reference_wrapper<diagnostics_handler_type>
+        client::parser::position_cache_tag
       , std::reference_wrapper<position_cache_type>
 #else
         error_handler_tag
