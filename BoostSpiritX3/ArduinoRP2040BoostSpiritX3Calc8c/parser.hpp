@@ -3,11 +3,8 @@
 ///
 /// Copied from main program
 ///
-/// This is the focus of the remaining problem.
+/// This is the focus of the remaining problem which has now been solved.
 ///
-/// There is an undefined reference to client::parser::parse_rule with a very long name.
-///
-/// It seems that the parse rule for the parser is not being instantiated.
 
 // without diagnostics handler
 // undefined reference to 
