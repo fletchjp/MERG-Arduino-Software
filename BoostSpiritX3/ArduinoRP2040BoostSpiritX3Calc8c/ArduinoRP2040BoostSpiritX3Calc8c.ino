@@ -19,6 +19,8 @@
 ///
 /// The parser is now in a separate file parser.hpp
 ///
+/// I still cannot get it working with the diagnostics and I think the problem is in the compiler code which is still doing error handling.
+///
 /// This has involved a number of adaptions to the Arduino environment.
 ///
 ///////////////////////////////////////////////////////////////////////////////
