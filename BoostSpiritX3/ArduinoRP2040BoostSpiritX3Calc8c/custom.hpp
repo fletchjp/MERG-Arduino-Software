@@ -6,6 +6,9 @@
 #ifndef CUSTOM_HPP
 #define CUSTOM_HPP
 
+// 3rd party libraries
+#include <Streaming.h>
+
 /// custom namespace for the diagnostics handler
 namespace custom {
     struct diagnostics_handler_tag;
