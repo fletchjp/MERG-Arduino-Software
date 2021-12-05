@@ -9,7 +9,9 @@
 /// This switches off exceptions and provides a different way to get error information.
 #define BOOST_SPIRIT_X3_NO_EXCEPTION
 
+
 #include "statement_def.hpp"
+#include "custom.hpp"
 #include "config.hpp"
 
 namespace client { namespace parser
