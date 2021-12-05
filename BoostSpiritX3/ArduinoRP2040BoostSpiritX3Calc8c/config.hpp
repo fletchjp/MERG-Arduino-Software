@@ -38,11 +38,12 @@ namespace client { namespace parser
 
 #ifdef BOOST_SPIRIT_X3_NO_EXCEPTION
     /// first_context_type handles the position cache
-    typedef x3::context<        client::parser::position_cache_tag
+    typedef x3::context<
+    	client::parser::position_cache_tag
       , std::reference_wrapper<position_cache_type>
       , phrase_context_type>
     first_context_type;
-    /// ontext_type handles the diagnostics handler
+    /// context_type handles the diagnostics handler
     typedef x3::context<
         custom::diagnostics_handler_tag
       , diagnostics_handler_type   //std::reference_wrapper<diagnostics_handler_type>
