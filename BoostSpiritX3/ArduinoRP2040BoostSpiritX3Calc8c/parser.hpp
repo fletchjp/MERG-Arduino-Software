@@ -50,16 +50,22 @@ bool parse(std::string const& source) {
     error_handler_type error_handler(iter, end, std::cerr); // Our error handler
 
     // Our compiler
+#ifdef BOOST_SPIRIT_X3_NO_EXCEPTION
+    client::code_gen::compiler compile(program);
+#else
     client::code_gen::compiler compile(program, error_handler);
+#endif
 
 #ifdef BOOST_SPIRIT_X3_NO_EXCEPTION
     /// change the tag in the with for the position cache. 
     auto const parser =
+         //with<x3::parse_pass_context_tag>(true) [
          //with<client::parser::annotate_position>(std::ref(pos_cache)) [
          with<client::parser::position_cache_tag>(std::ref(pos_cache)) [
-            with<custom::diagnostics_handler_tag>(diags) [
+           // with<custom::diagnostics_handler_tag>(diags) [
                  client::statement()
-            ]
+           // ]
+        //] 
         ];
 #else
     // Our parser
