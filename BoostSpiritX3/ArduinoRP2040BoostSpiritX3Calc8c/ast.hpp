@@ -27,8 +27,8 @@ namespace client { namespace ast
 
     struct variable : x3::position_tagged
     {
-        variable(std::string const& name = "") : name(name) {}
-        std::string name;
+        variable(std::string const& nm = "") : name_(nm) {}
+        std::string name_;
     };
 
     struct operand :
@@ -94,7 +94,7 @@ namespace client { namespace ast
 
     inline std::ostream& operator<<(std::ostream& out, variable const& var)
     {
-        out << var.name; return out;
+        out << var.name_; return out;
     }
 }}
 
