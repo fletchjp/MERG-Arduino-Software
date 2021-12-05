@@ -57,9 +57,9 @@ bool parse(std::string const& source) {
     auto const parser =
          //with<client::parser::annotate_position>(std::ref(pos_cache)) [
          with<client::parser::position_cache_tag>(std::ref(pos_cache)) [
-            //with<custom::diagnostics_handler_tag>(diags) [
+            with<custom::diagnostics_handler_tag>(diags) [
                  client::statement()
-            //]
+            ]
         ];
 #else
     // Our parser
