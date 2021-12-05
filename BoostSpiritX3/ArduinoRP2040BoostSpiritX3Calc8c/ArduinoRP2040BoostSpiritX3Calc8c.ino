@@ -104,8 +104,8 @@ void setup() {
   Serial.print("Waited for ");
   Serial.print(t2);
   Serial.println(" millis");
-  while (!delay_without_delaying(20000) ) { };
-  Serial << "ArduinoRP2040BoostSpiritX3Calc8 ** " << endl << __FILE__ << endl;
+  while (!delay_without_delaying(30000) ) { };
+  Serial << "ArduinoRP2040BoostSpiritX3Calc8c ** " << endl << __FILE__ << endl;
   Serial << "Boost Spirit X3 parsing" << endl;
 
     // I need to sort out the input here.
