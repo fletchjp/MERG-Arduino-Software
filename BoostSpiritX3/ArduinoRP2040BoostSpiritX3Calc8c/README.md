@@ -11,7 +11,9 @@ and adapted to run on the Arduino NANO RP2040 connect.
 
 I have changed expectation (>) to sequence (>>) in the code which I am now going to reverse.
 
-I am going to use BOOST_SPIRIT_X3_NO_EXCEPTION and custom error diagnostics.
+I am going to use BOOST_SPIRIT_X3_NO_EXCEPTION and custom error diagnostics
+
+I have had to do a lot of work to understand how to configure the context_type for this example.
 
 This has involved a number of adaptions to the Arduino environment which are contained in the sketch file.
 
