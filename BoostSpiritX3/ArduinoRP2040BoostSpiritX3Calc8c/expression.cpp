@@ -10,6 +10,8 @@
 #define BOOST_SPIRIT_X3_NO_EXCEPTION
 
 #include "expression_def.hpp"
+#include "custom.hpp"
+
 /// This is here to avoid a failure to define in the main program.
 namespace client {
   namespace parser {
