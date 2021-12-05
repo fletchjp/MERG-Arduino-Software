@@ -78,8 +78,8 @@ namespace client { namespace code_gen
         auto pc = code.begin();
 
         std::vector<std::string> locals(variables.size());
-        typedef std::pair<std::string, int> pair;
-        for (pair const& p : variables)
+        typedef std::pair<std::string, int> pair_;
+        for (pair_ const& p : variables)
         {
             locals[p.second] = p.first;
             Serial << "local       "
@@ -137,10 +137,10 @@ namespace client { namespace code_gen
 
     bool compiler::operator()(ast::variable const& x) const
     {
-        int const* p = program.find_var(x.name);
+        int const* p = program.find_var(x.name_);
         if (p == 0)
         {
-            error_handler(x, "Undeclared variable: " + x.name);
+            error_handler(x, "Undeclared variable: " + x.name_);
             return false;
         }
         program.op(op_load, *p);
@@ -191,10 +191,10 @@ namespace client { namespace code_gen
     {
         if (!(*this)(x.rhs))
             return false;
-        int const* p = program.find_var(x.lhs.name);
+        int const* p = program.find_var(x.lhs.name_);
         if (p == 0)
         {
-            error_handler(x.lhs, "Undeclared variable: " + x.lhs.name);
+            error_handler(x.lhs, "Undeclared variable: " + x.lhs.name_);
             return false;
         }
         program.op(op_store, *p);
@@ -203,17 +203,17 @@ namespace client { namespace code_gen
 
     bool compiler::operator()(ast::variable_declaration const& x) const
     {
-        int const* p = program.find_var(x.assign.lhs.name);
+        int const* p = program.find_var(x.assign.lhs.name_);
         if (p != 0)
         {
-            error_handler(x.assign.lhs, "Duplicate variable: " + x.assign.lhs.name);
+            error_handler(x.assign.lhs, "Duplicate variable: " + x.assign.lhs.name_);
             return false;
         }
         bool r = (*this)(x.assign.rhs);
         if (r) // don't add the variable if the RHS fails
         {
-            program.add_var(x.assign.lhs.name);
-            program.op(op_store, *program.find_var(x.assign.lhs.name));
+            program.add_var(x.assign.lhs.name_);
+            program.op(op_store, *program.find_var(x.assign.lhs.name_));
         }
         return r;
     }
