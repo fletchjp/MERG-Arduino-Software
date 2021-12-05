@@ -1,6 +1,12 @@
 /// @file config.hpp
 /// @brief configuration of the parser
 ///
+/// This is important. It is possible to include more than one with<> expression in the binder.
+/// This means that the the context_type has to be adapted and only one with<> can be included at each stage.
+///
+/// There is an example here which I did not understand at first:
+/// https://coderedirect.com/questions/389812/boost-spirit-x3-not-compiling
+///
 /// This may need more changes to remove error handler references.
 /*=============================================================================
     Copyright (c) 2001-2014 Joel de Guzman
@@ -23,26 +29,32 @@ namespace client { namespace parser
     typedef x3::phrase_parse_context<x3::ascii::space_type>::type phrase_context_type;
     typedef error_handler<iterator_type> error_handler_type;
 #ifdef BOOST_SPIRIT_X3_NO_EXCEPTION
-    typedef custom::diagnostics_handler<iterator_type> diagnostics_handler_type;
-    typedef boost::spirit::x3::position_cache<std::vector<iterator_type>> position_cache_type;
+    typedef typename custom::diagnostics_handler_tag diagnostics_handler_tag;
+    typedef typename custom::diagnostics_handler<iterator_type> diagnostics_handler_type;
+    typedef typename boost::spirit::x3::position_cache<std::vector<iterator_type>> position_cache_type;
     //typedef x3::phrase_parse_context<x3::ascii::space_type>::type context_type;
     //using context_type = x3::phrase_parse_context<x3::ascii::space_type>::type;
 #endif
 
-    typedef x3::context<
 #ifdef BOOST_SPIRIT_X3_NO_EXCEPTION
-      //  x3::parse_pass_context_tag
-      //, bool ,
-      //  custom::diagnostics_handler_tag
-      //, std::reference_wrapper<diagnostics_handler_type>
-        client::parser::position_cache_tag
+    /// first_context_type handles the position cache
+    typedef x3::context<        client::parser::position_cache_tag
       , std::reference_wrapper<position_cache_type>
+      , phrase_context_type>
+    first_context_type;
+    /// ontext_type handles the diagnostics handler
+    typedef x3::context<
+        custom::diagnostics_handler_tag
+      , diagnostics_handler_type   //std::reference_wrapper<diagnostics_handler_type>
+      , first_context_type>
+    context_type;
 #else
+    typedef x3::context<
         error_handler_tag
       , std::reference_wrapper<error_handler_type>
-#endif
       , phrase_context_type>
     context_type;
+#endif
 /// To generate an error
 /// int x = context_type{};
 }}
