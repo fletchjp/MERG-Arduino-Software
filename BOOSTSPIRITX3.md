@@ -18,6 +18,10 @@ I am working through the Boost Spirit X3 examples. These take the user through a
 
 I have now solved a propblem of some warning messages by adding -Wno-pasabi to the cpp flags.
 
+There are a lot of examples now and I am going to divide up this page into groups on separate
+
+[Boost Spirit X3 initial examples](BOOSTSPIRITX3Initial.md) the ones previously documented here.
+
 ### ArduinoRP2040BoostSpiritX3Actions
 
 An exploration of some ways of using Boost Spirit X3 in comparison with the other version of this file.
@@ -90,9 +94,11 @@ This extends the Annotation example to add building a map using the number as a 
 
 Note that the map entry is made using a std::pair.
 
-### ArduinoRP2040BoostSpiritX3Annotation4
+### ArduinoRP2040BoostSpiritX3Annotation5
 
 This extends the Annotation example to check the map for a duplicate key and not make that entry.
+
+
 
 ## Back to Boost Spirit and RP2040
 
