@@ -21,7 +21,9 @@ I am working through the Boost Spirit X3 examples. These take the user through a
 
 I have now solved a problem of some warning messages by adding -Wno-pasabi to the cpp flags.
 
-There are a lot of examples now and I am going to divide up this page into groups on separate
+There are a lot of examples now and I am going to divide up this page into groups on separate pages.
+
+Some of the examples are documented using Doxygen.
 
 [Boost Spirit X3 initial examples](BOOSTSPIRITX3Initial.md) the ones previously documented here.
 
