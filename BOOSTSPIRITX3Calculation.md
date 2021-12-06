@@ -6,6 +6,12 @@ There are a number of examples in Boost Spirit X3 Version 3.0.9 which develop a 
 
 I have adapted a number of theses examples to work towards the work I want to do for MERG.
 
+The AST (Abstract Syntax Tree) approach is important as it allows the syntax of the problem to be defined separately from other parts of the code.
+
+This means that the larger programs are in many different files. Doxygen documentation is useful for keeping track of theses.
+
+Some things which are easy in one file get more difficult in many files as the definitions need to be consistent between files. The importance of this will become clear.
+
 ### ArduinoRP2040BoostSpiritCalc4c
 
 A Calculator example demonstrating generation of AST (Abstract Syntax Tree).
