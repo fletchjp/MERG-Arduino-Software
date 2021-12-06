@@ -24,11 +24,24 @@ The AST, once created, is traversed,
 
 ### ArduinoRP2040BoostSpiritCalc8
 
+This is taken from spirit/example/x3/calc/calc8 from Boost 1.77.0
+and adapted to run on the Arduino NANO RP2040 connect.
 
+This runs with correct input and crashes using an undefined variable.
+
+This lead me to discover the use of expectation (>) instead of sequence (>>) to signal that if there is no match there should be a failure.
+
+The immediate action was to replace (>) with (>>) to avoid the crashes.
 
 ### ArduinoRP2040BoostSpiritCalc8c
 
-This is an attempt to combine the approach in Custom3 to diagnose incorrect input.
+This is an attempt to combine the approach in Custom3 to diagnose incorrect input and allow for expectation.
+
+I thought this would be straightforward and this has not been so. I needed to learn a lot about how the coding works for the context when the code is over several files.
+
+One result of this is a code in custom.h which should be portable to different problems.
+
+Another result is a lot more knowledge about how Spirit X3 works.
 
 Back to [Boost Spirit X3 examples](BOOSTSPIRITX3.md)
 
