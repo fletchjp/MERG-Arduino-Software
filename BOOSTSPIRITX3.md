@@ -25,6 +25,8 @@ There are a lot of examples now and I am going to divide up this page into group
 
 Some of the examples are documented using Doxygen.
 
+## Boost Spirit X3 examples
+
 [Boost Spirit X3 initial examples](BOOSTSPIRITX3Initial.md) the ones previously documented here.
 
 [Boost Spirit X3 further examples](BOOSTSPIRITX3Further.md) development of examples
