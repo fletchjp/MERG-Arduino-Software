@@ -43,6 +43,12 @@ One result of this is a code in custom.h which should be portable to different p
 
 Another result is a lot more knowledge about how Spirit X3 works.
 
+It turns out that the definition of the context type can only have two or three template arguments. This is defined in x3\support\context.hpp.
+
+It there are more than three arguments in an attempt to include more than one with<> operator in the parser, then the definition must be split into stages, passing on the previous defintion.
+
+This is how it is arranged in this example.
+
 I still need to do some work to get the debug output working properly.
 
 Back to [Boost Spirit X3 examples](BOOSTSPIRITX3.md)
