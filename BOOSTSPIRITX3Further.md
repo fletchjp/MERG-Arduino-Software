@@ -1,4 +1,4 @@
-# Boost Spirit X3 (Version 3) initial examples
+# Boost Spirit X3 (Version 3) further examples
 
 Back to [Boost Spirit X3 examples](BOOSTSPIRITX3.md)
 
