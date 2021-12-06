@@ -14,7 +14,7 @@
 namespace x3 = boost::spirit::x3;
 
 /// namespace named any_parser
-namespace /*any_parser*/ {
+namespace any_parser_or_something {
     template <typename T>
     struct as_type {
         template <typename...> struct Tag{};
@@ -62,7 +62,7 @@ void run_lazy_example()
 {
     //namespace x3 = boost::spirit::x3;
 
-    //using namespace any_parser;
+    using namespace any_parser_or_something;
     
     using Value = boost::variant<int, bool, double, std::string>;
     using It    = std::string::const_iterator;
@@ -75,7 +75,7 @@ void run_lazy_example()
     ];
 
    auto run_tests = [=] {
-        for (std::string const& input : {
+        for (std::string const& input_ : {
                 "integer_value: 42",
                 "quoted_string: \"hello world\"",
                 "bool_value: true",
@@ -83,15 +83,20 @@ void run_lazy_example()
             })
         {
 
-            Value attr;            
-/*
-             //std::cout << std::setw(36) << std::quoted(input);
-            if (phrase_parse(begin(input), end(input), parser, x3::space, attr)) {
-                //Serial << " -> success (" << attr << ")\n";
+            Value attr;
+            It start_ = begin(input_);       
+            It end_   = end(input_);
+            //std::cout << std::setw(36) << std::quoted(input);
+            // experiment
+            //if (any_parser::lazy_type<Rule>::parse(begin(input_), end(input_), parser, x3::space, attr)) {
+            // I cannot get this to compile - it produces a very long error.
+            // I cannot see where phrase_parse is defined.
+            if (phrase_parse(start_, end_, parser, x3::space, attr)) {
+                 //Serial << " -> success (" << attr << ")\n";
             } else {
                 Serial << " -> failed\n";
             }
-*/
+
         }
 
     
