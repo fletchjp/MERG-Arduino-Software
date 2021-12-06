@@ -5,13 +5,13 @@
 /// This is taken from spirit/example/x3/calc/calc8 from Boost 1.77.0
 /// and adapted to run on the Arduino NANO RP2040 connect.
 ///
-/// At the moment this runs with correct input and crashes using an undefined variable.
+/// Calc8 runs with correct input and crashes using an undefined variable.
 ///
-/// I have changed expectation (>) to sequence (>>) in the code which is now being reversed.
+/// I changed expectation (>) to sequence (>>) in the code which has now been reversed.
 ///
 /// I am going to use BOOST_SPIRIT_X3_NO_EXCEPTION and custom error diagnostics.
 ///
-/// I thought that this would be easy. I am struggling to sort out the parser configuration.
+/// I thought that this would be easy. I have struggled to sort out the parser configuration.
 ///
 /// I have now got this down to a single undefined reference to do with parse_rule.
 ///
@@ -22,6 +22,8 @@
 /// I still cannot get it working with the diagnostics and I think the problem is in the compiler code which is still doing error handling.
 ///
 /// I have now found that there was a problem with the context_type where only one with<> can be handled at one time.
+///
+/// One of the problems I had was not realising that the type definition could not support more than 3 template arguments.
 ///
 /// This has involved a number of adaptions to the Arduino environment.
 ///
