@@ -43,5 +43,7 @@ One result of this is a code in custom.h which should be portable to different p
 
 Another result is a lot more knowledge about how Spirit X3 works.
 
+I still need to do some work to get the debug output working properly.
+
 Back to [Boost Spirit X3 examples](BOOSTSPIRITX3.md)
 
