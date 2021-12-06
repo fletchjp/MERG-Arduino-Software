@@ -26,6 +26,10 @@ These examples are more adaption of the ones which have been collected from a nu
 
 This example introduces another approach to diagnostic output which I am using in several examples.
 
+### ArduinoRP2040BoostSpiritCustom2
+
+### ArduinoRP2040BoostSpiritCustom3
+
 Back to [Boost Spirit X3 examples](BOOSTSPIRITX3.md)
 
 
