@@ -29,6 +29,8 @@ Some of the examples are documented using Doxygen.
 
 [Boost Spirit X3 further examples](BOOSTSPIRITX3Further.md) development of examples
 
+[Boost Spirit X3 calculation examples](BOOSTSPIRITX3Calculation.md) development of calculation examples
+
 ## Back to Boost Spirit and RP2040
 
 [Boost Spirit page](BOOSTSPIRIT.md) | [RP2040 page](RP2040.md)
