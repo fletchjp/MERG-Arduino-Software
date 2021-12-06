@@ -14,7 +14,7 @@
 namespace x3 = boost::spirit::x3;
 
 /// namespace named any_parser
-namespace any_parser {
+namespace /*any_parser*/ {
     template <typename T>
     struct as_type {
         template <typename...> struct Tag{};
@@ -58,5 +58,45 @@ namespace any_parser {
     template <typename T> static const lazy_type<T>        lazy{};
 }
 
+void run_lazy_example()
+{
+    //namespace x3 = boost::spirit::x3;
 
+    //using namespace any_parser;
+    
+    using Value = boost::variant<int, bool, double, std::string>;
+    using It    = std::string::const_iterator;
+    using Rule  = x3::any_parser<It, Value>;
+
+    x3::symbols<Rule> options;
+
+    auto const parser = x3::with<Rule>(Rule{}) [
+        set_context<Rule>[options] >> ':' >> lazy<Rule>
+    ];
+
+   auto run_tests = [=] {
+        for (std::string const& input : {
+                "integer_value: 42",
+                "quoted_string: \"hello world\"",
+                "bool_value: true",
+                "double_value: 3.1415926",
+            })
+        {
+
+            Value attr;            
+/*
+             //std::cout << std::setw(36) << std::quoted(input);
+            if (phrase_parse(begin(input), end(input), parser, x3::space, attr)) {
+                //Serial << " -> success (" << attr << ")\n";
+            } else {
+                Serial << " -> failed\n";
+            }
+*/
+        }
+
+    
+    };
+
+
+  }
 #endif
