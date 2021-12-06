@@ -50,9 +50,7 @@
 #include <boost_spirit_home_x3.hpp>
 #include <boost/spirit/home/x3/support/ast/variant.hpp>
 
-#include "variantCode.h"
-#include "wrapper.h"
-
+#include "any_parser.hpp"
 
 void setup() {
   /// put your setup code here, to run once:
@@ -65,43 +63,11 @@ void setup() {
   Serial.print(t2);
   Serial.println(" millis");
   while (!delay_without_delaying(10000) ) { };
-  Serial << "ArduinoRP2040BoostSpiritX3Variant ** " << endl << __FILE__ << endl;
-  Serial << "Some simple Boost Spirit X3 variant operations" << endl;
+  Serial << "ArduinoRP2040BoostSpiritX3Lazy ** " << endl << __FILE__ << endl;
+  Serial << "Some simple Boost Spirit X3 lazy parser operations" << endl;
  
   {
-     typedef boost::variant<int,double> bv_type;
-     typedef boost::variant<int,bv_type> bv_rtype; // recursive type
-     boost::variant<int,double> bv(3);
-     bv_type bv2(2);
-     bv_rtype bvr2(bv2);
-     Serial << bv.which() << endl;
-     std::stringstream sbv;
-     sbv << bv << std::ends;
-     Serial << sbv.str() << endl;
-
-     typedef x3::variant<int,double> x3_type;
-     typedef x3::variant<int,bv_type> x3_rtype; // recursive type
-     typedef x3::variant<int,x3::forward_ast<bv_type>> x3_frtype; // recursive type
-     x3_type x3_2(2);
-     //x3_rtype x3_r2(x3_2); //Not supported.
-     //x3_frtype x3_fr2(x3_2); //Not supported.
-
-     ast v{123};
-     Serial << "ast v{123};" << endl;
-     Serial << boost::get<int>(v) << endl;
-     v = "test";              
-     Serial << boost::get<std::string>(v) << endl;
-     v = "test2";              
-     Serial << v << endl;
-     v = true;
-     Serial << boost::get<bool>(v) << endl;
-     v = 3.14;
-     Serial << boost::get<double>(v) << endl;
-     Serial << v.get().which() << endl;
-     std::stringstream sv;
-     sv << v.get() << std::ends; // Nothing
-     Serial << sv.str() << endl;
-     
+    
     
   }
   Serial << "------------------------------" << endl;
