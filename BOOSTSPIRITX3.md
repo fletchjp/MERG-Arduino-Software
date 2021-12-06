@@ -25,13 +25,6 @@ There are a lot of examples now and I am going to divide up this page into group
 
 [Boost Spirit X3 initial examples](BOOSTSPIRITX3Initial.md) the ones previously documented here.
 
-
-
-
-### ArduinoRP2040BoostSpiritX3Annotation
-
-
-
 ## Back to Boost Spirit and RP2040
 
 [Boost Spirit page](BOOSTSPIRIT.md) | [RP2040 page](RP2040.md)
