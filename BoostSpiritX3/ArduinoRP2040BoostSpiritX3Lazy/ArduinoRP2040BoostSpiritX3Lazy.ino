@@ -66,10 +66,8 @@ void setup() {
   Serial << "ArduinoRP2040BoostSpiritX3Lazy ** " << endl << __FILE__ << endl;
   Serial << "Some simple Boost Spirit X3 lazy parser operations" << endl;
  
-  {
-    
-    
-  }
+  run_lazy_example();
+  
   Serial << "------------------------------" << endl;
   while (!delay_without_delaying(10000) ) { };
   Serial << "------------------------------" << endl;
