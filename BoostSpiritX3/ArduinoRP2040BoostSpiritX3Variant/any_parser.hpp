@@ -57,12 +57,12 @@ bool another_test()
         {
           // this does not compile although it is a copy from a test file.
           // It is the rhs of the parser which causes the problem.
-             x3::any_parser<iterator_type, std::string> p = char_ >> *(',' >> char_);
-          //  x3::any_parser<iterator_type, unused_type> p; //= char_ >> *(',' >> char_);
+          //   x3::any_parser<iterator_type, std::string> p = char_ >> *(',' >> char_);
+            x3::any_parser<iterator_type, unused_type> p; //= char_ >> *(',' >> char_);
             char const* in("a,b,c,d,e,f");
             char const* last = in;
             while (*last) last++;
-            bool res =  x3::parse(in, last, p[f]);
+            bool res =  x3::parse(in, last, p); // p[f]
             Serial << "output : " << s << endl; // output is blank!
             return res;
         }
