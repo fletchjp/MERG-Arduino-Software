@@ -65,6 +65,7 @@ void run_lazy_example()
     using namespace any_parser_or_something;
     
     using Value = boost::variant<int, bool, double, std::string>;
+    //using Value = boost::variant<int, bool, double>;
     using It    = std::string::const_iterator;
     using Rule  = x3::any_parser<It, Value>;
 
@@ -91,8 +92,8 @@ void run_lazy_example()
             //if (any_parser::lazy_type<Rule>::parse(begin(input_), end(input_), parser, x3::space, attr)) {
             // I cannot get this to compile - it produces a very long error.
             // I cannot see where phrase_parse is defined.
-            if (phrase_parse(start_, end_, parser, x3::space, attr)) {
-                 //Serial << " -> success (" << attr << ")\n";
+            if (x3::phrase_parse(start_, end_, parser, x3::space, attr)) {
+                Serial << " -> success (" << /*attr <<*/ ")\n";
             } else {
                 Serial << " -> failed\n";
             }
@@ -102,6 +103,19 @@ void run_lazy_example()
     
     };
 
+    Serial << "Supporting only integer_value and quoted_string:\n";
+    options.add("integer_value", x3::int_);
+    options.add("quoted_string", as<std::string> [
+            // lexeme is actually redundant because we don't use surrounding skipper yet
+            x3::lexeme [ '"' >> *('\\' >> x3::char_ | ~x3::char_('"')) >> '"' ]
+        ]);
+    run_tests();
+
+    Serial << "\nAdded support for double_value and bool_value:\n";
+    options.add("double_value", x3::double_);
+    options.add("bool_value", x3::bool_);
+
+    run_tests();
 
   }
 #endif
