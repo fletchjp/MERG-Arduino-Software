@@ -49,7 +49,7 @@ namespace any_parser_or_something {
                     first, last, 
                     std::forward<Ctx>(ctx),
                     std::forward<RCtx>(rctx),
-                    attr);
+                    attr.value);
         }
     };
 
@@ -58,13 +58,53 @@ namespace any_parser_or_something {
     template <typename T> static const lazy_type<T>        lazy{};
 }
 
+typedef x3::variant<int, bool, double> Value;
+/// Value_struct putting a value into a struct
+struct Value_struct {
+  Value value;
+};
+BOOST_FUSION_ADAPT_STRUCT(Value_struct,value)
+
+/// Stream output for a variant type provided operators exist for all the alternatives.
+inline Print &operator <<(Print &stream, const Value_struct &arg)
+{
+   std::stringstream s;
+   s << arg.value.get() << std::ends;
+   stream.print(s.str().c_str());
+   return stream;
+}
+/// somehow the pares here messes with the defintion of Variant_struct.
+bool basic_test()
+    { // basic tests
+        using x3::lit;
+        auto a = lit('a');
+        auto b = lit('b');
+        auto c = lit('c');
+
+        {
+            typedef std::string::const_iterator iterator_type;
+            x3::any_parser<iterator_type> p =
+                *(a | b | c);
+            char const* in("abcabcacb");
+            char const* last = in;
+            while (*last) last++;
+            //return x3::parse(in, last, p);   
+            //BOOST_TEST(test("abcabcacb", start));
+        }
+        return true;
+    }
+
+
 void run_lazy_example()
 {
     //namespace x3 = boost::spirit::x3;
 
     using namespace any_parser_or_something;
+
+    if (basic_test() ) Serial << "basic_test() passes" << endl;
     
-    using Value = boost::variant<int, bool, double, std::string>;
+    
+    //using Value = boost::variant<int, bool, double, std::string>;
     //using Value = boost::variant<int, bool, double>;
     using It    = std::string::const_iterator;
     using Rule  = x3::any_parser<It, Value>;
@@ -75,16 +115,18 @@ void run_lazy_example()
         set_context<Rule>[options] >> ':' >> lazy<Rule>
     ];
 
+
+
    auto run_tests = [=] {
         for (std::string const& input_ : {
                 "integer_value: 42",
-                "quoted_string: \"hello world\"",
+                //"quoted_string: \"hello world\"",
                 "bool_value: true",
                 "double_value: 3.1415926",
             })
         {
 
-            Value attr;
+            Value_struct attr;
             It start_ = begin(input_);       
             It end_   = end(input_);
             //std::cout << std::setw(36) << std::quoted(input);
@@ -92,11 +134,12 @@ void run_lazy_example()
             //if (any_parser::lazy_type<Rule>::parse(begin(input_), end(input_), parser, x3::space, attr)) {
             // I cannot get this to compile - it produces a very long error.
             // I cannot see where phrase_parse is defined.
-            if (x3::phrase_parse(start_, end_, parser, x3::space, attr)) {
-                Serial << " -> success (" << /*attr <<*/ ")\n";
+           if (x3::phrase_parse(start_, end_, parser, x3::space, attr)) {
+                Serial << " -> success (" << attr << ")\n";
             } else {
-                Serial << " -> failed\n";
+                Serial << " -> failed " << attr.value.get().which() << "\n";
             }
+  //error: no type named 'type' in 'struct boost::fusion::traits::is_view<boost::variant<int, bool, double> >'
 
         }
 
@@ -105,14 +148,18 @@ void run_lazy_example()
 
     Serial << "Supporting only integer_value and quoted_string:\n";
     options.add("integer_value", x3::int_);
-    options.add("quoted_string", as<std::string> [
+    options.add("double_value", x3::double_);
+/*  This does not compile.
+    options.add("quoted_string", as<std::string> 
+    [
             // lexeme is actually redundant because we don't use surrounding skipper yet
             x3::lexeme [ '"' >> *('\\' >> x3::char_ | ~x3::char_('"')) >> '"' ]
         ]);
-    run_tests();
+*/
+run_tests();
 
     Serial << "\nAdded support for double_value and bool_value:\n";
-    options.add("double_value", x3::double_);
+    //options.add("double_value", x3::double_);
     options.add("bool_value", x3::bool_);
 
     run_tests();
