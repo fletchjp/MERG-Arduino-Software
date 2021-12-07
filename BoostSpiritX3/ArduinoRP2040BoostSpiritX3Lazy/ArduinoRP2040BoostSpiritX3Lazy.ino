@@ -9,6 +9,8 @@
 ///
 /// I was lead to this looking for examples of subcontext and any_parser, both of which are in X3 and lack examples.
 ///
+/// I have swapped from boost::variant to x3::variant.
+///
 /// I  having now provided an output operator for an x3::variant.
 ///
 /// There is an example in variantcode.h which does not compile in the main code.
