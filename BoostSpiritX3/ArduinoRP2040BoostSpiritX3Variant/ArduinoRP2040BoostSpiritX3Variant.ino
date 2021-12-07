@@ -118,6 +118,8 @@ void setup() {
      
     if (basic_test() ) Serial << "any_parser basic_test() passes" << endl;
 
+    if (another_test() ) Serial << "any_parser another_test() passes" << endl;
+
   }
   Serial << "------------------------------" << endl;
   while (!delay_without_delaying(10000) ) { };
