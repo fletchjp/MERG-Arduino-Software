@@ -18,6 +18,8 @@ I have also added some code from
 https://github.com/SuperV1234/vittorioromeo.info/blob/master/extra/visiting_variants/variant_aliases.hpp
 which moves between std::variant and boost::variant for visiting.
 
+I am using this example to run some examples of any_parser as well.
+
 This has involved a number of adaptions to the Arduino environment which are contained in the sketch file.
 
 Common features have been moved to ArduinoCode.h which can be used in other examples.
