@@ -9,11 +9,12 @@
 #ifndef ANY_PARSER_HPP
 #define ANY_PARSER_HPP
 
+#include <iomanip>
 #include <boost_spirit_home_x3.hpp>
 
 namespace x3 = boost::spirit::x3;
 
-/// namespace named any_parser
+/// namespace named any_parser_or_something to avoid a name clash with any_parser.
 namespace any_parser_or_something {
     template <typename T>
     struct as_type {
@@ -58,11 +59,17 @@ namespace any_parser_or_something {
     template <typename T> static const lazy_type<T>        lazy{};
 }
 
+/// Variant to cover different types.
 typedef x3::variant<int, bool, double> Value;
-/// Value_struct putting a value into a struct
+
+/// @brief Value_struct putting a value into a struct
+///
+/// I have done this to be able to declare BOOST_FUSION_ADAPT_STRUCT
+/// as otherwise the code fails attempting to use Value as a boost fusion view.
 struct Value_struct {
   Value value;
 };
+
 BOOST_FUSION_ADAPT_STRUCT(Value_struct,value)
 
 /// Stream output for a variant type provided operators exist for all the alternatives.
@@ -73,6 +80,9 @@ inline Print &operator <<(Print &stream, const Value_struct &arg)
    stream.print(s.str().c_str());
    return stream;
 }
+
+/// @brief simple test to check operation of any_parser.
+///
 /// somehow the parse here messes with the definition of Variant_struct.
 /// The solution is to use the correct iterator_type.
 bool basic_test()
@@ -98,7 +108,10 @@ bool basic_test()
         return false;
     }
 
-
+/// @brief This is adapted from the example
+///
+/// I have been unable to use std::string with options - it does not compile.
+/// The parser is now passed Value_struct and I still do not get a success on parsing.
 void run_lazy_example()
 {
     //namespace x3 = boost::spirit::x3;
@@ -120,7 +133,6 @@ void run_lazy_example()
     ];
 
 
-
    auto run_tests = [=] {
         for (std::string const& input_ : {
                 "integer_value: 42",
@@ -134,11 +146,9 @@ void run_lazy_example()
             It start_ = begin(input_);       
             It end_   = end(input_);
             //std::cout << std::setw(36) << std::quoted(input);
+            // Serial << std::quoted(input_) << endl;
             // experiment
-            //if (any_parser::lazy_type<Rule>::parse(begin(input_), end(input_), parser, x3::space, attr)) {
-            // I cannot get this to compile - it produces a very long error.
-            // I cannot see where phrase_parse is defined.
-           if (x3::phrase_parse(start_, end_, parser, x3::space, attr)) {
+            if (x3::phrase_parse(start_, end_, parser, x3::space, attr)) {
                 Serial << " -> success (" << attr << ")\n";
             } else {
                 Serial << " -> failed " << attr.value.get().which() << "\n";
