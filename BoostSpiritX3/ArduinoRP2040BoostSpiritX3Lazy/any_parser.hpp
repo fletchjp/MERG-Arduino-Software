@@ -73,25 +73,29 @@ inline Print &operator <<(Print &stream, const Value_struct &arg)
    stream.print(s.str().c_str());
    return stream;
 }
-/// somehow the pares here messes with the defintion of Variant_struct.
+/// somehow the parse here messes with the definition of Variant_struct.
+/// The solution is to use the correct iterator_type.
 bool basic_test()
     { // basic tests
         using x3::lit;
         auto a = lit('a');
         auto b = lit('b');
         auto c = lit('c');
+        auto d = lit('d');
 
         {
-            typedef std::string::const_iterator iterator_type;
+            //typedef std::string::const_iterator iterator_type;
+            typedef const char* iterator_type;
             x3::any_parser<iterator_type> p =
-                *(a | b | c);
-            char const* in("abcabcacb");
+                *(a | b | c );
+            char const* in("abcabcacdb");
+            Serial << "test input is " << in << endl;
             char const* last = in;
             while (*last) last++;
-            //return x3::parse(in, last, p);   
+            return x3::parse(in, last, p);   
             //BOOST_TEST(test("abcabcacb", start));
         }
-        return true;
+        return false;
     }
 
 
@@ -101,8 +105,8 @@ void run_lazy_example()
 
     using namespace any_parser_or_something;
 
-    if (basic_test() ) Serial << "basic_test() passes" << endl;
-    
+    if (basic_test() ) Serial << "any_parser basic_test() passes" << endl;
+    else Serial << "any_parser basic_test() fails" << endl;
     
     //using Value = boost::variant<int, bool, double, std::string>;
     //using Value = boost::variant<int, bool, double>;
