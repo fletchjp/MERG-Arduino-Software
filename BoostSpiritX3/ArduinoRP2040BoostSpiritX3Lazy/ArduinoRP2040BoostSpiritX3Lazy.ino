@@ -49,6 +49,7 @@
 
 #include <boost_spirit_home_x3.hpp>
 #include <boost/spirit/home/x3/support/ast/variant.hpp>
+#include <boost/fusion/include/adapt_struct.hpp>
 
 #include "any_parser.hpp"
 
