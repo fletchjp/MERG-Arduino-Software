@@ -170,7 +170,7 @@ void run_lazy_example()
             x3::lexeme [ '"' >> *('\\' >> x3::char_ | ~x3::char_('"')) >> '"' ]
         ]);
 */
-run_tests();
+    run_tests();
 
     Serial << "\nAdded support for double_value and bool_value:\n";
     //options.add("double_value", x3::double_);
