@@ -51,6 +51,7 @@
 
 #include "variantCode.h"
 #include "wrapper.h"
+#include "any_parser.hpp"
 
 //////////////////////////////////////////////////////////
 
@@ -115,7 +116,8 @@ void setup() {
      sv << v.get() << std::ends; // Nothing
      Serial << sv.str() << endl;
      
-    
+    if (basic_test() ) Serial << "any_parser basic_test() passes" << endl;
+
   }
   Serial << "------------------------------" << endl;
   while (!delay_without_delaying(10000) ) { };
