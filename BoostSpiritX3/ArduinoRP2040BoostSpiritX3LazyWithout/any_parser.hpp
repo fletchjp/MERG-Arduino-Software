@@ -1,13 +1,15 @@
 /// @file any_parser.hpp
 /// @brief Arduino RP2040 code for Boost Spirit X3 any_parser example
 ///
-/// Modified to NOT use the any_parser.
+/// Lazy example modified to NOT use the any_parser code. It defines lazy_rule instead.
 ///
 /// This is based on an example: 
 ///
 /// https://stackoverflow.com/questions/60171119/boost-spirit-x3-lazy-parser
 ///
 /// I have modified the example to wrap the variant data type in a struct.
+///
+/// 
 
 
 #ifndef ANY_PARSER_HPP
