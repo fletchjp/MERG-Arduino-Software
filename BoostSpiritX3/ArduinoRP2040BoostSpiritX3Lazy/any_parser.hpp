@@ -5,6 +5,7 @@
 ///
 /// https://stackoverflow.com/questions/60171119/boost-spirit-x3-lazy-parser
 ///
+/// I have modified the example to wrap the variant data type in a struct.
 
 #ifndef ANY_PARSER_HPP
 #define ANY_PARSER_HPP
@@ -66,6 +67,8 @@ typedef x3::variant<int, bool, double> Value;
 ///
 /// I have done this to be able to declare BOOST_FUSION_ADAPT_STRUCT
 /// as otherwise the code fails attempting to use Value as a boost fusion view.
+/// Boost Fusion does not support boost variant.
+/// See the Changelog: https://www.boost.org/doc/libs/1_78_0/libs/fusion/doc/html/fusion/change_log.html
 struct Value_struct {
   Value value;
 };
