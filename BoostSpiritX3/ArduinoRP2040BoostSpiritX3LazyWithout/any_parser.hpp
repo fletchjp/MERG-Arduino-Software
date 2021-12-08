@@ -7,6 +7,8 @@
 ///
 /// https://stackoverflow.com/questions/60171119/boost-spirit-x3-lazy-parser
 ///
+/// I have modified the example to wrap the variant data type in a struct.
+
 
 #ifndef ANY_PARSER_HPP
 #define ANY_PARSER_HPP
@@ -85,19 +87,26 @@ namespace without_any_parser {
         }
     };
 
-
+    /// quoted string made into a rule.
+    struct quoted_string_class;
+    x3::rule<quoted_string_class, std::string>        const quoted_string = "quoted_string";
+    auto const quoted_string_def = x3::lexeme['"' >> +(x3::char_ - '"') >> '"'];
+    BOOST_SPIRIT_DEFINE(quoted_string);
+      
     template <typename T> static const as_type<T>          as{};
     template <typename T> static const set_lazy_type<T>    set_lazy{};
     template <typename T> static const do_lazy_type<T>     do_lazy{};
 }
 
 /// Variant to cover different types.
-typedef x3::variant<int, bool, double> Value;
+typedef x3::variant<int, bool, double,std::string> Value;
 
 /// @brief Value_struct putting a value into a struct
 ///
 /// I have done this to be able to declare BOOST_FUSION_ADAPT_STRUCT
 /// as otherwise the code fails attempting to use Value as a boost fusion view.
+/// Boost Fusion does not support boost variant.
+/// See the Changelog: https://www.boost.org/doc/libs/1_78_0/libs/fusion/doc/html/fusion/change_log.html
 struct Value_struct {
   Value value;
 };
@@ -140,7 +149,7 @@ void run_lazy_example()
    auto run_tests = [=] {
         for (std::string const& input_ : {
                 "integer_value: 42",
-                //"quoted_string: \"hello world\"",
+                "quoted_string: \"hello world\"",
                 "bool_value: true",
                 "double_value: 3.1415926",
             })
@@ -166,18 +175,19 @@ void run_lazy_example()
 
     Serial << "Supporting only integer_value and quoted_string:\n";
     options.add("integer_value", x3::int_);
-    options.add("double_value", x3::double_);
-/*  This does not compile on this version either.
-    options.add("quoted_string", as<std::string> 
-    [
+    options.add("quoted_string", quoted_string);
+/*  This does not compile so I have made it into a rule.
+    options.add("quoted_string", as<std::string>
+        [
             // lexeme is actually redundant because we don't use surrounding skipper yet
-            x3::lexeme [ '"' >> *('\\' >> x3::char_ | ~x3::char_('"')) >> '"' ]
+            //x3::lexeme [ '"' >> *('\\' >> x3::char_ | ~x3::char_('"')) >> '"' ]
         ]);
 */
-run_tests();
+
+    run_tests();
 
     Serial << "\nAdded support for double_value and bool_value:\n";
-    //options.add("double_value", x3::double_);
+    options.add("double_value", x3::double_);
     options.add("bool_value", x3::bool_);
 
     run_tests();
