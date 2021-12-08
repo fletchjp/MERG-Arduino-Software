@@ -9,6 +9,9 @@
 ///
 /// I was lead to this looking for examples of subcontext and any_parser, both of which are in X3 and lack examples.
 ///
+/// The interesting question is why this does not work properly while a similar one (LazyWithout) does work, or mostly so.
+/// That one has an alternative set of rules not using any_parser.
+///
 /// I have swapped from boost::variant to x3::variant.
 ///
 /// I  having now provided an output operator for an x3::variant.
@@ -28,8 +31,8 @@
 /// I have included some simple examples of the recursive use of boost::variant types.
 ///
 //////////////////////////////////////////////////////////
-/// x3 variant example
-/// Definition code now in variantCode.h
+/// x3 lazy example using any_parser
+/// Definition code now in any_parser.hpp
 //////////////////////////////////////////////////////////
 
 
@@ -51,7 +54,10 @@
 
 #include <boost_spirit_home_x3.hpp>
 #include <boost/spirit/home/x3/support/ast/variant.hpp>
-#include <boost/fusion/include/adapt_struct.hpp>
+#include <boost/fusion/include/adapt_struct.hpp
+
+// This was removed in 2007.
+//#include <boost/fusion/include/variant.hpp>
 
 #include "any_parser.hpp"
 
