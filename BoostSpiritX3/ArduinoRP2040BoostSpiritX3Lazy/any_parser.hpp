@@ -6,6 +6,12 @@
 /// https://stackoverflow.com/questions/60171119/boost-spirit-x3-lazy-parser
 ///
 /// I have modified the example to wrap the variant data type in a struct.
+///
+/// I have been unable to get this example to give the expected answer.
+///
+/// I have an equivalent called LazyWithout which uses a different struct called lazy_rule.
+///
+/// It replaces any_parser within a similar structure and it does work.
 
 #ifndef ANY_PARSER_HPP
 #define ANY_PARSER_HPP
@@ -55,13 +61,19 @@ namespace any_parser_or_something {
         }
     };
 
+    /// quoted string made into a rule.
+    struct quoted_string_class;
+    x3::rule<quoted_string_class, std::string>        const quoted_string = "quoted_string";
+    auto const quoted_string_def = x3::lexeme['"' >> +(x3::char_ - '"') >> '"'];
+    BOOST_SPIRIT_DEFINE(quoted_string);
+
     template <typename T> static const as_type<T>          as{};
     template <typename T> static const set_context_type<T> set_context{};
     template <typename T> static const lazy_type<T>        lazy{};
 }
 
 /// Variant to cover different types.
-typedef x3::variant<int, bool, double> Value;
+typedef x3::variant<int, bool, double, std::string> Value;
 
 /// @brief Value_struct putting a value into a struct
 ///
@@ -129,6 +141,10 @@ void run_lazy_example()
     using It    = std::string::const_iterator;
     using Rule  = x3::any_parser<It, Value>;
 
+    /// any_parser object has a member get_info().
+    Rule rule;
+    Serial << "Rule: " << rule.get_info() << endl;
+
     x3::symbols<Rule> options;
 
     auto const parser = x3::with<Rule>(Rule{}) [
@@ -139,7 +155,7 @@ void run_lazy_example()
    auto run_tests = [=] {
         for (std::string const& input_ : {
                 "integer_value: 42",
-                //"quoted_string: \"hello world\"",
+                "quoted_string: \"hello world\"",
                 "bool_value: true",
                 "double_value: 3.1415926",
             })
@@ -165,18 +181,19 @@ void run_lazy_example()
 
     Serial << "Supporting only integer_value and quoted_string:\n";
     options.add("integer_value", x3::int_);
-    options.add("double_value", x3::double_);
-/*  This does not compile.
+    options.add("quoted_string", quoted_string);
+/*  This does not compile so I have made it into a rule.
     options.add("quoted_string", as<std::string> 
     [
             // lexeme is actually redundant because we don't use surrounding skipper yet
             x3::lexeme [ '"' >> *('\\' >> x3::char_ | ~x3::char_('"')) >> '"' ]
         ]);
 */
+    Serial << "Rule: " << rule.get_info() << endl;
     run_tests();
 
     Serial << "\nAdded support for double_value and bool_value:\n";
-    //options.add("double_value", x3::double_);
+    options.add("double_value", x3::double_);
     options.add("bool_value", x3::bool_);
 
     run_tests();
