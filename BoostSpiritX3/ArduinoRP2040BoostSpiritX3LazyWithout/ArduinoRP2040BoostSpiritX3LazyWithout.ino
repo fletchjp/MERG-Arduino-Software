@@ -1,5 +1,7 @@
-/// @file ArduinoRP2040BoostSpiritX3Lazy.ino
-/// @brief Example of Boost Spirit X3 Lazy
+/// @file ArduinoRP2040BoostSpiritX3LazyWithout.ino
+/// @brief Example of Boost Spirit X3 Lazy adapted using lazy_rule
+///
+/// Lazy example modified to NOT use the any_parser code. It defines lazy_rule instead.
 ///
 /// Boost Spirit 3.0.0 is included from Arduino Boost (Boost 1.66.0)
 ///
@@ -7,7 +9,8 @@
 ///
 /// https://stackoverflow.com/questions/60171119/boost-spirit-x3-lazy-parser
 ///
-/// I was lead to this looking for examples of subcontext and any_parser, both of which are in X3 and lack examples.
+/// I was lead to this looking for examples of subcontext and any_parser,
+/// both of which are in X3 and lack examples.
 ///
 /// I have swapped from boost::variant to x3::variant.
 ///

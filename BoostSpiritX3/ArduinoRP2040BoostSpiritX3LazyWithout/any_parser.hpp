@@ -20,7 +20,7 @@
 
 namespace x3 = boost::spirit::x3;
 
-/// namespace named any_parser_or_something to avoid a name clash with any_parser.
+/// namespace without_any_parser to show the change from using any_parser.
 namespace without_any_parser {
     template <
          typename It = std::string::const_iterator,
