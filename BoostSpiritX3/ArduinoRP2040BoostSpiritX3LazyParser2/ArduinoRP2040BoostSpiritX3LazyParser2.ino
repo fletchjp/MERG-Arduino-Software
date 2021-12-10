@@ -1,4 +1,4 @@
-/// @file ArduinoRP2040BoostSpiritX3LazyWithout2.ino
+/// @file ArduinoRP2040BoostSpiritX3LazyParser2.ino
 /// @brief Example of Boost Spirit X3 Lazy adapted using lazy_rule
 ///
 /// Lazy example modified to NOT use the any_parser code. It defines lazy_rule instead.
