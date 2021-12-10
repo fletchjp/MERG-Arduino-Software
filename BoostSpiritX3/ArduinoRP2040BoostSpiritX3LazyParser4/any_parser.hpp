@@ -18,6 +18,7 @@
 
 #include <iomanip>
 #include <boost_spirit_home_x3.hpp>
+#include <boost/spirit/home/x3/support/ast/position_tagged.hpp>
 
 #include "lazy_parser.hpp"
 
@@ -34,7 +35,7 @@ typedef x3::variant<int, bool, double,std::string> Value;
 /// as otherwise the code fails attempting to use Value as a boost fusion view.
 /// Boost Fusion does not support boost variant.
 /// See the Changelog: https://www.boost.org/doc/libs/1_78_0/libs/fusion/doc/html/fusion/change_log.html
-struct Value_struct {
+struct Value_struct : x3::position_tagged {
   Value value;
 };
 
@@ -54,6 +55,25 @@ inline Print &operator <<(Print &stream, const Value_struct &arg)
    return stream;
 }
 
+/// Parser namespace
+namespace parser
+{
+    namespace x3 = boost::spirit::x3;
+    namespace ascii = boost::spirit::x3::ascii;
+
+/// annotate position
+    struct annotate_position {
+        template <typename T, typename Iterator, typename Context>
+        inline void on_success(const Iterator &first, const Iterator &last, T &ast, const Context &context)
+        {
+            auto &position_cache = x3::get<annotate_position>(context).get();
+            position_cache.annotate(ast, first, last);
+            //int x = Context{};
+        }
+    
+    };
+
+}
 
 /// @brief This is adapted from the example
 ///
@@ -67,11 +87,12 @@ void run_lazy_example()
     using It    = std::string::const_iterator;
     using Rule  = lazy_rule<It, Value>;
 
+
 /// symbol table to hold the rules which are declared 
     x3::symbols<Rule> options;
 
 /// parser defined for the options which have been declared
-    auto const parser = x3::with<Rule>(Rule{}) [
+    auto const rule_parser = x3::with<Rule>(Rule{}) [
         set_lazy<Rule>[options] >> ':' >> do_lazy<Rule>
     ];
 
@@ -88,6 +109,16 @@ void run_lazy_example()
             Value_struct attr;
             It start_ = begin(input_);       
             It end_   = end(input_);
+            x3::position_cache<std::vector<It> > pos_cache(start_, end_);
+            custom::diagnostics_handler<It> diags {start_, end_ };
+
+            auto const parser =
+            x3::with<parser::annotate_position>(std::ref(pos_cache)) [
+                x3::with<custom::diagnostics_handler_tag>(diags) [
+                  rule_parser
+                ]
+            ];
+            
             if (x3::phrase_parse(start_, end_, parser, x3::space, attr)) {
                 Serial << " -> success (" << attr << ")\n";
                 unsigned which = attr.value.get().which();

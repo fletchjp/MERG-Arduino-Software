@@ -59,10 +59,9 @@ namespace boost { namespace spirit { namespace x3
 }}}
 
 /// This is here to avoid a failure to define in the main program. This namespace may need changing.
-namespace client {
   namespace parser {
     struct position_cache_tag;
   }
-}
+  
 #endif
 #endif
