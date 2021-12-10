@@ -54,13 +54,17 @@
 #include <vector>
 #include <cstdio>
 
+/// This switches off exceptions and provides a different way to get error information.
+#define BOOST_SPIRIT_X3_NO_EXCEPTION
 #include "ArduinoCode.h"
 
 #include <boost_spirit_home_x3.hpp>
 #include <boost/spirit/home/x3/support/ast/variant.hpp>
 #include <boost/fusion/include/adapt_struct.hpp>
 
+#include "custom.hpp"
 #include "any_parser.hpp"
+
 
 void setup() {
   /// put your setup code here, to run once:
