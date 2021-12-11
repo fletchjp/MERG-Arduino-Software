@@ -91,7 +91,7 @@ void run_lazy_example()
 /// symbol table to hold the rules which are declared 
     x3::symbols<Rule> options;
 
-/// parser defined for the options which have been declared
+/// rule_parser defined for the options which have been declared
     auto const rule_parser = x3::with<Rule>(Rule{}) [
         set_lazy<Rule>[options] >> ':' >> do_lazy<Rule>
     ];
@@ -112,6 +112,7 @@ void run_lazy_example()
             x3::position_cache<std::vector<It> > pos_cache(start_, end_);
             custom::diagnostics_handler<It> diags {start_, end_ };
 
+/// parser augmented with the position cache and the diagnostics handler.
             auto const parser =
             x3::with<parser::annotate_position>(std::ref(pos_cache)) [
                 x3::with<custom::diagnostics_handler_tag>(diags) [
@@ -125,6 +126,14 @@ void run_lazy_example()
                 Serial << names[which] << " : " << attr << endl;
                 results.push_back(attr);
             } else {
+                /// doing it this way there is no expectation failure.
+                if (boost::spirit::x3::where_was_I.size() > 0) 
+                    diags(start_,"error: expecting: " + boost::spirit::x3::where_was_I[0]);
+                // start_ is still at the beginning.
+                diags(start_," is not defined");
+                // This one causes a crash.
+                //diags(pos_cache.position_of(start_).begin()," is not defined");
+                //diags(pos_cache.position_of(attr)," is not defined");
                 /// The value of the parsing type comes back as 0 for a failure.
                 /// I will need to get the type information from the attribution.
                 Serial << " -> failed " << attr.value.get().which() << "\n";
