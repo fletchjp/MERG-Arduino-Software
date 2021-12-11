@@ -93,7 +93,7 @@ void run_lazy_example()
 
 /// rule_parser defined for the options which have been declared
     auto const rule_parser = x3::with<Rule>(Rule{}) [
-        set_lazy<Rule>[options] >> ':' >> do_lazy<Rule>
+        set_lazy<Rule>[options] >> ':' > do_lazy<Rule>
     ];
 
 /// run_tests runs the parser over this sample data.
