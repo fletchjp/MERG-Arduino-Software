@@ -60,6 +60,18 @@ namespace parser
 {
     namespace x3 = boost::spirit::x3;
     namespace ascii = boost::spirit::x3::ascii;
+    struct error_handler_tag;
+
+/// error handler
+    struct error_handler {
+        template <typename It, typename E, typename Ctx>
+        x3::error_handler_result on_error(It&, It const&, E const& x, Ctx const& ctx) {
+            auto& handler = x3::get<custom::diagnostics_handler_tag>(ctx);
+            handler(x.where(), "error: expecting: " + x.which());
+            Serial << "x.which() : " <<  x.which() << endl;
+            return x3::error_handler_result::fail;
+        }
+    };
 
 /// annotate position
     struct annotate_position {
@@ -111,12 +123,15 @@ void run_lazy_example()
             It end_   = end(input_);
             x3::position_cache<std::vector<It> > pos_cache(start_, end_);
             custom::diagnostics_handler<It> diags {start_, end_ };
+            parser::error_handler errors;
 
 /// parser augmented with the position cache and the diagnostics handler.
             auto const parser =
             x3::with<parser::annotate_position>(std::ref(pos_cache)) [
                 x3::with<custom::diagnostics_handler_tag>(diags) [
-                  rule_parser
+                   x3::with<parser::error_handler_tag>(errors) [
+                      rule_parser
+                   ]
                 ]
             ];
             
@@ -137,6 +152,7 @@ void run_lazy_example()
                 /// The value of the parsing type comes back as 0 for a failure.
                 /// I will need to get the type information from the attribution.
                 Serial << " -> failed " << attr.value.get().which() << "\n";
+                Serial << "where_was_I.size() = " << boost::spirit::x3::where_was_I.size() << endl;
                 failures.push_back(attr);
             }
 
