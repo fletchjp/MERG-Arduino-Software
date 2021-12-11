@@ -37,6 +37,7 @@
 #include <cstdio>
 
 /// This switches off exceptions and provides a different way to get error information.
+/// This must be defined before including \boost\spirit\home\x3\directive\expect.hpp
 #define BOOST_SPIRIT_X3_NO_EXCEPTION
 #include "ArduinoCode.h"
 
