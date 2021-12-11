@@ -81,6 +81,7 @@ void setup() {
   Serial << "Some simple Boost Spirit X3 lazy parser operations" << endl;
   Serial << "The lazy parser is now in separate file." << endl;
   Serial << "Storing the results of parsing." << endl;
+  Serial << "Adding annotation and diagnostics." << endl;
 
   run_lazy_example();
   
