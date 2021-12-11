@@ -25,7 +25,7 @@
 namespace x3 = boost::spirit::x3;
 
 /// names for the variant values. These are used for parsing.
-const char *names[] = {"integer_value","quoted_string","double_value","bool_value"};
+const char *names[] = {"integer_value","bool_value","double_value","quoted_string"};
 /// Variant to cover different types of data to be found
 typedef x3::variant<int, bool, double,std::string> Value;
 
@@ -147,7 +147,7 @@ void run_lazy_example()
 
     Serial << "Supporting only integer_value and quoted_string:\n";
     options.add(names[0], x3::int_);
-    options.add(names[1], quoted_string);
+    options.add(names[3], quoted_string);
 
     run_tests();
     Serial << results.size() << " results stored" << endl;
@@ -156,7 +156,7 @@ void run_lazy_example()
     failures.clear();
     Serial << "\nAdded support for double_value and bool_value:\n";
     options.add(names[2], x3::double_);
-    options.add(names[3], x3::bool_);
+    options.add(names[1], x3::bool_);
 
     run_tests();
     Serial << results.size() << " results stored" << endl;
