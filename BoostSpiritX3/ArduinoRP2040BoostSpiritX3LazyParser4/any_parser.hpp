@@ -143,9 +143,13 @@ void run_lazy_example()
             } else {
                 /// doing it this way there is no expectation failure.
                 int wherep1 = boost::spirit::x3::where_was_I.size();
+                int whatItp1 = boost::spirit::x3::what_iterator.size();
                 /// I need to change the message to be the line where we are in the code.
-                if (wherep1 > 0) 
-                    diags(start_,"error: expecting: " + boost::spirit::x3::where_was_I[wherep1-1]);
+                if (whatItp1 > 0) {
+                    It iter = boost::spirit::x3::what_iterator[whatItp1-1];
+                    //diags(iter,"error: expecting: " + *(iter));
+                    // *(iter) gives a wrong location.
+                }
                 // start_ is still at the beginning.
                 //diags(start_," is not defined");
                 // This one causes a crash.
@@ -155,6 +159,7 @@ void run_lazy_example()
                 /// I will need to get the type information from the attribution.
                 Serial << " -> failed " << attr.value.get().which() << "\n";
                 Serial << "where_was_I.size() = " << wherep1 << endl;
+                Serial << "what_iterator.size() = " << whatItp1 << endl;
                 failures.push_back(attr);
             }
 
