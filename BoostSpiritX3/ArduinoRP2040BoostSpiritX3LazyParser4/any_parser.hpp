@@ -68,7 +68,7 @@ namespace parser
         x3::error_handler_result on_error(It&, It const&, E const& x, Ctx const& ctx) {
             auto& handler = x3::get<custom::diagnostics_handler_tag>(ctx);
             handler(x.where(), "error: expecting: " + x.which());
-            Serial << "x.which() : " <<  x.which() << endl;
+            //Serial << "x.which() : " <<  x.which() << endl;
             return x3::error_handler_result::fail;
         }
     };
@@ -103,9 +103,9 @@ void run_lazy_example()
 /// symbol table to hold the rules which are declared 
     x3::symbols<Rule> options;
 
-/// rule_parser defined for the options which have been declared
+/// rule_parser defined for the options which have been declared adding expect
     auto const rule_parser = x3::with<Rule>(Rule{}) [
-        set_lazy<Rule>[options] >> ':' > do_lazy<Rule>
+        x3::expect[set_lazy<Rule>[options]] >> ':' > do_lazy<Rule>
     ];
 
 /// run_tests runs the parser over this sample data.
@@ -142,17 +142,19 @@ void run_lazy_example()
                 results.push_back(attr);
             } else {
                 /// doing it this way there is no expectation failure.
-                if (boost::spirit::x3::where_was_I.size() > 0) 
-                    diags(start_,"error: expecting: " + boost::spirit::x3::where_was_I[0]);
+                int wherep1 = boost::spirit::x3::where_was_I.size();
+                /// I need to change the message to be the line where we are in the code.
+                if (wherep1 > 0) 
+                    diags(start_,"error: expecting: " + boost::spirit::x3::where_was_I[wherep1-1]);
                 // start_ is still at the beginning.
-                diags(start_," is not defined");
+                //diags(start_," is not defined");
                 // This one causes a crash.
                 //diags(pos_cache.position_of(start_).begin()," is not defined");
                 //diags(pos_cache.position_of(attr)," is not defined");
                 /// The value of the parsing type comes back as 0 for a failure.
                 /// I will need to get the type information from the attribution.
                 Serial << " -> failed " << attr.value.get().which() << "\n";
-                Serial << "where_was_I.size() = " << boost::spirit::x3::where_was_I.size() << endl;
+                Serial << "where_was_I.size() = " << wherep1 << endl;
                 failures.push_back(attr);
             }
 
