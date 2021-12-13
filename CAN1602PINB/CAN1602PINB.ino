@@ -365,7 +365,8 @@ char long_message_output_buffer[output_buffer_size];
 const unsigned int input_buffer_size = 32;
 byte long_message_data[input_buffer_size];
 // create a handler function to receive completed long messages:
-void longmessagehandler(void *fragment, const unsigned int fragment_len, const byte stream_id, const byte status);
+void longmessagehandler(void *fragment, const unsigned int fragment_len, const byte stream_id, 
+                        const byte status);
 const byte delay_in_ms_between_messages = 50;
 #endif
 
@@ -408,13 +409,12 @@ void setupCBUS()
   CBUS.setFrameHandler(framehandler, opcodes, nopcodes);
 
 #ifdef CBUS_LONG_MESSAGE
-  //DEBUG_PRINT(F("> about to call to subscribe") );
   // subscribe to long messages and register handler
-  cbus_long_message.subscribe(stream_ids, (sizeof(stream_ids) / sizeof(byte)), long_message_data, input_buffer_size, longmessagehandler);
+  cbus_long_message.subscribe(stream_ids, (sizeof(stream_ids) / sizeof(byte)), 
+                    long_message_data, input_buffer_size, longmessagehandler);
   // this method throttles the transmission so that it doesn't overwhelm the bus:
   cbus_long_message.setDelay(delay_in_ms_between_messages);
   cbus_long_message.setTimeout(1000);
-  //DEBUG_PRINT(F("> CBUS_LONG_MESSAGE subscribed") );
 #endif
 
 
@@ -546,10 +546,11 @@ void processButtons(void)
         if (cbus_long_message.sendLongMessage(long_message_output_buffer, message_length, stream_id) ) {
           Serial << F("long message ") << long_message_output_buffer << F(" sent to ") << stream_id << endl;
         } else {
-          Serial << F("long message sending ") << long_message_output_buffer << F(" to ") << stream_id << F(" failed with message length ") << message_length << endl;
+          Serial << F("long message sending ") << long_message_output_buffer << F(" to ") 
+                 << stream_id << F(" failed with message length ") << message_length << endl;
         }
       } else {
-        //Serial << "long message preparation failed with message length " << message_length << endl;
+        Serial << "long message preparation failed with message length " << message_length << endl;
       }
 #endif
       prevbutton = button;
@@ -781,12 +782,11 @@ void framehandler(CANFrame *msg) {
 //
 // Handler to receive a long message 
 // 
-void longmessagehandler(void *fragment, const unsigned int fragment_len, const byte stream_id, const byte status){
-// I need an example for what goes in here.
-//     fragment[fragment_len] = 0;
-// If the message is complete it will be in fragment and I can do something with it.
+void longmessagehandler(void *fragment, const unsigned int fragment_len, 
+                        const byte stream_id, const byte status){
      if( new_message) { // Print this only for the start of a message.
-        Serial << F("> user long message handler: stream = ") << stream_id << F(", fragment length = ") 
+        Serial << F("> user long message handler: stream = ") << stream_id 
+               << F(", fragment length = ") 
                << fragment_len << F(", fragment = |");
         new_message = false;
      }
@@ -809,7 +809,6 @@ void longmessagehandler(void *fragment, const unsigned int fragment_len, const b
         new_message = true;  // reset for the next message
      } 
  }
-  
 #endif
 
 
