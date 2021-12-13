@@ -24,6 +24,8 @@
 
 namespace x3 = boost::spirit::x3;
 
+namespace ast {
+
 /// names for the variant values. These are used for parsing.
 const char *names[] = {"integer_value","bool_value","double_value","quoted_string"};
 /// Variant to cover different types of data to be found
@@ -39,12 +41,7 @@ struct Value_struct : x3::position_tagged {
   Value value;
 };
 
-/// Vector to store parsed results.
-std::vector<Value_struct> results;
-/// Vector to store parsed failures.
-std::vector<Value_struct> failures;
 
-BOOST_FUSION_ADAPT_STRUCT(Value_struct,value)
 
 /// Stream output for a variant type provided operators exist for all the alternatives.
 inline Print &operator <<(Print &stream, const Value_struct &arg)
@@ -55,9 +52,19 @@ inline Print &operator <<(Print &stream, const Value_struct &arg)
    return stream;
 }
 
+} // namespace ast
+
+/// Vector to store parsed results.
+std::vector<ast::Value_struct> results;
+/// Vector to store parsed failures.
+std::vector<ast::Value_struct> failures;
+
+BOOST_FUSION_ADAPT_STRUCT(ast::Value_struct,value)
+
 /// Parser namespace
 namespace parser
 {
+    using namespace ast;
     namespace x3 = boost::spirit::x3;
     namespace ascii = boost::spirit::x3::ascii;
     struct error_handler_tag;
@@ -93,11 +100,11 @@ namespace parser
 /// The parser is now passed Value_struct and I do now get success on parsing.
 void run_lazy_example()
 {
-
+    using ast::names;
     using namespace lazy_parser;
  
     using It    = std::string::const_iterator;
-    using Rule  = lazy_rule<It, Value>;
+    using Rule  = lazy_rule<It, ast::Value>;
 
 
 /// symbol table to hold the rules which are declared 
@@ -118,7 +125,7 @@ void run_lazy_example()
             })
         {
 
-            Value_struct attr;
+            ast::Value_struct attr;
             It start_ = begin(input_);       
             It end_   = end(input_);
             x3::position_cache<std::vector<It> > pos_cache(start_, end_);
