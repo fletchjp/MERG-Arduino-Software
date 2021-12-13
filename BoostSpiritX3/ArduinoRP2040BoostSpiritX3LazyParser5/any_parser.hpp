@@ -41,7 +41,7 @@ struct Value_struct : x3::position_tagged {
   Value value;
 };
 
-
+struct Rule_tag;
 
 /// Stream output for a variant type provided operators exist for all the alternatives.
 inline Print &operator <<(Print &stream, const Value_struct &arg)
@@ -94,27 +94,128 @@ namespace parser
 
 }
 
+namespace lazy_parser {
+   template <
+         typename It,
+         typename Attr >
+   struct lazy_rule;
+   using It    = std::string::const_iterator;
+   typedef lazy_rule<It,ast::Value> Rule;
+
+/// do_lazy_type assuming that attr is a struct wrapping a variant value.
+/// Specialisation once Rule is defined.
+    using ast::Rule_tag;
+    //using lazy_parser::Rule;
+
+    /// lazy_rule to set up the parser
+    template <
+         typename It = std::string::const_iterator,
+         typename Attr = Rule > // experiment
+         //typename Attr = x3::unused_type >
+    struct lazy_rule : x3::parser<lazy_rule<It, Attr>> {
+        using base_type = x3::parser<lazy_rule<It, Attr>>;
+        using attribute_type = Attr;
+
+        lazy_rule() = default;
+
+        template <typename P> lazy_rule(P p) {
+            f = [p = x3::as_parser(std::move(p))](It& f, It l, Attr& attr) {
+                return p.parse(f, l, x3::unused, x3::unused, attr);
+            };
+        }
+
+        template<typename It_, typename Ctx, typename Attr_>
+        bool parse(It_& first, It_ last, Ctx& ctx, x3::unused_type, Attr_& attr) const {
+            x3::skip_over(first, last, ctx);
+            return f
+                ? f(first, last, attr.value)
+                : false;
+        }
+
+        template<typename It_, typename Ctx>
+        bool parse(It_& first, It_ last, Ctx& ctx, x3::unused_type, x3::unused_type& attr) const {
+            x3::skip_over(first, last, ctx);
+            return f
+                ? f(first, last, attr)
+                : false;
+        }
+/*
+        template<typename It_, typename Ctx>
+        bool parse(It_& first, It_ last, Ctx& ctx, x3::unused_type, Rule& attr) const {
+            x3::skip_over(first, last, ctx);
+            return f
+                ? f(first, last, attr.value)
+                : false;
+        } 
+
+        */
+private:
+        std::function<bool(It&, It, Attr&)> f;
+    };
+
+
+
+    
+    template <>
+    struct do_lazy_type<Rule_tag> : x3::parser<do_lazy_type<Rule_tag>> {
+        //using attribute_type = typename Tag::attribute_type; // TODO FIXME?
+
+        template<typename It, typename Ctx, typename RCtx, typename Attr>
+        bool parse(It& first, It last, Ctx& ctx, RCtx& rctx, Attr& attr) const {
+            auto& subject = x3::get<Rule>(ctx);
+
+            return x3::as_parser(subject)
+                .parse(
+                    first, last, 
+                    std::forward<Ctx>(ctx),
+                    std::forward<RCtx>(rctx),
+                    attr.value);
+        }
+    };
+
+
+}
+
 /// @brief This is adapted from the example
 ///
 /// I have now been able to use std::string with options using the rule quoted_string
 /// The parser is now passed Value_struct and I do now get success on parsing.
-void run_lazy_example()
+namespace special_rules
 {
     using ast::names;
+    using lazy_parser::Rule;
     using namespace lazy_parser;
  
     using It    = std::string::const_iterator;
-    using Rule  = lazy_rule<It, ast::Value>;
+    //using Rule  = lazy_rule<It, ast::Value>;
+    typedef lazy_rule<It, ast::Value> Rule;
 
+    struct my_rule_class : parser::annotate_position {};
+    x3::rule<my_rule_class, ast::Value_struct> const my_rule = "my_rule";
 
 /// symbol table to hold the rules which are declared 
     x3::symbols<Rule> options;
 
+    auto const my_rule_def
+      = x3::expect[set_lazy<Rule>[options]] >> ':' > do_lazy<Rule>;
+
+/// Do I need this for the attribution?
+/// It seems that while what is in my_rule_def is a valid rule it does not work in BOOST_SPIRIT_DEFINE.
+    BOOST_SPIRIT_DEFINE(my_rule);
+
 /// rule_parser defined for the options which have been declared adding expect
     auto const rule_parser = x3::with<Rule>(Rule{}) [
-        x3::expect[set_lazy<Rule>[options]] >> ':' > do_lazy<Rule>
+        x3::expect[set_lazy<Rule>[options]] >> ':' > do_lazy<Rule> // This works
+        //my_rule //fails
     ];
 
+}
+
+void run_lazy_example()
+{
+   using namespace special_rules;
+   using It    = std::string::const_iterator;
+   
 /// run_tests runs the parser over this sample data.
    auto run_tests = [=] {
         for (std::string const& input_ : {

@@ -20,6 +20,7 @@ namespace x3 = boost::spirit::x3;
 
 /// lazy_parser namespace for lazy_rule
 namespace lazy_parser {
+/*
     /// lazy_rule to set up the parser
     template <
          typename It = std::string::const_iterator,
@@ -46,7 +47,7 @@ namespace lazy_parser {
       private:
         std::function<bool(It&, It, Attr&)> f;
     };
-
+*/
 /// as_type from the original example, not currently used.
     template <typename T>
     struct as_type {
@@ -86,7 +87,7 @@ namespace lazy_parser {
                     first, last, 
                     std::forward<Ctx>(ctx),
                     std::forward<RCtx>(rctx),
-                    attr.value);
+                    attr);
         }
     };
 
