@@ -247,6 +247,8 @@ void run_lazy_example()
                 Serial << " -> success (" << attr << ")\n";
                 unsigned which = attr.value.get().which();
                 Serial << names[which] << " : " << attr << endl;
+                //diags(pos_cache.position_of(attr).begin(), ": location"); crashes
+
                 results.push_back(attr);
             } else {
                 /// doing it this way there is no expectation failure.
