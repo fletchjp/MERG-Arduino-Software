@@ -1,15 +1,15 @@
+/// @file CAN1602PINB.ino
+/// @brief Long message example with pins and a display
 ////////////////////////////////////////////////////////////////////////////////////
-// CAN1602PINB - config name experiments.
-// This now works with a modified version of the CBUS and CBUS2515 libraries.
-// For now I will keep a separate file for comparison.
-// I am not changing the version number series.
+/// CAN1602PINB - config name experiments.
+/// This now works with a modified version of the CBUS and CBUS2515 libraries.
+///
+/// For now I will keep a separate file for comparison.
 /////////////////////////////////////////////////////////////////////////////////////
-// This was the previous idea, now abandoned with header file cbus_config removed.
-// This would need access from CBUS.cpp to the header cbus_config.h here.
-// That turns out not to be possible with the Arduino IDE so this is not being pursued.
-////////////////////////////////////////////////////////////////////////////////////
-// Version using DfRobotInputAbstraction.h to model input pins.
-// This uses code from IoAbstraction examples dfRobotAnalogInSwitches 
+///////////////////////////////////////////////////////////////////////////////////
+/// Version using DfRobotInputAbstraction.h to model input pins.
+///
+/// This uses code from IoAbstraction examples dfRobotAnalogInSwitches 
 ////////////////////////////////////////////////////////////////////////////////////
 // Version 2.0b beta 1 Change to use switches and listener.
 ////////////////////////////////////////////////////////////////////////////////////
@@ -26,32 +26,6 @@
 // Version 3.0a beta 9 reduce buffers to (2,2) to avoid crash.
 #define CBUS_LONG_MESSAGE
 // Version 4.0a beta 1 Pass locally defined config object.
-////////////////////////////////////////////////////////////////////////////////////
-// CAN1602BUT
-// Take code from CANALCDBUT to make a new code on the CANmINnOUT base.
-// Version 1.0b beta2 starting to add the code for input events setting the display.
-// Version 1.0b beta3 Adding more code from CANTEXT 
-// and decoding of node number and event number of incoming events.
-// Also change the display in response to an incoming event.
-// Version 1.0b beta4 Changes as the previous version did not update the display.
-// Add some more opcodes.
-// Version 1.0b beta5 Correct bugs inherited from CANmINmOUT event code.
-// Version 1.0b beta6 Add Sven's modifications to CANmINmOUT event code.
-// Version 1.0b beta7 Correct lack of return value from sendEvent.
-// Version 1.0b beta8 Use DEBUG_PRINT and process send fail in processSwitches.
-// Version 1.0b beta9 Change event no of incoming error.
-// Version 1.0b beta10 Changes to code processing the incoming error.
-// Version 1.0b beta11 Make processSerialInput a task.
-////////////////////////////////////////////////////////////////////////////////////
-// CANTOTEM
-// Modification to start to use IoAbstraction and TaskManagerIO
-// as has been done in CANCMDDC in CANCMDDC2
-// This is to run on the TOTEM Minilab with a CAN interface.
-// working from
-// TOTEMmINnOUT
-// Copied from
-// CANmINnOUT
-
 
 /*
   Copyright (C) 2021 Martin Da Costa
@@ -135,24 +109,20 @@
 #include <TaskManagerIO.h>
 #include <DeviceEvents.h>
 
-// IoAbstraction reference to the arduino pins.
-//IoAbstractionRef arduinoPins = ioUsingArduino();
-// This uses the default settings for analog ranges.
+/// This uses the default settings for analog ranges.
 IoAbstractionRef dfRobotKeys = inputFromDfRobotShield();
 
-// This is the input pin where analog input is received.
-// It is in fact set as default defining dfRobotKeys.
+/// @brief This is the input pin where analog input is received.
+/// 
+/// It is in fact set as default defining dfRobotKeys.
 #define ANALOG_IN_PIN A0
-
-//int previous_analog = 0;
-//int analog_value;
 
 // 3rd party libraries
 #include <Streaming.h>
 #include <Bounce2.h>
 
 #include <LiquidCrystal.h>
-//LCD pin to Arduino
+///LCD pins to the Arduino
 const int pin_RS = 8; 
 const int pin_EN = 9; 
 const int pin_d4 = 4; 
@@ -162,13 +132,7 @@ const int pin_d7 = 7;
 const int pin_BL = 10; 
 LiquidCrystal lcd( pin_RS,  pin_EN,  pin_d4,  pin_d5,  pin_d6,  pin_d7);
 
-// Variables for buttons
-// Most are not needed here.
-//int x;
-//int prevx = 0;
-//int range;
-//int prevrange = 0;
-// Use these for the CBUS outputs
+/// Use these values for the CBUS outputs
 int button = -1;
 int prevbutton = -1;
 // CBUS library header files
@@ -187,10 +151,10 @@ int prevbutton = -1;
 
 ////////////DEFINE MODULE/////////////////////////////////////////////////
 
-// module name
+/// module name
 unsigned char mname[7] = { '1', '6', '0', '2', 'P', 'I', 'N' };
 
-// constants
+/// constants
 const byte VER_MAJ = 4;         // code major version
 const char VER_MIN = 'a';       // code minor version
 const byte VER_BETA = 1;        // code beta sub-version
@@ -201,38 +165,40 @@ const unsigned long CAN_OSC_FREQ = 8000000;     // Oscillator frequency on the C
 #define NUM_LEDS 1              // How many LEDs are there?
 #define NUM_SWITCHES 1          // How many switchs are there?
 
-//Module pins available for use are Pins 3 and A2 - A5
+///Module pins available for use are Pins 3 and A2 - A5
 const byte LED[NUM_LEDS] = {3};            // LED pin connections through typ. 1K8 resistor
 const byte SWITCH[NUM_SWITCHES] = {16};     // Module Switch takes input to 0V.
 
-// module objects
+/// module objects
 Bounce moduleSwitch[NUM_SWITCHES];  //  switch as input
 LEDControl moduleLED[NUM_LEDS];     //  LED as output
 byte switchState[NUM_SWITCHES];
 
 //////////////////////////////////////////////////////////////////////////
 
-//CBUS pins
+///CBUS pins
 const byte CAN_INT_PIN = 2;  // Only pin 2 and 3 support interrupts
 const byte CAN_CS_PIN = 15;  // Changed from 10 which is used for the display.
 //const byte CAN_SI_PIN = 11;  // Cannot be changed
 //const byte CAN_SO_PIN = 12;  // Cannot be changed
 //const byte CAN_SCK_PIN = 13;  // Cannot be changed
 
-// CBUS objects
-//CBUS2515 CBUS;                      // CBUS object
+/// CBUS objects
 CBUSConfig cbus_config;                  // configuration object
 CBUS2515 CBUS(cbus_config);        // CBUS object
 
 #ifdef CBUS_LONG_MESSAGE
-// The Ardunio CBUS library now supports this.
-// create an additional object at the top of the sketch:
+/// @brief CBUSLongMessage defines the internal CBUS object.
+///
+/// The Ardunio CBUS library now supports this.
+///
+/// This creates an additional object at the top of the sketch:
 CBUSLongMessage cbus_long_message(&CBUS);   // CBUS long message object
 #endif
 
 ////////////////////////////////////////////////////////////////////////////////////
-// Adapted from CANTEXT
-// forward function declarations
+/// Adapted from CANTEXT
+/// forward function declarations
 ////////////////////////////////////////////////////////////////////////////////////
 void eventhandler(byte index, CANFrame *msg);
 void framehandler(CANFrame *msg);
