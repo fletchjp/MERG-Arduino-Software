@@ -29,7 +29,13 @@ namespace ast {
 /// names for the variant values. These are used for parsing.
 const char *names[] = {"integer_value","bool_value","double_value","quoted_string"};
 /// Variant to cover different types of data to be found
-typedef x3::variant<int, bool, double,std::string> Value;
+///typedef x3::variant<int, bool, double,std::string> Value;
+/// following example in Rexpr.
+struct Value : x3::variant<int, bool, double,std::string>
+{
+        using base_type::base_type;
+        using base_type::operator=;  
+};
 
 /// @brief Value_struct declaring a wrapper struct around a value
 ///
@@ -67,10 +73,11 @@ inline Print &operator <<(Print &stream, const Value &arg)
 std::vector<ast::Value_struct> ast_structs;
 std::vector<ast::Value> ast_values;
 
-std::vector<ast::Value> results;
+std::vector<ast::Value_struct> results;
+//std::vector<ast::Value> results;
 /// Vector to store parsed failures.
-//std::vector<ast::Value_struct> failures;
-std::vector<ast::Value> failures;
+std::vector<ast::Value_struct> failures;
+//std::vector<ast::Value> failures;
 
 BOOST_FUSION_ADAPT_STRUCT(ast::Value_struct,value)
 
@@ -113,7 +120,7 @@ namespace lazy_parser {
          typename Attr >
    struct lazy_rule;
    using It    = std::string::const_iterator;
-   typedef lazy_rule<It,ast::Value> Rule;
+   typedef lazy_rule<It,ast::Value_struct> Rule;
 
 /// do_lazy_type assuming that attr is a struct wrapping a variant value.
 /// Specialisation once Rule is defined.
@@ -209,7 +216,7 @@ namespace special_rules
  
     using It    = std::string::const_iterator;
     //using Rule  = lazy_rule<It, ast::Value>;
-    typedef lazy_rule<It, ast::Value> Rule;
+    typedef lazy_rule<It, ast::Value_struct> Rule;
 
     struct my_rule_class : parser::annotate_position {};
     x3::rule<my_rule_class, ast::Value_struct> const my_rule = "my_rule";
@@ -262,19 +269,19 @@ void run_lazy_example()
                 x3::with<custom::diagnostics_handler_tag>(diags) [
                    x3::with<parser::error_handler_tag>(errors) [
                       rule_parser
-                      //my_rule does not work here.
+                      //my_rule //does not work here.
                    ]
                 ]
             ];
             
-            if (x3::phrase_parse(start_, end_, parser, x3::space, ast_values)) {
-                Serial << " -> success (" << attr << ")\n";
-                //unsigned which = attr.value.get().which();
-                unsigned which = attr.get().which();
-                Serial << names[which] << " : " << attr << endl;
+            if (x3::phrase_parse(start_, end_, parser, x3::space, attr_struct)) {
+                Serial << " -> success (" << attr_struct << ")\n";
+                unsigned which = attr_struct.value.get().which();
+                //unsigned which = attr.get().which();
+                Serial << names[which] << " : " << attr_struct << endl;
                 //diags(pos_cache.position_of(attr).begin(), ": location"); crashes
 
-                results.push_back(attr);
+                results.push_back(attr_struct);
             } else {
                 /// doing it this way there is no expectation failure.
                 int wherep1 = boost::spirit::x3::where_was_I.size();
@@ -292,11 +299,11 @@ void run_lazy_example()
                 //diags(pos_cache.position_of(attr)," is not defined");
                 /// The value of the parsing type comes back as 0 for a failure.
                 /// I will need to get the type information from the attribution.
-                //Serial << " -> failed " << attr.value.get().which() << "\n";
-                Serial << " -> failed " << attr.get().which() << "\n";
+                Serial << " -> failed " << attr_struct.value.get().which() << "\n";
+                //Serial << " -> failed " << attr.get().which() << "\n";
                 Serial << "where_was_I.size() = " << wherep1 << endl;
                 Serial << "what_iterator.size() = " << whatItp1 << endl;
-                failures.push_back(attr);
+                failures.push_back(attr_struct);
             }
 
         }
