@@ -115,6 +115,7 @@ namespace parser
 }
 
 namespace lazy_parser {
+
    template <
          typename It,
          typename Attr >
@@ -126,6 +127,8 @@ namespace lazy_parser {
 /// Specialisation once Rule is defined.
     using ast::Rule_tag;
     //using lazy_parser::Rule;
+
+
 /*
     /// lazy_rule to set up the parser
     template <
@@ -183,7 +186,8 @@ private:
 */
 
 
-
+/// In this version this specialization is not needed.
+/*
     template <>
     struct do_lazy_type<Rule_tag> : x3::parser<do_lazy_type<Rule_tag>> {
         //using attribute_type = typename Tag::attribute_type; // TODO FIXME?
@@ -199,9 +203,10 @@ private:
                     std::forward<RCtx>(rctx),
                     attr);
         }
+    
     };
 
-
+*/
 }
 
 /// @brief This is adapted from the example
