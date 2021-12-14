@@ -24,13 +24,15 @@
 
 namespace x3 = boost::spirit::x3;
 
+/// for the AST of the problem
 namespace ast {
 
 /// names for the variant values. These are used for parsing.
 const char *names[] = {"integer_value","bool_value","double_value","quoted_string"};
-/// Variant to cover different types of data to be found
-///typedef x3::variant<int, bool, double,std::string> Value;
-/// following example in Rexpr.
+
+/// @brief Variant to cover different types of data to be found
+///
+/// This is now defined following example in Rexpr.
 struct Value : x3::variant<int, bool, double,std::string>
 {
         using base_type::base_type;
@@ -47,9 +49,10 @@ struct Value_struct : x3::position_tagged {
   Value value;
 };
 
+/// defined for use in specializations
 struct Rule_tag;
 
-/// Stream output for a variant type provided operators exist for all the alternatives.
+/// Stream output for the overall variant type provided operators exist for all the alternatives.
 inline Print &operator <<(Print &stream, const Value_struct &arg)
 {
    std::stringstream s;
@@ -69,12 +72,13 @@ inline Print &operator <<(Print &stream, const Value &arg)
 
 } // namespace ast
 
-/// Vector to store parsed results.
 std::vector<ast::Value_struct> ast_structs;
 std::vector<ast::Value> ast_values;
 
+/// Vector to store parsed results.
 std::vector<ast::Value_struct> results;
 //std::vector<ast::Value> results;
+
 /// Vector to store parsed failures.
 std::vector<ast::Value_struct> failures;
 //std::vector<ast::Value> failures;
@@ -245,6 +249,7 @@ namespace special_rules
 
 }
 
+/// This runs the example and is called from the main program.
 void run_lazy_example()
 {
    using namespace ast;
@@ -289,7 +294,7 @@ void run_lazy_example()
 
                 results.push_back(attr_struct);
             } else {
-                /// doing it this way there is no expectation failure.
+                /// doing it this way there is no expectation failure information.
                 int wherep1 = boost::spirit::x3::where_was_I.size();
                 int whatItp1 = boost::spirit::x3::what_iterator.size();
                 /// I need to change the message to be the line where we are in the code.
