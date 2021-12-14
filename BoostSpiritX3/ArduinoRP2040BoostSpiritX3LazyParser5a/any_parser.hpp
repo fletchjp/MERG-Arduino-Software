@@ -262,6 +262,7 @@ void run_lazy_example()
                 x3::with<custom::diagnostics_handler_tag>(diags) [
                    x3::with<parser::error_handler_tag>(errors) [
                       rule_parser
+                      //my_rule does not work here.
                    ]
                 ]
             ];
