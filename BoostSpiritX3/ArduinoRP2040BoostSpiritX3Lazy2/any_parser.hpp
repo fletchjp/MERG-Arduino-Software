@@ -13,6 +13,10 @@
 ///
 /// This still fails on every parse, which was the case with the previous version.
 ///
+/// This may help:
+///
+/// https://stackoverflow.com/questions/43278723/spirit-x3-locally-defined-rule-definition-must-have-an-attribute-attached
+///
 /// I have an equivalent called LazyWithout which uses a different struct called lazy_rule.
 ///
 /// It replaces any_parser within a similar structure and it does work.
@@ -170,7 +174,8 @@ namespace parser
 namespace any_parser_or_something {
 
    using It    = std::string::const_iterator;
-   typedef x3::any_parser<It,ast::Value_struct> Rule;
+   //typedef x3::any_parser<It,ast::Value_struct> Rule;
+   using Rule = x3::any_parser<It,ast::Value_struct>;
 
 /// do_lazy_type assuming that attr is a struct wrapping a variant value.
 /// Specialisation once Rule is defined.
