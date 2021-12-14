@@ -12,6 +12,10 @@
 /// The interesting question is why this does not work properly while a similar one (LazyWithout) does work, or mostly so.
 /// That one has an alternative set of rules not using any_parser.
 ///
+/// This is a version where I have brought in a lot of things learned in LazyParser6.
+///
+/// This still fails on every parse, which was the case with the previous version.
+///
 /// I have swapped from boost::variant to x3::variant.
 ///
 /// I  having now provided an output operator for an x3::variant.
