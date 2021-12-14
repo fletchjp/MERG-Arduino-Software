@@ -18,6 +18,8 @@
 ///
 /// I have swapped from boost::variant to x3::variant.
 ///
+/// This now defines Value as from Rexpr example. It runs and always finds 0 as a result.
+///
 /// I  having now provided an output operator for an x3::variant.
 ///
 /// There is an example in variantcode.h which does not compile in the main code.
@@ -77,7 +79,7 @@ void setup() {
   Serial.print(t2);
   Serial.println(" millis");
   while (!delay_without_delaying(30000) ) { };
-  Serial << "ArduinoRP2040BoostSpiritX3LazyParser4 ** " << endl << __FILE__ << endl;
+  Serial << "ArduinoRP2040BoostSpiritX3LazyParser6 ** " << endl << __FILE__ << endl;
   Serial << "Some simple Boost Spirit X3 lazy parser operations" << endl;
   Serial << "The lazy parser is now in separate file." << endl;
   Serial << "Storing the results of parsing." << endl;
