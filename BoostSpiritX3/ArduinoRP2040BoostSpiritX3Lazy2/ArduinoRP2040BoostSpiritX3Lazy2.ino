@@ -50,6 +50,8 @@
 #include <vector>
 #include <cstdio>
 
+/// This switches off exceptions and provides a different way to get error information.
+#define BOOST_SPIRIT_X3_NO_EXCEPTION
 #include "ArduinoCode.h"
 
 #include <boost_spirit_home_x3.hpp>
@@ -59,6 +61,7 @@
 // This was removed in 2007.
 //#include <boost/fusion/include/variant.hpp>
 
+#include "custom.hpp"
 #include "any_parser.hpp"
 
 void setup() {
