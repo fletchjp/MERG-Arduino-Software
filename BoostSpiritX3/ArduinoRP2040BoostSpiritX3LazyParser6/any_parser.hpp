@@ -114,6 +114,7 @@ namespace parser
 
 }
 
+/// This is here to hold some definitions and specializations specific to the problem.
 namespace lazy_parser {
 
    template <
@@ -272,10 +273,10 @@ void run_lazy_example()
             auto const parser =
             x3::with<parser::annotate_position>(std::ref(pos_cache)) [
                 x3::with<custom::diagnostics_handler_tag>(diags) [
-                   x3::with<parser::error_handler_tag>(errors) [
+                   //x3::with<parser::error_handler_tag>(errors) [
                       rule_parser
                       //my_rule //does not work here.
-                   ]
+                   //]
                 ]
             ];
             
