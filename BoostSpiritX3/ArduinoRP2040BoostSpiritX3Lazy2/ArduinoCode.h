@@ -50,4 +50,19 @@ boolean delay_without_delaying(unsigned long time) {
   }
   return false;
 }
+#ifdef BOOST_SPIRIT_X3_NO_EXCEPTION
+namespace boost { namespace spirit { namespace x3
+{
+  using It = std::string::const_iterator;
+  /// This has to be declared somewhere in the user code.
+  std::vector<std::string> where_was_I;
+  std::vector<It> what_iterator;
+}}}
+
+/// This is here to avoid a failure to define in the main program. This namespace may need changing.
+  namespace parser {
+    struct position_cache_tag;
+  }
+  
+#endif
 #endif
