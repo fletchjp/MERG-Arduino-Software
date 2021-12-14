@@ -5,6 +5,14 @@
 ///
 /// The lazy parser code is in a file which is problem independent.
 ///
+/// This is getting much closer to being usable code.
+///
+/// I still have a problem when I use the rule "my_rule" defined using BOOST_SPIRIT_DEFINE.
+///
+/// I want to use this to get annotation.
+///
+/// It fails with a single error mentioning x3::unused_type.
+///
 /// Storing the results of parsing and also the failures.
 ///
 /// Boost Spirit 3.0.0 is included from Arduino Boost (Boost 1.66.0)
