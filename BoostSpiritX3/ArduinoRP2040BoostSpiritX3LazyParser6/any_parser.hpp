@@ -225,6 +225,11 @@ namespace special_rules
     //using Rule  = lazy_rule<It, ast::Value>;
     typedef lazy_rule<It, ast::Value_struct> Rule;
 
+    struct inner_rule_class {};
+    auto const inner_rule_def = do_lazy<Rule>;
+    x3::rule<inner_rule_class> const inner_rule = "inner_rule";
+    BOOST_SPIRIT_DEFINE(inner_rule)
+
     struct my_rule_class : parser::annotate_position {};
     x3::rule<my_rule_class, ast::Value_struct> const my_rule = "my_rule";
 
@@ -232,7 +237,8 @@ namespace special_rules
     x3::symbols<Rule> options;
 
     auto const my_rule_def
-      = x3::expect[set_lazy<Rule>[options]] >> ':' > do_lazy<Rule>;
+      = x3::expect[set_lazy<Rule>[options]] >> ':' > inner_rule;
+      //= x3::expect[set_lazy<Rule>[options]] >> ':' > do_lazy<Rule>;
 
 /// Do I need this for the attribution?
 /// It seems that while what is in my_rule_def is a valid rule it does not work in BOOST_SPIRIT_DEFINE.
@@ -240,6 +246,7 @@ namespace special_rules
 
 /// rule_parser defined for the options which have been declared adding expect
     auto const rule_parser = x3::with<Rule>(Rule{}) [
+        //x3::expect[set_lazy<Rule>[options]] >> ':' > inner_rule // This works
         x3::expect[set_lazy<Rule>[options]] >> ':' > do_lazy<Rule> // This works
         //my_rule //fails
     ];
