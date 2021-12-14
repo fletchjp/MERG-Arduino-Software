@@ -9,6 +9,10 @@
 ///
 /// I have been unable to get this example to give the expected answer.
 ///
+/// This is a version where I have brought in a lot of things learned in LazyParser6.
+///
+/// This still fails on every parse, which was the case with the previous version.
+///
 /// I have an equivalent called LazyWithout which uses a different struct called lazy_rule.
 ///
 /// It replaces any_parser within a similar structure and it does work.
