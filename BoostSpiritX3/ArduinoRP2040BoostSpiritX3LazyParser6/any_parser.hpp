@@ -214,10 +214,7 @@ private:
 */
 }
 
-/// @brief This is adapted from the example
-///
-/// I have now been able to use std::string with options using the rule quoted_string
-/// The parser is now passed Value_struct and I do now get success on parsing.
+/// section to sort out things moved from run_lazy_example
 namespace special_rules
 {
     using ast::names;
@@ -249,6 +246,10 @@ namespace special_rules
 
 }
 
+/// @brief This is adapted from the example
+///
+/// I have now been able to use std::string with options using the rule quoted_string
+/// The parser is now passed Value_struct and I do now get success on parsing.
 /// This runs the example and is called from the main program.
 void run_lazy_example()
 {
