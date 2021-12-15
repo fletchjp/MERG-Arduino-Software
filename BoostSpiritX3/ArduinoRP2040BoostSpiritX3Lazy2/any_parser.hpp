@@ -200,6 +200,7 @@ namespace special_rules
 {
     using ast::names;
     using any_parser_or_something::Rule;
+    using any_parser_or_something::quoted_string;
     using namespace any_parser_or_something;
 //    using namespace lazy_parser;
  
@@ -218,6 +219,31 @@ namespace special_rules
 /// symbol table to hold the rules which are declared 
     x3::symbols<Rule> options;
 
+/// This is following the X3 example for Roman Numbers.
+/*
+    struct options_ : x3::symbols<Rule>
+    {
+      options_()
+      {
+        add
+           (ast::names[0], x3::int_)
+           (ast::names[3], quoted_string)
+           ;
+      }
+    } options;
+*/
+/// moved from the application end
+/// I do not know why these compile later but not here.
+/// It is because they need to be inside a function.
+/// Where do I then execute this? - in run_lazy_example
+/// It does not make any difference - the case still fails to find anything.
+    x3::symbols<Rule> &add_options(x3::symbols<Rule> &options) {
+       options.add(ast::names[0], x3::int_);
+       options.add(ast::names[3], quoted_string);
+       return options;
+    }
+    
+
     auto const my_rule_def
       = x3::expect[set_context<Rule>[options]] >> ':' > inner_rule;
       //= x3::expect[set_context<Rule>[options]] >> ':' > lazy<Rule>;
@@ -231,9 +257,9 @@ namespace special_rules
 
 /// rule_parser defined for the options which have been declared adding expect
     auto const rule_parser = x3::with<Rule>(Rule{}) [
-        //x3::expect[set_context<Rule>[options]] >> ':' > inner_rule
+        x3::expect[set_context<Rule>[options]] >> ':' > inner_rule
         //x3::expect[set_context<Rule>[options]] >> ':' > lazy<Rule>
-        my_rule //now works with inner_rule. Still gives bad answers.
+        //my_rule //now works with inner_rule. Still gives bad answers.
     ];
 
 }
@@ -250,7 +276,9 @@ void run_lazy_example()
    using It    = std::string::const_iterator;
 
    //using namespace any_parser_or_something;
-    
+
+   /// Add to options here. 
+   options = add_options(options);
 
    auto run_tests = [=] {
         for (std::string const& input_ : {
@@ -260,7 +288,6 @@ void run_lazy_example()
                 "double_value: 3.1415926",
             })
         {
-
             ast::Value_struct attr_struct;
             It start_ = begin(input_);       
             It end_   = end(input_);
@@ -300,8 +327,8 @@ void run_lazy_example()
     };
 
     Serial << "Supporting only integer_value and quoted_string:\n";
-    options.add(names[0], x3::int_);
-    options.add(names[3], quoted_string);
+    //options.add(names[0], x3::int_);
+    //options.add(names[3], quoted_string);
 /*  This does not compile so I have made it into a rule.
     options.add("quoted_string", as<std::string> 
     [
