@@ -10,10 +10,23 @@
 /// I have modified the example to wrap the variant data type in a struct.
 ///
 /// This is the code for the lazy parser independent of a particular problem.
+///
+/// See also https://stackoverflow.com/questions/67510759/boost-spirit-x3-parameterizing-parsers-with-other-parsers
+///
+/// https://stackoverflow.com/questions/66036568/mixing-non-terminal-rules-from-separeted-translation-unit
+///
+/// The reason is that, without BOOST_SPIRIT_DEFINE, 
+/// the definition for a rule is stored in the context
+/// and this is what causes the explosion in compile-times.
+///
+/// I have seen mention of any_rule which is not in the code for 3.0.9
+
+
+
 
 #ifndef LAZY_PARSER_HPP
 #define LAZY_PARSER_HPP
-
+#define EXTRAS
 #include <boost_spirit_home_x3.hpp>
 
 namespace x3 = boost::spirit::x3;
@@ -21,15 +34,36 @@ namespace x3 = boost::spirit::x3;
 /// lazy_parser namespace for lazy_rule
 namespace lazy_parser {
 
-    /// lazy_rule to set up the parser
+/// @brief lazy_rule to set up the parser
+///
+/// Comparison with any_parser which has an extra default argument.
+/// Some put in using EXTRAS
     template <
          typename It = std::string::const_iterator,
-         typename Attr = x3::unused_type >
-    struct lazy_rule : x3::parser<lazy_rule<It, Attr>> {
+         typename Attr = x3::unused_type
+#ifdef EXTRAS
+       , typename Context = x3::subcontext<>
+#endif
+      >
+    struct lazy_rule : x3::parser<lazy_rule<It, Attr
+#ifdef EXTRAS
+    , Context
+#endif
+    >> {
+#ifdef EXTRAS
+        using base_type = x3::parser<lazy_rule<It, Attr, Context>>;
+#else
         using base_type = x3::parser<lazy_rule<It, Attr>>;
+#endif
         using attribute_type = Attr;
 
         lazy_rule() = default;
+        
+///#ifdef EXTRAS
+/// any_parser has this which does not seem to be used anywhere.
+///        static bool const handles_container =
+///            traits::is_container<Attr>::value;
+///#endif
 
         template <typename P> lazy_rule(P p) {
             f = [p = x3::as_parser(std::move(p))](It& f, It l, Attr& attr) {

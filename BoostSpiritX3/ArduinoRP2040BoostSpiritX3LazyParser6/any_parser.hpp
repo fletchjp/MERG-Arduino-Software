@@ -123,7 +123,11 @@ namespace lazy_parser {
 
    template <
          typename It,
-         typename Attr >
+         typename Attr
+#ifdef EXTRAS
+         , typename Context
+#endif
+         >
    struct lazy_rule;
    using It    = std::string::const_iterator;
    typedef lazy_rule<It,ast::Value_struct> Rule;
@@ -224,9 +228,12 @@ namespace special_rules
     using It    = std::string::const_iterator;
     //using Rule  = lazy_rule<It, ast::Value>;
     typedef lazy_rule<It, ast::Value_struct> Rule;
+    /// Experiment to look at why there is no f for x3::unused_type
+    typedef lazy_rule<It> Rule_no_attr;
+//cannot bind non-const lvalue reference of type 'boost::spirit::x3::unused_type&' to an rvalue of type 'boost::spirit::x3::unused_type'
 
     struct inner_rule_class {};
-    auto const inner_rule_def = do_lazy<Rule>;
+    auto const inner_rule_def = do_lazy<Rule> | do_lazy<Rule_no_attr>;
     x3::rule<inner_rule_class> const inner_rule = "inner_rule";
     BOOST_SPIRIT_DEFINE(inner_rule)
 
