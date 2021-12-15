@@ -231,10 +231,9 @@ namespace special_rules
 
 /// rule_parser defined for the options which have been declared adding expect
     auto const rule_parser = x3::with<Rule>(Rule{}) [
-        x3::expect[set_context<Rule>[options]] >> ':' > inner_rule
+        //x3::expect[set_context<Rule>[options]] >> ':' > inner_rule
         //x3::expect[set_context<Rule>[options]] >> ':' > lazy<Rule>
-        //x3::expect[set_lazy<Rule>[options]] >> ':' > do_lazy<Rule> // This works
-        //my_rule //fails
+        my_rule //now works with inner_rule. Still gives bad answers.
     ];
 
 }
