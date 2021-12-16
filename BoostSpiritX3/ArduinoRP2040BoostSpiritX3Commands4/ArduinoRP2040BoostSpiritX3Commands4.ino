@@ -30,7 +30,7 @@
 ///
 /// I think have overloaded functions called store to store Person results in a vector and Event results in a map.
 ///
-/// This code to uses x3::variant after experiments with the comments example.
+/// This code uses x3::variant after experiments with the comments example.
 ///
 /// See the ArduinoRP2040BoostSpiritX3Commands.ino example.
 
