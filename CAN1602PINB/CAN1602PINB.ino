@@ -185,7 +185,7 @@ const byte CAN_CS_PIN = 15;  // Changed from 10 which is used for the display.
 
 /// CBUS objects
 CBUSConfig cbus_config;                  // configuration object
-CBUS2515 CBUS(cbus_config);        // CBUS object
+CBUS2515 CBUS(&cbus_config);        // CBUS object
 
 #ifdef CBUS_LONG_MESSAGE
 /// @brief CBUSLongMessage defines the internal CBUS object.
