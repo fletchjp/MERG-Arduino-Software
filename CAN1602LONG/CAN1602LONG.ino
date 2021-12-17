@@ -1,31 +1,13 @@
-/// @file CAN1602PINB.ino
+/// @file CAN1602LONG.ino
 /// @brief Long message example with pins and a display
 ////////////////////////////////////////////////////////////////////////////////////
-/// CAN1602PINB - config name experiments.
-/// This now works with a modified version of the CBUS and CBUS2515 libraries.
-///
-/// For now I will keep a separate file for comparison.
-/////////////////////////////////////////////////////////////////////////////////////
+/// Version 1a beta 1 
 ///////////////////////////////////////////////////////////////////////////////////
 /// Version using DfRobotInputAbstraction.h to model input pins.
 ///
 /// This uses code from IoAbstraction examples dfRobotAnalogInSwitches 
 ////////////////////////////////////////////////////////////////////////////////////
-// Version 2.0b beta 1 Change to use switches and listener.
-////////////////////////////////////////////////////////////////////////////////////
-// Version 3.0a beta 1 Start version with long message code.
-// Version 3.0a beta 2 Add error reporting for long message sending.
-// Version 3.0a beta 3 Take out event send (temporary)
-//                     Change output buffer to make it global (permanent)
-// Version 3.0a beta 4 Correct error in long message handler.
-// Version 3.0a beta 5 Take out is_available()
-// Version 3.0a beta 6 Add code to display message received.
-// Version 3.0a beta 7 Set TX buffers to 4 and take out delay
-// Version 3.0a beta 8 Change arguments for longmessagehandler 
-//                     to match new release of libraries.
-// Version 3.0a beta 9 reduce buffers to (2,2) to avoid crash.
 #define CBUS_LONG_MESSAGE
-// Version 4.0a beta 1 Pass locally defined config object.
 
 /*
   Copyright (C) 2021 Martin Da Costa
@@ -143,19 +125,14 @@ int prevbutton = -1;
 #include <CBUSParams.h>
 //#include "cbus_config.h"
 
-#include <menu.h>
-#include <menuIO/serialOut.h>
-#include <menuIO/chainStream.h>
-#include <menuIO/serialIn.h>
-
 
 ////////////DEFINE MODULE/////////////////////////////////////////////////
 
 /// module name
-unsigned char mname[7] = { '1', '6', '0', '2', 'P', 'I', 'N' };
+unsigned char mname[7] = { '1', '6', '0', '2', 'L', 'O', 'N' };
 
 /// constants
-const byte VER_MAJ = 4;         // code major version
+const byte VER_MAJ = 1;         // code major version
 const char VER_MIN = 'a';       // code minor version
 const byte VER_BETA = 1;        // code beta sub-version
 const byte MODULE_ID = 99;      // CBUS module type
