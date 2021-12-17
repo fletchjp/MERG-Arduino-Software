@@ -7,6 +7,7 @@
 ///
 /// This uses code from IoAbstraction examples dfRobotAnalogInSwitches 
 ////////////////////////////////////////////////////////////////////////////////////
+/// This activates the long message code.
 #define CBUS_LONG_MESSAGE
 
 /*
