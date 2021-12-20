@@ -2,6 +2,10 @@
 
 @mainpage CAN1602LONG
 
+## NOW SEE THE VERSION IN https://github.com/fletchjp/CAN1602LONG
+
+The version here uses a new version of the Arduino CBUS library which is not yet released.
+
 ## Long message example with pins and a display
 
 This code supports a shield with buttons and a display with 2 rows of 16 characters.
