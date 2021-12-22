@@ -38,6 +38,10 @@ void loop() {
 
      case 3:
         Serial << another << endl;
+        break;
+
+     default:
+        Serial << F("Default case: ") << cast << endl;
   }
   Serial << F("value = ") << value << endl;
 
