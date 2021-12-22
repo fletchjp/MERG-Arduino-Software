@@ -33,10 +33,12 @@ void loop() {
         break;
 
      case 2:
+        //This is the problem - defining a variable within the switch.
         int another = cast;
         break;
 
      case 3:
+        // Here -fpermissive allows the use of "another" in case 3 when it will not have been defined.
         Serial << another << endl;
         break;
 
