@@ -253,15 +253,17 @@ bool sendEvent(byte opCode, unsigned int eventNo)
 
 bool sendLongMessage(void)
 {
-  int string_length; // Returned by snprintf. This may exceed the actual length.
+  int string_length = 0; // Returned by snprintf. This may exceed the actual length.
   unsigned int message_length;
   while (cbus_long_message.is_sending()) { } //wait for previous message to finish.
   string_length = snprintf(long_message_output_buffer, output_buffer_size,
                            "This is a Long Message");
   message_length = strlen(long_message_output_buffer);
+  bool success;
   if (message_length > 0) {
-    if (cbus_long_message.sendLongMessage(long_message_output_buffer,
-                                          message_length, stream_id) )
+    success = cbus_long_message.sendLongMessage(long_message_output_buffer,
+                                          message_length, stream_id);
+    if (success)
     {
       Serial << F("long message ") << long_message_output_buffer << F(" sent to ")
              << stream_id << endl;
@@ -274,7 +276,9 @@ bool sendLongMessage(void)
   } else {
     Serial << "long message preparation failed with message length "
            << message_length << endl;
+    success = false;
   }
+  return success;
 }
   //
   /// called from the CBUS library when a learned event is received
