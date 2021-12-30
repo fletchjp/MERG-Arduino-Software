@@ -3,8 +3,10 @@
 ///
 /// https://www.youtube.com/watch?v=mZxJxPZuhMs
 
-//#include <SPI.h>
-//#include <WiFiNINA_Generic.h>
+#include <SPI.h>
+// Warning when used with arduino-pico core.
+// It includes SPI.h if it has not been included already.
+#include <WiFiNINA_Generic.h>
 //#include <WiFiNINA.h>
 
 void setup() {
