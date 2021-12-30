@@ -9,7 +9,7 @@
 #include <StateMachine.h>
 
 const int STATE_DELAY = 1000;
-const int LED = 13;
+const int LED = LED_BUILTIN;
 
 StateMachine machine = StateMachine();
 
