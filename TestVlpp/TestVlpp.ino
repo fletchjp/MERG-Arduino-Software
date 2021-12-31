@@ -11,11 +11,20 @@
 class LibraryClass {
 public:
   //void passACallbackToMe(std::function<int(int, int)> callback) {
-  void passACallbackToMe(vl::Func<int(int, int)> callback) {
+  void RunACallbackForMe(vl::Func<int(int, int)> callback) {
       // Now invoke (call) the callback
     int o = callback(1, 2);
-        printf("Value: %i\n", o); // We might be on an embedded system, use printf() and not std::cout
+    Serial.print("Value:");
+    Serial.println(o); // We might be on an embedded system, use printf() and not std::cout
   }
+  void UseACallbackForMe(vl::Func<int(int, int)> callback,int x,int y) {
+    // Now invoke (call) the callback using the values provided
+    int o = callback(x, y);
+    Serial.print("Value:");
+    Serial.println(o); // We might be on an embedded system, use printf() and not std::cout
+  }
+  
+
 };
 
 class MyClass {
@@ -26,19 +35,27 @@ public:
 };
 
 
- 
-
-
-void setup() 
-{
+// These need to be global to be seen in loop.
     MyClass myClass;
     
     LibraryClass libraryClass;
 
+
+void setup() 
+{
+  Serial.begin(115200);
+  while (!Serial);
+  delay(5000);
+  Serial.println("TestVlpp Functional Programming Library");
+
  // Use a lambda to capture myClass and call the member method
-    libraryClass.passACallbackToMe([&myClass](int num1, int num2) -> int {
+    libraryClass.RunACallbackForMe([&myClass](int num1, int num2) -> int {
         return myClass.methodToCallback(num1, num2);
     });
+
+    libraryClass.UseACallbackForMe([&myClass](int num1, int num2) -> int {
+        return myClass.methodToCallback(num1, num2);
+    },3,4);
 
 
     // Alternate way to using a lambda, use std::bind instead. However I recommend the lambda way.
