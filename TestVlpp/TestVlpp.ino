@@ -2,6 +2,9 @@
 /// @brief First experiment with Functional-Vlpp library
 ///
 /// https://github.com/khoih-prog/functional-vlpp
+///
+/// This is a by product of my search for a way of running the three colour LED on the RP2040.
+/// I have still not solved that problem. Oh well.
 
 // For this functional-vlpp library
 #include <functional-vlpp.h>
