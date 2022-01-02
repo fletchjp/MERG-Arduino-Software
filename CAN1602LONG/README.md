@@ -1,4 +1,4 @@
-# CAN1602LONG
+# CAN1602LONG2
 
 @mainpage CAN1602LONG
 
@@ -11,6 +11,8 @@ The version here uses a new version of the Arduino CBUS library which is not yet
 This code supports a shield with buttons and a display with 2 rows of 16 characters.
 
 It has been programmed so that the buttons send a long string message.
+
+This is now being changes to restructure the task management
 
 The display shows a received long string message.
 
