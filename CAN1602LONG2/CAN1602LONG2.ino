@@ -1,7 +1,8 @@
 /// @file CAN1602LONG2.ino
 /// @brief Long message example with pins and a display
 ////////////////////////////////////////////////////////////////////////////////////
-/// Version 2a beta 1 
+/// Version 2a beta 1
+/// Use new function sendLongMessage
 ///////////////////////////////////////////////////////////////////////////////////
 /// Version using DfRobotInputAbstraction.h to model input pins.
 ///
@@ -133,7 +134,7 @@ int prevbutton = -1;
 unsigned char mname[7] = { '1', '6', '0', '2', 'L', 'O', 'N' };
 
 /// constants
-const byte VER_MAJ = 1;         // code major version
+const byte VER_MAJ = 2;         // code major version
 const char VER_MIN = 'a';       // code minor version
 const byte VER_BETA = 1;        // code beta sub-version
 const byte MODULE_ID = 99;      // CBUS module type
