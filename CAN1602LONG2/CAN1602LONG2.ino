@@ -470,38 +470,17 @@ void processButtons(void)
 {
    // Send an event corresponding to the button, add NUM_SWITCHES to avoid switch events.
    byte opCode;
-#ifdef CBUS_LONG_MESSAGE
-   //char long_message_output_buffer[output_buffer_size]; assigned globally
-   int string_length; // Returned by snprintf. This may exceed the actual length.
-   unsigned int message_length;
-#endif
-   if (button != prevbutton) {
+  if (button != prevbutton) {
       DEBUG_PRINT(F("Button ") << button << F(" changed")); 
       opCode = OPC_ACON;
       sendEvent(opCode, button + NUM_SWITCHES);
 #ifdef CBUS_LONG_MESSAGE
-// Somewhere to send the long message.
-      // Trial to avoid problem where the first part of the long message is lost.
-      while(cbus_long_message.is_sending()) { } //wait for previous message to finish.
+      // Put the data to be send into the long message buffer
+      unsigned int string_length;
       string_length = snprintf(long_message_output_buffer, output_buffer_size,
                       "Button %d changed", button);
-      message_length = strlen(long_message_output_buffer);
-      if (message_length > 0) {
-        if (cbus_long_message.sendLongMessage(long_message_output_buffer, 
-                                              message_length, stream_id) ) 
-        {
-          Serial << F("long message ") << long_message_output_buffer << F(" sent to ") 
-                 << stream_id << endl;
-        } else {
-          Serial << F("long message sending ") 
-                 << long_message_output_buffer << F(" to ") 
-                 << stream_id << F(" failed with message length ") << message_length 
-                 << endl;
-        }
-      } else {
-        Serial << "long message preparation failed with message length " 
-               << message_length << endl;
-      }
+      // Send the long message
+      sendLongMessage();
 #endif
       prevbutton = button;
    }
@@ -578,17 +557,19 @@ void processSwitches(void)
   }
 }
 
+#ifdef CBUS_LONG_MESSAGE
 bool sendLongMessage(void)
 {
-  int string_length; // Returned by snprintf. This may exceed the actual length.
   unsigned int message_length;
-  while (cbus_long_message.is_sending()) { } //wait for previous message to finish.
-  string_length = snprintf(long_message_output_buffer, output_buffer_size,
-                           "This is a Long Message");
+  while(cbus_long_message.is_sending()) {
+     cbus_long_message.process(); // Added to make sure the message gets sent.
+  } //wait for previous message to finish.
   message_length = strlen(long_message_output_buffer);
+  bool success;
   if (message_length > 0) {
-    if (cbus_long_message.sendLongMessage(long_message_output_buffer,
-                                          message_length, stream_id) )
+    success = cbus_long_message.sendLongMessage(long_message_output_buffer,
+                                          message_length, stream_id);
+    if (success)
     {
       Serial << F("long message ") << long_message_output_buffer << F(" sent to ")
              << stream_id << endl;
@@ -601,8 +582,11 @@ bool sendLongMessage(void)
   } else {
     Serial << "long message preparation failed with message length "
            << message_length << endl;
+    success = false;
   }
+  return success;
 }
+#endif
 
 // Send an event routine according to Module Switch
 bool sendEvent(byte opCode, unsigned int eventNo)
