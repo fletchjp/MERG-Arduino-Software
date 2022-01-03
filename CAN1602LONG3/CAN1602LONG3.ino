@@ -426,6 +426,8 @@ void setupSwitches()
     switches.addSwitchListener(DF_KEY_SELECT, &selectKeyListener);
 }
 
+
+// I have arranged this so that there is an empty code when CBUS_LONG_MESSAGE is not defined.
 // sendLongMessage being turned into a callable event.
 //bool sendLongMessage(void)
 class SendLongMessage : public BaseEvent
