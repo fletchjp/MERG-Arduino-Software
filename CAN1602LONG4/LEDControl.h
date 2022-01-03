@@ -23,7 +23,7 @@ class LEDControl {
     byte _pin;
     bool _state;
     bool _flash;
-    int _period;
+    unsigned _period;
     unsigned long _lastTime;
 };
 
