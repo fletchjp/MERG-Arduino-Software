@@ -2,8 +2,6 @@
 
 @mainpage CAN1602LONG4
 
-## NOW SEE THE VERSION IN https://github.com/fletchjp/CAN1602LONG
-
 The version here uses a new version of the Arduino CBUS library which is not yet released.
 
 ## Long message example with pins and a display
