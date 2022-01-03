@@ -432,17 +432,37 @@ void setupSwitches()
 //bool sendLongMessage(void)
 class SendLongMessage : public BaseEvent
 {
+#ifdef CBUS_LONG_MESSAGE
   unsigned int message_length;
+#endif
+  // true if it is possible to send a message.
+  bool can_send;
+  // Was a message sent successfully.
+  bool success;
 public:
-  SendLongMessage() {
+  SendLongMessage() : can_send(true) {
+    // setCompleted is a member function of BaseEvent
+    setCompleted(true);
   }
+#ifdef CBUS_LONG_MESSAGE
+    uint32_t timeOfNextCheck() override {
+      // Only send message if can_send is true.
+      can_send = !cbus_long_message.is_sending();
+      if(can_send) {
+         markTriggeredAndNotify();
+      }
+      return 250UL * 1000UL; // every 15 milliseconds we increment
+    }
+#endif 
   void exec() override {
 #ifdef CBUS_LONG_MESSAGE
-  while(cbus_long_message.is_sending()) {
-     cbus_long_message.process(); // Added to make sure the message gets sent.
-  } //wait for previous message to finish.
+  // We do not need this here as we should only get here when the previous message has finished.
+  //while(cbus_long_message.is_sending()) {
+  //   cbus_long_message.process(); // Added to make sure the message gets sent.
+  //} //wait for previous message to finish.
   message_length = strlen(long_message_output_buffer);
-  bool success;
+  // This is now a class variable
+  //bool success;
   if (message_length > 0) {
     success = cbus_long_message.sendLongMessage(long_message_output_buffer,
                                           message_length, stream_id);
@@ -450,62 +470,91 @@ public:
     {
       Serial << F("long message ") << long_message_output_buffer << F(" sent to ")
              << stream_id << endl;
+      //can_send = false;
+      setCompleted(false);
     } else {
       Serial << F("long message sending ")
              << long_message_output_buffer << F(" to ")
              << stream_id << F(" failed with message length ") << message_length
              << endl;
+      //can_send = true;
+      setCompleted(true);
     }
   } else {
     Serial << "long message preparation failed with message length "
            << message_length << endl;
     success = false;
+    //can_send = true;
+    setCompleted(true);
   }
 #endif
-  //return success;
  }
- ~SendLongMessage() override = default;
+ #ifndef CBUS_LONG_MESSAGE
+    // Routine to meet requirements,
     // Required for all BaseEvent classes.
-    uint32_t timeOfNextCheck() override {
-      //pos += delta;
-      //Serial.println("Event Next Check");
-      markTriggeredAndNotify();
-      return 2000UL * 1000UL; // every 15 milliseconds we increment
-    }
+ #endif
+ ~SendLongMessage() override = default;
 };
 
 // class instance
-SendLongMessage sendLongMessage;
+SendLongMessage sendLongMessage_x;
 
 //void processButtons(void) is turned into an executable task.
 class ProcessButtons : public Executable
 {
   private:
      SendLongMessage &sendMessage;
+     bool previous_completed;
+     bool message_sent;
+     bool do_once;
+     bool success;
   public:
-   ProcessButtons(SendLongMessage &message) : sendMessage(message) {}
+   ProcessButtons(SendLongMessage &message) : sendMessage(message), message_sent(false), 
+                                              previous_completed(true), do_once(true) {}
    void exec() override {
    // Send an event corresponding to the button, add NUM_SWITCHES to avoid switch events.
    byte opCode;
   if (button != prevbutton) {
-      DEBUG_PRINT(F("Button ") << button << F(" changed")); 
-      opCode = OPC_ACON;
-      sendEvent(opCode, button + NUM_SWITCHES);
+      // The preparation of the message need only be done once even if it cannot be sent 
+      // straight away.
+      if (do_once) {
+        DEBUG_PRINT(F("Button ") << button << F(" changed")); 
+        opCode = OPC_ACON;
+        sendEvent(opCode, button + NUM_SWITCHES);
 #ifdef CBUS_LONG_MESSAGE
-      // Put the data to be send into the long message buffer
-      unsigned int string_length;
-      string_length = snprintf(long_message_output_buffer, output_buffer_size,
-                      "Button %d changed", button);
-      // Send the long message
-      //sendLongMessage();
+        // Put the data to be send into the long message buffer
+        unsigned int string_length;
+        string_length = snprintf(long_message_output_buffer, output_buffer_size,
+                        "Button %d changed", button);
+        do_once = false;
+      }
+      // Send the long message is no longer done like this: sendLongMessage();
+      // It is now sent as a task 
+      // The previous message has completed
+      if (previous_completed) {
+         //success = sendLongMessage();
+         // Register the message as an event.
+         taskManager.registerEvent(&sendMessage);
+         message_sent = true;
+         previous_completed = false; // Now set for this message.
+         prevbutton = button; // This will only run again with a new button change.
+         do_once = true;
+      } else {
+         // The previous message has not yet completed.
+         // Go around and check for completion 
+         if (!cbus_long_message.is_sending())
+         {
+            //sendMessage.isComplete();
+            previous_completed = true;
+         }
+      }
 #endif
-      prevbutton = button;
    }
    }
 };
 
 // class instance
-ProcessButtons processButtons(sendLongMessage);
+ProcessButtons processButtons(sendLongMessage_x);
 
 void setup()
 {
