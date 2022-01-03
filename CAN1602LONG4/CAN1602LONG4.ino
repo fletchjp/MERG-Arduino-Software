@@ -1,4 +1,4 @@
-/// @file CAN1602LONG2.ino
+/// @file CAN1602LONG4.ino
 /// @brief Long message example with pins and a display
 ////////////////////////////////////////////////////////////////////////////////////
 /// Version 2a beta 1
