@@ -469,7 +469,7 @@ class ProcessButtons : public Executable
      bool do_once;
      bool success;
   public:
-   ProcessButtons() : message_sent(false), previous_completed(true), do_once(true) {}
+   ProcessButtons() : previous_completed(true), message_sent(false), do_once(true) {}
    void exec() override {
    // Send an event corresponding to the button, add NUM_SWITCHES to avoid switch events.
    byte opCode;
