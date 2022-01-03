@@ -382,11 +382,10 @@ void runLEDs(){
     moduleLED[i].run();
   }
 }
+
 //
 ///  setup Module - runs once at power on called from setup()
 //
-
-
 void setupModule()
 {
    // configure the module switches, active low
@@ -403,6 +402,7 @@ void setupModule()
   } 
 }
 
+/// Setup the 1602 display
 void setup1602() {
  lcd.begin(16, 2);
  lcd.setCursor(0,0);
@@ -411,6 +411,7 @@ void setup1602() {
  lcd.print("Press Key:");
 }
 
+/// set up the switch processign
 void setupSwitches()
 {
     // initialise the switches component with the DfRobot shield as the input method.
@@ -429,6 +430,7 @@ void setupSwitches()
 }
 
 #ifdef CBUS_LONG_MESSAGE
+/// send a long message
 bool sendLongMessage(void)
 {
   unsigned int message_length;
@@ -460,6 +462,13 @@ bool sendLongMessage(void)
 #endif
 
 //void processButtons(void) is turned into an executable task.
+
+/// @brief Class to handle processing of button presses
+///
+/// converted from void processButtons(void)
+/// and handles the state parameters.
+/// A message must not be sent while the previous one
+/// is still being processed. 
 class ProcessButtons : public Executable
 {
   private:
