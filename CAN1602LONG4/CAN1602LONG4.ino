@@ -491,14 +491,16 @@ class ProcessButtons : public Executable
          sendEvent(opCode, button + NUM_SWITCHES);
 #ifdef CBUS_LONG_MESSAGE
          // Put the data to be send into the long message buffer
-         unsigned int string_length;
-         string_length = snprintf(long_message_output_buffer, output_buffer_size,
+         //unsigned int string_length;
+         //string_length = 
+         snprintf(long_message_output_buffer, output_buffer_size,
                         "Button %d changed", button);
          do_once = false;
        }
        // The previous message has completed
        if (previous_completed) {
          success = sendLongMessage();
+         DEBUG_PRINT(F("sendLongMessage returns ") << success); 
          message_sent = true;
          previous_completed = false; // Now set for this message.
          prevbutton = button; // This will only run again with a new button change.
@@ -508,6 +510,7 @@ class ProcessButtons : public Executable
          // Go around and check for completion 
          if (!cbus_long_message.is_sending())
          {
+            DEBUG_PRINT(F("previous message now complete")); 
             previous_completed = true;
          }
        }
