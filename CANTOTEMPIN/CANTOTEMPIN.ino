@@ -48,6 +48,7 @@
 #define CBUS_LONG_MESSAGE
 ///////////////////////////////////////////////////////////////////////////////////
 // Version 4a beta 1 using DfRobotInputAbstraction.h to model input pins.
+// At the moment this does not work correctly with the buttons in use as the calibration is wrong.
 ///////////////////////////////////////////////////////////////////////////////////
 // This is to run on the TOTEM Minilab with a CAN interface.
 // working from
