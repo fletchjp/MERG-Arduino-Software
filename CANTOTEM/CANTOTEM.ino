@@ -45,6 +45,7 @@
 // Version 3a beta 9 Change arguments for longmessagehandler 
 //                   to match new release of libraries.
 // Version 3a beta 10 Minor changes
+// Version 3a beta 11 Solve some warnings
 #define CBUS_LONG_MESSAGE
 ///////////////////////////////////////////////////////////////////////////////////
 // This is to run on the TOTEM Minilab with a CAN interface.
@@ -179,7 +180,7 @@ byte nopcodes = 9;
 // constants
 const byte VER_MAJ = 3;         // code major version
 const char VER_MIN = 'a';       // code minor version
-const byte VER_BETA = 10;       // code beta sub-version
+const byte VER_BETA = 11;       // code beta sub-version
 const byte MODULE_ID = 99;      // CBUS module type
 
 const unsigned long CAN_OSC_FREQ = 8000000;     // Oscillator frequency on the CAN2515 board
