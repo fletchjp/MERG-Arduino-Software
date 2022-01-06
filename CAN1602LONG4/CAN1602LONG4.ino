@@ -9,6 +9,8 @@
 /// Change structure again.
 ///////////////////////////////////////////////////////////////////////////////////
 /// Version using DfRobotInputAbstraction.h to model input pins.
+/// This only applies to the DfRobot hardware as there is no way to adjust
+/// the calibration.
 ///
 /// This uses code from IoAbstraction examples dfRobotAnalogInSwitches 
 ////////////////////////////////////////////////////////////////////////////////////
