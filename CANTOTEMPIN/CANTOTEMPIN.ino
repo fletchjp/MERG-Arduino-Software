@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////////////
-// CANTOTEM
+// CANTOTEMPIN
 // Version 1b beta 1
 // Modification to start to use IoAbstraction and TaskManagerIO
 // as has been done in CANCMDDC in CANCMDDC2
@@ -49,6 +49,7 @@
 ///////////////////////////////////////////////////////////////////////////////////
 // Version 4a beta 1 using DfRobotInputAbstraction.h to model input pins.
 // At the moment this does not work correctly with the buttons in use as the calibration is wrong.
+// It would be nice to get it to work. At the moment I cannot see how to reset the calibration.
 ///////////////////////////////////////////////////////////////////////////////////
 // This is to run on the TOTEM Minilab with a CAN interface.
 // working from
@@ -141,6 +142,12 @@
 
 // This uses the default settings for analog ranges.
 IoAbstractionRef dfRobotKeys = inputFromDfRobotShield();
+
+// This can be edited to get a better answer
+#include "MyButtons.h"
+
+IoAbstractionRef myKeys = inputFromMyShield();
+
 
 #define ANALOG_IN_PIN A0
 
