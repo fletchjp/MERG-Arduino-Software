@@ -166,7 +166,7 @@ int prevbutton = 0;
 ////////////DEFINE MODULE/////////////////////////////////////////////////
 
 // module name
-const unsigned char mname[7] PROGMEM = { 'T', 'O', 'T', 'E', 'M', ' ', ' ' };
+/*const*/ unsigned char mname[7] /*PROGMEM*/ = { 'T', 'O', 'T', 'E', 'M', ' ', ' ' };
 
 // forward function declarations
 void eventhandler(byte index, byte opc);
@@ -174,7 +174,7 @@ void framehandler(CANFrame *msg);
 
 // Set opcodes for polling events
 byte nopcodes = 9;
-const byte opcodes[] PROGMEM = {OPC_ACON, OPC_ACOF, OPC_ARON, OPC_AROF, OPC_ASON, OPC_ASOF, OPC_AREQ, OPC_ASRQ, OPC_CANID }; 
+/*const*/ byte opcodes[] /*PROGMEM*/ = {OPC_ACON, OPC_ACOF, OPC_ARON, OPC_AROF, OPC_ASON, OPC_ASOF, OPC_AREQ, OPC_ASRQ, OPC_CANID }; 
 
 // constants
 const byte VER_MAJ = 3;         // code major version
