@@ -243,7 +243,7 @@ byte switchState[NUM_SWITCHES];
 // CBUS objects
 //CBUSSAM3X8E CBUS;                   // CBUS object
 CBUSConfig config;                    // configuration object
-CBUSSAM3X8E CBUS(config);             // CBUS object passing config
+CBUSSAM3X8E CBUS(&config);             // CBUS object passing config as a reference
 //CBUSLED ledGrn, ledYlw;             // two LED objects
 //CBUSSwitch pb_switch;               // switch object
 #ifdef CBUS_LONG_MESSAGE
