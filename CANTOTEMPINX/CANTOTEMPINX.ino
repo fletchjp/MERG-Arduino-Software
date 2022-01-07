@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////////////
-// CANTOTEMPIN
+// CANTOTEMPINX
 // Version 1b beta 1
 // Modification to start to use IoAbstraction and TaskManagerIO
 // as has been done in CANCMDDC in CANCMDDC2
@@ -45,11 +45,12 @@
 // Version 3a beta 9 Change arguments for longmessagehandler 
 //                   to match new release of libraries.
 // Version 3a beta 10 Minor changes
-#define CBUS_LONG_MESSAGE
 ///////////////////////////////////////////////////////////////////////////////////
-// Version 4a beta 1 using DfRobotInputAbstraction.h to model input pins.
-// At the moment this does not work correctly with the buttons in use as the calibration is wrong.
-// It would be nice to get it to work. At the moment I cannot see how to reset the calibration.
+// Version 4x beta 1
+// This version defines calibration for the pins after header files.
+// This solves the compilation problem found previously.
+// Version 4x beta 2 Reorder putting headers first.
+///////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////
 // This is to run on the TOTEM Minilab with a CAN interface.
 // working from
@@ -126,13 +127,6 @@
 // Digital / Analog pin 5     Not Used
 //////////////////////////////////////////////////////////////////////////
 
-#define DEBUG 0     // set to 0 for no serial debug
-
-#if DEBUG
-#define DEBUG_PRINT(S) Serial << S << endl
-#else
-#define DEBUG_PRINT(S)
-#endif
 
 // IoAbstraction libraries
 #include <IoAbstraction.h>
@@ -148,12 +142,32 @@
 #include <Bounce2.h>
 
 // This can be edited to get a better answer
+// Not used in this version - the code is in this file.
 //#include "MyButtons.h"
 
+// CBUS library header files
+#include <CBUS2515.h>            // CAN controller and CBUS class
+#include "LEDControl.h"          // CBUS LEDs
+#include <CBUSconfig.h>          // module configuration
+#include <cbusdefs.h>            // MERG CBUS constants
+#include <CBUSParams.h>
 
+////////////////////////////////////////////////////////////////////////////////////////
+// New policy to bring ALL headers above anything else at all.
+// Maybe that is why they are called headers.
+// The only exception would be defines affecting choices in a header.
+////////////////////////////////////////////////////////////////////////////////////////
+#define CBUS_LONG_MESSAGE
+
+#define DEBUG 0     // set to 0 for no serial debug
+
+#if DEBUG
+#define DEBUG_PRINT(S) Serial << S << endl
+#else
+#define DEBUG_PRINT(S)
+#endif
 
 #define ANALOG_IN_PIN A0
-
 
 // Variables for buttons
 //int x;
@@ -163,15 +177,6 @@
 // Use these for the CBUS outputs
 int button = 0;
 int prevbutton = 0;
-
-
-
-// CBUS library header files
-#include <CBUS2515.h>            // CAN controller and CBUS class
-#include "LEDControl.h"          // CBUS LEDs
-#include <CBUSconfig.h>          // module configuration
-#include <cbusdefs.h>            // MERG CBUS constants
-#include <CBUSParams.h>
 
 // These keys are not in the same order. LEFT UP DOWN RIGHT SELECT
 const PROGMEM DfRobotAnalogRanges MyAvrRanges { 0.02F, 0.08F, 0.15F, 0.31F, 0.4F};
@@ -199,8 +204,8 @@ const byte opcodes[] PROGMEM = {OPC_ACON, OPC_ACOF, OPC_ARON, OPC_AROF, OPC_ASON
 
 // constants
 const byte VER_MAJ = 4;         // code major version
-const char VER_MIN = 'a';       // code minor version
-const byte VER_BETA = 1;       // code beta sub-version
+const char VER_MIN = 'x';       // code minor version
+const byte VER_BETA = 2;       // code beta sub-version
 const byte MODULE_ID = 99;      // CBUS module type
 
 const unsigned long CAN_OSC_FREQ = 8000000;     // Oscillator frequency on the CAN2515 board
