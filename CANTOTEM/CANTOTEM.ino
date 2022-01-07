@@ -338,7 +338,7 @@ if (range != prevrange) {
  switch (range) {
   case 1:
   {
-   //lcd.print ("Right ");
+   //lcd.print ("Left  ");
    DEBUG_PRINT(F(" SW1 Left"));
    break;
   }
@@ -356,7 +356,7 @@ if (range != prevrange) {
   }
   case 4:
   {
-   //lcd.print ("Left  ");
+   //lcd.print ("Right ");
    DEBUG_PRINT(F(" SW4 Right"));
    break;
   }
