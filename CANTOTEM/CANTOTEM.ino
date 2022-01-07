@@ -46,7 +46,7 @@
 //                   to match new release of libraries.
 // Version 3a beta 10 Minor changes
 // Version 3a beta 11 Solve some warnings
-#define CBUS_LONG_MESSAGE
+// Version 3a beta 12 Reorder putting headers first.
 ///////////////////////////////////////////////////////////////////////////////////
 // This is to run on the TOTEM Minilab with a CAN interface.
 // working from
@@ -146,6 +146,19 @@ IoAbstractionRef arduinoPins = ioUsingArduino();
 #include <Streaming.h>
 #include <Bounce2.h>
 
+// CBUS library header files
+#include <CBUS2515.h>            // CAN controller and CBUS class
+#include "LEDControl.h"          // CBUS LEDs
+#include <CBUSconfig.h>          // module configuration
+#include <cbusdefs.h>            // MERG CBUS constants
+#include <CBUSParams.h>
+////////////////////////////////////////////////////////////////////////////////////////
+// New policy to bring ALL headers above anything else at all.
+// Maybe that is why they are called headers.
+// The only exception would be defines affecting choices in a header.
+////////////////////////////////////////////////////////////////////////////////////////
+#define CBUS_LONG_MESSAGE
+
 // Variables for buttons
 int x;
 int prevx = 0;
@@ -157,12 +170,6 @@ int prevbutton = 0;
 
 
 
-// CBUS library header files
-#include <CBUS2515.h>            // CAN controller and CBUS class
-#include "LEDControl.h"          // CBUS LEDs
-#include <CBUSconfig.h>          // module configuration
-#include <cbusdefs.h>            // MERG CBUS constants
-#include <CBUSParams.h>
 
 ////////////DEFINE MODULE/////////////////////////////////////////////////
 
@@ -180,7 +187,7 @@ const byte opcodes[] PROGMEM = {OPC_ACON, OPC_ACOF, OPC_ARON, OPC_AROF, OPC_ASON
 // constants
 const byte VER_MAJ = 3;         // code major version
 const char VER_MIN = 'a';       // code minor version
-const byte VER_BETA = 11;       // code beta sub-version
+const byte VER_BETA = 12;       // code beta sub-version
 const byte MODULE_ID = 99;      // CBUS module type
 
 const unsigned long CAN_OSC_FREQ = 8000000;     // Oscillator frequency on the CAN2515 board
