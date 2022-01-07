@@ -48,8 +48,9 @@
 #define CBUS_LONG_MESSAGE
 ///////////////////////////////////////////////////////////////////////////////////
 // Version 4a beta 1 using DfRobotInputAbstraction.h to model input pins.
-// At the moment this does not work correctly with the buttons in use as the calibration is wrong.
-// It would be nice to get it to work. At the moment I cannot see how to reset the calibration.
+// This does now work correctly with the buttons in use with a revised calibration.
+// In this code it is in MyButtons.h
+// See CANTOTEMPINX for a version with the code in the main file.
 ///////////////////////////////////////////////////////////////////////////////////
 // This is to run on the TOTEM Minilab with a CAN interface.
 // working from
@@ -183,7 +184,7 @@ void eventhandler(byte index, byte opc);
 void framehandler(CANFrame *msg);
 
 // Set opcodes for polling events
-byte nopcodes = 9;
+const byte nopcodes = 9;
 const byte opcodes[] PROGMEM = {OPC_ACON, OPC_ACOF, OPC_ARON, OPC_AROF, OPC_ASON, OPC_ASOF, OPC_AREQ, OPC_ASRQ, OPC_CANID }; 
 
 // constants
@@ -287,12 +288,12 @@ void setupCBUS()
 
   // assign to CBUS
   CBUS.setParams(params.getParams());
-  CBUS.setName(mname);
+  CBUS.setName((byte *)mname);
 
   // register our CBUS event handler, to receive event messages of learned events
   CBUS.setEventHandler(eventhandler);
   // This will only process the defined opcodes.
-  CBUS.setFrameHandler(framehandler, opcodes, nopcodes);
+  CBUS.setFrameHandler(framehandler, (byte *)opcodes, nopcodes);
 
 #ifdef CBUS_LONG_MESSAGE
   //DEBUG_PRINT(F("> about to call to subscribe") );
