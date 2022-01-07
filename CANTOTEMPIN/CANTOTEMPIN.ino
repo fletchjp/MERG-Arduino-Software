@@ -141,19 +141,19 @@
 #include <DeviceEvents.h>
 
 // This uses the default settings for analog ranges.
-IoAbstractionRef dfRobotKeys = inputFromDfRobotShield();
-
-// This can be edited to get a better answer
-#include "MyButtons.h"
-
-IoAbstractionRef myKeys = inputFromMyShield();
-
-
-#define ANALOG_IN_PIN A0
+//IoAbstractionRef dfRobotKeys = inputFromDfRobotShield();
 
 // 3rd party libraries
 #include <Streaming.h>
 #include <Bounce2.h>
+
+// This can be edited to get a better answer
+#include "MyButtons.h"
+
+IoAbstractionRef dfRobotKeys = inputFromMyShield();
+
+#define ANALOG_IN_PIN A0
+
 
 // Variables for buttons
 //int x;
@@ -326,6 +326,8 @@ void bus_debug(void) {
 void logKeyPressed(int pin,const char* whichKey, bool heldDown) {
     Serial.print("Key ");
     Serial.print(whichKey);
+//    Serial.print(dfRobotKeys->readPort());
+    Serial.print(analogRead(A0));
     //lcd.setCursor(10,1);
     //lcd.print (whichKey);
     Serial.println(heldDown ? " Held" : " Pressed");
@@ -343,8 +345,8 @@ void setupSwitches()
     // is the repeat frequency is optional, when not set it implies not repeating.
     switches.addSwitch(DF_KEY_DOWN, [](pinid_t pin, bool held) { logKeyPressed(pin,"DOWN  ", held);}, 20);
     switches.addSwitch(DF_KEY_UP, [](pinid_t pin, bool held) { logKeyPressed(pin,"UP    ", held);}, 20);
-    switches.addSwitch(DF_KEY_LEFT, [](pinid_t pin, bool held) { logKeyPressed(pin,"LEFT  ", held);}, 20);
-    switches.addSwitch(DF_KEY_RIGHT, [](pinid_t pin, bool held) { logKeyPressed(pin,"RIGHT ", held);}, 20);
+    switches.addSwitch(DF_KEY_LEFT, [](pinid_t pin, bool held) { logKeyPressed(pin,"RIGHT ", held);}, 20);
+    switches.addSwitch(DF_KEY_RIGHT, [](pinid_t pin, bool held) { logKeyPressed(pin,"LEFT  ", held);}, 20);
     switches.addSwitch(DF_KEY_SELECT, [](pinid_t pin, bool held) { logKeyPressed(pin,"SELECT ", held);}, 20);
     //switches.onRelease(DF_KEY_RIGHT, [](pinid_t /*pin*/, bool) { Serial.println("RIGHT has been released");});
     
