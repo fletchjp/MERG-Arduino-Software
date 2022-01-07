@@ -1,7 +1,7 @@
-
-//
-///
-//
+/// file@ CBUS_long_message_example.ino
+/// @brief Example for RP2040
+/// Not yet tested
+/// Version 1a beta 1
 
 /*
   Copyright (C) Duncan Greenwood 2017 (duncan_greenwood@hotmail.com)
@@ -61,7 +61,7 @@
 // constants
 const byte VER_MAJ = 1;             // code major version
 const char VER_MIN = 'a';           // code minor version
-const byte VER_BETA = 0;            // code beta sub-version
+const byte VER_BETA = 1;            // code beta sub-version
 const byte MODULE_ID = 97;          // CBUS module type
 
 #ifdef ARDUINO_ARCH_RP2040
@@ -87,7 +87,7 @@ CBUSSwitch pb_switch;               // switch object
 CBUSLongMessage lmsg(&CBUS);        // CBUS RFC0005 long message object
 
 // module name, must be 7 characters, space padded.
-unsigned char mname[7] = { 'L', 'M', 'S', 'G', 'E', 'X', ' ' };
+const unsigned char mname[7] = { 'L', 'M', 'S', 'G', 'E', 'X', ' ' };
 
 // forward function declarations
 void eventhandler(byte index, byte opc);
@@ -130,7 +130,7 @@ void setupCBUS() {
 
   // assign to CBUS
   CBUS.setParams(params.getParams());
-  CBUS.setName(mname);
+  CBUS.setName((byte*)mname);
 
 #ifndef ARDUINO_ARCH_RP2040
   // set CBUS LED pins and assign to CBUS
