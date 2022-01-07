@@ -167,15 +167,15 @@ int prevbutton = 0;
 ////////////DEFINE MODULE/////////////////////////////////////////////////
 
 // module name
-/*const*/ unsigned char mname[7] /*PROGMEM*/ = { 'T', 'O', 'T', 'E', 'M', ' ', ' ' };
+const unsigned char mname[7] PROGMEM = { 'T', 'O', 'T', 'E', 'M', ' ', ' ' };
 
 // forward function declarations
 void eventhandler(byte index, byte opc);
 void framehandler(CANFrame *msg);
 
 // Set opcodes for polling events
-byte nopcodes = 9;
-/*const*/ byte opcodes[] /*PROGMEM*/ = {OPC_ACON, OPC_ACOF, OPC_ARON, OPC_AROF, OPC_ASON, OPC_ASOF, OPC_AREQ, OPC_ASRQ, OPC_CANID }; 
+const byte nopcodes = 9;
+const byte opcodes[] PROGMEM = {OPC_ACON, OPC_ACOF, OPC_ARON, OPC_AROF, OPC_ASON, OPC_ASOF, OPC_AREQ, OPC_ASRQ, OPC_CANID }; 
 
 // constants
 const byte VER_MAJ = 3;         // code major version
@@ -278,12 +278,12 @@ void setupCBUS()
 
   // assign to CBUS
   CBUS.setParams(params.getParams());
-  CBUS.setName(mname);
+  CBUS.setName((unsigned char *)mname); // deal with warning
 
   // register our CBUS event handler, to receive event messages of learned events
   CBUS.setEventHandler(eventhandler);
   // This will only process the defined opcodes.
-  CBUS.setFrameHandler(framehandler, opcodes, nopcodes);
+  CBUS.setFrameHandler(framehandler, (byte *)opcodes, nopcodes); // deal with warning
 
 #ifdef CBUS_LONG_MESSAGE
   //DEBUG_PRINT(F("> about to call to subscribe") );
