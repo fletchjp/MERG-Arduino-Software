@@ -148,9 +148,9 @@
 #include <Bounce2.h>
 
 // This can be edited to get a better answer
-#include "MyButtons.h"
+//#include "MyButtons.h"
 
-IoAbstractionRef dfRobotKeys = inputFromMyShield();
+
 
 #define ANALOG_IN_PIN A0
 
@@ -173,6 +173,17 @@ int prevbutton = 0;
 #include <cbusdefs.h>            // MERG CBUS constants
 #include <CBUSParams.h>
 
+// These keys are not in the same order. LEFT UP DOWN RIGHT SELECT
+const PROGMEM DfRobotAnalogRanges MyAvrRanges { 0.02F, 0.08F, 0.15F, 0.31F, 0.4F};
+
+/// This works in a header file and not in the Arduino ino file BEFORE other headers.
+IoAbstractionRef inputFromMyShield(uint8_t pin = A0, AnalogDevice* device = nullptr) {
+    device = new ArduinoAnalogDevice();
+    return new DfRobotInputAbstraction(&MyAvrRanges, pin, device);
+}
+
+IoAbstractionRef dfRobotKeys = inputFromMyShield();
+
 ////////////DEFINE MODULE/////////////////////////////////////////////////
 
 // module name
@@ -183,7 +194,7 @@ void eventhandler(byte index, byte opc);
 void framehandler(CANFrame *msg);
 
 // Set opcodes for polling events
-byte nopcodes = 9;
+const byte nopcodes = 9;
 const byte opcodes[] PROGMEM = {OPC_ACON, OPC_ACOF, OPC_ARON, OPC_AROF, OPC_ASON, OPC_ASOF, OPC_AREQ, OPC_ASRQ, OPC_CANID }; 
 
 // constants
@@ -287,12 +298,12 @@ void setupCBUS()
 
   // assign to CBUS
   CBUS.setParams(params.getParams());
-  CBUS.setName(mname);
+  CBUS.setName((unsigned char *)mname);
 
   // register our CBUS event handler, to receive event messages of learned events
   CBUS.setEventHandler(eventhandler);
   // This will only process the defined opcodes.
-  CBUS.setFrameHandler(framehandler, opcodes, nopcodes);
+  CBUS.setFrameHandler(framehandler, (byte *)opcodes, nopcodes);
 
 #ifdef CBUS_LONG_MESSAGE
   //DEBUG_PRINT(F("> about to call to subscribe") );
