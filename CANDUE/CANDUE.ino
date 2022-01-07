@@ -1,4 +1,3 @@
-#define VERSION 2.7
 /////////////////////////////////////////////////////////////////////////////
 // CANDUE 
 // Version 1a beta 1 Initial operational test
@@ -193,6 +192,7 @@
 // Maybe that is why they are called headers.
 // The only exception would be defines affecting choices in a header.
 ////////////////////////////////////////////////////////////////////////////////////////
+#define VERSION 2.9
 #define CBUS_LONG_MESSAGE
 #define CBUS_LONG_MESSAGE_MULTIPLE_LISTEN
 
