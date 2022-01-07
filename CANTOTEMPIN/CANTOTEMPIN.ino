@@ -45,12 +45,13 @@
 // Version 3a beta 9 Change arguments for longmessagehandler 
 //                   to match new release of libraries.
 // Version 3a beta 10 Minor changes
-#define CBUS_LONG_MESSAGE
 ///////////////////////////////////////////////////////////////////////////////////
 // Version 4a beta 1 using DfRobotInputAbstraction.h to model input pins.
 // This does now work correctly with the buttons in use with a revised calibration.
 // In this code it is in MyButtons.h
 // See CANTOTEMPINX for a version with the code in the main file.
+// Version 4x beta 2 Reorder putting headers first.
+///////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////
 // This is to run on the TOTEM Minilab with a CAN interface.
 // working from
@@ -151,6 +152,20 @@
 // This can be edited to get a better answer
 #include "MyButtons.h"
 
+// CBUS library header files
+#include <CBUS2515.h>            // CAN controller and CBUS class
+#include "LEDControl.h"          // CBUS LEDs
+#include <CBUSconfig.h>          // module configuration
+#include <cbusdefs.h>            // MERG CBUS constants
+#include <CBUSParams.h>
+
+////////////////////////////////////////////////////////////////////////////////////////
+// New policy to bring ALL headers above anything else at all.
+// Maybe that is why they are called headers.
+// The only exception would be defines affecting choices in a header.
+////////////////////////////////////////////////////////////////////////////////////////
+#define CBUS_LONG_MESSAGE
+
 IoAbstractionRef dfRobotKeys = inputFromMyShield();
 
 #define ANALOG_IN_PIN A0
@@ -166,13 +181,6 @@ int button = 0;
 int prevbutton = 0;
 
 
-
-// CBUS library header files
-#include <CBUS2515.h>            // CAN controller and CBUS class
-#include "LEDControl.h"          // CBUS LEDs
-#include <CBUSconfig.h>          // module configuration
-#include <cbusdefs.h>            // MERG CBUS constants
-#include <CBUSParams.h>
 
 ////////////DEFINE MODULE/////////////////////////////////////////////////
 
@@ -190,7 +198,7 @@ const byte opcodes[] PROGMEM = {OPC_ACON, OPC_ACOF, OPC_ARON, OPC_AROF, OPC_ASON
 // constants
 const byte VER_MAJ = 4;         // code major version
 const char VER_MIN = 'a';       // code minor version
-const byte VER_BETA = 1;       // code beta sub-version
+const byte VER_BETA = 2;       // code beta sub-version
 const byte MODULE_ID = 99;      // CBUS module type
 
 const unsigned long CAN_OSC_FREQ = 8000000;     // Oscillator frequency on the CAN2515 board
