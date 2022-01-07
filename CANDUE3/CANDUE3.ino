@@ -1,4 +1,3 @@
-#define VERSION 3.1
 /////////////////////////////////////////////////////////////////////////////
 // CANDUE3
 // Restructure sending of long messages using new ideas.
@@ -24,8 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////////
 // Version 3a beta 1 
 // Start to build the sending of a long message - not yet implemented.
-#define CBUS_LONG_MESSAGE
-#define CBUS_LONG_MESSAGE_MULTIPLE_LISTEN
+// Version 3a beta 2 Move headers before all other things.
 ///////////////////////////////////////////////////////////////////////////////////
 // My working name for changes to the example from Duncan.
 // Note that the library DueFlashStorage is accessed from CBUSconfig
@@ -167,15 +165,6 @@
 
 /////////////////////////////////////////////////////////////////////////////////// 
 
-#define DEBUG         1 // set to 0 for no serial debug
-#define OLED_DISPLAY  0 // set to 0 if 128x32 OLED display is not present
-#define LCD_DISPLAY   0 // set to 0 if 4x20 char LCD display is not present
-
-#if DEBUG
-#define DEBUG_PRINT(S) Serial << S << endl
-#else
-#define DEBUG_PRINT(S)
-#endif
 
 // IoAbstraction libraries
 #include <IoAbstraction.h>
@@ -203,6 +192,18 @@
 #include <CBUSconfig.h>             // module configuration
 #include <CBUSParams.h>             // CBUS parameters
 #include <cbusdefs.h>               // MERG CBUS constants
+////////////////////////////////////////////////////////////////////////////////////////
+// New policy to bring ALL headers above anything else at all.
+// Maybe that is why they are called headers.
+// The only exception would be defines affecting choices in a header.
+////////////////////////////////////////////////////////////////////////////////////////
+#define VERSION 3.2
+#define CBUS_LONG_MESSAGE
+#define CBUS_LONG_MESSAGE_MULTIPLE_LISTEN
+
+#define DEBUG         1 // set to 0 for no serial debug
+#define OLED_DISPLAY  0 // set to 0 if 128x32 OLED display is not present
+#define LCD_DISPLAY   0 // set to 0 if 4x20 char LCD display is not present
 
 #if LCD_DISPLAY
 // The hd44780 library figures out what to do.  This corresponds to a display with an I2C expander pack.
@@ -215,10 +216,16 @@ volatile boolean       barGraphicsLoaded = false;
 volatile boolean       showingSpeeds     = false;
 #endif
 
+#if DEBUG
+#define DEBUG_PRINT(S) Serial << S << endl
+#else
+#define DEBUG_PRINT(S)
+#endif
+
 // constants
-const byte VER_MAJ = 2;                  // code major version
+const byte VER_MAJ = 3;                  // code major version
 const char VER_MIN = 'a';                // code minor version
-const byte VER_BETA = 8;                 // code beta sub-version
+const byte VER_BETA = 2;                 // code beta sub-version
 const byte MODULE_ID = 99;               // CBUS module type
 
 // These are not being used - not installed.
@@ -257,7 +264,7 @@ CBUSLongMessage cbus_long_message(&CBUS);   // CBUS long message object
 #endif
 
 // module name, must be 7 characters, space padded.
-unsigned char mname[7] = { 'D', 'U', 'E', ' ', ' ', ' ', ' ' };
+const unsigned char PROGMEM mname[7] = { 'D', 'U', 'E', ' ', ' ', ' ', ' ' };
 
 // forward function declarations
 void eventhandler(byte index, byte opc);
@@ -313,7 +320,7 @@ void setupCBUS()
 
   // assign to CBUS
   CBUS.setParams(params.getParams());
-  CBUS.setName(mname);
+  CBUS.setName((byte *)mname);
 
   // set CBUS LED pins and assign to CBUS
   //ledGrn.setPin(LED_GRN);
