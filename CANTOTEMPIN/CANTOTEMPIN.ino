@@ -345,6 +345,7 @@ void setupSwitches()
     // is the repeat frequency is optional, when not set it implies not repeating.
     switches.addSwitch(DF_KEY_DOWN, [](pinid_t pin, bool held) { logKeyPressed(pin,"DOWN  ", held);}, 20);
     switches.addSwitch(DF_KEY_UP, [](pinid_t pin, bool held) { logKeyPressed(pin,"UP    ", held);}, 20);
+    // Note that the next two are switched around.
     switches.addSwitch(DF_KEY_LEFT, [](pinid_t pin, bool held) { logKeyPressed(pin,"RIGHT ", held);}, 20);
     switches.addSwitch(DF_KEY_RIGHT, [](pinid_t pin, bool held) { logKeyPressed(pin,"LEFT  ", held);}, 20);
     switches.addSwitch(DF_KEY_SELECT, [](pinid_t pin, bool held) { logKeyPressed(pin,"SELECT ", held);}, 20);
