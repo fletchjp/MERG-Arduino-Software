@@ -51,6 +51,15 @@ class Foo {
     char* fooString = nullptr; // replaces all the initialisations
 };
 
+/// Scoping your enums - definition
+
+enum class Colour {
+  white,
+  blue,
+  yellow
+};
+
+
 void setup() {
   // put your setup code here, to run once:
   while(!Serial);
@@ -75,6 +84,12 @@ void setup() {
   if (result == nullptr) {
        Serial <<F("GetResult returns a nullptr") << endl;
     }
+
+/// Scoping your enums - use
+
+    Colour c = Colour::white; // Correct.
+    // Cast is needed to the underlying int type.
+    if (c == Colour::white) Serial << (int)c << F(" is white") << endl;
 }
 
 void loop() {
