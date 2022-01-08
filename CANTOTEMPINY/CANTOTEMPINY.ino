@@ -263,7 +263,8 @@ CBUSLongMessage cbus_long_message(&CBUS);   // CBUS long message object
 // Event Nos for different events to be sent
 // enum base changed to avoid other events.
 // These are ideas at the moment.
-enum eventNos {
+// enum made into a class
+enum class EventNo {
   nonEvent = 100,  // not used
   testEvent,
   emergencyEvent,
@@ -566,7 +567,7 @@ void processSwitches(void)
         // Send event to test display on CAN1602BUT.
       case 99:
         opCode = (switchState[i] ? OPC_ACON : OPC_ACOF);
-        sendEvent(opCode,testEvent); // Test of new code.
+        sendEvent(opCode,(int)EventNo::testEvent); // Test of new code.
 
 	      break;
 		default:
