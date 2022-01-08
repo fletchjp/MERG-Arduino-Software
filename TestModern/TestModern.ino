@@ -36,6 +36,11 @@ using fp2 = void(*)(int, const char*);
 template <typename T>
 using fp3 = void(*)(T, const char*);
 
+/// nullptr function declared
+
+int *GetResult() { return nullptr; }
+
+
 
 void setup() {
   // put your setup code here, to run once:
@@ -53,7 +58,14 @@ void setup() {
   const auto& temp2 = myValue;
 
   Serial << temp1 << " " << temp2 << " " << *myValuePtr << endl;
-  
+
+/// nullptr function used 
+
+  auto result = GetResult();
+ 
+  if (result == nullptr) {
+       Serial <<F("GetResult returns a nullptr") << endl;
+    }
 }
 
 void loop() {
