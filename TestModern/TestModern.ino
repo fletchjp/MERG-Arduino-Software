@@ -87,7 +87,7 @@ void setup() {
 
 /// Scoping your enums - use
 
-    Colour colour = Colour::white; // Correct.
+    Colour colour = Colour::white;
     // Cast is needed to the underlying int type.
     if (colour == Colour::white) Serial << (int)colour << F(" is white") << endl;
 }
