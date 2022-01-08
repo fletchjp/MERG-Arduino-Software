@@ -40,7 +40,16 @@ using fp3 = void(*)(T, const char*);
 
 int *GetResult() { return nullptr; }
 
+/// Default initialization
 
+class Foo {
+  Foo() /* : fooString(nullptr)*/ { }
+  // comment out unused parameter names.
+  Foo(const char* /*str*/) /* : fooString(nullptr) */ {  }
+  Foo(const Foo& /*other*/) /* : fooString(nullptr) */ { }
+  private:
+    char* fooString = nullptr; // replaces all the initialisations
+};
 
 void setup() {
   // put your setup code here, to run once:
