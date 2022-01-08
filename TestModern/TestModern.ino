@@ -26,6 +26,16 @@ namespace {
   };
 }
 
+/// Using Using
+///
+/// These are equivalent
+typedef void(*fp1)(int, const char*);
+/// This one is more readable. 
+using fp2 = void(*)(int, const char*);
+/// It can also have a template version
+template <typename T>
+using fp3 = void(*)(T, const char*);
+
 
 void setup() {
   // put your setup code here, to run once:
