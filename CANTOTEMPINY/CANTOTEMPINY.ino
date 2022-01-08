@@ -197,6 +197,7 @@ IoAbstractionRef dfRobotKeys = inputFromMyShield();
 //CANTOTEMPINY:606:31: error: 'CANFrame' has not been declared
 // void eventhandler(byte index, CANFrame *msg)
 // This is although it IS declared in CBUS.h which is included from CBUS2515.h
+// The problem goes away if the function inputFromMyShield is put into an anonymous namespace!
 //  
 // CBUS library header files
 //#include <CBUS.h>
