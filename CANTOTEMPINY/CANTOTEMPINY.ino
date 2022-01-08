@@ -186,10 +186,10 @@ const PROGMEM DfRobotAnalogRanges MyAvrRanges { 0.02F, 0.08F, 0.15F, 0.31F, 0.4F
 
 namespace {
 /// This works in a header file and not in the Arduino ino file BEFORE other headers.
-IoAbstractionRef inputFromMyShield(uint8_t pin = A0, AnalogDevice* device = nullptr) {
+  IoAbstractionRef inputFromMyShield(uint8_t pin = A0, AnalogDevice* device = nullptr) {
     device = new ArduinoAnalogDevice();
     return new DfRobotInputAbstraction(&MyAvrRanges, pin, device);
-}
+  }
 }
 IoAbstractionRef dfRobotKeys = inputFromMyShield();
 
