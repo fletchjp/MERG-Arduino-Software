@@ -48,10 +48,10 @@
 //                   to match new release of libraries.
 // Version 3a beta 10 Minor changes
 ///////////////////////////////////////////////////////////////////////////////////
-// Version 4x beta 1
+// Version 4y beta 1
 // This version defines calibration for the pins after header files.
 // This solves the compilation problem found previously.
-// Version 4x beta 2 Reorder putting headers first.
+// Version 4y beta 2 Reorder putting headers first.
 ///////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////
 // This is to run on the TOTEM Minilab with a CAN interface.
@@ -224,7 +224,7 @@ const byte opcodes[] PROGMEM = {OPC_ACON, OPC_ACOF, OPC_ARON, OPC_AROF, OPC_ASON
 
 // constants
 const byte VER_MAJ = 4;         // code major version
-const char VER_MIN = 'x';       // code minor version
+const char VER_MIN = 'y';       // code minor version
 const byte VER_BETA = 2;       // code beta sub-version
 const byte MODULE_ID = 99;      // CBUS module type
 
