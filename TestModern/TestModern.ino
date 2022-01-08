@@ -6,11 +6,44 @@
 // 3rd party libraries
 #include <Streaming.h>
 
+/// How big are your integers?
+///
+///int8_t/uint8_t - a signed/unsigned type that is exactly 8 bits in size.
+///int16_t/uint16_t - a signed/unsigned type that is exactly 16 bits in size.
+///int32_t/uint32_t - a signed/unsigned type that is exactly 32 bits in size.
+///int64_t/uint64_t - a signed/unsigned type that is exactly 64 bits in size.
+
+/// Anonymous Namespaces
+///
+/// This means that these items are only visible in this file.
+namespace {
+  const int16_t SOME_VAR = 1000;  // Now it's type-safe
+  int16_t count_up = 0;  // No need to use static
+  const int16_t numLeds = 0;  // Still declared const.
+ 
+  class thisClassHasACommonName {
+    //...
+  };
+}
+
+
 void setup() {
   // put your setup code here, to run once:
   while(!Serial);
   Serial.begin (115200);
   Serial << endl << endl << F("> ** TestModern ** ") << __FILE__ << endl;
+
+  Serial << count_up << endl;
+
+/// Automatic for the people
+
+  int myValue = 5; 
+  auto myValuePtr = &myValue;
+  auto& temp1 = myValue; 
+  const auto& temp2 = myValue;
+
+  Serial << temp1 << " " << temp2 << " " << *myValuePtr << endl;
+  
 }
 
 void loop() {
