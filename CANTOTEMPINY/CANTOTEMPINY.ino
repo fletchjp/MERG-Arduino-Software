@@ -1,7 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////////
 // CANTOTEMPINY
 // This is to do some experiments on the failures
-#define FAILURE
 // Version 1b beta 1
 // Modification to start to use IoAbstraction and TaskManagerIO
 // as has been done in CANCMDDC in CANCMDDC2
@@ -128,7 +127,8 @@
 // Digital / Analog pin 4     Not Used
 // Digital / Analog pin 5     Not Used
 //////////////////////////////////////////////////////////////////////////
-
+// This did cause a failure and does not any longer since I use an anonymous namespace
+#define FAILURE
 
 // IoAbstraction libraries
 #include <IoAbstraction.h>
@@ -264,7 +264,7 @@ CBUSLongMessage cbus_long_message(&CBUS);   // CBUS long message object
 // enum base changed to avoid other events.
 // These are ideas at the moment.
 // enum made into a class
-enum class EventNo {
+enum class EventNo : unsigned int {
   nonEvent = 100,  // not used
   testEvent,
   emergencyEvent,
@@ -567,7 +567,7 @@ void processSwitches(void)
         // Send event to test display on CAN1602BUT.
       case 99:
         opCode = (switchState[i] ? OPC_ACON : OPC_ACOF);
-        sendEvent(opCode,(int)EventNo::testEvent); // Test of new code.
+        sendEvent(opCode,(unsigned int)EventNo::testEvent); // Test of new code.
 
 	      break;
 		default:
