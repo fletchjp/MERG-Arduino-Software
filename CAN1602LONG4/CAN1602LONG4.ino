@@ -7,6 +7,8 @@
 /// Change task structure.
 /// Version 4a beta 1
 /// Change structure again.
+/// Version 4a beta 2
+/// Reposition header files and use enum class
 ///////////////////////////////////////////////////////////////////////////////////
 /// Version using DfRobotInputAbstraction.h to model input pins.
 /// This only applies to the DfRobot hardware as there is no way to adjust
@@ -14,8 +16,6 @@
 ///
 /// This uses code from IoAbstraction examples dfRobotAnalogInSwitches 
 ////////////////////////////////////////////////////////////////////////////////////
-/// This activates the long message code.
-#define CBUS_LONG_MESSAGE
 
 /*
   Copyright (C) 2021 Martin Da Costa
@@ -85,6 +85,35 @@
 // Digital / Analog pin 5     Not Used - reserved for I2C
 //////////////////////////////////////////////////////////////////////////
 
+// IoAbstraction libraries
+#include <IoAbstraction.h>
+#include <DfRobotInputAbstraction.h>
+#include <TaskManagerIO.h>
+#include <DeviceEvents.h>
+
+// 3rd party libraries
+#include <Streaming.h>
+#include <Bounce2.h>
+
+#include <LiquidCrystal.h>
+
+// CBUS library header files
+#include <CBUS2515.h>            // CAN controller and CBUS class
+#include "LEDControl.h"          // CBUS LEDs
+#include <CBUSconfig.h>          // module configuration
+#include <cbusdefs.h>            // MERG CBUS constants
+#include <CBUSParams.h>
+//#include "cbus_config.h"
+
+////////////////////////////////////////////////////////////////////////////////////////
+// New policy to bring ALL headers above anything else at all.
+// Maybe that is why they are called headers.
+// The only exception would be defines affecting choices in a header.
+////////////////////////////////////////////////////////////////////////////////////////
+
+/// This activates the long message code.
+#define CBUS_LONG_MESSAGE
+
 #define DEBUG       0   // set to 0 for no serial debug
 #define LCD_DISPLAY 1   // This has a 1602 display
 #if DEBUG
@@ -93,11 +122,6 @@
 #define DEBUG_PRINT(S)
 #endif
 
-// IoAbstraction libraries
-#include <IoAbstraction.h>
-#include <DfRobotInputAbstraction.h>
-#include <TaskManagerIO.h>
-#include <DeviceEvents.h>
 
 /// This uses the default settings for analog ranges.
 IoAbstractionRef dfRobotKeys = inputFromDfRobotShield();
@@ -107,11 +131,6 @@ IoAbstractionRef dfRobotKeys = inputFromDfRobotShield();
 /// It is in fact set as default defining dfRobotKeys.
 #define ANALOG_IN_PIN A0
 
-// 3rd party libraries
-#include <Streaming.h>
-#include <Bounce2.h>
-
-#include <LiquidCrystal.h>
 ///LCD pins to the Arduino
 const int pin_RS = 8; 
 const int pin_EN = 9; 
@@ -125,13 +144,6 @@ LiquidCrystal lcd( pin_RS,  pin_EN,  pin_d4,  pin_d5,  pin_d6,  pin_d7);
 /// Use these values for the CBUS outputs
 int button = -1;
 int prevbutton = -1;
-// CBUS library header files
-#include <CBUS2515.h>            // CAN controller and CBUS class
-#include "LEDControl.h"          // CBUS LEDs
-#include <CBUSconfig.h>          // module configuration
-#include <cbusdefs.h>            // MERG CBUS constants
-#include <CBUSParams.h>
-//#include "cbus_config.h"
 
 
 ////////////DEFINE MODULE/////////////////////////////////////////////////
@@ -142,7 +154,7 @@ unsigned char mname[7] = { '1', '6', '0', '2', 'L', 'O', 'N' };
 /// constants
 const byte VER_MAJ = 4;         // code major version
 const char VER_MIN = 'a';       // code minor version
-const byte VER_BETA = 1;        // code beta sub-version
+const byte VER_BETA = 2;        // code beta sub-version
 const byte MODULE_ID = 99;      // CBUS module type
 
 const unsigned long CAN_OSC_FREQ = 8000000;     // Oscillator frequency on the CAN2515 board
@@ -211,7 +223,8 @@ enum errorStates {
 // Index values for incoming event processing
 // enum base changed to avoid other events.
 // These are ideas at the moment.
-enum eventTypes {
+// This is changed to an enum class with underlying type unsigned int
+enum class EventNo : unsigned int {
   nonEvent = 100,  // not used
   testEvent,
   emergencyEvent,
@@ -683,13 +696,14 @@ void eventhandler(byte index, CANFrame *msg)
   DEBUG_PRINT(F("> op_code = ") << opc);
 
    // Experimental code to display a message index on the event_number.
-   if (event_number > nonEvent) {
+   unsigned int base_event_no = (unsigned int)EventNo::nonEvent;
+   if (event_number > base_event_no) {
      switch (opc) {
 
       case OPC_ACON:
       case OPC_ASON:
      
-      displayError(event_number-nonEvent,0,0);
+      displayError(event_number - base_event_no,0,0);
       break;
 
       case OPC_ACOF:
