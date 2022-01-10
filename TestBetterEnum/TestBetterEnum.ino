@@ -1,11 +1,18 @@
 /// @file TestBetterEnum.ino
 /// @brief Test ideas from Hackaday and Better Enum
 ///
+/// BETTER_ENUM is a macro which sets up enum classes (scoped enum)
+///
 /// https://hackaday.com/2017/05/05/using-modern-c-techniques-with-arduino/
+///
+/// It does some things neatly but not comparison which has to be cast.
+
+
 
 // 3rd party libraries
 #include <Streaming.h>
 #include <ArduinoSTL.h>
+#include <type_traits>
 // https://github.com/aantron/better-enums
 #include "enum.h" //requires cstddef fom ArduinoSTL to work here.
 
@@ -58,7 +65,7 @@ class Foo {
 
 /// Scoping your enums - definition
 
-enum class Colour {
+enum class Colour : int {
   white,
   blue,
   yellow
@@ -99,10 +106,15 @@ void setup() {
     Colour colour = Colour::white;
     // Cast is needed to the underlying int type.
     if (colour == Colour::white) Serial << (int)colour << F(" is white") << endl;
+    // This is not available.
+    //if (colour == Colour::white) Serial << (std::underlying_type<Colour>::type)colour << F(" is white") << endl;
 
     Colours colours = Colours::white;
+    Colours colours2 = Colours::white;
     // This needs a cast to Colours to compile.
     if (colours == (Colours)Colours::white) Serial << colours._to_integral() << " is " 
+                                                   << colours._to_string() << endl;
+    if (colours == colours2) Serial << colours._to_integral() << " is " 
                                                    << colours._to_string() << endl;
 }
 
