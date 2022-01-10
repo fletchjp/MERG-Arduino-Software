@@ -73,6 +73,8 @@ enum class Colour : int {
 
 BETTER_ENUM(Colours,int,white,red,blue)
 
+/// example from https://forum.arduino.cc/t/solve-enum-on-uno-versus-due-why-due-need-static_cast/545642
+enum foo { bar, foobar, barfoo };
 
 void setup() {
   // put your setup code here, to run once:
@@ -116,6 +118,11 @@ void setup() {
                                                    << colours._to_string() << endl;
     if (colours == colours2) Serial << colours._to_integral() << " is " 
                                                    << colours._to_string() << endl;
+                                                   
+/// https://forum.arduino.cc/t/solve-enum-on-uno-versus-due-why-due-need-static_cast/545642
+    int valueToEvaluate = 2;  // warning: invalid conversion from 'int' to 'foo' [-fpermissive]
+    foo myFoo = valueToEvaluate; //this compile only on UNO
+
 }
 
 void loop() {
