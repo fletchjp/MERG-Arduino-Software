@@ -30,11 +30,15 @@ BETTER_ENUM(Word, int, Hello, World)
 ///
 /// This means that these items are only visible in this file.
 namespace {
-  const int16_t SOME_VAR = 1000;  // Now it's type-safe
-  int16_t count_up = 0;  // No need to use static
-  const int16_t numLeds = 0;  // Still declared const.
- 
+  const int16_t SOME_VAR = 1000;  /// Now it's type-safe
+  int16_t count_up = 0;  /// No need to use static
+  const int16_t numLeds = 0;  /// Still declared const.
+  /// thisClassHasACommonName
   class thisClassHasACommonName {
+   public:
+     int x;
+     thisClassHasACommonName() : x(0) {}
+     thisClassHasACommonName(int y) : x(y) {}
     //...
   };
 }
@@ -85,7 +89,12 @@ void setup() {
 
   Serial << (+Word::Hello)._to_string() << " " << (+Word::World)._to_string() << endl;
 
+/// Use of variable from an anonyomous namespace
   Serial << count_up << endl;
+
+/// thisClassHasACommonName
+  thisClassHasACommonName example(2);
+  Serial << example.x << endl;
 
 /// Automatic for the people
 
@@ -104,14 +113,14 @@ void setup() {
        Serial <<F("GetResult returns a nullptr") << endl;
     }
 
-/// Scoping your enums - use
-
+/// Scoping your enums - use this
     Colour colour = Colour::white;
-    // Cast is needed to the underlying int type.
+/// Cast is needed to the underlying int type for output.
     if (colour == Colour::white) Serial << (int)colour << F(" is white") << endl;
-    // This is not available.
-    //if (colour == Colour::white) Serial << (std::underlying_type<Colour>::type)colour << F(" is white") << endl;
+/// This is not available.
+///if (colour == Colour::white) Serial << (std::underlying_type<Colour>::type)colour << F(" is white") << endl;
 
+/// BETTER_ENUM example
     Colours colours = Colours::white;
     Colours colours2 = Colours::white;
     // This needs a cast to Colours to compile.
