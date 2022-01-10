@@ -14,7 +14,7 @@ This converts a number of errors to warnings, which are then hidden.
 
 There seems to be no list of what -fpermissive actually allows so it is necessary to hunt around to find some answers.
 
-## Switch statements (TestSwitch)
+## switch statements (TestSwitch)
 
 One of the problem areas with -fpermissive has been around switch statements.
 
