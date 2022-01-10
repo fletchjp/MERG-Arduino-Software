@@ -16,6 +16,7 @@
 // https://github.com/aantron/better-enums
 #include "enum.h" //requires cstddef fom ArduinoSTL to work here.
 
+/// Example declaration 
 BETTER_ENUM(Word, int, Hello, World)
 
 /// How big are your integers?
@@ -64,13 +65,13 @@ class Foo {
 };
 
 /// Scoping your enums - definition
-
 enum class Colour : int {
   white,
   blue,
   yellow
 };
 
+/// BETTER_ENUMS defining a scoped enum.
 BETTER_ENUM(Colours,int,white,red,blue)
 
 /// example from https://forum.arduino.cc/t/solve-enum-on-uno-versus-due-why-due-need-static_cast/545642
