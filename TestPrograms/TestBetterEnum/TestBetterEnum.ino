@@ -39,7 +39,7 @@ namespace {
      int x;
      thisClassHasACommonName() : x(0) {}
      thisClassHasACommonName(int y) : x(y) {}
-    //...
+    ///...
   };
 }
 
