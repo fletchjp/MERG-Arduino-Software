@@ -3,10 +3,16 @@
 ///
 /// BETTER_ENUM is a macro which sets up enum classes (scoped enum)
 ///
-/// https://hackaday.com/2017/05/05/using-modern-c-techniques-with-arduino/
+/// https://github.com/aantron/better-enums
 ///
 /// It does some things neatly but not comparison which has to be cast.
-
+///
+/// I think there is a use case where I want to do a lot of conversions to and from a string.
+///
+/// Other things in this file come from here:
+///
+/// https://hackaday.com/2017/05/05/using-modern-c-techniques-with-arduino/
+///
 
 
 // 3rd party libraries
