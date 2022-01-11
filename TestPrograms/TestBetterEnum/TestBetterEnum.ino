@@ -129,11 +129,14 @@ void setup() {
 /// BETTER_ENUM example
     Colours colours = Colours::white;
     Colours colours2 = Colours::white;
-    // This needs a cast to Colours to compile.
+/// This needs a cast to Colours to compile.
     if (colours == (Colours)Colours::white) Serial << colours._to_integral() << " is " 
                                                    << colours._to_string() << endl;
+/// or do this instead
+    if (colours == +Colours::white) Serial << colours._to_integral() << " is " 
+                                           << colours._to_string() << endl;
     if (colours == colours2) Serial << colours._to_integral() << " is " 
-                                                   << colours._to_string() << endl;
+                                    << colours._to_string() << endl;
                                                    
 /// https://forum.arduino.cc/t/solve-enum-on-uno-versus-due-why-due-need-static_cast/545642
     int valueToEvaluate = 2;  // warning: invalid conversion from 'int' to 'foo' [-fpermissive]
