@@ -82,7 +82,7 @@ enum class Colour : int {
 };
 
 /// BETTER_ENUMS defining a scoped enum.
-BETTER_ENUM(Colours,int,white,red,blue)
+BETTER_ENUM(Colours,int,white,red,blue,green)
 
 /// example from https://forum.arduino.cc/t/solve-enum-on-uno-versus-due-why-due-need-static_cast/545642
 enum foo { bar, foobar, barfoo };
@@ -128,6 +128,13 @@ void setup() {
 
 /// BETTER_ENUM example
     Colours colours = Colours::white;
+    /// This does not compile when exceptions are not allowed.
+    /// Colours green = +Colours::_from_string("green");
+    Colours green = +Colours::_from_string_nothrow("green");
+    Serial << "Colours::_size() = " << Colours::_size() << endl;
+    /// This makes a variable of type Colours which does not belong to the enum!
+    Colours yellow = +Colours::_from_string_nothrow("yellow");
+    Serial << "Colours::_size() = " << Colours::_size() << endl;
     Colours colours2 = Colours::white;
 /// This needs a cast to Colours to compile.
     if (colours == (Colours)Colours::white) Serial << colours._to_integral() << " is " 
@@ -137,11 +144,16 @@ void setup() {
                                            << colours._to_string() << endl;
     if (colours == colours2) Serial << colours._to_integral() << " is " 
                                     << colours._to_string() << endl;
+    for (Colours c : Colours::_values()) Serial << c._to_integral() << " " << c._to_string() << endl;
+  
                                                    
 /// https://forum.arduino.cc/t/solve-enum-on-uno-versus-due-why-due-need-static_cast/545642
     int valueToEvaluate = 2;  // warning: invalid conversion from 'int' to 'foo' [-fpermissive]
     foo myFoo = valueToEvaluate; //this compile only on UNO
 
+    bool x = true;
+    int y = x ? 0 : 1;
+    if (x) { y = 0; } else { y = 1; }
 }
 
 void loop() {
