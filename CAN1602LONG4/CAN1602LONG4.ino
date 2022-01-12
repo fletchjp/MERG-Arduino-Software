@@ -825,11 +825,16 @@ void longmessagehandler(void *fragment, const unsigned int fragment_len,
         lcd.setCursor(0, 0);
         lcd.write((char*)fragment);
         new_message = true;  // reset for the next message
-     } else {  // CBUS_LONG_MESSAGE_SEQUENCE_ERROR
-               // CBUS_LONG_MESSAGE_TIMEOUT_ERROR,
-               // CBUS_LONG_MESSAGE_CRC_ERROR
-               // raise an error?
-        Serial << F("| Message error with  status = ") << status << endl;
+     } else {
+        // At the moment the recipient does nothing about the message failure.
+        // Could something be done to overcome the problem?
+        // At this point this code knows the stream_id but not the node no of the originator.
+        // There error is one of these:
+        // CBUS_LONG_MESSAGE_SEQUENCE_ERROR
+        // CBUS_LONG_MESSAGE_TIMEOUT_ERROR,
+        // CBUS_LONG_MESSAGE_CRC_ERROR
+        // raise an error?
+        Serial << F("| Message error from ") << stream_id << F(" with  status = ") << status << endl;
         new_message = true;  // reset for the next message
      } 
  }
