@@ -133,7 +133,9 @@ void setup() {
     Colours green = +Colours::_from_string_nothrow("green");
     Serial << "Colours::_size() = " << Colours::_size() << endl;
     /// This makes a variable of type Colours which does not belong to the enum!
+    /// I do not like this at all as it takes a wrong value and apparently uses it.
     Colours yellow = +Colours::_from_string_nothrow("yellow");
+    /// The size of the enum does not change and there is no member yellow.
     Serial << "Colours::_size() = " << Colours::_size() << endl;
     Colours colours2 = Colours::white;
 /// This needs a cast to Colours to compile.
