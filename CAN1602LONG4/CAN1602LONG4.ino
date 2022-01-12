@@ -9,6 +9,8 @@
 /// Change structure again.
 /// Version 4a beta 2
 /// Reposition header files and use enum class
+/// Version 4a beta 3
+/// Another enum class and some use of the anonymous namespace.
 ///////////////////////////////////////////////////////////////////////////////////
 /// Version using DfRobotInputAbstraction.h to model input pins.
 /// This only applies to the DfRobot hardware as there is no way to adjust
@@ -154,7 +156,7 @@ unsigned char mname[7] = { '1', '6', '0', '2', 'L', 'O', 'N' };
 /// constants
 const byte VER_MAJ = 4;         // code major version
 const char VER_MIN = 'a';       // code minor version
-const byte VER_BETA = 2;        // code beta sub-version
+const byte VER_BETA = 3;        // code beta sub-version
 const byte MODULE_ID = 99;      // CBUS module type
 
 const unsigned long CAN_OSC_FREQ = 8000000;     // Oscillator frequency on the CAN2515 board
@@ -211,8 +213,8 @@ byte opcodes[] = {OPC_ACON, OPC_ACOF, OPC_ACON1, OPC_ACOF1, OPC_ACON2, OPC_ACOF2
 int buzzer = SOUNDER;
 #define TONE 1000    // Set the tone for the buzzer
 
-// Index values for errors
-enum errorStates {
+// Index values for errors - make into a scoped enum.
+enum class ErrorState : byte {
   blankError,
   noError,
   emergencyStop,
@@ -247,17 +249,18 @@ const char error_string_4[] PROGMEM  = "invalid error";
 const char* const error_string_table[] PROGMEM = {
   blank_string, error_string_0, error_string_1, error_string_2, error_string_3, error_string_4
 };
-
-#define MAX_ERROR_NO 5
-
+// Put some definitions into the anonymous namespace.
+namespace {
+ const uint16_t MAX_ERROR_NO = 5;
 // Buffer for string output.
 // This has been made safe for line termination.
-#define MAX_LENGTH_OF_STRING 16
-#define LENGTH_OF_BUFFER (MAX_LENGTH_OF_STRING + 1)
-char error_buffer[LENGTH_OF_BUFFER];
+ const uint16_t MAX_LENGTH_OF_STRING  = 16;
+ const uint16_t LENGTH_OF_BUFFER = MAX_LENGTH_OF_STRING + 1;
+ char error_buffer[LENGTH_OF_BUFFER];
+}
 
 // Add check for invalid error
-void getErrorMessage(int i)
+void getErrorMessage(byte i)
 {
   if (i >= 0 && i <= MAX_ERROR_NO) {
      strncpy_P(error_buffer, (char*)pgm_read_word(&(error_string_table[i])),MAX_LENGTH_OF_STRING); 
@@ -266,7 +269,7 @@ void getErrorMessage(int i)
   }
 }
 
-void serialPrintError(int i)
+void serialPrintError(byte i)
 {
  getErrorMessage(i);Serial.print(error_buffer); 
 }
@@ -672,7 +675,7 @@ bool sendEvent(byte opCode, unsigned int eventNo)
   return success;
 }
 
-void displayError(int i,byte x,byte y)
+void displayError(byte i,byte x,byte y)
 {
   getErrorMessage(i);
   lcd.setCursor(x, y);
@@ -696,20 +699,20 @@ void eventhandler(byte index, CANFrame *msg)
   DEBUG_PRINT(F("> op_code = ") << opc);
 
    // Experimental code to display a message index on the event_number.
-   unsigned int base_event_no = (unsigned int)EventNo::nonEvent;
+   unsigned int base_event_no = (byte)EventNo::nonEvent;
    if (event_number > base_event_no) {
      switch (opc) {
 
       case OPC_ACON:
       case OPC_ASON:
      
-      displayError(event_number - base_event_no,0,0);
+      displayError(event_number-base_event_no,0,0);
       break;
 
       case OPC_ACOF:
       case OPC_ASOF:
       
-      displayError(blankError,0,0);
+      displayError((byte)ErrorState::blankError,0,0);
       break;
       
      }   
