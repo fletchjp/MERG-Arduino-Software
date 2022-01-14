@@ -854,6 +854,7 @@ void longmessagehandler(void *fragment, const unsigned int fragment_len,
       /// NOT the eventhandler as these are not teachable events.
       /// I do have code for this.
       /// If there are multiple listeners the sender will get several responses.
+      /// There are other ideas.
      }
  }
 #endif
