@@ -11,6 +11,8 @@
 /// Reposition header files and use enum class
 /// Version 4a beta 3
 /// Another enum class and some use of the anonymous namespace.
+/// Version 4a beta 4
+/// Explore the idea of responding to receipt of a message.
 ///////////////////////////////////////////////////////////////////////////////////
 /// Version using DfRobotInputAbstraction.h to model input pins.
 /// This only applies to the DfRobot hardware as there is no way to adjust
@@ -156,7 +158,7 @@ unsigned char mname[7] = { '1', '6', '0', '2', 'L', 'O', 'N' };
 /// constants
 const byte VER_MAJ = 4;         // code major version
 const char VER_MIN = 'a';       // code minor version
-const byte VER_BETA = 3;        // code beta sub-version
+const byte VER_BETA = 4;        // code beta sub-version
 const byte MODULE_ID = 99;      // CBUS module type
 
 const unsigned long CAN_OSC_FREQ = 8000000;     // Oscillator frequency on the CAN2515 board
@@ -772,7 +774,7 @@ void framehandler(CANFrame *msg) {
   if ( msg->len > 0) {
     for (byte d = 0; d < msg->len; d++) {
       Serial << F(" 0x") << _HEX(msg->data[d]);
-    }
+    }situat
   Serial << F(" ]") << endl;
   }
 
@@ -839,7 +841,20 @@ void longmessagehandler(void *fragment, const unsigned int fragment_len,
         // raise an error?
         Serial << F("| Message error from ") << stream_id << F(" with  status = ") << status << endl;
         new_message = true;  // reset for the next message
-     } 
+     }
+     if (new_message) {
+      /// Message is complete.
+      /// Send a query response to a short event destination (to be sorted out).
+      /// The responses are not sent as learnt events and have to be detected in the frame handler.
+      /// There is example code for sending and receiving in CANALCDBUT.
+      ///  sendEvent(OPC_ARSON,device_number); // Successful message.
+      ///  sendEvent(OPC_ARSOF,device_number); // Unsuccessful message.
+      /// device number could be some base number + stream ID
+      /// The sending device can check for the frames in the framehandler,
+      /// NOT the eventhandler as these are not teachable events.
+      /// I do have code for this.
+      /// If there are multiple listeners the sender will get several responses.
+     }
  }
 #endif
 
