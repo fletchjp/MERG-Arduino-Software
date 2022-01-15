@@ -6,12 +6,19 @@
 // 3rd party libraries
 #include <Streaming.h>
 
+#include "foo.h"
+
 /// How big are your integers?
 ///
 ///int8_t/uint8_t - a signed/unsigned type that is exactly 8 bits in size.
+///
 ///int16_t/uint16_t - a signed/unsigned type that is exactly 16 bits in size.
+///
 ///int32_t/uint32_t - a signed/unsigned type that is exactly 32 bits in size.
+///
 ///int64_t/uint64_t - a signed/unsigned type that is exactly 64 bits in size.
+
+
 
 /// Anonymous Namespaces
 ///
@@ -40,17 +47,6 @@ using fp3 = void(*)(T, const char*);
 
 int *GetResult() { return nullptr; }
 
-/// Default initialization
-
-class Foo {
-  Foo() /* : fooString(nullptr)*/ { }
-  // comment out unused parameter names.
-  Foo(const char* /*str*/) /* : fooString(nullptr) */ {  }
-  Foo(const Foo& /*other*/) /* : fooString(nullptr) */ { }
-  private:
-    char* fooString = nullptr; // replaces all the initialisations
-};
-
 /// Scoping your enums - definition
 
 enum class Colour {
@@ -65,6 +61,8 @@ void setup() {
   while(!Serial);
   Serial.begin (115200);
   Serial << endl << endl << F("> ** TestModern ** ") << __FILE__ << endl;
+
+  foo::Foo foo;
 
   Serial << count_up << endl;
 
