@@ -1,4 +1,4 @@
-@mainpage 4 by 4 Keypad Example using 
+@mainpage 4 by 4 Keypad Example using IoAbstraction and I2C
 
 ## matrixKeyboardI2C44
 
