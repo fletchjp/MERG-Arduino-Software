@@ -6,9 +6,10 @@
 /// This example shows how to use the matrix keyboard support that's built into IoAbstraction,
 /// it can be used out the box with either a 3x4 or 4x4 keypad, but you can modify it to use
 /// any matrix keyboard quite easily.
+///
 /// It just sends the characters that are typed on the keyboard to Serial. The keyboard in This
-/// example is connected directly to Arduino pins, but could just as easily be connected over
-/// a PCF8574, MCP23017 or other IoAbstraction.
+/// example is connected directly to a PCF8574.
+///
 /// This version sets up the keyboard adapting the custom_keyboard example.
  
 #include <Wire.h>
@@ -28,6 +29,7 @@
 //const char pgmLayout[] PROGMEM = "charsColByRow";
 //KeyboardLayout layout(rows, cols, const char* pgmLayout)
 
+/// Declare that the first 100 pins are reserved for the Arduino.
 MultiIoAbstractionRef multiIo = multiIoExpander(100);
 
 const byte ROWS = 4; /// four rows
@@ -39,8 +41,6 @@ const char layout[] PROGMEM = "123A456B789C*0#D"; // Chars have to be in a strin
 //};
 /// These are in order of Keypad pins from 1 to 8.
 /// Pin 1 is on the left with the pad face up.
-///byte rowPins[ROWS] = {107, 106, 105, 104}; //connect to the row pinouts of the keypad
-///byte colPins[COLS] = {103, 102, 101, 100}; //connect to the column pinouts of the keypad
 byte colPins[COLS] = {104, 105, 106, 107}; //connect to the column pinouts of the keypad
 byte rowPins[ROWS] = {100, 101, 102, 103}; //connect to the row pinouts of the keypad
 /// This seems fussy. ROWS and COLS will not work here.
@@ -54,9 +54,6 @@ KeyboardLayout keyLayout(rows, cols, layout);
 ///
 MatrixKeyboardManager keyboard;
 
-/// this example connects the pins directly to an arduino but you could use
-/// IoExpanders or shift registers instead.
-/// IoAbstractionRef arduinoIo = ioUsingArduino();
 
 ///
 /// We need a class that extends from KeyboardListener. This gets notified when
