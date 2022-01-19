@@ -1,4 +1,4 @@
-/// @file matrixKeyboard34.ino
+/// @file matrixKeyboardMEGA34.ino
 /// @brief Example of matrix keyboard support for MEGA 3 by 4 Keypad built into IoAbstraction
 ///
 /// This example shows how to use the matrix keyboard support that's built into IoAbstraction,
