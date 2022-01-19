@@ -1,6 +1,6 @@
 @mainpage 3 by 4 Keypad Example using IoAbstraction and I2C
 
-## matrixKeyboardI2C44
+## matrixKeyboardI2C34
 
 An Arduino sketch which uses a IoAbstraction libraries to control a keypad.
 
