@@ -77,7 +77,7 @@ void setup() {
     Serial.begin(115200);
     /// Wire.begin(); was missing!!
     Wire.begin();
-    /// Add 10 pins from 101 up.
+    /// Add 10 pins from 100 up.
     multiIoAddExpander(multiIo, ioFrom8574(0x20), 10);
 
     // Converted to copy the arrays.
