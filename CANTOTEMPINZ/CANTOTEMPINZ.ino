@@ -130,11 +130,14 @@
 // This did cause a failure and does not any longer since I use an anonymous namespace
 #define FAILURE
 
+#include <Wire.h>
 // IoAbstraction libraries
 #include <IoAbstraction.h>
+#include <IoAbstractionWire.h>
 #include <DfRobotInputAbstraction.h>
 #include <TaskManagerIO.h>
 #include <DeviceEvents.h>
+#include <IoAbstractionWire.h>
 
 // This uses the default settings for analog ranges.
 //IoAbstractionRef dfRobotKeys = inputFromDfRobotShield();
