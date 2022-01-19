@@ -1,6 +1,15 @@
+/// @file CANTOMPINZ.ino
+/// @brief This has experiments on an I2C connected Keypad
+///
+/// This runs on the Totem MiniLab.
+///
+/// NOTE: Pins for I2C are A5 (SCL) A4 (SDA) (NOT documented by Totem)
+/// 
 ///////////////////////////////////////////////////////////////////////////////////
 // CANTOTEMPINZ
-// This is to do some experiments on the failures and add I2C Keypad (if possible)
+// This is to do some experiments on I2C Keypad
+// To do this I have had to turn off the long messages and framehandler.
+
 // Version 1b beta 1
 // Modification to start to use IoAbstraction and TaskManagerIO
 // as has been done in CANCMDDC in CANCMDDC2
@@ -128,7 +137,7 @@
 // Digital / Analog pin 5     Not Used
 //////////////////////////////////////////////////////////////////////////
 // This did cause a failure and does not any longer since I use an anonymous namespace
-#define FAILURE
+//#define FAILURE
 
 #include <Wire.h>
 // IoAbstraction libraries
