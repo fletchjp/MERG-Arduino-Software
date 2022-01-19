@@ -1,7 +1,7 @@
 /// @file matrixKeyboardI2C44.ino
 /// @brief Example of matrix keyboard support for 4 by 4 Keypad built into IoAbstraction on I2C
 ///
-/// At the moment this tells me that key D is always pressed.
+/// The example is now working. A call to Wire.begin() is needed.
 ///
 /// This example shows how to use the matrix keyboard support that's built into IoAbstraction,
 /// it can be used out the box with either a 3x4 or 4x4 keypad, but you can modify it to use
@@ -28,7 +28,7 @@
 //const char pgmLayout[] PROGMEM = "charsColByRow";
 //KeyboardLayout layout(rows, cols, const char* pgmLayout)
 
-MultiIoAbstractionRef multiIo = multiIoExpander(101);
+MultiIoAbstractionRef multiIo = multiIoExpander(100);
 
 const byte ROWS = 4; /// four rows
 const byte COLS = 4; /// four columns
@@ -39,8 +39,10 @@ const char layout[] PROGMEM = "123A456B789C*0#D"; // Chars have to be in a strin
 //};
 /// These are in order of Keypad pins from 1 to 8.
 /// Pin 1 is on the left with the pad face up.
-byte rowPins[ROWS] = {109, 108, 107, 106}; //connect to the row pinouts of the keypad
-byte colPins[COLS] = {105, 104, 103, 102}; //connect to the column pinouts of the keypad
+///byte rowPins[ROWS] = {107, 106, 105, 104}; //connect to the row pinouts of the keypad
+///byte colPins[COLS] = {103, 102, 101, 100}; //connect to the column pinouts of the keypad
+byte colPins[COLS] = {104, 105, 106, 107}; //connect to the column pinouts of the keypad
+byte rowPins[ROWS] = {100, 101, 102, 103}; //connect to the row pinouts of the keypad
 /// This seems fussy. ROWS and COLS will not work here.
 uint8_t rows = ROWS;
 uint8_t cols = COLS;
@@ -79,6 +81,8 @@ void setup() {
 /// setup 
     while(!Serial);
     Serial.begin(115200);
+    /// This was missing!!
+    Wire.begin();
     // Add 10 pins from 101 up.
     multiIoAddExpander(multiIo, ioFrom8574(0x20), 10);
 
