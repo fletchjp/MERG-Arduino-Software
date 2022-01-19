@@ -137,7 +137,7 @@
 #include <DfRobotInputAbstraction.h>
 #include <TaskManagerIO.h>
 #include <DeviceEvents.h>
-#include <IoAbstractionWire.h>
+#include <KeyboardManager.h>
 
 // This uses the default settings for analog ranges.
 //IoAbstractionRef dfRobotKeys = inputFromDfRobotShield();
@@ -163,7 +163,7 @@
 // Maybe that is why they are called headers.
 // The only exception would be defines affecting choices in a header.
 ////////////////////////////////////////////////////////////////////////////////////////
-#define CBUS_LONG_MESSAGE
+//#define CBUS_LONG_MESSAGE
 
 #define DEBUG 0     // set to 0 for no serial debug
 
@@ -195,6 +195,45 @@ namespace {
   }
 }
 IoAbstractionRef dfRobotKeys = inputFromMyShield();
+/// Declare that the first 100 pins are reserved for the Arduino.
+MultiIoAbstractionRef multiIo = multiIoExpander(100);
+/// four rows
+const byte ROWS = 4;
+/// three columns
+const byte COLS = 3; 
+/// define the symbols on the buttons of the keypads
+/// PROGMEM is important.
+const char layout[] PROGMEM = "123456789*0#"; // Chars have to be in a string.
+//  '1','2','3','4','5','6','7','8','9','*','0','#'
+//};
+/// These are in order of Keypad pins from 1 to 7.
+/// Pin 1 is on the left with the pad face up.
+byte rowPins[ROWS] = {100, 101, 102, 103}; //connect to the row pinouts of the keypad
+byte colPins[COLS] = {104, 105, 106}; //connect to the column pinouts of the keypad
+/// This seems fussy. ROWS and COLS will not work here.
+uint8_t rows = ROWS;
+uint8_t cols = COLS;
+/// Set up the keyLayout
+KeyboardLayout keyLayout(rows, cols, layout);
+/// We need a keyboard manager class too
+MatrixKeyboardManager keyboard;
+
+/// We need a class that extends from KeyboardListener. This gets notified when
+/// there are changes in the keyboard state.
+class MyKeyboardListener : public KeyboardListener {
+public:
+    void keyPressed(char key, bool held) override {
+        Serial.print("Key ");
+        Serial.print(key);
+        Serial.print(" is pressed, held = ");
+        Serial.println(held);
+    }
+
+    void keyReleased(char key) override {
+        Serial.print("Released ");
+        Serial.println(key);
+    }
+} myListener;
 
 #ifdef FAILURE
 //CANTOTEMPINY:606:31: error: 'CANFrame' has not been declared
@@ -219,7 +258,7 @@ const unsigned char mname[7] PROGMEM = { 'T', 'O', 'T', 'E', 'M', ' ', ' ' };
 
 // forward function declarations
 void eventhandler(byte index, byte opc);
-void framehandler(CANFrame *msg);
+//void framehandler(CANFrame *msg);
 
 // Set opcodes for polling events
 const byte nopcodes = 9;
@@ -332,7 +371,7 @@ void setupCBUS()
   // register our CBUS event handler, to receive event messages of learned events
   CBUS.setEventHandler(eventhandler);
   // This will only process the defined opcodes.
-  CBUS.setFrameHandler(framehandler, (byte *)opcodes, nopcodes);
+  //CBUS.setFrameHandler(framehandler, (byte *)opcodes, nopcodes);
 
 #ifdef CBUS_LONG_MESSAGE
   //DEBUG_PRINT(F("> about to call to subscribe") );
@@ -432,7 +471,28 @@ void setupModule()
 void setup()
 {
   Serial.begin (115200);
-  Serial << endl << endl << F("> ** CANTOTEM ** ") << __FILE__ << endl;
+  Serial << endl << endl << F("> ** CANTOTEMPINZ ** ") << __FILE__ << endl;
+
+  Wire.begin();
+  /// Add 10 pins from 100 up.
+  multiIoAddExpander(multiIo, ioFrom8574(0x20), 10);
+    // Converted to copy the arrays.
+    for (byte i = 0; i < ROWS; i++)
+      keyLayout.setRowPin(i, rowPins[i]);
+    for (byte i = 0; i < COLS; i++)
+      keyLayout.setColPin(i, colPins[i]);
+
+    /// create the keyboard mapped to arduino pins and with the layout chosen above.
+    /// It will callback our listener
+    keyboard.initialise(multiIo, &keyLayout, &myListener);
+    /// create the keyboard mapped to arduino pins and with the layout chosen above.
+    /// It will callback our listener
+    keyboard.initialise(multiIo, &keyLayout, &myListener);
+
+    /// start repeating at 850 millis then repeat every 350ms
+    keyboard.setRepeatKeyMillis(850, 350);
+
+    Serial.println("Keyboard is initialised!");
 
   setupCBUS();
   setupModule();
@@ -669,6 +729,7 @@ void eventhandler(byte index, CANFrame *msg)
   }
 }
 
+/*
 void framehandler(CANFrame *msg) {
 
   byte op_code = msg->data[0];
@@ -715,6 +776,7 @@ void framehandler(CANFrame *msg) {
   }
   return;
 }
+*/
 
 #ifdef CBUS_LONG_MESSAGE
    byte new_message = true;
