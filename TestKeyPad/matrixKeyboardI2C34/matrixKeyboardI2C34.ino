@@ -34,17 +34,17 @@ MultiIoAbstractionRef multiIo = multiIoExpander(100);
 
 /// four rows
 const byte ROWS = 4;
-/// four columns
-const byte COLS = 4; 
+/// three columns
+const byte COLS = 3; 
 /// define the symbols on the buttons of the keypads
 /// PROGMEM is important.
-const char layout[] PROGMEM = "123A456B789C*0#D"; // Chars have to be in a string.
-//  '1','2','3','A','4','5','6','B','7','8','9','C','*','0','#','D'
+const char layout[] PROGMEM = "123456789*0#"; // Chars have to be in a string.
+//  '1','2','3','4','5','6','7','8','9','*','0','#'
 //};
-/// These are in order of Keypad pins from 1 to 8.
+/// These are in order of Keypad pins from 1 to 7.
 /// Pin 1 is on the left with the pad face up.
-byte colPins[COLS] = {104, 105, 106, 107}; //connect to the column pinouts of the keypad
 byte rowPins[ROWS] = {100, 101, 102, 103}; //connect to the row pinouts of the keypad
+byte colPins[COLS] = {104, 105, 106}; //connect to the column pinouts of the keypad
 /// This seems fussy. ROWS and COLS will not work here.
 uint8_t rows = ROWS;
 uint8_t cols = COLS;
