@@ -11,7 +11,7 @@ This now uses I2C to attach the 4 by 4 keypad.
  any matrix keyboard quite easily.
  It just sends the characters that are typed on the keyboard to Serial.
  
- The keyboard in this example is connected over a PCF854.
+ The keyboard in this example is connected over a PCF8574.
  
  This version sets up the keyboard adapting the custom_keyboard example.
  
