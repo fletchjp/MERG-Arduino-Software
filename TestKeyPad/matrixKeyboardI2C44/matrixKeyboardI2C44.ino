@@ -32,8 +32,10 @@
 /// Declare that the first 100 pins are reserved for the Arduino.
 MultiIoAbstractionRef multiIo = multiIoExpander(100);
 
-const byte ROWS = 4; /// four rows
-const byte COLS = 4; /// four columns
+/// four rows
+const byte ROWS = 4;
+/// four columns
+const byte COLS = 4; 
 /// define the symbols on the buttons of the keypads
 /// PROGMEM is important.
 const char layout[] PROGMEM = "123A456B789C*0#D"; // Chars have to be in a string.
@@ -49,16 +51,11 @@ uint8_t cols = COLS;
 /// Set up the keyLayout
 KeyboardLayout keyLayout(rows, cols, layout);
 
-///
 /// We need a keyboard manager class too
-///
 MatrixKeyboardManager keyboard;
 
-
-///
 /// We need a class that extends from KeyboardListener. This gets notified when
 /// there are changes in the keyboard state.
-///
 class MyKeyboardListener : public KeyboardListener {
 public:
     void keyPressed(char key, bool held) override {
@@ -74,13 +71,13 @@ public:
     }
 } myListener;
 
+/// setup runs once
 void setup() {
-/// setup 
     while(!Serial);
     Serial.begin(115200);
-    /// This was missing!!
+    /// Wire.begin(); was missing!!
     Wire.begin();
-    // Add 10 pins from 101 up.
+    /// Add 10 pins from 101 up.
     multiIoAddExpander(multiIo, ioFrom8574(0x20), 10);
 
     // Converted to copy the arrays.
