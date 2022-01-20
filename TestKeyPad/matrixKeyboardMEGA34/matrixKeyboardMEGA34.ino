@@ -1,6 +1,8 @@
 /// @file matrixKeyboardMEGA34.ino
 /// @brief Example of matrix keyboard support for MEGA 3 by 4 Keypad built into IoAbstraction
 ///
+/// This is now adapted to report the state of the key.
+///
 /// This example shows how to use the matrix keyboard support that's built into IoAbstraction,
 /// it can be used out the box with either a 3x4 or 4x4 keypad, but you can modify it to use
 /// any matrix keyboard quite easily.
@@ -51,22 +53,49 @@ MatrixKeyboardManager keyboard;
 /// IoExpanders or shift registers instead.
 IoAbstractionRef arduinoIo = ioUsingArduino();
 
+//char old_key = 'Z';
+
+/// Adapted from Key.h and made into a scoped enum.
+enum class KeyState { IDLE, PRESSED, HOLD, RELEASED };
+
+/// This is called from the listener to report on the state.
+void tell_the_state(char key_val, KeyState key_state = KeyState::IDLE) {
+  //if (key_val != old_key) {
+    Serial.print(F("Key "));
+    Serial.print(key_val);
+    if (key_state == KeyState::PRESSED) { 
+      Serial.println(F(" pressed"));
+    } else if (key_state == KeyState::HOLD) { 
+      Serial.println(F(" held"));
+      //old_key = key_val;
+    } else if (key_state == KeyState::RELEASED) { 
+      Serial.println(F(" released"));
+      //old_key = key_val;
+    } else {
+      Serial.println(F(" idle"));
+    }
+  //}
+}
+
 ///
 /// We need a class that extends from KeyboardListener. This gets notified when
 /// there are changes in the keyboard state.
 ///
 class MyKeyboardListener : public KeyboardListener {
 public:
-    void keyPressed(char key, bool held) override {
+    void keyPressed(char key, bool hold) override {
         Serial.print("Key ");
         Serial.print(key);
-        Serial.print(" is pressed, held = ");
-        Serial.println(held);
+        Serial.print(" is pressed, hold = ");
+        Serial.println(hold);
+        if (hold) tell_the_state(key,KeyState::HOLD);
+        else tell_the_state(key,KeyState::PRESSED);
     }
 
     void keyReleased(char key) override {
         Serial.print("Released ");
         Serial.println(key);
+        tell_the_state(key,KeyState::RELEASED);
     }
 } myListener;
 
