@@ -56,7 +56,7 @@ IoAbstractionRef arduinoIo = ioUsingArduino();
 //char old_key = 'Z';
 
 /// Adapted from Key.h and made into a scoped enum.
-enum class KeyState { IDLE, PRESSED, HOLD, RELEASED };
+enum class KeyState : byte { IDLE, PRESSED, HOLD, RELEASED };
 
 /// This is called from the listener to report on the state.
 void tell_the_state(char key_val, KeyState key_state = KeyState::IDLE) {
