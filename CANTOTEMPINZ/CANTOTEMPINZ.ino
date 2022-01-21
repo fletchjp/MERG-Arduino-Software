@@ -3,6 +3,11 @@
 ///
 /// This runs on the Totem MiniLab.
 ///
+/// I would like to be able to do long messages - at the moment the code is too big for that.
+/// 33094 with a maximum of 32256.
+/// 32560 without printing configuration.
+/// 31560 taking out printing of some CBUS library configurations e.g. event table.
+///
 /// NOTE: Pins for I2C are A5 (SCL) A4 (SDA) (NOT documented by Totem)
 /// 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -172,7 +177,8 @@
 // Maybe that is why they are called headers.
 // The only exception would be defines affecting choices in a header.
 ////////////////////////////////////////////////////////////////////////////////////////
-//#define CBUS_LONG_MESSAGE
+#define CBUS_LONG_MESSAGE
+#define PRINT_CONFIG 0
 
 #define DEBUG 0     // set to 0 for no serial debug
 
@@ -270,12 +276,12 @@ void eventhandler(byte index, byte opc);
 //void framehandler(CANFrame *msg);
 
 // Set opcodes for polling events
-const byte nopcodes = 9;
-const byte opcodes[] PROGMEM = {OPC_ACON, OPC_ACOF, OPC_ARON, OPC_AROF, OPC_ASON, OPC_ASOF, OPC_AREQ, OPC_ASRQ, OPC_CANID }; 
+//const byte nopcodes = 9;
+//const byte opcodes[] PROGMEM = {OPC_ACON, OPC_ACOF, OPC_ARON, OPC_AROF, OPC_ASON, OPC_ASOF, OPC_AREQ, OPC_ASRQ, OPC_CANID }; 
 
 // constants
 const byte VER_MAJ = 4;         // code major version
-const char VER_MIN = 'y';       // code minor version
+const char VER_MIN = 'z';       // code minor version
 const byte VER_BETA = 2;       // code beta sub-version
 const byte MODULE_ID = 99;      // CBUS module type
 
@@ -365,7 +371,9 @@ void setupCBUS()
   Serial << F(", NN = ") << config.nodeNum << endl;
 
   // show code version and copyright notice
+#if PRINT_CONFIG
   printConfig();
+#endif
 
   // set module parameters
   CBUSParams params(config);
@@ -491,9 +499,6 @@ void setup()
     for (byte i = 0; i < COLS; i++)
       keyLayout.setColPin(i, colPins[i]);
 
-    /// create the keyboard mapped to arduino pins and with the layout chosen above.
-    /// It will callback our listener
-    keyboard.initialise(multiIo, &keyLayout, &myListener);
     /// create the keyboard mapped to arduino pins and with the layout chosen above.
     /// It will callback our listener
     keyboard.initialise(multiIo, &keyLayout, &myListener);
@@ -823,7 +828,7 @@ void longmessagehandler(void *fragment, const unsigned int fragment_len, const b
 //
 /// print code version config details and copyright notice
 //
-
+#if PRINT_CONFIG
 void printConfig(void)
 {
   // code version
@@ -847,6 +852,7 @@ void printConfig(void)
 
   
 }
+#endif
 
 //
 /// command interpreter for serial console input
@@ -864,16 +870,18 @@ void processSerialInput(void)
 
       case 'n':
         // node config
+#if PRINT_CONFIG
         printConfig();
-
         // node identity
         Serial << F("> CBUS node configuration") << endl;
         Serial << F("> mode = ") << (config.FLiM ? "FLiM" : "SLiM") << F(", CANID = ") << config.CANID << F(", node number = ") << config.nodeNum << endl;
         Serial << endl;
+#endif
         break;
 
       case 'e':
         // EEPROM learned event data table
+#if PRINT_CONFIG
         Serial << F("> stored events ") << endl;
         Serial << F("  max events = ") << config.EE_MAX_EVENTS << F(" EVs per event = ") << config.EE_NUM_EVS << F(" bytes per event = ") << config.EE_BYTES_PER_EVENT << endl;
 
@@ -915,7 +923,7 @@ void processSerialInput(void)
         }
 
         Serial << endl;
-
+#endif
         break;
 
       // NVs
