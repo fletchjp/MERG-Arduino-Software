@@ -8,6 +8,8 @@
 /// 32560 without printing configuration.
 /// 31560 taking out printing of some CBUS library configurations e.g. event table.
 ///
+/// Now to change the event code to handle the keypad.
+///
 /// NOTE: Pins for I2C are A5 (SCL) A4 (SDA) (NOT documented by Totem)
 /// 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -66,6 +68,8 @@
 // This solves the compilation problem found previously.
 // Version 4y beta 2 Reorder putting headers first.
 ///////////////////////////////////////////////////////////////////////////////////
+// This compilation with a keypad as well.
+// Version 4z beta 2 Remove some outputs to the serial monitor
 ///////////////////////////////////////////////////////////////////////////////////
 // This is to run on the TOTEM Minilab with a CAN interface.
 // working from
