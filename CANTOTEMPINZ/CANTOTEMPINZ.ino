@@ -10,6 +10,9 @@
 ///
 /// Now to change the event code to handle the keypad.
 ///
+/// At the moment this sends a message when a button is pressed. It can now detect keys as well.
+///
+///
 /// NOTE: Pins for I2C are A5 (SCL) A4 (SDA) (NOT documented by Totem)
 /// 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -245,7 +248,18 @@ enum class KeyState : byte { IDLE, PRESSED, HOLD, RELEASED };
 byte key_pressed;
 byte previous_key_pressed = 'Z';
 
-void keypadEvent(char,KeyState);
+/// Key class to hold value and state together.
+class Key {
+   byte key;
+   KeyState key_state;
+public: 
+   Key() : key('Q') , key_state(KeyState::IDLE) { }
+   Key(byte key_, KeyState key_state_ = KeyState::IDLE) : key(key_) , key_state(key_state_) { }
+   byte getKey() { return key; }
+   KeyState getKeyState() { return key_state; }
+};
+
+void keypadEvent(Key);
 
 /// We need a class that extends from KeyboardListener. This gets notified when
 /// there are changes in the keyboard state.
@@ -256,22 +270,37 @@ public:
         Serial.print(key);
         Serial.print(" is pressed, hold = ");
         Serial.println(hold);
-        if (hold) keypadEvent(key,KeyState::HOLD);
-        else keypadEvent(key,KeyState::PRESSED);
+        if (hold) keypadEvent(Key(key,KeyState::HOLD));
+        else keypadEvent(Key(key,KeyState::PRESSED));
         key_pressed = key;
     }
 
     void keyReleased(char key) override {
         Serial.print("Released ");
         Serial.println(key);
-        keypadEvent(key,KeyState::RELEASED);
+        keypadEvent(Key(key,KeyState::RELEASED));
         key_pressed = 'X';
     }
 } myListener;
 
-void keypadEvent(char key,KeyState key_state = KeyState::IDLE)
+/// This is called when there is a keypad event.
+void keypadEvent(Key key)
 {
-
+  // Taking care of keypad events.
+  switch (key.getKeyState())
+  {
+     case KeyState::PRESSED:
+     break;
+     
+     case KeyState::HOLD:
+     break;
+     
+     case KeyState::RELEASED:
+     break;
+     
+     default:
+     break;  // KeyState::IDLE
+  }
 }
 
 #ifdef FAILURE
