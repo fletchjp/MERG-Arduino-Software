@@ -237,22 +237,42 @@ KeyboardLayout keyLayout(rows, cols, layout);
 /// We need a keyboard manager class too
 MatrixKeyboardManager keyboard;
 
+// From Key.h
+/// Adapted from Key.h and made into a scoped enum.
+enum class KeyState : byte { IDLE, PRESSED, HOLD, RELEASED };
+
+/// Reported by MyKeyboardListener
+byte key_pressed;
+byte previous_key_pressed = 'Z';
+
+void keypadEvent(char,KeyState);
+
 /// We need a class that extends from KeyboardListener. This gets notified when
 /// there are changes in the keyboard state.
 class MyKeyboardListener : public KeyboardListener {
 public:
-    void keyPressed(char key, bool held) override {
+    void keyPressed(char key, bool hold) override {
         Serial.print("Key ");
         Serial.print(key);
-        Serial.print(" is pressed, held = ");
-        Serial.println(held);
+        Serial.print(" is pressed, hold = ");
+        Serial.println(hold);
+        if (hold) keypadEvent(key,KeyState::HOLD);
+        else keypadEvent(key,KeyState::PRESSED);
+        key_pressed = key;
     }
 
     void keyReleased(char key) override {
         Serial.print("Released ");
         Serial.println(key);
+        keypadEvent(key,KeyState::RELEASED);
+        key_pressed = 'X';
     }
 } myListener;
+
+void keypadEvent(char key,KeyState key_state = KeyState::IDLE)
+{
+
+}
 
 #ifdef FAILURE
 //CANTOTEMPINY:606:31: error: 'CANFrame' has not been declared
