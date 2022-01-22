@@ -290,6 +290,7 @@ void keypadEvent(Key key)
   switch (key.getKeyState())
   {
      case KeyState::PRESSED:
+     processKey(key);
      break;
      
      case KeyState::HOLD:
@@ -302,6 +303,13 @@ void keypadEvent(Key key)
      break;  // KeyState::IDLE
   }
 }
+
+/// This is called a key is pressed
+void processKey(Key key)
+{
+
+}
+
 
 #ifdef FAILURE
 //CANTOTEMPINY:606:31: error: 'CANFrame' has not been declared
