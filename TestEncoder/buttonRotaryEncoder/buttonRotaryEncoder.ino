@@ -18,15 +18,15 @@
 #include <TaskManagerIO.h>
 
 // The pin onto which we connected the rotary encoders switch
-const int spinwheelClickPin = 4;
+const int spinwheelClickPin = 4; /// SW on encoder
 
 // The pin onto which we connected the repeat button switch (not in use).
 const int repeatButtonPin = 5;
 
 // The two pins where we connected the A and B pins of the encoder. I recomend you dont change these
 // as the pin must support interrupts.
-const int encoderAPin = 2;
-const int encoderBPin = 3;
+const int encoderAPin = 2; /// CLK on encoder 
+const int encoderBPin = 3; /// DT  on encoder
 
 // the maximum (0 based) value that we want the encoder to represent.
 const int maximumEncoderValue = 128;
