@@ -1,5 +1,5 @@
-/// @file matrixKeyboardMEGA44.ino
-/// @brief Example of matrix keyboard support for MEGA 4 by 4 Keypad built into IoAbstraction
+/// @file matrixKeyboardUNO44.ino
+/// @brief Example of matrix keyboard support for UNO 4 by 4 Keypad built into IoAbstraction
 ///
 /// This example shows how to use the matrix keyboard support that's built into IoAbstraction,
 /// it can be used out the box with either a 3x4 or 4x4 keypad, but you can modify it to use
