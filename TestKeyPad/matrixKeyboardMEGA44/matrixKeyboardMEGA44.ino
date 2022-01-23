@@ -34,8 +34,10 @@ const char layout[] PROGMEM = "123A456B789C*0#D"; // Chars have to be in a strin
 //};
 /// These are in order of Keypad pins from 1 to 8.
 /// Pin 1 is on the left with the pad face up.
-byte rowPins[ROWS] = {9, 8, 7, 6}; //connect to the row pinouts of the keypad
-byte colPins[COLS] = {5, 4, 3, 2}; //connect to the column pinouts of the keypad
+byte rowPins[ROWS] = {49, 47, 45, 43}; //connect to the row pinouts of the keypad
+byte colPins[COLS] = {41, 39, 37, 35}; //connect to the column pinouts of the keypad
+//byte rowPins[ROWS] = {9, 8, 7, 6}; //connect to the row pinouts of the keypad
+//byte colPins[COLS] = {5, 4, 3, 2}; //connect to the column pinouts of the keypad
 /// This seems fussy. ROWS and COLS will not work here.
 uint8_t rows = ROWS;
 uint8_t cols = COLS;
