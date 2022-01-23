@@ -1,10 +1,10 @@
 /// @file EncodeOnly.ino
 /// @brief Test for encoder based on Elegoo example 33 without the motor.
-
-//www.elegoo.com
-//2016.12.12
-
-// Encode code only taken from Elegoo Lesson 33 code
+//
+///www.elegoo.com
+///2016.12.12
+///
+/// Encode code only taken from Elegoo Lesson 33 code
 
 
 volatile boolean TurnDetected;  // need volatile for Interrupts
