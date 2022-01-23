@@ -1,3 +1,7 @@
+/// @file buttonRotaryEncoder.ino
+/// @brief Adapted from IO Abstraction example.
+
+
 /*
  This sketch gives an example of using a rotary encoder along with it's inbuilt push button with
  the switch input facilities. In addition to the encoder, we also connect another switch that
@@ -14,21 +18,21 @@
 #include <TaskManagerIO.h>
 
 // The pin onto which we connected the rotary encoders switch
-const int spinwheelClickPin = 18;
+const int spinwheelClickPin = 4;
 
-// The pin onto which we connected the repeat button switch
-const int repeatButtonPin = 3;
+// The pin onto which we connected the repeat button switch (not in use).
+const int repeatButtonPin = 5;
 
 // The two pins where we connected the A and B pins of the encoder. I recomend you dont change these
 // as the pin must support interrupts.
-const int encoderAPin = 14;
-const int encoderBPin = 17;
+const int encoderAPin = 2;
+const int encoderBPin = 3;
 
 // the maximum (0 based) value that we want the encoder to represent.
 const int maximumEncoderValue = 128;
 
 // an LED that flashes as the encoder changes
-const int ledOutputPin = 26;
+const int ledOutputPin = 13;
 
 auto boardIo = internalDigitalIo();
 
