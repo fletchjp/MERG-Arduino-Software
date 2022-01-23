@@ -10,7 +10,7 @@ I need to develop versions to test with a Keypad as well on a MEGA as part of th
 
 ## buttonRotaryEncoder
 
-This is an IO Abstraction example which I have adapted to use the same pins as the EncoderOly example.
+This is an IO Abstraction example which I have adapted to use the same pins as the EncoderOnly example.
 
 ## dfRobotRotaryEncoder
 
