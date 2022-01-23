@@ -53,12 +53,18 @@ The example is now working. A call to Wire.begin() is needed.
 
 ## matrixKeyboardMEGA34
 
-Example of matrix keyboard support for MEGA 3 by 4 Keypad built into IoAbstraction
+Example of matrix keyboard support for MEGA with a 3 by 4 Keypad built into IoAbstraction
 
 This is now adapted to report the state of the key.
 
 ## matrixKeyboardMEGA44
 
-Example of matrix keyboard support for MEGA 4 by 4 Keypad built into IoAbstraction
+Example of matrix keyboard support for MEGA with a 4 by 4 Keypad built into IoAbstraction
+
+This is now adapted to report the state of the key.
+
+## matrixKeyboardUNO44
+
+Example of matrix keyboard support for UNO with a 4 by 4 Keypad built into IoAbstraction
 
 This is now adapted to report the state of the key.
