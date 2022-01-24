@@ -12,3 +12,7 @@ An Arduino sketch which uses a IoAbstraction libraries to control a keypad.
  a PCF8574, MCP23017 or other IoAbstraction.
  This version sets up the keyboard adapting the custom_keyboard example.
  
+## Development
+
+This is the version which I intend to use a basis for combination with code for one or more encoders, for work with CANCMDDC.
+
