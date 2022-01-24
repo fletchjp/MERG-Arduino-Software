@@ -57,6 +57,12 @@ Example of matrix keyboard support for MEGA with a 3 by 4 Keypad built into IoAb
 
 This is now adapted to report the state of the key.
 
+## matrixKeyboardEncoderMEGA34
+
+Example of matrix keyboard support for MEGA with a 3 by 4 Keypad built into IoAbstraction with encoder
+
+This is now adapted to report the state of the key.
+
 ## matrixKeyboardMEGA44
 
 Example of matrix keyboard support for MEGA with a 4 by 4 Keypad built into IoAbstraction
