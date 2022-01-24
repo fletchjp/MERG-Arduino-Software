@@ -10,11 +10,61 @@
 /// example is connected directly to Arduino pins, but could just as easily be connected over
 /// a PCF8574, MCP23017 or other IoAbstraction.
 /// This version sets up the keyboard adapting the custom_keyboard example.
- 
+///
+/// MEGA pin settings from the CANCMDDC code
+/// Digital pin 38             Encoder 1 Switch (SW on encoder)
+/// Digital pin 40             Encoder 2 Switch (SW on encoder)
+/// Digital / Analog pin 0     Encoder 1 A (CLK on encoder)
+/// Digital / Analog pin 1     Encoder 2 A (CLK on encoder)
+/// Digital / Analog pin 8     Encoder 1 B (DT  on encoder)
+/// Digital / Analog pin 9     Encoder 2 B (DT  on encoder)
+
 #include <Wire.h>
 #include <IoAbstraction.h>
 #include <TaskManagerIO.h>
 #include <KeyboardManager.h>
+
+// The pin onto which we connected the rotary encoders switch
+const int spinwheelClickPin = 38; /// SW on encoder
+// The two pins where we connected the A and B pins of the encoder. I recomend you dont change these
+// as the pin must support interrupts.
+const int encoderAPin = A0; /// CLK on encoder 
+const int encoderBPin = A8; /// DT  on encoder
+// the maximum (0 based) value that we want the encoder to represent.
+const int maximumEncoderValue = 128;
+
+// an LED that flashes as the encoder changes
+const int ledOutputPin = 13;
+
+/// This is used in the buttonRotaryEncoder code.
+///auto boardIo = internalDigitalIo();
+/// Reading the source code ioUsingArduino is a synonym on Arduino systems.
+/// So I will use arduinoIo for boardIo.
+
+/// this example connects the pins directly to an arduino but you could use
+/// IoExpanders or shift registers instead.
+IoAbstractionRef arduinoIo = ioUsingArduino();
+
+//
+// When the spinwheel is clicked, this function will be run as we registered it as a callback
+//
+void onSpinwheelClicked(pinid_t pin, bool heldDown) {
+  Serial.print("Button pressed ");
+  Serial.println(heldDown ? "Held" : "Pressed");
+}
+
+//
+// Each time the encoder value changes, this function runs, as we registered it as a callback
+//
+void onEncoderChange(int newValue) {
+  Serial.print("Encoder change ");
+  Serial.println(newValue);
+
+  // here we turn the led on and off as the encoder moves.
+  ioDeviceDigitalWriteS(arduinoIo, ledOutputPin, newValue % 2);
+}
+
+
 
 //
 // We need to make a keyboard layout that the manager can use. choose one of the below.
@@ -48,10 +98,6 @@ KeyboardLayout keyLayout(rows, cols, layout);
 /// We need a keyboard manager class too
 ///
 MatrixKeyboardManager keyboard;
-
-/// this example connects the pins directly to an arduino but you could use
-/// IoExpanders or shift registers instead.
-IoAbstractionRef arduinoIo = ioUsingArduino();
 
 //char old_key = 'Z';
 
@@ -103,6 +149,23 @@ void setup() {
 /// setup 
     while(!Serial);
     Serial.begin(115200);
+
+  // here we initialise as output the output pin we'll use
+  ioDevicePinMode(arduinoIo, ledOutputPin, OUTPUT);
+
+  // First we set up the switches library, giving it the task manager and tell it to use arduino pins
+  // We could also of chosen IO through an i2c device that supports interrupts.
+  // If you want to use PULL DOWN instead of PULL UP logic, change the true to false below.
+  switches.initialise(arduinoIo, true);
+
+  // now we add the switches, we dont want the spinwheel button to repeat, so leave off the last parameter
+  // which is the repeat interval (millis / 20 basically) Repeat button does repeat as we can see.
+  switches.addSwitch(spinwheelClickPin, onSpinwheelClicked);
+
+  // now we set up the rotary encoder, first we give the A pin and the B pin.
+  // we give the encoder a max value of 128, always minumum of 0.
+  setupRotaryEncoderWithInterrupt(encoderAPin, encoderBPin, onEncoderChange);
+  switches.changeEncoderPrecision(maximumEncoderValue, 100);
 
     // Converted to copy the arrays.
     for (byte i = 0; i < ROWS; i++)
