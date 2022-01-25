@@ -28,8 +28,8 @@
 const int spinwheelClickPin = 38; /// SW on encoder
 // The two pins where we connected the A and B pins of the encoder. I recomend you dont change these
 // as the pin must support interrupts.
-const int encoderAPin = A0; /// CLK on encoder 
-const int encoderBPin = A8; /// DT  on encoder
+const int encoderAPin = 2; //A0; /// CLK on encoder 
+const int encoderBPin = 3; //A8; /// DT  on encoder
 // the maximum (0 based) value that we want the encoder to represent.
 const int maximumEncoderValue = 128;
 
@@ -180,7 +180,7 @@ void setup() {
     /// start repeating at 850 millis then repeat every 350ms
     keyboard.setRepeatKeyMillis(850, 350);
 
-    Serial.println("Keyboard is initialised!");
+    Serial.println("Keyboard and encoder are initialised!");
 }
 
 void loop() {
