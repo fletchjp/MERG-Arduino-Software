@@ -28,6 +28,7 @@
 const int spinwheelClickPin = 38; /// SW on encoder
 // The two pins where we connected the A and B pins of the encoder. I recomend you dont change these
 // as the pin must support interrupts.
+// IoAbstraction does not have an option to turn off the interrupt.
 const int encoderAPin = 2; //A0; /// CLK on encoder 
 const int encoderBPin = 3; //A8; /// DT  on encoder
 // the maximum (0 based) value that we want the encoder to represent.
