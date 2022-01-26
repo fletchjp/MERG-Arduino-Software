@@ -1,11 +1,9 @@
 /// @file MartinsEncode.ino
 /// @brief Test for encoder based on Martin Da Costa's code.
-//
-///www.elegoo.com
-///2016.12.12
 ///
-/// Encode code only taken from Elegoo Lesson 33 code
+/// I am not sure how to configure this code so I will pause this.
 
+#include "MyEncoder.h"
 
 volatile boolean TurnDetected;  // need volatile for Interrupts
 volatile boolean rotationdirection;  // CW or CCW rotation
@@ -14,6 +12,8 @@ const int PinCLK=2;   // Generating interrupts using CLK signal
 const int PinDT=3;    // Reading DT signal
 const int PinSW=4;    // Reading Push Button switch
 // Also connect +5V and ground.
+
+MyEncoder encoder(PinCLK,PinDT);
 
 int RotaryPosition=0;    // To store Stepper Motor Position
 
@@ -24,8 +24,16 @@ int StepsToTake;      // How much to move Stepper
 // In1, In2, In3, In4 in the sequence 1-3-2-4
 //Stepper small_stepper(STEPS, 8, 10, 9, 11);
 
+void setupPCI()
+{
+  cli();
+  PCICR |= 0b00000001;  //Set Pin Change Interrupt on Register B
+  PCMSK0 |= 0b00000011;  //Set pins 8 & 9 for interrupt
+  sei();
+}
+
 // Interrupt routine runs if CLK goes from HIGH to LOW
-void isr ()  {
+/*void isr ()  {
   delay(4);  // delay for Debouncing
   if (digitalRead(PinCLK))
     rotationdirection= digitalRead(PinDT);
@@ -33,6 +41,7 @@ void isr ()  {
     rotationdirection= !digitalRead(PinDT);
   TurnDetected = true;
 }
+*/
 
 void setup() {
   // put your setup code here, to run once:
@@ -41,9 +50,19 @@ pinMode(PinCLK,INPUT);
 pinMode(PinDT,INPUT);  
 pinMode(PinSW,INPUT);
 digitalWrite(PinSW, HIGH); // Pull-Up resistor for switch
-attachInterrupt (0,isr,FALLING); // interrupt 0 always connected to pin 2 on Arduino UNO
+//attachInterrupt (0,isr,FALLING); // interrupt 0 always connected to pin 2 on Arduino UNO
 Serial.begin (115200);
-Serial.println("ButtonRotaryEncoder from Elegoo Example");
+Serial.println("MartinsEncoder");
+}
+
+ISR(PCINT0_vect)  // Pin 8 interrupt vector
+{
+  encoder.encoderISR();
+}
+
+ISR(PCINT1_vect)  // Pin 9 interrupt vector
+{
+  encoder.encoderISR();
 }
 
 void loop() {
