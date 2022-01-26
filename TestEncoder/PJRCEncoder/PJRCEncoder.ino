@@ -5,6 +5,8 @@
 ///
 /// This is configured as an Arduino library. However, there is another one of the same name in the system.
 
+#include "Encoder.h"
+
 volatile boolean TurnDetected;  // need volatile for Interrupts
 volatile boolean rotationdirection;  // CW or CCW rotation
 
@@ -21,6 +23,8 @@ int StepsToTake;      // How much to move Stepper
 // Setup of proper sequencing for Motor Driver Pins
 // In1, In2, In3, In4 in the sequence 1-3-2-4
 //Stepper small_stepper(STEPS, 8, 10, 9, 11);
+
+
 
 // Interrupt routine runs if CLK goes from HIGH to LOW
 void isr ()  {
