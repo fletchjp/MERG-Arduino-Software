@@ -33,3 +33,18 @@ Not yet tested.
 ## joystickRotaryEncoder
  
 Not yet tested.
+
+## MartinsEncoder
+
+Test for encoder based on Martin Da Costa's code.
+
+I am not sure how to configure this code so I will pause this.
+
+## PJRCBasic
+
+Test for encoder based on PJRC encoder library
+
+https://www.pjrc.com/teensy/td_libs_Encoder.html
+
+
+
