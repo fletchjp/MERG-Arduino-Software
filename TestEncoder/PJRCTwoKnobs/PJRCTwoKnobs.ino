@@ -1,3 +1,10 @@
+/// @file PJRCTwoKnobs.ino
+/// @brief Test for encoder based on PJRC encoder library
+///
+/// https://www.pjrc.com/teensy/td_libs_Encoder.html
+///
+/// This is configured as an Arduino library. However, there is another one of the same name in the system.
+
 /* Encoder Library - TwoKnobs Example
  * http://www.pjrc.com/teensy/td_libs_Encoder.html
  *
