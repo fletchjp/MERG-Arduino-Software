@@ -1,16 +1,16 @@
-/// @file MartinsEncode.ino
+/// @file MartinsEncoder.ino
 /// @brief Test for encoder based on Martin Da Costa's code.
 ///
-/// I am not sure how to configure this code so I will pause this.
+/// I am going to configure this for a MEGA
 
 #include "MyEncoder.h"
 
 volatile boolean TurnDetected;  // need volatile for Interrupts
 volatile boolean rotationdirection;  // CW or CCW rotation
 
-const int PinCLK=2;   // Generating interrupts using CLK signal
-const int PinDT=3;    // Reading DT signal
-const int PinSW=4;    // Reading Push Button switch
+const int PinCLK=A8;   // Generating interrupts using CLK signal
+const int PinDT=A9;    // Reading DT signal
+const int PinSW=38;     // Reading Push Button switch
 // Also connect +5V and ground.
 
 MyEncoder encoder(PinCLK,PinDT);
@@ -20,47 +20,41 @@ int RotaryPosition=0;    // To store Stepper Motor Position
 int PrevPosition;     // Previous Rotary position Value to check accuracy
 int StepsToTake;      // How much to move Stepper
 
-// Setup of proper sequencing for Motor Driver Pins
-// In1, In2, In3, In4 in the sequence 1-3-2-4
-//Stepper small_stepper(STEPS, 8, 10, 9, 11);
-
 void setupPCI()
 {
   cli();
-  PCICR |= 0b00000001;  //Set Pin Change Interrupt on Register B
-  PCMSK0 |= 0b00000011;  //Set pins 8 & 9 for interrupt
+  PCICR  |= 0b00000100;  //Set Pin Change Interrupt on Register B
+  PCMSK2 |= 0b00001111;  //Set pins 8 & 9 for interrupt
   sei();
 }
 
-// Interrupt routine runs if CLK goes from HIGH to LOW
-/*void isr ()  {
-  delay(4);  // delay for Debouncing
-  if (digitalRead(PinCLK))
-    rotationdirection= digitalRead(PinDT);
-  else
-    rotationdirection= !digitalRead(PinDT);
-  TurnDetected = true;
-}
-*/
 
 void setup() {
   // put your setup code here, to run once:
-  
-pinMode(PinCLK,INPUT);
-pinMode(PinDT,INPUT);  
-pinMode(PinSW,INPUT);
-digitalWrite(PinSW, HIGH); // Pull-Up resistor for switch
+  setupPCI();
+  // These are done in the encoder constructor
+  //pinMode(PinCLK,INPUT);
+  //pinMode(PinDT,INPUT);  
+  pinMode(PinSW,INPUT);
+  digitalWrite(PinSW, HIGH); // Pull-Up resistor for switch
 //attachInterrupt (0,isr,FALLING); // interrupt 0 always connected to pin 2 on Arduino UNO
-Serial.begin (115200);
-Serial.println("MartinsEncoder");
+  Serial.begin (115200);
+  Serial.println("MartinsEncoder test for a MEGA");
+  encoder.setLimits(0,100);
 }
 
-ISR(PCINT0_vect)  // Pin 8 interrupt vector
+/*ISR(PCINT0_vect)  // Pin 8 interrupt vector
 {
   encoder.encoderISR();
 }
 
 ISR(PCINT1_vect)  // Pin 9 interrupt vector
+{
+  encoder.encoderISR();
+}
+*/
+
+ISR(PCINT2_vect)  // Pin 9 interrupt vector
 {
   encoder.encoderISR();
 }
@@ -70,42 +64,23 @@ void loop() {
   //small_stepper.setSpeed(700); //Max seems to be 700
   if (!(digitalRead(PinSW))) {   // check if button is pressed
     if (RotaryPosition == 0) {  // check if button was already pressed
-    } else {
+       } else {
         //small_stepper.step(-(RotaryPosition*50));
         RotaryPosition=0; // Reset position to ZERO
+        encoder.setPosition(RotaryPosition);
         Serial.print("X ");
         Serial.println(RotaryPosition);
+        PrevPosition = RotaryPosition;
       }
       
-    }
+  }
 
   // Runs if rotation was detected
+  RotaryPosition = encoder.getPosition();
+  TurnDetected = (RotaryPosition != PrevPosition);
   if (TurnDetected)  {
     PrevPosition = RotaryPosition; // Save previous position in variable
-    if (rotationdirection) {
-      RotaryPosition=RotaryPosition+1;} // decrase Position by 1
-    else {
-      RotaryPosition=RotaryPosition-1;} // increase Position by 1
-
-    TurnDetected = false;  // do NOT repeat IF loop until new rotation detected
-
-    // Which direction to move Stepper motor
-    if ((PrevPosition + 1) == RotaryPosition) { // Move motor CW
-      StepsToTake=50; 
-      //small_stepper.step(StepsToTake);
-    }
-
-    if ((RotaryPosition + 1) == PrevPosition) { // Move motor CCW
-      StepsToTake=-50;
-      //small_stepper.step(StepsToTake);
-    }
-    if (rotationdirection) Serial.print("> ");
-    else Serial.print("< ");
     Serial.println(RotaryPosition);
   }
-     //digitalWrite(8, LOW);
-     //digitalWrite(9, LOW);
-     //digitalWrite(10, LOW);
-     //digitalWrite(11, LOW);     
 
 }
