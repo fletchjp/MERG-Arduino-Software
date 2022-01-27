@@ -5,8 +5,7 @@
 
 #include "MyEncoder.h"
 
-volatile boolean TurnDetected;  // need volatile for Interrupts
-volatile boolean rotationdirection;  // CW or CCW rotation
+boolean TurnDetected;
 
 const int PinCLK=A8;   // Generating interrupts using CLK signal
 const int PinDT=A9;    // Reading DT signal
@@ -18,7 +17,6 @@ MyEncoder encoder(PinCLK,PinDT);
 int RotaryPosition=0;    // To store Stepper Motor Position
 
 int PrevPosition;     // Previous Rotary position Value to check accuracy
-int StepsToTake;      // How much to move Stepper
 
 void setupPCI()
 {
@@ -37,7 +35,6 @@ void setup() {
   //pinMode(PinDT,INPUT);  
   pinMode(PinSW,INPUT);
   digitalWrite(PinSW, HIGH); // Pull-Up resistor for switch
-//attachInterrupt (0,isr,FALLING); // interrupt 0 always connected to pin 2 on Arduino UNO
   Serial.begin (115200);
   Serial.println("MartinsEncoder test for a MEGA");
   encoder.setLimits(0,100);
