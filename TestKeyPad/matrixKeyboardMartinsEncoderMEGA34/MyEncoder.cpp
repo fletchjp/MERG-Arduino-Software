@@ -1,3 +1,6 @@
+/// @file MyEncoder.cpp
+/// @brief Library for using rotary encoders - initialization and default values.
+
 // -----
 // 
 // -----
