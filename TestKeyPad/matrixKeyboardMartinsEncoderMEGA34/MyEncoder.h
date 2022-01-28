@@ -1,9 +1,9 @@
 /// @file MyEncoder.h
 /// @brief Library for using rotary encoders.
-
-// -----
-// MyEncoder.h - Library for using rotary encoders.
-// This class is implemented for use with the Arduino environment.
+///
+/// -----
+/// MyEncoder.h - Library for using rotary encoders.
+/// This class is implemented for use with the Arduino environment.
 //
 // 
 
@@ -12,6 +12,7 @@
 
 #include "Arduino.h"
 
+/// @brief MyEncoder defined for two pins able to interrupt or pin change interrupt
 class MyEncoder
 {
 public:

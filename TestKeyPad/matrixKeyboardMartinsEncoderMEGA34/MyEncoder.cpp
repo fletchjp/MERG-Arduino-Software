@@ -8,11 +8,11 @@
 #include "MyEncoder.h"
 #include "Arduino.h"
 
-
-// The array holds the values -1 for the entries where a position was decremented,
-// a 1 for the entries where the position was incremented
-// and 0 in all the other (no change or not valid) cases.
-
+/// @brief Structure for the state machine
+///
+/// The array holds the values -1 for the entries where a position was decremented,
+/// a 1 for the entries where the position was incremented
+/// and 0 in all the other (no change or not valid) cases.
 const int8_t KNOBDIR[] = {
     0, -1, 1, 0,
     1, 0, 0, -1,
