@@ -28,17 +28,18 @@
 #include <KeyboardManager.h>
 
 /// Swap the pins to get the opposite action
+/// This is equivalent to changing over the wires.
 #define SWAP_PINS 1
 
 #include "MyEncoder.h"
 
+/// Used to note when the encoder position has changed.
 boolean TurnDetected;
 
-// The pin onto which we connected the rotary encoders switch
+/// The pin onto which we connected the rotary encoders switch
 const int spinwheelClickPin = 38; /// SW on encoder
-// The two pins where we connected the A and B pins of the encoder. I recomend you dont change these
-// as the pin must support interrupts.
-// IoAbstraction does not have an option to turn off the interrupt.
+/// IoAbstraction does not have an option to turn off the interrupt.
+/// In this case they are passed to Martin's code instead.
 const int encoderAPin = A8; //A0; /// CLK on encoder 
 const int encoderBPin = A9; //A8; /// DT  on encoder
 // the maximum (0 based) value that we want the encoder to represent.
@@ -53,10 +54,11 @@ MyEncoder encoder(encoderBPin,encoderAPin);
 MyEncoder encoder(encoderAPin,encoderBPin);
 #endif
 
-int RotaryPosition=0;    // To store Stepper Motor Position
+int RotaryPosition=0;    // To store Encoder Position
 
 int PrevPosition;     // Previous Rotary position Value to check accuracy
 
+/// @brief The PCI setup is specific to the pins being used
 void setupPCI()
 {
   cli();
@@ -65,18 +67,11 @@ void setupPCI()
   sei();
 }
 
-/// This is used in the buttonRotaryEncoder code.
-///auto boardIo = internalDigitalIo();
-/// Reading the source code ioUsingArduino is a synonym on Arduino systems.
-/// So I will use arduinoIo for boardIo.
 
-/// this example connects the pins directly to an arduino but you could use
-/// IoExpanders or shift registers instead.
+/// This example connects the pins directly to an arduino
 IoAbstractionRef arduinoIo = ioUsingArduino();
 
-//
-// When the spinwheel is clicked, this function will be run as we registered it as a callback
-//
+/// @brief When the spinwheel is clicked, this function will be run as we registered it as a callback
 void onSpinwheelClicked(pinid_t pin, bool heldDown) {
   Serial.print("Button pressed ");
   Serial.println(heldDown ? "Held" : "Pressed");
@@ -89,19 +84,6 @@ void onSpinwheelClicked(pinid_t pin, bool heldDown) {
         PrevPosition = RotaryPosition;
       }
 }
-
-//
-// Each time the encoder value changes, this function runs, as we registered it as a callback
-//
-/*
-void onEncoderChange(int newValue) {
-  Serial.print("Encoder change ");
-  Serial.println(newValue);
-
-  // here we turn the led on and off as the encoder moves.
-  ioDeviceDigitalWriteS(arduinoIo, ledOutputPin, newValue % 2);
-}
-*/
 
 
 //
