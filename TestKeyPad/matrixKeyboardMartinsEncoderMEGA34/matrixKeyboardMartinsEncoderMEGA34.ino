@@ -1,6 +1,8 @@
 /// @file matrixKeyboardMartinsEncoderMEGA34.ino
 /// @brief Example of matrix keyboard support for MEGA 3 by 4 Keypad built into IoAbstraction adding Martin's encoder
 ///
+/// This now runs Martin's encoder separately from the IoAbstraction code. I would like to integrate it.
+///
 /// This is now adapted to report the state of the key.
 ///
 /// This example shows how to use the matrix keyboard support that's built into IoAbstraction,
@@ -11,31 +13,57 @@
 /// a PCF8574, MCP23017 or other IoAbstraction.
 /// This version sets up the keyboard adapting the custom_keyboard example.
 ///
-/// MEGA pin settings from the CANCMDDC code
+/// MEGA pin settings changed from the CANCMDDC code
+/// A0 to A7 do not work with Martin's encoder.
 /// Digital pin 38             Encoder 1 Switch (SW on encoder)
 /// Digital pin 40             Encoder 2 Switch (SW on encoder)
-/// Digital / Analog pin 0     Encoder 1 A (CLK on encoder)
-/// Digital / Analog pin 1     Encoder 2 A (CLK on encoder)
-/// Digital / Analog pin 8     Encoder 1 B (DT  on encoder)
-/// Digital / Analog pin 9     Encoder 2 B (DT  on encoder)
+/// Digital / Analog pin 8     Encoder 1 A (CLK on encoder)
+/// Digital / Analog pin 10    Encoder 2 A (CLK on encoder)
+/// Digital / Analog pin 9     Encoder 1 B (DT  on encoder)
+/// Digital / Analog pin 11    Encoder 2 B (DT  on encoder)
 
 #include <Wire.h>
 #include <IoAbstraction.h>
 #include <TaskManagerIO.h>
 #include <KeyboardManager.h>
 
+/// Swap the pins to get the opposite action
+#define SWAP_PINS 1
+
+#include "MyEncoder.h"
+
+boolean TurnDetected;
+
 // The pin onto which we connected the rotary encoders switch
 const int spinwheelClickPin = 38; /// SW on encoder
 // The two pins where we connected the A and B pins of the encoder. I recomend you dont change these
 // as the pin must support interrupts.
 // IoAbstraction does not have an option to turn off the interrupt.
-const int encoderAPin = 2; //A0; /// CLK on encoder 
-const int encoderBPin = 3; //A8; /// DT  on encoder
+const int encoderAPin = A8; //A0; /// CLK on encoder 
+const int encoderBPin = A9; //A8; /// DT  on encoder
 // the maximum (0 based) value that we want the encoder to represent.
 const int maximumEncoderValue = 128;
 
 // an LED that flashes as the encoder changes
 const int ledOutputPin = 13;
+
+#if SWAP_PINS
+MyEncoder encoder(encoderBPin,encoderAPin);
+#else
+MyEncoder encoder(encoderAPin,encoderBPin);
+#endif
+
+int RotaryPosition=0;    // To store Stepper Motor Position
+
+int PrevPosition;     // Previous Rotary position Value to check accuracy
+
+void setupPCI()
+{
+  cli();
+  PCICR  |= 0b00000100;  //Set Pin Change Interrupt on Register B
+  PCMSK2 |= 0b00001111;  //Set pins 8 & 9 for interrupt
+  sei();
+}
 
 /// This is used in the buttonRotaryEncoder code.
 ///auto boardIo = internalDigitalIo();
@@ -52,11 +80,20 @@ IoAbstractionRef arduinoIo = ioUsingArduino();
 void onSpinwheelClicked(pinid_t pin, bool heldDown) {
   Serial.print("Button pressed ");
   Serial.println(heldDown ? "Held" : "Pressed");
+    if (RotaryPosition == 0) {  // check if button was already pressed
+       } else {
+        RotaryPosition=0; // Reset position to ZERO
+        encoder.setPosition(RotaryPosition);
+        Serial.print("X ");
+        Serial.println(RotaryPosition);
+        PrevPosition = RotaryPosition;
+      }
 }
 
 //
 // Each time the encoder value changes, this function runs, as we registered it as a callback
 //
+/*
 void onEncoderChange(int newValue) {
   Serial.print("Encoder change ");
   Serial.println(newValue);
@@ -64,7 +101,7 @@ void onEncoderChange(int newValue) {
   // here we turn the led on and off as the encoder moves.
   ioDeviceDigitalWriteS(arduinoIo, ledOutputPin, newValue % 2);
 }
-
+*/
 
 
 //
@@ -151,6 +188,9 @@ void setup() {
     while(!Serial);
     Serial.begin(115200);
 
+  setupPCI();
+  encoder.setLimits(0,maximumEncoderValue);
+
   // here we initialise as output the output pin we'll use
   ioDevicePinMode(arduinoIo, ledOutputPin, OUTPUT);
 
@@ -165,8 +205,8 @@ void setup() {
 
   // now we set up the rotary encoder, first we give the A pin and the B pin.
   // we give the encoder a max value of 128, always minumum of 0.
-  setupRotaryEncoderWithInterrupt(encoderAPin, encoderBPin, onEncoderChange);
-  switches.changeEncoderPrecision(maximumEncoderValue, 100);
+  //setupRotaryEncoderWithInterrupt(encoderAPin, encoderBPin, onEncoderChange);
+  //switches.changeEncoderPrecision(maximumEncoderValue, 100);
 
     // Converted to copy the arrays.
     for (byte i = 0; i < ROWS; i++)
@@ -184,7 +224,20 @@ void setup() {
     Serial.println("Keyboard and encoder are initialised!");
 }
 
+ISR(PCINT2_vect)  // Pin 9 interrupt vector
+{
+  encoder.encoderISR();
+}
+
 void loop() {
 /** as this indirectly uses taskmanager, we must include taskManager.runLoop(); in loop. */
     taskManager.runLoop();
+   // Runs if rotation was detected
+  RotaryPosition = encoder.getPosition();
+  TurnDetected = (RotaryPosition != PrevPosition);
+  if (TurnDetected)  {
+    PrevPosition = RotaryPosition; // Save previous position in variable
+    Serial.println(RotaryPosition);
+  }
+
 }
