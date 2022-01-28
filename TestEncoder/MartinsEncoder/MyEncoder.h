@@ -1,3 +1,6 @@
+/// @file MyEncoder.h
+/// @brief Library for using rotary encoders.
+
 // -----
 // MyEncoder.h - Library for using rotary encoders.
 // This class is implemented for use with the Arduino environment.
