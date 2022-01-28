@@ -6,7 +6,6 @@
 /// Swap the pins to get the opposite action
 #define SWAP_PINS 1
 
-
 #include "MyEncoder.h"
 
 boolean TurnDetected;
