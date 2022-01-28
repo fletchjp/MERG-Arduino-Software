@@ -206,7 +206,7 @@ void setup() {
     Serial.println("Keyboard and encoder are initialised!");
 }
 
-ISR(PCINT2_vect)  // Pin 9 interrupt vector
+ISR(PCINT2_vect)  /// Pin A9 and A10 interrupt vector
 {
   encoder.encoderISR();
 }
