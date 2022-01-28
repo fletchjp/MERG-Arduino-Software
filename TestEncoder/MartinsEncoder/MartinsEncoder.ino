@@ -2,6 +2,10 @@
 /// @brief Test for encoder based on Martin Da Costa's code.
 ///
 /// I am going to configure this for a MEGA
+///
+/// Swap the pins to get the opposite action
+#define SWAP_PINS 1
+
 
 #include "MyEncoder.h"
 
@@ -12,7 +16,11 @@ const int PinDT=A9;    // Reading DT signal
 const int PinSW=38;     // Reading Push Button switch
 // Also connect +5V and ground.
 
+#if SWAP_PINS
+MyEncoder encoder(PinDT,PinCLK);
+#else
 MyEncoder encoder(PinCLK,PinDT);
+#endif
 
 int RotaryPosition=0;    // To store Stepper Motor Position
 
