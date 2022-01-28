@@ -76,20 +76,26 @@ public:
     EncoderEvent(MyEncoder &encoder_) : encoder(encoder_) {
       
     }
+    /// @brief timeOfNextCheck now replaced by call from ISR calling markTriggeredAndNotify().
     uint32_t timeOfNextCheck() override {
-
+       /*
        RotaryPosition = encoder.getPosition();
        TurnDetected = (RotaryPosition != PrevPosition);
        if (TurnDetected)  {
-         PrevPosition = RotaryPosition; // Save previous position in variable
-         Serial.println(RotaryPosition);
+         //PrevPosition = RotaryPosition; // Save previous position in variable
+         //Serial.println(RotaryPosition);
          markTriggeredAndNotify();
        }
-
+       */
        return 250UL * 1000UL; // every 100 milliseconds we roll the dice
     }
     void exec() override {
-         Serial.println(RotaryPosition);
+         RotaryPosition = encoder.getPosition();
+         TurnDetected = (RotaryPosition != PrevPosition);
+         if (TurnDetected)  {         
+           PrevPosition = RotaryPosition; // Save previous position in variable
+           Serial.println(RotaryPosition);
+         }
     }
     /**
      * We should always provide a destructor.
@@ -234,12 +240,14 @@ void setup() {
 
     taskManager.registerEvent(&encoderEvent);
 
-    Serial.println("Keyboard and encoder are initialised!");
+    Serial.println("Keyboard, encoder and encoderEvent are initialised!");
 }
 
+/// @brief ISR routine now calls the encoder and also the encoderEvent as well.
 ISR(PCINT2_vect)  /// Pin A9 and A10 interrupt vector
 {
   encoder.encoderISR();
+  encoderEvent.markTriggeredAndNotify();
 }
 
 void loop() {
