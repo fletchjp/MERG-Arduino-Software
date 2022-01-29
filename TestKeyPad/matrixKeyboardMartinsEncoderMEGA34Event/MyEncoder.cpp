@@ -1,5 +1,8 @@
 /// @file MyEncoder.cpp
 /// @brief Library for using rotary encoders - initialization and default values.
+///
+/// Change so that encoderISR returns bool - true if there is a change.
+/// This is to help with multiple encoders.
 
 // -----
 // 
@@ -71,7 +74,7 @@ void MyEncoder::setPosition(int newPosition)
 } 
 
 
-void MyEncoder::encoderISR(void)
+bool MyEncoder::encoderISR(void)
 {
   byte sig1 = digitalRead(_pin1);
   byte sig2 = digitalRead(_pin2);
@@ -84,7 +87,7 @@ void MyEncoder::encoderISR(void)
 
         _positionExt = _position >> 2;  // _position counts every change of state. Divide by 4 to get actual position
 
-  } 
+ 
   	if (_positionExt < _minPos)  //limit minimum position
 	{
 		if (_wrap) // go to max position if wrap
@@ -108,6 +111,8 @@ void MyEncoder::encoderISR(void)
 			setPosition(_maxPos);
 		}
 	}
+  } else { return false; }
+  return true;  
 } 
 
 // End

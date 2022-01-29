@@ -244,10 +244,11 @@ void setup() {
 }
 
 /// @brief ISR routine now calls the encoder and also the encoderEvent as well.
+/// This uses the version with a bool return from encoderISR.
 ISR(PCINT2_vect)  /// Pin A9 and A10 interrupt vector
 {
-  encoder.encoderISR();
-  encoderEvent.markTriggeredAndNotify();
+  if (encoder.encoderISR() )
+     encoderEvent.markTriggeredAndNotify();
 }
 
 void loop() {

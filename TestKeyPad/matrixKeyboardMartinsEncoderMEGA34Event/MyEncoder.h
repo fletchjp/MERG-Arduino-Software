@@ -4,6 +4,9 @@
 /// -----
 /// MyEncoder.h - Library for using rotary encoders.
 /// This class is implemented for use with the Arduino environment.
+///
+/// Code changed so that encoderISR returns true if there is a change.
+/// This is to help with multiple encoders.
 //
 // 
 
@@ -29,8 +32,8 @@ public:
   void setLimits(byte minPos, byte maxPos);
   void setWrap(bool wrap);
 
-  // function to be called by pin change interrupt.
-  void encoderISR(void);
+  /// function to be called by pin change interrupt now returns true if there is a change.
+  bool encoderISR(void);
 
 private:
   byte _pin1, _pin2; // Arduino pins used for the encoder.

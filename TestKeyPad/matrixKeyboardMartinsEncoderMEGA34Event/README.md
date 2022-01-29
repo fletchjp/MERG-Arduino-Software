@@ -1,6 +1,6 @@
-@mainpage Keypad Example for MEGA with 3 by 4 Keypad and Martin's encoder
+@mainpage Keypad Example for MEGA with 3 by 4 Keypad and Martin's encoder with Event code
 
-## matrixKeyboardMartinsEncoderMEGA34
+## matrixKeyboardMartinsEncoderMEGA34Event
 
 An Arduino sketch which uses a IoAbstraction libraries to control a keypad adding Martin's encoder.
  
@@ -15,4 +15,9 @@ An Arduino sketch which uses a IoAbstraction libraries to control a keypad addin
 ## Development
 
 This is being developed with code for one or more encoders, for work with CANCMDDC.
+
+This now uses the IoAbstraction Event code for the encoder.
+
+It has also been modified for encoderISR to return true if there is a change.
+This is to help with multiple encoders - not yet implemented.
 
