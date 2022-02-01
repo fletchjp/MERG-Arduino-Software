@@ -45,10 +45,10 @@ const int spinwheelClickPin1 = 38; /// SW on encoder1
 const int spinwheelClickPin2 = 40; /// SW on encoder2
 /// IoAbstraction does not have an option to turn off the interrupt.
 /// In this case they are passed to Martin's code instead.
-const int encoderAPin = A8; //A0; /// CLK on encoder1 
-const int encoderBPin = A9; //A8; /// DT  on encoder1
-const int encoderAPin = A10; //A1; /// CLK on encoder2 
-const int encoderBPin = A11; //A9; /// DT  on encoder2
+const int encoderAPin1 = A8; //A0; /// CLK on encoder1 
+const int encoderBPin1 = A9; //A8; /// DT  on encoder1
+const int encoderAPin2 = A10; //A1; /// CLK on encoder2 
+const int encoderBPin2 = A11; //A9; /// DT  on encoder2
 // the maximum (0 based) value that we want the encoder to represent.
 const int maximumEncoderValue = 128;
 
@@ -80,12 +80,12 @@ void setupPCI()
 class EncoderEvent : public BaseEvent {
 private:
 /// Used to note when the encoder position has changed.
-    boolean TurnDetected;
-    int RotaryPosition;
-    int PrevPosition;
     MyEncoder &encoder;
     static const uint32_t NEXT_CHECK_INTERVAL = 60UL * 1000000UL; // 60 seconds away, maximum is about 1 hour.
 public:
+    boolean TurnDetected;
+    int RotaryPosition;
+    int PrevPosition;
     EncoderEvent(MyEncoder &encoder_) : encoder(encoder_)  {
       RotaryPosition = 0;
     }
@@ -114,22 +114,26 @@ public:
      * We should always provide a destructor.
      */
     ~EncoderEvent() override = default;
-} encoderEvent(encoder);
+};
+
+EncoderEvent encoderEvent1(encoder1);
 
 /// This example connects the pins directly to an arduino
 IoAbstractionRef arduinoIo = ioUsingArduino();
 
+//class EncoderEvent;
+
 /// @brief When the spinwheel is clicked, this function will be run as we registered it as a callback
-void onSpinwheelClicked(pinid_t pin, bool heldDown) {
+void onSpinwheelClicked1(pinid_t pin, bool heldDown) { //, MyEncoder &encoder, EncoderEvent &encoderEvent) {
   Serial.print("Button pressed ");
   Serial.println(heldDown ? "Held" : "Pressed");
-    if (RotaryPosition == 0) {  // check if button was already pressed
+    if (encoderEvent1.RotaryPosition == 0) {  // check if button was already pressed
        } else {
-        RotaryPosition=0; // Reset position to ZERO
-        encoder.setPosition(RotaryPosition);
+        encoderEvent1.RotaryPosition=0; // Reset position to ZERO
+        encoder1.setPosition(encoderEvent1.RotaryPosition);
         Serial.print("X ");
-        Serial.println(RotaryPosition);
-        PrevPosition = RotaryPosition;
+        Serial.println(encoderEvent1.RotaryPosition);
+        encoderEvent1.PrevPosition = encoderEvent1.RotaryPosition;
       }
 }
 
@@ -219,7 +223,7 @@ void setup() {
     Serial.begin(115200);
 
   setupPCI();
-  encoder.setLimits(0,maximumEncoderValue);
+  encoder1.setLimits(0,maximumEncoderValue);
 
   // here we initialise as output the output pin we'll use
   ioDevicePinMode(arduinoIo, ledOutputPin, OUTPUT);
@@ -231,7 +235,7 @@ void setup() {
 
   // now we add the switches, we dont want the spinwheel button to repeat, so leave off the last parameter
   // which is the repeat interval (millis / 20 basically) Repeat button does repeat as we can see.
-  switches.addSwitch(spinwheelClickPin, onSpinwheelClicked);
+  switches.addSwitch(spinwheelClickPin1, onSpinwheelClicked1); //, encoder1, encoderEvent1);
 
   // now we set up the rotary encoder, first we give the A pin and the B pin.
   // we give the encoder a max value of 128, always minumum of 0.
@@ -251,7 +255,7 @@ void setup() {
     /// start repeating at 850 millis then repeat every 350ms
     keyboard.setRepeatKeyMillis(850, 350);
 
-    taskManager.registerEvent(&encoderEvent);
+    taskManager.registerEvent(&encoderEvent1);
 
     Serial.println("Keyboard, encoder and encoderEvent are initialised!");
 }
@@ -260,8 +264,8 @@ void setup() {
 /// This uses the version with a bool return from encoderISR.
 ISR(PCINT2_vect)  /// Pin A9 and A10 interrupt vector
 {
-  if (encoder.encoderISR() )
-     encoderEvent.markTriggeredAndNotify();
+  if (encoder1.encoderISR() )
+     encoderEvent1.markTriggeredAndNotify();
 }
 
 void loop() {
