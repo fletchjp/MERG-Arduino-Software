@@ -1,7 +1,7 @@
 /// @file matrixKeyboardMartinsEncoderMEGA34Event.ino
 /// @brief Example of matrix keyboard support for MEGA 3 by 4 Keypad built into IoAbstraction adding Martin's encoder via an event
 ///
-/// This now runs Martin's encoder separately from the IoAbstraction code. I would like to integrate it.
+/// This now runs Martin's encoder integrated in the IoAbstraction code using EncoderEvent.
 ///
 /// This is now adapted to report the state of the key.
 ///
