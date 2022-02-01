@@ -38,9 +38,6 @@
 
 #include "MyEncoder.h"
 
-/// Used to note when the encoder position has changed.
-boolean TurnDetected;
-
 /// The pin onto which we connected the rotary encoders switch
 const int spinwheelClickPin1 = 38; /// SW on encoder1
 const int spinwheelClickPin2 = 40; /// SW on encoder2
@@ -50,6 +47,7 @@ const int encoderAPin1 = A8; //A0; /// CLK on encoder1
 const int encoderBPin1 = A9; //A8; /// DT  on encoder1
 const int encoderAPin2 = A10; //A1; /// CLK on encoder2 
 const int encoderBPin2 = A11; //A9; /// DT  on encoder2
+
 // the maximum (0 based) value that we want the encoder to represent.
 const int maximumEncoderValue = 128;
 
@@ -64,10 +62,6 @@ MyEncoder encoder1(encoderAPin1,encoderBPin1);
 MyEncoder encoder2(encoderAPin2,encoderBPin2);
 #endif
 
-//int RotaryPosition=0;    // To store Encoder Position
-
-//int PrevPosition;     // Previous Rotary position Value to check accuracy
-
 /// @brief The PCI setup is specific to the pins being used
 void setupPCI()
 {
@@ -77,7 +71,7 @@ void setupPCI()
   sei();
 }
 
-/// @brief EncoderEvent - use global vars for now.
+/// @brief EncoderEvent - now use class vars.
 class EncoderEvent : public BaseEvent {
 private:
 /// Used to note when the encoder position has changed.
@@ -92,16 +86,7 @@ public:
     }
     /// @brief timeOfNextCheck now replaced by call from ISR calling markTriggeredAndNotify().
     uint32_t timeOfNextCheck() override {
-       /*
-       RotaryPosition = encoder.getPosition();
-       TurnDetected = (RotaryPosition != PrevPosition);
-       if (TurnDetected)  {
-         //PrevPosition = RotaryPosition; // Save previous position in variable
-         //Serial.println(RotaryPosition);
-         markTriggeredAndNotify();
-       }
-       */
-       return 250UL * 1000UL; // every 100 milliseconds we roll the dice
+        return 250UL * 1000UL; // every 100 milliseconds we roll the dice
     }
     void exec() override {
          RotaryPosition = encoder.getPosition();
@@ -237,11 +222,6 @@ void setup() {
   // now we add the switches, we dont want the spinwheel button to repeat, so leave off the last parameter
   // which is the repeat interval (millis / 20 basically) Repeat button does repeat as we can see.
   switches.addSwitch(spinwheelClickPin1, onSpinwheelClicked1); //, encoder1, encoderEvent1);
-
-  // now we set up the rotary encoder, first we give the A pin and the B pin.
-  // we give the encoder a max value of 128, always minumum of 0.
-  //setupRotaryEncoderWithInterrupt(encoderAPin, encoderBPin, onEncoderChange);
-  //switches.changeEncoderPrecision(maximumEncoderValue, 100);
 
     // Converted to copy the arrays.
     for (byte i = 0; i < ROWS; i++)
