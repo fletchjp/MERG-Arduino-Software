@@ -3,6 +3,10 @@
 ///
 /// This now runs Martin's encoder integrated in the IoAbstraction code.
 ///
+/// I am now extending to two encoders.
+///
+/// Some previously global variables have to be now inside the EncoderEvent class so that they can be duplicated.
+///
 /// This is now adapted to report the state of the key.
 ///
 /// This example shows how to use the matrix keyboard support that's built into IoAbstraction,
@@ -37,11 +41,14 @@
 boolean TurnDetected;
 
 /// The pin onto which we connected the rotary encoders switch
-const int spinwheelClickPin = 38; /// SW on encoder
+const int spinwheelClickPin1 = 38; /// SW on encoder1
+const int spinwheelClickPin2 = 40; /// SW on encoder2
 /// IoAbstraction does not have an option to turn off the interrupt.
 /// In this case they are passed to Martin's code instead.
-const int encoderAPin = A8; //A0; /// CLK on encoder 
-const int encoderBPin = A9; //A8; /// DT  on encoder
+const int encoderAPin = A8; //A0; /// CLK on encoder1 
+const int encoderBPin = A9; //A8; /// DT  on encoder1
+const int encoderAPin = A10; //A1; /// CLK on encoder2 
+const int encoderBPin = A11; //A9; /// DT  on encoder2
 // the maximum (0 based) value that we want the encoder to represent.
 const int maximumEncoderValue = 128;
 
@@ -49,14 +56,16 @@ const int maximumEncoderValue = 128;
 const int ledOutputPin = 13;
 
 #if SWAP_PINS
-MyEncoder encoder(encoderBPin,encoderAPin);
+MyEncoder encoder1(encoderBPin1,encoderAPin1);
+MyEncoder encoder2(encoderBPin2,encoderAPin2);
 #else
-MyEncoder encoder(encoderAPin,encoderBPin);
+MyEncoder encoder1(encoderAPin1,encoderBPin1);
+MyEncoder encoder2(encoderAPin2,encoderBPin2);
 #endif
 
-int RotaryPosition=0;    // To store Encoder Position
+//int RotaryPosition=0;    // To store Encoder Position
 
-int PrevPosition;     // Previous Rotary position Value to check accuracy
+//int PrevPosition;     // Previous Rotary position Value to check accuracy
 
 /// @brief The PCI setup is specific to the pins being used
 void setupPCI()
@@ -70,11 +79,15 @@ void setupPCI()
 /// @brief EncoderEvent - use global vars for now.
 class EncoderEvent : public BaseEvent {
 private:
+/// Used to note when the encoder position has changed.
+    boolean TurnDetected;
+    int RotaryPosition;
+    int PrevPosition;
     MyEncoder &encoder;
     static const uint32_t NEXT_CHECK_INTERVAL = 60UL * 1000000UL; // 60 seconds away, maximum is about 1 hour.
 public:
-    EncoderEvent(MyEncoder &encoder_) : encoder(encoder_) {
-      
+    EncoderEvent(MyEncoder &encoder_) : encoder(encoder_)  {
+      RotaryPosition = 0;
     }
     /// @brief timeOfNextCheck now replaced by call from ISR calling markTriggeredAndNotify().
     uint32_t timeOfNextCheck() override {
