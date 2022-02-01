@@ -6,6 +6,7 @@
 /// I am now extending to two encoders.
 ///
 /// Some previously global variables have to be now inside the EncoderEvent class so that they can be duplicated.
+/// This has now been carried out.
 ///
 /// This is now adapted to report the state of the key.
 ///
