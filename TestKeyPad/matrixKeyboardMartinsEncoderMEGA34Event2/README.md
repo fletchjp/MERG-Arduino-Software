@@ -4,7 +4,7 @@
 
 An Arduino sketch which uses a IoAbstraction libraries to control a keypad adding Martin's encoder.
 
-This now handles two encoders.
+This now handles two encoders. It has one interrupt routine and works out which one has been turned.
  
  This example shows how to use the matrix keyboard support that's built into IoAbstraction,
  it can be used out the box with either a 3x4 or 4x4 keypad, but you can modify it to use
