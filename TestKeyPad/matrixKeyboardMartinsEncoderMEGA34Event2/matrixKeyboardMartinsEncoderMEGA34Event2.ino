@@ -103,15 +103,16 @@ public:
 };
 
 EncoderEvent encoderEvent1(encoder1);
+EncoderEvent encoderEvent2(encoder2);
 
 /// This example connects the pins directly to an arduino
 IoAbstractionRef arduinoIo = ioUsingArduino();
 
 //class EncoderEvent;
 
-/// @brief When the spinwheel is clicked, this function will be run as we registered it as a callback
+/// @brief When the spinwheel1 is clicked, this function will be run as we registered it as a callback
 void onSpinwheelClicked1(pinid_t pin, bool heldDown) { //, MyEncoder &encoder, EncoderEvent &encoderEvent) {
-  Serial.print("Button pressed ");
+  Serial.print("Button 1 pressed ");
   Serial.println(heldDown ? "Held" : "Pressed");
     if (encoderEvent1.RotaryPosition == 0) {  // check if button was already pressed
        } else {
@@ -123,6 +124,19 @@ void onSpinwheelClicked1(pinid_t pin, bool heldDown) { //, MyEncoder &encoder, E
       }
 }
 
+/// @brief When the spinwheel2 is clicked, this function will be run as we registered it as a callback
+void onSpinwheelClicked2(pinid_t pin, bool heldDown) { //, MyEncoder &encoder, EncoderEvent &encoderEvent) {
+  Serial.print("Button 2 pressed ");
+  Serial.println(heldDown ? "Held" : "Pressed");
+    if (encoderEvent2.RotaryPosition == 0) {  // check if button was already pressed
+       } else {
+        encoderEvent2.RotaryPosition=0; // Reset position to ZERO
+        encoder2.setPosition(encoderEvent2.RotaryPosition);
+        Serial.print("Y ");
+        Serial.println(encoderEvent2.RotaryPosition);
+        encoderEvent2.PrevPosition = encoderEvent2.RotaryPosition;
+      }
+}
 
 //
 // We need to make a keyboard layout that the manager can use. choose one of the below.
@@ -222,6 +236,7 @@ void setup() {
   // now we add the switches, we dont want the spinwheel button to repeat, so leave off the last parameter
   // which is the repeat interval (millis / 20 basically) Repeat button does repeat as we can see.
   switches.addSwitch(spinwheelClickPin1, onSpinwheelClicked1); //, encoder1, encoderEvent1);
+  switches.addSwitch(spinwheelClickPin2, onSpinwheelClicked2); //, encoder1, encoderEvent1);
 
     // Converted to copy the arrays.
     for (byte i = 0; i < ROWS; i++)
@@ -237,6 +252,7 @@ void setup() {
     keyboard.setRepeatKeyMillis(850, 350);
 
     taskManager.registerEvent(&encoderEvent1);
+    taskManager.registerEvent(&encoderEvent2);
 
     Serial.println("Keyboard, encoder and encoderEvent are initialised!");
 }
@@ -247,6 +263,8 @@ ISR(PCINT2_vect)  /// Pin A9 and A10 interrupt vector
 {
   if (encoder1.encoderISR() )
      encoderEvent1.markTriggeredAndNotify();
+  if (encoder2.encoderISR() )
+     encoderEvent2.markTriggeredAndNotify();
 }
 
 void loop() {
