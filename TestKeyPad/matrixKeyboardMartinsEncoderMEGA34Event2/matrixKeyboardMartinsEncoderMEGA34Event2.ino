@@ -1,5 +1,5 @@
 /// @file matrixKeyboardMartinsEncoderMEGA34Event2.ino
-/// @brief Example of matrix keyboard support for MEGA 3 by 4 Keypad built into IoAbstraction adding 2 of Martin's encoder via an event
+/// @brief Example of matrix keyboard support for MEGA 3 by 4 Keypad built into IoAbstraction adding 2 of Martin's encoders via an event
 ///
 /// This now runs Martin's encoder integrated in the IoAbstraction code.
 ///
@@ -19,7 +19,7 @@
 /// This version sets up the keyboard adapting the custom_keyboard example.
 ///
 /// MEGA pin settings changed from the CANCMDDC code
-/// A0 to A7 do not work with Martin's encoder.
+/// A0 to A7 do not work with Martin's encoder as PCI interrupts are not available.
 /// Digital pin 38             Encoder 1 Switch (SW on encoder)
 /// Digital pin 40             Encoder 2 Switch (SW on encoder)
 /// Digital / Analog pin 8     Encoder 1 A (CLK on encoder)
@@ -32,13 +32,17 @@
 #include <TaskManagerIO.h>
 #include <KeyboardManager.h>
 
+/// @brief Declaration of Arduino abstraction for Input/Output.
+/// This works for pins connected directly to an Arduino
+IoAbstractionRef arduinoIo = ioUsingArduino();
+
 /// Swap the pins to get the opposite action
 /// This is equivalent to changing over the wires.
 #define SWAP_PINS 1
 
 #include "MyEncoder.h"
 
-/// The pin onto which we connected the rotary encoders switch
+/// The pins onto which we connected the rotary encoders switch
 const int spinwheelClickPin1 = 38; /// SW on encoder1
 const int spinwheelClickPin2 = 40; /// SW on encoder2
 /// IoAbstraction does not have an option to turn off the interrupt.
@@ -48,21 +52,25 @@ const int encoderBPin1 = A9; //A8; /// DT  on encoder1
 const int encoderAPin2 = A10; //A1; /// CLK on encoder2 
 const int encoderBPin2 = A11; //A9; /// DT  on encoder2
 
-// the maximum (0 based) value that we want the encoder to represent.
+/// the maximum (0 based) value that we want the encoder to represent.
 const int maximumEncoderValue = 128;
 
-// an LED that flashes as the encoder changes
+/// an LED that flashes as the encoder changes
 const int ledOutputPin = 13;
 
+
 #if SWAP_PINS
+/// Use thess settings for right hand turn to increase the value.
 MyEncoder encoder1(encoderBPin1,encoderAPin1);
 MyEncoder encoder2(encoderBPin2,encoderAPin2);
 #else
+/// Use these settings for left hand turn to increase the value.
 MyEncoder encoder1(encoderAPin1,encoderBPin1);
 MyEncoder encoder2(encoderAPin2,encoderBPin2);
 #endif
 
-/// @brief The PCI setup is specific to the pins being used
+/// @brief The PCI setup is specific to the pins being used, here A8 to A11.
+/// PCI does not work on the MEGA pins A0 to A7.
 void setupPCI()
 {
   cli();
@@ -71,7 +79,9 @@ void setupPCI()
   sei();
 }
 
-/// @brief EncoderEvent - now use class vars.
+/// @brief EncoderEvent - now uses class variable to support multiple encoders.
+///
+/// char encoderName variable is provided so that outputs can be distinguished.
 class EncoderEvent : public BaseEvent {
 private:
 /// Used to note when the encoder position has changed.
@@ -97,6 +107,8 @@ public:
            Serial.print(encoderName);
            Serial.print(" ");
            Serial.println(RotaryPosition);
+           // here we turn the led on and off as the encoder moves.
+           ioDeviceDigitalWriteS(arduinoIo, ledOutputPin, RotaryPosition % 2);
          }
     }
     /**
@@ -105,15 +117,15 @@ public:
     ~EncoderEvent() override = default;
 };
 
+/// Declare encoderEvent instances for each encoder.
 EncoderEvent encoderEvent1(encoder1,'1');
 EncoderEvent encoderEvent2(encoder2,'2');
-
-/// This example connects the pins directly to an arduino
-IoAbstractionRef arduinoIo = ioUsingArduino();
 
 //class EncoderEvent;
 
 /// @brief When the spinwheel1 is clicked, this function will be run as we registered it as a callback
+///
+/// There have to be separate routines for each encoder to distinguish the variables.
 void onSpinwheelClicked1(pinid_t pin, bool heldDown) { //, MyEncoder &encoder, EncoderEvent &encoderEvent) {
   Serial.print("Button 1 pressed ");
   Serial.println(heldDown ? "Held" : "Pressed");
@@ -198,9 +210,8 @@ void tell_the_state(char key_val, KeyState key_state = KeyState::IDLE) {
   //}
 }
 
-///
-/// We need a class that extends from KeyboardListener. This gets notified when
-/// there are changes in the keyboard state.
+/// @brief We need a class that extends from KeyboardListener.
+///This gets notified when there are changes in the keyboard state.
 ///
 class MyKeyboardListener : public KeyboardListener {
 public:
@@ -258,7 +269,7 @@ void setup() {
     taskManager.registerEvent(&encoderEvent1);
     taskManager.registerEvent(&encoderEvent2);
 
-    Serial.println("Keyboard, encoder and encoderEvent are initialised!");
+    Serial.println("Keyboard, 2 encoders and encoderEvents are initialised!");
 }
 
 /// @brief ISR routine now calls the encoder and also the encoderEvent as well.
