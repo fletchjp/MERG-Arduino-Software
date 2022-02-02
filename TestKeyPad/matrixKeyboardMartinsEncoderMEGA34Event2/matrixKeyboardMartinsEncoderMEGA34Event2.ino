@@ -75,13 +75,14 @@ void setupPCI()
 class EncoderEvent : public BaseEvent {
 private:
 /// Used to note when the encoder position has changed.
+    char encoderName;
     MyEncoder &encoder;
     static const uint32_t NEXT_CHECK_INTERVAL = 60UL * 1000000UL; // 60 seconds away, maximum is about 1 hour.
 public:
     boolean TurnDetected;
     int RotaryPosition;
     int PrevPosition;
-    EncoderEvent(MyEncoder &encoder_) : encoder(encoder_)  {
+    EncoderEvent(MyEncoder &encoder_, char name_) : encoderName(name_), encoder(encoder_)  {
       RotaryPosition = 0;
     }
     /// @brief timeOfNextCheck now replaced by call from ISR calling markTriggeredAndNotify().
@@ -93,6 +94,8 @@ public:
          TurnDetected = (RotaryPosition != PrevPosition);
          if (TurnDetected)  {         
            PrevPosition = RotaryPosition; // Save previous position in variable
+           Serial.print(encoderName);
+           Serial.print(" ");
            Serial.println(RotaryPosition);
          }
     }
@@ -102,8 +105,8 @@ public:
     ~EncoderEvent() override = default;
 };
 
-EncoderEvent encoderEvent1(encoder1);
-EncoderEvent encoderEvent2(encoder2);
+EncoderEvent encoderEvent1(encoder1,'1');
+EncoderEvent encoderEvent2(encoder2,'2');
 
 /// This example connects the pins directly to an arduino
 IoAbstractionRef arduinoIo = ioUsingArduino();
@@ -224,6 +227,7 @@ void setup() {
 
   setupPCI();
   encoder1.setLimits(0,maximumEncoderValue);
+  encoder2.setLimits(0,maximumEncoderValue);
 
   // here we initialise as output the output pin we'll use
   ioDevicePinMode(arduinoIo, ledOutputPin, OUTPUT);
