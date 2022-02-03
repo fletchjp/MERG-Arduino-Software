@@ -74,8 +74,8 @@ MyEncoder encoder2(encoderAPin2,encoderBPin2);
 void setupPCI()
 {
   cli();
-  PCICR  |= 0b00000100;  //Set Pin Change Interrupt on Register B
-  PCMSK2 |= 0b00001111;  //Set pins 8 & 9 for interrupt
+  PCICR  |= 0b00000100;  //Set Pin Change Interrupt on Register K
+  PCMSK2 |= 0b00001111;  //Set A8, A10 & A9, A11 for interrupt
   sei();
 }
 
