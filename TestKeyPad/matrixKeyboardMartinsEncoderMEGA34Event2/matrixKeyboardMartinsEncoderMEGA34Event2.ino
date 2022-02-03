@@ -42,11 +42,10 @@ IoAbstractionRef arduinoIo = ioUsingArduino();
 
 #include "MyEncoder.h"
 
-/// The pins onto which we connected the rotary encoders switch
+/// The pins onto which the rotary encoders switches are connected
 const int spinwheelClickPin1 = 38; /// SW on encoder1
 const int spinwheelClickPin2 = 40; /// SW on encoder2
-/// IoAbstraction does not have an option to turn off the interrupt.
-/// In this case they are passed to Martin's code instead.
+/// In this case the pins are passed to Martin's code instead.
 const int encoderAPin1 = A8; //A0; /// CLK on encoder1 
 const int encoderBPin1 = A9; //A8; /// DT  on encoder1
 const int encoderAPin2 = A10; //A1; /// CLK on encoder2 
