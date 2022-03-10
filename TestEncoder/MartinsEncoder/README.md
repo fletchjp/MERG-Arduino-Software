@@ -1,9 +1,13 @@
-@mainpage EncoderOnly
+@mainpage MartinsEncoder
 
-## EncoderOnly
+## MartinsEncoder
 
-Test for encoder based on Elegoo example 33 without the motor.
-  
-## Development
+Test for encoder based on Martin Da Costa's code.
 
-Deleted all the code for the motor.
+The first version had the incrementing the wrong way.
+
+The solution is to swap the pins in the software.
+
+## Note
+
+The library code needs to be updated to fix a bug Martin detected since I wrote the example.
