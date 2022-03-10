@@ -40,5 +40,4 @@ This now runs Martin's encoder integrated in the IoAbstraction code.
 I am now extending to two encoders.
 
 Some previously global variables have to be now inside the EncoderEvent class so that they can be duplicated.
-This has now been carried out.
 
