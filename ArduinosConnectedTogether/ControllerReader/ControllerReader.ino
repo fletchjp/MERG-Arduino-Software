@@ -1,14 +1,14 @@
-/// ControllerReader.ino
-// Wire Controller Reader
-// by Nicholas Zambetti <http://www.zambetti.com>
-
-// Demonstrates use of the Wire library
-// Reads data from an I2C/TWI peripheral device
-// Refer to the "Wire Peripheral Sender" example for use with this
-
-// Created 29 March 2006
-
-// This example code is in the public domain.
+/// @file ControllerReader.ino
+/// @brief Wire Controller Reader
+/// by Nicholas Zambetti <http://www.zambetti.com>
+///
+/// Demonstrates use of the Wire library
+/// Reads data from an I2C/TWI peripheral device
+/// Refer to the "Wire Peripheral Sender" example for use with this
+///
+/// Created 29 March 2006
+///
+/// This example code is in the public domain.
 
 
 #include <Wire.h>
