@@ -15,3 +15,11 @@ Sketch to read data from a peripheral using I2C and the Wire library.
 ### Peripheral Sender
 
 Sketch to send data from a peripheral using I2C and the Wire library.
+
+### Controller Writer
+
+Sketch to send data to a peripheral using I2C and the Wire library.
+
+### Peripheral Receiver
+
+Sketch to receive data sent to a peripheral using I2C and the Wire library.
