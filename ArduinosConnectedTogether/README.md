@@ -23,3 +23,7 @@ Sketch to send data to a peripheral using I2C and the Wire library.
 ### Peripheral Receiver
 
 Sketch to receive data sent to a peripheral using I2C and the Wire library.
+
+## Experiments
+
+I have had the second pair of sketches working between two UNOs.
