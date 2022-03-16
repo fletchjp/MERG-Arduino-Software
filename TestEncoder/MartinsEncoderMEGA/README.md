@@ -1,4 +1,4 @@
-@mainpage MartinsEncoder
+@mainpage MartinsEncoderMEGA
 
 ## MartinsEncoder
 
