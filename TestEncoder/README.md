@@ -36,9 +36,21 @@ Not yet tested.
 
 ## MartinsEncoder
 
-Test for encoder based on Martin Da Costa's code.
+Test for encoder based on Martin Da Costa's code with pins for a UNO.
 
-I am not sure how to configure this code so I will pause this.
+## MartinsEncoderMEGA
+
+Test for encoder based on Martin Da Costa's code with pins for a MEGA.
+
+## MartinsEncoderSender
+
+Test for encoder based on Martin Da Costa's code with pins for a UNO.
+
+This sends encoder data using I2C.
+
+## ControllerReadEncoder
+
+This reads the encoder data from MartinsEncoderSender.
 
 ## PJRCBasic
 
