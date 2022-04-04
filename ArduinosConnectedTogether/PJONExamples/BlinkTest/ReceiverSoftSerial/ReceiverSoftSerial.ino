@@ -1,5 +1,5 @@
-/// @file Receiver.ino
-/// @brief BlinkTestReceiver
+/// @file ReceiverSoftSerial.ino
+/// @brief BlinkTestReceiver using a Soft Serial port
 
 #include <PJONThroughSerial.h>
 
