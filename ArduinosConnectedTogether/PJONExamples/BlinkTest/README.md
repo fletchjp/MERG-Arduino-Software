@@ -13,6 +13,8 @@ The alternative is to use other pins and SoftwareSerial
 
 https://arduinojson.org/v6/how-to/do-serial-communication-between-two-boards/
 
+I now have this working sending a PJON message.
+
 ## Other Boards
 
 UNO boards only have one Serial port so I can use some other things which have more ports.
