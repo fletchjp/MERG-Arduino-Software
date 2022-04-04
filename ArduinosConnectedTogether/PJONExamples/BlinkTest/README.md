@@ -2,9 +2,20 @@
 
 Basic examples using the Serial port
 
-The problem for me is that I also use the Serial port to see what is going on.
+## UNO
 
-UNO boards only have one Serial port so I am going to connect some other things which have more ports.
+The problem for me is that on a UNO I also use the Serial port to see what is going on.
+
+
+## SoftwareSerial
+
+The alternative is to use other pins and SoftwareSerial
+
+https://arduinojson.org/v6/how-to/do-serial-communication-between-two-boards/
+
+## Other Boards
+
+UNO boards only have one Serial port so I can use some other things which have more ports.
 
 https://www.arduino.cc/en/reference/serial
 
