@@ -1,4 +1,4 @@
-# Arduinos Connected together
+# Arduinos Connected together using I2C
 
 These are a set of programs being used to test connecting two Arduinos together
 
