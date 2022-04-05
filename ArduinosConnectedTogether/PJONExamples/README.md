@@ -10,9 +10,20 @@ It is a networking protocol which can run over a variety of systems.
 
 ## BlinkTest
 
-Basic examples using the Serial port
+Basic examples using the Serial port.
+
+I have a set using SoftSerial for a second serial port for the Arduino UNO.
 
 ## BlinkWithResponse
 
 Example with response using the Serial port.
 
+I have a set using SoftSerial for a second serial port for the Arduino UNO.
+
+#RS485-Blink
+
+Not yet tried out.
+
+#RS485-BlinkWithResponse
+
+Not yet tried out.
