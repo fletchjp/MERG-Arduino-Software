@@ -54,6 +54,7 @@ public:
         Serial.print(key);
         Serial.print(" is pressed, held = ");
         Serial.println(held);
+        // Note conversion of the 
         payload[0] = key;
         bus.send(44, payload, 1); // Send key to device 44
     }
