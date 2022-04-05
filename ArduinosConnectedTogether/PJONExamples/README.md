@@ -8,7 +8,7 @@ See https://www.pjon.org/
 
 It is a networking protocol which can run over a variety of systems.
 
-# Serial ports directly
+# Serial ports directly connected
 
 ## BlinkTest
 
