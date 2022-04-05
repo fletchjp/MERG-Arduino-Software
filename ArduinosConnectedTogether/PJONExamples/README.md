@@ -22,6 +22,10 @@ Example with response using the Serial port.
 
 I have a set using SoftSerial for a second serial port for the Arduino UNO.
 
+## Keypad
+
+The BlinkTest example has been extended to pass the key press on the keypad to the receiving Arduino.
+
 # RS485 
 
 ## RS485-Blink
