@@ -22,7 +22,7 @@ void setup() {
   bus.begin();
   bus.set_receiver(receiver_function);
 
-  Serial.begin(9600);
+  Serial.begin(115200);
 };
 
 void loop() {
