@@ -27,7 +27,7 @@ void setup() {
 
   pinMode(LED_OUTPUT_PIN, OUTPUT);
   digitalWrite(LED_OUTPUT_PIN, HIGH);
-  delay(30);
+  delay(300);
   digitalWrite(LED_OUTPUT_PIN, LOW); // Initialize LED 13 to be off
 
   bus.strategy.set_pin(BITBANG_PIN);
