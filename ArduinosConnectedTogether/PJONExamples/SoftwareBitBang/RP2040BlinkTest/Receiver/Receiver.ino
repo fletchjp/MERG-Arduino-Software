@@ -34,6 +34,10 @@ void setup() {
   bus.begin();
   bus.set_receiver(receiver_function);
   Serial.println("PJON bus is running");
+  delay(300);
+  digitalWrite(LED_OUTPUT_PIN, HIGH);
+  delay(300);
+  digitalWrite(LED_OUTPUT_PIN, LOW); // Initialize LED 13 to be off
 
 };
 
