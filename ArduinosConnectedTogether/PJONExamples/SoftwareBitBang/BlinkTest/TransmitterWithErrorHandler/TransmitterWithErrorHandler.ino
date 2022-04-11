@@ -19,9 +19,13 @@ void setup() {
   Serial.println("Bitbang Test: Transmitter with error handler");
   bus.strategy.set_pin(12);
   bus.set_error(error_handler);
-  bus.begin();
-  bus.send_repeatedly(44, "B", 1, 1000000); // Send B to device 44 every second
-  Serial.println("PJON bus is running");
+  if (!bus.strategy.can_start()) {
+    Serial.println("PJON not running - bus.strategy.can_start() returns false");
+  } else {
+    bus.begin();
+    bus.send_repeatedly(44, "B", 1, 1000000); // Send B to device 44 every second
+    Serial.println("PJON bus is running");
+  }
 }
 
 void loop() {
