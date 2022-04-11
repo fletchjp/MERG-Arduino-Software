@@ -31,10 +31,13 @@ void setup() {
   Serial.println("Raspberry Pi Pico Bitbang Test: Transmitter");
   bus.strategy.set_pin(BITBANG_PIN);
   bus.set_error(error_handler);
-  bus.begin();
-  bus.send_repeatedly(44, "B", 1, 1000000); // Send B to device 44 every second
-  Serial.println("PJON bus is running");
-
+  if (!bus.strategy.can_start()) {
+    Serial.println("PJON not running - bus.strategy.can_start() returns false");
+  } else {
+    bus.begin();
+    bus.send_repeatedly(44, "B", 1, 1000000); // Send B to device 44 every second
+    Serial.println("PJON bus is running");
+  }
 }
 
 void loop() {
