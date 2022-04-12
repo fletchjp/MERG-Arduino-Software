@@ -100,7 +100,9 @@ public:
         return 250UL * 1000UL; // every 100 milliseconds we roll the dice
     }
     void exec() override {
+         Serial.print("exec called with ");
          RotaryPosition = encoder.getPosition();
+         Serial.println(RotaryPosition);
          TurnDetected = (RotaryPosition != PrevPosition);
          if (TurnDetected)  {         
            PrevPosition = RotaryPosition; // Save previous position in variable
