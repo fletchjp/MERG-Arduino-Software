@@ -2,7 +2,7 @@
 
 ## MartinsEncoder
 
-Test for encoder based on Martin Da Costa's code.
+Test for encoder based on Martin Da Costa's library code.
 
 The first version had the incrementing the wrong way.
 
@@ -12,4 +12,4 @@ This version has pins for a UNO
 
 ## Note
 
-The library code needs to be updated to fix a bug Martin detected since I wrote the example.
+This has been changed to use the EncoderMD library code.

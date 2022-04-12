@@ -6,7 +6,8 @@
 /// Swap the pins to get the opposite action
 #define SWAP_PINS 1
 
-#include "MyEncoder.h"
+//#include "MyEncoder.h"
+#include "EncoderMD.h"
 
 boolean TurnDetected;
 
@@ -16,9 +17,11 @@ const int PinSW=4;     // Reading Push Button switch
 // Also connect +5V and ground.
 
 #if SWAP_PINS
-MyEncoder encoder(PinDT,PinCLK);
+//MyEncoder encoder(PinDT,PinCLK);
+EncoderMD encoder(PinDT,PinCLK);
 #else
-MyEncoder encoder(PinCLK,PinDT);
+//MyEncoder encoder(PinCLK,PinDT);
+EncoderMD encoder(PinCLK,PinDT);
 #endif
 
 int RotaryPosition=0;    // To store Stepper Motor Position
