@@ -36,7 +36,7 @@ Not yet tested.
 
 ## MartinsEncoder
 
-Test for encoder based on Martin Da Costa's code with pins for a UNO.
+Test for encoder based on Martin Da Costa's EncoderMD library with pins for a UNO.
 
 ## MartinsEncoderMEGA
 
