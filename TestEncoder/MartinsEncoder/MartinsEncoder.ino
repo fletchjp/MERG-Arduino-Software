@@ -4,7 +4,7 @@
 /// I am going to configure this for a UNO
 ///
 /// Swap the pins to get the opposite action
-#define SWAP_PINS 1
+#define SWAP_PINS 0
 
 //#include "MyEncoder.h"
 #include "EncoderMD.h"
@@ -17,10 +17,8 @@ const int PinSW=4;     // Reading Push Button switch
 // Also connect +5V and ground.
 
 #if SWAP_PINS
-//MyEncoder encoder(PinDT,PinCLK);
 EncoderMD encoder(PinDT,PinCLK);
 #else
-//MyEncoder encoder(PinCLK,PinDT);
 EncoderMD encoder(PinCLK,PinDT);
 #endif
 
@@ -46,7 +44,7 @@ void setup() {
   pinMode(PinSW,INPUT);
   digitalWrite(PinSW, HIGH); // Pull-Up resistor for switch
   Serial.begin (115200);
-  Serial.println("MartinsEncoder test for a MEGA");
+  Serial.println("MartinsEncoder test for a UNO");
   encoder.setLimits(0,100);
 }
 
