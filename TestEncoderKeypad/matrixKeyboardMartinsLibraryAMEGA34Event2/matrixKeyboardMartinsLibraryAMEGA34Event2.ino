@@ -38,10 +38,12 @@ IoAbstractionRef arduinoIo = ioUsingArduino();
 
 /// Swap the pins to get the opposite action
 /// This is equivalent to changing over the wires.
-#define SWAP_PINS 0
+#define SWAP_PINS 1
 
 //#include "MyEncoder.h"
 #include "EncoderMD.h"
+
+volatile byte lastPins = 0;
 
 /// The pins onto which the rotary encoders switches are connected
 const int spinwheelClickPin1 = 38; /// SW on encoder1
@@ -69,18 +71,18 @@ EncoderMD encoder1(encoderAPin1,encoderBPin1);
 EncoderMD encoder2(encoderAPin2,encoderBPin2);
 #endif
 
-int minPos1 = -10;
-int maxPos1 = 10;
-int minPos2 = 0;
-int maxPos2 = 20;
-
 /// @brief The PCI setup is specific to the pins being used, here A8 to A11.
 /// PCI does not work on the MEGA pins A0 to A7.
 void setupPCI()
 {
   cli();
-  PCICR  |= 0b00000100;  //Set Pin Change Interrupt on Register K
-  PCMSK2 |= 0b00001111;  //Set A8, A10 & A9, A11 for interrupt
+  PCICR |=  (1 << PCIE2);  // Enable PCI on Port K
+  PCMSK2 |= (1 << PCINT16);
+  PCMSK2 |= (1 << PCINT17);
+  PCMSK2 |= (1 << PCINT18);
+  PCMSK2 |= (1 << PCINT19);
+  //PCICR  |= 0b00000100;  //Set Pin Change Interrupt on Register K
+  //PCMSK2 |= 0b00001111;  //Set A8, A10 & A9, A11 for interrupt
   sei();
 }
 
@@ -105,9 +107,9 @@ public:
         return 250UL * 1000UL; // every 100 milliseconds we roll the dice
     }
     void exec() override {
-         Serial.print("exec called with ");
+         //Serial.print("exec called with ");
          RotaryPosition = encoder.getPosition();
-         Serial.println(RotaryPosition);
+         //Serial.println(RotaryPosition);
          TurnDetected = (RotaryPosition != PrevPosition);
          if (TurnDetected)  {         
            PrevPosition = RotaryPosition; // Save previous position in variable
@@ -288,10 +290,20 @@ void setup() {
 /// This uses the version with a bool return from encoderISR.
 ISR(PCINT2_vect)  /// Pin A9 and A10 interrupt vector
 {
-  if (encoder1.encoderISR() )
-     encoderEvent1.markTriggeredAndNotify();
-  if (encoder2.encoderISR() )
-     encoderEvent2.markTriggeredAndNotify();
+byte pins = PINK & 0b00001111;
+byte change = pins ^ lastPins;
+lastPins = pins;
+
+ if ( change & 0b000011)
+ {
+    encoder1.encoderISR();
+    encoderEvent1.markTriggeredAndNotify();
+ }
+ if ( change & 0b00001100)
+ {
+    encoder2.encoderISR();
+    encoderEvent2.markTriggeredAndNotify();
+ }
 }
 
 void loop() {
