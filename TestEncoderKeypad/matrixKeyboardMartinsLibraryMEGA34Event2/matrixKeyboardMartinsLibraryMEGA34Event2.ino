@@ -1,9 +1,9 @@
-/// @file matrixKeyboardMartinsEncoderMEGA34Event2.ino
+/// @file matrixKeyboardMartinsLibraryMEGA34Event2.ino
 /// @brief Example of matrix keyboard support for MEGA 3 by 4 Keypad built into IoAbstraction adding 2 of Martin's encoders via an event
 ///
-/// This now runs Martin's encoder integrated in the IoAbstraction code.
+/// This now runs Martin's encoder library integrated in the IoAbstraction code.
 ///
-/// I am now extending to two encoders.
+/// I am now extending to two encoders using my bool return from encoderISR.
 ///
 /// Some previously global variables have to be now inside the EncoderEvent class so that they can be duplicated.
 /// This has now been carried out.
