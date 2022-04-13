@@ -1,12 +1,11 @@
 /// @file MartinsEncoder.ino
-/// @brief Test for encoder based on Martin Da Costa's code.
+/// @brief Test for encoder based on Martin Da Costa's library code.
 ///
 /// I am going to configure this for a UNO
 ///
 /// Swap the pins to get the opposite action
 #define SWAP_PINS 0
 
-//#include "MyEncoder.h"
 #include "EncoderMD.h"
 
 boolean TurnDetected;
