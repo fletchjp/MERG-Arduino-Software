@@ -9,6 +9,10 @@
 /// Created 29 March 2006
 ///
 /// This example code is in the public domain.
+///
+/// Code reading one byte from MartinsEncoderSender.
+///
+/// A delay(500) in the loop controls the read speed.
 
 
 #include <Wire.h>
