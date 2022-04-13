@@ -40,11 +40,11 @@ Test for encoder based on Martin Da Costa's EncoderMD library with pins for a UN
 
 ## MartinsEncoderMEGA
 
-Test for encoder based on Martin Da Costa's code with pins for a MEGA.
+Test for encoder based on Martin Da Costa's library with pins for a MEGA.
 
 ## MartinsEncoderSender
 
-Test for encoder based on Martin Da Costa's code with pins for a UNO.
+Test for encoder based on Martin Da Costa's library with pins for a UNO.
 
 This sends encoder data using I2C.
 
