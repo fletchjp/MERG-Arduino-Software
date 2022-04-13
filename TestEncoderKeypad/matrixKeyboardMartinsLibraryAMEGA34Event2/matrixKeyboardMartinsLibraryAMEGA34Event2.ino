@@ -248,9 +248,9 @@ void setup() {
   setupPCI();
   encoder1.setLimits(0,maximumEncoderValue);
   encoder2.setLimits(0,maximumEncoderValue);
-  encoder1.setPosition (20);
+  encoder1.setPosition (0);
   encoder1.setWrap (0);
-  encoder2.setPosition (40);
+  encoder2.setPosition (0);
   encoder2.setWrap (0);
 
 
