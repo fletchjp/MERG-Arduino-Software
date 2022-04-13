@@ -48,7 +48,7 @@ void setup() {
   pinMode(PinSW,INPUT);
   digitalWrite(PinSW, HIGH); // Pull-Up resistor for switch
   Serial.begin (115200);
-  Serial.println("MartinsEncoder test for a MEGA");
+  Serial.println("MartinsEncoder test sending over I2C");
   encoder.setLimits(0,100);
 }
 
