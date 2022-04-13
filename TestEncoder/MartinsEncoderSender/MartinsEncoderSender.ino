@@ -1,5 +1,5 @@
 /// @file MartinsEncoderSender.ino
-/// @brief Test for encoder based on Martin Da Costa's code and configured to send over I2C.
+/// @brief Test for encoder based on Martin Da Costa's library code and configured to send over I2C.
 ///
 /// I am going to configure this for a UNO
 ///
@@ -7,7 +7,7 @@
 /// is not needed on a 4duino
 #define SWAP_PINS 0
 
-#include "MyEncoder.h"
+#include "EncoderMD.h"
 #include <Wire.h>
 
 boolean TurnDetected;
@@ -18,9 +18,9 @@ const int PinSW=4;     // Reading Push Button switch
 // Also connect +5V and ground.
 
 #if SWAP_PINS
-MyEncoder encoder(PinDT,PinCLK);
+EncoderMD encoder(PinDT,PinCLK);
 #else
-MyEncoder encoder(PinCLK,PinDT);
+EncoderMD encoder(PinCLK,PinDT);
 #endif
 
 int RotaryPosition=0;    // To store Stepper Motor Position
