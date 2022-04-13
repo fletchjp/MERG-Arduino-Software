@@ -74,13 +74,20 @@ int maxPos1 = 10;
 int minPos2 = 0;
 int maxPos2 = 20;
 
+int what = 0;
+
 /// @brief The PCI setup is specific to the pins being used, here A8 to A11.
 /// PCI does not work on the MEGA pins A0 to A7.
 void setupPCI()
 {
   cli();
-  PCICR  |= 0b00000100;  //Set Pin Change Interrupt on Register K
-  PCMSK2 |= 0b00001111;  //Set A8, A10 & A9, A11 for interrupt
+  PCICR |=  (1 << PCIE2);  // Enable PCI on Port K
+  PCMSK2 |= (1 << PCINT16);
+  PCMSK2 |= (1 << PCINT17);
+  PCMSK2 |= (1 << PCINT18);
+  PCMSK2 |= (1 << PCINT19);
+  //PCICR  |= 0b00000100;  //Set Pin Change Interrupt on Register K
+  //PCMSK2 |= 0b00001111;  //Set A8, A10 & A9, A11 for interrupt
   sei();
 }
 
@@ -288,15 +295,19 @@ void setup() {
 /// This uses the version with a bool return from encoderISR.
 ISR(PCINT2_vect)  /// Pin A9 and A10 interrupt vector
 {
-  if (encoder1.encoderISR() )
-     encoderEvent1.markTriggeredAndNotify();
-  if (encoder2.encoderISR() )
+  if (encoder1.encoderISR() ) {
+     what = 1;
+     encoderEvent1.markTriggeredAndNotify(); }
+  if (encoder2.encoderISR() ) {
+     what = 2;
      encoderEvent2.markTriggeredAndNotify();
+  }
 }
 
 void loop() {
 /** as this indirectly uses taskmanager, we must include taskManager.runLoop(); in loop. */
     taskManager.runLoop();
+   //  Serial.println(what);
    // Runs if rotation was detected
    /*
   RotaryPosition = encoder.getPosition();
