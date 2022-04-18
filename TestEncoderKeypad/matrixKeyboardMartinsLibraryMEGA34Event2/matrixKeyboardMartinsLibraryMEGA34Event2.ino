@@ -38,10 +38,12 @@ IoAbstractionRef arduinoIo = ioUsingArduino();
 
 /// Swap the pins to get the opposite action
 /// This is equivalent to changing over the wires.
-#define SWAP_PINS 0
+#define SWAP_PINS 1
 
 //#include "MyEncoder.h"
 #include "EncoderMD.h"
+
+volatile byte lastPins = 0;
 
 /// The pins onto which the rotary encoders switches are connected
 const int spinwheelClickPin1 = 38; /// SW on encoder1
@@ -68,13 +70,6 @@ EncoderMD encoder2(encoderBPin2,encoderAPin2);
 EncoderMD encoder1(encoderAPin1,encoderBPin1);
 EncoderMD encoder2(encoderAPin2,encoderBPin2);
 #endif
-
-int minPos1 = -10;
-int maxPos1 = 10;
-int minPos2 = 0;
-int maxPos2 = 20;
-
-int what = 0;
 
 /// @brief The PCI setup is specific to the pins being used, here A8 to A11.
 /// PCI does not work on the MEGA pins A0 to A7.
@@ -112,9 +107,9 @@ public:
         return 250UL * 1000UL; // every 100 milliseconds we roll the dice
     }
     void exec() override {
-         Serial.print("exec called with ");
+         //Serial.print("exec called with ");
          RotaryPosition = encoder.getPosition();
-         Serial.println(RotaryPosition);
+         //Serial.println(RotaryPosition);
          TurnDetected = (RotaryPosition != PrevPosition);
          if (TurnDetected)  {         
            PrevPosition = RotaryPosition; // Save previous position in variable
@@ -253,9 +248,9 @@ void setup() {
   setupPCI();
   encoder1.setLimits(0,maximumEncoderValue);
   encoder2.setLimits(0,maximumEncoderValue);
-  encoder1.setPosition (20);
+  encoder1.setPosition (0);
   encoder1.setWrap (0);
-  encoder2.setPosition (40);
+  encoder2.setPosition (0);
   encoder2.setWrap (0);
 
 
@@ -295,19 +290,25 @@ void setup() {
 /// This uses the version with a bool return from encoderISR.
 ISR(PCINT2_vect)  /// Pin A9 and A10 interrupt vector
 {
-  if (encoder1.encoderISR() ) {
-     what = 1;
-     encoderEvent1.markTriggeredAndNotify(); }
-  if (encoder2.encoderISR() ) {
-     what = 2;
-     encoderEvent2.markTriggeredAndNotify();
-  }
+byte pins = PINK & 0b00001111;
+byte change = pins ^ lastPins;
+lastPins = pins;
+
+ if ( change & 0b000011)
+ {
+    encoder1.encoderISR();
+    encoderEvent1.markTriggeredAndNotify();
+ }
+ if ( change & 0b00001100)
+ {
+    encoder2.encoderISR();
+    encoderEvent2.markTriggeredAndNotify();
+ }
 }
 
 void loop() {
 /** as this indirectly uses taskmanager, we must include taskManager.runLoop(); in loop. */
     taskManager.runLoop();
-   //  Serial.println(what);
    // Runs if rotation was detected
    /*
   RotaryPosition = encoder.getPosition();

@@ -41,3 +41,7 @@ I am now extending to two encoders.
 
 Some previously global variables have to be now inside the EncoderEvent class so that they can be duplicated.
 
+## matrixKeyboardMartinsLibraryMEGA34Event2
+
+This version uses Martin's encoder library integrated in the IoAbstraction code.
+
