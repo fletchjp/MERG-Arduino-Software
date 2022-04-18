@@ -45,3 +45,5 @@ Some previously global variables have to be now inside the EncoderEvent class so
 
 This version uses Martin's encoder library integrated in the IoAbstraction code.
 
+This case also has two encoders.
+
