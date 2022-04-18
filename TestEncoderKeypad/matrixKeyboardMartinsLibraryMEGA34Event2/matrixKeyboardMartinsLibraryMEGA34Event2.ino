@@ -3,7 +3,7 @@
 ///
 /// This now runs Martin's encoder library integrated in the IoAbstraction code.
 ///
-/// I am now extending to two encoders using my bool return from encoderISR.
+/// I am now extending to two encoders using the method devised by Martin for this.
 ///
 /// Some previously global variables have to be now inside the EncoderEvent class so that they can be duplicated.
 /// This has now been carried out.
