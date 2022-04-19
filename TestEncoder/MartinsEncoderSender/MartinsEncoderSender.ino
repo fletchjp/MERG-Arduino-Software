@@ -30,8 +30,8 @@ int PrevPosition;     // Previous Rotary position Value to check accuracy
 void setupPCI()
 {
   cli();
-  PCICR  |= 0b00000100;  //Set Pin Change Interrupt on Register B
-  PCMSK2 |= 0b00001111;  //Set pins 8 & 9 for interrupt
+  PCICR  |= 0b00000100;  //Set Pin Change Interrupt on Register D
+  PCMSK2 |= 0b00001100;  //Set pins 2 & 3 for interrupt
   sei();
 }
 
@@ -52,16 +52,6 @@ void setup() {
   encoder.setLimits(0,100);
 }
 
-/*ISR(PCINT0_vect)  // Pin 8 interrupt vector
-{
-  encoder.encoderISR();
-}
-
-ISR(PCINT1_vect)  // Pin 9 interrupt vector
-{
-  encoder.encoderISR();
-}
-*/
 
 // function that executes whenever data is requested by master
 // this function is registered as an event, see setup()
@@ -70,7 +60,7 @@ void requestEvent() {
   // as expected by master
 }
 
-ISR(PCINT2_vect)  // Pin 9 interrupt vector
+ISR(PCINT2_vect)  // Pin 2 & 3 interrupt vector
 {
   encoder.encoderISR();
 }
