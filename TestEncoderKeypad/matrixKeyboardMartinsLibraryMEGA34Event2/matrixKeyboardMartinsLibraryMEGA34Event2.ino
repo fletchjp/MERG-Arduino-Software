@@ -49,10 +49,10 @@ volatile byte lastPins = 0;
 const int spinwheelClickPin1 = 38; /// SW on encoder1
 const int spinwheelClickPin2 = 40; /// SW on encoder2
 /// In this case the pins are passed to Martin's code instead.
-const int encoderAPin1 = A8; //A0; /// CLK on encoder1 
-const int encoderBPin1 = A9; //A8; /// DT  on encoder1
-const int encoderAPin2 = A10; //A1; /// CLK on encoder2 
-const int encoderBPin2 = A11; //A9; /// DT  on encoder2
+const int encoderAPin1 = A8;  /// CLK on encoder1 
+const int encoderBPin1 = A9;  /// DT  on encoder1
+const int encoderAPin2 = A10; /// CLK on encoder2 
+const int encoderBPin2 = A11; /// DT  on encoder2
 
 /// the maximum (0 based) value that we want the encoder to represent.
 const int maximumEncoderValue = 128;
@@ -76,13 +76,8 @@ EncoderMD encoder2(encoderAPin2,encoderBPin2);
 void setupPCI()
 {
   cli();
-  PCICR |=  (1 << PCIE2);  // Enable PCI on Port K
-  PCMSK2 |= (1 << PCINT16);
-  PCMSK2 |= (1 << PCINT17);
-  PCMSK2 |= (1 << PCINT18);
-  PCMSK2 |= (1 << PCINT19);
-  //PCICR  |= 0b00000100;  //Set Pin Change Interrupt on Register K
-  //PCMSK2 |= 0b00001111;  //Set A8, A10 & A9, A11 for interrupt
+  PCICR  |= 0b00000100;  //Set Pin Change Interrupt on Register K
+  PCMSK2 |= 0b00001111;  //Set A8, A9, A10 & A11 for interrupt
   sei();
 }
 
@@ -287,8 +282,7 @@ void setup() {
 }
 
 /// @brief ISR routine now calls the encoder and also the encoderEvent as well.
-/// This uses the version with a bool return from encoderISR.
-ISR(PCINT2_vect)  /// Pin A9 and A10 interrupt vector
+ISR(PCINT2_vect)  /// Pin A8 to A11 interrupt vector
 {
 byte pins = PINK & 0b00001111;
 byte change = pins ^ lastPins;
