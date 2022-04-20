@@ -40,7 +40,6 @@ IoAbstractionRef arduinoIo = ioUsingArduino();
 /// This is equivalent to changing over the wires.
 #define SWAP_PINS 1
 
-//#include "MyEncoder.h"
 #include "EncoderMD.h"
 
 volatile byte lastPins = 0;
