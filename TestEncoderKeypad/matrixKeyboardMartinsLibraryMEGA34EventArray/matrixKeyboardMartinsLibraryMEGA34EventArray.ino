@@ -104,6 +104,55 @@ class encoderControllerClass
   /// Added for use in onSpinWheelClicked routines
   char get_name() const { return encoder_name; }
   /// read, write and pushbutton code still needed here.                     
+  bool read()
+  {
+      uint8_t val = enc.getPosition();
+
+      if (val == 255) // button pressed (old method)
+      {
+          if (ignorePush) return false;
+
+          if (push == 0) push = millis();
+          enc.setPosition(0);
+          newPos = 0;
+          lastPos = 0;
+          return true;
+      }
+      else // button released
+      {
+          ignorePush = false;
+          push = 0;
+      }
+
+      if (val == 1) // EStop value - not needed
+      {
+          if (lastPos == 0)
+          {
+              enc.setPosition(2);
+               val = 2;
+          }
+          else // == 2
+          {
+              enc.setPosition(0);
+              val = 0;
+          }
+      }
+
+      newPos = val;
+      return false;
+  }
+
+
+  void write(uint8_t value)
+  {
+      enc.setPosition(value);
+      newPos = value;
+      lastPos = value;
+      push = 0;
+      ignorePush = true;
+  }
+
+
 };
 
 
@@ -309,7 +358,7 @@ void setup() {
   ioDevicePinMode(arduinoIo, ledOutputPin, OUTPUT);
 
   // First we set up the switches library, giving it the task manager and tell it to use arduino pins
-  // We could also of chosen IO through an i2c device that supports interrupts.
+  // We could also have chosen IO through an i2c device that supports interrupts.
   // If you want to use PULL DOWN instead of PULL UP logic, change the true to false below.
   switches.initialise(arduinoIo, true);
 
