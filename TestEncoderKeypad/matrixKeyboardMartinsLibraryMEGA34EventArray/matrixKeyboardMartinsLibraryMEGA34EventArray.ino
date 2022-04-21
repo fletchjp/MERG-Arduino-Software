@@ -1,9 +1,11 @@
-/// @file matrixKeyboardMartinsLibraryMEGA34Event2.ino
-/// @brief Example of matrix keyboard support for MEGA 3 by 4 Keypad built into IoAbstraction adding 2 of Martin's encoders via an event
+/// @file matrixKeyboardMartinsLibraryMEGA34EventArray.ino
+/// @brief Example of matrix keyboard support for MEGA 3 by 4 Keypad built into IoAbstraction using Array for Martin's encoders via an event
 ///
 /// This now runs Martin's encoder library integrated in the IoAbstraction code.
 ///
 /// I am now extending to two encoders using the method devised by Martin for this.
+/// I now want to put the encoders into an array for use with CANCMDDC.
+/// This is a problem so I am exploring how to do it in this example.
 ///
 /// Some previously global variables have to be now inside the EncoderEvent class so that they can be duplicated.
 /// This has now been carried out.
@@ -52,12 +54,42 @@ const int encoderAPin1 = A8;  /// CLK on encoder1
 const int encoderBPin1 = A9;  /// DT  on encoder1
 const int encoderAPin2 = A10; /// CLK on encoder2 
 const int encoderBPin2 = A11; /// DT  on encoder2
+/// Encoder names to be consistent
+const char encoder_name1 = '1';
+const char encoder_name2 = '2';
 
 /// the maximum (0 based) value that we want the encoder to represent.
 const int maximumEncoderValue = 128;
 
 /// an LED that flashes as the encoder changes
 const int ledOutputPin = 13;
+
+/// Array and class
+#define NUM_CONTROLLERS 2
+
+// Wrapper class to provide the interface.
+// It may be that I don't do it this way.
+class encoderControllerClass
+{
+  private:
+      EncoderMD &enc;
+      bool    ignorePush = false;
+      int spinwheelClickPin;
+      char encoder_name;
+  // -------------------------------------------------
+
+  public:
+      uint8_t       newPos = 0;
+      uint8_t       lastPos = 0;
+      unsigned long push = 0;
+  // -------------------------------------------------
+  /// Constructor from encoder which already exists
+  encoderControllerClass (EncoderMD &encoder,uint8_t setPinS,char enc_name = 'x') : enc(encoder) {
+      spinwheelClickPin = setPinS;
+      encoder_name = enc_name;
+  }
+  /// read, write and pushbutton code still needed here.                     
+};
 
 
 #if SWAP_PINS
@@ -69,6 +101,14 @@ EncoderMD encoder2(encoderBPin2,encoderAPin2);
 EncoderMD encoder1(encoderAPin1,encoderBPin1);
 EncoderMD encoder2(encoderAPin2,encoderBPin2);
 #endif
+
+/// Now construct the encoders first and then put then into the array.
+struct {
+  encoderControllerClass encoderController;
+} encoders[NUM_CONTROLLERS] = {
+                {encoderControllerClass(encoder1, spinwheelClickPin1,encoder_name1)},
+                {encoderControllerClass(encoder2, spinwheelClickPin2,encoder_name2)}
+};
 
 /// @brief The PCI setup is specific to the pins being used, here A8 to A11.
 /// PCI does not work on the MEGA pins A0 to A7.
@@ -121,8 +161,8 @@ public:
 };
 
 /// Declare encoderEvent instances for each encoder.
-EncoderEvent encoderEvent1(encoder1,'1');
-EncoderEvent encoderEvent2(encoder2,'2');
+EncoderEvent encoderEvent1(encoder1,encoder_name1);
+EncoderEvent encoderEvent2(encoder2,encoder_name2);
 
 //class EncoderEvent;
 
