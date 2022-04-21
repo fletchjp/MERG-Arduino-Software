@@ -68,7 +68,10 @@ const int ledOutputPin = 13;
 #define NUM_CONTROLLERS 2
 
 // Wrapper class to provide the interface.
-// It may be that I don't do it this way.
+// Note that the encoderEvents cannot be copied and so are not included here.
+// The encoders are declared outside this class.
+// This means that this wrapper class can look like the previous encoder class
+// to the main program while using a totally different encoder library.
 class encoderControllerClass
 {
   private:
@@ -88,6 +91,8 @@ class encoderControllerClass
       spinwheelClickPin = setPinS;
       encoder_name = enc_name;
   }
+  /// Added for use in onSpinWheelClicked routines
+  char get_name() const { return encoder_name; }
   /// read, write and pushbutton code still needed here.                     
 };
 
@@ -176,7 +181,8 @@ void onSpinwheelClicked1(pinid_t pin, bool heldDown) { //, MyEncoder &encoder, E
        } else {
         encoderEvent1.RotaryPosition=0; // Reset position to ZERO
         encoder1.setPosition(encoderEvent1.RotaryPosition);
-        Serial.print("X ");
+        //Serial.print(encoders[1].get_name());
+        Serial.print(" ");
         Serial.println(encoderEvent1.RotaryPosition);
         encoderEvent1.PrevPosition = encoderEvent1.RotaryPosition;
       }
@@ -190,7 +196,7 @@ void onSpinwheelClicked2(pinid_t pin, bool heldDown) { //, MyEncoder &encoder, E
        } else {
         encoderEvent2.RotaryPosition=0; // Reset position to ZERO
         encoder2.setPosition(encoderEvent2.RotaryPosition);
-        Serial.print("Y ");
+        Serial.print("2 ");
         Serial.println(encoderEvent2.RotaryPosition);
         encoderEvent2.PrevPosition = encoderEvent2.RotaryPosition;
       }
