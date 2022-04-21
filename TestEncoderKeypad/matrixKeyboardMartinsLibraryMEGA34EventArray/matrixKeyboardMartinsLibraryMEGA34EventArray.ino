@@ -4,8 +4,18 @@
 /// This now runs Martin's encoder library integrated in the IoAbstraction code.
 ///
 /// I am now extending to two encoders using the method devised by Martin for this.
+///
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///
 /// I now want to put the encoders into an array for use with CANCMDDC.
-/// This is a problem so I am exploring how to do it in this example.
+/// This now works in this example after quite a lot of changes to the code.
+///
+/// I have changed the encoderControllerClass so that the encoders are declared outside the class.
+/// The way in which the button is used is also different from the previous code.
+///
+/// This means that this solution does not scale well for large numbers of encoders.
+///
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///
 /// Some previously global variables have to be now inside the EncoderEvent class so that they can be duplicated.
 /// This has now been carried out.
