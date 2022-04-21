@@ -181,7 +181,7 @@ void onSpinwheelClicked1(pinid_t pin, bool heldDown) { //, MyEncoder &encoder, E
        } else {
         encoderEvent1.RotaryPosition=0; // Reset position to ZERO
         encoder1.setPosition(encoderEvent1.RotaryPosition);
-        //Serial.print(encoders[1].get_name());
+        Serial.print(encoders[0].encoderController.get_name()); // Index offset
         Serial.print(" ");
         Serial.println(encoderEvent1.RotaryPosition);
         encoderEvent1.PrevPosition = encoderEvent1.RotaryPosition;
@@ -196,7 +196,8 @@ void onSpinwheelClicked2(pinid_t pin, bool heldDown) { //, MyEncoder &encoder, E
        } else {
         encoderEvent2.RotaryPosition=0; // Reset position to ZERO
         encoder2.setPosition(encoderEvent2.RotaryPosition);
-        Serial.print("2 ");
+        Serial.print(encoders[1].encoderController.get_name()); // Index offset
+        Serial.print(" ");
         Serial.println(encoderEvent2.RotaryPosition);
         encoderEvent2.PrevPosition = encoderEvent2.RotaryPosition;
       }
