@@ -47,3 +47,11 @@ This version uses Martin's encoder library integrated in the IoAbstraction code.
 
 This case also has two encoders.
 
+## matrixKeyboardMartinsLibraryMEGA34EventArray
+
+This version uses Martin's encoder library integrated in the IoAbstraction code.
+
+This case has two encoders acceible using an array.
+
+This is a test for use with CANCMDDC.
+
