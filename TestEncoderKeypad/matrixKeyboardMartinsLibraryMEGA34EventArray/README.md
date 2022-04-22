@@ -27,3 +27,6 @@ The encoders are put into an array to suit the interface in CANCMDDC.
 The events cannot be in the array as the Event class instances cannot be copied.
 
 Some of the other code has to be for one instance, so this is not a fully scalable example.
+
+Two encoders and a 3 by 4 keypad are now operational.
+
