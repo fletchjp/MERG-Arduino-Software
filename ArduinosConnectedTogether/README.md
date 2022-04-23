@@ -8,3 +8,5 @@ This contains some public domain examples adapted slightly.
 
 This contains some examples collected to show the use of PJON.
 
+These examples include some Bitbang experiments with the Raspberry Pi Pico.
+
