@@ -1,6 +1,9 @@
 /// @file DUESerialTest.ino
 
 /*
+
+https://forum.arduino.cc/t/how-to-program-due-serial-ports/207911/11
+
 Check each side separately.
 
 Have you checked Serial1 on the DUE side ?
