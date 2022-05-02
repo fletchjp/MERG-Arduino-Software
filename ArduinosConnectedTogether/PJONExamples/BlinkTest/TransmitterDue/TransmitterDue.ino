@@ -1,5 +1,5 @@
-/// @file Transmitter.ino
-/// @brief BlinkTestTransmitter
+/// @file TransmitterDue.ino
+/// @brief BlinkTestTransmitter for Arduino DUE
 
 #include <PJONThroughSerial.h>
 
