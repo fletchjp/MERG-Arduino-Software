@@ -9,6 +9,7 @@ connect a jumper wire between RX1/TX2 and another one between RX2/TX1,
 connect your DUE to the PC side via the programming port:
 */
 
+char c = 0;
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(250000);
