@@ -28,3 +28,10 @@ Starting from C++11 there is a facility called a scoped enum or enum class which
 
 ## TestBetterEnum (more enum examples)
 
+## MultipleSerialTest and DUESerialTest
+
+Two programs for investigation of the Arduino DUE multiple serial ports.
+
+ 
+
+
