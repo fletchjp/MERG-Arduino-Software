@@ -6,6 +6,8 @@ Receives from serial port 1, sends to the main serial (Serial 0).
 
 This example works only with boards with more than one serial like Arduino Mega, Due, Zero etc
 
+For me it does not work on a MEGA. It compiles on a DUE.
+
 The circuit:
 
     Any serial device attached to Serial port 1
