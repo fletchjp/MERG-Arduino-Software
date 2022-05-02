@@ -7,6 +7,10 @@ Have you checked Serial1 on the DUE side ?
 The sketch below checks Serial1 and Serial2: 
 connect a jumper wire between RX1/TX2 and another one between RX2/TX1,
 connect your DUE to the PC side via the programming port:
+
+Have you connected the grounds together ?
+
+Have you connected RX1(DUE) to TX(Pro Mini) and RX1(DUE) to TX(Pro Mini) ?
 */
 
 char c = 0;
