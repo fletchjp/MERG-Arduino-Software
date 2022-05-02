@@ -24,3 +24,6 @@ https://www.arduino.cc/en/reference/serial
 The MEGA has three more serial ports
 
 The DUE has three more ports which are 3.3V ports.
+
+I am starting an example TransmitterDue
+
