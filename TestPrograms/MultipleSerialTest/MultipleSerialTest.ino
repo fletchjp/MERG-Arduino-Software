@@ -1,4 +1,9 @@
+/// @file MultipleSerialTest.ino
+
 /*
+
+https://forum.arduino.cc/t/how-to-program-due-serial-ports/207911/11
+
 Multple Serial test
 
 Receives from the main serial port, sends to the others.
