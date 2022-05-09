@@ -1,7 +1,9 @@
 /// @file matrixKeyboardMartinsEncoderEventI2C44.ino
 /// @brief Example of matrix keyboard support for 4 by 4 Keypad built into IoAbstraction on I2C adding Martin's encoder.
 ///
-/// The example is now working. A call to Wire.begin() is needed.
+/// The example is not working with the encoder.
+///
+/// A call to Wire.begin() is needed.
 ///
 /// This example shows how to use the matrix keyboard support that's built into IoAbstraction,
 /// it can be used out the box with either a 3x4 or 4x4 keypad, but you can modify it to use
@@ -117,7 +119,7 @@ void setup() {
     //while(!Serial);
     Serial.begin(115200);
     /// Wire.begin(); was missing!!
-    Wire.begin();
+    //Wire.begin();
     /// Add 10 pins from 100 up.
     multiIoAddExpander(multiIo, ioFrom8574(0x20), 10);
 
@@ -137,7 +139,7 @@ void setup() {
     // These are done in the encoder constructor
     //pinMode(PinCLK,INPUT);
     //pinMode(PinDT,INPUT);  
-    pinMode(POWER_PIN,OUTPUT);
+    //pinMode(POWER_PIN,OUTPUT);
     //digitalWrite(POWER_PIN, HIGH);
     pinMode(PinSW,INPUT);
     digitalWrite(PinSW, HIGH); // Pull-Up resistor for switch
