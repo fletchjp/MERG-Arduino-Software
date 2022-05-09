@@ -53,6 +53,12 @@ void setupPCI()
   sei();
 }
 
+ISR(PCINT2_vect)  // Pin 2 & 3 interrupt vector
+{
+  encoder.encoderISR();
+}
+
+const int POWER_PIN=12; //Extra 5V output on pin 12.
 //
 // We need to make a keyboard layout that the manager can use. choose one of the below.
 // The parameter in brackets is the variable name.
@@ -108,7 +114,7 @@ public:
 
 /// setup runs once
 void setup() {
-    while(!Serial);
+    //while(!Serial);
     Serial.begin(115200);
     /// Wire.begin(); was missing!!
     Wire.begin();
@@ -127,11 +133,41 @@ void setup() {
 
     /// start repeating at 850 millis then repeat every 350ms
     keyboard.setRepeatKeyMillis(850, 350);
+    setupPCI();
+    // These are done in the encoder constructor
+    //pinMode(PinCLK,INPUT);
+    //pinMode(PinDT,INPUT);  
+    pinMode(POWER_PIN,OUTPUT);
+    //digitalWrite(POWER_PIN, HIGH);
+    pinMode(PinSW,INPUT);
+    digitalWrite(PinSW, HIGH); // Pull-Up resistor for switch
+    encoder.setLimits(0,100);
 
-    Serial.println("Keyboard is initialised!");
+    Serial.println("Keyboard and encoder are initialised!");
 }
 
 void loop() {
 /** as this indirectly uses taskmanager, we must include taskManager.runLoop(); in loop. */
     taskManager.runLoop();
+
+      if (!(digitalRead(PinSW))) {   // check if button is pressed
+    if (RotaryPosition == 0) {  // check if button was already pressed
+       } else {
+        //small_stepper.step(-(RotaryPosition*50));
+        RotaryPosition=0; // Reset position to ZERO
+        encoder.setPosition(RotaryPosition);
+        Serial.print("X ");
+        Serial.println(RotaryPosition);
+        PrevPosition = RotaryPosition;
+      }
+    }
+
+   // Runs if rotation was detected
+  RotaryPosition = encoder.getPosition();
+  TurnDetected = (RotaryPosition != PrevPosition);
+  if (TurnDetected)  {
+    PrevPosition = RotaryPosition; // Save previous position in variable
+    Serial.println(RotaryPosition);
+  }
+
 }
