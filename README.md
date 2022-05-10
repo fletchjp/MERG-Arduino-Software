@@ -118,6 +118,8 @@ This is a branch for codes for the Arduino NANO RP2040 connect using the Arduino
 
 This is where a lot of work has been going on in November 2021.
 
+Since then I have begun to use the Raspberry Pi Pico as well.
+
  ## Logos
 
  Exploring the use of logos of different sizes.
