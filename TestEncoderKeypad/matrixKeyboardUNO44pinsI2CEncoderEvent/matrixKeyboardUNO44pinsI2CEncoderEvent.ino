@@ -19,6 +19,16 @@
 #include <TaskManagerIO.h>
 #include <KeyboardManager.h>
 
+/// Declare that the first 100 pins are reserved for the Arduino.
+MultiIoAbstractionRef multiIo = multiIoExpander(100);
+
+/// the maximum (0 based) value that we want the encoder to represent.
+const int maximumEncoderValue = 128;
+
+/// an LED that flashes as the encoder changes
+const int ledOutputPin = 13;
+
+
 /// I am going to configure this for a UNO or NANO
 ///
 /// Swap the pins to get the opposite action
@@ -34,9 +44,9 @@ const int PinSW=4;     // Reading Push Button switch
 // Also connect +5V and ground.
 
 #if SWAP_PINS
-EncoderMD encoder(PinDT,PinCLK);
+EncoderMD encoder1(PinDT,PinCLK);
 #else
-EncoderMD encoder(PinCLK,PinDT);
+EncoderMD encoder1(PinCLK,PinDT);
 #endif
 
 int RotaryPosition=0;    // To store Stepper Motor Position
@@ -51,6 +61,66 @@ void setupPCI()
   sei();
 }
 
+/// @brief EncoderEvent - now uses class variable to support multiple encoders.
+///
+/// char encoderName variable is provided so that outputs can be distinguished.
+class EncoderEvent : public BaseEvent {
+private:
+/// Used to note when the encoder position has changed.
+    char encoderName;
+    EncoderMD &encoder;
+    static const uint32_t NEXT_CHECK_INTERVAL = 60UL * 1000000UL; // 60 seconds away, maximum is about 1 hour.
+public:
+    boolean TurnDetected;
+    int RotaryPosition;
+    int PrevPosition;
+    EncoderEvent(EncoderMD &encoder_, char name_) : encoderName(name_), encoder(encoder_)  {
+      RotaryPosition = 0; PrevPosition = 0;
+    }
+    /// @brief timeOfNextCheck now replaced by call from ISR calling markTriggeredAndNotify().
+    uint32_t timeOfNextCheck() override {
+        return 250UL * 1000UL; // every 100 milliseconds we roll the dice
+    }
+    void exec() override {
+         //Serial.print("exec called with ");
+         RotaryPosition = encoder.getPosition();
+         //Serial.println(RotaryPosition);
+         TurnDetected = (RotaryPosition != PrevPosition);
+         if (TurnDetected)  {
+           delay(5);// to give time for the print buffer to clear      
+           PrevPosition = RotaryPosition; // Save previous position in variable
+           Serial.print(encoderName);
+           Serial.print(" ");
+           Serial.println(RotaryPosition);
+           // here we turn the led on and off as the encoder moves.
+           ioDeviceDigitalWriteS(multiIo, ledOutputPin, RotaryPosition % 2);
+         }
+    }
+    /**
+     * We should always provide a destructor.
+     */
+    ~EncoderEvent() override = default;
+};
+
+/// Declare encoderEvent instances for each encoder.
+EncoderEvent encoderEvent1(encoder1,'1');
+
+/// @brief When the spinwheel1 is clicked, this function will be run as we registered it as a callback
+///
+/// There have to be separate routines for each encoder to distinguish the variables.
+void onSpinwheelClicked1(pinid_t pin, bool heldDown) { //, MyEncoder &encoder, EncoderEvent &encoderEvent) {
+  Serial.print("Button 1 pressed ");
+  Serial.println(heldDown ? "Held" : "Pressed");
+    if (encoderEvent1.RotaryPosition == 0) {  // check if button was already pressed
+       } else {
+        encoderEvent1.RotaryPosition=0; // Reset position to ZERO
+        encoder1.setPosition(encoderEvent1.RotaryPosition);
+        Serial.print("X ");
+        Serial.println(encoderEvent1.RotaryPosition);
+        encoderEvent1.PrevPosition = encoderEvent1.RotaryPosition;
+      }
+}
+
 //
 // We need to make a keyboard layout that the manager can use. choose one of the below.
 // The parameter in brackets is the variable name.
@@ -62,8 +132,6 @@ void setupPCI()
 //const char pgmLayout[] PROGMEM = "charsColByRow";
 //KeyboardLayout layout(rows, cols, const char* pgmLayout)
 
-/// Declare that the first 100 pins are reserved for the Arduino.
-MultiIoAbstractionRef multiIo = multiIoExpander(100);
 
 
 const byte ROWS = 4; /// four rows
@@ -117,17 +185,30 @@ public:
 void setup() {
 /// setup 
     setupPCI();
+    encoder1.setLimits(0,maximumEncoderValue);
+    encoder1.setPosition (0);
+    encoder1.setWrap (0);
   // These are done in the encoder constructor
   //pinMode(PinCLK,INPUT);
   //pinMode(PinDT,INPUT);  
     pinMode(PinSW,INPUT);
     digitalWrite(PinSW, HIGH); // Pull-Up resistor for switch
-    encoder.setLimits(0,100);
+    // here we initialise as output the output pin we'll use
+    ioDevicePinMode(multiIo, ledOutputPin, OUTPUT);
+
     while(!Serial);
     Serial.begin(115200);
     Wire.begin();
     /// Add 10 pins from 100 up.
     multiIoAddExpander(multiIo, ioFrom8574(0x20), 10);
+  // First we set up the switches library, giving it the task manager and tell it to use arduino pins
+  // We could also of chosen IO through an i2c device that supports interrupts.
+  // If you want to use PULL DOWN instead of PULL UP logic, change the true to false below.
+    switches.initialise(multiIo, true);
+
+  // now we add the switches, we dont want the spinwheel button to repeat, so leave off the last parameter
+  // which is the repeat interval (millis / 20 basically) Repeat button does repeat as we can see.
+    switches.addSwitch(PinSW, onSpinwheelClicked1); //, encoder1, encoderEvent1);
 
     // Converted to copy the arrays.
     for (byte i = 0; i < ROWS; i++)
@@ -143,37 +224,19 @@ void setup() {
     /// start repeating at 850 millis then repeat every 350ms
     keyboard.setRepeatKeyMillis(850, 350);
 
-    Serial.println("Keyboard and encoder are initialised!");
+    taskManager.registerEvent(&encoderEvent1);
+
+    Serial.println("Keyboard and encoder are initialised with events!");
 }
 
 ISR(PCINT2_vect)  // Pin 2 & 3 interrupt vector
 {
-  encoder.encoderISR();
+    encoder1.encoderISR();
+    encoderEvent1.markTriggeredAndNotify();
 }
 
 void loop() {
 /** as this indirectly uses taskmanager, we must include taskManager.runLoop(); in loop. */
     taskManager.runLoop();
-      if (!(digitalRead(PinSW))) {   // check if button is pressed
-    if (RotaryPosition == 0) {  // check if button was already pressed
-        //Serial.println("XXX ");
-       } else {
-        //small_stepper.step(-(RotaryPosition*50));
-        RotaryPosition=0; // Reset position to ZERO
-        encoder.setPosition(RotaryPosition);
-        Serial.print("X ");
-        Serial.println(RotaryPosition);
-        PrevPosition = RotaryPosition;
-      }
-      
-  }
-
-  // Runs if rotation was detected
-  RotaryPosition = encoder.getPosition();
-  TurnDetected = (RotaryPosition != PrevPosition);
-  if (TurnDetected)  {
-    PrevPosition = RotaryPosition; // Save previous position in variable
-    Serial.println(RotaryPosition);
-  }
 
 }
