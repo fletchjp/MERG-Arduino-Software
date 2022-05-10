@@ -161,6 +161,7 @@ void loop() {
   RotaryPosition = encoder.getPosition();
   TurnDetected = (RotaryPosition != PrevPosition);
   if (TurnDetected)  {
+    delay(5);// to give time for the print buffer to clear      
     PrevPosition = RotaryPosition; // Save previous position in variable
     Serial.println(RotaryPosition);
   }
