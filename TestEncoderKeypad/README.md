@@ -12,25 +12,33 @@ I also want to support direct pin access from an Arduino MEGA and I2C access fro
 
 I have developed some codes for testing the different applications.
 
-Most of these examples work with the IO abstraction library.
+Most of these examples work with the IOAbstraction library.
 
 ## Martin's Library
 
 Martin Da Costa has written a library for use with encoders. There are two versions in use here. 
 
-The first is a local copy of his files which has now been replaced by use of a libary (encoderMD). 
+The first is a local copy of his files which has now been replaced by use of a library (encoderMD).
+
+The use of the first version will not be continued. The examples are retained as they illustrate some features.
 
 ## What works when the Keypad is on the I2C?
 
-I have been attempting to combine code for the encoder using Martin's library with a keypad connected using I2C. So far I have had mysterious failures when using both.
+I have been attempting to combine code for the encoder using Martin's library with a keypad connected using I2C.
 
-Initial tests have been with a 4duino which has only one 5V output pin when I need two. I am changing over to use a NANO with a base board with plenty of 5V and ground pins.
+So far I have had mysterious failures when using both.
+
+Initial tests have been with a 4duino which has only one 5V output pin when I need two.
+
+I am changing over to use a NANO with a base board with plenty of 5V and ground pins.
 
 I now have two examples working with the NANO hardware. These are in other folders.
 
 ### matrixKeyboardUNO44pins
 
-This allows the start pin for the keypad to be adjusted easily.
+This allows the start pin for the keypad to be adjusted easily. 
+
+The original settung clashes with the pins used for the encoder.
 
 ### MartinsEncoder
 
@@ -85,7 +93,7 @@ This case also has two encoders.
 
 This version uses Martin's encoder library integrated in the IoAbstraction code.
 
-This case has two encoders acceible using an array.
+This case has two encoders accessible using an array.
 
 This is a test for use with CANCMDDC.
 
