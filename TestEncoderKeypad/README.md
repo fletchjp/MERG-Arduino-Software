@@ -46,15 +46,21 @@ Base example for the encoder library using IOAbstraction.
 
 ## matrixKeyboardUNO44pinsEncoder
 
-This combines the two codes. It works although when the encoder is turned fast the number can be missing a digit. That has now stopped.
+This combines the two codes.
+
+It works although when the encoder is turned fast the number can be missing a digit. I have put in delay(5) in the encoder print to avoid missing digits.
 
 ## matrixKeyboardUNO44pinsI2CEncoder
 
 This is the next step to move the keypad to I2C and see if that works. Yes it does.
 
+I have put in delay(5) in the encoder print to avoid missing digits.
+
 ## matrixKeyboardUNO44pinsI2CEncoderEvent
 
-This moves the encoder to use the IOAbstraction event structure. This now works too. I have put in delay(5) in the encoder print to avoid missing digits.
+This moves the encoder to use the IOAbstraction event structure. This now works too.
+
+I have put in delay(5) in the encoder print to avoid missing digits.
 
 ## matrixKeyboardEncoderMEGA34
 
