@@ -14,6 +14,12 @@ I have developed some codes for testing the different applications.
 
 Most of these examples work with the IO abstraction library.
 
+## Martin's Library
+
+Martin Da Costa has written a library for use with encoders. There are two versions in use here. 
+
+The first is a local copy of his files which has now been replaced by use of a libary (encoderMD). 
+
 ## What works when the Keypad is on the I2C?
 
 I have been attempting to combine code for the encoder using Martin's library with a keypad connected using I2C. So far I have had mysterious failures when using both.
@@ -32,7 +38,7 @@ Base example for the encoder library using IOAbstraction.
 
 ## matrixKeyboardUNO44pinsEncoder
 
-This combines the two codes. It works although when the encoder is turned fast the neumber can be missing a digit. That has now stopped.
+This combines the two codes. It works although when the encoder is turned fast the number can be missing a digit. That has now stopped.
 
 ## matrixKeyboardUNO44pinsI2CEncoder
 
