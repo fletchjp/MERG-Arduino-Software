@@ -20,6 +20,19 @@ I have been attempting to combine code for the encoder using Martin's library wi
 
 Initial tests have been with a 4duino which has only one 5V output pin when I need two. I am changing over to use a NANO with a base board with plenty of 5V and ground pins.
 
+I now have two examples working with the NANO hardware. These are in other folders.
+
+### matrixKeyboardUNO44pins
+
+This allows the start pin for the keypad to be adjusted easily.
+
+### MartinsEncoder
+
+Base example for the encoder library using IOAbstraction.
+
+## matrixKeyboardUNO44pinsEncoder
+
+This combines the two codes. It works although when the encoder is turned fast the neumber can be missing a digit. That has now stopped.
 
 
 ## matrixKeyboardEncoderMEGA34
