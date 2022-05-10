@@ -32,5 +32,11 @@ In the course of doing this and getting it sorted out in the GitHub desktop I ha
 
 I have had a lot of problems getting VS Code configured and at times I despaired of making sense of it. I have stuck with it and have learned quite a lot about how it works. There is still more to go.
 
+In the end I have abandoned using VS Code, mainly because it took up too much memory on the main computer, where I am short of space on the C: drive.
+
+There are configuration files lying around.
+
+I am using the Arduino IDE directly.
+
 Back to [README](README.md).
 
