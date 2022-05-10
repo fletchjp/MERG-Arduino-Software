@@ -18,6 +18,38 @@
 #include <TaskManagerIO.h>
 #include <KeyboardManager.h>
 
+/// I am going to configure this for a UNO or NANO
+///
+/// Swap the pins to get the opposite action
+#define SWAP_PINS 0
+
+#include "EncoderMD.h"
+
+boolean TurnDetected;
+
+const int PinCLK=2;   // Generating interrupts using CLK signal
+const int PinDT=3;    // Reading DT signal
+const int PinSW=4;     // Reading Push Button switch
+// Also connect +5V and ground.
+
+#if SWAP_PINS
+EncoderMD encoder(PinDT,PinCLK);
+#else
+EncoderMD encoder(PinCLK,PinDT);
+#endif
+
+int RotaryPosition=0;    // To store Stepper Motor Position
+
+int PrevPosition;     // Previous Rotary position Value to check accuracy
+
+void setupPCI()
+{
+  cli();
+  PCICR  |= 0b00000100;  //Set Pin Change Interrupt on Register D
+  PCMSK2 |= 0b00001100;  //Set pins 2 & 3 for interrupt
+  sei();
+}
+
 //
 // We need to make a keyboard layout that the manager can use. choose one of the below.
 // The parameter in brackets is the variable name.
@@ -77,6 +109,13 @@ public:
 
 void setup() {
 /// setup 
+    setupPCI();
+  // These are done in the encoder constructor
+  //pinMode(PinCLK,INPUT);
+  //pinMode(PinDT,INPUT);  
+    pinMode(PinSW,INPUT);
+    digitalWrite(PinSW, HIGH); // Pull-Up resistor for switch
+    encoder.setLimits(0,100);
     while(!Serial);
     Serial.begin(115200);
 
@@ -93,10 +132,37 @@ void setup() {
     /// start repeating at 850 millis then repeat every 350ms
     keyboard.setRepeatKeyMillis(850, 350);
 
-    Serial.println("Keyboard is initialised!");
+    Serial.println("Keyboard and encoder are initialised!");
+}
+
+ISR(PCINT2_vect)  // Pin 2 & 3 interrupt vector
+{
+  encoder.encoderISR();
 }
 
 void loop() {
 /** as this indirectly uses taskmanager, we must include taskManager.runLoop(); in loop. */
     taskManager.runLoop();
+      if (!(digitalRead(PinSW))) {   // check if button is pressed
+    if (RotaryPosition == 0) {  // check if button was already pressed
+        //Serial.println("XXX ");
+       } else {
+        //small_stepper.step(-(RotaryPosition*50));
+        RotaryPosition=0; // Reset position to ZERO
+        encoder.setPosition(RotaryPosition);
+        Serial.print("X ");
+        Serial.println(RotaryPosition);
+        PrevPosition = RotaryPosition;
+      }
+      
+  }
+
+  // Runs if rotation was detected
+  RotaryPosition = encoder.getPosition();
+  TurnDetected = (RotaryPosition != PrevPosition);
+  if (TurnDetected)  {
+    PrevPosition = RotaryPosition; // Save previous position in variable
+    Serial.println(RotaryPosition);
+  }
+
 }
