@@ -38,6 +38,10 @@ This combines the two codes. It works although when the encoder is turned fast t
 
 This is the next step to move the keypad to I2C and see if that works. Yes it does.
 
+## matrixKeyboardUNO44pinsI2CEncoderEvent
+
+This moves the encoder to use the IOAbstraction event structure. This now works too. I have put in delay(5) in the encoder print to avoid missing digits.
+
 ## matrixKeyboardEncoderMEGA34
 
 Example of matrix keyboard support for MEGA with a 3 by 4 Keypad built into IoAbstraction with encoder
