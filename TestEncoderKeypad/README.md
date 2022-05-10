@@ -14,6 +14,14 @@ I have developed some codes for testing the different applications.
 
 Most of these examples work with the IO abstraction library.
 
+## What works when the Keypad is on the I2C?
+
+I have been attempting to combine code for the encoder using Martin's library with a keypad connected using I2C. So far I have had mysterious failures when using both.
+
+Initial tests have been with a 4duino which has only one 5V output pin when I need two. I am changing over to use a NANO with a base board with plenty of 5V and ground pins.
+
+
+
 ## matrixKeyboardEncoderMEGA34
 
 Example of matrix keyboard support for MEGA with a 3 by 4 Keypad built into IoAbstraction with encoder
