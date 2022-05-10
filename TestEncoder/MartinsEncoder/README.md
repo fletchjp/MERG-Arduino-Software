@@ -8,7 +8,7 @@ The first version had the incrementing the wrong way.
 
 The solution is to swap the pins in the software when needed using SWAP_PINS.
 
-This version has pins for a UNO
+This version has pins for a UNO or NANO
 
 ## Note
 
