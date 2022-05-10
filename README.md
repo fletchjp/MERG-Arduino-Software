@@ -112,13 +112,37 @@ I am now adding more examples. In particular ArduinoBoost166FunctionLazy is star
 
  I now have an update of the Arduino CBUS and CBUSSAM3X8E libraries to handle long events. This is working and I can start testing on the long event code.
 
-### RP2040
+ ### RP2040
 
 This is a branch for codes for the Arduino NANO RP2040 connect using the Arduino-pico software.
 
 This is where a lot of work has been going on in November 2021.
 
 Since then I have begun to use the Raspberry Pi Pico as well.
+
+ ## Test Programs
+ 
+ These folders contain programs which are tests of various things, both software and hardware. The titles to the folders indicate the areas under test.
+ 
+ The tests cover a range of hardware, NANO, UNO and MEGA. 
+ 
+ ### Test Encoder
+ 
+ These are a set of programs to test different approaches to dealing with the input from an encoder.
+ 
+ The result of the tests is that I have now decided to use Martin Da Costa's library for all new code.
+ 
+ ### Test EncoderKeypad
+ 
+ These codes combine work on keypads and encoders.
+ 
+ ### Test KeyPad
+ 
+ These codes are tests of codes for keypads, both 4 by 3 and 4 by 4.
+ 
+ ### Test Programs
+ 
+ These are more general test programs.
 
  ## Logos
 
