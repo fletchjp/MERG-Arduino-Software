@@ -18,6 +18,39 @@
 #include <TaskManagerIO.h>
 #include <KeyboardManager.h>
 
+/// Swap the pins to get the opposite action
+/// This is equivalent to changing over the wires.
+#define SWAP_PINS 0
+
+#include "EncoderMD.h"
+
+boolean TurnDetected;
+
+const int PinCLK=2;   // Generating interrupts using CLK signal
+const int PinDT=3;    // Reading DT signal
+const int PinSW=4;     // Reading Push Button switch
+// Also connect +5V and ground.
+
+/// the maximum (0 based) value that we want the encoder to represent.
+const int maximumEncoderValue = 128;
+
+/// an LED that flashes as the encoder changes
+const int ledOutputPin = 13;
+
+#if SWAP_PINS
+EncoderMD encoder(PinDT,PinCLK);
+#else
+EncoderMD encoder(PinCLK,PinDT);
+#endif
+
+void setupPCI()
+{
+  cli();
+  PCICR  |= 0b00000100;  //Set Pin Change Interrupt on Register D
+  PCMSK2 |= 0b00001100;  //Set pins 2 & 3 for interrupt
+  sei();
+}
+
 //
 // We need to make a keyboard layout that the manager can use. choose one of the below.
 // The parameter in brackets is the variable name.
@@ -79,6 +112,13 @@ void setup() {
     Wire.begin();
     /// Add 10 pins from 100 up.
     multiIoAddExpander(multiIo, ioFrom8574(0x20), 10);
+    // put your setup code here, to run once:
+    //setupPCI();
+    // These are done in the encoder constructor
+    //pinMode(PinCLK,INPUT);
+    //pinMode(PinDT,INPUT);  
+    pinMode(PinSW,INPUT);
+     digitalWrite(PinSW, HIGH); // Pull-Up resistor for switch
 
     // Converted to copy the arrays.
     for (byte i = 0; i < ROWS; i++)
