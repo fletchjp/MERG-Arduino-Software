@@ -1,7 +1,7 @@
 /// @file MartinsEncoder.ino
 /// @brief Test for encoder based on Martin Da Costa's library code.
 ///
-/// I am going to configure this for a UNO
+/// I am going to configure this for a UNO or NANO
 ///
 /// Swap the pins to get the opposite action
 #define SWAP_PINS 0
@@ -43,7 +43,7 @@ void setup() {
   pinMode(PinSW,INPUT);
   digitalWrite(PinSW, HIGH); // Pull-Up resistor for switch
   Serial.begin (115200);
-  Serial.println("MartinsEncoder test for a UNO");
+  Serial.println("MartinsEncoder test for a UNO or NANO");
   encoder.setLimits(0,100);
 }
 
@@ -58,6 +58,7 @@ void loop() {
   //small_stepper.setSpeed(700); //Max seems to be 700
   if (!(digitalRead(PinSW))) {   // check if button is pressed
     if (RotaryPosition == 0) {  // check if button was already pressed
+        //Serial.println("XXX ");
        } else {
         //small_stepper.step(-(RotaryPosition*50));
         RotaryPosition=0; // Reset position to ZERO
