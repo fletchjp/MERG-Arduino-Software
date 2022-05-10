@@ -34,6 +34,9 @@ Base example for the encoder library using IOAbstraction.
 
 This combines the two codes. It works although when the encoder is turned fast the neumber can be missing a digit. That has now stopped.
 
+## matrixKeyboardUNO44pinsI2CEncoder
+
+This is the next step to move the keypad to I2C and see if that works. Yes it does.
 
 ## matrixKeyboardEncoderMEGA34
 
