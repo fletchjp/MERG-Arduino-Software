@@ -18,7 +18,7 @@ It is clear that with the long message code memory was tight on the UNO and some
 
 For the moment I am going to use the older CAN1602PIN with long memory disabled for some tests with LiquidCrystalIO which integrates liquid crystal display with task management.
 
-I have created a copy CAN1602PINIO to work with LiquidCrystalIO.
+I have created a copy CAN1602PINIO to work with LiquidCrystalIO. It increases the code memory from 30016 to 30452.
 
 ## CBUS Long Message codes
 
