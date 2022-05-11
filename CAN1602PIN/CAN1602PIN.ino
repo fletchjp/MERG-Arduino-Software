@@ -16,7 +16,8 @@
 // Version 3.0a beta 8 Change arguments for longmessagehandler 
 //                     to match new release of libraries.
 // Version 3.0a beta 9 reduce buffers to (2,2) to avoid crash.
-#define CBUS_LONG_MESSAGE
+// Long messages disabled for now.
+// #define CBUS_LONG_MESSAGE
 ////////////////////////////////////////////////////////////////////////////////////
 // CAN1602BUT
 // Take code from CANALCDBUT to make a new code on the CANmINnOUT base.
