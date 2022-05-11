@@ -124,7 +124,13 @@ Since then I have begun to use the Raspberry Pi Pico as well.
  
  These folders contain programs which are tests of various things, both software and hardware. The titles to the folders indicate the areas under test.
  
- The tests cover a range of hardware, NANO, UNO and MEGA. 
+ The tests cover a range of hardware, NANO, UNO and MEGA.
+ 
+ ### Test Display
+ 
+ This is for codes testing out various display options. 
+ 
+ I am starting with some codes for LiquidCrystalIO which I have just started to use.
  
  ### Test Encoder
  
