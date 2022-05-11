@@ -8,4 +8,6 @@
  
  I am collecting some examples for this library which works with TaskmanagerIO.
  
+ TaskMgrIntegration is one which shows how to build the screen updating into a task.
+ 
  
