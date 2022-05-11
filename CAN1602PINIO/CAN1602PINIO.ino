@@ -442,7 +442,7 @@ void setupModule()
 void setup1602() {
  lcd.begin(16, 2);
  lcd.setCursor(0,0);
- lcd.print("CAN1602PIN");
+ lcd.print("CAN1602PINIO");
  lcd.setCursor(0,1);
  lcd.print("Press Key:");
 }
