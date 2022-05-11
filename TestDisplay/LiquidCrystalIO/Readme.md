@@ -8,7 +8,9 @@
  
  There is a limitation that only one task manager task should draw to the display.
  
- I am looking for an example which illustrates this point.
+ I am looking for examples which illustrates this point.
+ 
+ TaskMgrIntegration is one which shows how to build the screen updating into a task.
  
  The library code is at https://github.com/davetcc/LiquidCrystalIO on Github.
  
