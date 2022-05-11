@@ -8,6 +8,16 @@ I will not modify the other Markdown files in the branch, keeping information in
 
 These codes are part of development of modules for control of DC layouts using DC controllers for each track section.
 
+## Returning in 2022
+
+I have not looked at these codes since the work on long messages in 2021.
+
+I am now confused by the number of different examples for the CAN1602 device.
+
+It is clear that with the long message code memory was tight on the UNO and some of the codes with names starting CAN1602LONG reflect this.
+
+For the moment I am going to use the older CAN1602PIN with long memory disabled for some tests with LiquidCrystalIO which integrates liquid crystal display with task management.
+
 ## CBUS Long Message codes
 
 CBUS long messages are sent using a stream, which has a stream number. The sending module sends to a specific number and the other modules listen to the streams as needed, not the one they send on. This means that I need to have a scheme for the allocation of the stream numbers. For the moment I will assign a different number to each module, using a series starting at 11. If there are multiple instances of a particular module code the numbers will have to be set in some other way, such as configuration. I can build in some checks.
