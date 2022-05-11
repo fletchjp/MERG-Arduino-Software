@@ -1,7 +1,8 @@
 ////////////////////////////////////////////////////////////////////////////////////
-// CAN1602PIN
+// CAN1602PINIO
 // Version using DfRobotInputAbstraction.h to model input pins.
 // This uses code from IoAbstraction examples dfRobotAnalogInSwitches 
+// This is also using LiquidCrystalIO
 ////////////////////////////////////////////////////////////////////////////////////
 // Version 2.0b beta 1 Change to use switches and listener.
 ////////////////////////////////////////////////////////////////////////////////////
@@ -16,6 +17,9 @@
 // Version 3.0a beta 8 Change arguments for longmessagehandler 
 //                     to match new release of libraries.
 // Version 3.0a beta 9 reduce buffers to (2,2) to avoid crash.
+///////////////////////////////////////////////////////////////////////
+// LiquidCrystalIO versions
+// Version 4.0a beta 1 simple change of library.
 // Long messages disabled for now.
 // #define CBUS_LONG_MESSAGE
 ////////////////////////////////////////////////////////////////////////////////////
@@ -126,6 +130,7 @@
 #include <DfRobotInputAbstraction.h>
 #include <TaskManagerIO.h>
 #include <DeviceEvents.h>
+#include <LiquidCrystalIO.h>
 
 // IoAbstraction reference to the arduino pins.
 //IoAbstractionRef arduinoPins = ioUsingArduino();
@@ -144,7 +149,6 @@ IoAbstractionRef dfRobotKeys = inputFromDfRobotShield();
 #include <Streaming.h>
 #include <Bounce2.h>
 
-#include <LiquidCrystalIO.h>
 //LCD pin to Arduino
 const int pin_RS = 8; 
 const int pin_EN = 9; 
@@ -178,9 +182,9 @@ int prevbutton = -1;
 unsigned char mname[7] = { '1', '6', '0', '2', 'P', 'I', 'N' };
 
 // constants
-const byte VER_MAJ = 3;         // code major version
+const byte VER_MAJ = 4;         // code major version
 const char VER_MIN = 'a';       // code minor version
-const byte VER_BETA = 9;        // code beta sub-version
+const byte VER_BETA = 1;        // code beta sub-version
 const byte MODULE_ID = 99;      // CBUS module type
 
 const unsigned long CAN_OSC_FREQ = 8000000;     // Oscillator frequency on the CAN2515 board
