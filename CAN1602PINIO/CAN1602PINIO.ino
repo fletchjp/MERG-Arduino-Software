@@ -144,7 +144,7 @@ IoAbstractionRef dfRobotKeys = inputFromDfRobotShield();
 #include <Streaming.h>
 #include <Bounce2.h>
 
-#include <LiquidCrystal.h>
+#include <LiquidCrystalIO.h>
 //LCD pin to Arduino
 const int pin_RS = 8; 
 const int pin_EN = 9; 
