@@ -10,4 +10,9 @@
  
  TaskMgrIntegration is one which shows how to build the screen updating into a task.
  
+ Counter23017 shows how to use the task manager to schedule updating of the screen.
+ 
+ The code is integrated with the IOAbstraction and TaskmanagerIO libraries.
+
+
  
