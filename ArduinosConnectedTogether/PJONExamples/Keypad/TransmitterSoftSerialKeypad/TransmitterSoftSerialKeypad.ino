@@ -8,6 +8,7 @@
 // Declare the "link" serial port
 // Please see SoftwareSerial library for detail
 SoftwareSerial linkSerial(10, 11); // RX, TX
+//Wires are crossed over
 
 PJONThroughSerial bus(45);
 
@@ -88,7 +89,7 @@ void setup() {
   linkSerial.begin(4800);
   bus.strategy.set_serial(&linkSerial); // Pass the Serial object you want to use for communication
   bus.begin();
-  bus.send_repeatedly(44, "B", 1, 1000000); // Send B to device 44 every second
+  bus.send_repeatedly(44, "X", 1, 1000000); // Send X to device 44 every second
   Serial.println("PJON bus running");
 };
 
