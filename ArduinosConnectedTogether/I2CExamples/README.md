@@ -28,6 +28,8 @@ Sketch to receive data sent to a peripheral using I2C and the Wire library.
 
 I have had the second pair of sketches working between two UNOs.
 
+I now have the pair below working to show data collection.
+
 ### Controller Reader Keypad
 
 Sketch to read data from a peripheral using I2C and the Wire library to send keypad data.
