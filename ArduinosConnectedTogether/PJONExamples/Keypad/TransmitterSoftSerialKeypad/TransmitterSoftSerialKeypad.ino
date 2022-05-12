@@ -42,6 +42,7 @@ MatrixKeyboardManager keyboard;
 /// IoExpanders or shift registers instead.
 IoAbstractionRef arduinoIo = ioUsingArduino();
 
+
 ///
 /// We need a class that extends from KeyboardListener. This gets notified when
 /// there are changes in the keyboard state.
