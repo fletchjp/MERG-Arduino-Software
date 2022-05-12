@@ -7,6 +7,7 @@
 // Declare the "link" serial port
 // Please see SoftwareSerial library for detail
 SoftwareSerial linkSerial(10, 11); // RX, TX
+//Wires are crossed over
 
 #include <PJONThroughSerial.h>
 
