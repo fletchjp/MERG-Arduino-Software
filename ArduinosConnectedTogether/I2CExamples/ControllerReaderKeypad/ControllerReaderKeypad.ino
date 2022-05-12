@@ -20,12 +20,17 @@ void setup() {
   Wire.begin();        // join i2c bus (address optional for master)
 }
 
+char old_c = 0;
+
 void loop() {
   Wire.requestFrom(8, 1);    // request 1 bytes from peripheral device #8
 
   while (Wire.available()) { // peripheral may send less than requested
     char c = Wire.read(); // receive a byte as character
-    Serial.print(c);         // print the character
+    if (c != old_c) {
+       old_c = c;
+       Serial.println(c);         // print the character
+    }
   }
 
   delay(500);
