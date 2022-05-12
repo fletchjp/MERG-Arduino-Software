@@ -14,12 +14,14 @@
 #include <Wire.h>
 
 void setup() {
+  Serial.begin(115200);
+  while (!Serial) continue;
+  Serial.println("ControllerReaderKeypad running");
   Wire.begin();        // join i2c bus (address optional for master)
-  Serial.begin(9600);  // start serial for output
 }
 
 void loop() {
-  Wire.requestFrom(8, 6);    // request 6 bytes from peripheral device #8
+  Wire.requestFrom(8, 1);    // request 1 bytes from peripheral device #8
 
   while (Wire.available()) { // peripheral may send less than requested
     char c = Wire.read(); // receive a byte as character
