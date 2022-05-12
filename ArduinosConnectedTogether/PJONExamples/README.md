@@ -32,6 +32,8 @@ I have a set using SoftSerial for a second serial port for the Arduino UNO.
 
 The BlinkTest example has been extended to pass the key press on the keypad to the receiving Arduino.
 
+When connected over the serial line the two wires have to be crossed over.
+
 ## RS485 over Serial
 
 ## RS485-Blink
@@ -46,3 +48,6 @@ Not yet tried out.
 
 An alternative connection to ThroughSerial using only one wire.
 
+## BlinkWithResponse
+
+Example with response using Bitbang.
