@@ -5,7 +5,7 @@
 
 PJONSoftwareBitBang bus(45);
 
-/// error_handler
+/// error_handler  
 void error_handler(uint8_t code, uint16_t data, void *custom_pointer) {
   if(code == PJON_CONNECTION_LOST) {
     Serial.print("Connection lost with device id ");
