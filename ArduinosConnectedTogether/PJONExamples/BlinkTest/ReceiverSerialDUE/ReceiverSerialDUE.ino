@@ -2,8 +2,6 @@
 /// @brief BlinkTestReceiver using a DUE Serial port
 /// Using https://arduinojson.org/v6/how-to/do-serial-communication-between-two-boards/
 
-#include <SoftwareSerial.h>
-
 /*
 "The Arduino Due has three additional 3.3V TTL serial ports:
 Serial1 on pins 19 (RX) and 18 (TX);
@@ -36,8 +34,9 @@ void setup() {
   Serial.println("ReceiverDUESerial running");
   pinMode(LED_BUILTIN, OUTPUT);
   digitalWrite(LED_BUILTIN, LOW); // Initialize LED 13 to be off
-  linkSerial.begin(4800);
-  bus.strategy.set_serial(&linkSerial);
+  // Using Serial1
+  Serial1.begin(4800);
+  bus.strategy.set_serial(&Serial1);
   bus.set_receiver(receiver_function);
   bus.begin();
   Serial.println("PJON bus running");
