@@ -33,7 +33,7 @@ Sending streams assigned
 | 13  |                                      |
 | 14  | CANTOTEM / CANTOTEMPIN               |
 
-CANTOTEMPIN is a version of CANTOTEM using IoAbstraction for the buttons as with CAN1602PIN. This is not yet tested.
+CANTOTEMPIN is a version of CANTOTEM using IoAbstraction for the buttons as with CAN1602PIN.
 
 ## Testing
 
