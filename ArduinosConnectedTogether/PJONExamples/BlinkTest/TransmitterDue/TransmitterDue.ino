@@ -18,7 +18,7 @@ PJONThroughSerial bus(45);
 void setup() {
   Serial.begin(115200);
   while (!Serial) continue;
-  Serial.println("ReceiverDUESerial running");
+  Serial.println("TransmitterDUESerial running");
  // Using Serial1  
   bus.strategy.set_serial(&Serial1); // Pass the Serial object you want to use for communication
   bus.begin();
