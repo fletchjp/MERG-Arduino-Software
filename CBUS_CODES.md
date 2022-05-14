@@ -231,3 +231,10 @@ I have also added code to raise a message in a task from another task. This is n
 1c beta 3. I have extended the criticalEvent code and now set this up for testing.
 
 1c beta 5 Make processSerialInput a task (suggested by Sven Rosvall).
+
+### CANTOTEMPIN
+
+CANTOTEMPIN is a version of CANTOTEM using IoAbstraction for the buttons as with CAN1602PIN
+
+There are also variants called CANTOTEMPINX, Y and Z with detail changes.
+
