@@ -204,6 +204,8 @@ I have now done some tests of this against CANTOTEM.
 
 I am also developing a version where the display is connected using an I2C backpack for all the connections except the A0 and reset.
 
+Now that I have the frame extension attached I could put this onto the TOTEM minilab using the breadboards there.
+
 ## Totem Codes
 
 Codes configured for the UNO on the Totem Minilab.
