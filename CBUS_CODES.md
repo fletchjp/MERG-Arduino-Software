@@ -206,6 +206,8 @@ I am also developing a version where the display is connected using an I2C backp
 
 Now that I have the frame extension attached I could put this onto the TOTEM minilab using the breadboards there.
 
+That is the D1Robot version, as compared to DFRobot board which plugs into a UNO directly. There are so many variations.
+
 ## Totem Codes
 
 Codes configured for the UNO on the Totem Minilab.
