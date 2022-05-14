@@ -39,8 +39,12 @@ void setup() {
   while (!Serial) continue;
   Serial.println("TransmitterDUESerial running with response and error handling");
  // Using Serial1
-  Serial1.begin(4800);
+  Serial1.begin(9600);
+  while (!Serial1) continue;
+  //if (Serial1.available() ) Serial.println("Serial1 is available");
+  //else Serial.println("Serial1 is not available");
   bus.strategy.set_serial(&Serial1); // Pass the Serial object you want to use for communication
+  bus.set_receiver(receiver_function);
   bus.set_error(error_handler);
   if (!bus.strategy.can_start()) {
     Serial.println("PJON not running - bus.strategy.can_start() returns false");
