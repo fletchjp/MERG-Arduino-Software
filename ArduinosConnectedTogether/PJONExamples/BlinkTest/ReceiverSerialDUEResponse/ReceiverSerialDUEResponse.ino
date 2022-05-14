@@ -37,7 +37,7 @@ void setup() {
   pinMode(LED_BUILTIN, OUTPUT);
   digitalWrite(LED_BUILTIN, LOW); // Initialize LED 13 to be off
   // Using Serial1
-  Serial1.begin(4800);
+  Serial1.begin(9600);
   bus.strategy.set_serial(&Serial1);
   bus.set_receiver(receiver_function);
   bus.begin();
