@@ -242,3 +242,7 @@ CANTOTEMPIN is a version of CANTOTEM using IoAbstraction for the buttons as with
 
 There are also variants called CANTOTEMPINX, Y and Z with detail changes.
 
+I have now fixed the small board with the buttons to the sideframe connected to the minilab.
+
+I have now fitted a 4 by 20 LCD display to the side frame which I am going to connect up.
+
