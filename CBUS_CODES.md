@@ -20,6 +20,12 @@ For the moment I am going to use the older CAN1602PIN with long memory disabled 
 
 I have created a copy CAN1602PINIO to work with LiquidCrystalIO. It increases the code memory from 30016 to 30452.
 
+I also want to develop the code for the CANTOTEM series.
+
+I now have a display (4 by 20) mounted and not yet programmed.
+
+I would also like to put in PJON as well.
+
 ## CBUS Long Message codes
 
 CBUS long messages are sent using a stream, which has a stream number. The sending module sends to a specific number and the other modules listen to the streams as needed, not the one they send on. This means that I need to have a scheme for the allocation of the stream numbers. For the moment I will assign a different number to each module, using a series starting at 11. If there are multiple instances of a particular module code the numbers will have to be set in some other way, such as configuration. I can build in some checks.
