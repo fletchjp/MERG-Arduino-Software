@@ -46,16 +46,22 @@ void setup() {
   bus.strategy.set_serial(&Serial1); // Pass the Serial object you want to use for communication
   bus.set_receiver(receiver_function);
   bus.set_error(error_handler);
-  if (!bus.strategy.can_start()) {
-    Serial.println("PJON not running - bus.strategy.can_start() returns false");
-  } else {
-    bus.begin();
+  bus.begin();
+  // None of this is useful.
+  //if(!bus.begin() ) { The manual says this should work but it does not.
+  //  Serial.println("PJON begin returns false");;
+  //} else {
+  //if (!bus.strategy.can_start()) {
+  //  Serial.println("PJON not running - bus.strategy.can_start() returns false");
+  //} else {
     bus.send_repeatedly(44, "B", 1, 1000000); // Send B to device 44 every second
     Serial.println("PJON bus is running");
-  }
+  //}
+  //}
 };
 
 void loop() {
   bus.update();
-  bus.receive();
+  uint16_t response_value = bus.receive();
+  //if (response_value != 65535) Serial.println(response_value);
 };         
