@@ -51,6 +51,7 @@ void setup() {
   // The manual says this should work but it does not.
   // At the top level bus.begin() is declared as void.
   // At the strategy level bus.strategy.begin() is declared bool and always returns true.
+  // The same is true in the BitBang strategy as well.
   //if(!bus.begin() ) { 
   //  Serial.println("PJON begin returns false");;
   //} else {
