@@ -24,7 +24,21 @@ void receiver_function(uint8_t *payload, uint16_t length, const PJON_Packet_Info
     Serial.println("B");
     delay(30);
     digitalWrite(LED_BUILTIN, LOW);
-    if(!bus.update()) bus.reply("B", 1);
+    if(!bus.update()) 
+      bus.reply("B", 1);
+    // Try this instead.
+    //if(!bus.update()) {
+    //uint16_t what = bus.send(45,"B", 1);
+    //Serial.println(what);
+    //}
+  }
+};
+
+/// error_handler
+void error_handler(uint8_t code, uint16_t data, void *custom_pointer) {
+  if(code == PJON_CONNECTION_LOST) {
+    Serial.print("Connection lost with device id ");
+    Serial.println(bus.packets[data].content[0], DEC);
   }
 };
 
@@ -40,10 +54,12 @@ void setup() {
   Serial1.begin(9600);
   bus.strategy.set_serial(&Serial1);
   bus.set_receiver(receiver_function);
+  bus.set_error(error_handler);
   bus.begin();
   Serial.println("PJON bus running");
 };
 
 void loop() {
+  bus.update();
   bus.receive(1000);
 };
