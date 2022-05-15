@@ -48,7 +48,10 @@ void setup() {
   bus.set_error(error_handler);
   bus.begin();
   // None of this is useful.
-  //if(!bus.begin() ) { The manual says this should work but it does not.
+  // The manual says this should work but it does not.
+  // At the top level bus.begin() is declared as void.
+  // At the strategy level bus.strategy.begin() is declared bool and always returns true.
+  //if(!bus.begin() ) { 
   //  Serial.println("PJON begin returns false");;
   //} else {
   //if (!bus.strategy.can_start()) {
