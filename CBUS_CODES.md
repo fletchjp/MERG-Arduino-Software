@@ -263,3 +263,11 @@ This is for experiments on some failures. It also has some enums as classes.
 #### CANTOTEMPINZ
 
 This is adapted to process a keypad.
+
+### CANTOTEMLCD
+
+This is the new code to support a 20 by 4 LCD.
+
+I would like to do this using LiquidChrsytalIO which I have so far used only for 1602 displays.
+
+For previous work with a 20 by 4 LCD I have used a different library.
