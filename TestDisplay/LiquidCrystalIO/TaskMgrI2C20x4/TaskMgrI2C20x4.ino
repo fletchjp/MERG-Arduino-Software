@@ -50,17 +50,21 @@ LiquidCrystalI2C_RS_EN(lcd, 0x27, false)
 //LiquidCrystalI2C_EN_RS(lcd, 0x20, false)
 
 
-**
+/**
  * Here we create an event that handles all the drawing for an application, in this case printing out readings
  * of a sensor when changed. It uses polling and immediate triggering to show both examples
  */
 class DrawingEvent : public BaseEvent {
 private:
-    int heaterTemperature;
-    bool heaterIsOn;
+    float elapsed_time;
     volatile bool emergency; // if an event comes from an external interrupt the variable must be volatile.
     bool hasChanged;
 public:
+    DrawingEvent() {
+      elapsed_time = 0.0f;
+      emergency = false;
+      hasChanged = false;
+    }
     /**
      * This is called by task manager every time the number of microseconds returned expires, if you trigger the
      * event it will run the exec(), if you complete the event, it will be removed from task manager.
@@ -77,7 +81,11 @@ public:
     void exec() override {
         hasChanged = false;
         // Here we need to output to the display.
-   }
+        lcd.setCursor(0, 1);
+        lcd.print(elapsed_time);
+        lcd.setCursor(0, 2);
+        lcd.print(emergency ? "emergency!!" : "           ");
+    }
 
     /**
      * This sets the latest temperature and heater status, but only marks the event changed,
@@ -86,9 +94,8 @@ public:
      * @param temp the new temperature
      * @param on if the heater is on
      */
-    void setLatestStatus(int temp, bool on) {
-        //heaterTemperature = temp;
-        //heaterIsOn = on;
+    void setLatestStatus(float value) {
+        elapsed_time = value;
         hasChanged = true;// we are happy to wait out the 500 millis
     }
     /**
@@ -108,14 +115,16 @@ void setup() {
   // most backpacks have the backlight on pin 3.
   //lcd.configureBacklightPin(3);
   //lcd.backlight();
-  
+  Serial.begin(115200);
+  Serial.println("Task Manager on I2C");
   // for i2c variants, this must be called first.
   Wire.begin();
 
   // set up the LCD's number of columns and rows, must be called.
   lcd.begin(20, 4);
+  lcd.setCursor(0,0);
   // Print a message to the LCD.
-  lcd.print("hello over i2c!");
+  lcd.print("Task manager on I2C!");
 
   //
   // when using this version of liquid crystal, it interacts (fairly) nicely with task manager. 
@@ -124,14 +133,28 @@ void setup() {
   //
   // You don't have to use the library with task manager like this, it's an option.
   //
-  taskManager.scheduleFixedRate(250, [] {
+  
+  taskManager.scheduleFixedRate(500, [] {
     // set the cursor to column 0, line 1
     // (note: line 1 is the second row, since counting begins with 0):
-    lcd.setCursor(0, 1);
+    //lcd.setCursor(0, 1);
     // print the number of seconds since reset:
     float secondsFraction =  millis() / 1000.0F;
-    lcd.print(secondsFraction);
+    drawingEvent.setLatestStatus(secondsFraction);
+    Serial.println(secondsFraction);
   });
+
+    // here we create a couple of tasks that represent triggering and clearing an emergency.
+    taskManager.scheduleOnce(10, [] {
+        drawingEvent.triggerEmergency(true);
+    }, TIME_SECONDS);
+
+    taskManager.scheduleOnce(30, [] {
+        drawingEvent.triggerEmergency(false);
+    }, TIME_SECONDS);
+
+    taskManager.registerEvent(&drawingEvent);
+
 }
 
 void loop() {
