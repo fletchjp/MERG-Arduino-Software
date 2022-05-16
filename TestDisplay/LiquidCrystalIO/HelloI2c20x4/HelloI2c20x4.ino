@@ -1,3 +1,7 @@
+// HelloI2C20x4
+
+// Note that the I2C address is 0x27
+
 /*
   LiquidCrystal Library - Hello World
 
@@ -36,21 +40,21 @@ modified by Dave Cherry in 2018 to demo I2C backpack support.
 // use a custom configuration as you see in many other examples.
 
 // If your backpack is wired RS,RW,EN then use this version
-LiquidCrystalI2C_RS_EN(lcd, 0x20, false)
+LiquidCrystalI2C_RS_EN(lcd, 0x27, false)
 
 // If your backpack is wired EN,RW,RS then use this version instead of the above.
 //LiquidCrystalI2C_EN_RS(lcd, 0x20, false)
 
 void setup() {
   // most backpacks have the backlight on pin 3.
-  lcd.configureBacklightPin(3);
-  lcd.backlight();
+  //lcd.configureBacklightPin(3);
+  //lcd.backlight();
   
   // for i2c variants, this must be called first.
   Wire.begin();
 
   // set up the LCD's number of columns and rows, must be called.
-  lcd.begin(16, 2);
+  lcd.begin(20, 4);
   // Print a message to the LCD.
   lcd.print("hello over i2c!");
 
