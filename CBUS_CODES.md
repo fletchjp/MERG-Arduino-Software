@@ -268,6 +268,6 @@ This is adapted to process a keypad.
 
 This is the new code to support a 20 by 4 LCD.
 
-I would like to do this using LiquidChrsytalIO which I have so far used only for 1602 displays.
+I would like to do this using LiquidCrystalIO which I have so far used only for 1602 displays.
 
 For previous work with a 20 by 4 LCD I have used a different library.
