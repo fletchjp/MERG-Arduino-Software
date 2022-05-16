@@ -258,7 +258,7 @@ Solves some problems with compilation.
 
 #### CANTOTEMPINY
 
-This is for experiments on some failures.
+This is for experiments on some failures. It also has some enums as classes.
 
 #### CANTOTEMPINZ
 
