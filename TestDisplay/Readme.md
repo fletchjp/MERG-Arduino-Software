@@ -2,7 +2,7 @@
 
  ## Test Display
  
- This is a collection of test programs for Arduino display options.
+ This is a collection of test programs for Arduino display options. The supplied programs are for a 16 by 2 display.
  
  ### LiquidCrystalIO
  
@@ -13,6 +13,8 @@
  Counter23017 shows how to use the task manager to schedule updating of the screen.
  
  The code is integrated with the IOAbstraction and TaskmanagerIO libraries.
+ 
+ I am extending the examples to include a 20 by 4 display, starting with HelloI2C20x4 to sort out the basics.
 
 
  
