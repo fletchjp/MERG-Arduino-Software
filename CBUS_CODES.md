@@ -252,3 +252,14 @@ I have now fixed the small board with the buttons to the sideframe connected to 
 
 I have now fitted a 4 by 20 LCD display to the side frame which I am going to connect up.
 
+#### CANTOTEMPINX
+
+Solves some problems with compilation.
+
+#### CANTOTEMPINY
+
+This is for experiments on some failures.
+
+#### CANTOTEMPINZ
+
+This is adapted to process a keypad.
