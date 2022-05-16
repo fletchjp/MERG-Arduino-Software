@@ -16,6 +16,9 @@
  
  I am extending the examples to include a 20 by 4 display, starting with HelloI2C20x4 to sort out the basics.
 
- TaskMgrI2C20x4 is new code to implement task management in the style of TaskMgrIntegration with a different problem.
+ #### TaskMgrI2C20x4
  
+ This is new code to implement task management in the style of TaskMgrIntegration with a different problem.
  
+ It demonstrates updating regularly plus one off events. All updating is done in one task.
+  
