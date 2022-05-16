@@ -1,5 +1,5 @@
 // HelloI2C20x4
-
+// Adapted for a 20x4 LCD
 // Note that the I2C address is 0x27
 
 /*
