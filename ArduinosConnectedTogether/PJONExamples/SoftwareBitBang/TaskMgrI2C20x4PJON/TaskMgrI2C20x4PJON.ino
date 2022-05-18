@@ -91,7 +91,7 @@ public:
         lcd.setCursor(0, 1);
         lcd.print(elapsed_time);
         lcd.setCursor(0, 2);
-        lcd.print(emergency ? "emergency!!" : "           ");
+        lcd.print(emergency ? "emergency!!   " : "              ");
     }
 
     /**
@@ -143,7 +143,7 @@ void setup() {
   //lcd.configureBacklightPin(3);
   //lcd.backlight();
   Serial.begin(115200);
-  Serial.println("Task Manager on I2C");
+  Serial.println("Task Manager Display on I2C with PJON input");
   // for i2c variants, this must be called first.
   Wire.begin();
 
@@ -161,7 +161,7 @@ void setup() {
   // You don't have to use the library with task manager like this, it's an option.
   //
   
-  taskManager.scheduleFixedRate(500, [] {
+  taskManager.scheduleFixedRate(1000, [] {
     // set the cursor to column 0, line 1
     // (note: line 1 is the second row, since counting begins with 0):
     //lcd.setCursor(0, 1);
@@ -169,8 +169,9 @@ void setup() {
     float secondsFraction =  millis() / 1000.0F;
     drawingEvent.setLatestStatus(secondsFraction);
     Serial.println(secondsFraction);
-    unsigned int response = 0;
-    response = bus.receive();
+    //unsigned int response_ = 0;
+    //response_ = bus.receive();
+    //Serial.println(response_);
   });
 
     // here we create a couple of tasks that represent triggering and clearing an emergency.
@@ -188,4 +189,8 @@ void setup() {
 
 void loop() {
     taskManager.runLoop();
+    long time_ = millis();
+    unsigned int response_ = 0;
+    while(millis() - time_ < 1000) response_ = bus.receive();
+
 }
