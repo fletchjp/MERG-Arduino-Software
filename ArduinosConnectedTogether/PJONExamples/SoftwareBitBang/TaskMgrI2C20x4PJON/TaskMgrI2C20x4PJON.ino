@@ -135,7 +135,7 @@ void receiver_function(uint8_t *payload, uint16_t length, const PJON_Packet_Info
 };
 
 void setup() {
-  bus.strategy.set_pin(12);
+  bus.strategy.set_pin(4); // 12 on this hardware is in use for SPI/CAN
   bus.begin();
   bus.set_receiver(receiver_function);
   bus.set_custom_pointer(&myObject); // Pointer to custom class instance
