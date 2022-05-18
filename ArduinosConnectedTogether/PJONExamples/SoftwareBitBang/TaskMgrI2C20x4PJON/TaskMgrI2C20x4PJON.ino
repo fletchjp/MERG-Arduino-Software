@@ -2,6 +2,8 @@
 // New code combining HelloI2C20x4 with ideas from TaskMgrIntegration 
 // with a different problem.
 // Adding transfer to the display using PJON
+// based on the example ClassMemberCallback/Receiver
+// This provides a way to pass the data to user class.
 
 // HelloI2C20x4
 // Adapted for a 20x4 LCD
@@ -39,6 +41,10 @@ modified by Dave Cherry in 2018 to demo I2C backpack support.
 // users that are not using I2C.
 #include <IoAbstractionWire.h>
 #include <Wire.h>
+
+#include <PJONSoftwareBitBang.h>
+
+PJONSoftwareBitBang bus(44);
 
 // For most standard I2C backpacks one of the two helper functions below will create you a liquid crystal instance
 // that's ready configured for I2C. Important Note: this method assumes a PCF8574 running at 100Khz. If otherwise
@@ -112,7 +118,27 @@ public:
 // create an instance of the above class
 DrawingEvent drawingEvent;
 
+// Custom class
+class MyClass {
+  public:
+    void doit() {
+      Serial.println("Custom instance member function called correctly!");
+    };
+};
+
+
+MyClass myObject; // Custom class instance
+
+void receiver_function(uint8_t *payload, uint16_t length, const PJON_Packet_Info &packet_info) {
+  if(packet_info.custom_pointer)
+    ((MyClass*)packet_info.custom_pointer)->doit();
+};
+
 void setup() {
+  bus.strategy.set_pin(12);
+  bus.begin();
+  bus.set_receiver(receiver_function);
+  bus.set_custom_pointer(&myObject); // Pointer to custom class instance
   // most backpacks have the backlight on pin 3.
   //lcd.configureBacklightPin(3);
   //lcd.backlight();
@@ -143,6 +169,8 @@ void setup() {
     float secondsFraction =  millis() / 1000.0F;
     drawingEvent.setLatestStatus(secondsFraction);
     Serial.println(secondsFraction);
+    unsigned int response = 0;
+    response = bus.receive();
   });
 
     // here we create a couple of tasks that represent triggering and clearing an emergency.
