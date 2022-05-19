@@ -64,3 +64,5 @@ There are several cases like this and it seems to be the MiniLab which is the pr
 
 I am investigating whether there is some configuration which will sort out the problem.
 
+It is possible that the problem is other hardware present e.g. for CAN.
+
