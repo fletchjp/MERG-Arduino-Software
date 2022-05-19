@@ -62,3 +62,5 @@ It will not work with the MiniLab as the receiver.
 
 There are several cases like this and it seems to be the MiniLab which is the problem.
 
+I am investigating whether there is some configuration which will sort out the problem.
+
