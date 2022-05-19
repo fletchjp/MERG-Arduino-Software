@@ -25,6 +25,7 @@ void setup() {
   bus.begin();
   bus.set_error(error_handler);
   Serial.begin(115200);
+  Serial.println("Transmitter for Class Member Callback");
 
   packet = bus.send(44, content, 20);
 };
