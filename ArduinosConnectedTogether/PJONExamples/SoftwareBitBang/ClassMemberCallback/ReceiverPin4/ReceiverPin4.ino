@@ -1,3 +1,6 @@
+// ReceiverPin4
+// This works with an ELEGOO UNO as receiver but not on the MiniLab.
+
 
 // Uncomment to use the mode you prefer (default SWBB_MODE 1)
 // #define SWBB_MODE 1 // 1.95kB/s - 15625Bd
