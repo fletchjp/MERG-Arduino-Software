@@ -60,3 +60,5 @@ This example is now working between two Elegoo UNOs.
 
 It will not work with the MiniLab as the receiver.
 
+There are several cases like this and it seems to be the MiniLab which is the problem.
+
