@@ -4,6 +4,8 @@
 // Adding transfer to the display using PJON
 // based on the example ClassMemberCallback/Receiver
 // This provides a way to pass the data to user class.
+// At the moment I cannot get the callback to work with the MiniLab.
+// I may have to try a different strategy.
 
 // HelloI2C20x4
 // Adapted for a 20x4 LCD
