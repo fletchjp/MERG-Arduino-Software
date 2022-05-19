@@ -53,3 +53,8 @@ I am extending the examples.
 ## BlinkWithResponse
 
 Example with response using Bitbang.
+
+## ClassMemberCallback
+
+This example is now working.
+
