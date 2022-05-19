@@ -48,6 +48,8 @@ Not yet tried out.
 
 An alternative connection to ThroughSerial using only one wire.
 
+I am extending the examples.
+
 ## BlinkWithResponse
 
 Example with response using Bitbang.
