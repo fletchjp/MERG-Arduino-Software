@@ -56,5 +56,7 @@ Example with response using Bitbang.
 
 ## ClassMemberCallback
 
-This example is now working.
+This example is now working between two Elegoo UNOs.
+
+It will not work with the MiniLab as the receiver.
 
