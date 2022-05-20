@@ -30,3 +30,12 @@ This example is not working properly on the Totem Minilab. This is being investi
 
 This gives good data between two adjacent Arduino UNOs.
 
+---------------------
+Packet Overhead: 10B - Total: 570B
+Bandwidth: 1710B/s
+Data throughput: 1140B/s
+Packets sent: 57
+Fail (no acknowledge from receiver): 0
+Busy (Channel is busy or affected by interference): 0
+Delivery success rate: 100.00 %
+---------------------
