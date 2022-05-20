@@ -31,6 +31,7 @@ This example is not working properly on the Totem Minilab. This is being investi
 This gives good data between two adjacent Arduino UNOs.
 
 ---------------------
+SWBB_MODE 1
 Packet Overhead: 10B - Total: 570B
 Bandwidth: 1710B/s
 Data throughput: 1140B/s
@@ -39,3 +40,40 @@ Fail (no acknowledge from receiver): 0
 Busy (Channel is busy or affected by interference): 0
 Delivery success rate: 100.00 %
 ---------------------
+
+---------------------
+SWBB_MODE 2
+Packet Overhead: 10B - Total: 640B
+Bandwidth: 1920B/s
+Data throughput: 1280B/s
+Packets sent: 64
+Fail (no acknowledge from receiver): 0
+Busy (Channel is busy or affected by interference): 0
+Delivery success rate: 100.00 %
+---------------------
+
+---------------------
+SWBB_MODE 3
+Packet Overhead: 10B - Total: 870B
+Bandwidth: 2610B/s
+Data throughput: 1740B/s
+Packets sent: 87
+Fail (no acknowledge from receiver): 1
+Busy (Channel is busy or affected by interference): 0
+Delivery success rate: 98.85 %
+---------------------
+
+Fail varies between 0 and 2.
+
+---------------------
+SWBB_MODE 4
+Packet Overhead: 10B - Total: 870B
+Bandwidth: 2610B/s
+Data throughput: 1740B/s
+Packets sent: 87
+Fail (no acknowledge from receiver): 7
+Busy (Channel is busy or affected by interference): 0
+Delivery success rate: 91.95 %
+---------------------
+
+Fail varies between 3 and 9.
