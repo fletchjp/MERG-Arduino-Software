@@ -25,3 +25,8 @@ It is possible that the problem is other hardware present e.g. for CAN.
 ## TaskMgrI2C20x4PJON
 
 This example is not working properly on the Totem Minilab. This is being investigated with simpler cases.
+
+## Network Analysis
+
+This gives good data between two adjacent Arduino UNOs.
+
