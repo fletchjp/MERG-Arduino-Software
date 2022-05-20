@@ -30,6 +30,8 @@ This example is not working properly on the Totem Minilab. This is being investi
 
 This gives good data between two adjacent Arduino UNOs.
 
+Here is data for the four modes. 1 and 2 seem O.K. 3 and 4 show deterioration.
+
 ---------------------
 SWBB_MODE 1
 Packet Overhead: 10B - Total: 570B
