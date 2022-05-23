@@ -28,6 +28,8 @@ This example is not working properly on the Totem Minilab. This is being investi
 
 ## Network Analysis
 
+### Two Arduinos
+
 This gives good data between two adjacent Arduino UNOs.
 
 Here is data for the four modes. 1 and 2 seem O.K. 3 and 4 show deterioration.
@@ -79,3 +81,21 @@ Delivery success rate: 91.95 %
 ---------------------
 
 Fail varies between 3 and 9.
+
+### Arduino and Nano with Keypad and Encoder
+
+---------------------
+SWBB_MODE 1
+Packet Overhead: 10B - Total: 570B
+Bandwidth: 1710B/s
+Data throughput: 1140B/s
+Packets sent: 57
+Fail (no acknowledge from receiver): 0
+Busy (Channel is busy or affected by interference): 1
+Delivery success rate: 100.00 %
+---------------------
+
+### Arduino and Minilab
+
+No contact at all - channel is always busy.
+
