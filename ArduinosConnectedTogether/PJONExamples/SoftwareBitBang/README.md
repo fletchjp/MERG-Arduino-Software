@@ -99,3 +99,9 @@ Delivery success rate: 100.00 %
 
 No contact at all - channel is always busy.
 
+The Minilab is different hardware and also has an SPI connection to an MCP2515.
+
+I need to do some different tests to find out what is going on.
+
+
+
