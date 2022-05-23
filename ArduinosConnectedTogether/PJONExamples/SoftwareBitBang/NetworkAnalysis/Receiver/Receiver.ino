@@ -11,7 +11,7 @@
 PJONSoftwareBitBang bus(44);
 
 void setup() {
-  bus.strategy.set_pin(12);
+  bus.strategy.set_pin(4);
   bus.begin();
 };
 
