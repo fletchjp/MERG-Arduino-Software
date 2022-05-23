@@ -271,3 +271,9 @@ This is the new code to support a 20 by 4 LCD.
 I would like to do this using LiquidCrystalIO which I have so far used only for 1602 displays.
 
 For previous work with a 20 by 4 LCD I have used a different library.
+
+I have now installed the code from TaskMgrI2C20x4.
+
+This runs with long messages disabled and is very tight on memory.
+
+I wonder if I could move some work to a separate unit?
