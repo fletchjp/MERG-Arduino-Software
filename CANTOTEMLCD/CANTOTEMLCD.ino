@@ -203,7 +203,67 @@ IoAbstractionRef dfRobotKeys = inputFromMyShield();
 int button = 0;
 int prevbutton = 0;
 
+#ifdef LCD20X4
+/**
+ * Here we create an event that handles all the drawing for an application, in this case printing out readings
+ * of a sensor when changed. It uses polling and immediate triggering to show both examples
+ */
+class DrawingEvent : public BaseEvent {
+private:
+    float elapsed_time;
+    volatile bool emergency; // if an event comes from an external interrupt the variable must be volatile.
+    bool hasChanged;
+public:
+    DrawingEvent() {
+      elapsed_time = 0.0f;
+      emergency = false;
+      hasChanged = false;
+    }
+    /**
+     * This is called by task manager every time the number of microseconds returned expires, if you trigger the
+     * event it will run the exec(), if you complete the event, it will be removed from task manager.
+     * @return the number of micros before calling again.
+     */
+    uint32_t timeOfNextCheck() override {
+        setTriggered(hasChanged);
+        return millisToMicros(500); // no point refreshing more often on an LCD, as its unreadable
+    }
+    /**
+     * This is called when the event is triggered, it prints all the data onto the screen.
+     */
+    void exec() override {
+        hasChanged = false;
+        // Here we need to output to the display.
+        lcd.setCursor(0, 1);
+        lcd.print(elapsed_time);
+        lcd.setCursor(0, 2);
+        lcd.print(emergency ? "emergency!!" : "           ");
+    }
+    /**
+     * This sets the latest temperature and heater status, but only marks the event changed,
+     * so it will need to poll in order to trigger.
+     * This prevents excessive screen updates.
+     * @param temp the new temperature
+     * @param on if the heater is on
+     */
+    void setLatestStatus(float value) {
+        elapsed_time = value;
+        hasChanged = true;// we are happy to wait out the 500 millis
+    }
+    /**
+     * Triggers an emergency that requires immediate update of the screen
+     * @param isEmergency if there is an urgent notification
+     */
+    void triggerEmergency(bool isEmergency) {
+        emergency = isEmergency;
+        markTriggeredAndNotify(); // get on screen asap.
+    }
+};
 
+// create an instance of the above class
+DrawingEvent drawingEvent;
+
+#endif
 
 ////////////DEFINE MODULE/////////////////////////////////////////////////
 
@@ -441,6 +501,20 @@ void setup()
   setupModule();
   setupSwitches();
 
+#ifdef LCD20X4
+  taskManager.scheduleFixedRate(500, [] {
+    // set the cursor to column 0, line 1
+    // (note: line 1 is the second row, since counting begins with 0):
+    //lcd.setCursor(0, 1);
+    // print the number of seconds since reset:
+    float secondsFraction =  millis() / 1000.0F;
+    drawingEvent.setLatestStatus(secondsFraction);
+    Serial.println(secondsFraction);
+  });
+
+  taskManager.registerEvent(&drawingEvent);
+
+#endif
   // Schedule tasks to run every 250 milliseconds.
   taskManager.scheduleFixedRate(250, runLEDs);
   taskManager.scheduleFixedRate(250, processSwitches);
