@@ -16,3 +16,5 @@
  
  The library code is at https://github.com/davetcc/LiquidCrystalIO on Github.
  
+ TaskMgrI2C20x4 shows how to build in tasks.
+ 
