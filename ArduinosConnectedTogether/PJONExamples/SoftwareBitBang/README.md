@@ -97,9 +97,13 @@ Delivery success rate: 100.00 %
 
 ### Arduino and Minilab
 
-No contact at all - channel is always busy.
+No contact at all - channel is always busy. I had the wrong pin set. 
+
+At the moment I cannot get a new version of the code to load. It does help to get the settings right.
 
 The Minilab is different hardware and also has an SPI connection to an MCP2515.
+
+I tried again with the correct pin setting in software with the same result.
 
 I need to do some different tests to find out what is going on.
 
