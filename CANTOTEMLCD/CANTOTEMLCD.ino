@@ -133,6 +133,8 @@
 
 #define DEBUG 0     // set to 0 for no serial debug
 
+#define LCD20X4
+
 #if DEBUG
 #define DEBUG_PRINT(S) Serial << S << endl
 #else
@@ -144,7 +146,24 @@
 #include <DfRobotInputAbstraction.h>
 #include <TaskManagerIO.h>
 #include <DeviceEvents.h>
+#ifdef LCD20X4
+#include <LiquidCrystalIO.h>
 
+// When using the I2C version, these two extra includes are always needed. Doing this reduces the memory slightly for
+// users that are not using I2C.
+#include <IoAbstractionWire.h>
+#include <Wire.h>
+// For most standard I2C backpacks one of the two helper functions below will create you a liquid crystal instance
+// that's ready configured for I2C. Important Note: this method assumes a PCF8574 running at 100Khz. If otherwise
+// use a custom configuration as you see in many other examples.
+
+// If your backpack is wired RS,RW,EN then use this version
+LiquidCrystalI2C_RS_EN(lcd, 0x27, false)
+
+// If your backpack is wired EN,RW,RS then use this version instead of the above.
+//LiquidCrystalI2C_EN_RS(lcd, 0x20, false)
+
+#endif
 // This uses the default settings for analog ranges.
 //IoAbstractionRef dfRobotKeys = inputFromDfRobotShield();
 
@@ -167,7 +186,8 @@
 // Maybe that is why they are called headers.
 // The only exception would be defines affecting choices in a header.
 ////////////////////////////////////////////////////////////////////////////////////////
-#define CBUS_LONG_MESSAGE
+// This is taken out for now
+//#define CBUS_LONG_MESSAGE
 
 IoAbstractionRef dfRobotKeys = inputFromMyShield();
 
@@ -404,8 +424,19 @@ void setupModule()
 void setup()
 {
   Serial.begin (115200);
-  Serial << endl << endl << F("> ** CANTOTEM ** ") << __FILE__ << endl;
+  Serial << endl << endl << F("> ** CANTOTEMLCD ** ") << __FILE__ << endl;
 
+#ifdef LCD20X4
+  // for i2c variants, this must be called first.
+  Wire.begin();
+
+  // set up the LCD's number of columns and rows, must be called.
+  lcd.begin(20, 4);
+  lcd.setCursor(0,0);
+  // Print a message to the LCD.
+  lcd.print("CANTOTEMLCD");
+
+#endif
   setupCBUS();
   setupModule();
   setupSwitches();
