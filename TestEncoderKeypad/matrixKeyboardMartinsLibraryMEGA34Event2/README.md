@@ -1,6 +1,6 @@
 @mainpage Keypad Example for MEGA with 3 by 4 Keypad and 2 of Martin's encoder library with Event code
 
-## matrixKeyboardMartinsEncoderMEGA34Event2
+## matrixKeyboardMartinsLibraryMEGA34Event2
 
 An Arduino sketch which uses a IoAbstraction libraries to control a keypad adding Martin's encoder library.
 
