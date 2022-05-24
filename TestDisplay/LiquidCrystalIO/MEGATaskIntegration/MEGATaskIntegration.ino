@@ -61,11 +61,15 @@ private:
     float elapsed_time;
     volatile bool emergency; // if an event comes from an external interrupt the variable must be volatile.
     bool hasChanged;
+    char key_value;
+    int pos1, pos2;
 public:
     DrawingEvent() {
       elapsed_time = 0.0f;
       emergency = false;
       hasChanged = false;
+      key_value = ' ';
+      pos1 = pos2 = 0;
     }
 
     /**
@@ -84,10 +88,20 @@ public:
     void exec() override {
         hasChanged = false;
         // Here we need to output to the display.
-        lcd.setCursor(0, 1);
+        lcd.setCursor(12, 1);
         lcd.print(elapsed_time);
-        lcd.setCursor(0, 2);
-        lcd.print(emergency ? "emergency!!" : "           ");
+        lcd.setCursor(7, 2);
+        lcd.print(key_value);
+        lcd.setCursor(5, 3);
+        lcd.print("     ");
+        lcd.setCursor(5, 3);
+        lcd.print(pos1);
+        lcd.setCursor(15, 3);
+        lcd.print("     ");
+        lcd.setCursor(15, 3);
+        lcd.print(pos2);
+        //lcd.setCursor(0, 2);
+        //lcd.print(emergency ? "emergency!!" : "           ");
     }
 
     /**
@@ -101,6 +115,15 @@ public:
         elapsed_time = value;
         hasChanged = true;// we are happy to wait out the 500 millis
     }
+    void setLatestKey(char key) {
+        key_value = key;
+        hasChanged = true;// we are happy to wait out the 500 millis
+    }    
+    void setLatestPos(char enc,int pos) {
+        if (enc == '1') { pos1 = pos; }
+        else { pos2 = pos; }
+        hasChanged = true;// we are happy to wait out the 500 millis
+    }    
     /**
      * Triggers an emergency that requires immediate update of the screen
      * @param isEmergency if there is an urgent notification
@@ -192,6 +215,7 @@ public:
            Serial.print(encoderName);
            Serial.print(" ");
            Serial.println(RotaryPosition);
+           drawingEvent.setLatestPos(encoderName,RotaryPosition);    
            // here we turn the led on and off as the encoder moves.
            ioDeviceDigitalWriteS(arduinoIo, ledOutputPin, RotaryPosition % 2);
          }
@@ -220,6 +244,7 @@ void onSpinwheelClicked1(pinid_t pin, bool heldDown) { //, MyEncoder &encoder, E
         encoder1.setPosition(encoderEvent1.RotaryPosition);
         Serial.print("X ");
         Serial.println(encoderEvent1.RotaryPosition);
+        drawingEvent.setLatestPos('1',encoderEvent1.RotaryPosition);    
         encoderEvent1.PrevPosition = encoderEvent1.RotaryPosition;
       }
 }
@@ -234,6 +259,7 @@ void onSpinwheelClicked2(pinid_t pin, bool heldDown) { //, MyEncoder &encoder, E
         encoder2.setPosition(encoderEvent2.RotaryPosition);
         Serial.print("Y ");
         Serial.println(encoderEvent2.RotaryPosition);
+        drawingEvent.setLatestPos('2',encoderEvent2.RotaryPosition);    
         encoderEvent2.PrevPosition = encoderEvent2.RotaryPosition;
       }
 }
@@ -283,6 +309,7 @@ void tell_the_state(char key_val, KeyState key_state = KeyState::IDLE) {
     Serial.print(key_val);
     if (key_state == KeyState::PRESSED) { 
       Serial.println(F(" pressed"));
+      drawingEvent.setLatestKey(key_val);    
     } else if (key_state == KeyState::HOLD) { 
       Serial.println(F(" held"));
       //old_key = key_val;
@@ -326,7 +353,16 @@ void setup() {
   lcd.begin(20, 4);
   lcd.setCursor(0,0);
   // Print a message to the LCD.
-  lcd.print("MEGA Task Integration!");
+  lcd.print("Task Integration!");
+  lcd.setCursor(0,1);
+  lcd.print("Time (secs) ");
+  lcd.setCursor(0,2);
+  lcd.print("Keypad");
+  lcd.setCursor(0,3);
+  lcd.print("Enc1");
+  lcd.setCursor(10,3);
+  lcd.print("Enc2");
+  
 
   setupPCI();
   encoder1.setLimits(0,maximumEncoderValue);
@@ -363,10 +399,22 @@ void setup() {
     /// start repeating at 850 millis then repeat every 350ms
     keyboard.setRepeatKeyMillis(850, 350);
 
+  taskManager.scheduleFixedRate(1000, [] {
+    // set the cursor to column 0, line 1
+    // (note: line 1 is the second row, since counting begins with 0):
+    //lcd.setCursor(0, 1);
+    // print the number of seconds since reset:
+    float secondsFraction =  millis() / 1000.0F;
+    drawingEvent.setLatestStatus(secondsFraction);
+    Serial.println(secondsFraction);
+  });
+
     taskManager.registerEvent(&encoderEvent1);
     taskManager.registerEvent(&encoderEvent2);
 
-    Serial.println("Keyboard, 2 encoders and encoderEvents are initialised!");
+    taskManager.registerEvent(&drawingEvent);
+
+    Serial.println("Display, keyboard, 2 encoders and encoderEvents are initialised!");
 }
 
 /// @brief ISR routine now calls the encoder and also the encoderEvent as well.
