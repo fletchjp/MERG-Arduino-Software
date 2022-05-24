@@ -35,6 +35,85 @@
 #include <TaskManagerIO.h>
 #include <KeyboardManager.h>
 
+#include <LiquidCrystalIO.h>
+
+// When using the I2C version, these two extra includes are always needed. Doing this reduces the memory slightly for
+// users that are not using I2C.
+#include <IoAbstractionWire.h>
+#include <Wire.h>
+
+// For most standard I2C backpacks one of the two helper functions below will create you a liquid crystal instance
+// that's ready configured for I2C. Important Note: this method assumes a PCF8574 running at 100Khz. If otherwise
+// use a custom configuration as you see in many other examples.
+
+// If your backpack is wired RS,RW,EN then use this version
+LiquidCrystalI2C_RS_EN(lcd, 0x27, false)
+
+// If your backpack is wired EN,RW,RS then use this version instead of the above.
+//LiquidCrystalI2C_EN_RS(lcd, 0x20, false)
+
+/**
+ * Here we create an event that handles all the drawing for an application, in this case printing out readings
+ * of a sensor when changed. It uses polling and immediate triggering to show both examples
+ */
+class DrawingEvent : public BaseEvent {
+private:
+    float elapsed_time;
+    volatile bool emergency; // if an event comes from an external interrupt the variable must be volatile.
+    bool hasChanged;
+public:
+    DrawingEvent() {
+      elapsed_time = 0.0f;
+      emergency = false;
+      hasChanged = false;
+    }
+
+    /**
+     * This is called by task manager every time the number of microseconds returned expires, if you trigger the
+     * event it will run the exec(), if you complete the event, it will be removed from task manager.
+     * @return the number of micros before calling again.
+     */
+    uint32_t timeOfNextCheck() override {
+        setTriggered(hasChanged);
+        return millisToMicros(500); // no point refreshing more often on an LCD, as its unreadable
+    }
+
+   /**
+     * This is called when the event is triggered, it prints all the data onto the screen.
+     */
+    void exec() override {
+        hasChanged = false;
+        // Here we need to output to the display.
+        lcd.setCursor(0, 1);
+        lcd.print(elapsed_time);
+        lcd.setCursor(0, 2);
+        lcd.print(emergency ? "emergency!!" : "           ");
+    }
+
+    /**
+     * This sets the latest temperature and heater status, but only marks the event changed,
+     * so it will need to poll in order to trigger.
+     * This prevents excessive screen updates.
+     * @param temp the new temperature
+     * @param on if the heater is on
+     */
+    void setLatestStatus(float value) {
+        elapsed_time = value;
+        hasChanged = true;// we are happy to wait out the 500 millis
+    }
+    /**
+     * Triggers an emergency that requires immediate update of the screen
+     * @param isEmergency if there is an urgent notification
+     */
+    void triggerEmergency(bool isEmergency) {
+        emergency = isEmergency;
+        markTriggeredAndNotify(); // get on screen asap.
+    }
+};
+
+// create an instance of the above class
+DrawingEvent drawingEvent;
+
 /// @brief Declaration of Arduino abstraction for Input/Output.
 /// This works for pins connected directly to an Arduino
 IoAbstractionRef arduinoIo = ioUsingArduino();
