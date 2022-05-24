@@ -10,13 +10,23 @@
  
  I am looking for examples which illustrates this point.
  
- TaskMgrIntegration is one which shows how to build the screen updating into a task.
+ ## TaskMgrIntegration 
  
- Counter23017 shows how to use the task manager to schedule updating of the screen.
+ This is one which shows how to build the screen updating into a task.
+ 
+ ## Counter23017 
+ 
+ This shows how to use the task manager to schedule updating of the screen.
  
  The library code is at https://github.com/davetcc/LiquidCrystalIO on Github.
  
- TaskMgrI2C20x4 shows how to build in tasks.
+ ## TaskMgrI2C20x4 
  
- MEGATaskIntegration will add the display to code on a MEGA which has a keypad and two encoders as well.
+ This shows how to build in tasks.
+ 
+ ## MEGATaskIntegration 
+ 
+ This will add the display to code on a MEGA which has a keypad and two encoders as well.
+ 
+ This is now mounted in the red Totem frame.
  
