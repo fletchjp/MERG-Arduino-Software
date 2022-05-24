@@ -28,5 +28,7 @@
  
  This will add the display to code on a MEGA which has a keypad and two encoders as well.
  
+ I have fitted it with a DFRobot DFR0265 shield which provides more ground and 5v pins.
+ 
  This is now mounted in the red Totem frame.
  
