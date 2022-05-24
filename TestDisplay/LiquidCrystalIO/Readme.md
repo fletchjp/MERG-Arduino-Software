@@ -32,3 +32,5 @@
  
  This is now mounted in the red Totem frame with the display mounted as well.
  
+ Display now tested.
+ 
