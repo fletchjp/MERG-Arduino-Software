@@ -30,5 +30,5 @@
  
  I have fitted it with a DFRobot DFR0265 shield which provides more ground and 5v pins.
  
- This is now mounted in the red Totem frame.
+ This is now mounted in the red Totem frame with the display mounted as well.
  
