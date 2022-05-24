@@ -320,6 +320,13 @@ void setup() {
 /// setup 
     while(!Serial);
     Serial.begin(115200);
+  // for i2c variants, this must be called first.
+  Wire.begin();
+  // set up the LCD's number of columns and rows, must be called.
+  lcd.begin(20, 4);
+  lcd.setCursor(0,0);
+  // Print a message to the LCD.
+  lcd.print("MEGA Task Integration!");
 
   setupPCI();
   encoder1.setLimits(0,maximumEncoderValue);
