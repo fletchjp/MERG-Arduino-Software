@@ -1,6 +1,8 @@
 /// @file MEGATaskIntegration
 /// @brief extend to have a 20 by display as well
-
+///
+/// This now uses the display to show the time elapsed and the keypad and encoder values.
+///
 /// derived from matrixKeyboardMartinsLibraryMEGA34Event2.ino
 /// Example of matrix keyboard support for MEGA 3 by 4 Keypad built into IoAbstraction adding 2 of Martin's encoders via an event
 ///
