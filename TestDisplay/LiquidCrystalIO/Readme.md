@@ -18,3 +18,5 @@
  
  TaskMgrI2C20x4 shows how to build in tasks.
  
+ MEGATaskIntegration will add the display to code on a MEGA which has a keypad and two encoders as well.
+ 
