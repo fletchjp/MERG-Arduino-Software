@@ -32,6 +32,14 @@
 /// Digital / Analog pin 9     Encoder 1 B (DT  on encoder)
 /// Digital / Analog pin 11    Encoder 2 B (DT  on encoder)
 
+/// Set up for PJON Software Bit Bang
+#include <PJONSoftwareBitBang.h>
+
+PJONSoftwareBitBang bus(44);
+
+/// Using pin 4 as pin 12 will be needed for SPI later.
+static int BITBANGPIN = 4;
+
 #include <Wire.h>
 #include <IoAbstraction.h>
 #include <TaskManagerIO.h>
@@ -386,6 +394,9 @@ void setup() {
   lcd.begin(20, 4);
   redraw_display();  
 
+  bus.strategy.set_pin(BITBANGPIN);
+  bus.begin();
+
   setupPCI();
   encoder1.setLimits(0,maximumEncoderValue);
   encoder2.setLimits(0,maximumEncoderValue);
@@ -434,6 +445,12 @@ void setup() {
   taskManager.scheduleFixedRate(5000, [] {
     // Put in to replace any corruption.
     drawingEvent.redraw();
+  });
+
+
+  taskManager.scheduleFixedRate(5, [] {
+     // PJON
+     bus.receive(5000);
   });
 
     taskManager.registerEvent(&encoderEvent1);
