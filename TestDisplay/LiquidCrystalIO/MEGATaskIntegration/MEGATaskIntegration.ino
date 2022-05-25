@@ -54,6 +54,8 @@ LiquidCrystalI2C_RS_EN(lcd, 0x27, false)
 // If your backpack is wired EN,RW,RS then use this version instead of the above.
 //LiquidCrystalI2C_EN_RS(lcd, 0x20, false)
 
+void redraw_display();
+
 /**
  * Here we create an event that handles all the drawing for an application, in this case printing out readings
  * of a sensor when changed. It uses polling and immediate triggering to show both examples
@@ -63,15 +65,20 @@ private:
     float elapsed_time;
     volatile bool emergency; // if an event comes from an external interrupt the variable must be volatile.
     bool hasChanged;
+    bool keyChanged;
     char key_value;
+    byte key_pos;
+    byte next_pos;
     int pos1, pos2;
 public:
     DrawingEvent() {
       elapsed_time = 0.0f;
       emergency = false;
       hasChanged = false;
+      keyChanged = false;
       key_value = ' ';
       pos1 = pos2 = 0;
+      key_pos = 0;
     }
 
     /**
@@ -92,8 +99,10 @@ public:
         // Here we need to output to the display.
         lcd.setCursor(12, 1);
         lcd.print(elapsed_time);
-        lcd.setCursor(7, 2);
-        lcd.print(key_value);
+        lcd.setCursor(7+key_pos, 2);
+        if (keyChanged) { lcd.print(key_value); keyChanged = false; }
+        key_pos = next_pos;
+        if (next_pos == 0) lcd.print("         ");
         lcd.setCursor(5, 3);
         lcd.print("     ");
         lcd.setCursor(5, 3);
@@ -116,15 +125,19 @@ public:
     void setLatestStatus(float value) {
         elapsed_time = value;
         hasChanged = true;// we are happy to wait out the 500 millis
+        //keyChanged = false;
     }
     void setLatestKey(char key) {
         key_value = key;
+        if (key_value == '#') next_pos = 0; else next_pos = key_pos + 1;
         hasChanged = true;// we are happy to wait out the 500 millis
+        keyChanged = true;
     }    
     void setLatestPos(char enc,int pos) {
         if (enc == '1') { pos1 = pos; }
         else { pos2 = pos; }
         hasChanged = true;// we are happy to wait out the 500 millis
+        //keyChanged = false;
     }    
     /**
      * Triggers an emergency that requires immediate update of the screen
@@ -133,6 +146,10 @@ public:
     void triggerEmergency(bool isEmergency) {
         emergency = isEmergency;
         markTriggeredAndNotify(); // get on screen asap.
+    }
+    // Call the redraw from time to time.
+    void redraw() {
+        redraw_display();
     }
 };
 
@@ -345,6 +362,20 @@ public:
     }
 } myListener;
 
+void redraw_display() {
+  lcd.setCursor(0,0);
+  // Print a message to the LCD.
+  lcd.print("Task Integration!");
+  lcd.setCursor(0,1);
+  lcd.print("Time (secs) ");
+  lcd.setCursor(0,2);
+  lcd.print("Keypad ");
+  lcd.setCursor(0,3);
+  lcd.print("Enc1 ");
+  lcd.setCursor(10,3);
+  lcd.print("Enc2 ");
+}
+
 void setup() {
 /// setup 
     while(!Serial);
@@ -353,18 +384,7 @@ void setup() {
   Wire.begin();
   // set up the LCD's number of columns and rows, must be called.
   lcd.begin(20, 4);
-  lcd.setCursor(0,0);
-  // Print a message to the LCD.
-  lcd.print("Task Integration!");
-  lcd.setCursor(0,1);
-  lcd.print("Time (secs) ");
-  lcd.setCursor(0,2);
-  lcd.print("Keypad");
-  lcd.setCursor(0,3);
-  lcd.print("Enc1");
-  lcd.setCursor(10,3);
-  lcd.print("Enc2");
-  
+  redraw_display();  
 
   setupPCI();
   encoder1.setLimits(0,maximumEncoderValue);
@@ -409,6 +429,11 @@ void setup() {
     float secondsFraction =  millis() / 1000.0F;
     drawingEvent.setLatestStatus(secondsFraction);
     Serial.println(secondsFraction);
+  });
+
+  taskManager.scheduleFixedRate(5000, [] {
+    // Put in to replace any corruption.
+    drawingEvent.redraw();
   });
 
     taskManager.registerEvent(&encoderEvent1);
