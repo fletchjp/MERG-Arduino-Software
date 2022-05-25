@@ -1,5 +1,7 @@
 /// @file MEGATaskIntegrationPJON
 /// @brief extend to have a 20 by display as well plus PJON test
+/// This does NOT work as PJON cannot get the response it needs from TaskmanagerIO.
+/// The best thing I can think of is to have PJON on a separate processor.
 ///
 /// This now uses the display to show the time elapsed and the keypad and encoder values.
 ///
