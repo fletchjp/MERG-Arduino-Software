@@ -17,3 +17,6 @@ All the other tasks which want to display communicate with the display by callin
 Sometimes the different displays interact and I have scheduled a task to redraw the display every 5 seconds.
 
 I have now sorted out the keypad output so that a sequence of keys is shown until # is pressed which clears the line and resets for a new line.
+
+I have now fitted the unit with an MCP2515 to connect it to CBUS. That will make it a different code.
+
