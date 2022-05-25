@@ -16,3 +16,4 @@ All the other tasks which want to display communicate with the display by callin
 
 Sometimes the different displays interact and I have scheduled a task to redraw the display every 5 seconds.
 
+I have now sorted out the keypad output so that a sequence of keys is shown until # is pressed which clears the line and resets for a new line.
