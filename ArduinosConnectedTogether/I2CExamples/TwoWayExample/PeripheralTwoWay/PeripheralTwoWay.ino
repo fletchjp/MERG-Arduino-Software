@@ -18,12 +18,29 @@
 
 #include <Wire.h>
 
+#define TO_CONTROLLER_SIZE 3
+#define TO_PERIPHERAL_SIZE  4
+
+#define NODE_READ_DELAY 100 // Some delay between I2C node reads
+
+// Change this unique address for each I2C slave node
+#define NODE_ADDRESS 8
+
+byte messageToController[TO_CONTROLLER_SIZE];
+byte messageToPeripheral[TO_PERIPHERAL_SIZE];
+
+void requestEvent();
+void receiveEvent();
+
 void setup()
 {
   Wire.begin(4);                // join i2c bus with address #4
   Wire.onReceive(receiveEvent); // register event
-  Serial.begin(9600);           // start serial for output
+  Wire.onRequest(requestEvent);
+  Serial.begin(115200);           // start serial for output
   Serial.println("Peripheral Receiver active");
+  Serial.print("Peripheral No ");
+  Serial.println(NODE_ADDRESS);
 }
 
 void loop()
@@ -42,4 +59,10 @@ void receiveEvent(int howMany)
   }
   int x = Wire.read();    // receive byte as an integer
   Serial.println(x);         // print the integer
+}
+
+// a controller is calling and requesting something.
+void requestEvent() {
+  // definitely send something back.
+  Wire.write(2);  // one byte as an example.
 }
