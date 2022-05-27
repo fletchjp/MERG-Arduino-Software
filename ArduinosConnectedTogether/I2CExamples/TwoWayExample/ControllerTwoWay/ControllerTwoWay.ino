@@ -24,7 +24,7 @@
 #define START_NODE   8 // The starting I2C address of slave nodes
 #define END_NODE     9 // last node to probe +1
 
-#define NODE_READ_DELAY 100 // Some delay between I2C node reads
+#define NODE_READ_DELAY 1000 // Some delay between I2C node reads
 
 byte messageToController[TO_CONTROLLER_SIZE];
 byte messageToPeripheral[TO_PERIPHERAL_SIZE];
@@ -48,7 +48,10 @@ void loop() {
 
    for (int address = START_NODE; address < END_NODE; address++) {
       sendToPeripheral(address);
+      Serial.print("Sent to ");
+      Serial.println(address);
       readFromPeripheral();
+      Serial.println("Received");
    }
    delay(NODE_READ_DELAY);
 }
