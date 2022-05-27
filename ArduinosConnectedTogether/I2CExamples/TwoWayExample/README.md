@@ -14,6 +14,14 @@ I have put together a first version of this code.
 
 I now have initial ideas working.
 
+I now have the code working to send information in both directions.
+
+### Integration with TaskManagerIO
+
+I would like the controller code to be integrated with TaskManagerIO so that I can use it with other codes.
+
+As usual there is some information on the pages for the libraries without a specific example.
+
 ### Why develop this code?
 
 I would like to use PJON to communicate around the network.
