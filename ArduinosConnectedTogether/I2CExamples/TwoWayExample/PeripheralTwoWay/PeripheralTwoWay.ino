@@ -71,17 +71,20 @@ void loop()
 // this function is registered as an event, see setup()
 void receiveEvent(int howMany)
 {
+  Serial.println("receiveEvent");
   while(1 < Wire.available()) // loop through all but the last
-  {
-    char c = Wire.read(); // receive byte as a character
+  { // Now reading as byte.
+    byte c = Wire.read(); // receive byte as a character
     Serial.print(c);         // print the character
   }
   int x = Wire.read();    // receive byte as an integer
   Serial.println(x);         // print the integer
+  Wire.write(x);
 }
 
 // a controller is calling and requesting something.
 void requestEvent() {
   // definitely send something back.
-  Wire.write(2);  // one byte as an example.
+  Wire.write("hello "); // respond with message of 6 bytes
+  //Wire.write(2);  // one byte as an example.
 }
