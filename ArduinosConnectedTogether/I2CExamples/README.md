@@ -47,3 +47,5 @@ I have example code from /// Adapted using information from this page
 https://www.instructables.com/Aduino-IC-2-Way-Communication/
 
 which may have some problems.
+
+There is now a working example of two way communication.
