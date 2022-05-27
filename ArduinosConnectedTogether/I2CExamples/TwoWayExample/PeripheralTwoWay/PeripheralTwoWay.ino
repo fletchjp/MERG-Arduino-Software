@@ -21,20 +21,21 @@
 #define TO_CONTROLLER_SIZE 3
 #define TO_PERIPHERAL_SIZE  4
 
-#define NODE_READ_DELAY 100 // Some delay between I2C node reads
+#define NODE_READ_DELAY 1000 // Some delay between I2C node reads
 
 // Change this unique address for each I2C slave node
 #define NODE_ADDRESS 8
 
 byte messageToController[TO_CONTROLLER_SIZE];
 byte messageToPeripheral[TO_PERIPHERAL_SIZE];
+byte nodeReceive[TO_PERIPHERAL_SIZE];
 
 void requestEvent();
 void receiveEvent();
 
 void setup()
 {
-  Wire.begin(4);                // join i2c bus with address #4
+  Wire.begin(NODE_ADDRESS);     // join i2c bus with address NODE_ADDRESS
   Wire.onReceive(receiveEvent); // register event
   Wire.onRequest(requestEvent);
   Serial.begin(115200);           // start serial for output
@@ -43,9 +44,27 @@ void setup()
   Serial.println(NODE_ADDRESS);
 }
 
+
+void readFromMaster() {
+  for(int i = 0; i < TO_PERIPHERAL_SIZE; i ++){
+    nodeReceive[i] = Wire.read();
+  }
+  Serial.print("Controller says ");
+  for(int i = 0; i < TO_PERIPHERAL_SIZE; i ++){
+    Serial.print(nodeReceive[i]);  
+  }
+  Serial.println();
+}
+
 void loop()
 {
-  delay(100);
+  delay(NODE_READ_DELAY);
+
+    if(Wire.available()) {
+    readFromMaster();
+    //sendToMaster();
+  }
+
 }
 
 // function that executes whenever data is received from master
