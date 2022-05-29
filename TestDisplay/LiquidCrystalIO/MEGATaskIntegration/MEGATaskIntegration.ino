@@ -68,6 +68,7 @@ private:
     bool hasChanged;
     bool keyChanged;
     bool posChanged;
+    bool do_redraw;
     char key_value;
     byte key_pos;
     byte next_pos;
@@ -79,6 +80,7 @@ public:
       hasChanged = false;
       timeChanged = false;
       keyChanged = false;
+      do_redraw = false;
       key_value = ' ';
       pos1 = pos2 = 0;
       key_pos = 0;
@@ -125,6 +127,10 @@ public:
           lcd.setCursor(15, 3);
           lcd.print(pos2);
         }
+        if (do_redraw) {
+           redraw_display();
+           do_redraw = false;
+        }
         //lcd.setCursor(0, 2);
         //lcd.print(emergency ? "emergency!!" : "           ");
     }
@@ -143,8 +149,24 @@ public:
     }
     void setLatestKey(char key) {
         key_value = key;
-        if (key_value == '#') { next_pos = 0; key_value = ' '; 
-        } else next_pos = key_pos + 1;
+        switch (key_value) {
+          case '#' : 
+          {
+            // Put in # to show complete number.
+            // A second # clears the numbers.
+             if (next_pos == 0 ) { key_value = ' '; }
+             next_pos = 0;
+             break;
+          }
+          case '*' : 
+          {
+            // Replace the previous number with a *
+            // and the next key will replace it.
+            if( next_pos > 0) { next_pos--; key_pos--; }
+            break;
+          }
+          default: next_pos = key_pos + 1;
+        }
         hasChanged = true;// we are happy to wait out the 500 millis
         keyChanged = true;
     }    
@@ -164,7 +186,8 @@ public:
     }
     // Call the redraw from time to time.
     void redraw() {
-        redraw_display();
+        hasChanged = true;// we are happy to wait out the 500 millis
+        do_redraw = true;
     }
 };
 
