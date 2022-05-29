@@ -16,6 +16,8 @@ All the other tasks which want to display communicate with the display by callin
 
 Sometimes the different displays interact and I have scheduled a task to redraw the display every 5 seconds.
 
+It is important to keep close control of the updating of the display which is now done only in one routine. This has reduced the previous corruption of the display.
+
 I have now sorted out the keypad output so that a sequence of keys is shown until # is pressed which clears the line and resets for a new line.
 
 I have extend this to store the characters entered so that the string can be sent using the CBUS Long Message code.
