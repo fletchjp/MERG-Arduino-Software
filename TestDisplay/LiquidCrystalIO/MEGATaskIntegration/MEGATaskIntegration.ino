@@ -318,6 +318,48 @@ MatrixKeyboardManager keyboard;
 
 //char old_key = 'Z';
 
+// Class to store the keys pressed in order.
+// This is a class so that more than one implementation could be used.
+
+const byte MAX_CHARS = 5;
+
+class StoreKeys {
+   char stored[MAX_CHARS];
+   byte n_stored;
+public:
+   StoreKeys() : n_stored(0) { }
+   void print_keys() { // This can be adapted to pass the chars to the long message.
+        for (byte i = 0; i <= n_stored; i++) {
+           Serial.print(stored[i]);
+        }
+        Serial.println(" ");
+   }
+   void store_key(char key) {
+     switch (key) {
+       case '*': //delete previous key unless there are none.
+       {
+        if (n_stored > 0 ) n_stored--;
+         break;
+       }
+       case '#': //String is complete - send it.
+       {
+           print_keys();
+           break;
+       }
+       default:  // store the key
+       {
+           if (n_stored < MAX_CHARS) {
+              stored[n_stored] = key; n_stored++;
+           }
+           break;
+       }
+     }
+   }
+     void reset_keys() { n_stored = 0; }
+     byte num_keys() const { return n_stored; }
+     byte* get_keys() const { return stored; }
+};
+
 /// Adapted from Key.h and made into a scoped enum.
 enum class KeyState : byte { IDLE, PRESSED, HOLD, RELEASED };
 
