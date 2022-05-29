@@ -18,9 +18,12 @@ Sometimes the different displays interact and I have scheduled a task to redraw 
 
 I have now sorted out the keypad output so that a sequence of keys is shown until # is pressed which clears the line and resets for a new line.
 
-I want to extend this to store the characters entered so that the string can be sent using the CBUS Long Message code.
+I have extend this to store the characters entered so that the string can be sent using the CBUS Long Message code.
 
-I will also use a star as a delete character and # to indicate send.
+I have used a star as a delete character and # to indicate send.
+
+That needs also to be implemented in the display part.
 
 I have now fitted the unit with an MCP2515 to connect it to CBUS. That will make it a different code.
 
+This code is being developed for the Leamington and Warwick Model Railway Club project, though I will use different hardware for that.
