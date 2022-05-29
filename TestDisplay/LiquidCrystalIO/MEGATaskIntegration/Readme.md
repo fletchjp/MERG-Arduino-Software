@@ -22,7 +22,7 @@ I have extend this to store the characters entered so that the string can be sen
 
 I have used a star as a delete character and # to indicate send.
 
-That needs also to be implemented in the display part.
+This has now been implemented in the display part of the code.
 
 I have now fitted the unit with an MCP2515 to connect it to CBUS. That will make it a different code.
 
