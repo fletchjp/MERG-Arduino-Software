@@ -64,8 +64,10 @@ class DrawingEvent : public BaseEvent {
 private:
     float elapsed_time;
     volatile bool emergency; // if an event comes from an external interrupt the variable must be volatile.
+    bool timeChanged;
     bool hasChanged;
     bool keyChanged;
+    bool posChanged;
     char key_value;
     byte key_pos;
     byte next_pos;
@@ -75,10 +77,12 @@ public:
       elapsed_time = 0.0f;
       emergency = false;
       hasChanged = false;
+      timeChanged = false;
       keyChanged = false;
       key_value = ' ';
       pos1 = pos2 = 0;
       key_pos = 0;
+      posChanged = 0;
     }
 
     /**
@@ -97,20 +101,30 @@ public:
     void exec() override {
         hasChanged = false;
         // Here we need to output to the display.
-        lcd.setCursor(12, 1);
-        lcd.print(elapsed_time);
-        lcd.setCursor(7+key_pos, 2);
-        if (keyChanged) { lcd.print(key_value); keyChanged = false; }
-        key_pos = next_pos;
-        if (next_pos == 0) lcd.print("         ");
-        lcd.setCursor(5, 3);
-        lcd.print("     ");
-        lcd.setCursor(5, 3);
-        lcd.print(pos1);
-        lcd.setCursor(15, 3);
-        lcd.print("     ");
-        lcd.setCursor(15, 3);
-        lcd.print(pos2);
+        // This is now done only for the sections which have changed.
+        if (timeChanged) {
+          lcd.setCursor(12, 1);
+          lcd.print(elapsed_time);
+          timeChanged = false;
+        }
+        if (keyChanged) { 
+          lcd.setCursor(7+key_pos, 2);
+          lcd.print(key_value); keyChanged = false;
+          key_pos = next_pos;
+          if (next_pos == 0) {
+            lcd.print("         ");
+          }
+        }
+        if (posChanged) {
+          lcd.setCursor(5, 3);
+          lcd.print("     ");
+          lcd.setCursor(5, 3);
+          lcd.print(pos1);
+          lcd.setCursor(15, 3);
+          lcd.print("     ");
+          lcd.setCursor(15, 3);
+          lcd.print(pos2);
+        }
         //lcd.setCursor(0, 2);
         //lcd.print(emergency ? "emergency!!" : "           ");
     }
@@ -125,11 +139,12 @@ public:
     void setLatestStatus(float value) {
         elapsed_time = value;
         hasChanged = true;// we are happy to wait out the 500 millis
-        //keyChanged = false;
+        timeChanged = true;
     }
     void setLatestKey(char key) {
         key_value = key;
-        if (key_value == '#') next_pos = 0; else next_pos = key_pos + 1;
+        if (key_value == '#') { next_pos = 0; key_value = ' '; 
+        } else next_pos = key_pos + 1;
         hasChanged = true;// we are happy to wait out the 500 millis
         keyChanged = true;
     }    
@@ -137,7 +152,7 @@ public:
         if (enc == '1') { pos1 = pos; }
         else { pos2 = pos; }
         hasChanged = true;// we are happy to wait out the 500 millis
-        //keyChanged = false;
+        posChanged = true;
     }    
     /**
      * Triggers an emergency that requires immediate update of the screen
