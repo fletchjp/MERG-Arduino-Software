@@ -126,6 +126,7 @@ public:
           lcd.print("     ");
           lcd.setCursor(15, 3);
           lcd.print(pos2);
+          posChanged = false;
         }
         if (do_redraw) {
            redraw_display();
