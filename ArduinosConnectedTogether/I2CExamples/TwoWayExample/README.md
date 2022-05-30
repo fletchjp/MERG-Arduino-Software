@@ -42,7 +42,15 @@ This pair of codes can transfer messages in both directions.
 
 ### ControllerTwoWayTask
 
-I now want the Controller to do this in the context of TaskManagerIO.
+This now works for the Controller to do send information in the context of TaskManagerIO.
+
+This uses a simple call back to a routine containing the previous transmission code.
+
+### ControllerTwoWayTaskClass
+
+This uses an executable class to run the transmission code. This can be reused to send at different rates to different peripherals.
+
+It could also be adapted to send different messages.
 
 ### PeripheralTwoWayPJON
 
