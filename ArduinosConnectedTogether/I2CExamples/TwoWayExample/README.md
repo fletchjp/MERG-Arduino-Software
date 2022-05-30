@@ -33,3 +33,18 @@ I want to have I2C code running in TaskManagerIO which will exchange information
 The first stage for that is to have two way communication using I2C.
 
 All the previous examples only work in one direction.
+
+### ControllerTwoWay
+
+### PeripheralTwoWay
+
+This pair of codes can transfer messages in both directions.
+
+### ControllerTwoWayTask
+
+I now want the Controller to do this in the context of TaskManagerIO.
+
+### PeripheralTwoWayPJON
+
+I want the peripheral to work in the context of PJON as well.
+
