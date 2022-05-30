@@ -16,6 +16,9 @@
 ///
 /// This example code is in the public domain.
 
+#include <PJONSoftwareBitBang.h>
+
+PJONSoftwareBitBang bus(44);
 
 #include <Wire.h>
 
@@ -43,6 +46,8 @@ void setup()
   Serial.println("Peripheral Receiver active");
   Serial.print("Peripheral No ");
   Serial.println(NODE_ADDRESS);
+  bus.strategy.set_pin(4);
+  bus.begin();
 }
 
 
@@ -59,7 +64,9 @@ void readFromMaster() {
 
 void loop()
 {
-  delay(NODE_READ_DELAY);
+  // I think the delay needs to go for PJON.
+  //delay(NODE_READ_DELAY);
+    bus.receive();
 
     if(Wire.available()) {
     readFromMaster();
