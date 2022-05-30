@@ -37,6 +37,18 @@ byte nodeReceive[TO_PERIPHERAL_SIZE];
 void requestEvent();
 void receiveEvent();
 
+void receiver_function(uint8_t *payload, uint16_t length, const PJON_Packet_Info &packet_info) {
+  /* Make use of the payload before sending something, the buffer where payload points to is
+     overwritten when a new message is dispatched */
+  if(payload[0] == 'B') {
+    Serial.println("BLINK");
+    digitalWrite(LED_BUILTIN, HIGH);
+    delay(30);
+    digitalWrite(LED_BUILTIN, LOW);
+    bus.reply("B", 1);
+  }
+};
+
 void setup()
 {
   Wire.begin(NODE_ADDRESS);     // join i2c bus with address NODE_ADDRESS
@@ -48,6 +60,7 @@ void setup()
   Serial.println(NODE_ADDRESS);
   bus.strategy.set_pin(4);
   bus.begin();
+  bus.set_receiver(receiver_function);
 }
 
 
@@ -66,7 +79,8 @@ void loop()
 {
   // I think the delay needs to go for PJON.
   //delay(NODE_READ_DELAY);
-    bus.receive();
+    bus.update();
+    bus.receive(1000);
 
     if(Wire.available()) {
     readFromMaster();
