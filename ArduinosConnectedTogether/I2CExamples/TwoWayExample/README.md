@@ -58,3 +58,6 @@ The peripheral workS in the context of PJON. I have removed the delay from loop(
 
 I have still to test how it works with PJON.
 
+What I want is for the peripheral to work at the same time on I2C and PJON so that data can be passed.
+
+
