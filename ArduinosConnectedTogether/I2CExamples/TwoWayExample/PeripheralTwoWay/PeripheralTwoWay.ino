@@ -85,6 +85,7 @@ void receiveEvent(int howMany)
 // a controller is calling and requesting something.
 void requestEvent() {
   // definitely send something back.
+  Serial.println("requestEvent");
   Wire.write("hello "); // respond with message of 6 bytes
   //Wire.write(2);  // one byte as an example.
 }
