@@ -60,4 +60,18 @@ I have still to test how it works with PJON.
 
 What I want is for the peripheral to work at the same time on I2C and PJON so that data can be passed.
 
+### Transmitter
 
+Data reported by the Network analysis transmitter.
+---------------------
+Packet Overhead: 10B - Total: 560B
+Bandwidth: 1680B/s
+Data throughput: 1120B/s
+Packets sent: 56
+Fail (no acknowledge from receiver): 1
+Busy (Channel is busy or affected by interference): 0
+Delivery success rate: 98.21 %
+---------------------
+There is a slight loss of bandwidth with one fail.
+
+What I want to do now is to set this up for onward two way data transfer.
