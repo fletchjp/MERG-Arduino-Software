@@ -3,6 +3,9 @@
 /// https://www.instructables.com/Aduino-IC-2-Way-Communication/
 /// which may have some problems.
 
+/// This sends a known number of characters.
+/// The number to get back does not have to be known.
+
 /// ControllerReader.ino
 /// Wire Controller Reader
 /// by Nicholas Zambetti <http://www.zambetti.com>
