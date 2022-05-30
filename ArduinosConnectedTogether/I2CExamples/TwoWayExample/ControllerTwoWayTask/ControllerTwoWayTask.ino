@@ -20,6 +20,7 @@
 /// This example code is in the public domain.
 
 
+#include <TaskManagerIO.h>
 #include <Wire.h>
 
 #define TO_CONTROLLER_SIZE 3
@@ -36,19 +37,9 @@ byte messageToPeripheral[TO_PERIPHERAL_SIZE];
 void  sendToPeripheral(int);
 void  readFromPeripheral();
 
-void setup() {
-  Wire.begin();        // join i2c bus (address optional for master)
-  Serial.begin(115200);  // start serial for output
-  Serial.println("Controller starting");
-}
 
-void loop() {
-  //Wire.requestFrom(8, 6);    // request 6 bytes from peripheral device #8
 
-  //while (Wire.available()) { // peripheral may send less than requested
-  //  char c = Wire.read(); // receive a byte as character
-  //  Serial.print(c);         // print the character
-  //}
+void sendAndReceive() {
 
    for (int address = START_NODE; address < END_NODE; address++) {
       sendToPeripheral(address);
@@ -57,7 +48,21 @@ void loop() {
       readFromPeripheral();
       Serial.println("Received");
    }
-   delay(NODE_READ_DELAY);
+
+ 
+}
+
+void setup() {
+  Wire.begin();        // join i2c bus (address optional for master)
+  Serial.begin(115200);  // start serial for output
+  Serial.println("Controller starting");
+ // This is at the end of setup()
+  taskManager.scheduleFixedRate(1000, sendAndReceive);
+}
+
+void loop() {
+    taskManager.runLoop();
+   //delay(NODE_READ_DELAY);
 }
 
 void sendToPeripheral(int address) {
@@ -81,17 +86,5 @@ void readFromPeripheral() {
     char c = Wire.read(); // receive a byte as character
     Serial.print(c);         // print the character
   }
-  /*
-  if(Wire.available() == TO_CONTROLLER_SIZE) {
-    for (int i = 0; i < TO_CONTROLLER_SIZE; i++) {
-      messageToController[i] = Wire.read();  // get data
-    }
-    int fromAddress = messageToController[0];
-    int value = ((int)messageToController[1] << 8 ) | (int)messageToController[2];
-    Serial.print("Peripheral ");
-    Serial.print(fromAddress);
-    Serial.print(" says ");
-    Serial.print(value);    
-  }
-  */
+ 
 }
