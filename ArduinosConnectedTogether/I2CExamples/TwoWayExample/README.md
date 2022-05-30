@@ -75,3 +75,6 @@ Delivery success rate: 98.21 %
 There is a slight loss of bandwidth with one fail.
 
 What I want to do now is to set this up for onward two way data transfer.
+
+I have that working now with the Blink with response example.
+
