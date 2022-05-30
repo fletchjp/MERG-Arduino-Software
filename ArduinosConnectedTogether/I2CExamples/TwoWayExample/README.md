@@ -54,5 +54,7 @@ It could also be adapted to send different messages.
 
 ### PeripheralTwoWayPJON
 
-I want the peripheral to work in the context of PJON as well.
+The peripheral workS in the context of PJON. I have removed the delay from loop().
+
+I have still to test how it works with PJON.
 
