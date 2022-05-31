@@ -22,9 +22,22 @@ I am investigating whether there is some configuration which will sort out the p
 
 It is possible that the problem is other hardware present e.g. for CAN.
 
+## Send and receive
+
+Two devices with similar structure including error handling.
+
 ## TaskMgrI2C20x4PJON
 
 This example is not working properly on the Totem Minilab. This is being investigated with simpler cases.
+
+## Send Arbitrary values
+
+This code has this advice which I have not been following:
+
+Avoid simultaneous transmission of Serial and SoftwareBitBang data
+  
+Serial.flush();
+
 
 ## Network Analysis
 
