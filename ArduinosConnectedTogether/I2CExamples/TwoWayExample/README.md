@@ -80,3 +80,4 @@ What I want to do now is to set this up for onward two way data transfer.
 
 I have that working now with the Blink with response example.
 
+I have put in an extra Serial.flush(). The output is more or less the same. 
