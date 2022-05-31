@@ -5,6 +5,8 @@
 ///
 /// Using another I2C link to connect to another Arduino for the PJON connection.
 /// Code for this comes from ControllerTwoWayTaskClass.
+/// This does not work with the Arduino and the display connected to different pins.
+/// I have to find a way to chain the connections.
 ///
 /// derived from matrixKeyboardMartinsLibraryMEGA34Event2.ino
 /// Example of matrix keyboard support for MEGA 3 by 4 Keypad built into IoAbstraction adding 2 of Martin's encoders via an event
@@ -39,6 +41,60 @@
 #include <IoAbstraction.h>
 #include <TaskManagerIO.h>
 #include <KeyboardManager.h>
+
+/////////////////////////////////////////////////////////////
+// New section for the I2C connection to another Arduino
+// Code for this comes from ControllerTwoWayTaskClass.
+/////////////////////////////////////////////////////////////
+#define TO_CONTROLLER_SIZE 3
+#define TO_PERIPHERAL_SIZE  4
+
+#define PERIPHERAL_NODE   8 // The starting I2C address of peripheral node
+
+byte messageToController[TO_CONTROLLER_SIZE];
+byte messageToPeripheral[TO_PERIPHERAL_SIZE];
+
+void sendToPeripheral(int address) {
+  // message is 0123
+  for(int i = 0; i < TO_PERIPHERAL_SIZE; i++) {
+    messageToPeripheral[i] = (byte)i;  
+  }
+
+  Wire.beginTransmission(address);
+  Wire.write(messageToPeripheral, TO_PERIPHERAL_SIZE);
+  Wire.endTransmission();
+}
+
+void readFromPeripheral() {
+  // if data size is available from nodes
+  Wire.requestFrom(8, 6);    // request 6 bytes from peripheral device #8
+  Serial.print("reading ");
+  Serial.print(Wire.available());
+  Serial.println(" characters");
+  while (Wire.available()) { // peripheral may send less than requested
+    char c = Wire.read(); // receive a byte as character
+    Serial.print(c);         // print the character
+  }
+ 
+}
+
+class SendAndReceive : public Executable {
+   int address;
+   public:
+   SendAndReceive(int addr) : address(addr) { }
+   void exec() override {
+      //sendToPeripheral(address);
+      Serial.print("Sent to ");
+      Serial.println(address);
+      //readFromPeripheral();
+      Serial.println("Received");
+   }
+
+};
+
+SendAndReceive sendAndReceive(PERIPHERAL_NODE);
+
+/////////////////////////////////////////////////////////////
 
 #include <LiquidCrystalIO.h>
 
@@ -524,6 +580,9 @@ void setup() {
     taskManager.registerEvent(&encoderEvent2);
 
     taskManager.registerEvent(&drawingEvent);
+
+ // This is at the end of setup()
+    taskManager.scheduleFixedRate(1000, &sendAndReceive);
 
     Serial.println("Display, keyboard, 2 encoders and encoderEvents are initialised!");
 }
