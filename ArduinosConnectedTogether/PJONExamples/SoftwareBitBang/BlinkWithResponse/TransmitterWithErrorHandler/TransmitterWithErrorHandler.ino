@@ -10,6 +10,8 @@ void error_handler(uint8_t code, uint16_t data, void *custom_pointer) {
   if(code == PJON_CONNECTION_LOST) {
     Serial.print("Connection lost with device id ");
     Serial.println(bus.packets[data].content[0], DEC);
+    // Avoid Serial interference during test flushing
+    Serial.flush();
   }
 };
 
@@ -18,6 +20,8 @@ void receiver_function(uint8_t *payload, uint16_t length, const PJON_Packet_Info
      overwritten when a new message is dispatched */
   if(payload[0] == 'B') {
     Serial.println("BLINK");
+    // Avoid Serial interference during test flushing
+    Serial.flush();
     digitalWrite(LED_BUILTIN, HIGH);
     delay(30);
     digitalWrite(LED_BUILTIN, LOW);
@@ -26,6 +30,9 @@ void receiver_function(uint8_t *payload, uint16_t length, const PJON_Packet_Info
 
 void setup() {
   Serial.begin(115200);
+  Serial.println("Transmitter starting");
+  // Avoid Serial interference during test flushing
+  Serial.flush();
   pinMode(LED_BUILTIN, OUTPUT);
   digitalWrite(LED_BUILTIN, LOW); // Initialize LED 13 to be off
 
