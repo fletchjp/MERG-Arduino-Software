@@ -45,6 +45,8 @@ void receiver_function(uint8_t *payload, uint16_t length, const PJON_Packet_Info
     digitalWrite(LED_BUILTIN, HIGH);
     delay(30);
     digitalWrite(LED_BUILTIN, LOW);
+    // Avoid simultaneous transmission of Serial and SoftwareBitBang data
+    Serial.flush();
     bus.reply("B", 1);
   }
 };
@@ -58,6 +60,8 @@ void setup()
   Serial.println("Peripheral Receiver active");
   Serial.print("Peripheral No ");
   Serial.println(NODE_ADDRESS);
+  // Avoid simultaneous transmission of Serial and SoftwareBitBang data
+  Serial.flush();
   bus.strategy.set_pin(4);
   bus.begin();
   bus.set_receiver(receiver_function);
@@ -73,6 +77,8 @@ void readFromMaster() {
     Serial.print(nodeReceive[i]);  
   }
   Serial.println();
+  // Avoid simultaneous transmission of Serial and SoftwareBitBang data
+  Serial.flush();
 }
 
 void loop()
@@ -101,6 +107,8 @@ void receiveEvent(int howMany)
   }
   int x = Wire.read();    // receive byte as an integer
   Serial.println(x);         // print the integer
+  // Avoid simultaneous transmission of Serial and SoftwareBitBang data
+  Serial.flush();
   Wire.write(x);
 }
 
@@ -108,6 +116,8 @@ void receiveEvent(int howMany)
 void requestEvent() {
   // definitely send something back.
   Serial.println("requestEvent");
+  // Avoid simultaneous transmission of Serial and SoftwareBitBang data
+  Serial.flush();
   Wire.write("hello "); // respond with message of 6 bytes
   //Wire.write(2);  // one byte as an example.
 }
