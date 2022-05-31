@@ -10,6 +10,8 @@ This includes both KeyboardManager and LiquidCrystalIO which take care of a lot 
 
 This version is adding the I2C connection needed to work with PJON. 
 
+I am finding that I have to link the two I2C connections from the same pins on the controller.
+
 The display is using I2C with the Wire library.
 
 The essential feature is to have an event called DrawingEvent which is the only event to draw to the display after the initial setup.
