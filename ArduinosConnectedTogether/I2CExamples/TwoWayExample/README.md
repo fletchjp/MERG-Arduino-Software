@@ -60,7 +60,9 @@ I have still to test how it works with PJON.
 
 What I want is for the peripheral to work at the same time on I2C and PJON so that data can be passed.
 
-I have added Serial.flush() as recommended so that Serial is not active when the bus is active.
+I have added Serial.flush() as recommended so that Serial is not active when the PJON bus is active.
+
+This code runs PJON blinks with TransmitterWithErrorHandler PJON code.
 
 ### Transmitter
 
