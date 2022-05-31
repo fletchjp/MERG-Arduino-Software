@@ -26,7 +26,7 @@
 #define TO_CONTROLLER_SIZE 3
 #define TO_PERIPHERAL_SIZE  4
 
-#define START_NODE   8 // The starting I2C address of slave nodes
+#define START_NODE   8 // The starting I2C address of peripheral nodes
 #define END_NODE     9 // last node to probe +1
 
 #define NODE_READ_DELAY 1000 // Some delay between I2C node reads
