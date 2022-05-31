@@ -25,6 +25,8 @@ void setup() {
   Serial.println("PJON - Network analysis");
   Serial.println("Starting a 1 second communication test...");
   Serial.println();
+  /* Avoid Serial and PJON concurrency */
+  Serial.flush();
 }
 
 void loop() {
