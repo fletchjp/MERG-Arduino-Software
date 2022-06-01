@@ -43,3 +43,14 @@ This has now been implemented in the display part of the code.
 I have now fitted the unit with an MCP2515 to connect it to CBUS. That will make it a different code.
 
 This code is being developed for the Leamington and Warwick Model Railway Club project, though I will use different hardware for that.
+
+## Wire Library
+
+I have been looking at the reference for the Arduino Wire library.
+
+https://www.arduino.cc/reference/en/language/functions/communication/wire/
+
+See this statement:
+
+Recent versions of the Wire library can use timeouts to prevent a lockup in the face of certain problems on the bus, but this is not enabled by default (yet) in current versions. It is recommended to always enable these timeouts when using the Wire library. See the Wire.setWireTimeout function for more details.
+
