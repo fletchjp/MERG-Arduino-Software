@@ -16,6 +16,10 @@ Scans for I2C devices connected using the I2C library from DSS.
 
 https://github.com/DSSCircuits/I2C-Master-Library
 
+This is a test of this library which is about 10 years old.
+
+The interface is different from the one used by Wire.
+
 ## TestWarnings (-fpermissive)
 
 On the AVR boards (NANO, UNO and MEGA for example) the Arduino IDE default settings for the compiler include -fpermissive.
