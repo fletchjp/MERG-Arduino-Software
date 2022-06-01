@@ -6,6 +6,16 @@ A lot of this is in response to the realisation that the Arduino IDE default set
 
 Each program has been started to cover a topic, although they have expanded as time has gone on.
 
+## i2c_scanner
+
+Scans for I2C devices connected using the usual Wire library
+
+## i2c_scanner_DSS
+
+Scans for I2C devices connected using the I2C library from DSS.
+
+https://github.com/DSSCircuits/I2C-Master-Library
+
 ## TestWarnings (-fpermissive)
 
 On the AVR boards (NANO, UNO and MEGA for example) the Arduino IDE default settings for the compiler include -fpermissive.
