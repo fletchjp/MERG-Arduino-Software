@@ -8,7 +8,8 @@
 /// This does not work with the Arduino and the display connected to different pins.
 /// I have to find a way to chain the connections.
 /// I had made the mistake of using two different sets of I2C pins from the MEGA.
-/// This messes things up.
+/// This messes things up. NO. I think the two sets of pins are directly connected.
+/// The problem is in the timing of the I2C accesses and I need to work on that.
 ///
 /// derived from matrixKeyboardMartinsLibraryMEGA34Event2.ino
 /// Example of matrix keyboard support for MEGA 3 by 4 Keypad built into IoAbstraction adding 2 of Martin's encoders via an event
