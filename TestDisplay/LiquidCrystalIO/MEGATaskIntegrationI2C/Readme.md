@@ -8,7 +8,17 @@ This is using task management from IoAbstraction and TaskManagerIO library famil
 
 This includes both KeyboardManager and LiquidCrystalIO which take care of a lot of the housekeeping.
 
-This version is adding the I2C connection needed to work with PJON. 
+This version is adding the I2C connection needed to work with PJON.
+
+The combination is not working.
+
+I thought this was because I had used different pins from the Arduino MEGA for the I2C connection.
+
+I now think that this was not the case as the pins are connected together on the MEGA and are valid alternatives.
+
+Instead I think this is a question of software. I cannot do both at the same time without risk of locking.
+
+I have to look carefully at the software options.
 
 I am finding that I have to link the two I2C connections from the same pins on the controller.
 
