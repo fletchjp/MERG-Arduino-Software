@@ -7,6 +7,9 @@
 
 // I think this should be defined by the library.
 // I get no errors when I define it myself.
+// Looking at the code of the library it does implement the timeout members.
+// It does not however define this macro.
+// Timeouts were implemented for AVR in 2020.
 //#define WIRE_HAS_TIMEOUT
 
 void setup() {
