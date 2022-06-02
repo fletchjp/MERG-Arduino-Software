@@ -12,6 +12,9 @@
 /// The problem is in the timing of the I2C accesses and I need to work on that.
 /// I am going to attempt to resolve this using the timeout facilities of the Wire library.
 ///
+/// I have made a lot of progress and the transmission to the peripheral Arduino now works.
+/// I have still to work out how best to do the reverse transfer.
+///
 /// derived from matrixKeyboardMartinsLibraryMEGA34Event2.ino
 /// Example of matrix keyboard support for MEGA 3 by 4 Keypad built into IoAbstraction adding 2 of Martin's encoders via an event
 ///
