@@ -52,6 +52,12 @@ This uses an executable class to run the transmission code. This can be reused t
 
 It could also be adapted to send different messages.
 
+### ControllerTwoWayTimout
+
+Adapted from code in this location to explore use of timeout.
+
+https://www.arduino.cc/reference/en/language/functions/communication/wire/setwiretimeout/
+
 ### PeripheralTwoWayPJON
 
 The peripheral works in the context of PJON. I have removed the delay from loop().
