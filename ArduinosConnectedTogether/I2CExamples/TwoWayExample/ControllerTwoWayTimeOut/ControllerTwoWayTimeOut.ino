@@ -5,7 +5,14 @@
 
 #include <Wire.h>
 
+#define WIRE_HAS_TIMEOUT
+
 void setup() {
+  Serial.begin(115200);           // start serial for output
+  Serial.println("Controller Two Way");
+#ifdef  WIRE_HAS_TIMEOUT
+  Serial.println("with Timeout active");
+#endif
   Wire.begin(); // join i2c bus (address optional for master)
   #if defined(WIRE_HAS_TIMEOUT)
     Wire.setWireTimeout(3000 /* us */, true /* reset_on_timeout */);
@@ -38,6 +45,8 @@ void loop() {
     if (Wire.getWireTimeoutFlag())
       Serial.println("It was a timeout");
     #endif
+  } else {
+    Serial.println(len);
   }
 
   delay(100);
