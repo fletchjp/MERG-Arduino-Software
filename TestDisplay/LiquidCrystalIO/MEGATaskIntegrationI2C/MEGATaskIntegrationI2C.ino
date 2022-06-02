@@ -42,6 +42,7 @@
 /// Digital / Analog pin 11    Encoder 2 B (DT  on encoder)
 
 #include <Wire.h>
+// This is true for the AVR version and should be defined in the library.
 #define WIRE_HAS_TIMEOUT
 #include <IoAbstraction.h>
 #include <TaskManagerIO.h>
@@ -64,10 +65,25 @@ void sendToPeripheral(int address) {
   for(int i = 0; i < TO_PERIPHERAL_SIZE; i++) {
     messageToPeripheral[i] = (byte)i;  
   }
-
+  Serial.println("About to send");
   Wire.beginTransmission(address);
+  // This queues the data which are sent with endTransmission.
   Wire.write(messageToPeripheral, TO_PERIPHERAL_SIZE);
+#ifdef WIRE_HAS_TIMEOUT
+  byte error = Wire.endTransmission(); // run transaction
+  if (error) {
+    Serial.println("Error occured when writing");
+    if (error == 5) {
+      Serial.println("It was a timeout");
+      Wire.clearWireTimeoutFlag();
+    } else {
+      Serial.print("Error number "); 
+      Serial.println(error);
+    }
+  }
+#else
   Wire.endTransmission();
+#endif
 }
 
 void readFromPeripheral() {
@@ -88,7 +104,7 @@ class SendAndReceive : public Executable {
    public:
    SendAndReceive(int addr) : address(addr) { }
    void exec() override {
-      //sendToPeripheral(address);
+      sendToPeripheral(address);
       Serial.print("Sent to ");
       Serial.println(address);
       //readFromPeripheral();
@@ -521,6 +537,53 @@ void redraw_display() {
   lcd.print("Enc2 ");
 }
 
+
+#define WIRE Wire
+
+// Imported from i2c_scanner
+void i2c_scanner()
+{
+  byte error, address;
+  int nDevices;
+
+  Serial.println("Scanning...");
+
+  nDevices = 0;
+  for(address = 1; address < 127; address++ ) 
+  {
+    // The i2c_scanner uses the return value of
+    // the Write.endTransmisstion to see if
+    // a device did acknowledge to the address.
+    WIRE.beginTransmission(address);
+    error = WIRE.endTransmission();
+
+    if (error == 0)
+    {
+      Serial.print("I2C device found at address 0x");
+      if (address<16) 
+        Serial.print("0");
+      Serial.print(address,HEX);
+      Serial.println("  !");
+
+      nDevices++;
+    }
+    else if (error==4) 
+    {
+      Serial.print("Unknown error at address 0x");
+      if (address<16) 
+        Serial.print("0");
+      Serial.println(address,HEX);
+    }    
+  }
+  if (nDevices == 0)
+    Serial.println("No I2C devices found\n");
+  else {
+    Serial.print(nDevices);
+    Serial.println(" devices found - done\n");
+  }
+  
+}
+
 void setup() {
 /// setup 
     while(!Serial);
@@ -530,6 +593,7 @@ void setup() {
   #if defined(WIRE_HAS_TIMEOUT)
     Wire.setWireTimeout(3000 /* us */, true /* reset_on_timeout */);
   #endif
+  i2c_scanner();
   // set up the LCD's number of columns and rows, must be called.
   lcd.begin(20, 4);
   redraw_display();  
