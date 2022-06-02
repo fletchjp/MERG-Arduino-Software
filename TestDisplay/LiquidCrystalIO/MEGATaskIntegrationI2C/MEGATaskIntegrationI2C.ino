@@ -42,6 +42,7 @@
 /// Digital / Analog pin 11    Encoder 2 B (DT  on encoder)
 
 #include <Wire.h>
+#define WIRE_HAS_TIMEOUT
 #include <IoAbstraction.h>
 #include <TaskManagerIO.h>
 #include <KeyboardManager.h>
@@ -526,6 +527,9 @@ void setup() {
     Serial.begin(115200);
   // for i2c variants, this must be called first.
   Wire.begin();
+  #if defined(WIRE_HAS_TIMEOUT)
+    Wire.setWireTimeout(3000 /* us */, true /* reset_on_timeout */);
+  #endif
   // set up the LCD's number of columns and rows, must be called.
   lcd.begin(20, 4);
   redraw_display();  
@@ -589,6 +593,9 @@ void setup() {
     taskManager.scheduleFixedRate(1000, &sendAndReceive);
 
     Serial.println("Display, keyboard, 2 encoders and encoderEvents are initialised!");
+#ifdef  WIRE_HAS_TIMEOUT
+    Serial.println("with Wire timeout active");
+#endif
 }
 
 /// @brief ISR routine now calls the encoder and also the encoderEvent as well.
