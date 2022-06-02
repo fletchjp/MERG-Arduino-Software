@@ -5,7 +5,9 @@
 
 #include <Wire.h>
 
-#define WIRE_HAS_TIMEOUT
+// I think this should be defined by the library.
+// I get no errors when I define it myself.
+//#define WIRE_HAS_TIMEOUT
 
 void setup() {
   Serial.begin(115200);           // start serial for output
