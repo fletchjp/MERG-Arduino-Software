@@ -28,9 +28,15 @@ private:
 public:
  MyWire() {}
  int myRequestFrom(uint8_t address, uint8_t quantity, uint32_t iaddress, uint8_t isize, uint8_t sendStop);
- int myRequestFrom(int address, int quantity, int sendStop);
- int myRequestFrom(int address, int quantity);
  int myRequestFrom(uint8_t address, uint8_t quantity);
+ int myRequestFrom(uint8_t, uint8_t, uint8_t);
+ int myRequestFrom(int address, int quantity);
+ int myRequestFrom(int address, int quantity, int sendStop);
+ // These are needed as this does not use the Wire buffers for rx.
+ // That means that these access functions have to be different.
+ virtual int myAvailable(void);
+ virtual int myRead(void);
+ virtual int myPeek(void);
 };
 
 uint8_t MyWire::rxBuffer[BUFFER_LENGTH];
@@ -76,6 +82,10 @@ int MyWire::myRequestFrom(uint8_t address, uint8_t quantity, uint32_t iaddress, 
   return read;
 }
 
+int MyWire::myRequestFrom(uint8_t address, uint8_t quantity, uint8_t sendStop) {
+  return myRequestFrom((uint8_t)address, (uint8_t)quantity, (uint32_t)0, (uint8_t)0, (uint8_t)sendStop);
+}
+
 int MyWire::myRequestFrom(int address, int quantity)
 {
   return myRequestFrom((uint8_t)address, (uint8_t)quantity, (uint8_t)true);
@@ -91,12 +101,50 @@ int MyWire::myRequestFrom(int address, int quantity, int sendStop)
   return myRequestFrom((uint8_t)address, (uint8_t)quantity, (uint8_t)sendStop);
 }
 
+// must be called in:
+// slave rx event callback
+// or after requestFrom(address, numBytes)
+int MyWire::myAvailable(void)
+{
+  return rxBufferLength - rxBufferIndex;
+}
+
+// must be called in:
+// slave rx event callback
+// or after requestFrom(address, numBytes)
+int MyWire::myRead(void)
+{
+  int value = -1;
+  
+  // get each successive byte on each call
+  if(rxBufferIndex < rxBufferLength){
+    value = rxBuffer[rxBufferIndex];
+    ++rxBufferIndex;
+  }
+  return value;
+}
+
+// must be called in:
+// slave rx event callback
+// or after requestFrom(address, numBytes)
+int MyWire::myPeek(void)
+{
+  int value = -1;
+  
+  if(rxBufferIndex < rxBufferLength){
+    value = rxBuffer[rxBufferIndex];
+  }
+
+  return value;
+}
+
 
 MyWire myWire;
 
 void setup() {
   Wire.begin();        // join i2c bus (address optional for master)
   Serial.begin(115200);  // start serial for output
+  Serial.println("Controller Reader with Error Code reporting");
 }
 
 void loop() {
@@ -105,14 +153,14 @@ void loop() {
   if (what_results < 0 ) {    
     Serial.print("Error from requestFrom ");
     Serial.println(-what_results);
-  }
-  else {
+  } else {
     Serial.print(what_results);
     Serial.println(" bytes available");
-    while (Wire.available()) { // peripheral may send less than requested
-      char c = Wire.read(); // receive a byte as character
+    while (myWire.myAvailable()) { // peripheral may send less than requested
+      char c = myWire.myRead(); // receive a byte as character
       Serial.print(c);         // print the character
     }
+    Serial.println(" ");
   }
   delay(500);
 }
