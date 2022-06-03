@@ -28,6 +28,9 @@ private:
 public:
  MyWire() {}
  int myRequestFrom(uint8_t address, uint8_t quantity, uint32_t iaddress, uint8_t isize, uint8_t sendStop);
+ int myRequestFrom(int address, int quantity, int sendStop);
+ int myRequestFrom(int address, int quantity);
+ int myRequestFrom(uint8_t address, uint8_t quantity);
 };
 
 uint8_t MyWire::rxBuffer[BUFFER_LENGTH];
@@ -73,6 +76,22 @@ int MyWire::myRequestFrom(uint8_t address, uint8_t quantity, uint32_t iaddress, 
   return read;
 }
 
+int MyWire::myRequestFrom(int address, int quantity)
+{
+  return myRequestFrom((uint8_t)address, (uint8_t)quantity, (uint8_t)true);
+}
+
+int MyWire::myRequestFrom(uint8_t address, uint8_t quantity)
+{
+  return myRequestFrom((uint8_t)address, (uint8_t)quantity, (uint8_t)true);
+}
+
+int MyWire::myRequestFrom(int address, int quantity, int sendStop)
+{
+  return myRequestFrom((uint8_t)address, (uint8_t)quantity, (uint8_t)sendStop);
+}
+
+
 MyWire myWire;
 
 void setup() {
@@ -81,7 +100,8 @@ void setup() {
 }
 
 void loop() {
-  int what_results = myWire.requestFrom(8, 6);    // request 6 bytes from peripheral device #8
+  // My version returns any errors as a negative number
+  int what_results = myWire.myRequestFrom(8, 6);    // request 6 bytes from peripheral device #8
   if (what_results < 0 ) {    
     Serial.print("Error from requestFrom ");
     Serial.println(-what_results);
