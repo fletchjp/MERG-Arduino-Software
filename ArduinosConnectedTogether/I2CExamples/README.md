@@ -12,6 +12,26 @@ https://docs.arduino.cc/learn/communication/wire
 
 Sketch to read data from a peripheral using I2C and the Wire library.
 
+### Controller Reader Timeout
+
+Sketch to read data from a peripheral using I2C and the Wire library.
+
+Extended to use timeouts to check the status of the peripheral.
+
+### Controller Reader Error Codes
+
+Sketch to read data from a peripheral using I2C and the Wire library.
+
+This uses a modified version of requestFrom which reports errors from endTransmission.
+
+### Controller Reader Error Codes Timeout
+
+Sketch to read data from a peripheral using I2C and the Wire library.
+
+This uses a modified version of requestFrom which reports errors from endTransmission.
+
+Extended to use timeouts to check the status of the peripheral.
+
 ### Peripheral Sender
 
 Sketch to send data from a peripheral using I2C and the Wire library.
