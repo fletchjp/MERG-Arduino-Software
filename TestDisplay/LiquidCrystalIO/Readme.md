@@ -38,4 +38,8 @@
  
  I have added code to exchange information with another Arduino.
  
+ This works with the PeripheralTwoWay example code.
+ 
+ I now have it working with two way transfer using the timout codes.
+ 
  
