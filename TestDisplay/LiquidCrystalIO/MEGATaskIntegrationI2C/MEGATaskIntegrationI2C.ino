@@ -124,7 +124,7 @@ class SendAndReceive : public Executable {
       sendToPeripheral(address);
       Serial.print("Sent to ");
       Serial.println(address);
-      //readFromPeripheral();
+      readFromPeripheral();
       Serial.println("Received");
    }
 
