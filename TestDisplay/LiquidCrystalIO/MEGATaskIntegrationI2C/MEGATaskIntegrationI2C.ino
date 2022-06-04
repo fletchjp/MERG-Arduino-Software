@@ -90,16 +90,30 @@ void sendToPeripheral(int address) {
 }
 
 void readFromPeripheral() {
+  #if defined(WIRE_HAS_TIMEOUT)
+  Wire.clearWireTimeoutFlag();
+  #endif
   // if data size is available from nodes
-  Wire.requestFrom(8, 6);    // request 6 bytes from peripheral device #8
+  uint8_t what_results = Wire.requestFrom(8, 6);    // request 6 bytes from peripheral device #8
+  Serial.print(what_results);
+  Serial.println(" bytes available");
   Serial.print("reading ");
-  Serial.print(Wire.available());
-  Serial.println(" characters");
+  if (what_results == 0) {
+#if defined(WIRE_HAS_TIMEOUT)
+    if (Wire.getWireTimeoutFlag()) {
+        Serial.println("It was a timeout");
+        Wire.clearWireTimeoutFlag();
+    }
+#endif
+  } else {
+  //Serial.print(Wire.available());
+  //Serial.println(" characters");
   while (Wire.available()) { // peripheral may send less than requested
     char c = Wire.read(); // receive a byte as character
     Serial.print(c);         // print the character
   }
- 
+    Serial.println(" ");
+  }
 }
 
 class SendAndReceive : public Executable {
