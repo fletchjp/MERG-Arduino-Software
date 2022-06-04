@@ -34,3 +34,8 @@
  
  Display now tested.
  
+ ## MEGATaskIntegration I2C
+ 
+ I have added code to exchange information with another Arduino.
+ 
+ 
