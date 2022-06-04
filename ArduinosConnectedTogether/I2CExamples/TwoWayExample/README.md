@@ -40,6 +40,8 @@ All the previous examples only work in one direction.
 
 This pair of codes can transfer messages in both directions.
 
+Peripheral Two Way also works with MEGATaskIntegrationI2C for two way transfer.
+
 ### ControllerTwoWayTask
 
 This now works for the Controller to do send information in the context of TaskManagerIO.
