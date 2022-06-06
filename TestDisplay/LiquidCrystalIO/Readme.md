@@ -42,4 +42,7 @@
  
  I now have it working with two way transfer using the timout codes.
  
+ ## MEGATaskIntegration I2C Data
+
+ I want to extend the previous example to send some of the data available.
  
