@@ -54,3 +54,11 @@ See this statement:
 
 Recent versions of the Wire library can use timeouts to prevent a lockup in the face of certain problems on the bus, but this is not enabled by default (yet) in current versions. It is recommended to always enable these timeouts when using the Wire library. See the Wire.setWireTimeout function for more details.
 
+## What data is to be sent
+
+As yet in this version I am only sending test data.
+
+I want now to connect the peripheral Arduino also to another one using PJON.
+
+The code for this is PeripheralTwoWayPJON.
+
