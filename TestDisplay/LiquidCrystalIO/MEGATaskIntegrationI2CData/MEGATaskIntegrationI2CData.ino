@@ -1,6 +1,8 @@
 /// @file MEGATaskIntegrationI2CData
 /// @brief extend to have a 20 by display as well and send some data
 ///
+/// This now sends the time data to the peripheral.
+///
 /// This now uses the display to show the time elapsed and the keypad and encoder values.
 ///
 /// Using another I2C link to connect to another Arduino for the PJON connection.
@@ -56,19 +58,25 @@
 // Code for this comes from ControllerTwoWayTaskClass.
 /////////////////////////////////////////////////////////////
 #define TO_CONTROLLER_SIZE 3
-#define TO_PERIPHERAL_SIZE  4
+#define TO_PERIPHERAL_SIZE  8
 
 #define PERIPHERAL_NODE   8 // The starting I2C address of peripheral node
 
 byte messageToController[TO_CONTROLLER_SIZE];
 byte messageToPeripheral[TO_PERIPHERAL_SIZE];
+byte messageBuffer[TO_PERIPHERAL_SIZE];
 
-void sendToPeripheral(int address) {
+void sendToPeripheral(int address, float value) {
+  // Information on the conversion from float to char.
+  // https://arduino.stackexchange.com/questions/49787/convert-byte-and-float-to-char
+  dtostrf(value,3,2,messageBuffer);
+  snprintf(messageToPeripheral,TO_PERIPHERAL_SIZE,messageBuffer);
   // message is 0123
-  for(int i = 0; i < TO_PERIPHERAL_SIZE; i++) {
-    messageToPeripheral[i] = (byte)i;  
-  }
-  Serial.println("About to send");
+  //for(int i = 0; i < TO_PERIPHERAL_SIZE; i++) {
+  //  messageToPeripheral[i] = (byte)i;  
+  //}
+  Serial.print("About to send ");
+  Serial.println(value);
   Wire.beginTransmission(address);
   // This queues the data which are sent with endTransmission.
   Wire.write(messageToPeripheral, TO_PERIPHERAL_SIZE);
@@ -118,15 +126,43 @@ void readFromPeripheral() {
 
 class SendAndReceive : public Executable {
    int address;
+    float elapsed_time;
+    volatile bool emergency; // if an event comes from an external interrupt the variable must be volatile.
+    bool timeChanged;
+    bool hasChanged;
    public:
-   SendAndReceive(int addr) : address(addr) { }
+   SendAndReceive(int addr) : address(addr) { 
+      elapsed_time = 0.0f;
+      emergency = false;
+      hasChanged = false;
+      timeChanged = false;    
+   }
    void exec() override {
-      sendToPeripheral(address);
+     if (hasChanged) {
+      sendToPeripheral(address, elapsed_time);
       Serial.print("Sent to ");
       Serial.println(address);
+      hasChanged = false;
       readFromPeripheral();
       Serial.println("Received");
+     }
    }
+    /**
+     * This is called by task manager every time the number of microseconds returned expires, if you trigger the
+     * event it will run the exec(), if you complete the event, it will be removed from task manager.
+     * @return the number of micros before calling again.
+     */
+     /*
+    uint32_t timeOfNextCheck() override {
+        setTriggered(hasChanged);
+        return millisToMicros(500); // no point refreshing more often on an LCD, as its unreadable
+    }
+    */
+    void setLatestStatus(float value) {
+        elapsed_time = value;
+        hasChanged = true;// we are happy to wait out the 500 millis
+        timeChanged = true;
+    }
 
 };
 
@@ -234,11 +270,9 @@ public:
     }
 
     /**
-     * This sets the latest temperature and heater status, but only marks the event changed,
+     * This sets the latest time, but only marks the event changed,
      * so it will need to poll in order to trigger.
      * This prevents excessive screen updates.
-     * @param temp the new temperature
-     * @param on if the heater is on
      */
     void setLatestStatus(float value) {
         elapsed_time = value;
@@ -657,6 +691,7 @@ void setup() {
     // print the number of seconds since reset:
     float secondsFraction =  millis() / 1000.0F;
     drawingEvent.setLatestStatus(secondsFraction);
+    sendAndReceive.setLatestStatus(secondsFraction);
     Serial.println(secondsFraction);
   });
 
