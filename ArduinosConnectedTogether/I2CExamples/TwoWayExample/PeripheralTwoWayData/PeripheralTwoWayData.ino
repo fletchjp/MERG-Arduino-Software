@@ -46,28 +46,10 @@ void setup()
   Serial.println(NODE_ADDRESS);
 }
 
-/* This is not being used at all.
-void readFromMaster() {
-  for(int i = 0; i < TO_PERIPHERAL_SIZE; i ++){
-    nodeReceive[i] = Wire.read();
-  }
-  Serial.print("Controller says ");
-  for(int i = 0; i < TO_PERIPHERAL_SIZE; i ++){
-    Serial.print(nodeReceive[i]);  
-  }
-  Serial.println();
-}
-*/
-
 void loop()
 {
+  // I am not sure whether this is needed at all.
   delay(NODE_READ_DELAY);
-/*
-    if(Wire.available()) {
-    readFromMaster();
-    //sendToMaster();
-  }
-*/
 }
 
 // function that executes whenever data is received from master
