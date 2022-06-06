@@ -41,12 +41,12 @@ void setup()
   Wire.onReceive(receiveEvent); // register event
   Wire.onRequest(requestEvent);
   Serial.begin(115200);           // start serial for output
-  Serial.println("Peripheral Receiver active");
+  Serial.println("Peripheral Receiver active for data");
   Serial.print("Peripheral No ");
   Serial.println(NODE_ADDRESS);
 }
 
-
+/* This is not being used at all.
 void readFromMaster() {
   for(int i = 0; i < TO_PERIPHERAL_SIZE; i ++){
     nodeReceive[i] = Wire.read();
@@ -57,16 +57,17 @@ void readFromMaster() {
   }
   Serial.println();
 }
+*/
 
 void loop()
 {
   delay(NODE_READ_DELAY);
-
+/*
     if(Wire.available()) {
     readFromMaster();
     //sendToMaster();
   }
-
+*/
 }
 
 // function that executes whenever data is received from master
