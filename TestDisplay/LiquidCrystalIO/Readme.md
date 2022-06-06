@@ -46,3 +46,7 @@
 
  I want to extend the previous example to send some of the data available.
  
+ It now sends the time value to the peripheral.
+ 
+ This is a challenge as it involves converting the float value to chars.
+ 
