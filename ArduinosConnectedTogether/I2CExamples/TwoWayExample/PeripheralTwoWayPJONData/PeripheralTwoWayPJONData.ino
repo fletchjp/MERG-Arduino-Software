@@ -24,7 +24,7 @@ PJONSoftwareBitBang bus(44);
 #include <Wire.h>
 
 #define TO_CONTROLLER_SIZE 3
-#define TO_PERIPHERAL_SIZE  4
+#define TO_PERIPHERAL_SIZE  10
 
 #define NODE_READ_DELAY 1000 // Some delay between I2C node reads
 
@@ -34,6 +34,7 @@ PJONSoftwareBitBang bus(44);
 byte messageToController[TO_CONTROLLER_SIZE];
 byte messageToPeripheral[TO_PERIPHERAL_SIZE];
 byte nodeReceive[TO_PERIPHERAL_SIZE];
+char PJONbuffer[TO_PERIPHERAL_SIZE];
 
 void requestEvent();
 void receiveEvent();
@@ -101,16 +102,19 @@ void loop()
 // this function is registered as an event, see setup()
 void receiveEvent(int howMany)
 {
+  byte i = 0;
   Serial.println("receiveEvent");
   while(Wire.available()) // loop through all but the last
   { // Now reading as byte.
-    byte c = Wire.read(); // receive byte as a character
+    char c = Wire.read(); // receive byte as a character
+    PJONbuffer[i] = c; i++;
     Serial.print(c);         // print the character
   }
   //int x = Wire.read();    // receive byte as an integer
   //Serial.println(x);         // print the integer
   // Avoid simultaneous transmission of Serial and SoftwareBitBang data
   Serial.flush();
+  bus.send(45,PJONbuffer,i);
   //Wire.write(x);
 }
 
