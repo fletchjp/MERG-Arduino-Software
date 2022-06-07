@@ -91,3 +91,16 @@ What I want to do now is to set this up for onward two way data transfer.
 I have that working now with the Blink with response example.
 
 I have put in an extra Serial.flush(). The output is more or less the same. 
+
+### PeripheralTwoWayData
+
+I have extended PeripheralTwoWay to work with MEGATaskIntegrationI2CData
+
+This takes changing data from MEGATaskIntegrationI2CData and reports it.
+
+It can be extended to send more data.
+
+I have not yet explored making the returned data dynamic.
+
+### PeripheralTwoWayPJONData
+
