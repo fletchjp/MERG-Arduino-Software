@@ -106,3 +106,7 @@ I have not yet explored making the returned data dynamic.
 
 This is to extend PeripheralTwoWayData to pass the data on over PJON.
 
+I have put in the code to receive the data over I2C.
+
+
+
