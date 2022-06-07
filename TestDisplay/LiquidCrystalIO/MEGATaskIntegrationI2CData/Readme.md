@@ -10,6 +10,8 @@ This ha been a challenge as it involves converting the float value to chars.
 
 The rest of the file is from the previous example.
 
+For some reason I do not understand the return of the "hello" from the I2C peripheral has stopped working.
+
 I have worked on this to have good integration of the display with the other tasks.
 
 This is using task management from IoAbstraction and TaskManagerIO library family.
