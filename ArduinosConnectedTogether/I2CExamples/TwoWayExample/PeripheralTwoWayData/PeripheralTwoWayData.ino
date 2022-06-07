@@ -57,14 +57,14 @@ void loop()
 void receiveEvent(int howMany)
 {
   Serial.println("receiveEvent");
-  while(1 < Wire.available()) // loop through all but the last
+  while(Wire.available()) // loop through all but the last
   { // Now reading as byte.
     char c = Wire.read(); // receive byte as a character
     Serial.print(c);         // print the character
   }
-  int x = Wire.read();    // receive byte as an integer
-  Serial.println(x);         // print the integer
-  Wire.write(x);
+  //int x = Wire.read();    // receive byte as an integer
+  //Serial.println(x);         // print the integer
+  //Wire.write(x);
 }
 
 // a controller is calling and requesting something.
