@@ -104,3 +104,5 @@ I have not yet explored making the returned data dynamic.
 
 ### PeripheralTwoWayPJONData
 
+This is to extend PeripheralTwoWayData to pass the data on over PJON.
+
