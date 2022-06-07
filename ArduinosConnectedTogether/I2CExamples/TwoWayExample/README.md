@@ -108,5 +108,9 @@ This is to extend PeripheralTwoWayData to pass the data on over PJON.
 
 I have put in the code to receive the data over I2C.
 
+### PeripheralTwoWayPJONStruct
 
+This is to explore the use of a struct to transfer the data.
+
+See the PJON examples Send Arbitrary Data Type.
 
