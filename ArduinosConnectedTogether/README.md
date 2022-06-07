@@ -10,7 +10,7 @@ The main code is actually in TestDisplay/LiquidCrystalIO where the code also doe
 
 ## Arduinos connected together using I2C
 
-This contains some public domain examples adapted slightly.
+This contains some public domain examples adapted slightly and now quite a lot more.
 
 ## Arduinos connected together using PJON
 
