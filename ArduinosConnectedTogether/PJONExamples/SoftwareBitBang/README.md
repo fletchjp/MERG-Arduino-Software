@@ -10,6 +10,10 @@ I have already changed the receiver to use pin 4 as pin 12 is not available wher
 
 Example with response using Bitbang.
 
+## Send Arbitrary Data Type
+
+This pair are a good example of sending a struct and recovering it at the other end.
+
 ## ClassMemberCallback
 
 This example is now working between two Elegoo UNOs.
