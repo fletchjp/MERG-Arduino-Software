@@ -107,15 +107,15 @@ void receiveEvent(int howMany)
   Serial.println("receiveEvent");
   while(Wire.available()) // loop through all but the last
   { // Now reading as byte.
-    byte c = Wire.read(); // receive byte as a character
-    PJONbuffer[i] = (char)c;
-    nodeReceive[i] = c;
+    char c = Wire.read(); // receive byte as a character
+    PJONbuffer[i] =  c;
+    nodeReceive[i] = (byte)c;
     i++;
     Serial.print(c);         // print the character
   }
   // Use bytes to reconstruct value
-  memcpy(&value, nodeReceive, sizeof(value));
-  Serial.println(value);
+  //memcpy(&value, nodeReceive, sizeof(value));
+  //Serial.println(value);
   //int x = Wire.read();    // receive byte as an integer
   //Serial.println(x);         // print the integer
   // Avoid simultaneous transmission of Serial and SoftwareBitBang data
