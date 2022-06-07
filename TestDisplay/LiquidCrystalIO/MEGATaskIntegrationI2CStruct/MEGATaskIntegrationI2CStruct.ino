@@ -79,7 +79,8 @@ void sendToPeripheral(int address, float value) {
   Serial.println(value);
   Wire.beginTransmission(address);
   // This queues the data which are sent with endTransmission.
-  Wire.write(messageToPeripheral, TO_PERIPHERAL_SIZE);
+  // Wire.write(messageToPeripheral, TO_PERIPHERAL_SIZE);
+  Wire.write((byte *)&value, sizeof(value));
 #ifdef WIRE_HAS_TIMEOUT
   byte error = Wire.endTransmission(); // run transaction
   if (error) {
