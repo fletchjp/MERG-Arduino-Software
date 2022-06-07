@@ -58,7 +58,7 @@ void setup()
   Wire.onReceive(receiveEvent); // register event
   Wire.onRequest(requestEvent);
   Serial.begin(115200);           // start serial for output
-  Serial.println("Peripheral Receiver active");
+  Serial.println("Peripheral Receiver active for data");
   Serial.print("Peripheral No ");
   Serial.println(NODE_ADDRESS);
   // Avoid simultaneous transmission of Serial and SoftwareBitBang data
@@ -68,7 +68,7 @@ void setup()
   bus.set_receiver(receiver_function);
 }
 
-
+/*
 void readFromMaster() {
   for(int i = 0; i < TO_PERIPHERAL_SIZE; i ++){
     nodeReceive[i] = Wire.read();
@@ -81,6 +81,7 @@ void readFromMaster() {
   // Avoid simultaneous transmission of Serial and SoftwareBitBang data
   Serial.flush();
 }
+*/
 
 void loop()
 {
@@ -88,12 +89,12 @@ void loop()
   //delay(NODE_READ_DELAY);
     bus.update();
     bus.receive(1000);
-
+/*
     if(Wire.available()) {
     readFromMaster();
     //sendToMaster();
   }
-
+*/
 }
 
 // function that executes whenever data is received from master
@@ -101,16 +102,16 @@ void loop()
 void receiveEvent(int howMany)
 {
   Serial.println("receiveEvent");
-  while(1 < Wire.available()) // loop through all but the last
+  while(Wire.available()) // loop through all but the last
   { // Now reading as byte.
     byte c = Wire.read(); // receive byte as a character
     Serial.print(c);         // print the character
   }
-  int x = Wire.read();    // receive byte as an integer
-  Serial.println(x);         // print the integer
+  //int x = Wire.read();    // receive byte as an integer
+  //Serial.println(x);         // print the integer
   // Avoid simultaneous transmission of Serial and SoftwareBitBang data
   Serial.flush();
-  Wire.write(x);
+  //Wire.write(x);
 }
 
 // a controller is calling and requesting something.
