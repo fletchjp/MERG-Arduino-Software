@@ -1,5 +1,13 @@
 # Arduinos connected together
 
+When I started this the codes were in two separate sections. This has now become complicated.
+
+Most of the important current examples are in I2Cexamples/TwoWayExample where there are several cases.
+
+Some of these combine I2C and PJON communication.
+
+The main code is actually in TestDisplay/LiquidCrystalIO where the code also does I2C to an Arduino.
+
 ## Arduinos connected together using I2C
 
 This contains some public domain examples adapted slightly.
