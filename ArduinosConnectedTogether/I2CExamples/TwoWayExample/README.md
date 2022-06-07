@@ -114,3 +114,8 @@ This is to explore the use of a struct to transfer the data.
 
 See the PJON examples Send Arbitrary Data Type.
 
+I think that there is not much to be done here as it already sends the data to PJON from a buffer.
+
+More work is needed at the send and receive codes.
+
+
