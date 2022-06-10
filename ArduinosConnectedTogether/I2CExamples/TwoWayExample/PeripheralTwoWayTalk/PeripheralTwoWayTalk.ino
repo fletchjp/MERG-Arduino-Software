@@ -1,20 +1,4 @@
-/// @file PeripheralTwoWay.ino
-/// Adapted using information from 
-/// https://www.instructables.com/Aduino-IC-2-Way-Communication/
-/// which may have some problems.
-
-/// PeripheralReceiver.ino
-/// Wire Peripheral Receiver
-/// by Nicholas Zambetti <http://www.zambetti.com>
-///
-/// Demonstrates use of the Wire library
-/// Receives data as an I2C/TWI Peripheral device
-/// Refer to the "Wire Master Writer" example for use with this
-///
-/// Created 29 March 2006
-///
-/// This example code is in the public domain.
-
+/// @file PeripheralTwoWayTask.ino
 
 #include <Wire.h>
 
@@ -58,13 +42,8 @@ void readFromMaster() {
 
 void loop()
 {
-  delay(NODE_READ_DELAY);
-
-    if(Wire.available()) {
-    readFromMaster();
-    //sendToMaster();
-  }
-
+  // A delay is not needed here - it responds to the controller.
+  //delay(NODE_READ_DELAY);
 }
 
 // function that executes whenever data is received from master
@@ -83,9 +62,9 @@ void receiveEvent(int howMany)
 }
 
 // a controller is calling and requesting something.
+// this function is registered as an event, see setup()
 void requestEvent() {
   // definitely send something back.
   Serial.println("requestEvent");
   Wire.write("hello "); // respond with message of 6 bytes
-  //Wire.write(2);  // one byte as an example.
 }
