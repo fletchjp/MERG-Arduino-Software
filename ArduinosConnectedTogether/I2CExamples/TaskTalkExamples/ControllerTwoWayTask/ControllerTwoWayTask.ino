@@ -7,7 +7,7 @@
 #define TO_CONTROLLER_SIZE 3
 #define TO_PERIPHERAL_SIZE  4
 
-#define NODE_ADDRESS   8 // The starting I2C address of slave nodes
+#define NODE_ADDRESS   8 // The I2C address of the peripheral node
 
 #define NODE_READ_DELAY 1000 // Some delay between I2C node reads
 
@@ -34,7 +34,7 @@ void sendAndReceive() {
 void setup() {
   Wire.begin();        // join i2c bus (address optional for master)
   Serial.begin(115200);  // start serial for output
-  Serial.println("Controller starting");
+  Serial.println("Task Controller starting");
 
   // This sets up sendAndReceive to run once per second.
   taskManager.scheduleFixedRate(1000, sendAndReceive);
@@ -60,7 +60,7 @@ void sendToPeripheral(int address) {
 void readFromPeripheral() {
   // if data size is available from nodes
   Wire.requestFrom(NODE_ADDRESS, 6);    // request 6 bytes from peripheral device #8
-  Serial.print("reading ");
+  Serial.print("Task reading ");
   Serial.print(Wire.available());
   Serial.println(" characters");
   while (Wire.available()) { // peripheral may send less than requested
