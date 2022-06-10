@@ -1,24 +1,5 @@
 /// @file ControllerTwoWayTaskClass.ino
 /// Making the I2C operation a task class.
-/// Adapted using information from 
-/// https://www.instructables.com/Aduino-IC-2-Way-Communication/
-/// which may have some problems.
-
-/// This sends a known number of characters.
-/// The number to get back does not have to be known.
-
-/// ControllerReader.ino
-/// Wire Controller Reader
-/// by Nicholas Zambetti <http://www.zambetti.com>
-///
-/// Demonstrates use of the Wire library
-/// Reads data from an I2C/TWI peripheral device
-/// Refer to the "Wire Peripheral Sender" example for use with this
-///
-/// Created 29 March 2006
-///
-/// This example code is in the public domain.
-
 
 #include <TaskManagerIO.h>
 #include <Wire.h>
@@ -26,8 +7,7 @@
 #define TO_CONTROLLER_SIZE 3
 #define TO_PERIPHERAL_SIZE  4
 
-#define START_NODE   8 // The starting I2C address of peripheral nodes
-#define END_NODE     9 // last node to probe +1
+#define NODE_ADDRESS  8 // The I2C address of the peripheral node
 
 #define NODE_READ_DELAY 1000 // Some delay between I2C node reads
 
@@ -53,7 +33,7 @@ class SendAndReceive : public Executable {
 
 };
 
-SendAndReceive sendAndReceive(START_NODE);
+SendAndReceive sendAndReceive(NODE_ADDRESS);
 
 void setup() {
   Wire.begin();        // join i2c bus (address optional for master)
@@ -81,13 +61,14 @@ void sendToPeripheral(int address) {
 
 void readFromPeripheral() {
   // if data size is available from nodes
-  Wire.requestFrom(8, 6);    // request 6 bytes from peripheral device #8
-  Serial.print("reading ");
+  Wire.requestFrom(NODE_ADDRESS, 6);    // request 6 bytes from peripheral device #8
+  Serial.print("Task class reading ");
   Serial.print(Wire.available());
   Serial.println(" characters");
   while (Wire.available()) { // peripheral may send less than requested
     char c = Wire.read(); // receive a byte as character
     Serial.print(c);         // print the character
   }
+  Serial.println(" ");
  
 }
