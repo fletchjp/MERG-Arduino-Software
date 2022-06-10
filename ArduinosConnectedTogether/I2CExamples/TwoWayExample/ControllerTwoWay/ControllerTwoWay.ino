@@ -42,12 +42,6 @@ void setup() {
 }
 
 void loop() {
-  //Wire.requestFrom(8, 6);    // request 6 bytes from peripheral device #8
-
-  //while (Wire.available()) { // peripheral may send less than requested
-  //  char c = Wire.read(); // receive a byte as character
-  //  Serial.print(c);         // print the character
-  //}
 
    for (int address = START_NODE; address < END_NODE; address++) {
       sendToPeripheral(address);
@@ -80,17 +74,5 @@ void readFromPeripheral() {
     char c = Wire.read(); // receive a byte as character
     Serial.print(c);         // print the character
   }
-  /*
-  if(Wire.available() == TO_CONTROLLER_SIZE) {
-    for (int i = 0; i < TO_CONTROLLER_SIZE; i++) {
-      messageToController[i] = Wire.read();  // get data
-    }
-    int fromAddress = messageToController[0];
-    int value = ((int)messageToController[1] << 8 ) | (int)messageToController[2];
-    Serial.print("Peripheral ");
-    Serial.print(fromAddress);
-    Serial.print(" says ");
-    Serial.print(value);    
-  }
-  */
+
 }
