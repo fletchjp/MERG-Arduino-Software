@@ -15,8 +15,7 @@ byte messageToController[TO_CONTROLLER_SIZE];
 byte messageToPeripheral[TO_PERIPHERAL_SIZE];
 
 void  sendToPeripheral(int);
-void  readFromPeripheral();
-
+void  readFromPeripheral(int);
 
 
 class SendAndReceive : public Executable {
@@ -27,7 +26,7 @@ class SendAndReceive : public Executable {
       sendToPeripheral(address);
       Serial.print("Sent to ");
       Serial.println(address);
-      readFromPeripheral();
+      readFromPeripheral(address);
       Serial.println("Received");
    }
 
@@ -38,7 +37,7 @@ SendAndReceive sendAndReceive(NODE_ADDRESS);
 void setup() {
   Wire.begin();        // join i2c bus (address optional for master)
   Serial.begin(115200);  // start serial for output
-  Serial.println("Controller starting");
+  Serial.println("Task Class Controller starting");
  // This is at the end of setup()
   taskManager.scheduleFixedRate(1000, &sendAndReceive);
 }
@@ -59,9 +58,9 @@ void sendToPeripheral(int address) {
   Wire.endTransmission();
 }
 
-void readFromPeripheral() {
+void readFromPeripheral(int address) {
   // if data size is available from nodes
-  Wire.requestFrom(NODE_ADDRESS, 6);    // request 6 bytes from peripheral device #8
+  Wire.requestFrom(address, 6);    // request 6 bytes from peripheral device #8
   Serial.print("Task class reading ");
   Serial.print(Wire.available());
   Serial.println(" characters");

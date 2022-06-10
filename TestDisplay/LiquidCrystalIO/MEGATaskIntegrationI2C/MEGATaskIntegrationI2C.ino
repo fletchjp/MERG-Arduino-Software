@@ -89,12 +89,12 @@ void sendToPeripheral(int address) {
 #endif
 }
 
-void readFromPeripheral() {
+void readFromPeripheral(int address) {
   #if defined(WIRE_HAS_TIMEOUT)
   Wire.clearWireTimeoutFlag();
   #endif
   // if data size is available from nodes
-  uint8_t what_results = Wire.requestFrom(8, 6);    // request 6 bytes from peripheral device #8
+  uint8_t what_results = Wire.requestFrom(address, 6);    // request 6 bytes from peripheral device #8
   Serial.print(what_results);
   Serial.println(" bytes available");
   Serial.print("reading ");
@@ -124,7 +124,7 @@ class SendAndReceive : public Executable {
       sendToPeripheral(address);
       Serial.print("Sent to ");
       Serial.println(address);
-      readFromPeripheral();
+      readFromPeripheral(address);
       Serial.println("Received");
    }
 

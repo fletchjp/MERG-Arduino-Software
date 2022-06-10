@@ -12,6 +12,8 @@
 // Timeouts were implemented for AVR in 2020.
 #define WIRE_HAS_TIMEOUT
 
+#define NODE_ADDRESS   8 // The I2C address of the peripheral node
+
 void setup() {
   Serial.begin(115200);           // start serial for output
   Serial.println("Controller Two Way");
@@ -43,7 +45,7 @@ void loop() {
   #if defined(WIRE_HAS_TIMEOUT)
   Wire.clearWireTimeoutFlag();
   #endif
-  byte len = Wire.requestFrom(8, 1); // request 1 byte from device #8
+  byte len = Wire.requestFrom(NODE_ADDRESS, 1); // request 1 byte from device #8
   if (len == 0) {
     Serial.println("Error occured when reading");
     #if defined(WIRE_HAS_TIMEOUT)

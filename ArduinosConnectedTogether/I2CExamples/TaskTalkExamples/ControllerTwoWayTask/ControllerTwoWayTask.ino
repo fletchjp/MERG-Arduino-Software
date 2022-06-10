@@ -15,7 +15,7 @@ byte messageToController[TO_CONTROLLER_SIZE];
 byte messageToPeripheral[TO_PERIPHERAL_SIZE];
 
 void  sendToPeripheral(int);
-void  readFromPeripheral();
+void  readFromPeripheral(int);
 
 
 
@@ -26,7 +26,7 @@ void sendAndReceive() {
    sendToPeripheral(address);
    Serial.print("Sent to ");
    Serial.println(address);
-   readFromPeripheral();
+   readFromPeripheral(address);
    Serial.println("Received");
 
 }
@@ -57,9 +57,9 @@ void sendToPeripheral(int address) {
   Wire.endTransmission();
 }
 
-void readFromPeripheral() {
+void readFromPeripheral(int address) {
   // if data size is available from nodes
-  Wire.requestFrom(NODE_ADDRESS, 6);    // request 6 bytes from peripheral device #8
+  Wire.requestFrom(address, 6);    // request 6 bytes from peripheral device #8
   Serial.print("Task reading ");
   Serial.print(Wire.available());
   Serial.println(" characters");
