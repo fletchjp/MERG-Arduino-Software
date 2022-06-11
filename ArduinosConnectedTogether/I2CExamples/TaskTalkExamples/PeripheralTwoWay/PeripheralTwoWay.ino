@@ -20,8 +20,8 @@ void receiveEvent();
 void setup()
 {
   Wire.begin(NODE_ADDRESS);     // join i2c bus with address NODE_ADDRESS
-  Wire.onReceive(receiveEvent); // register event
-  Wire.onRequest(requestEvent);
+  Wire.onReceive(receiveEvent); // register receive event
+  Wire.onRequest(requestEvent); // register request event
   Serial.begin(115200);           // start serial for output
   Serial.println("Peripheral Receiver active");
   Serial.print("Peripheral No ");
