@@ -35,7 +35,7 @@ class SendAndReceive : public Executable {
 SendAndReceive sendAndReceive(NODE_ADDRESS);
 
 void setup() {
-  Wire.begin();        // join i2c bus (address optional for master)
+  Wire.begin();        // join i2c bus (address optional for controller)
   Serial.begin(115200);  // start serial for output
   Serial.println("Task Class Controller starting");
  // This is at the end of setup()
