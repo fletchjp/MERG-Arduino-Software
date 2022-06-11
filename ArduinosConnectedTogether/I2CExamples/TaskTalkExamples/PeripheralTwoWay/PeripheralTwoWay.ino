@@ -46,7 +46,7 @@ void loop()
   //delay(NODE_READ_DELAY);
 }
 
-// function that executes whenever data is received from master
+// function that executes whenever data is received from controller
 // this function is registered as an event, see setup()
 void receiveEvent(int howMany)
 {
