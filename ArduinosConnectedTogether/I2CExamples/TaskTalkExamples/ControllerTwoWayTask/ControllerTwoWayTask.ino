@@ -32,7 +32,7 @@ void sendAndReceive() {
 }
 
 void setup() {
-  Wire.begin();        // join i2c bus (address optional for master)
+  Wire.begin();        // join i2c bus (address optional for controller)
   Serial.begin(115200);  // start serial for output
   Serial.println("Task Controller starting");
 
@@ -42,7 +42,7 @@ void setup() {
 
 void loop() {
     taskManager.runLoop();
-   // There is no need for a delat any longer.
+   // There is no need for a delay any longer.
    //delay(NODE_READ_DELAY);
 }
 
