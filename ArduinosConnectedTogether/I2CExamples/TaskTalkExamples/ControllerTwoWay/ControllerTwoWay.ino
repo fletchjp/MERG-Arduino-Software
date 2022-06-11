@@ -16,7 +16,7 @@ void  sendToPeripheral(int);
 void  readFromPeripheral();
 
 void setup() {
-  Wire.begin();        // join i2c bus (address optional for master)
+  Wire.begin();        // join i2c bus (address optional for controller)
   Serial.begin(115200);  // start serial for output
   Serial.println("Controller starting");
 }

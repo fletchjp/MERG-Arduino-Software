@@ -7,7 +7,7 @@
 
 #define NODE_READ_DELAY 1000 // Some delay between I2C node reads
 
-// Change this unique address for each I2C slave node
+// Change this unique address for each I2C peripheral node
 #define NODE_ADDRESS 8
 
 byte messageToController[TO_CONTROLLER_SIZE];
