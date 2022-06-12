@@ -2,12 +2,13 @@
 
 ## Two Way Examples for the talk on tasks 
 
+These are codes which will be used for the talk on Arduino Task integration.
 
 ### Integration with TaskManagerIO
 
-### ControllerTwoWayTask
+### ControllerTwoWay
 
-### PeripheralTwoWayTalk
+### PeripheralTwoWay
 
 This pair of codes can transfer messages in both directions.
 
