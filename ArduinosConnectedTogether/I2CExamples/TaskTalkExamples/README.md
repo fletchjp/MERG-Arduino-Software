@@ -36,3 +36,6 @@ Adapted from code in this location to explore use of timeout.
 
 https://www.arduino.cc/reference/en/language/functions/communication/wire/setwiretimeout/
 
+## i2c Scanner
+
+This is a useful code which will report what I2C devices are connected to an Arduino.
