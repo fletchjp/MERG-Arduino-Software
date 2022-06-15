@@ -547,13 +547,4 @@ lastPins = pins;
 void loop() {
 /** as this indirectly uses taskmanager, we must include taskManager.runLoop(); in loop. */
     taskManager.runLoop();
-   // Runs if rotation was detected
-   /*
-  RotaryPosition = encoder.getPosition();
-  TurnDetected = (RotaryPosition != PrevPosition);
-  if (TurnDetected)  {
-    PrevPosition = RotaryPosition; // Save previous position in variable
-    Serial.println(RotaryPosition);
-  }
-  */
 }
