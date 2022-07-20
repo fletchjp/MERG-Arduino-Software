@@ -1,6 +1,7 @@
 //////////////////////////////////////////////////////////////////////
 // Arduino RP2040 FC++ Parser example from old parser.cpp
 //////////////////////////////////////////////////////////////////////
+#include <string>
 #define FCPP152
 #define FCPP_ENABLE_LAMBDA
 #include "fcpp_prelude.h"
@@ -8,6 +9,67 @@
 #include <Streaming.h>
 
 using namespace fcpp;
+
+typedef List<char> StringL;
+
+/// Parser monad which is based on the work of Hutten and Meijer.
+/// I have the paper.
+struct ParserM {
+   // M a = String -> [(a,String)]
+
+   // We use indirect functoids as a representation type, since we will
+   // often need two functions with different behaviors (but the same
+   // signatures) to appear to have the same type.
+   template <class A> struct Rep
+      { typedef Fun1<StringL,List<std::pair<A,StringL> > > Type; };
+   template <class MA> struct UnRep { typedef typename
+      RT<MA,StringL>::ResultType::ElementType::first_type Type; };
+
+   // ReRep is a type-identity in Haskell; here it "indirect"ifies the
+   // type, so direct functoids are turned into indirect ones so that
+   // only the signature information appears in the type.
+   template <class MA> struct ReRep
+      { typedef typename Rep<typename UnRep<MA>::Type>::Type Type; };
+
+   struct XUnit {
+      template <class A> struct Sig : public FunType<A,
+         typename Rep<A>::Type> {};
+      template <class A>
+      typename Sig<A>::ResultType
+      operator()( const A& a ) const {
+         LambdaVar<1> S;
+         return lambda(S)[ cons[makePair[a,S],NIL] ];
+      }
+   };
+   typedef Full1<XUnit> Unit;
+  // This change and the one for Bind got rid of many errors.
+   static Unit& unit() {static Unit f; return f;}
+  //static Unit unit;
+
+   struct XBind {
+      template <class M, class K> struct Sig : public FunType<M,K,typename
+         ReRep<typename RT<K,typename UnRep<M>::Type>::ResultType>::Type> {};
+      template <class M, class K>
+      typename Sig<M,K>::ResultType
+      operator()( const M& m, const K& k ) const {
+         LambdaVar<1> P;
+         LambdaVar<2> S;
+         return lambda(S)[ concat[ compM<ListM>()
+            [ k[fst[P]][snd[P]] | P <= m[S] ] ] ];
+      }
+   };
+   typedef Full2<XBind> Bind;
+   static Bind& bind() {static Bind f; return f;}
+  //static Bind bind;
+
+   typedef Fun1<String,AUniqueTypeForNil> Zero;
+   static Zero& zero() {static Zero f; return f;}
+  //static Zero zero;
+};
+//ParserM::Unit ParserM::unit;
+//ParserM::Bind ParserM::bind;
+//ParserM::Zero ParserM::zero; //= ignore( const_(NIL) );
+
 
 //////////////////////////////////////////////////////////
 
