@@ -16,6 +16,7 @@ typedef List<char> StringL;
 /// Parser monad which is based on the work of Hutten and Meijer.
 /// I have the paper.
 /// This is a translation of the Haskell in the paper into FC++
+/// It is useful to compare the two.
 struct ParserM {
    // M a = StringL -> [(a,StringL)]
 
@@ -143,6 +144,43 @@ struct XCharP : public CFunType<char,
 };
 typedef Full1<XCharP> CharP;
 CharP charP;
+
+// I have not compiled this for a long time as it now fails.
+// The reason is that prelude.h now has an implementation of between
+// which clashes with this.
+// There are several reasons.
+// First, this is not in namespace impl.
+// Second, the arguments are in a different order.
+// Here goal is first and in prelude.h it is last.
+// I am going to call this Between2 and adjust any cases of use.
+
+struct XBetween2 {
+   template <class T, class U, class V> struct Sig
+      : public FunType<T,T,T,bool> {};
+   template <class T>
+   bool operator()( const T& goal, const T& lower, const T& upper ) const {
+      return lessEqual(goal,upper) && greaterEqual(goal,lower);
+   }
+};
+typedef Full3<XBetween2> Between2;
+Between2 between2;
+
+// These are some very useful implementations.
+typedef RT<Sat,RT<Between2,AutoCurryType,char,char>
+   ::ResultType>::ResultType Digit;
+Digit digit = sat( between2(_,'0','9') );
+
+typedef Digit Lower;
+Lower lower = sat( between2(_,'a','z') );
+
+typedef Digit Upper;
+Upper upper = sat( between2(_,'A','Z') );
+
+typedef RT<PlusP,Lower,Upper>::ResultType Letter;
+Letter letter = lower ^plusP^ upper;
+
+typedef RT<PlusP,Letter,Digit>::ResultType AlphaNum;
+AlphaNum alphaNum = letter ^plusP^ digit;
 
 //////////////////////////////////////////////////////////
 
