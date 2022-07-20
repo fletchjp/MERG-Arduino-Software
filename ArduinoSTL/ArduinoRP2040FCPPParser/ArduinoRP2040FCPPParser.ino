@@ -10,12 +10,14 @@
 
 using namespace fcpp;
 
+/// I have renamed String to StringL to avoid a name clashe.
 typedef List<char> StringL;
 
 /// Parser monad which is based on the work of Hutten and Meijer.
 /// I have the paper.
+/// This is a translation of the Haskell in the paper into FC++
 struct ParserM {
-   // M a = String -> [(a,String)]
+   // M a = StringL -> [(a,StringL)]
 
    // We use indirect functoids as a representation type, since we will
    // often need two functions with different behaviors (but the same
@@ -69,6 +71,29 @@ struct ParserM {
 //ParserM::Unit ParserM::unit;
 //ParserM::Bind ParserM::bind;
 //ParserM::Zero ParserM::zero; //= ignore( const_(NIL) );
+
+struct XItem : public CFunType<String,OddList<std::pair<char,StringL> > > {
+   OddList<std::pair<char,StringL> > operator()( const StringL& s ) const {
+      if( null(s) )
+         return NIL;
+      else
+         return cons( makePair( head(s), tail(s) ), NIL );
+   }
+};
+typedef Full1<XItem> Item;
+Item item;
+struct XPlusP {
+   template <class P, class Q, class S> struct Sig : public 
+      FunType<P,Q,String,typename RT<Cat,typename RT<P,StringL>::ResultType,
+      typename RT<Curry1,Q,StringL>::ResultType>::ResultType> {};
+   template <class P, class Q>
+   typename Sig<P,Q,StringL>::ResultType
+   operator()( const P& p, const Q& q, const StringL& s ) const {
+      return p(s) ^cat^ curry1(q,s);
+   }
+};
+typedef Full3<XPlusP> PlusP;
+PlusP plusP;
 
 
 //////////////////////////////////////////////////////////
