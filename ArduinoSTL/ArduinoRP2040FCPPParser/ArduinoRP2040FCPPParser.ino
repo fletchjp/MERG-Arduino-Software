@@ -64,7 +64,7 @@ struct ParserM {
    static Bind& bind() {static Bind f; return f;}
   //static Bind bind;
 
-   typedef Fun1<String,AUniqueTypeForNil> Zero;
+   typedef Fun1<StringL,AUniqueTypeForNil> Zero;
    static Zero& zero() {static Zero f; return f;}
   //static Zero zero;
 };
@@ -72,7 +72,7 @@ struct ParserM {
 //ParserM::Bind ParserM::bind;
 //ParserM::Zero ParserM::zero; //= ignore( const_(NIL) );
 
-struct XItem : public CFunType<String,OddList<std::pair<char,StringL> > > {
+struct XItem : public CFunType<StringL,OddList<std::pair<char,StringL> > > {
    OddList<std::pair<char,StringL> > operator()( const StringL& s ) const {
       if( null(s) )
          return NIL;
@@ -84,7 +84,7 @@ typedef Full1<XItem> Item;
 Item item;
 struct XPlusP {
    template <class P, class Q, class S> struct Sig : public 
-      FunType<P,Q,String,typename RT<Cat,typename RT<P,StringL>::ResultType,
+      FunType<P,Q,StringL,typename RT<Cat,typename RT<P,StringL>::ResultType,
       typename RT<Curry1,Q,StringL>::ResultType>::ResultType> {};
    template <class P, class Q>
    typename Sig<P,Q,StringL>::ResultType
