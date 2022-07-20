@@ -96,6 +96,8 @@ struct XPlusP {
 typedef Full3<XPlusP> PlusP;
 PlusP plusP;
 
+/// Note that in the paper many uses many1 and many1 uses many.
+/// In this implementation many does not use many1.
 template <class Monad>
 struct XManyM {
    // Monad a -> Monad [a]
@@ -145,6 +147,7 @@ struct XCharP : public CFunType<char,
 typedef Full1<XCharP> CharP;
 CharP charP;
 
+// OLD COMMENTS
 // I have not compiled this for a long time as it now fails.
 // The reason is that prelude.h now has an implementation of between
 // which clashes with this.
@@ -181,6 +184,27 @@ Letter letter = lower ^plusP^ upper;
 
 typedef RT<PlusP,Letter,Digit>::ResultType AlphaNum;
 AlphaNum alphaNum = letter ^plusP^ digit;
+
+template <class Monad>
+struct XMany1M {
+   // Monad a -> Monad [a]
+   template <class MA>
+   struct Sig : public FunType<MA, typename LEType<LAM<COMP<
+      CALL<Delay,CALL<Cons,LV<1>,LV<2> > >,GETS<1,MA>,GETS<2,
+      CALL<Full1<XManyM<Monad> >,MA> > > > >::Type> {};
+
+   template <class MA>
+   typename Sig<MA>::ResultType
+   operator()( const MA& ma ) const {
+      LambdaVar<1> A;
+      LambdaVar<2> AS;
+      return lambda()[ compM<Monad>() [ fcpp::delay[cons[A,AS]] | 
+         A <= ma, AS <= makeFull1(XManyM<Monad>())[ma] ] ]();
+   }
+};
+// Just using parser version here:    Parser a -> Parser [a]
+typedef Full1<XMany1M<ParserM> > Many1;
+Many1 many1;
 
 //////////////////////////////////////////////////////////
 
