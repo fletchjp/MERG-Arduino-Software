@@ -290,6 +290,25 @@ struct XChainr {
 typedef Full3<XChainr> Chainr;
 Chainr chainr;
 
+// This is not in the paper. I think it is constructing a number from digits.
+typedef RT<LEType<LAM<LET<BIND<1,LAM<LV<2>,LV<3>,CALL<Plus,
+   CALL<Multiplies,int,LV<2> >,LV<3> > > >,CALL<Chainl1,COMP<ParserM,
+   CALL<Construct1<int>::Type,CALL<Minus,LV<4>,char> >,GETS<4,Digit> >,
+   CALL<UnitM<ParserM>::Type,LV<1> > > > > >::Type>::ResultType Nat;
+Nat xnat() {
+   LambdaVar<1> O; // was OP
+   LambdaVar<2> M;
+   LambdaVar<3> N;
+   LambdaVar<4> X;
+   return lambda()[ let[ 
+      O == lambda(M,N)[ fcpp::plus[fcpp::multiplies[10,M],N] ]
+      ].in[ compM<ParserM>()[ construct1<int>()[fcpp::minus[X,'0']] | X<=digit ]
+            %chainl1% unitM<ParserM>()[O] ] ]();
+}
+Nat nat = xnat();
+
+// More to come from line 330 onwards in parser.cpp
+
 //////////////////////////////////////////////////////////
 
 // This comes from the cdc_multi example
