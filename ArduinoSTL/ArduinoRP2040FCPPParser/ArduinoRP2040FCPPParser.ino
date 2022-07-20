@@ -95,6 +95,54 @@ struct XPlusP {
 typedef Full3<XPlusP> PlusP;
 PlusP plusP;
 
+template <class Monad>
+struct XManyM {
+   // Monad a -> Monad [a]
+   template <class MA>
+   struct Sig : public FunType<MA, typename RT<typename
+      PlusM<Monad>::Type, typename LEType<LAM<COMP<CALL<Cons,LV<1>,LV<2>
+      >,GETS<1,MA>,GETS<2,CALL<Full1<XManyM<Monad> >,MA> > > > >::Type,
+      typename RT<typename UnitM<Monad>::Type, List<typename
+      Monad::template UnRep<MA>::Type> >::ResultType>::ResultType> {};
+
+   template <class MA>
+   typename Sig<MA>::ResultType operator()( const MA& ma ) const {
+      typedef typename Monad::template UnRep<MA>::Type AA;
+      LambdaVar<1> A;
+      LambdaVar<2> AS;
+      return lambda()[ compM<Monad>()[ cons(A,AS) | 
+         A <= ma, AS <= makeFull1(*this)[ma] ] ]() 
+         ^plusM<Monad>()^ unitM<Monad>()( List<AA>() );
+   }
+};
+// Just using parser version here:    Parser a -> Parser [a]
+typedef Full1<XManyM<ParserM> > Many;
+Many many;
+
+// sat :: (char -> bool) -> Parser char
+struct XSat {
+   template <class P> struct Sig : public FunType<P,
+      typename RT<typename LEType<LAM<COMP<ParserM,LV<1>,GETS<1,Item>,
+      GUARD<CALL<P,LV<1> > > > > >::Type>::ResultType> {};
+   template <class P>
+   typename Sig<P>::ResultType
+   operator()( const P& p ) const {
+      LambdaVar<1> C;
+      return lambda()[ compM<ParserM>()[ C | C<=item, guard[p[C]] ] ]();
+   }
+};
+typedef Full1<XSat> Sat;
+Sat sat;
+
+struct XCharP : public CFunType<char, 
+   RT<Sat,RT<Equal,char>::ResultType>::ResultType> {
+   RT<Sat,RT<Equal,char>::ResultType>::ResultType
+   operator()( char c ) const {
+      return sat( equal(c) );
+   }
+};
+typedef Full1<XCharP> CharP;
+CharP charP;
 
 //////////////////////////////////////////////////////////
 
