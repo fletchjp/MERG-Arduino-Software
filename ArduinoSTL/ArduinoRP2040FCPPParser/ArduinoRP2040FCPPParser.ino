@@ -206,6 +206,90 @@ struct XMany1M {
 typedef Full1<XMany1M<ParserM> > Many1;
 Many1 many1;
 
+struct XChainl1 {
+   // Parser a -> Parser (a->a->a) -> Parser a
+   // parses a series of items separated by left-associative operators
+
+   typedef BindM<ParserM>::Type BIND;
+   typedef UnitM<ParserM>::Type UNIT;
+   template <class P, class O>
+   struct XRest {
+      P p;
+      O op;
+      XRest( const P& pp, const O& oo ) : p(pp), op(oo) {}
+
+      template <class X> struct Sig : public FunType<X,
+         typename ParserM::Rep<X>::Type> {};
+      template <class X>
+      typename Sig<X>::ResultType
+      operator()( const X& x ) const {
+         LambdaVar<1> F;
+         LambdaVar<2> Y;
+         return (op ^BIND()^ lambda(F)[ 
+                 p  %BIND()% lambda(Y)[
+                 makeFull1(*this)[ F[x,Y] ] ] ]) ^plusP^ UNIT()(x);
+      }
+   };
+
+   template <class P, class O> struct Sig : public FunType<P,O,
+      typename RT<BIND,P,Full1<XRest<P,O> > >::ResultType> {};
+   template <class P, class O>
+   typename Sig<P,O>::ResultType
+   operator()( const P& p, const O& op ) const {
+      return p ^BIND()^ makeFull1(XRest<P,O>(p,op));
+   }
+};
+typedef Full2<XChainl1> Chainl1;
+Chainl1 chainl1;
+
+// This is mentioned in the paper and not implemented.
+struct XChainr1 {
+   // Parser a -> Parser (a->a->a) -> Parser a
+   // parses a series of items separated by right-associative operators
+
+   template <class P, class O> struct Sig : public FunType<P,O,
+      typename ParserM::Rep<typename ParserM::UnRep<P>::Type>::Type> {};
+   template <class P, class O>
+   typename Sig<P,O>::ResultType
+   operator()( const P& p, const O& op ) const {
+      LambdaVar<1> F;
+      LambdaVar<2> X;
+      LambdaVar<3> Y;
+      return p ^bindM<ParserM>()^ lambda(X)[ compM<ParserM>()
+         [ F[X,Y] | F <= op, Y <= makeFull2(*this)[p][op] ]
+         %plusP% unitM<ParserM>()[X] ];
+   }
+};
+typedef Full2<XChainr1> Chainr1;
+Chainr1 chainr1;
+
+struct XChainl {
+   template <class P, class O, class V> struct Sig : public FunType<P,O,V,
+      typename RT<PlusP,typename RT<Chainl1,P,O>::ResultType,
+      typename RT<typename UnitM<ParserM>::Type,V>::ResultType>::ResultType> {};
+   template <class P, class O, class V>
+   typename Sig<P,O,V>::ResultType
+   operator()( const P& p, const O& op, const V& v ) const {
+      return (p ^chainl1^ op) ^plusP^ unitM<ParserM>()(v);
+   }
+};
+typedef Full3<XChainl> Chainl;
+Chainl chainl;
+
+// This is mentioned in the paper and not implemented.
+struct XChainr {
+   template <class P, class O, class V> struct Sig : public FunType<P,O,V,
+      typename RT<PlusP,typename RT<Chainr1,P,O>::ResultType,
+      typename RT<typename UnitM<ParserM>::Type,V>::ResultType>::ResultType> {};
+   template <class P, class O, class V>
+   typename Sig<P,O,V>::ResultType
+   operator()( const P& p, const O& op, const V& v ) const {
+      return (p ^chainr1^ op) ^plusP^ unitM<ParserM>()(v);
+   }
+};
+typedef Full3<XChainr> Chainr;
+Chainr chainr;
+
 //////////////////////////////////////////////////////////
 
 // This comes from the cdc_multi example
