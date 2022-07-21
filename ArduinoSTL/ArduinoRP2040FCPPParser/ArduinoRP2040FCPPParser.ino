@@ -322,14 +322,29 @@ Nat xnat() {
 Nat nat = xnat();
 
 /* This will not compile: 'IntP' does not name a type
- *  There must be something wrong with the typedef although it does compile. */
+ *  There must be something wrong with the typedef although it does compile.
+ *  Experiment shows that it does not work as a type for  IntP xintp() {  }
+ *  and it does work as a type for IntP intP = xintp();
+ * I do not have an explanation for this.
+ */
+
 typedef RT<LEType<LAM<LET<BIND<3,CALL<PlusP,COMP<ParserM,CALL<
    Construct1<Fun1<int,int> >::Type,fcpp::Negate>,CALL<CharP,char> >,CALL<
    UnitM<ParserM>::Type,CALL<Construct1<Fun1<int,int> >::Type,fcpp::Id> > > >, 
    COMP<ParserM,CALL<LV<1>,LV<2> >,GETS<1,LV<3> >,GETS<2,Nat> 
    > > > >::Type>::ResultType IntP;
-/*
-IntP xintp() {
+
+ /* attempt at simplification
+typedef Construct1<Fun1<int,int> >::Type Con1;
+typedef UnitM<ParserM>::Type Unit1;
+typedef RT<LEType<LAM<LET<BIND<3,CALL<PlusP,COMP<ParserM,CALL<
+   Con1,fcpp::Negate>,CALL<CharP,char> >,CALL<
+   Unit1,CALL<Con1,fcpp::Id> > > >, 
+   COMP<ParserM,CALL<LV<1>,LV<2> >,GETS<1,LV<3> >,GETS<2,Nat> 
+   > > > >::Type>::ResultType IntP;
+*/
+//IntP xintp() {
+auto xintp() {
    LambdaVar<1> F;
    LambdaVar<2> N;
    LambdaVar<3> O;  // O was OP
@@ -339,7 +354,7 @@ IntP xintp() {
       .in[ compM<ParserM>()[ F[N] | F<=O, N<=nat ] ]   ]();
 }
 IntP intP = xintp();
-*/
+
 
 struct XSepBy1 {
    // Parser a -> Parser b -> Parser [a]
@@ -410,7 +425,7 @@ typedef Full1<XOps> Ops;
 Ops ops;
 
 
-// More to come from line 330 onwards in parser.cpp
+// More to come from line 414 onwards in parser.cpp
 
 //////////////////////////////////////////////////////////
 
