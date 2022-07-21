@@ -375,6 +375,40 @@ struct XBracket {
 typedef Full3<XBracket> Bracket;
 Bracket bracket;
 
+struct XSepBy {
+   template <class P, class S> struct Sig : public FunType<P,S,
+      typename RT<PlusP,typename RT<SepBy1,P,S>::ResultType,
+      typename RT<UnitM<ParserM>::Type,List<typename
+      ParserM::UnRep<P>::Type> >::ResultType>::ResultType> {};
+   template <class P, class S>
+   typename Sig<P,S>::ResultType
+   operator()( const P& p, const S& sep ) const {
+      typedef typename ParserM::UnRep<P>::Type A;
+      List<A> l = NIL;
+      return (p ^sepBy1^ sep) ^plusP^ unitM<ParserM>()( l );
+   }
+};
+typedef Full2<XSepBy> SepBy;
+SepBy sepBy;
+
+struct XOps {
+   // [(Parser a, b)] -> Parser b
+   // given a list of pair<parser to parse op,op>, returns a parser
+   template <class X> struct Sig : public FunType<X,
+      typename RT<Foldr1,PlusP,typename RT<typename LEType<LAM<
+      COMP<ListM,COMP<ParserM,CALL<Snd,LV<1> >,CALL<Fst,LV<1> > >,
+      GETS<1,X> > > >::Type>::ResultType>::ResultType> {};
+   template <class X>
+   typename Sig<X>::ResultType
+   operator()( const X& xs ) const {
+      LambdaVar<1> P;
+      return foldr1( plusP, lambda()[ compM<ListM>()[ 
+         compM<ParserM>()[ snd[P] | fst[P] ]   | P <= xs ] ]() );
+   }
+};
+typedef Full1<XOps> Ops;
+Ops ops;
+
 
 // More to come from line 330 onwards in parser.cpp
 
