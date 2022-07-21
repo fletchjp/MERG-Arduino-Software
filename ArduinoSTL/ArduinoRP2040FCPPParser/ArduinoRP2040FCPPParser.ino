@@ -322,12 +322,13 @@ Nat xnat() {
 Nat nat = xnat();
 
 /* This will not compile: 'IntP' does not name a type
- *  There must be something wrong with the typedef.
+ *  There must be something wrong with the typedef although it does compile. */
 typedef RT<LEType<LAM<LET<BIND<3,CALL<PlusP,COMP<ParserM,CALL<
    Construct1<Fun1<int,int> >::Type,fcpp::Negate>,CALL<CharP,char> >,CALL<
    UnitM<ParserM>::Type,CALL<Construct1<Fun1<int,int> >::Type,fcpp::Id> > > >, 
    COMP<ParserM,CALL<LV<1>,LV<2> >,GETS<1,LV<3> >,GETS<2,Nat> 
    > > > >::Type>::ResultType IntP;
+/*
 IntP xintp() {
    LambdaVar<1> F;
    LambdaVar<2> N;
@@ -339,6 +340,42 @@ IntP xintp() {
 }
 IntP intP = xintp();
 */
+
+struct XSepBy1 {
+   // Parser a -> Parser b -> Parser [a]
+   // parses "p (sep p)*", throwing away the separators
+   template <class P, class S> struct Sig : public FunType<P,S,
+      typename RT<typename LEType<LAM<COMP<ParserM,CALL<Delay,
+      CALL<Cons,LV<1>,LV<2> > >,GETS<1,P>,GETS<2,CALL<Many,
+      COMP<ParserM,LV<3>,S,GETS<3,P> > > > > > >::Type>::ResultType> {};
+   template <class P, class S>
+   typename Sig<P,S>::ResultType
+   operator()( const P& p, const S& sep ) const {
+      LambdaVar<1> X;
+      LambdaVar<2> XS;
+      LambdaVar<3> Y;
+      return lambda()[ compM<ParserM>()[ fcpp::delay[cons[X,XS]] |
+         X <= p, XS <= many[ compM<ParserM>()[ Y | sep, Y <= p ] ] ] ]();
+   }
+};
+typedef Full2<XSepBy1> SepBy1;
+SepBy1 sepBy1;
+
+struct XBracket {
+   template <class O, class P, class C> struct Sig : public FunType<O,P,C,
+      typename RT<typename LEType<LAM<COMP<ParserM,LV<1>,O,GETS<1,P>,C>
+      > >::Type>::ResultType> {};
+   template <class O, class P, class C>
+   typename Sig<O,P,C>::ResultType
+   operator()( const O& open, const P& p, const C& close ) const {
+      LambdaVar<1> X;
+      return lambda()[ compM<ParserM>()[ X | open, X<=p, close ] ]();
+   }
+};
+typedef Full3<XBracket> Bracket;
+Bracket bracket;
+
+
 // More to come from line 330 onwards in parser.cpp
 
 //////////////////////////////////////////////////////////
