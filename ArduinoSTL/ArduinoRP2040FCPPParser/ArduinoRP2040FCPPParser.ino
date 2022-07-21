@@ -1,6 +1,17 @@
 //////////////////////////////////////////////////////////////////////
 // Arduino RP2040 FC++ Parser example from old parser.cpp
 //////////////////////////////////////////////////////////////////////
+// I think this is a significant comment from the original file.
+// The point is that the origin of this code is older than the Monad implementation.
+/* This is from the client_index file.
+
+parser              Monadic parser combinators.  A bit of a mess, but
+                       they work.  This program inspired Brian to implement
+                       monads/lambda, but he never went back to clean up
+                       the program much after lambda/monads were implemented.
+*/
+//////////////////////////////////////////////////////////////////////
+
 #include <string>
 #define FCPP152
 #define FCPP_ENABLE_LAMBDA
@@ -10,13 +21,14 @@
 
 using namespace fcpp;
 
-/// I have renamed String to StringL to avoid a name clashe.
+/// I have renamed String to StringL to avoid a name clash with the Arduino use of String.
 typedef List<char> StringL;
 
 /// Parser monad which is based on the work of Hutten and Meijer.
 /// I have the paper.
 /// This is a translation of the Haskell in the paper into FC++
 /// It is useful to compare the two.
+/// The paper does not mention Unit and Bind.
 struct ParserM {
    // M a = StringL -> [(a,StringL)]
 
@@ -83,6 +95,8 @@ struct XItem : public CFunType<StringL,OddList<std::pair<char,StringL> > > {
 };
 typedef Full1<XItem> Item;
 Item item;
+
+// I think this is the (+++) in the paper page 4.
 struct XPlusP {
    template <class P, class Q, class S> struct Sig : public 
       FunType<P,Q,StringL,typename RT<Cat,typename RT<P,StringL>::ResultType,
@@ -307,6 +321,24 @@ Nat xnat() {
 }
 Nat nat = xnat();
 
+/* This will not compile: 'IntP' does not name a type
+ *  There must be something wrong with the typedef.
+typedef RT<LEType<LAM<LET<BIND<3,CALL<PlusP,COMP<ParserM,CALL<
+   Construct1<Fun1<int,int> >::Type,fcpp::Negate>,CALL<CharP,char> >,CALL<
+   UnitM<ParserM>::Type,CALL<Construct1<Fun1<int,int> >::Type,fcpp::Id> > > >, 
+   COMP<ParserM,CALL<LV<1>,LV<2> >,GETS<1,LV<3> >,GETS<2,Nat> 
+   > > > >::Type>::ResultType IntP;
+IntP xintp() {
+   LambdaVar<1> F;
+   LambdaVar<2> N;
+   LambdaVar<3> O;  // O was OP
+   Construct1<Fun1<int,int> >::Type cf = construct1<Fun1<int,int> >();
+   return lambda()[ let[ O == compM<ParserM>()[ cf[fcpp::negate] | charP['-'] ]
+                               %plusP% unitM<ParserM>()[ cf[id] ] ] 
+      .in[ compM<ParserM>()[ F[N] | F<=O, N<=nat ] ]   ]();
+}
+IntP intP = xintp();
+*/
 // More to come from line 330 onwards in parser.cpp
 
 //////////////////////////////////////////////////////////
