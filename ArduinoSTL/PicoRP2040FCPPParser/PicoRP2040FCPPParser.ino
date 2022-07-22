@@ -520,6 +520,15 @@ P_int dummy = ignore(const_(cons(makePair(0,StringL()),NIL)));
 P_int group=dummy, factor=dummy, term=dummy, expression=dummy;
 
 //////////////////////////////////////////////////////////
+void outStringL (const StringL& s)
+{
+   StringL::iterator si;
+   for (si = s.begin(); si != s.end(); ++si) {
+      Serial.printf("%c",*si);
+   }
+}
+
+
 void parser_example()
 {
    LambdaVar<91> S;
@@ -530,10 +539,11 @@ void parser_example()
 //////////////////////////////////////////////////////////////////////
 
    Serial.printf("Test of ParserM monad\n");
-   std::string ss("1 + 2");
+   std::string ss("123 + 4");
    //Serial << "string is " << ss << endl;
    StringL s( ss.begin(), ss.end() );
    StringL::iterator si;
+   Serial.printf("Input string is ");
    for (si = s.begin(); si != s.end(); ++si) {
       Serial.printf("%c",*si);
    }
@@ -549,12 +559,37 @@ void parser_example()
    Serial.printf("Length of lpcs is %d \n",lp);
    List<std::pair<char,StringL> >::iterator lpi;
    for (lpi = lpcs.begin(); lpi != lpcs.end(); ++lpi) {
-      Serial.printf("%c \n",(*lpi).first);
+      Serial.printf("%c ",(*lpi).first);
+      outStringL((*lpi).second);
+      Serial.printf("\n");      
+   }
+   auto exprp = exprP(s);
+   int lrp = length(exprp);
+   Serial.printf("Length of exprP(s) is %d \n",lrp);
+   List<std::pair<int,StringL> >::iterator lpisi;
+   for (lpisi = exprp.begin(); lpisi != exprp.end(); ++lpisi) {
+      Serial.printf("%d ",(*lpisi).first);
+      outStringL((*lpisi).second);
+      Serial.printf("\n");      
    }
    auto expr = expression(s);
-   int lr = length(expr);
-   Serial.printf("Length of expr is %d \n",lr);
+    int lr = length(expr);
+   Serial.printf("Length of expression(s) is %d \n",lr);
    Serial.printf("expr.head().first %c \n",(expr.head()).first);
+   List<std::pair<int,StringL> > lpis;
+   //List<std::pair<int,StringL> >::iterator lpisi;
+   lpis = nat(s);
+   int ln = length(lpis);
+   Serial.printf("Length of nat(s) is %d \n",ln);
+   //Serial.printf("lpis.head().first %d \n",(lpis.head()).first);
+   for (lpisi = lpis.begin(); lpisi != lpis.end(); ++lpisi) {
+      Serial.printf("%d ",(*lpisi).first);
+      outStringL((*lpisi).second);
+      Serial.printf("\n");      
+   }
+   //Serial.printf("\n");
+
+
 }
 
 //////////////////////////////////////////////////////////
