@@ -23,6 +23,11 @@ parser              Monadic parser combinators.  A bit of a mess, but
 // There is still one case which is a problem.
 // New ideas will be in a new version.
 //////////////////////////////////////////////////////////////////////
+// The example parser deals correctly with expressions like this
+// "123+45-6"
+// which have + and - and multi digit integers.
+// It does NOT deal correctly with * and () and does not discard spaces.
+//////////////////////////////////////////////////////////////////////
 
 #include <string>
 #define FCPP152
@@ -537,16 +542,18 @@ void parser_example()
    expression = term ^chainl1^ addOp;
    group      = bracket( charP('('), expression, charP(')') );
 //////////////////////////////////////////////////////////////////////
-
+   // This example does not deal with spaces.
    Serial.printf("Test of ParserM monad\n");
-   std::string ss("123 + 4");
+   // Strings with + and - and no spaces are processed correctly.
+   std::string ss("123+45-6");
    //Serial << "string is " << ss << endl;
    StringL s( ss.begin(), ss.end() );
    StringL::iterator si;
    Serial.printf("Input string is ");
-   for (si = s.begin(); si != s.end(); ++si) {
-      Serial.printf("%c",*si);
-   }
+   outStringL(s);
+   //for (si = s.begin(); si != s.end(); ++si) {
+   //   Serial.printf("%c",*si);
+   //}
    Serial.printf("\n");
    int l = length(s); // force evaluation
    Serial.printf("Length of s is %d \n",l);
@@ -573,9 +580,14 @@ void parser_example()
       Serial.printf("\n");      
    }
    auto expr = expression(s);
-    int lr = length(expr);
+   int lr = length(expr);
    Serial.printf("Length of expression(s) is %d \n",lr);
-   Serial.printf("expr.head().first %c \n",(expr.head()).first);
+   for (lpisi = expr.begin(); lpisi != expr.end(); ++lpisi) {
+      Serial.printf("%d ",(*lpisi).first);
+      outStringL((*lpisi).second);
+      Serial.printf("\n");      
+   }
+   //Serial.printf("expr.head().first %c \n",(expr.head()).first);
    List<std::pair<int,StringL> > lpis;
    //List<std::pair<int,StringL> >::iterator lpisi;
    lpis = nat(s);
