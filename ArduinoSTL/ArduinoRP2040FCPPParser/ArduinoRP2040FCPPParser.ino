@@ -472,10 +472,12 @@ auto xexpOp() {
 }
 ExpOp expOp = xexpOp();
 
-typedef RT<PlusP,Nat,RT<Bracket,RT<CharP,char>::ResultType,
-   ExprP,RT<CharP,char>::ResultType>::ResultType>::ResultType Factor;
-//Factor xfactor() {
-auto xfactor() {
+//typedef RT<PlusP,Nat,RT<Bracket,RT<CharP,char>::ResultType,
+//   ExprP,RT<CharP,char>::ResultType>::ResultType>::ResultType Factor;
+using Factor = RT<PlusP,Nat,RT<Bracket,RT<CharP,char>::ResultType,
+   ExprP,RT<CharP,char>::ResultType>::ResultType>::ResultType;
+Factor xfactor() {
+//auto xfactor() {
    static Factor result = nat ^plusP^ bracket( charP('('), exprP, charP(')') );
    return result;
 }
