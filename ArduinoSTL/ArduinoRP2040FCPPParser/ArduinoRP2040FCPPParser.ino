@@ -458,6 +458,7 @@ int my_pow( int x, int y ) {
    }
    return r;
 }
+
 typedef ParserM::Rep<int>::Type ExprP;
 //using ExprP = typename ParserM::Rep<int>::Type;
 extern ExprP exprP;
@@ -516,6 +517,21 @@ ExprP exprP = xexprP();
 typedef ParserM::Rep<int>::Type P_int;
 P_int dummy = ignore(const_(cons(makePair(0,StringL()),NIL)));
 P_int group=dummy, factor=dummy, term=dummy, expression=dummy;
+
+//////////////////////////////////////////////////////////
+void parser_example()
+{
+   LambdaVar<91> S;
+   factor     = lambda(S)[ (nat %plusP% dereference[&group])[S] ];
+   term       = factor ^chainr1^ expOp;
+   expression = term ^chainl1^ addOp;
+   group      = bracket( charP('('), expression, charP(')') );
+//////////////////////////////////////////////////////////////////////
+
+   std::string ss;
+
+
+}
 
 //////////////////////////////////////////////////////////
 // This comes from the cdc_multi example
