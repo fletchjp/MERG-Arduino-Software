@@ -12,6 +12,11 @@ parser              Monadic parser combinators.  A bit of a mess, but
 */
 //////////////////////////////////////////////////////////////////////
 // This code is going to be kept as close as possible to parser.cpp
+// I have now finished porting the monad code and functions.
+// I still need to do the example code.
+// The main puzzle is why I have to replace IntP xintp() with  auto xintp()
+// as some typedefs are not recognised although others are.
+// There are about 6 examples which need the change.
 // New ideas will be in a new version.
 //////////////////////////////////////////////////////////////////////
 
