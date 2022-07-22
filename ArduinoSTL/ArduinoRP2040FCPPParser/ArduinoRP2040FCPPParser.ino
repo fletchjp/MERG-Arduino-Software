@@ -459,6 +459,43 @@ auto xaddOp() {
 }
 AddOp addOp = xaddOp();
 
+typedef AddOp ExpOp;
+//ExpOp xexpOp() {
+auto xexpOp() {
+   typedef Fun2<int,int,int> F2;
+   return ops( list_with( makePair(charP('^'),F2(ptr_to_fun(&my_pow))) ) );
+}
+ExpOp expOp = xexpOp();
+
+typedef RT<PlusP,Nat,RT<Bracket,RT<CharP,char>::ResultType,
+   ExprP,RT<CharP,char>::ResultType>::ResultType>::ResultType Factor;
+//Factor xfactor() {
+auto xfactor() {
+   static Factor result = nat ^plusP^ bracket( charP('('), exprP, charP(')') );
+   return result;
+}
+
+typedef ExprP Term;  // I am too lazy to direct-type this
+//Term xterm() {
+auto xterm() {
+   static Term result = thunkFuncToFunc(ptr_to_fun(&xfactor)) ^chainr1^ expOp;
+   return result;
+}
+
+//ExprP xexprP() {
+auto xexprP() {
+   return thunkFuncToFunc(ptr_to_fun(&xterm)) ^chainl1^ addOp;
+}
+ExprP exprP = xexprP();
+
+//////////////////////////////////////////////////////////////////////
+// Here I just want to show the straightforward way using indirect
+// functoid types:
+
+typedef ParserM::Rep<int>::Type P_int;
+P_int dummy = ignore(const_(cons(makePair(0,StringL()),NIL)));
+P_int group=dummy, factor=dummy, term=dummy, expression=dummy;
+
 //////////////////////////////////////////////////////////
 // This comes from the cdc_multi example
 // Helper: non-blocking "delay" alternative.
