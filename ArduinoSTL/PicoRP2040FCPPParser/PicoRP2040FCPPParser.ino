@@ -551,7 +551,10 @@ void parser_example()
    for (lpi = lpcs.begin(); lpi != lpcs.end(); ++lpi) {
       Serial.printf("%c \n",(*lpi).first);
    }
-
+   auto expr = expression(s);
+   int lr = length(expr);
+   Serial.printf("Length of expr is %d \n",lr);
+   Serial.printf("expr.head().first %c \n",(expr.head()).first);
 }
 
 //////////////////////////////////////////////////////////
