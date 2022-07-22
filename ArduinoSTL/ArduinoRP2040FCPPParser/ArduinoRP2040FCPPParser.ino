@@ -528,8 +528,27 @@ void parser_example()
    group      = bracket( charP('('), expression, charP(')') );
 //////////////////////////////////////////////////////////////////////
 
-   std::string ss;
+   Serial << "Test of ParserM monad" << endl;
+   std::string ss("1 + 2");
+   //Serial << "string is " << ss << endl;
+   StringL s( ss.begin(), ss.end() );
+   StringL::iterator si;
+   for (si = s.begin(); si != s.end(); ++si) {
+      Serial << *si << " ";
+   }
+   Serial << endl;
 
+   Serial << "Length of s is " << length(s) << endl;  // force evaluation
+
+
+   typedef ParserM P;
+   LambdaVar<1> X;
+   List<std::pair<char,StringL> > lpcs = lambda()[ compM<P>()
+      [ X | X <= item ] ]()(s);
+   List<std::pair<char,StringL> >::iterator lpi;
+   for (lpi = lpcs.begin(); lpi != lpcs.end(); ++lpi) {
+      Serial << (*lpi).first << " " << (*lpi).second << endl;
+   }
 
 }
 
@@ -604,7 +623,7 @@ void setup() {
   Serial << "Length of odds is " << length(odds) << endl;
   Serial << "sum of the odds is " << sum_odds << endl;
   while (!delay_without_delaying(5000) ) { };
-
+  parser_example();
 }
 
 void loop() {
