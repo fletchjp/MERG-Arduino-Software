@@ -535,17 +535,18 @@ void parser_example()
    StringL s( ss.begin(), ss.end() );
    StringL::iterator si;
    for (si = s.begin(); si != s.end(); ++si) {
-      Serial.printf(" %c ",*si);
+      Serial.printf("%c",*si);
    }
    Serial.printf("\n");
    int l = length(s); // force evaluation
-   Serial.printf("Length of s is %d \n",l);// force evaluation
-
+   Serial.printf("Length of s is %d \n",l);
 
    typedef ParserM P;
    LambdaVar<1> X;
    List<std::pair<char,StringL> > lpcs = lambda()[ compM<P>()
       [ X | X <= item ] ]()(s);
+   int lp = length(lpcs);
+   Serial.printf("Length of lpcs is %d \n",lp);
    List<std::pair<char,StringL> >::iterator lpi;
    for (lpi = lpcs.begin(); lpi != lpcs.end(); ++lpi) {
       Serial.printf("%c \n",(*lpi).first);
