@@ -455,7 +455,7 @@ extern ExprP exprP;
 
 typedef RT<Ops,List<std::pair<RT<CharP,char>::ResultType,Fun2<int,int,int> 
    > > >::ResultType AddOp;
-//AddOp xaddOp() { we have another one.
+//AddOp xaddOp() { //we have another one.
 auto xaddOp() {
    typedef Fun2<int,int,int> F2; // was F which clashes
    return ops( list_with( 
