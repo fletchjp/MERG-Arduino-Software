@@ -433,7 +433,33 @@ Ops ops;
 // More to come from line 414 onwards in parser.cpp
 
 //////////////////////////////////////////////////////////
+// Output operators have to be done differently.
+//////////////////////////////////////////////////////////
 
+int my_pow( int x, int y ) {
+   int r = 1;
+   while(y) {
+      r *= x;
+      --y;
+   }
+   return r;
+}
+
+typedef ParserM::Rep<int>::Type ExprP;
+extern ExprP exprP;
+
+typedef RT<Ops,List<std::pair<RT<CharP,char>::ResultType,Fun2<int,int,int> 
+   > > >::ResultType AddOp;
+//AddOp xaddOp() { we have another one.
+auto xaddOp() {
+   typedef Fun2<int,int,int> F2; // was F which clashes
+   return ops( list_with( 
+      makePair( charP('+'), F2(fcpp::plus)  ), 
+      makePair( charP('-'), F2(fcpp::minus) )   ) );
+}
+AddOp addOp = xaddOp();
+
+//////////////////////////////////////////////////////////
 // This comes from the cdc_multi example
 // Helper: non-blocking "delay" alternative.
 boolean delay_without_delaying(unsigned long time) {
