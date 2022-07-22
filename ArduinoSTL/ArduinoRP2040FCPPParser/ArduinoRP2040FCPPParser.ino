@@ -11,6 +11,9 @@ parser              Monadic parser combinators.  A bit of a mess, but
                        the program much after lambda/monads were implemented.
 */
 //////////////////////////////////////////////////////////////////////
+// This code is going to be kept as close as possible to parser.cpp
+// New ideas will be in a new version.
+//////////////////////////////////////////////////////////////////////
 
 #include <string>
 #define FCPP152
@@ -344,6 +347,7 @@ typedef RT<LEType<LAM<LET<BIND<3,CALL<PlusP,COMP<ParserM,CALL<
    > > > >::Type>::ResultType IntP;
 */
 // I have no idea why using auto makes this work when the line IntP intP = xintp();
+// The code was written for C++ and is now being compiled with C++17.
 //IntP xintp() {
 auto xintp() {
    LambdaVar<1> F;
