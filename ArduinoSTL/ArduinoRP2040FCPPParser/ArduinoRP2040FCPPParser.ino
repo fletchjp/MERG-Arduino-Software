@@ -334,7 +334,7 @@ typedef RT<LEType<LAM<LET<BIND<3,CALL<PlusP,COMP<ParserM,CALL<
    COMP<ParserM,CALL<LV<1>,LV<2> >,GETS<1,LV<3> >,GETS<2,Nat> 
    > > > >::Type>::ResultType IntP;
 
- /* attempt at simplification
+ /* attempt at simplification which made no difference.
 typedef Construct1<Fun1<int,int> >::Type Con1;
 typedef UnitM<ParserM>::Type Unit1;
 typedef RT<LEType<LAM<LET<BIND<3,CALL<PlusP,COMP<ParserM,CALL<
@@ -343,6 +343,7 @@ typedef RT<LEType<LAM<LET<BIND<3,CALL<PlusP,COMP<ParserM,CALL<
    COMP<ParserM,CALL<LV<1>,LV<2> >,GETS<1,LV<3> >,GETS<2,Nat> 
    > > > >::Type>::ResultType IntP;
 */
+// I have no idea why using auto makes this work when the line IntP intP = xintp();
 //IntP xintp() {
 auto xintp() {
    LambdaVar<1> F;
