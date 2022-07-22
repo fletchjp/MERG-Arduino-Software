@@ -17,6 +17,9 @@ parser              Monadic parser combinators.  A bit of a mess, but
 // The main puzzle is why I have to replace IntP xintp() with  auto xintp()
 // as some typedefs are not recognised although others are.
 // There are about 6 examples which need the change.
+// Most cases are now solved with
+// using "X = type_expression;" instead of "typedef type_expression X;"
+// There is still one case which is a problem.
 // New ideas will be in a new version.
 //////////////////////////////////////////////////////////////////////
 
@@ -336,12 +339,18 @@ Nat nat = xnat();
  * I do not have an explanation for this.
  */
 
+using IntP =  RT<LEType<LAM<LET<BIND<3,CALL<PlusP,COMP<ParserM,CALL<
+   Construct1<Fun1<int,int> >::Type,fcpp::Negate>,CALL<CharP,char> >,CALL<
+   UnitM<ParserM>::Type,CALL<Construct1<Fun1<int,int> >::Type,fcpp::Id> > > >, 
+   COMP<ParserM,CALL<LV<1>,LV<2> >,GETS<1,LV<3> >,GETS<2,Nat> 
+   > > > >::Type>::ResultType;
+/*
 typedef RT<LEType<LAM<LET<BIND<3,CALL<PlusP,COMP<ParserM,CALL<
    Construct1<Fun1<int,int> >::Type,fcpp::Negate>,CALL<CharP,char> >,CALL<
    UnitM<ParserM>::Type,CALL<Construct1<Fun1<int,int> >::Type,fcpp::Id> > > >, 
    COMP<ParserM,CALL<LV<1>,LV<2> >,GETS<1,LV<3> >,GETS<2,Nat> 
    > > > >::Type>::ResultType IntP;
-
+*/
  /* attempt at simplification which made no difference.
 typedef Construct1<Fun1<int,int> >::Type Con1;
 typedef UnitM<ParserM>::Type Unit1;
@@ -353,8 +362,8 @@ typedef RT<LEType<LAM<LET<BIND<3,CALL<PlusP,COMP<ParserM,CALL<
 */
 // I have no idea why using auto makes this work when the line IntP intP = xintp();
 // The code was written for C++ and is now being compiled with C++17.
-//IntP xintp() {
-auto xintp() {
+IntP xintp() {
+//auto xintp() {
    LambdaVar<1> F;
    LambdaVar<2> N;
    LambdaVar<3> O;  // O was OP
@@ -449,14 +458,16 @@ int my_pow( int x, int y ) {
    }
    return r;
 }
-
 typedef ParserM::Rep<int>::Type ExprP;
+//using ExprP = typename ParserM::Rep<int>::Type;
 extern ExprP exprP;
 
-typedef RT<Ops,List<std::pair<RT<CharP,char>::ResultType,Fun2<int,int,int> 
-   > > >::ResultType AddOp;
-//AddOp xaddOp() { //we have another one.
-auto xaddOp() {
+using AddOp =  RT<Ops,List<std::pair<RT<CharP,char>::ResultType,Fun2<int,int,int> 
+   > > >::ResultType;
+//typedef RT<Ops,List<std::pair<RT<CharP,char>::ResultType,Fun2<int,int,int> 
+//   > > >::ResultType AddOp;
+AddOp xaddOp() { //we have another one.
+//auto xaddOp() {
    typedef Fun2<int,int,int> F2; // was F which clashes
    return ops( list_with( 
       makePair( charP('+'), F2(fcpp::plus)  ), 
@@ -464,9 +475,10 @@ auto xaddOp() {
 }
 AddOp addOp = xaddOp();
 
-typedef AddOp ExpOp;
-//ExpOp xexpOp() {
-auto xexpOp() {
+using ExpOp = AddOp ;
+//typedef AddOp ExpOp;
+ExpOp xexpOp() {
+//auto xexpOp() {
    typedef Fun2<int,int,int> F2;
    return ops( list_with( makePair(charP('^'),F2(ptr_to_fun(&my_pow))) ) );
 }
@@ -482,14 +494,16 @@ Factor xfactor() {
    return result;
 }
 
-typedef ExprP Term;  // I am too lazy to direct-type this
-//Term xterm() {
-auto xterm() {
+using Term = ExprP;
+//typedef ExprP Term;  // I am too lazy to direct-type this
+Term xterm() {
+//auto xterm() {
    static Term result = thunkFuncToFunc(ptr_to_fun(&xfactor)) ^chainr1^ expOp;
    return result;
 }
 
 //ExprP xexprP() {
+//Term xexprP() { // This does not work here.
 auto xexprP() {
    return thunkFuncToFunc(ptr_to_fun(&xterm)) ^chainl1^ addOp;
 }
