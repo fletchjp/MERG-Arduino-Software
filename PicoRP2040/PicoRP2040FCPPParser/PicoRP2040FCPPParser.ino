@@ -41,7 +41,7 @@ using namespace fcpp;
 /// I have renamed String to StringL to avoid a name clash with the Arduino use of String.
 typedef List<char> StringL;
 
-/// Parser monad which is based on the work of Hutten and Meijer.
+/// Parser monad which is based on the work of Hutton and Meijer.
 /// I have the paper.
 /// This is a translation of the Haskell in the paper into FC++
 /// It is useful to compare the two.
