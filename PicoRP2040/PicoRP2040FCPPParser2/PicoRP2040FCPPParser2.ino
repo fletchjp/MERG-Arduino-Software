@@ -42,9 +42,11 @@ parser              Monadic parser combinators.  A bit of a mess, but
 
 using namespace fcpp;
 
+
 /// I have renamed String to StringL to avoid a name clash with the Arduino use of String.
 typedef List<char> StringL;
 
+namespace fcpp {
 /// Parser monad which is based on the work of Hutton and Meijer.
 /// I have the paper.
 /// This is a translation of the Haskell in the paper into FC++
@@ -106,6 +108,7 @@ struct ParserM {
 //ParserM::Bind ParserM::bind;
 //ParserM::Zero ParserM::zero; //= ignore( const_(NIL) );
 
+namespace impl {
 struct XItem : public CFunType<StringL,OddList<std::pair<char,StringL> > > {
    OddList<std::pair<char,StringL> > operator()( const StringL& s ) const {
       if( null(s) )
@@ -114,8 +117,12 @@ struct XItem : public CFunType<StringL,OddList<std::pair<char,StringL> > > {
          return cons( makePair( head(s), tail(s) ), NIL );
    }
 };
-typedef Full1<XItem> Item;
+
+}
+typedef Full1<impl::XItem> Item;
 Item item;
+
+}
 
 // I think this is the (+++) in the paper page 4.
 struct XPlusP {
