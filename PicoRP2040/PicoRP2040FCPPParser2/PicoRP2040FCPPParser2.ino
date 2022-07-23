@@ -493,7 +493,6 @@ struct XOps {
 typedef Full1<impl::XOps> Ops;
 Ops ops;
 
-}
 
 //////////////////////////////////////////////////////////
 // Output operators have to be done differently.
@@ -516,6 +515,7 @@ using AddOp =  RT<Ops,List<std::pair<RT<CharP,char>::ResultType,Fun2<int,int,int
    > > >::ResultType;
 //typedef RT<Ops,List<std::pair<RT<CharP,char>::ResultType,Fun2<int,int,int> 
 //   > > >::ResultType AddOp;
+namespace impl {
 AddOp xaddOp() { //we have another one.
 //auto xaddOp() {
    typedef Fun2<int,int,int> F2; // was F which clashes
@@ -523,21 +523,26 @@ AddOp xaddOp() { //we have another one.
       makePair( charP('+'), F2(fcpp::plus)  ), 
       makePair( charP('-'), F2(fcpp::minus) )   ) );
 }
-AddOp addOp = xaddOp();
+}
+AddOp addOp = impl::xaddOp();
 
 using ExpOp = AddOp ;
 //typedef AddOp ExpOp;
+namespace impl {
 ExpOp xexpOp() {
 //auto xexpOp() {
    typedef Fun2<int,int,int> F2;
    return ops( list_with( makePair(charP('^'),F2(ptr_to_fun(&my_pow))) ) );
 }
-ExpOp expOp = xexpOp();
+}
+ExpOp expOp = impl::xexpOp();
+
 
 //typedef RT<PlusP,Nat,RT<Bracket,RT<CharP,char>::ResultType,
 //   ExprP,RT<CharP,char>::ResultType>::ResultType>::ResultType Factor;
 using Factor = RT<PlusP,Nat,RT<Bracket,RT<CharP,char>::ResultType,
    ExprP,RT<CharP,char>::ResultType>::ResultType>::ResultType;
+//namespace impl {
 Factor xfactor() {
 //auto xfactor() {
    static Factor result = nat ^plusP^ bracket( charP('('), exprP, charP(')') );
@@ -558,6 +563,7 @@ auto xexprP() {
    return thunkFuncToFunc(ptr_to_fun(&xterm)) ^chainl1^ addOp;
 }
 ExprP exprP = xexprP();
+}
 
 //////////////////////////////////////////////////////////////////////
 // Here I just want to show the straightforward way using indirect
@@ -613,11 +619,11 @@ void parser_example()
       outStringL((*lpi).second);
       Serial.printf("\n");      
    }
-   auto exprp = exprP(s);
-   int lrp = length(exprp);
+   auto exprp2 = exprP(s);
+   int lrp = length(exprp2);
    Serial.printf("Length of exprP(s) is %d \n",lrp);
    List<std::pair<int,StringL> >::iterator lpisi;
-   for (lpisi = exprp.begin(); lpisi != exprp.end(); ++lpisi) {
+   for (lpisi = exprp2.begin(); lpisi != exprp2.end(); ++lpisi) {
       Serial.printf("%d ",(*lpisi).first);
       outStringL((*lpisi).second);
       Serial.printf("\n");      
