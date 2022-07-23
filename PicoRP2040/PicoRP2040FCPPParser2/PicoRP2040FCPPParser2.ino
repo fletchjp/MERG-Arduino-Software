@@ -353,13 +353,13 @@ struct XChainr {
 typedef Full3<impl::XChainr> Chainr;
 Chainr chainr;
 
-}
 
 // This is not in the paper. I think it is constructing a number from digits.
 typedef RT<LEType<LAM<LET<BIND<1,LAM<LV<2>,LV<3>,CALL<Plus,
    CALL<Multiplies,int,LV<2> >,LV<3> > > >,CALL<Chainl1,COMP<ParserM,
    CALL<Construct1<int>::Type,CALL<Minus,LV<4>,char> >,GETS<4,Digit> >,
    CALL<UnitM<ParserM>::Type,LV<1> > > > > >::Type>::ResultType Nat;
+namespace impl {
 Nat xnat() {
    LambdaVar<1> O; // was OP
    LambdaVar<2> M;
@@ -370,7 +370,8 @@ Nat xnat() {
       ].in[ compM<ParserM>()[ construct1<int>()[fcpp::minus[X,'0']] | X<=digit ]
             %chainl1% unitM<ParserM>()[O] ] ]();
 }
-Nat nat = xnat();
+}
+Nat nat = impl::xnat();
 
 /* This will not compile: 'IntP' does not name a type
  *  There must be something wrong with the typedef although it does compile.
@@ -400,6 +401,7 @@ typedef RT<LEType<LAM<LET<BIND<3,CALL<PlusP,COMP<ParserM,CALL<
    COMP<ParserM,CALL<LV<1>,LV<2> >,GETS<1,LV<3> >,GETS<2,Nat> 
    > > > >::Type>::ResultType IntP;
 */
+namespace impl {
 // I have no idea why using auto makes this work when the line IntP intP = xintp();
 // The code was written for C++ and is now being compiled with C++17.
 IntP xintp() {
@@ -412,9 +414,10 @@ IntP xintp() {
                                %plusP% unitM<ParserM>()[ cf[id] ] ] 
       .in[ compM<ParserM>()[ F[N] | F<=O, N<=nat ] ]   ]();
 }
-IntP intP = xintp();
+}
+IntP intP = impl::xintp();
 
-
+namespace impl {
 struct XSepBy1 {
    // Parser a -> Parser b -> Parser [a]
    // parses "p (sep p)*", throwing away the separators
@@ -432,9 +435,11 @@ struct XSepBy1 {
          X <= p, XS <= many[ compM<ParserM>()[ Y | sep, Y <= p ] ] ] ]();
    }
 };
-typedef Full2<XSepBy1> SepBy1;
+}
+typedef Full2<impl::XSepBy1> SepBy1;
 SepBy1 sepBy1;
 
+namespace impl {
 struct XBracket {
    template <class O, class P, class C> struct Sig : public FunType<O,P,C,
       typename RT<typename LEType<LAM<COMP<ParserM,LV<1>,O,GETS<1,P>,C>
@@ -446,9 +451,11 @@ struct XBracket {
       return lambda()[ compM<ParserM>()[ X | open, X<=p, close ] ]();
    }
 };
-typedef Full3<XBracket> Bracket;
+}
+typedef Full3<impl::XBracket> Bracket;
 Bracket bracket;
 
+namespace impl {
 struct XSepBy {
    template <class P, class S> struct Sig : public FunType<P,S,
       typename RT<PlusP,typename RT<SepBy1,P,S>::ResultType,
@@ -462,9 +469,11 @@ struct XSepBy {
       return (p ^sepBy1^ sep) ^plusP^ unitM<ParserM>()( l );
    }
 };
-typedef Full2<XSepBy> SepBy;
+}
+typedef Full2<impl::XSepBy> SepBy;
 SepBy sepBy;
 
+namespace impl {
 struct XOps {
    // [(Parser a, b)] -> Parser b
    // given a list of pair<parser to parse op,op>, returns a parser
@@ -480,11 +489,11 @@ struct XOps {
          compM<ParserM>()[ snd[P] | fst[P] ]   | P <= xs ] ]() );
    }
 };
-typedef Full1<XOps> Ops;
+}
+typedef Full1<impl::XOps> Ops;
 Ops ops;
 
-
-// More to come from line 414 onwards in parser.cpp
+}
 
 //////////////////////////////////////////////////////////
 // Output operators have to be done differently.
