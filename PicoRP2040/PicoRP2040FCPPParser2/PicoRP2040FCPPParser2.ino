@@ -122,8 +122,7 @@ struct XItem : public CFunType<StringL,OddList<std::pair<char,StringL> > > {
 typedef Full1<impl::XItem> Item;
 Item item;
 
-}
-
+namespace impl {
 // I think this is the (+++) in the paper page 4.
 struct XPlusP {
    template <class P, class Q, class S> struct Sig : public 
@@ -135,9 +134,12 @@ struct XPlusP {
       return p(s) ^cat^ curry1(q,s);
    }
 };
-typedef Full3<XPlusP> PlusP;
+
+}
+typedef Full3<impl::XPlusP> PlusP;
 PlusP plusP;
 
+namespace impl {
 /// Note that in the paper many uses many1 and many1 uses many.
 /// In this implementation many does not use many1.
 template <class Monad>
@@ -160,10 +162,12 @@ struct XManyM {
          ^plusM<Monad>()^ unitM<Monad>()( List<AA>() );
    }
 };
+}
 // Just using parser version here:    Parser a -> Parser [a]
-typedef Full1<XManyM<ParserM> > Many;
+typedef Full1<impl::XManyM<ParserM> > Many;
 Many many;
 
+namespace impl {
 // sat :: (char -> bool) -> Parser char
 struct XSat {
    template <class P> struct Sig : public FunType<P,
@@ -176,9 +180,11 @@ struct XSat {
       return lambda()[ compM<ParserM>()[ C | C<=item, guard[p[C]] ] ]();
    }
 };
-typedef Full1<XSat> Sat;
+}
+typedef Full1<impl::XSat> Sat;
 Sat sat;
 
+namespace impl {
 struct XCharP : public CFunType<char, 
    RT<Sat,RT<Equal,char>::ResultType>::ResultType> {
    RT<Sat,RT<Equal,char>::ResultType>::ResultType
@@ -186,7 +192,8 @@ struct XCharP : public CFunType<char,
       return sat( equal(c) );
    }
 };
-typedef Full1<XCharP> CharP;
+}
+typedef Full1<impl::XCharP> CharP;
 CharP charP;
 
 // OLD COMMENTS
@@ -199,6 +206,7 @@ CharP charP;
 // Here goal is first and in prelude.h it is last.
 // I am going to call this Between2 and adjust any cases of use.
 
+namespace impl {
 struct XBetween2 {
    template <class T, class U, class V> struct Sig
       : public FunType<T,T,T,bool> {};
@@ -207,7 +215,8 @@ struct XBetween2 {
       return lessEqual(goal,upper) && greaterEqual(goal,lower);
    }
 };
-typedef Full3<XBetween2> Between2;
+}
+typedef Full3<impl::XBetween2> Between2;
 Between2 between2;
 
 // These are some very useful implementations.
@@ -227,6 +236,8 @@ Letter letter = lower ^plusP^ upper;
 typedef RT<PlusP,Letter,Digit>::ResultType AlphaNum;
 AlphaNum alphaNum = letter ^plusP^ digit;
 
+namespace impl {
+
 template <class Monad>
 struct XMany1M {
    // Monad a -> Monad [a]
@@ -244,9 +255,12 @@ struct XMany1M {
          A <= ma, AS <= makeFull1(XManyM<Monad>())[ma] ] ]();
    }
 };
+}
 // Just using parser version here:    Parser a -> Parser [a]
-typedef Full1<XMany1M<ParserM> > Many1;
+typedef Full1<impl::XMany1M<ParserM> > Many1;
 Many1 many1;
+
+}
 
 struct XChainl1 {
    // Parser a -> Parser (a->a->a) -> Parser a
