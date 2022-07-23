@@ -8,6 +8,8 @@ I have found already that codes have to be distinct from the ones for the Arduin
 
 I will be converting some examples to work with the Pico RP2040.
 
+I would like to be able to use the equivalent of the Arduino Streaming library with the Pico code. I have not yet found a way to do this.
+
 ### PicoRP2040FCPPParser
 
 This example is based on the old FC++ parser.cpp example. I have it mostly working.
