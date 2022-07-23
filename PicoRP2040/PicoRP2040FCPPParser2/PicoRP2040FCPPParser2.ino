@@ -260,8 +260,8 @@ struct XMany1M {
 typedef Full1<impl::XMany1M<ParserM> > Many1;
 Many1 many1;
 
-}
 
+namespace impl {
 struct XChainl1 {
    // Parser a -> Parser (a->a->a) -> Parser a
    // parses a series of items separated by left-associative operators
@@ -295,9 +295,11 @@ struct XChainl1 {
       return p ^BIND()^ makeFull1(XRest<P,O>(p,op));
    }
 };
-typedef Full2<XChainl1> Chainl1;
+}
+typedef Full2<impl::XChainl1> Chainl1;
 Chainl1 chainl1;
 
+namespace impl {
 // This is mentioned in the paper and not implemented.
 struct XChainr1 {
    // Parser a -> Parser (a->a->a) -> Parser a
@@ -316,9 +318,11 @@ struct XChainr1 {
          %plusP% unitM<ParserM>()[X] ];
    }
 };
-typedef Full2<XChainr1> Chainr1;
+}
+typedef Full2<impl::XChainr1> Chainr1;
 Chainr1 chainr1;
 
+namespace impl {
 struct XChainl {
    template <class P, class O, class V> struct Sig : public FunType<P,O,V,
       typename RT<PlusP,typename RT<Chainl1,P,O>::ResultType,
@@ -329,9 +333,11 @@ struct XChainl {
       return (p ^chainl1^ op) ^plusP^ unitM<ParserM>()(v);
    }
 };
-typedef Full3<XChainl> Chainl;
+}
+typedef Full3<impl::XChainl> Chainl;
 Chainl chainl;
 
+namespace impl {
 // This is mentioned in the paper and not implemented.
 struct XChainr {
    template <class P, class O, class V> struct Sig : public FunType<P,O,V,
@@ -343,8 +349,11 @@ struct XChainr {
       return (p ^chainr1^ op) ^plusP^ unitM<ParserM>()(v);
    }
 };
-typedef Full3<XChainr> Chainr;
+}
+typedef Full3<impl::XChainr> Chainr;
 Chainr chainr;
+
+}
 
 // This is not in the paper. I think it is constructing a number from digits.
 typedef RT<LEType<LAM<LET<BIND<1,LAM<LV<2>,LV<3>,CALL<Plus,
