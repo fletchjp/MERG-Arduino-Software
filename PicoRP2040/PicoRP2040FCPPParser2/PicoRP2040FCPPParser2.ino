@@ -665,6 +665,11 @@ void setup() {
   //::delay(5000);
   Serial.printf("Pico RP2040 FC++ operations\n");
   parser_example();
+  //int x = 1;
+  // These work as alternatives to printf.
+  //Serial.print("x = ");
+  //Serial.print(x);
+  //Serial.println(" end of line");
 }
 
 void loop() {
