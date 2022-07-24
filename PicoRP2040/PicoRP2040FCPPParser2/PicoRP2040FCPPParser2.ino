@@ -5,6 +5,7 @@
 // I have now moved most of the Parser monad code into namespace fcpp
 // following the FC++ standard and using an inner namespace impl for the implementations.
 // I have now tested this and it runs unchanged.
+// I am changing most printf to print or println to avoid the need to specify output formats.
 //////////////////////////////////////////////////////////////////////
 // Pico RP2040 FC++ Parser example from old parser.cpp
 // Changing from Arduino RP2040 FCPP Parser to get the output sorted out.
