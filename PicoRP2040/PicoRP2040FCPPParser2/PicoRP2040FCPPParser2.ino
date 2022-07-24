@@ -581,7 +581,8 @@ void outStringL (const StringL& s)
 {
    StringL::iterator si;
    for (si = s.begin(); si != s.end(); ++si) {
-      Serial.printf("%c",*si);
+      //Serial.printf("%c",*si);
+      Serial.print(*si);
    }
 }
 
@@ -595,20 +596,21 @@ void parser_example()
    group      = bracket( charP('('), expression, charP(')') );
 //////////////////////////////////////////////////////////////////////
    // This example does not deal with spaces.
-   Serial.printf("Test of ParserM monad\n");
+   Serial.println("Test of ParserM monad");
    // Strings with + and - and no spaces are processed correctly.
    std::string ss("123+45-6");
    //Serial << "string is " << ss << endl;
    StringL s( ss.begin(), ss.end() );
    StringL::iterator si;
-   Serial.printf("Input string is ");
+   Serial.print("Input string is ");
    outStringL(s);
    //for (si = s.begin(); si != s.end(); ++si) {
    //   Serial.printf("%c",*si);
    //}
-   Serial.printf("\n");
+   Serial.println(" ");
    int l = length(s); // force evaluation
-   Serial.printf("Length of s is %d \n",l);
+   Serial.print("Length of s is ");
+   Serial.println(l);
 
    typedef ParserM P;
    LambdaVar<1> X;
@@ -618,7 +620,8 @@ void parser_example()
    Serial.printf("Length of lpcs is %d \n",lp);
    List<std::pair<char,StringL> >::iterator lpi;
    for (lpi = lpcs.begin(); lpi != lpcs.end(); ++lpi) {
-      Serial.printf("%c ",(*lpi).first);
+      Serial.print((*lpi).first);
+      Serial.print(" ");
       outStringL((*lpi).second);
       Serial.printf("\n");      
    }
@@ -627,7 +630,8 @@ void parser_example()
    Serial.printf("Length of exprP(s) is %d \n",lrp);
    List<std::pair<int,StringL> >::iterator lpisi;
    for (lpisi = exprp2.begin(); lpisi != exprp2.end(); ++lpisi) {
-      Serial.printf("%d ",(*lpisi).first);
+      Serial.print((*lpisi).first);
+      Serial.print(" ");
       outStringL((*lpisi).second);
       Serial.printf("\n");      
    }
@@ -635,7 +639,8 @@ void parser_example()
    int lr = length(expr);
    Serial.printf("Length of expression(s) is %d \n",lr);
    for (lpisi = expr.begin(); lpisi != expr.end(); ++lpisi) {
-      Serial.printf("%d ",(*lpisi).first);
+      Serial.print((*lpisi).first);
+      Serial.print(" ");
       outStringL((*lpisi).second);
       Serial.printf("\n");      
    }
@@ -647,7 +652,8 @@ void parser_example()
    Serial.printf("Length of nat(s) is %d \n",ln);
    //Serial.printf("lpis.head().first %d \n",(lpis.head()).first);
    for (lpisi = lpis.begin(); lpisi != lpis.end(); ++lpisi) {
-      Serial.printf("%d ",(*lpisi).first);
+      Serial.print((*lpisi).first);
+      Serial.print(" ");
       outStringL((*lpisi).second);
       Serial.printf("\n");      
    }
