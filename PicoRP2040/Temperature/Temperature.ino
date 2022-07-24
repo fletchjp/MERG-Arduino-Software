@@ -2,6 +2,10 @@
 
 // Basic example to explore using different output options.
 
+// I am not sure that this works at all with the Pico
+//#include <Streaming.h>
+
+
 /* Released into the public domain */
 
 void setup() {
