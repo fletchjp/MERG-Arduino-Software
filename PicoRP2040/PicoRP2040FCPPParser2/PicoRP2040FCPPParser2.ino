@@ -659,8 +659,24 @@ void parser_example()
       Serial.printf("\n");      
    }
    //Serial.printf("\n");
-
-
+   Serial.println("=============================");
+   Serial.println("Test of some of the functions");
+   //if (digit('1')()) Serial.println("1 is a digit");
+   if (between2('1','0','9')) Serial.println("1 is a digit"); // This works.
+   if (between2(_,'0','9')('1')) Serial.println("1 is a digit"); // This works.
+   auto what = item(s);
+   Serial.print(what.head().first);
+   Serial.print(" ");
+   outStringL(what.head().second);
+   Serial.printf("\n");      
+   if (between2(_,'0','9')(what.head().first)) Serial.println("1 is a digit"); // This works.
+   // Sat returns a parser which can be applied to the string.
+   auto what2 = sat(between2(_,'0','9'));
+   auto what3 = what2(s);
+   if (length(what3) > 0 ) { Serial.print(what3.head().first); Serial.println(" is a digit"); }
+   auto what4 = digit(s);
+   if (length(what4) > 0 ) { Serial.print(what4.head().first); Serial.println(" is a digit"); }
+   //auto what5 = many(digit);
 }
 
 //////////////////////////////////////////////////////////
