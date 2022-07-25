@@ -96,7 +96,7 @@ struct ParserM {
    static Unit& unit() {static Unit f; return f;}
   //static Unit unit;
 
-   struct XBind {
+   struct XBind { // The use of  ReRep here is different from other Monad instances.
       template <class M, class K> struct Sig : public FunType<M,K,typename
          ReRep<typename RT<K,typename UnRep<M>::Type>::ResultType>::Type> {};
       template <class M, class K>
@@ -120,6 +120,7 @@ struct ParserM {
 //ParserM::Bind ParserM::bind;
 //ParserM::Zero ParserM::zero; //= ignore( const_(NIL) );
 
+// item is specific to parsing char. The ParserM code does not enforce this.
 namespace impl {
 struct XItem : public CFunType<StringL,OddList<std::pair<char,StringL> > > {
    OddList<std::pair<char,StringL> > operator()( const StringL& s ) const {
@@ -179,6 +180,8 @@ struct XManyM {
 typedef Full1<impl::XManyM<ParserM> > Many;
 Many many;
 
+/* This is an idea to have a version of many which takes a parser intstead of ParserM. 
+   It is not working at present. */
 /*
 namespace impl {
 struct XManyP {
@@ -713,6 +716,10 @@ void parser_example()
    if (length(what9) > 0 ) { Serial.print(what9.head().first); Serial.println(" is a digit"); }
    auto what10 = space(s);
    if (length(what10) == 0 ) { Serial.println("There is no space"); }
+   auto spaceM = liftM<ParserM>()(space);
+   //auto what11 = spaceM(s);
+   //auto what12 = many(what11);
+   //auto what13 = 
    //List<std::pair<StringL,StringL> > lpss;
    //lpss = many(letter)(s);
 
