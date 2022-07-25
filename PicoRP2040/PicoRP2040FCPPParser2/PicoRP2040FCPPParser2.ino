@@ -25,6 +25,7 @@ parser              Monadic parser combinators.  A bit of a mess, but
 // and a Parser defined using sat (predicate function).
 // I want to transfer the Parser to many which does not work, as it wants a ParserM.
 // This distinction does not I think exist in Haskell.
+// I am exploring some ways around this problem.
 //////////////////////////////////////////////////////////////////////
 // Comment from the old version:
 // This code is going to be kept as close as possible to parser.cpp
