@@ -678,6 +678,7 @@ void parser_example()
    if (length(what4) > 0 ) { Serial.print(what4.head().first); Serial.println(" is a digit"); }
    //auto what5 = many(digit);
    //auto what6 = many(sat(between2(_,'0','9')));
+   //auto what7 = many(dummy); 
    //List<std::pair<StringL,StringL> > lpss;
    //lpss = many(letter)(s);
 
