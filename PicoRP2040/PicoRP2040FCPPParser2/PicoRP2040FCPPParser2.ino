@@ -718,10 +718,12 @@ void parser_example()
    if (length(what10) == 0 ) { Serial.println("There is no space"); }
    auto spaceM = liftM<ParserM>()(space);
    //auto what11 = spaceM(s);
-   //auto what12 = many(what11);
+   //auto what12 = many(spaceM);
    //auto what13 = 
    //List<std::pair<StringL,StringL> > lpss;
    //lpss = many(letter)(s);
+   //List<std::pair<List<int>,String> > lplis;
+   //lplis = bracket( charP('['), intP ^sepBy^ charP(','), charP(']') )(s);
 
 }
 
