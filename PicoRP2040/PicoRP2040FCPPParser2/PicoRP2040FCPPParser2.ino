@@ -19,7 +19,14 @@ parser              Monadic parser combinators.  A bit of a mess, but
                        monads/lambda, but he never went back to clean up
                        the program much after lambda/monads were implemented.
 */
+//
 //////////////////////////////////////////////////////////////////////
+// What I am finding is that there is confusion in the implementation between the ParserM monad
+// and a Parser defined using sat (predicate function).
+// I want to transfer the Parser to many which does not work, as it wants a ParserM.
+// This distinction does not I think exist in Haskell.
+//////////////////////////////////////////////////////////////////////
+// Comment from the old version:
 // This code is going to be kept as close as possible to parser.cpp
 // I have now finished porting the monad code and functions.
 // I still need to do the example code.
