@@ -171,6 +171,21 @@ struct XManyM {
 typedef Full1<impl::XManyM<ParserM> > Many;
 Many many;
 
+/*
+namespace impl {
+struct XManyP {
+   // Parser a -> Parser [a]
+   template <class P>
+   struct Sig : public FunType<P,OddList<std::pair<char,StringL> >
+   {};
+   template <class P>
+   typename Sig<P>::ResultType operator()( const P& p ) const {
+
+   }
+};
+}
+*/
+
 namespace impl {
 // sat :: (char -> bool) -> Parser char
 struct XSat {
@@ -239,6 +254,11 @@ Letter letter = lower ^plusP^ upper;
 
 typedef RT<PlusP,Letter,Digit>::ResultType AlphaNum;
 AlphaNum alphaNum = letter ^plusP^ digit;
+
+/////////////////////////////////////////////////////
+// New parsers
+auto space = charP(' ');
+/////////////////////////////////////////////////////
 
 namespace impl {
 
@@ -679,6 +699,12 @@ void parser_example()
    //auto what5 = many(digit);
    //auto what6 = many(sat(between2(_,'0','9')));
    //auto what7 = many(dummy); 
+   ParserM pm;
+   //auto what8 = many(p);
+   auto what9 = plusP(digit,digit)(s);
+   if (length(what9) > 0 ) { Serial.print(what9.head().first); Serial.println(" is a digit"); }
+   auto what10 = space(s);
+   if (length(what10) == 0 ) { Serial.println("There is no space"); }
    //List<std::pair<StringL,StringL> > lpss;
    //lpss = many(letter)(s);
 
