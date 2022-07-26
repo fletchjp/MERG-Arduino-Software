@@ -750,7 +750,7 @@ This works.  I did it just to prove a point.
    LambdaVar<12> lower;
    LambdaVar<13> upper;
    LambdaVar<14> letter;
-   LambdaVar<15> word;
+   LambdaVar<15> words;
    lpcs = lambda()[ let[
       lower == compM<P>()[ X | X<=item, guard[logicalAnd[greaterEqual[X,'a'],
                                                          lessEqual[X,'z']]]],
@@ -758,8 +758,8 @@ This works.  I did it just to prove a point.
                                                          lessEqual[X,'Z']]]],
       letter == lower %plusP% upper
    ].in[ letter[s] ] ]();
-      //, word == many[letter] 
-      //].in[ word[s] ] ]();
+   //   , words == many[letter] 
+   //  ].in[ words[s] ] ]();
 //   cout << lpss << endl;
      int ln = length(lpcs);
      Serial.printf("Length of lpcs is %d \n",ln);
