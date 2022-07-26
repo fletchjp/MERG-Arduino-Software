@@ -736,6 +736,36 @@ void parser_example()
 
 }
 
+void prove_a_point() {
+/*
+This works.  I did it just to prove a point.
+*/
+   typedef ParserM P;
+   LambdaVar<1> X;
+   std::string ss("abcABC");
+   //Serial << "string is " << ss << endl;
+   StringL s( ss.begin(), ss.end() );
+   List<std::pair<char,StringL> > lpcs;
+   List<std::pair<StringL,StringL> > lpss;
+   LambdaVar<12> lower;
+   LambdaVar<13> upper;
+   LambdaVar<14> letter;
+   LambdaVar<15> word;
+   lpcs = lambda()[ let[
+      lower == compM<P>()[ X | X<=item, guard[logicalAnd[greaterEqual[X,'a'],
+                                                         lessEqual[X,'z']]]],
+      upper == compM<P>()[ X | X<=item, guard[logicalAnd[greaterEqual[X,'A'],
+                                                         lessEqual[X,'Z']]]],
+      letter == lower %plusP% upper
+   ].in[ letter[s] ] ]();
+      //, word == many[letter] 
+      //].in[ word[s] ] ]();
+//   cout << lpss << endl;
+     int ln = length(lpcs);
+     Serial.printf("Length of lpcs is %d \n",ln);
+
+}
+
 //////////////////////////////////////////////////////////
 
 void setup() {
@@ -745,6 +775,7 @@ void setup() {
   //::delay(5000);
   Serial.printf("Pico RP2040 FC++ operations\n");
   parser_example();
+  prove_a_point();
   //int x = 1;
   // These work as alternatives to printf.
   //Serial.print("x = ");
