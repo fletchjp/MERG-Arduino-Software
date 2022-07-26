@@ -717,14 +717,15 @@ void parser_example()
    auto what10 = space(s);
    if (length(what10) == 0 ) { Serial.println("There is no space"); }
    //auto spaceM = liftM<ParserM>()(space);
+   // This works though I am not sure what it means in practice
    auto spaceP = unitM<ParserM>()(space);
    auto what11 = spaceP(s);
    if (length(what11) == 0 ) { Serial.println("There is no space"); }
    else { Serial.print(length(what11)); Serial.println(" is length of what11"); 
    Serial.print("What is found is "); Serial.println(what11.head().second); }
-   auto what12 = what11.head().first(s);
+   auto what12 = what11.head().first(s); // This is where there is an empty list.
    if (length(what12) == 0 ) { Serial.println("There is no space"); }
-   //auto what12 = many(spaceM);
+   //auto what13 = many(spaceP);
    //auto what13 = 
    //List<std::pair<StringL,StringL> > lpss;
    //lpss = many(letter)(s);
