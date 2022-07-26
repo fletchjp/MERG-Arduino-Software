@@ -725,8 +725,10 @@ void parser_example()
    Serial.print("What is found is "); Serial.println(what11.head().second); }
    auto what12 = what11.head().first(s); // This is where there is an empty list.
    if (length(what12) == 0 ) { Serial.println("There is no space"); }
-   //auto what13 = many(spaceP);
-   //auto what13 = 
+   auto what13 = spaceP(s).head().first(s);
+   if (length(what13) == 0 ) { Serial.println("There is no space"); }
+   else { Serial.print(length(what13)); Serial.println(" is length of what13"); }
+   //auto what14 = many(spaceP(s));
    //List<std::pair<StringL,StringL> > lpss;
    //lpss = many(letter)(s);
    //List<std::pair<List<int>,String> > lplis;
