@@ -18,18 +18,18 @@ using namespace fcpp;
 void setup() {
   // put your setup code here, to run once:
   Serial.begin (115200);
-  unsigned long t1 = millis();
-  unsigned long t2;
-  while (!Serial && ((millis() - t1) <= 10000));
-  t2 = millis() - t1;
-  Serial.print("Waited for ");
-  Serial.print(t2);
-  Serial.println(" millis");
-  while (!delay_without_delaying(5000) ) { };
-  Serial << endl << endl << " Arduino RP2040 FC++ " << __FILE__ << endl;
-  Serial << "Some simple FC++ operations" << endl;
-  Serial << "plus(1,2) = " << plus(1,2) << endl;
-  Serial << "plus(1.5,2.3) = " << plus(1.5,2.3) << endl;
+  while (!Serial) { }
+  //::delay(5000);
+  Serial.printf("Pico RP2040 FC++ operations\n");
+  fcpp_examples();
+
+}
+
+void fcpp_examples()
+{
+  Serial.println("Some simple FC++ operations");
+  Serial.print("plus(1,2) = "); Serial.println(plus(1,2));
+/*  Serial << "plus(1.5,2.3) = " << plus(1.5,2.3) << endl;
   Serial << "plus(1)(2) = " << plus(1)(2) << endl;
   Serial << "inc(1) = " << inc(1) << endl;
   Serial << "--------------------------" << endl;
@@ -70,8 +70,7 @@ void setup() {
 
   Serial << "Length of odds is " << length(odds) << endl;
   Serial << "sum of the odds is " << sum_odds << endl;
-  while (!delay_without_delaying(5000) ) { };
-
+*/
 }
 
 void loop() {
