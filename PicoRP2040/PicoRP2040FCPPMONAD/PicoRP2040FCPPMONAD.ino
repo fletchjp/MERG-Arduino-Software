@@ -114,6 +114,7 @@ void explore_bindm()
    List<List<List<int> > > lll = list_with(ll,ll);
    bind(lll,id); // This works.
    //
+/*
     Serial << "---------------------" << endl;
     Serial << "bind on List<int> " << endl;
     Serial << "---------------------" << endl;    
@@ -280,6 +281,7 @@ void explore_bindm()
     Either<int> ej3 = join ( right (right (2) ) ); 
     Serial << ej3 << endl;
     Serial << "---------------------" << endl;
+*/
 }
 
 //////////////////////////////////////////////////////////
@@ -298,7 +300,7 @@ void setup() {
   Serial.print("plus(1)(2) = "); Serial.println(plus(1)(2));
   Serial.print("inc(1) = "); Serial.println(inc(1));
   Serial.println("--------------------------");
-  Serial.println("Some simple FC++ Monad operations")
+  Serial.println("Some simple FC++ Monad operations");
   Serial.println("--------------------------");
 
   Maybe<int> mx(2), my(3);
