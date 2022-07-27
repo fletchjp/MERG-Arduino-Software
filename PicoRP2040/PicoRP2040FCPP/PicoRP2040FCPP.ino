@@ -1,31 +1,19 @@
 //////////////////////////////////////////////////////////////////////
-// Arduino RP2040 FC++
+// Pico RP2040 FC++
 //////////////////////////////////////////////////////////////////////
-// was DUEFCPP
+// was DUEFCPP and Arduino RP2040 FC++
 // Demo of FC++ Maybe operation
 // This will work on ARDUINO DUE but not on AVR boards.
 
 #include "fcpp_prelude.h"
 
-#include <Streaming.h>
+//#include <Streaming.h>
 
 using namespace fcpp;
 
 //////////////////////////////////////////////////////////
 
-// This comes from the cdc_multi example
-// Helper: non-blocking "delay" alternative.
-boolean delay_without_delaying(unsigned long time) {
-  // return false if we're still "delaying", true if time ms has passed.
-  // this should look a lot like "blink without delay"
-  static unsigned long previousmillis = 0;
-  unsigned long currentmillis = millis();
-  if (currentmillis - previousmillis >= time) {
-    previousmillis = currentmillis;
-    return true;
-  }
-  return false;
-}
+
 
 void setup() {
   // put your setup code here, to run once:
