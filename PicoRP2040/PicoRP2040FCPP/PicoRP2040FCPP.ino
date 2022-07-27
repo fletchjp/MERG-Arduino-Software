@@ -2,6 +2,10 @@
 // Pico RP2040 FC++
 // Mysteriously, this gave no output until I put in prove_a_point()
 // and the code needed for it.
+// I can now add the previous examples and get output.
+// The main thing I want to do is to gain confidence with use in the Pico.
+// There have been some strange issues with typedefs needing to become using
+// for some things to work.
 //////////////////////////////////////////////////////////////////////
 // was DUEFCPP and Arduino RP2040 FC++
 // Demo of FC++ Maybe operation
@@ -120,8 +124,8 @@ void fcpp_examples()
 {
   Serial.println("Some simple FC++ operations");
   Serial.print("plus(1,2) = "); Serial.println(plus(1,2));
-/*  Serial << "plus(1.5,2.3) = " << plus(1.5,2.3) << endl;
-  Serial << "plus(1)(2) = " << plus(1)(2) << endl;
+  Serial.print("plus(1.5,2.3) = "); Serial.println(plus(1.5,2.3));
+/*  Serial << "plus(1)(2) = " << plus(1)(2) << endl;
   Serial << "inc(1) = " << inc(1) << endl;
   Serial << "--------------------------" << endl;
 
