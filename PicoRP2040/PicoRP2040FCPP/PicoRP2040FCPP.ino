@@ -21,6 +21,7 @@
 using namespace fcpp;
 
 /// I have renamed String to StringL to avoid a name clash with the Arduino use of String.
+/// This is used with the Parser monad and other codes.
 typedef List<char> StringL;
 
 namespace fcpp {
