@@ -10,6 +10,12 @@ I will be converting some examples to work with the Pico RP2040.
 
 I would like to be able to use the equivalent of the Arduino Streaming library with the Pico code. I have not yet found a way to do this.
 
+### PicoRP2040FCPP
+
+Some basic tests of FC++.
+
+I have added some of the code from the parser example as there seems to be a minimum amount of work below which I get no moditor output.
+
 ### PicoRP2040FCPPParser
 
 This example is based on the old FC++ parser.cpp example. I have it mostly working.
