@@ -1,29 +1,120 @@
 //////////////////////////////////////////////////////////////////////
 // Pico RP2040 FC++
+// Mysteriously, this gave no output until I put in prove_a_point()
+// and the code needed for it.
 //////////////////////////////////////////////////////////////////////
 // was DUEFCPP and Arduino RP2040 FC++
 // Demo of FC++ Maybe operation
 // This will work on ARDUINO DUE but not on AVR boards.
 
+#include <string>
+#define FCPP152
+#define FCPP_ENABLE_LAMBDA
 #include "fcpp_prelude.h"
 
 //#include <Streaming.h>
 
 using namespace fcpp;
 
-//////////////////////////////////////////////////////////
+/// I have renamed String to StringL to avoid a name clash with the Arduino use of String.
+typedef List<char> StringL;
 
+namespace fcpp {
+/// Parser monad which is based on the work of Hutton and Meijer.
+/// I have the paper.
+/// This is a translation of the Haskell in the paper into FC++
+/// It is useful to compare the two.
+/// The paper does not mention Unit and Bind.
+struct ParserM {
+   // M a = StringL -> [(a,StringL)]
 
+   // We use indirect functoids as a representation type, since we will
+   // often need two functions with different behaviors (but the same
+   // signatures) to appear to have the same type.
+   template <class A> struct Rep
+      { typedef Fun1<StringL,List<std::pair<A,StringL> > > Type; };
+   template <class MA> struct UnRep { typedef typename
+      RT<MA,StringL>::ResultType::ElementType::first_type Type; };
 
-void setup() {
-  // put your setup code here, to run once:
-  Serial.begin (115200);
-  while (!Serial) { }
-  //::delay(5000);
-  Serial.printf("Pico RP2040 FC++ operations\n");
-  fcpp_examples();
+   // ReRep is a type-identity in Haskell; here it "indirect"ifies the
+   // type, so direct functoids are turned into indirect ones so that
+   // only the signature information appears in the type.
+   template <class MA> struct ReRep
+      { typedef typename Rep<typename UnRep<MA>::Type>::Type Type; };
+
+   struct XUnit {
+      template <class A> struct Sig : public FunType<A,
+         typename Rep<A>::Type> {};
+      template <class A>
+      typename Sig<A>::ResultType
+      operator()( const A& a ) const {
+         LambdaVar<1> S;
+         return lambda(S)[ cons[makePair[a,S],NIL] ];
+      }
+   };
+   typedef Full1<XUnit> Unit;
+  // This change and the one for Bind got rid of many errors.
+   static Unit& unit() {static Unit f; return f;}
+  //static Unit unit;
+
+   struct XBind { // The use of  ReRep here is different from other Monad instances.
+      template <class M, class K> struct Sig : public FunType<M,K,typename
+         ReRep<typename RT<K,typename UnRep<M>::Type>::ResultType>::Type> {};
+      template <class M, class K>
+      typename Sig<M,K>::ResultType
+      operator()( const M& m, const K& k ) const {
+         LambdaVar<1> P;
+         LambdaVar<2> S;
+         return lambda(S)[ concat[ compM<ListM>()
+            [ k[fst[P]][snd[P]] | P <= m[S] ] ] ];
+      }
+   };
+   typedef Full2<XBind> Bind;
+   static Bind& bind() {static Bind f; return f;}
+  //static Bind bind;
+
+   typedef Fun1<StringL,AUniqueTypeForNil> Zero;
+   static Zero& zero() {static Zero f; return f;}
+  //static Zero zero;
+};
+//ParserM::Unit ParserM::unit;
+//ParserM::Bind ParserM::bind;
+//ParserM::Zero ParserM::zero; //= ignore( const_(NIL) );
+
+// item is specific to parsing char. The ParserM code does not enforce this.
+namespace impl {
+struct XItem : public CFunType<StringL,OddList<std::pair<char,StringL> > > {
+   OddList<std::pair<char,StringL> > operator()( const StringL& s ) const {
+      if( null(s) )
+         return NIL;
+      else
+         return cons( makePair( head(s), tail(s) ), NIL );
+   }
+};
 
 }
+typedef Full1<impl::XItem> Item;
+Item item;
+
+namespace impl {
+// I think this is the (+++) in the paper page 4.
+struct XPlusP {
+   template <class P, class Q, class S> struct Sig : public 
+      FunType<P,Q,StringL,typename RT<Cat,typename RT<P,StringL>::ResultType,
+      typename RT<Curry1,Q,StringL>::ResultType>::ResultType> {};
+   template <class P, class Q>
+   typename Sig<P,Q,StringL>::ResultType
+   operator()( const P& p, const Q& q, const StringL& s ) const {
+      return p(s) ^cat^ curry1(q,s);
+   }
+};
+
+}
+typedef Full3<impl::XPlusP> PlusP;
+PlusP plusP;
+}
+
+//////////////////////////////////////////////////////////
 
 void fcpp_examples()
 {
@@ -73,7 +164,52 @@ void fcpp_examples()
 */
 }
 
+void prove_a_point() {
+/*
+This works.  I did it just to prove a point.
+*/
+   typedef ParserM P;
+   LambdaVar<1> X;
+   std::string ss("abcABC");
+   //Serial << "string is " << ss << endl;
+   StringL s( ss.begin(), ss.end() );
+   List<std::pair<char,StringL> > lpcs;
+   List<std::pair<StringL,StringL> > lpss;
+   LambdaVar<12> lower;
+   LambdaVar<13> upper;
+   LambdaVar<14> letter;
+   LambdaVar<15> words;
+   lpcs = lambda()[ let[
+      lower == compM<P>()[ X | X<=item, guard[logicalAnd[greaterEqual[X,'a'],
+                                                         lessEqual[X,'z']]]],
+      upper == compM<P>()[ X | X<=item, guard[logicalAnd[greaterEqual[X,'A'],
+                                                         lessEqual[X,'Z']]]],
+      letter == lower %plusP% upper
+   ].in[ letter[s] ] ]();
+   //   , words == many[letter] 
+   //  ].in[ words[s] ] ]();
+//   cout << lpss << endl;
+     int ln = length(lpcs);
+     Serial.printf("Length of lpcs is %d \n",ln);
+
+}
+
+void setup() {
+  // put your setup code here, to run once:
+  Serial.begin (115200);
+  while (!Serial) { }
+  //::delay(5000);
+  Serial.printf("Pico RP2040 FC++ operations\n");
+  fcpp_examples();
+  Serial.println("after fcpp_examples");
+  prove_a_point();
+  //Serial.flush();
+}
+
+int i = 0;
+ 
 void loop() {
   // put your main code here, to run repeatedly:
-
+  //Serial.println(i);
+  //i++;
 }
