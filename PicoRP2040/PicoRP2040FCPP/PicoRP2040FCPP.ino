@@ -129,18 +129,18 @@ void fcpp_examples()
   Serial.print("plus(1)(2) = "); Serial.println(plus(1)(2));
   Serial.print("inc(1) = "); Serial.println(inc(1));
   Serial.println("--------------------------");
-/*
+
   Maybe<int> mx(2), my(3);
   Maybe<int> mz;
-  if (mz.is_nothing()) Serial << "mz is nothing" << endl;
+  if (mz.is_nothing()) Serial.println("mz is nothing");
   mz = just(plus(mx.value(),my.value()));
   if (mz.is_nothing()) { 
-     Serial << "mz is nothing" << endl;
+     Serial.println("mz is nothing");
   } else {
-     Serial << "mz has " << mz.value() << endl;
+     Serial.print("mz has "); Serial.println(mz.value());
   }
-  Serial << "--------------------------" << endl;
-
+  Serial.println("--------------------------");
+/*
   List<double>::iterator idx1, idx2;
   List<double> x1 = list_with(0.,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0);
   List<double> x2 = fcpp::map(fcpp::minus(1.0),x1);
