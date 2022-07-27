@@ -22,3 +22,13 @@ This was I think the basis for the parser.cpp example.
 
 This is to extend the previous example and hopefully sort out some problems.
 
+I have made quite a lot of progress with this and have hit a snag I cannot at the moment solve.
+
+There are two operators **many** and **many1** which are part of the parser. I cannot get examples of use to compile.
+
+I did earlier have a problem which I solved by replacing some **typedef** statements by **using** statements.
+
+The problem may be part of the move to gcc10 and C++17 which I am using on the RP2040.
+
+
+
