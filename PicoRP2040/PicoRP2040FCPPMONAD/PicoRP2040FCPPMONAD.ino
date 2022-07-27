@@ -284,57 +284,42 @@ void explore_bindm()
 
 //////////////////////////////////////////////////////////
 
-// This comes from the cdc_multi example
-// Helper: non-blocking "delay" alternative.
-boolean delay_without_delaying(unsigned long time) {
-  // return false if we're still "delaying", true if time ms has passed.
-  // this should look a lot like "blink without delay"
-  static unsigned long previousmillis = 0;
-  unsigned long currentmillis = millis();
-  if (currentmillis - previousmillis >= time) {
-    previousmillis = currentmillis;
-    return true;
-  }
-  return false;
-}
 
 void setup() {
   // put your setup code here, to run once:
   Serial.begin (115200);
-  unsigned long t1 = millis();
-  unsigned long t2;
-  while (!Serial && ((millis() - t1) <= 10000));
-  t2 = millis() - t1;
-  Serial.print("Waited for ");
-  Serial.print(t2);
-  Serial.println(" millis");
-  while (!delay_without_delaying(5000) ) { };
+  while (!Serial) { }
 
-  Serial << endl << endl << "Arduino RP2040 FC++ Monads " << __FILE__ << endl;
-  Serial << "Some simple FC++ Monad operations" << endl;
-  Serial << "plus(1,2) = " << plus(1,2) << endl;
-  Serial << "plus(1.5,2.3) = " << plus(1.5,2.3) << endl;
-  Serial << "plus(1)(2) = " << plus(1)(2) << endl;
-  Serial << "inc(1) = " << inc(1) << endl;
-  Serial << "--------------------------" << endl;
+  Serial.println("Pico RP2040 FC++ Monads ");
+  Serial.println("--------------------------");
+  Serial.println("Some simple FC++ operations");
+  Serial.print("plus(1,2) = "); Serial.println(plus(1,2));
+  Serial.print("plus(1.5,2.3) = "); Serial.println(plus(1.5,2.3));
+  Serial.print("plus(1)(2) = "); Serial.println(plus(1)(2));
+  Serial.print("inc(1) = "); Serial.println(inc(1));
+  Serial.println("--------------------------");
+  Serial.println("Some simple FC++ Monad operations")
+  Serial.println("--------------------------");
 
   Maybe<int> mx(2), my(3);
   Maybe<int> mz;
-  if (mz.is_nothing()) Serial << "mz is nothing" << endl;
+  if (mz.is_nothing()) Serial.println("mz is nothing");
   mz = just(plus(mx.value(),my.value()));
   if (mz.is_nothing()) { 
-     Serial << "mz is nothing" << endl;
+     Serial.println("mz is nothing");
   } else {
-     Serial << "mz has " << mz.value() << endl;
+     Serial.print("mz has "); Serial.println(mz.value());
   }
   // Use of Monad MaybeM with liftM to move inc into Maybe.
   mz = liftM<MaybeM>()(inc)(mx);
-  Serial << "mz = liftM<MaybeM>()(inc)(mx);" << endl;
+  Serial.println("mz = liftM<MaybeM>()(inc)(mx);");
   if (mz.is_nothing()) { 
-     Serial << "mz is nothing" << endl;
+     Serial.println("mz is nothing");
   } else {
-     Serial << "mz has " << mz.value() << endl;
+     Serial.print("mz has "); Serial.println(mz.value());
   }
+  Serial.println("--------------------------");
+/*
   Serial << "--------------------------" << endl;
   LambdaVar<4> W;
   LambdaVar<1> X;
@@ -406,7 +391,7 @@ void setup() {
   Serial << "sum of the odds is " << sum_odds << endl;
   explore_bindm();
   while (!delay_without_delaying(5000) ) { };
-
+*/
 }
 
 void loop() {
