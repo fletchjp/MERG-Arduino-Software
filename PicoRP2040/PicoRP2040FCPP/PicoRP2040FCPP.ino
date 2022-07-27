@@ -122,13 +122,14 @@ PlusP plusP;
 
 void fcpp_examples()
 {
+  Serial.println("--------------------------");
   Serial.println("Some simple FC++ operations");
   Serial.print("plus(1,2) = "); Serial.println(plus(1,2));
   Serial.print("plus(1.5,2.3) = "); Serial.println(plus(1.5,2.3));
-/*  Serial << "plus(1)(2) = " << plus(1)(2) << endl;
-  Serial << "inc(1) = " << inc(1) << endl;
-  Serial << "--------------------------" << endl;
-
+  Serial.print("plus(1)(2) = "); Serial.println(plus(1)(2));
+  Serial.print("inc(1) = "); Serial.println(inc(1));
+  Serial.println("--------------------------");
+/*
   Maybe<int> mx(2), my(3);
   Maybe<int> mz;
   if (mz.is_nothing()) Serial << "mz is nothing" << endl;
@@ -207,6 +208,7 @@ void setup() {
   fcpp_examples();
   Serial.println("after fcpp_examples");
   prove_a_point();
+  Serial.println("--------------------------");
   //Serial.flush();
 }
 
