@@ -32,6 +32,25 @@ using namespace fcpp;
 typedef List<char> StringL;
 
 namespace fcpp {
+
+/// Parser object - experimental adapting Maybe<T>
+/// I am calling it Parser although it will have a value of the type and a string.
+template <class A>
+class Parser
+{
+   OddList<std::pair<A,StringL> > rep;
+public:
+   typedef A ElementType;
+   typedef std::pair<A,StringL> ParserType;
+   Parser() { }
+   Parser(const A &a, const StringL &s) : rep (cons (std::make_pair(a,s),NIL) )
+   {   }  
+   bool is_nothing() const { return null(rep); }
+   // Do not use these if is_nothing() returns true.
+   A value() const { return head(rep).first; }
+   StringL stringL() { return head(rep).second; }
+};
+
 /// Parser monad which is based on the work of Hutton and Meijer.
 /// I have the paper.
 /// This is a translation of the Haskell in the paper into FC++
