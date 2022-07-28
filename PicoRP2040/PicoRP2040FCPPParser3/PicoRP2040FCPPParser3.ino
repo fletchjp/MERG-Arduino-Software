@@ -33,6 +33,19 @@ typedef List<char> StringL;
 
 namespace fcpp {
 
+namespace impl {
+struct XBetween2 {
+   template <class T, class U, class V> struct Sig
+      : public FunType<T,T,T,bool> {};
+   template <class T>
+   bool operator()( const T& goal, const T& lower, const T& upper ) const {
+      return lessEqual(goal,upper) && greaterEqual(goal,lower);
+   }
+};
+}
+typedef Full3<impl::XBetween2> Between2;
+Between2 between2;
+
 /// Parser object - experimental adapting Maybe<T>
 /// I am calling it Parser although it will have a value of the type and a string.
 /// This is a start. I think it also needs a constructor from a string and something to parse the string.
@@ -46,6 +59,9 @@ public:
    typedef std::pair<A,StringL> ParserType;
    Parser() { }
    Parser(const A &a, const StringL &s) : rep (cons (std::make_pair(a,s),NIL) )
+   {   }
+   template <typename P> 
+   Parser(const P &p, const StringL &s) : rep (cons (std::make_pair(p(s),s),NIL) )
    {   }  
    bool is_nothing() const { return null(rep); }
    // Do not use these if is_nothing() returns true.
