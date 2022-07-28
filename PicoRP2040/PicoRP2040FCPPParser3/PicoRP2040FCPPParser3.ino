@@ -67,14 +67,23 @@ public:
    Parser(const A &a, const StringL &s) //: rep (cons (std::make_pair(cons(a,NIL),s),NIL) )
    {  ParserType pt = std::make_pair(cons(a,NIL),s); 
       rep = cons(pt,NIL); }
+   // Make a Parser object by applying a function to parse the head of the string.
    template <typename P> 
-   Parser(const P &p, const StringL &s) : rep (cons (std::make_pair(cons(p(s),NIL),s),NIL) )
-   {   }  
+   Parser(const P &p, const StringL &s) : rep (cons (std::make_pair(cons(p(s),NIL),s.tail()),NIL) )
+   {   }
+   // Make a new Parser object by applying p to the string in an existing Parser and adding the output. 
+   template <typename P> 
+   Parser(const P &p, const Parser &par) {
+     StringL s = par.rep.head().second;
+     ParserType pt = std::make_pair(cons(p(s),par.rep.head().first),s.tail());
+     rep = cons (pt,NIL);
+   }
    bool is_nothing() const { return null(rep); }
    bool no_result() const { return null(rep.head().first); }
    bool no_string() const { return null(rep.head().second); }
    // Do not use these if is_nothing() returns true.
    A value() const { return head(rep).first.head(); }
+   List<A> value_list() const { return head(rep).first; }
    StringL stringL() { return head(rep).second; }
 };
 
