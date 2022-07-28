@@ -35,6 +35,8 @@ namespace fcpp {
 
 /// Parser object - experimental adapting Maybe<T>
 /// I am calling it Parser although it will have a value of the type and a string.
+/// This is a start. I think it also needs a constructor from a string and something to parse the string.
+/// Also something to run a parser over the string.
 template <class A>
 class Parser
 {
