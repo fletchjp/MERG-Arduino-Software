@@ -23,7 +23,7 @@
 #define FCPP_ENABLE_LAMBDA
 #include "fcpp_prelude.h"
 
-//#include <Streaming.h>
+#include <Streaming.h>
 
 using namespace fcpp;
 
@@ -50,22 +50,31 @@ Between2 between2;
 /// I am calling it Parser although it will have a value of the type and a string.
 /// This is a start. I think it also needs a constructor from a string and something to parse the string.
 /// Also something to run a parser over the string.
+/// I think this works better with a list of results, as it gives opportunity to keep track of things.
 template <class A>
 class Parser
 {
-   OddList<std::pair<A,StringL> > rep;
+   //Changed to be a List of A
+   OddList<std::pair<List<A>,StringL> > rep;
 public:
    typedef A ElementType;
-   typedef std::pair<A,StringL> ParserType;
+   typedef std::pair<List<A>,StringL> ParserType;
    Parser() { }
-   Parser(const A &a, const StringL &s) : rep (cons (std::make_pair(a,s),NIL) )
-   {   }
+   // Constructor with no result yet.
+   Parser(const StringL &s)
+   {  ParserType pt = std::make_pair(NIL,s); 
+      rep = cons(pt,NIL); }
+   Parser(const A &a, const StringL &s) //: rep (cons (std::make_pair(cons(a,NIL),s),NIL) )
+   {  ParserType pt = std::make_pair(cons(a,NIL),s); 
+      rep = cons(pt,NIL); }
    template <typename P> 
-   Parser(const P &p, const StringL &s) : rep (cons (std::make_pair(p(s),s),NIL) )
+   Parser(const P &p, const StringL &s) : rep (cons (std::make_pair(cons(p(s),NIL),s),NIL) )
    {   }  
    bool is_nothing() const { return null(rep); }
+   bool no_result() const { return null(rep.head().first); }
+   bool no_string() const { return null(rep.head().second); }
    // Do not use these if is_nothing() returns true.
-   A value() const { return head(rep).first; }
+   A value() const { return head(rep).first.head(); }
    StringL stringL() { return head(rep).second; }
 };
 
@@ -194,7 +203,7 @@ void fcpp_examples()
      Serial.print("mz has "); Serial.println(mz.value());
   }
   Serial.println("--------------------------");
-/*
+
   List<double>::iterator idx1, idx2;
   List<double> x1 = list_with(0.,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0);
   List<double> x2 = fcpp::map(fcpp::minus(1.0),x1);
@@ -204,7 +213,7 @@ void fcpp_examples()
   }
   Serial << "Sum of x1 = " << sumx1 << endl;
   Serial << "--------------------------" << endl;
-
+/*
   List<int> ix1 = enumFromTo(0,10);
   List<bool> bodds = fcpp::map(odd,ix1);
   List<bool> bevens = fcpp::map(even,ix1);
@@ -233,8 +242,10 @@ void new_ideas()
    StringL::iterator si;
    Serial.print("Input string is ");
    outStringL(s); Serial.println(" ");
+   Parser<int> pints(s);
    Parser<int> pintex(1,s);
    if (pint.is_nothing()) { Serial.println("pint has no data"); }
+   if (pints.no_result()) { Serial.println("pints has no result"); }
    Serial.print("pintex has the value "); Serial.println(pintex.value());
 }
 
@@ -274,6 +285,7 @@ void setup() {
   while (!Serial) { }
   //::delay(5000);
   Serial.printf("Pico RP2040 FC++ operations\n");
+  //Serial << "Test streaming output" << endl;
   fcpp_examples();
   Serial.println("after fcpp_examples");
   prove_a_point();
