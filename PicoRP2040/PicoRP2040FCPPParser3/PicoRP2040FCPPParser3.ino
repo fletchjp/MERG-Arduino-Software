@@ -147,6 +147,15 @@ PlusP plusP;
 
 //////////////////////////////////////////////////////////
 
+void outStringL (const StringL& s)
+{
+   StringL::iterator si;
+   for (si = s.begin(); si != s.end(); ++si) {
+      //Serial.printf("%c",*si);
+      Serial.print(*si);
+   }
+}
+
 void fcpp_examples()
 {
   Serial.println("--------------------------");
@@ -196,6 +205,21 @@ void fcpp_examples()
 */
 }
 
+void new_ideas()
+{
+   Serial.println("Some operations with Parser<A>");
+   Parser<int> pint;
+   std::string ss("123+45-6");
+   //Serial << "string is " << ss << endl;
+   StringL s( ss.begin(), ss.end() );
+   StringL::iterator si;
+   Serial.print("Input string is ");
+   outStringL(s); Serial.println(" ");
+   Parser<int> pintex(1,s);
+   if (pint.is_nothing()) { Serial.println("pint has no data"); }
+   Serial.print("pintex has the value "); Serial.println(pintex.value());
+}
+
 void prove_a_point() {
 /*
 This works.  I did it just to prove a point.
@@ -235,6 +259,8 @@ void setup() {
   fcpp_examples();
   Serial.println("after fcpp_examples");
   prove_a_point();
+  Serial.println("--------------------------");
+  new_ideas();
   Serial.println("--------------------------");
   //Serial.flush();
 }
