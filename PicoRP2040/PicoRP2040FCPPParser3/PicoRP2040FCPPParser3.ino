@@ -2,6 +2,11 @@
 // Pico RP2040 FC++ Parser3
 // This one is for new ideas about Parser.
 //////////////////////////////////////////////////////////////////////
+// Thinking.  In HASKELL the monad and an instance have the same name.
+// In FC++ the two are distinct e.g. MaybeM and Maybe which is an instance.
+// I think that ParserM was written before the monad ideas crystallised, so there is no Parser object.
+// I intend to explore that idea here.
+//////////////////////////////////////////////////////////////////////
 // Mysteriously, this gave no output until I put in prove_a_point()
 // and the code needed for it.
 // I can now add the previous examples and get output.
