@@ -256,7 +256,7 @@ void fcpp_examples()
 
 void new_ideas()
 {
-   Serial.println("Some operations with Parser<A>");
+   Serial.println("Some operations with ParserL<A>");
    ParserL<int> pint;
    std::string ss("123+45-6");
    //Serial << "string is " << ss << endl;
