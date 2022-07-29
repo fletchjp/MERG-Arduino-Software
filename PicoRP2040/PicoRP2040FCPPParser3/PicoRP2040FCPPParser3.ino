@@ -222,7 +222,7 @@ void fcpp_examples()
   }
   Serial << "Sum of x1 = " << sumx1 << endl;
   Serial << "--------------------------" << endl;
-/*
+
   List<int> ix1 = enumFromTo(0,10);
   List<bool> bodds = fcpp::map(odd,ix1);
   List<bool> bevens = fcpp::map(even,ix1);
@@ -238,7 +238,7 @@ void fcpp_examples()
 
   Serial << "Length of odds is " << length(odds) << endl;
   Serial << "sum of the odds is " << sum_odds << endl;
-*/
+
 }
 
 void new_ideas()
