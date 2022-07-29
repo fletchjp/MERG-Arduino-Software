@@ -103,7 +103,28 @@ struct ParserLM {
       { typedef Fun1<StringL,List<std::pair<List<A>,StringL> > > Type; };
    template <class MA> struct UnRep { typedef typename
       RT<MA,StringL>::ResultType::ElementType::first_type::ElementType Type; };
+   // ReRep is a type-identity in Haskell; here it "indirect"ifies the
+   // type, so direct functoids are turned into indirect ones so that
+   // only the signature information appears in the type.
+   template <class MA> struct ReRep
+      { typedef typename Rep<typename UnRep<MA>::Type>::Type Type; };
+
+   struct XUnit {
+      template <class A> struct Sig : public FunType<A,
+         typename Rep<A>::Type> {};
+      template <class A>
+      typename Sig<A>::ResultType
+      operator()( const A& a ) const {
+         LambdaVar<1> S;
+         return lambda(S)[ cons[makePair[cons(a,NIL),S],NIL] ];
+      }
+   };
+   typedef Full1<XUnit> Unit;
+  // This change and the one for Bind got rid of many errors.
+   static Unit& unit() {static Unit f; return f;}
+  //static Unit unit;};
 };
+
 ////////////////////////////////////////////////////////////////////////////////
 struct ParserM {
    // M a = StringL -> [(a,StringL)]
