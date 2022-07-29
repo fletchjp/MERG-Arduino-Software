@@ -51,31 +51,32 @@ Between2 between2;
 /// This is a start. I think it also needs a constructor from a string and something to parse the string.
 /// Also something to run a parser over the string.
 /// I think this works better with a list of results, as it gives opportunity to keep track of things.
+/// Renamed as ParserL
 template <class A>
-class Parser
+class ParserL
 {
    //Changed to be a List of A
    OddList<std::pair<List<A>,StringL> > rep;
 public:
    typedef A ElementType;
-   typedef std::pair<List<A>,StringL> ParserType;
-   Parser() { }
+   typedef std::pair<List<A>,StringL> ParserLType;
+   ParserL() { }
    // Constructor with no result yet.
-   Parser(const StringL &s)
-   {  ParserType pt = std::make_pair(NIL,s); 
+   ParserL(const StringL &s)
+   {  ParserLType pt = std::make_pair(NIL,s); 
       rep = cons(pt,NIL); }
-   Parser(const A &a, const StringL &s) //: rep (cons (std::make_pair(cons(a,NIL),s),NIL) )
-   {  ParserType pt = std::make_pair(cons(a,NIL),s); 
+   ParserL(const A &a, const StringL &s) //: rep (cons (std::make_pair(cons(a,NIL),s),NIL) )
+   {  ParserLType pt = std::make_pair(cons(a,NIL),s); 
       rep = cons(pt,NIL); }
-   // Make a Parser object by applying a function to parse the head of the string.
+   // Make a ParserL object by applying a function to parse the head of the string.
    template <typename P> 
-   Parser(const P &p, const StringL &s) : rep (cons (std::make_pair(cons(p(s),NIL),s.tail()),NIL) )
+   ParserL(const P &p, const StringL &s) : rep (cons (std::make_pair(cons(p(s),NIL),s.tail()),NIL) )
    {   }
-   // Make a new Parser object by applying p to the string in an existing Parser and adding the output. 
+   // Make a new ParserL object by applying p to the string in an existing Parser and adding the output. 
    template <typename P> 
-   Parser(const P &p, const Parser &par) {
+   ParserL(const P &p, const ParserL &par) {
      StringL s = par.rep.head().second;
-     ParserType pt = std::make_pair(cons(p(s),par.rep.head().first),s.tail());
+     ParserLType pt = std::make_pair(cons(p(s),par.rep.head().first),s.tail());
      rep = cons (pt,NIL);
    }
    bool is_nothing() const { return null(rep); }
@@ -92,6 +93,18 @@ public:
 /// This is a translation of the Haskell in the paper into FC++
 /// It is useful to compare the two.
 /// The paper does not mention Unit and Bind.
+////////////////////////////////////////////////////////////////////////////////
+// This is going to have to be rewritten to support my Parser<A> type.
+// Perhaps I should give it another name e.g. ParserLM for now.
+///////////////////////////////////////////////////////////////////////////////
+struct ParserLM {
+   // M a = StringL -> [([a],StringL)]
+   template <class A> struct Rep
+      { typedef Fun1<StringL,List<std::pair<List<A>,StringL> > > Type; };
+   template <class MA> struct UnRep { typedef typename
+      RT<MA,StringL>::ResultType::ElementType::first_type::ElementType Type; };
+};
+////////////////////////////////////////////////////////////////////////////////
 struct ParserM {
    // M a = StringL -> [(a,StringL)]
 
@@ -244,15 +257,15 @@ void fcpp_examples()
 void new_ideas()
 {
    Serial.println("Some operations with Parser<A>");
-   Parser<int> pint;
+   ParserL<int> pint;
    std::string ss("123+45-6");
    //Serial << "string is " << ss << endl;
    StringL s( ss.begin(), ss.end() );
    StringL::iterator si;
    Serial.print("Input string is ");
    outStringL(s); Serial.println(" ");
-   Parser<int> pints(s);
-   Parser<int> pintex(1,s);
+   ParserL<int> pints(s);
+   ParserL<int> pintex(1,s);
    if (pint.is_nothing()) { Serial.println("pint has no data"); }
    if (pints.no_result()) { Serial.println("pints has no result"); }
    Serial.print("pintex has the value "); Serial.println(pintex.value());
