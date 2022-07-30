@@ -54,41 +54,41 @@ Between2 between2;
 /// I am calling it Parser although it will have a value of the type and a string.
 /// This is a start. I think it also needs a constructor from a string and something to parse the string.
 /// Also something to run a parser over the string.
-/// I think this works better with a list of results, as it gives opportunity to keep track of things.
-/// Renamed as ParserL
 template <class A>
-class ParserL
+class Parser
 {
-   //Changed to be a List of A
-   OddList<std::pair<List<A>,StringL> > rep;
+   OddList<std::pair<A,StringL> > rep;
 public:
    typedef A ElementType;
-   typedef std::pair<List<A>,StringL> ParserLType;
-   ParserL() { }
+   typedef std::pair<A,StringL> ParserType;
+   Parser() { }
    // Constructor with no result yet.
-   ParserL(const StringL &s)
-   {  ParserLType pt = std::make_pair(NIL,s); 
+   // Not feasible without assumption of a default value for A.
+   /*
+   Parser(const StringL &s)
+   {  ParserType pt = std::make_pair(NIL,s); 
       rep = cons(pt,NIL); }
-   ParserL(const A &a, const StringL &s) //: rep (cons (std::make_pair(cons(a,NIL),s),NIL) )
-   {  ParserLType pt = std::make_pair(cons(a,NIL),s); 
+   */
+   Parser(const A &a, const StringL &s) //: rep (cons (std::make_pair(cons(a,NIL),s),NIL) )
+   {  ParserType pt = std::make_pair(a,s); 
       rep = cons(pt,NIL); }
-   // Make a ParserL object by applying a function to parse the head of the string.
+   // Make a Parser object by applying a function to parse the head of the string.
    template <typename P> 
-   ParserL(const P &p, const StringL &s) : rep (cons (std::make_pair(cons(p(s),NIL),s.tail()),NIL) )
+   Parser(const P &p, const StringL &s) : rep (cons (std::make_pair(cons(p(s),NIL),s.tail()),NIL) )
    {   }
    // Make a new ParserL object by applying p to the string in an existing Parser and adding the output. 
    template <typename P> 
-   ParserL(const P &p, const ParserL &par) {
+   Parser(const P &p, const Parser &par) {
      StringL s = par.rep.head().second;
-     ParserLType pt = std::make_pair(cons(p(s),par.rep.head().first),s.tail());
+     ParserType pt = std::make_pair(p(s),s.tail());
      rep = cons (pt,NIL);
    }
    bool is_nothing() const { return null(rep); }
    bool no_result() const { return null(rep.head().first); }
    bool no_string() const { return null(rep.head().second); }
    // Do not use these if is_nothing() returns true.
-   A value() const { return head(rep).first.head(); }
-   List<A> value_list() const { return head(rep).first; }
+   A value() const { return head(rep).first; }
+   //List<A> value_list() const { return head(rep).first; }
    StringL stringL() { return head(rep).second; }
 };
 
@@ -97,38 +97,6 @@ public:
 /// This is a translation of the Haskell in the paper into FC++
 /// It is useful to compare the two.
 /// The paper does not mention Unit and Bind.
-////////////////////////////////////////////////////////////////////////////////
-// This is going to have to be rewritten to support my Parser<A> type.
-// Perhaps I should give it another name e.g. ParserLM for now.
-///////////////////////////////////////////////////////////////////////////////
-struct ParserLM {
-   // M a = StringL -> [([a],StringL)]
-   template <class A> struct Rep
-      { typedef Fun1<StringL,List<std::pair<List<A>,StringL> > > Type; };
-   template <class MA> struct UnRep { typedef typename
-      RT<MA,StringL>::ResultType::ElementType::first_type::ElementType Type; };
-   // ReRep is a type-identity in Haskell; here it "indirect"ifies the
-   // type, so direct functoids are turned into indirect ones so that
-   // only the signature information appears in the type.
-   template <class MA> struct ReRep
-      { typedef typename Rep<typename UnRep<MA>::Type>::Type Type; };
-
-   struct XUnit {
-      template <class A> struct Sig : public FunType<A,
-         typename Rep<A>::Type> {};
-      template <class A>
-      typename Sig<A>::ResultType
-      operator()( const A& a ) const {
-         LambdaVar<1> S;
-         return lambda(S)[ cons[makePair[cons(a,NIL),S],NIL] ];
-      }
-   };
-   typedef Full1<XUnit> Unit;
-  // This change and the one for Bind got rid of many errors.
-   static Unit& unit() {static Unit f; return f;}
-  //static Unit unit;};
-};
-
 ////////////////////////////////////////////////////////////////////////////////
 struct ParserM {
    // M a = StringL -> [(a,StringL)]
@@ -282,17 +250,17 @@ void fcpp_examples()
 void new_ideas()
 {
    Serial.println("Some operations with ParserL<A>");
-   ParserL<int> pint;
+   Parser<int> pint;
    std::string ss("123+45-6");
    //Serial << "string is " << ss << endl;
    StringL s( ss.begin(), ss.end() );
    StringL::iterator si;
    Serial.print("Input string is ");
    outStringL(s); Serial.println(" ");
-   ParserL<int> pints(s);
-   ParserL<int> pintex(1,s);
+   //Parser<int> pints(s); not implemented
+   Parser<int> pintex(1,s);
    if (pint.is_nothing()) { Serial.println("pint has no data"); }
-   if (pints.no_result()) { Serial.println("pints has no result"); }
+   //if (pints.no_result()) { Serial.println("pints has no result"); }
    Serial.print("pintex has the value "); Serial.println(pintex.value());
 }
 
