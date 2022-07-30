@@ -1,6 +1,10 @@
 //////////////////////////////////////////////////////////////////////
 // Pico RP2040 FC++ Parser3
 // This one is for new ideas about Parser.
+// I am going to have two versions.
+// Parser3 will have Parser and ParserM   with std::pair<A,StringL>
+// Parser4 will have ParserL and ParserLM with std::pair<List<A>,StringL>
+// This is because I am not clear which one works best.
 //////////////////////////////////////////////////////////////////////
 // Thinking.  In HASKELL the monad and an instance have the same name.
 // In FC++ the two are distinct e.g. MaybeM and Maybe which is an instance.
