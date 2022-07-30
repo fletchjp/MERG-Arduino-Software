@@ -12,7 +12,7 @@
 #define FCPP_ENABLE_LAMBDA
 #include "fcpp_prelude.h"
 
-//#include <Streaming.h>
+#include <Streaming.h>
 
 using namespace fcpp;
 
@@ -114,59 +114,59 @@ void explore_bindm()
    List<List<List<int> > > lll = list_with(ll,ll);
    bind(lll,id); // This works.
    //
-/*
-    Serial << "---------------------" << endl;
-    Serial << "bind on List<int> " << endl;
-    Serial << "---------------------" << endl;    
+
+    Serial.println("---------------------");
+    Serial.println("bind on List<int> ");
+    Serial.println("---------------------");
     List<int> lb = bindM<IdentityM>()(l,id);
-    Serial << "List<int> lb = bindM<IdentityM>()(l,id);" << endl;
-    Serial << "lb =  : ";
+    Serial.println("List<int> lb = bindM<IdentityM>()(l,id);");
+    Serial.print("lb =  : ");
     for (i = lb.begin(); i != lb.end(); ++i) {
-      Serial << *i << " ";
+      Serial << *i; Serial.print(" ");
     }
     Serial << endl;
-    Serial << "---------------------" << endl;    
+    Serial.println("---------------------");
     List<int> lc = bindM<IdentityM>()(l,fcpp::map(inc));
     Serial << "List<int> lc = bindM<IdentityM>()(l,map(inc));" << endl;
     Serial << "lc =  : ";
     for (i = lc.begin(); i != lc.end(); ++i) {
-      Serial << *i << " ";
+      Serial << *i; Serial.print(" ");
     }
     Serial << endl;
-    Serial << "---------------------" << endl;
+    Serial.println("---------------------");
     Serial << "bind on List<List<int> > " << endl;
-    Serial << "---------------------" << endl;    
+    Serial.println("---------------------");
     List<int> lq = bind(ll,tail);
     List<int> lid = bind(ll,id);
     List<int> linc = bind(ll,fcpp::map(inc));
-    Serial << "---------------------" << endl;
+    Serial.println("---------------------");
     Serial << "l = list_with(1,2,3) : ";
     for (i = l.begin(); i != l.end(); ++i) {
-      Serial << *i << " ";
+      Serial << *i; Serial.print(" ");
     }
     Serial << endl;
     Serial << "l2 = list_with(2,3,4) : ";
     for (i = l2.begin(); i != l2.end(); ++i) {
-      Serial << *i << " ";
+      Serial << *i; Serial.print(" ");
     }
     Serial << endl;
-    Serial << "---------------------" << endl;
+    Serial.println("---------------------");
     Serial << "List<List<int> > ll = list_with(l,l2);" << endl;
     Serial << "This takes the tail of both lists and concatenates the result."
          << endl;
-    Serial << "---------------------" << endl;
+    Serial.println("---------------------");
     Serial << "bind(ll,tail) : "; // << endl;
     for (i = lq.begin(); i != lq.end(); ++i) {
-      Serial << *i << " ";
+      Serial << *i; Serial.print(" ");
     }
     Serial << endl;
-    Serial << "---------------------" << endl;
+    Serial.println("---------------------");
     Serial << "bind(ll,id) : "; // << endl;
     for (i = lid.begin(); i != lid.end(); ++i) {
-      Serial << *i << " ";
+      Serial << *i; Serial.print(" ");
     }
     Serial << endl;
-    Serial << "---------------------" << endl;
+    Serial.println("---------------------");
     //Serial << "bind_(ll,id) : "; // << endl;
     //for (i = lid2.begin(); i != lid2.end(); ++i) {
     //  Serial << *i << " ";
@@ -175,91 +175,92 @@ void explore_bindm()
     //Serial << "---------------------" << endl;
     Serial << "bind(ll,map(inc)) : "; // << endl;
     for (i = linc.begin(); i != linc.end(); ++i) {
-      Serial << *i << " ";
+      Serial << *i; Serial.print(" ");
     }
     Serial << endl;
-    Serial << "---------------------" << endl;
+    Serial.println("---------------------");
     List<int> lr = joinM<ListM>()(ll);
     Serial << "joinM<ListM>()(ll) : "; // << endl;
     for (i = lr.begin(); i != lr.end(); ++i) {
-      Serial << *i << " ";
+       Serial << *i; Serial.print(" ");
     }
     Serial << endl;
-    Serial << "---------------------" << endl;
+    Serial.println("---------------------");
     List<int> ls = bindM<ListM>()(ll,id);
     Serial << "bindM<ListM>()(ll,id) : "; // << endl;
     for (i = ls.begin(); i != ls.end(); ++i) {
-       Serial << *i << " ";
+       Serial << *i; Serial.print(" ");
     }
     Serial << endl;
-    Serial << "---------------------" << endl;
+    Serial.println("---------------------");
     List<int> lt = bindM<ListM>()(ll,fcpp::map(inc));
     Serial << "bindM<ListM>()(ll,map(inc)) : "; // << endl;
     for (i = lt.begin(); i != lt.end(); ++i) {
-       Serial << *i << " ";
+       Serial << *i; Serial.print(" ");
     }
     Serial << endl;
-    Serial << "---------------------" << endl;
+    Serial.println("---------------------");
     List<int> lu = ListM::bind()(ll,fcpp::map(inc));
     Serial << "ListM::bind()(ll,map(inc)) : "; // << endl;
     for (i = lu.begin(); i != lu.end(); ++i) {
-       Serial << *i << " ";
+       Serial << *i; Serial.print(" ");
     }
     Serial << endl;
-    Serial << "---------------------" << endl;
+    Serial.println("---------------------");
     Serial << "Here is an example of bindM_ in action." << endl;
     Serial << "It takes the head of the list and discards it." << endl;
     Serial << "F is then applied to the second item in the list." << endl;
-    Serial << "---------------------" << endl;
+    Serial.println("---------------------");
     Serial<< "l : [ "; // << endl;
     for (i = l.begin(); i != l.end(); ++i) {
-      Serial << *i << " ";
+       Serial << *i; Serial.print(" ");
     }
     Serial << "]" << endl;
     Serial << "lambda(X,F)[bindM_<IdentityM>()[head[X], F] [head[tail[X]]] ](l,inc) = ";
     int res = lambda(X,F)[bindM_<IdentityM>()[head[X], F] [head[tail[X]]] ](l,inc);
     Serial << res << endl;
-    Serial << "---------------------" << endl;
+    Serial.println("---------------------");
     Serial << "lres = lambda(X,F)[bindM_<IdentityM>()[head[X], map[F] ] [tail[X]] ](l,inc);" << endl;
     List<int> lres = lambda(X,F)[bindM_<IdentityM>()[head[X], fcpp::map[F] ] [tail[X]] ](l,inc);
     Serial<< "lres : [ "; // << endl;
     for (i = lres.begin(); i != lres.end(); ++i) {
-      Serial << *i << " ";
+      Serial << *i; Serial.print(" ");
     }
     Serial << "]" << endl;
-    Serial << "---------------------" << endl;
+    Serial.println("---------------------");
     //IdentityM::bind_()(head(l),fcpp::map(inc));
     // I cannot do the above because I need the list at two places (as X in the line below.
     Serial << "These examples all do the same thing with different arrangements of lambda arguments." << endl; 
-    Serial << "---------------------" << endl;
+    Serial.println("---------------------");
     Serial << "List<int> lv = lambda(X,F)[bindM_<IdentityM>()[head[X], F] [tail[X]] ](l,fcpp::map(inc));" << endl;
     List<int> lv = lambda(X,F)[bindM_<IdentityM>()[head[X], F] [tail[X]] ](l,fcpp::map(inc));
-    Serial<< "lv : [ "; // << endl;
+    Serial.print("lv : [ ");
     for (i = lv.begin(); i != lv.end(); ++i) {
-      Serial << *i << " ";
+      Serial << *i; Serial.print(" ");
     }
-    Serial << "]" << endl;
-    Serial << "---------------------" << endl;
+    Serial.println("]");
+    Serial.println("---------------------");
     Serial << "List<int> lw = lambda(X,F,G)[bindM_<IdentityM>()[F[X], G] [tail[X]] ](l,head,fcpp::map(inc));" << endl;
     List<int> lw = lambda(X,F,G)[bindM_<IdentityM>()[F[X], G] [tail[X]] ](l,head,fcpp::map(inc));
-    Serial<< "lw : [ "; // << endl;
+    Serial.print("lw : [ ");
     for (i = lw.begin(); i != lw.end(); ++i) {
-      Serial << *i << " ";
+      Serial << *i; Serial.print(" ");
     }
-    Serial << "]" << endl;
-    Serial << "---------------------" << endl;
+    Serial.println("]");
+    Serial.println("---------------------");
     Serial << "List<int> lx = lambda(X,F,G,H)[bindM_<IdentityM>()[F[X], H] [G[X]] ](l,head,tail,fcpp::map(inc));" << endl;
     List<int> lx = lambda(X,F,G,H)[bindM_<IdentityM>()[F[X], H] [G[X]] ](l,head,tail,fcpp::map(inc));
-    Serial<< "lx : [ "; // << endl;
+    Serial.print("lx : [ ");
     for (i = lx.begin(); i != lx.end(); ++i) {
-      Serial << *i << " ";
+      Serial << *i; Serial.print(" ");
     }
-    Serial << "]" << endl;
-    Serial << "---------------------" << endl;
+    Serial.println("]");
+    Serial.println("---------------------");
     //lambda(X,F,G,H )[ bindM_<ListM>()[F[X], H] [ G [X] ] ](ll, head, tail,fcpp::map(inc) );
-    Serial << "Exploring use of join with MaybeM and EitherM monads and associated values." << endl;
-    Serial << "---------------------" << endl;
+    Serial.println("Exploring use of join with MaybeM and EitherM monads and associated values.");
+    Serial.println("---------------------");
     //bindM<MaybeM>()(ll,id); fails as expected
+/*
     // Exploring use of join with MaybeM and EitherM monads and associated values. 
     Maybe<int> mj = joinM<MaybeM>()( just (just (2) ) );
     Serial << "joinM<MaybeM>()( just (just (2) ) ) : ";
@@ -274,13 +275,13 @@ void explore_bindm()
     Serial << "joinM<EitherM>() ( right (right (2) ) ) : "; 
     Either<int> ej = joinM<EitherM>()( right (right (2) ) );
     Serial << ej << endl;
-    Serial << "EitherM::join()( right (right (2) ) ) : "; 
+    Serial.print("EitherM::join()( right (right (2) ) ) : "); 
     Either<int> ej2 = EitherM::join() ( right (right (2) ) ); 
     Serial << ej2 << endl;
     Serial << "join ( right (right (2) ) ) : "; 
     Either<int> ej3 = join ( right (right (2) ) ); 
     Serial << ej3 << endl;
-    Serial << "---------------------" << endl;
+    Serial.println("---------------------");
 */
 }
 
