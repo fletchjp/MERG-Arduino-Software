@@ -128,6 +128,28 @@ struct ParserLM {
   // This change and the one for Bind got rid of many errors.
    static Unit& unit() {static Unit f; return f;}
   //static Unit unit;};
+  
+  // This is unchanged from ParserM
+   struct XBind { // The use of  ReRep here is different from other Monad instances.
+      template <class M, class K> struct Sig : public FunType<M,K,typename
+         ReRep<typename RT<K,typename UnRep<M>::Type>::ResultType>::Type> {};
+      template <class M, class K>
+      typename Sig<M,K>::ResultType
+      operator()( const M& m, const K& k ) const {
+         LambdaVar<1> P;
+         LambdaVar<2> S;
+         return lambda(S)[ concat[ compM<ListM>()
+            [ k[fst[P]][snd[P]] | P <= m[S] ] ] ];
+      }
+   };
+   typedef Full2<XBind> Bind;
+   static Bind& bind() {static Bind f; return f;}
+  //static Bind bind;
+
+   typedef Fun1<StringL,AUniqueTypeForNil> Zero;
+   static Zero& zero() {static Zero f; return f;}
+  //static Zero zero;
+
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -295,6 +317,12 @@ void new_ideas()
    if (pint.is_nothing()) { Serial.println("pint has no data"); }
    if (pints.no_result()) { Serial.println("pints has no result"); }
    Serial.print("pintex has the value "); Serial.println(pintex.value());
+   Serial << "----------------" << endl;
+   auto what1 = unitM<ParserLM>();
+   auto what2 = bindM<ParserLM>();
+   auto what3 = zeroM<ParserLM>();
+   //if (what3(s).is_nothing()) { Serial.println("what3(s) has no data"); }
+  
 }
 
 void prove_a_point() {
