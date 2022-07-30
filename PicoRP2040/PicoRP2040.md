@@ -38,6 +38,14 @@ The problem may be part of the move to gcc10 and C++17 which I am using on the R
 
 ### PicoRP2040FCPPParser3
 
+This is for new ideas on how to develop ParserM with a Parser object with type std::pair<A,StringL>
+
+### PicoRP2040FCPPParser4
+
 This is for new ideas on how to develop ParserM.
+
+This has ParserL and ParserLM with the object type std::pair<List<A>,StringL>
+
+This gives more options for some of the operations. I am going to develop both of them.
 
 
