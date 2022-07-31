@@ -319,6 +319,7 @@ Print &operator <<( Print &obj, const Either<T> &arg)
     if (arg.is_error()) {
        obj.print(arg.left());
     } else {
+       obj.print("Right ");
        obj.print(arg.right());
     }
     return obj; 
@@ -337,6 +338,31 @@ void unify_examples()
          <<  liftM<MaybeM>()(id)( just(3) ) << endl;
   Serial << "liftM<EitherM>()(id)(right(3)) : "
          <<  liftM<EitherM>()(id)( right(3) ) << endl;
+  Serial << "===============================" << endl;
+  Serial << "Functor Law 1        (page 223)" << endl;
+  Serial << "     fmap id = id" << endl;
+  Serial << "===============================" << endl;
+  Serial << "id ( just(3) )                 : "
+            <<  id ( just(3) ) << endl;
+  Serial << "fmap (id) ( just(3) )          : "
+            <<  fmap (id)( just(3) ) << endl;
+  Serial << "fmap (id) ( right(3) )         : "
+            <<  fmap (id)( right(3) ) << endl;
+  Serial << "fmap (id) ( ident(3) )         : "
+            <<  fmap (id)( ident(3) ) << endl;
+  Serial << "fmap (inc)( just(3) )          : "
+            <<  fmap (inc)( just(3) ) << endl;
+  Serial << "fmap (inc)( right(3) )         : "
+            <<  fmap (inc)( right(3) ) << endl;
+  Serial << "fmap (inc) ( ident(3) )        : "
+            <<  fmap (inc)( ident(3) ) << endl;
+  Serial << "(inc) ^fmap^ ( ident(3) )      : "
+            <<  ((inc) ^fmap^ ( ident(3) )) << endl;
+  Serial << "fmap( _, ident(3) )(inc)       : "
+            <<  fmap( _, ident(3) )(inc) << endl;
+  Serial << "fmap( _, just(3) )(inc)        : "
+            <<  fmap( _, just(3) )(inc) << endl;
+
 }
 //////////////////////////////////////////////////////////
 
