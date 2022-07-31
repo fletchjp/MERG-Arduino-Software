@@ -362,7 +362,10 @@ void unify_examples()
             <<  fmap( _, ident(3) )(inc) << endl;
   Serial << "fmap( _, just(3) )(inc)        : "
             <<  fmap( _, just(3) )(inc) << endl;
-  List<int> fl2_1 = makeList1(3);
+  Serial << "=================================" << endl;
+  Serial << "Functor Law 2          (page 224)" << endl;
+  Serial << "fmap (f . g ) = fmap(f) . fmap(g)" << endl;
+  Serial << "=================================" << endl;
   Serial << " fmap (inc  ^dot^ dec)( ident(3) )     : "
             <<  fmap (inc ^dot^ dec)( ident(3) ) << endl;
   Serial << "(fmap (inc) ^dot^ fmap(dec))(ident(3)) : "
@@ -375,6 +378,36 @@ void unify_examples()
             <<  fmap (inc ^dot^ dec)( right(3) ) << endl;
   Serial << "(fmap (inc) ^dot^ fmap(dec))(right(3)) : "
             <<  (fmap (inc) ^dot^ fmap(dec)) (right(3) ) << endl;
+  List<int> fl2_1 = makeList1(3);
+  List<int> fl2_2 = fmap (inc ^dot^ dec)( fl2_1 );
+  List<int> fl2_3 = (fmap (inc) ^dot^ fmap(dec)) (fl2_1 );
+  Serial << " fmap (inc ^dot^ dec)( fl2_1 ) = [ ";
+  for (it = fl2_2.begin(); it != fl2_1.end(); ++it) {
+     Serial << *it << " ";
+  }
+  Serial << "]" << endl;
+  Serial << "(fmap (inc) ^dot^ fmap(dec))(fl2_1) = [ ";
+  for (it = fl2_3.begin(); it != fl2_3.end(); ++it) {
+     Serial << *it << " ";
+  }
+  Serial << "]" << endl;
+  Serial << "=================================" << endl;
+  Serial << "More examples. p.229" << endl;
+  Serial << "=================================" << endl;
+  Serial << "(just(plus(3)) ^star^ just(9)) : "
+            <<  (just(plus(3)) ^star^ just(9)) << endl;  // p.229
+  Serial << "====================================" << endl;
+  Serial << "Applicative Functor Law 1 (page 238)" << endl;
+  Serial << " pure f <*> x = fmap f x" << endl;
+  Serial << "====================================" << endl;
+  Serial << "fmap (inc) ( just(3) )         : "
+            <<  fmap (inc)( just(3) ) << endl;
+  Maybe<int> mx1 = pure (inc) ^star^ ( just(3) );
+  Serial << "pure (inc) ^star^ ( just(3) )  : "
+            <<  mx1 << endl;
+  Maybe<int> mx1a = MaybeA::pure()(inc) ^star^ (3);
+  Serial << "MaybeA::pure()(inc) ^star^ (3) : "
+            <<  mx1a << endl;
 
 }
 //////////////////////////////////////////////////////////
