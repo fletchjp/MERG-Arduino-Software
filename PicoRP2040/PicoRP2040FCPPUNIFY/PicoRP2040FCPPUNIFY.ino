@@ -116,11 +116,11 @@ auto pmh = ptr_to_fun(&mh);
 void explore_bindm()
 {
    LambdaVar<1> X;
-   LambdaVar<2> Y;
-   LambdaVar<3> Z;
-   LambdaVar<4> W;
-   LambdaVar<5> A;
-   LambdaVar<6> P;
+//   LambdaVar<2> Y;
+//   LambdaVar<3> Z;
+//   LambdaVar<4> W;
+//   LambdaVar<5> A;
+//   LambdaVar<6> P;
    LambdaVar<7> F;
    LambdaVar<8> G;
    LambdaVar<9> H;
@@ -576,15 +576,59 @@ void unify_examples()
   }
   Serial << "]" << endl;
 #endif
+  Serial << "-----------------------------------------------"
+            << endl;
 
 }
+
+// I have put these examples here to show how some things work and also to avoid some warnings
+// that things are defined and not used.
+auto bar() {
+   LambdaVar<1> X;
+   LambdaVar<2> Y;
+   return lambda()[
+      doM[ X <= list_with(1,2), Y <= list_with(3,4),
+           unitM<ListM>()[ makePair[X,Y] ] ] ];
+}
+
+auto qux() {
+   LambdaVar<1> X;
+   LambdaVar<2> Y;
+   return lambda()[ compM<ListM>()[ makePair[X,Y] | 
+          X<=list_with(1,2), guard[true], Y<=list_with(3,4), 
+          guard[equal[divides[Y,X],3] ] ]
+      ];
+}
+auto whoa() {
+   LambdaVar<1> even;
+   LambdaVar<2> odd;
+   LambdaVar<3> X;
+   return lambda()[
+      letrec[ even==lambda(X)[ if1[fcpp::equal[X,0],true,odd[fcpp::minus[X,1]]] ],
+              odd ==lambda(X)[ if2[notEqual[X,0],even[fcpp::minus[X,1]],false] ]
+      ].in[ even[3] ] ];
+}
+
+void lambda_examples()
+{
+   LambdaVar<1> F;
+//   LambdaVar<2> G;
+   //LambdaVar<3> H;
+   LambdaVar<4> X;
+
+   Serial << lambda(F,X)[ if0[true,F[X,2],X] ](plus,1) << endl;
+  
+}
+
+//////////////////////////////////////////////////////////
+void parallel_examples() {
+
+  
+}
+
 //////////////////////////////////////////////////////////
 
 void monad_examples() {
-  // put your setup code here, to run once:
-  Serial.begin (115200);
-  while (!Serial) { }
-
   Serial.println("Pico RP2040 FC++ Monads ");
   Serial.println("--------------------------");
   Serial.println("Some simple FC++ operations");
@@ -690,8 +734,14 @@ void monad_examples() {
 }
 
 void setup() {
+  // put your setup code here, to run once:
+  Serial.begin (115200);
+  while (!Serial) { }
+  
   monad_examples();
   unify_examples();
+  lambda_examples();
+  parallel_examples();
 }
 void loop() {
   // put your main code here, to run repeatedly:
