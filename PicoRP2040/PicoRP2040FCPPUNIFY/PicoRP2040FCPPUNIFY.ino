@@ -362,6 +362,19 @@ void unify_examples()
             <<  fmap( _, ident(3) )(inc) << endl;
   Serial << "fmap( _, just(3) )(inc)        : "
             <<  fmap( _, just(3) )(inc) << endl;
+  List<int> fl2_1 = makeList1(3);
+  Serial << " fmap (inc  ^dot^ dec)( ident(3) )     : "
+            <<  fmap (inc ^dot^ dec)( ident(3) ) << endl;
+  Serial << "(fmap (inc) ^dot^ fmap(dec))(ident(3)) : "
+            <<  (fmap (inc) ^dot^ fmap(dec)) (ident(3) ) << endl;
+  Serial << " fmap (inc  ^dot^ dec)( just(3) )      : "
+            <<  fmap (inc ^dot^ dec)( just(3) ) << endl;
+  Serial << "(fmap (inc) ^dot^ fmap(dec))(just(3))  : "
+            <<  (fmap (inc) ^dot^ fmap(dec)) (just(3) ) << endl;
+  Serial << " fmap (inc  ^dot^ dec)( right(3) )     : "
+            <<  fmap (inc ^dot^ dec)( right(3) ) << endl;
+  Serial << "(fmap (inc) ^dot^ fmap(dec))(right(3)) : "
+            <<  (fmap (inc) ^dot^ fmap(dec)) (right(3) ) << endl;
 
 }
 //////////////////////////////////////////////////////////
