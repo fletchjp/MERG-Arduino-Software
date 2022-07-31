@@ -301,7 +301,8 @@ void explore_bindm()
 */
 }
 
-Print &operator <<( Print &obj, const Maybe<int> &arg)
+template <typename T>
+Print &operator <<( Print &obj, const Maybe<T> &arg)
 {
     if (arg.is_nothing()) { 
        obj.print("nothing");
@@ -312,6 +313,16 @@ Print &operator <<( Print &obj, const Maybe<int> &arg)
     return obj; 
 }
 
+template <typename T>
+Print &operator <<( Print &obj, const Either<T> &arg)
+{
+    if (arg.is_error()) {
+       obj.print(arg.left());
+    } else {
+       obj.print(arg.right());
+    }
+    return obj; 
+}
 //////////////////////////////////////////////////////////
 void unify_examples()
 {
@@ -322,6 +333,10 @@ void unify_examples()
   auto what = id ( just(3) );
   Serial << "id ( just(3) )                 : " << what
          << " (page 224)"<< endl;
+  Serial << "liftM<MaybeM>()(id)( just(3) ) : "
+         <<  liftM<MaybeM>()(id)( just(3) ) << endl;
+  Serial << "liftM<EitherM>()(id)(right(3)) : "
+         <<  liftM<EitherM>()(id)( right(3) ) << endl;
 }
 //////////////////////////////////////////////////////////
 
