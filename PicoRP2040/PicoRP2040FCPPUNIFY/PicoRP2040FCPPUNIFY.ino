@@ -408,6 +408,43 @@ void unify_examples()
   Maybe<int> mx1a = MaybeA::pure()(inc) ^star^ (3);
   Serial << "MaybeA::pure()(inc) ^star^ (3) : "
             <<  mx1a << endl;
+  // pure is actually optional here as pure == id when on its own.
+  Maybe<int> mx1b = inc ^star^ ( just(3) );
+  Serial << "inc ^star^ (3) : " <<  mx1b << endl;
+  Serial << "====================================" << endl;
+  Serial << "Applicative Functor Law 2 (page 238)" << endl;
+  Serial << " pure id <*> v = v" << endl;
+  Serial << "====================================" << endl;
+  Maybe<int> mx2 = pure (id) ^star^ ( just(3) );
+  Serial << "pure (id) ^star^ ( just(3) )    : "
+            <<  mx2 << endl;
+  Serial << "====================================" << endl;
+  Serial << "Applicative Functor Law 3 (page 238)" << endl;
+  Serial << "pure (.)<*>u<*>v<*>w = u<*>(v<*>w)" << endl;
+  Serial << "Note: in the example one of the operators cannot be inferred."
+            << endl;
+  Serial << "====================================" << endl;
+  Maybe<int> mx3a = pure (dot) ^star^ pureA<MaybeA>()(inc)
+                    ^star^ dec ^star^ ( just(3) );
+  Maybe<int> mx3b = inc ^star^ (dec ^star^ ( just(3) ));
+  Serial << "pure(dot) ^star^ pureA<MaybeA>()(inc) ^star^ dec ^star^ ( just(3) )    : "
+            <<  mx3a << endl;
+  Serial << "inc ^star^ (dec ^star^ ( just(3) )) : "
+            <<  mx3b << endl;
+  Serial << "====================================" << endl;
+  Serial << "Applicative Functor Law 4 (page 238)" << endl;
+  Serial << " pure f <*> pure x = pure ( f x )" << endl;
+  Serial << "====================================" << endl;
+  Maybe<int> mx4a = pure (id) ^star^ ( just(3) );
+  Maybe<int> mx4a2 = pure (id) ^star^ pure ( just(3) );
+  Maybe<int> mx4b = pure (id ( just(3) ) );
+  Serial << "pure (id) ^star^ ( just(3) )    : "
+            <<  mx4a << endl;
+  Serial << "pure (id) ^star^ pure ( just(3) )    : "
+            <<  mx4a2 << endl;
+  Serial << "pure (id ( just(3) ) )          : "
+            <<  mx4b << endl;
+  Maybe<int> mx4c = pure (inc) ^star^ ( just(3) );
 
 }
 //////////////////////////////////////////////////////////
