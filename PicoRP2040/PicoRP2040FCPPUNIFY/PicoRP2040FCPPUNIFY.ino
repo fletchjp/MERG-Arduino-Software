@@ -489,6 +489,93 @@ void unify_examples()
   Serial << "ex4e = pure (inc (3) )  : "
             <<  ex4e << endl;
   Serial << "pure (inc (3) )  : " << pure (inc (3) ) << endl;
+  Serial << "====================================" << endl;
+  Serial << "Applicative Functor Law 5 (page 238)" << endl;
+  Serial << " u <*> pure y = pure ( $ y ) <*> u" << endl;
+  Serial << "Note: $ is the infix operator for fmap." << endl;
+  Serial << "Notation not reproduced completely" << endl;
+  Serial << "====================================" << endl;
+  // One side or the other of star must give the type information.
+  // Note: pureA<MaybeA>() == MaybeA::pure() == just. All equivalent.
+  Maybe<int> mx5a = pureA<MaybeA>()(inc) ^star^ ( pure(3) );
+  Maybe<int> mx5a2 = pure(inc) ^star^ ( just(3) );
+  // This fails as it cannot deduce a type from pure alone.
+  //Maybe<int> mx5a3 = pure(inc) ^star^ ( pure(3) );
+  Maybe<int> mx5b = fmap(_,just(3)) (inc);
+  Maybe<int> mx5c = (_ ^fmap^ just(3)) (inc);
+  // This one fails because inc does not need to be lifted here.
+  //Maybe<int> mx5d = (_ ^fmap^ just(3)) ( pureA<MaybeA>()(inc) );
+  Serial << "pureA<MaybeA>()(inc) ^star^ ( pure(3) ) : "
+            <<  mx5a << endl;
+  Serial << "pure( inc ) ^star^ ( just(3) ) : "
+            <<  mx5a2 << endl;
+  Serial << "(_ ^fmap^ just(3)) (inc)        : "
+            <<  mx5c << endl;
+  Serial << "====================================" << endl;
+  Serial << "Application of the various laws" << endl;
+  Serial << "====================================" << endl;
+  Serial << " pure f <*> x = fmap f x" << endl;
+  Serial << "This example implements the RHS of the law." << endl;
+  Serial << "That is equivalent to operating the LHS of the law"
+            << endl;
+  Serial << "=================================================="
+            << endl;
+  Fun1<int,int> finc(inc), fdec(dec); // Monomorphic versions
+  List<int> l1 = list_with(1,2);
+  List<int> l2 = pureA<ListA>()(finc) ^star^ l1;
+  List<int> l3 = fcpp::map(finc,l1);
+  List<int> l4 = fmap(finc,l1);
+  List<Fun1<int,int> > lf1 = list_with(finc);
+  List<int> l5 = star(lf1)(l1);
+  //List<int> l6 = star(pure(finc),l1); Cannot deduce list type.
+
+  List<Maybe<int> >::iterator imt;
+  List<Maybe<int> > lm1 = unitM<MaybeT<ListM> >()(just(1));
+  Serial << "unitM<MaybeT<ListM> >()(just(1))    = [ ";
+  for (imt = lm1.begin(); imt != lm1.end(); ++imt) {
+     Serial << *imt << " ";
+  }
+  Serial << "]" << endl;
+#ifdef FCPP_UNIFY
+  Serial << "-----------------------------------------------"
+            << endl;
+  List<Maybe<int> > lm1a = unitM<MaybeT<ListA> >()(just(1));
+  Serial << "unitM<MaybeT<ListA> >()(just(1))    = [ ";
+  for (imt = lm1a.begin(); imt != lm1a.end(); ++imt) {
+     Serial << *imt << " ";
+  }
+  Serial << "]" << endl;
+  Serial << "-----------------------------------------------"
+            << endl;
+#endif
+  List<Maybe<int> > lm2 = fmap (id)( lm1 );
+  Serial << "fmap (id)  (lm1)                    = [ ";
+  for (imt = lm2.begin(); imt != lm2.end(); ++imt) {
+     Serial << *imt << " ";
+  }
+  Serial << "]" << endl;
+  List<Maybe<int> > lm3 = fmap (liftM<MaybeM>()(inc))( lm1 );
+  Serial << "fmap (liftM<MaybeM>()(inc)) (lm1)   = [ ";
+  for (imt = lm3.begin(); imt != lm3.end(); ++imt) {
+     Serial << *imt << " ";
+  }
+  Serial << "]" << endl;
+  List<Maybe<int> > lm4 = (liftM<MaybeM>()(inc)) ^fmap^ ( lm1 );
+  Serial << "(liftM<MaybeM>()(inc)) ^fmap^ (lm1) = [ ";
+  for (imt = lm4.begin(); imt != lm4.end(); ++imt) {
+     Serial << *imt << " ";
+  }
+  Serial << "]" << endl;
+#ifdef FCPP_UNIFY
+  Serial << "-----------------------------------------------"
+            << endl;
+  List<Maybe<int> > lm5 = (liftM<MaybeA>()(inc)) ^fmap^ ( lm1 );
+  Serial << "(liftM<MaybeA>()(inc)) ^fmap^ (lm1) = [ ";
+  for (imt = lm5.begin(); imt != lm4.end(); ++imt) {
+     Serial << *imt << " ";
+  }
+  Serial << "]" << endl;
+#endif
 
 }
 //////////////////////////////////////////////////////////
