@@ -301,10 +301,31 @@ void explore_bindm()
 */
 }
 
+Print &operator <<( Print &obj, const Maybe<int> &arg)
+{
+    if (arg.is_nothing()) { 
+       obj.print("nothing");
+    } else {
+       obj.print("Just ");
+       obj.print(arg.value());
+    }
+    return obj; 
+}
+
+//////////////////////////////////////////////////////////
+void unify_examples()
+{
+  List<int>::iterator it;
+  Serial << "===============================" << endl;
+  Serial << "Here is fmap actually working!!" << endl;
+  Serial << "===============================" << endl;
+  auto what = id ( just(3) );
+  Serial << "id ( just(3) )                 : " << what
+         << " (page 224)"<< endl;
+}
 //////////////////////////////////////////////////////////
 
-
-void setup() {
+void monad_examples() {
   // put your setup code here, to run once:
   Serial.begin (115200);
   while (!Serial) { }
@@ -413,6 +434,10 @@ void setup() {
 */
 }
 
+void setup() {
+  monad_examples();
+  unify_examples();
+}
 void loop() {
   // put your main code here, to run repeatedly:
 
