@@ -615,15 +615,21 @@ void lambda_examples()
 //   LambdaVar<2> G;
    //LambdaVar<3> H;
    LambdaVar<4> X;
-
+   Serial << "lambda(F,X)[ if0[true,F[X,2],X] ](plus,1) = ";
    Serial << lambda(F,X)[ if0[true,F[X,2],X] ](plus,1) << endl;
   
 }
 
 //////////////////////////////////////////////////////////
 void parallel_examples() {
-
-  
+  Serial << "=================================================="
+            << endl;
+  Serial << "parallel functoid (aka prod)" << endl;
+  Serial << "parallel((f,g),(a,b) ) -> (f(a),g(b))" << endl;
+  Serial << "bimap is related but different." << endl;
+  Serial << "bimap(f,g,(a,b) ) -> (f(a),g(b))" << endl;
+  Serial << "=================================================="
+         << endl;
 }
 
 //////////////////////////////////////////////////////////
