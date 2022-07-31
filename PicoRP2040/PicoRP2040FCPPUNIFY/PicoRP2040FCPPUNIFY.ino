@@ -21,6 +21,7 @@
 //#define FCPP_ARDUINO // Take out arguement traits - defined in prelude for Arduino etc
 // All headers modified to work in the Arduino/Pico environment.
 // Some exceptions guarding in patter.h have had to be removed.
+#define FCPP_UNIFY // Unification of Monads and Functors in functors.h
 #include "fcpp_prelude.h"
 #include "fcpp/functors.h"
 #include "fcpp/comonad.h"
@@ -445,6 +446,49 @@ void unify_examples()
   Serial << "pure (id ( just(3) ) )          : "
             <<  mx4b << endl;
   Maybe<int> mx4c = pure (inc) ^star^ ( just(3) );
+  // These are all equivalent. MaybeA::pure provides just.
+  // The problem is how to get pure to know what it is doing.
+  // At the moment the action is taken in star.
+  // That does not work for pure on its own.
+  // There is a comment on p.228 that there is no default implementation
+  // of 'pure' so it needs to be defined in the applicative functor.
+  // These examples do this for the 'pure' in MaybeA which equates to 'just'.
+  Maybe<int> mx4c2 = (just(inc)) ^star^ ( just(3) );
+  Maybe<int> mx4c3 = (pureA<MaybeA>()(inc)) ^star^ ( just(3) );
+  Maybe<int> mx4c4 = (MaybeA::pure()(inc)) ^star^ ( just(3) );
+  //Maybe<int> mx4d = pure (pureA<MaybeA>()(inc) ( just(3) ) );
+  Maybe<int> mx4d = pure (liftM<MaybeM>()(inc) ( just(3) ) );
+  Serial << "pure (inc) ^star^ ( just(3) )    : "
+            <<  mx4c << endl;
+  Serial << "pure (liftM<MaybeM>()(inc) ( just(3) ) ) : "
+            <<  mx4d << endl;
+#ifdef FCPP_UNIFY
+  // MaybeA now behaving like MaybeM.
+  Maybe<int> mx4du = pure (liftM<MaybeA>()(inc) ( just(3) ) );
+  Serial << "---------------------------" << endl;
+  Serial << "MaybeA now acting as MaybeM" << endl;
+  Serial << "pure (liftM<MaybeA>()(inc) ( just(3) ) ) : "
+            <<  mx4du << endl;
+  Serial << "---------------------------" << endl;
+#endif
+  Maybe<int> mx4d2 = pure ( fmap(inc) ( just(3) ) );
+  Serial << "pure ( fmap(inc) ( just(3) ) ) : "
+            <<  mx4d2 << endl;
+  Maybe<int> mx4d3 = fmap(inc) ( just(3) );
+  Serial << "fmap(inc) ( just(3) ) : "
+            <<  mx4d3 << endl;
+  // This is the correct action for the RHS of the law.
+  Maybe<int> mx4d4 = MaybeA::pure()(inc (3));
+  Maybe<int> mx4d5 = just(inc (3));
+  // At the moment 'pure' == 'id' so this is not surprising.
+  Maybe<int> mx4e = pure (inc (3) );
+  Serial << "mx4e = pure (inc (3) )  : "
+            <<  mx4e << endl;
+  // The result is created from the assignment.
+  Either<int> ex4e = pure (inc (3) );
+  Serial << "ex4e = pure (inc (3) )  : "
+            <<  ex4e << endl;
+  Serial << "pure (inc (3) )  : " << pure (inc (3) ) << endl;
 
 }
 //////////////////////////////////////////////////////////
