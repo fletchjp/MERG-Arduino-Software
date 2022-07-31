@@ -48,4 +48,8 @@ This has ParserL and ParserLM with the object type std::pair<List<A>,StringL>
 
 This gives more options for some of the operations. I am going to develop both of them.
 
+### PicoRP2040FCPPUNIFY
 
+Based on my example unify.cpp bringing together Monad and Functional codes.
+
+This has several more headers from the fcpp (FC++) library which are not in Github.
