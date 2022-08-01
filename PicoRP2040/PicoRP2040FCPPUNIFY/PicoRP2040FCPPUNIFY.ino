@@ -7,7 +7,7 @@
 ////////////////////////////////////////////////////////////////
 // Some of the notes from unify.cpp
 ////////////////////////////////////////////////////////////////
-/
+//
 // There are now examples of 2 functor laws and 5 applicative functor laws.
 // These come from "Learn You a Haskell for Great Good" on the pages noted.
 // There is one more applicative functor law still to be done.
@@ -321,6 +321,7 @@ void explore_bindm()
 */
 }
 
+// By using Serial << arg.value(); to output the arg, it picks up the correct output operator.
 template <typename T>
 Print &operator <<( Print &obj, const Maybe<T> &arg)
 {
@@ -328,7 +329,7 @@ Print &operator <<( Print &obj, const Maybe<T> &arg)
        obj.print("nothing");
     } else {
        obj.print("Just ");
-       obj.print(arg.value());
+       Serial << arg.value();
     }
     return obj; 
 }
@@ -340,10 +341,27 @@ Print &operator <<( Print &obj, const Either<T> &arg)
        obj.print(arg.left());
     } else {
        obj.print("Right ");
-       obj.print(arg.right());
+       Serial << arg.right();
     }
     return obj; 
 }
+
+template <typename T>
+Print &operator <<( Print &obj, const List<T> &arg)
+{
+    typename List<T>::iterator it;
+    if (arg.is_empty()) {
+       obj.print("[ ]");
+    } else {
+       obj.print("[ ");
+       for (it = arg.begin(); it != arg.end(); ++it) {
+          Serial << *it << " ";
+       }
+       Serial << "]" ;
+    }
+    return obj; 
+}
+
 //////////////////////////////////////////////////////////
 void unify_examples()
 {
@@ -508,6 +526,37 @@ void unify_examples()
   Serial << "ex4e = pure (inc (3) )  : "
             <<  ex4e << endl;
   Serial << "pure (inc (3) )  : " << pure (inc (3) ) << endl;
+  Serial << "====================================" << endl;
+  Serial << "I was having problems with Law 4" << endl;
+  Serial << "It is star which does all the work currently." << endl;
+  Serial << "Some experiments following p.239" << endl;
+  Serial << "There are contexts where 'pure' is not sufficient."
+         << endl;
+  Serial << "====================================" << endl;
+  List<int> l4_0;
+  Serial << "l4_0 = " << l4_0 << endl;
+  List<int> l4_1 = makeList1(4);
+  List<int> l4_2 = cons(3,l4_1);
+  Serial << "l4_2 = " << l4_2 << endl;
+  Maybe<List<int> > ml4_1 = fmap (makeList1) (just(4));
+  Either<List<int> > el4_1 = fmap (makeList1) (right(4));
+  // Note: This returns an oddlist and needs somehow to
+  // be forced.
+  // cons returns an OddList<T> which will be changed to List<T>
+  // by assignment.
+  // However Maybe<OddList<int> >  is not changed to Maybe<List<int> >
+  // by assignment and the compilation fails.
+  // I am looking for a solution.
+  // I would prefer one which is more general that just with Maybe<T>.
+  // The answer is to use delay ^dot^ cons as the operator.
+  Maybe<OddList<int> > mol4_2 = fmap (cons) ( just(3) ) ^star^ (ml4_1);
+  // One solution is to use delay ^dot^ cons.
+  Maybe<List<int> > ml4_2 = fmap (fcpp::delay ^dot^ cons) ( just(3) ) ^star^ (ml4_1);
+  Either<List<int> > el4_2 = fmap (fcpp::delay ^dot^ cons) (right(3)) ^star^ (el4_1);
+  Serial << "Maybe<List<int> > ml4_2 = fmap (delay ^dot^ cons) ( just(3) ) ^star^ (ml4_1); = " << endl;
+  Serial << ml4_2 << endl;
+  Serial << "Either<List<int> > el4_2 = fmap (fcpp::delay ^dot^ cons) (right(3)) ^star^ (el4_1); = " << endl;
+  Serial << el4_2 << endl;
   Serial << "====================================" << endl;
   Serial << "Applicative Functor Law 5 (page 238)" << endl;
   Serial << " u <*> pure y = pure ( $ y ) <*> u" << endl;
