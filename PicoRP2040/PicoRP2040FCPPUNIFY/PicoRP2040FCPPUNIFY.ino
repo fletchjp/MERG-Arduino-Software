@@ -459,6 +459,29 @@ FCPP_MAYBE_NAMESPACE_OPEN
 FCPP_MAYBE_EXTERN XmapM xmapm;
 FCPP_MAYBE_NAMESPACE_CLOSE
 
+namespace impl {
+   struct XUnJust {
+      template <class T> struct Sig : public FunType<Maybe<T>,T> {};
+   
+      template <class T>
+      typename Sig<T>::ResultType
+      operator()( const Maybe<T>& x ) const {
+         return x.value();
+      }
+#ifdef FCPP_DEBUG
+   std::string name() const
+   {
+     return std::string("UnJust");
+   }
+#endif
+   };
+}
+typedef Full1<impl::XUnJust> UnJust;
+FCPP_MAYBE_NAMESPACE_OPEN
+FCPP_MAYBE_EXTERN UnJust unjust;
+FCPP_MAYBE_NAMESPACE_CLOSE
+
+
 }
 
 //////////////////////////////////////////////////////////
@@ -891,6 +914,13 @@ void contrafunctor_examples()
    Maybe<int> m1 = just(1);
    Serial << m1 << endl;
    Maybe<int> m2 = fmap(inc)(m1);
+   Serial << m2 << endl;
+   int x = head(l3);
+   Serial << x << endl;
+   int y = contrafmap(head,inc)(l3);
+   Serial << y << endl;
+   //int z = contrafmap(unjust,inc)(m2);
+   //Serial << z << endl;
   
 }
 //////////////////////////////////////////////////////////
