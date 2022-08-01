@@ -337,6 +337,122 @@ Print &operator <<( Print &obj, const List<T> &arg)
 }
 
 //////////////////////////////////////////////////////////
+// Space here for new functoids!!
+namespace fcpp {
+
+  namespace impl {
+
+    struct XArrA {
+#ifdef FCPP_DEBUG
+       std::string name() const
+       {
+           return std::string("ArrA");
+       }
+#endif
+      template <class F, class A>
+      struct Sig : public FunType<F,A,
+       std::pair<A,typename RT<F,A>::ResultType > > { };
+
+      template <class F, class A>
+      typename Sig<F, A>::ResultType operator()
+      (const F& f, const A& a) const
+      {
+  return std::make_pair(a,f(a));
+      }
+    };
+    
+   struct XArrB {
+#ifdef FCPP_DEBUG
+       std::string name() const
+       {
+           return std::string("ArrB");
+       }
+#endif
+      template <class F, class A>
+      struct Sig : public FunType<F,A,
+       std::pair<typename RT<F,A>::ResultType, A > > { };
+
+      template <class F, class A>
+      typename Sig<F, A>::ResultType operator()
+      (const F& f, const A& a) const
+      {
+  return std::make_pair(f(a),a);
+      }
+    };
+
+
+  }
+
+ typedef Full2<impl::XArrA> ArrA;
+ typedef Full2<impl::XArrB> ArrB;
+ FCPP_MAYBE_NAMESPACE_OPEN
+ FCPP_MAYBE_EXTERN ArrA arrA;
+ FCPP_MAYBE_EXTERN ArrB arrB;
+ FCPP_MAYBE_NAMESPACE_CLOSE
+
+
+  /////////////////////////////////////////////////////////////////////////
+  //
+  // xmap :: (a -> b) -> (b -> a) -> f a -> f b
+  //
+  // See later for a better implementation.
+  //
+  // This is set up to work only for monads with the Rep/Unrep
+  // and liftM<Monad> structures.
+  // I will want to generalise it to other Functors.
+  // I am not convinced that this is correct as it currently
+  // ignores the second argument.
+  // I have been exploring the literature to find an example implemented.
+  //
+  // At the moment the implementation is xmapm(f,g,m).
+  // It ignores g entirely and does liftM<Monad>()(f)(m)
+  // deducing the correct return type.
+  //
+  // Now that I have made some progress with contraFmap I can do a rethink
+  // on this one.
+  /////////////////////////////////////////////////////////////////////////
+
+  namespace impl {
+    template <class F, class M>
+    struct XmapMHelper {
+      typedef typename MonadTraits<M>::Monad Monad;
+      typedef typename Monad::template UnRep<M>::Type A;
+      typedef typename RT<F,A>::ResultType B;
+      typedef typename Monad::template Rep<B>::Type ResultType;
+   };
+    struct XXmapM
+    {
+#ifdef FCPP_DEBUG
+      std::string name() const {
+        return std::string("XmapM");
+   }
+#endif
+
+      template <class F, class G, class M> struct Sig :
+  public FunType<F,G,M,typename XmapMHelper<F,M>::ResultType> {};
+
+      template <class F, class G, class M>
+      typename Sig<F,G,M>::ResultType
+      operator()(const F &f,const G &g, const M &m) const
+       {
+   // I want to retain this for the things which are
+   // Monads. At the same time I want an alternative
+   // way of handling Functors which are not Monads.
+   // I think this is best done through a trait system.
+   // This does not use parameter g - is that correct?
+   typedef typename XmapMHelper<F,M>::Monad Monad;
+         return liftM<Monad>()(f)(m);
+       }
+    };
+  }
+typedef Full3<impl::XXmapM> XmapM;
+FCPP_MAYBE_NAMESPACE_OPEN
+FCPP_MAYBE_EXTERN XmapM xmapm;
+FCPP_MAYBE_NAMESPACE_CLOSE
+
+}
+
+//////////////////////////////////////////////////////////
 void unify_examples()
 {
   List<int>::iterator it;
@@ -672,6 +788,84 @@ void parallel_examples() {
   Serial << "bimap(f,g,(a,b) ) -> (f(a),g(b))" << endl;
   Serial << "=================================================="
          << endl;
+  Serial << "parallel(makePair(inc,dec),std::make_pair(4,6)) = ";
+  std::pair<int,int> pii = parallel(makePair(inc,dec),std::make_pair(4,6));
+  Serial << "(" << pii.first << "," << pii.second << ")" << endl;
+  Serial << "parallel(makePair(id,id),std::make_pair(4,6))   = ";
+  std::pair<int,int> pii2 = parallel(makePair(id,id),std::make_pair(4,6));
+  Serial << "(" << pii2.first << "," << pii2.second << ")" << endl;
+  Serial << "bimap(inc,dec,std::make_pair(4,6))              = ";
+  std::pair<int,int> pii3 = bimap(inc,dec,std::make_pair(4,6));
+  Serial << "(" << pii3.first << "," << pii3.second << ")" << endl;
+  Serial << "bimap(id,id,std::make_pair(4,6))                = ";
+  std::pair<int,int> pii4 = bimap(id,id,std::make_pair(4,6));
+  Serial << "(" << pii4.first << "," << pii4.second << ")" << endl;
+  Serial << "(first(inc)^dot^second(dec))(std::make_pair(4,6)) = ";
+  std::pair<int,int> pii5 = (first(inc)^dot^second(dec))(std::make_pair(4,6));
+  Serial << "(" << pii5.first << "," << pii5.second << ")" << endl;
+  Serial << "=================================================="
+            << endl;
+  Serial << "contravariant functors (contrafunctors)" << endl;
+  Serial << "   (b -> a) -> f a -> f b" << endl;
+  Serial << "arrA : (a -> b) -> a -> p a b" << endl;
+  Serial << "arrA returns a pair of the input and the output" << endl;
+  Serial << "arrB : (a -> b) -> a -> p b a" << endl;
+  Serial << "arrB returns a pair of the output and the input" << endl;
+  Serial << "=================================================="
+            << endl;
+  Serial << "I am seeking a good example...." << endl;
+  Serial << "=================================================="
+            << endl;
+  Serial << "I am seeking a good example...." << endl;
+  std::pair<int,int> pii6 = arrA(inc,2);
+  Serial << "arrA(inc,2)    = ";
+  Serial << "(" << pii6.first << "," << pii6.second << ")" << endl;
+  std::pair<int,int> pii7 = arrB(inc,2);
+  Serial << "arrB(inc,2)    = ";
+  Serial << "(" << pii7.first << "," << pii7.second << ")" << endl;
+  Serial << "Still digging" << endl;
+  Serial << "fmap (inc)( just(3) )          : "
+            <<  fmap (inc)( just(3) ) << endl;
+  Serial << "xmapm (inc,dec)(just(3))        : "
+            <<  xmapm(inc,dec)(just(3)) << endl;
+  Serial << "xmapm (dec,inc)(just(5))        : "
+            <<  xmapm(dec,inc)(just(5)) << endl;
+  Serial << "==================================================="
+            << endl;
+  Serial << "Light dawns (a -> b) is about types as well as data"
+            << endl;
+  Serial << "Here are some examples moving in and out of lists"
+            << endl;
+  Serial << "==================================================="
+            << endl;
+  Maybe<List<int> > ml1 = just(list_with(1));
+  Serial << "Maybe<List<int> > ml1 = just(list_with(1));" << endl;
+  Serial << "fmap (head)( ml1 )            : "
+      <<  fmap (head)( ml1 ) << endl;
+  Serial << "xmapm (head, enumFrom)( ml1 )  : "
+      <<  xmapm (head, enumFrom)( ml1 ) << endl;
+  Serial << "Maybe<List<int> > ml2 = fmap( enumFrom )(just(1));"
+            << endl;
+  Maybe<List<int> > ml2 = fmap( enumFrom )(just(1));
+  Serial << "fmap (head)( ml2 )            : "
+      <<  fmap (head)( ml2 ) << endl;
+  Serial << "Maybe<List<int> > ml3 = xmapm( enumFrom, head )(just(1));"
+            << endl;
+  Maybe<List<int> > ml3 = xmapm( enumFrom, head )(just(1));
+  Serial << "fmap (head)( ml3 )  : "
+      <<  fmap (head)( ml3 ) << endl;
+  //Serial << "fmap (enumFrom)( ml1 ) : "
+  //      <<  fmap (enumFrom)( ml1 ) << endl;
+  Maybe<List<int> > ml4 = fmap (tail)( ml3 );
+  Serial << "Maybe<List<int> > ml4 = fmap (tail)( ml3 );"
+         << endl;
+  Serial << "fmap (head)( ml4 )  : "
+      <<  fmap (head)( ml4 ) << endl;
+  Serial << "Maybe<List<int> > ml5 = xmapm (tail,head)( ml4 );"
+            << endl;
+  Maybe<List<int> > ml5 = xmapm (tail,head)( ml4 );
+  Serial << "fmap (head)( ml5 )  : "
+      <<  fmap (head)( ml5 ) << endl;
 }
 
 //////////////////////////////////////////////////////////
