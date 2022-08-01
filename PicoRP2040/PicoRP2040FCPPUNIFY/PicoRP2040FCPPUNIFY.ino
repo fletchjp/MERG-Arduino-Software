@@ -3,7 +3,7 @@
 // I am working to bring in things from the unify.cpp example file.
 // I have modified more of the FC++ headers to work in the Arduino/Pico environment.
 // This involves disabling exceptions.
-
+// I have improved the output operators for Maybe<T> Either<T> and List<T>
 ////////////////////////////////////////////////////////////////
 // Some of the notes from unify.cpp
 ////////////////////////////////////////////////////////////////
@@ -54,32 +54,6 @@ using namespace fcpp;
 
 /// I have renamed String to StringL to avoid a name clash with the Arduino use of String.
 typedef List<char> StringL;
-
-//- templated version does not compile.
-// It seems to regard T as an undeclared class.
-// I think the problem is that there is already a generic templated operator<< in Streaming.
-// template <typename T>
-/*
-Print &operator <<( Print &obj, const Maybe<int> &arg)
-{
-    if (arg.is_nothing()) { 
-       obj.print("nothing");
-    } else {
-       obj.print(arg.value());
-    }
-    return obj; 
-}
-
-Print &operator <<( Print &obj, const Either<int> &arg)
-{
-    if (arg.is_error()) { 
-       obj.print(arg.left());
-    } else {
-       obj.print(arg.right());
-    }
-    return obj; 
-}
-*/
 
 // This does compile.
 template <class T>
