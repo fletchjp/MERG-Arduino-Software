@@ -39,7 +39,7 @@
 #define FCPP_PATTERN // define this to include pattern.h
 //#define FCPP_ARDUINO // Take out arguement traits - defined in prelude for Arduino etc
 // All headers modified to work in the Arduino/Pico environment.
-// Some exceptions guarding in patter.h have had to be removed.
+// Some exceptions guarding in pattern.h have had to be removed.
 #define FCPP_UNIFY // Unification of Monads and Functors in functors.h
 #include "fcpp_prelude.h"
 #include "fcpp/functors.h"
@@ -879,6 +879,20 @@ void parallel_examples() {
             << endl;
 }
 
+void contrafunctor_examples()
+{
+   List<int> l1 = makeList1(1);
+   Serial << l1 << endl;
+   //List<int> l2 = contrafmap(head,inc)(l1);
+   List<int> l2 = fcpp::map(inc)(l1);
+   Serial << l2 << endl;
+   List<int> l3 = fmap(inc)(l1);
+   Serial << l3 << endl;
+   Maybe<int> m1 = just(1);
+   Serial << m1 << endl;
+   Maybe<int> m2 = fmap(inc)(m1);
+  
+}
 //////////////////////////////////////////////////////////
 
 void monad_examples() {
@@ -995,6 +1009,7 @@ void setup() {
   unify_examples();
   lambda_examples();
   parallel_examples();
+  contrafunctor_examples();
 }
 void loop() {
   // put your main code here, to run repeatedly:
