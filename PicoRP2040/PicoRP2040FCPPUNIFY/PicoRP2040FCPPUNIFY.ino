@@ -428,13 +428,22 @@ namespace fcpp {
    }
 #endif
 
-      template <class F, class G, class M> struct Sig :
-  public FunType<F,G,M,typename XmapMHelper<F,M>::ResultType> {};
+// I have modified this to remove the parameter G g which is not being used.
+// I don't remember what was going on.
+// I have taken all the examples out of use.
+// When I work out what G is doing I can do another example with it in.
+//      template <class F, class G, class M> struct Sig :
+//  public FunType<F,G,M,typename XmapMHelper<F,M>::ResultType> {};
+      template <class F, class M> struct Sig :
+  public FunType<F,M,typename XmapMHelper<F,M>::ResultType> {};
 
-      template <class F, class G, class M>
-      typename Sig<F,G,M>::ResultType
-      operator()(const F &f,const G &g, const M &m) const
-       {
+//      template <class F, class G, class M>
+//      typename Sig<F,G,M>::ResultType
+//      operator()(const F &f,const G &g, const M &m) const
+       template <class F, class M>
+      typename Sig<F,M>::ResultType
+      operator()(const F &f, const M &m) const
+      {
    // I want to retain this for the things which are
    // Monads. At the same time I want an alternative
    // way of handling Functors which are not Monads.
@@ -826,10 +835,10 @@ void parallel_examples() {
   Serial << "Still digging" << endl;
   Serial << "fmap (inc)( just(3) )          : "
             <<  fmap (inc)( just(3) ) << endl;
-  Serial << "xmapm (inc,dec)(just(3))        : "
-            <<  xmapm(inc,dec)(just(3)) << endl;
-  Serial << "xmapm (dec,inc)(just(5))        : "
-            <<  xmapm(dec,inc)(just(5)) << endl;
+//  Serial << "xmapm (inc,dec)(just(3))        : "
+//            <<  xmapm(inc,dec)(just(3)) << endl;
+//  Serial << "xmapm (dec,inc)(just(5))        : "
+//            <<  xmapm(dec,inc)(just(5)) << endl;
   Serial << "==================================================="
             << endl;
   Serial << "Light dawns (a -> b) is about types as well as data"
@@ -842,30 +851,32 @@ void parallel_examples() {
   Serial << "Maybe<List<int> > ml1 = just(list_with(1));" << endl;
   Serial << "fmap (head)( ml1 )            : "
       <<  fmap (head)( ml1 ) << endl;
-  Serial << "xmapm (head, enumFrom)( ml1 )  : "
-      <<  xmapm (head, enumFrom)( ml1 ) << endl;
+//  Serial << "xmapm (head, enumFrom)( ml1 )  : "
+//      <<  xmapm (head, enumFrom)( ml1 ) << endl;
   Serial << "Maybe<List<int> > ml2 = fmap( enumFrom )(just(1));"
             << endl;
   Maybe<List<int> > ml2 = fmap( enumFrom )(just(1));
   Serial << "fmap (head)( ml2 )            : "
       <<  fmap (head)( ml2 ) << endl;
-  Serial << "Maybe<List<int> > ml3 = xmapm( enumFrom, head )(just(1));"
-            << endl;
-  Maybe<List<int> > ml3 = xmapm( enumFrom, head )(just(1));
-  Serial << "fmap (head)( ml3 )  : "
-      <<  fmap (head)( ml3 ) << endl;
+//  Serial << "Maybe<List<int> > ml3 = xmapm( enumFrom, head )(just(1));"
+//            << endl;
+//  Maybe<List<int> > ml3 = xmapm( enumFrom, head )(just(1));
+//  Serial << "fmap (head)( ml3 )  : "
+//      <<  fmap (head)( ml3 ) << endl;
   //Serial << "fmap (enumFrom)( ml1 ) : "
   //      <<  fmap (enumFrom)( ml1 ) << endl;
-  Maybe<List<int> > ml4 = fmap (tail)( ml3 );
-  Serial << "Maybe<List<int> > ml4 = fmap (tail)( ml3 );"
-         << endl;
-  Serial << "fmap (head)( ml4 )  : "
-      <<  fmap (head)( ml4 ) << endl;
-  Serial << "Maybe<List<int> > ml5 = xmapm (tail,head)( ml4 );"
+//  Maybe<List<int> > ml4 = fmap (tail)( ml3 );
+//  Serial << "Maybe<List<int> > ml4 = fmap (tail)( ml3 );"
+//         << endl;
+//  Serial << "fmap (head)( ml4 )  : "
+//      <<  fmap (head)( ml4 ) << endl;
+//  Serial << "Maybe<List<int> > ml5 = xmapm (tail,head)( ml4 );"
+//            << endl;
+//  Maybe<List<int> > ml5 = xmapm (tail,head)( ml4 );
+//  Serial << "fmap (head)( ml5 )  : "
+//      <<  fmap (head)( ml5 ) << endl;
+  Serial << "==================================================="
             << endl;
-  Maybe<List<int> > ml5 = xmapm (tail,head)( ml4 );
-  Serial << "fmap (head)( ml5 )  : "
-      <<  fmap (head)( ml5 ) << endl;
 }
 
 //////////////////////////////////////////////////////////
