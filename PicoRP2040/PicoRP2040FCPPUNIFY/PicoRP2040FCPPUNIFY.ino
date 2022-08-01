@@ -3,6 +3,25 @@
 // I am working to bring in things from the unify.cpp example file.
 // I have modified more of the FC++ headers to work in the Arduino/Pico environment.
 // This involves disabling exceptions.
+
+////////////////////////////////////////////////////////////////
+// Some of the notes from unify.cpp
+////////////////////////////////////////////////////////////////
+/
+// There are now examples of 2 functor laws and 5 applicative functor laws.
+// These come from "Learn You a Haskell for Great Good" on the pages noted.
+// There is one more applicative functor law still to be done.
+
+// I think the most important one for my work is this:
+
+// pure f <*> x = fmap f x
+
+// Here 'x' is an item already in one or other monad e.g. just(3).
+
+// The reason is that it provides a unification between functors (fmap) and
+// applicative functors (<*>). That works for me for cases where there is
+// both a monad and an applicative functor implementation.
+
 ////////////////////////////////////////////////////////////////
 // was Arduino RP2040 Monad
 ////////////////////////////////////////////////////////////////
