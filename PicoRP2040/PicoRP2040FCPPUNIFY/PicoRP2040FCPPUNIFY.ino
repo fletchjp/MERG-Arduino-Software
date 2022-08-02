@@ -481,6 +481,64 @@ FCPP_MAYBE_NAMESPACE_OPEN
 FCPP_MAYBE_EXTERN UnJust unjust;
 FCPP_MAYBE_NAMESPACE_CLOSE
 
+namespace impl {
+    template <class F, class G, class H>
+    struct XcomapHelper {
+      typedef typename RT<Compose,F,typename RT<Compose,G,H>::ResultType>::ResultType
+              ResultType;
+    };
+    struct XXcomap
+    {
+#ifdef FCPP_DEBUG
+      std::string name() const {
+        return std::string("Xcomap");
+      }
+#endif
+
+      template <class F, class G, class H> struct Sig :
+  public FunType<F,G,H,typename XcomapHelper<F,G,H>::ResultType> {};
+
+      template <class F, class G, class H>
+      typename Sig<F,G,H>::ResultType
+      operator()(const F &f,const G &g, const H& h) const
+       {
+   return compose(f,compose(g,h));
+       }
+
+    };
+
+    template <class F, class G, class H>
+    struct XcontramapHelper {
+      typedef typename RT<Compose,H,typename RT<Compose,G,F>::ResultType>::ResultType
+              ResultType;
+    };
+    struct XXcontramap
+    {
+#ifdef FCPP_DEBUG
+      std::string name() const {
+        return std::string("Xcontramap");
+      }
+#endif
+
+      template <class F, class G, class H> struct Sig :
+  public FunType<F,G,H,typename XcontramapHelper<F,G,H>::ResultType> {};
+
+      template <class F, class G, class H>
+      typename Sig<F,G,H>::ResultType
+      operator()(const F &f,const G &g, const H& h) const
+       {
+   return compose(h,compose(g,f));
+       }
+
+    };
+
+}
+  typedef Full3<impl::XXcomap>  Xcomap;
+  typedef Full3<impl::XXcontramap>  Xcontramap;
+  FCPP_MAYBE_NAMESPACE_OPEN
+  FCPP_MAYBE_EXTERN Xcomap      xcomap;
+  FCPP_MAYBE_EXTERN Xcontramap  xcontramap;
+  FCPP_MAYBE_NAMESPACE_CLOSE
 
 }
 
@@ -848,7 +906,6 @@ void parallel_examples() {
   Serial << "I am seeking a good example...." << endl;
   Serial << "=================================================="
             << endl;
-  Serial << "I am seeking a good example...." << endl;
   std::pair<int,int> pii6 = arrA(inc,2);
   Serial << "arrA(inc,2)    = ";
   Serial << "(" << pii6.first << "," << pii6.second << ")" << endl;
@@ -898,27 +955,38 @@ void parallel_examples() {
 //  Maybe<List<int> > ml5 = xmapm (tail,head)( ml4 );
 //  Serial << "fmap (head)( ml5 )  : "
 //      <<  fmap (head)( ml5 ) << endl;
-  Serial << "==================================================="
-            << endl;
 }
 
 void contrafunctor_examples()
 {
+  Serial << "==================================================="
+            << endl;
+  Serial << "Some examples of fmap, cofmap and contrafmap" << endl;
+  Serial << "==================================================="
+            << endl;
    List<int> l1 = makeList1(1);
-   Serial << l1 << endl;
+   Serial << "l1                            = " << l1 << endl;
    //List<int> l2 = contrafmap(head,inc)(l1);
    List<int> l2 = fcpp::map(inc)(l1);
-   Serial << l2 << endl;
-   List<int> l3 = fmap(inc)(l1);
-   Serial << l3 << endl;
+   Serial << "l2 = fcpp::map(inc)(l1)       = " << l2 << endl;
+   List<int> l3 = fmap(inc)(l2);
+   Serial << "l3 = fmap(inc)(l2)            = " << l3 << endl;
+   List<int> l4 = cofmap(makeList1,inc)(3);
+   Serial << "l4 = cofmap(makeList1,inc)(4) = " << l4 << endl;
+   int y = contrafmap(head,inc)(l4);
+   Serial << " y = contrafmap(head,inc)(l4) =   " << y << endl;
+   int y2 = xmap(head,inc,makeList1)(y);
+   Serial << "y2 = xmap(head,inc,makeList1)(y) = " << y2 << endl;
+   int y3 = xcomap(head,makeList1,inc)(y2);
+   Serial << "y3 = xcomap(head,makeList1,inc)(y2) = " << y3 << endl;
+   int y4 = xcontramap(inc,makeList1,head)(y3);
+   Serial << "y4 = xcontramap(inc,makeList1,head)(y3) = " << y4 << endl;
    Maybe<int> m1 = just(1);
    Serial << m1 << endl;
    Maybe<int> m2 = fmap(inc)(m1);
    Serial << m2 << endl;
    int x = head(l3);
    Serial << x << endl;
-   int y = contrafmap(head,inc)(l3);
-   Serial << y << endl;
    int z = contrafmap(unjust,inc)(m2);
    Serial << z << endl;
   
