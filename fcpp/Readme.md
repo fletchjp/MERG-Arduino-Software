@@ -20,3 +20,11 @@ I have extended the functionality while remaining faithful to the original desig
 
 John Fletcher  August 2022
 
+## Arduino limitations
+
+These codes are compatible with gcc10 and C++17 as available on the Arduino IDE implementation of Earle Philhower.
+
+The main limitation is that exceptions are not available which does mean some danger in use of the code.
+
+There is a version of Boost library for the Arduino which is available. It is not uptodate.
+
