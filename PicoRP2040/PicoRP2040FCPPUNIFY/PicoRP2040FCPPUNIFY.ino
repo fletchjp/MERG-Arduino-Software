@@ -481,6 +481,9 @@ FCPP_MAYBE_NAMESPACE_OPEN
 FCPP_MAYBE_EXTERN UnJust unjust;
 FCPP_MAYBE_NAMESPACE_CLOSE
 
+//////////////////////////////////////////////////////////////////////
+// New functors xcomap and xcontramap
+//////////////////////////////////////////////////////////////////////
 namespace impl {
     template <class F, class G, class H>
     struct XcomapHelper {
