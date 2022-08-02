@@ -483,6 +483,8 @@ FCPP_MAYBE_NAMESPACE_CLOSE
 
 //////////////////////////////////////////////////////////////////////
 // New functors xcomap and xcontramap
+// These are a significant breakthrough in understanding.
+// See examples of usage in contrafunctor_examples further down this file.
 //////////////////////////////////////////////////////////////////////
 namespace impl {
     template <class F, class G, class H>
@@ -537,7 +539,7 @@ namespace impl {
 
 }
   typedef Full3<impl::XXcomap>  Xcomap;
-  typedef Full3<impl::XXcontramap>  Xcontramap;
+  typedef Full3<impl::XXcontramap> Xcontramap;
   FCPP_MAYBE_NAMESPACE_OPEN
   FCPP_MAYBE_EXTERN Xcomap      xcomap;
   FCPP_MAYBE_EXTERN Xcontramap  xcontramap;
@@ -965,8 +967,19 @@ void contrafunctor_examples()
   Serial << "==================================================="
             << endl;
   Serial << "Some examples of fmap, cofmap and contrafmap" << endl;
+  Serial << "fmap(f)(mx) - applies f to the contents of a monadic type mx" << endl;
+  Serial << "The monad is deduced. This does not work with nonmonadic types." << endl;
+  Serial << "The restriction is removed by using cofmap or contrafmap which do the conversions." << endl;
+  Serial << "cofmap(f,g)(x) - applies g and then f to the object x" << endl;
+  Serial << "contrafmap(f,g)(x) - applies f and then g to the object x" << endl;
+  Serial << "Also xmap, xcomap and xcontramap" << endl;
+  Serial << "for three functors F,G,H they are used as follows:" << endl;
+  Serial << "xmap(f,g,h)(x) -> compose(f,compose(h,g))(x) - apply g then h then f." << endl;
+  Serial << "xcomap(f,g,h)(x) -> compose(f,compose(g,h))(x) - apply h then g then f." << endl;
+  Serial << "xcontramap(f,g,h)(x) -> compose(h,compose(g,f))(x) - apply f then g then h." << endl;
   Serial << "==================================================="
             << endl;
+   //int y0 = fmap(inc)(1) << endl;
    List<int> l1 = makeList1(1);
    Serial << "l1                            = " << l1 << endl;
    //List<int> l2 = contrafmap(head,inc)(l1);
@@ -975,21 +988,25 @@ void contrafunctor_examples()
    List<int> l3 = fmap(inc)(l2);
    Serial << "l3 = fmap(inc)(l2)            = " << l3 << endl;
    List<int> l4 = cofmap(makeList1,inc)(3);
-   Serial << "l4 = cofmap(makeList1,inc)(4) = " << l4 << endl;
-   int y = contrafmap(head,inc)(l4);
-   Serial << " y = contrafmap(head,inc)(l4) =   " << y << endl;
-   int y2 = xmap(head,inc,makeList1)(y);
+   Serial << "l4 = cofmap(makeList1,inc)(3) = " << l4 << endl;
+   int y1 = contrafmap(head,inc)(l4);
+   Serial << "y1 = contrafmap(head,inc)(l4) =   " << y1 << endl;
+   int y2 = xmap(head,inc,makeList1)(y1);
    Serial << "y2 = xmap(head,inc,makeList1)(y) = " << y2 << endl;
    int y3 = xcomap(head,makeList1,inc)(y2);
    Serial << "y3 = xcomap(head,makeList1,inc)(y2) = " << y3 << endl;
    int y4 = xcontramap(inc,makeList1,head)(y3);
    Serial << "y4 = xcontramap(inc,makeList1,head)(y3) = " << y4 << endl;
+   Serial << "==================================================="
+            << endl;
    Maybe<int> m1 = just(1);
    Serial << m1 << endl;
    Maybe<int> m2 = fmap(inc)(m1);
    Serial << m2 << endl;
-   int x = head(l3);
+   int x = unjust(m2);
    Serial << x << endl;
+   int y = contrafmap(unjust,inc)(m2);
+   Serial << "y = contrafmap(unjust,inc)(m2) =   " << y << endl;
    int z = contrafmap(unjust,inc)(m2);
    Serial << z << endl;
   
