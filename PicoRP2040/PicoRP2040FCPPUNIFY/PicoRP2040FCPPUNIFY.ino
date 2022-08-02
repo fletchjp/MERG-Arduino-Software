@@ -461,11 +461,11 @@ FCPP_MAYBE_NAMESPACE_CLOSE
 
 namespace impl {
    struct XUnJust {
-      template <class T> struct Sig : public FunType<Maybe<T>,T> {};
+      template <class T> struct Sig : public FunType<T,typename T::ElementType> {};
    
       template <class T>
       typename Sig<T>::ResultType
-      operator()( const Maybe<T>& x ) const {
+      operator()( const T& x ) const {
          return x.value();
       }
 #ifdef FCPP_DEBUG
@@ -919,8 +919,8 @@ void contrafunctor_examples()
    Serial << x << endl;
    int y = contrafmap(head,inc)(l3);
    Serial << y << endl;
-   //int z = contrafmap(unjust,inc)(m2);
-   //Serial << z << endl;
+   int z = contrafmap(unjust,inc)(m2);
+   Serial << z << endl;
   
 }
 //////////////////////////////////////////////////////////
