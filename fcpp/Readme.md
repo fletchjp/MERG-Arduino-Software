@@ -28,3 +28,7 @@ The main limitation is that exceptions are not available which does mean some da
 
 There is a version of Boost library for the Arduino which is available. It is not uptodate.
 
+## New additions and significant changes
+
+These will be noted here.
+
