@@ -8,6 +8,7 @@
 // I have been using head() to extract a value from a List type.
 // I have invented unjust() to extract a value from a Maybe type.
 // I have also added a new test MaybeLike to check the operation of unjust.
+// This required a change to prelude.h. The code for unjust could now be moved there.
 ////////////////////////////////////////////////////////////////
 // Some of the notes from unify.cpp
 ////////////////////////////////////////////////////////////////
