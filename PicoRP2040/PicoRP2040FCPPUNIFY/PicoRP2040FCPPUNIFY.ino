@@ -1038,6 +1038,7 @@ void contrafunctor_examples()
    Serial << m2 << endl;
    int x = unjust(m2);
    Serial << x << endl;
+   //int y = contrafmap(unjust,inc)(l2); fails as expected.
    int y = contrafmap(unjust,inc)(m2);
    Serial << "y = contrafmap(unjust,inc)(m2) =   " << y << endl;
    int z = contrafmap(unjust,inc)(m2);
