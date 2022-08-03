@@ -34,5 +34,5 @@ These will be noted here.
 
 src/fcpp_prelude.h  Added copyright and explanation of the need for the file.
 
-src/fcpp/prelude.h  Added code for MaybeLike test to be used in unjust().
+src/fcpp/prelude.h  Added code for MaybeLike test to be used in unjust(). Also code for EitherLike test.
 
