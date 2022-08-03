@@ -460,6 +460,19 @@ FCPP_MAYBE_NAMESPACE_OPEN
 FCPP_MAYBE_EXTERN XmapM xmapm;
 FCPP_MAYBE_NAMESPACE_CLOSE
 
+template <class L, bool b>
+struct EnsureMaybeHelp {
+   static void trying_to_call_unjust_function_on_a_non_maybe_type() {}
+};
+template <class M> struct EnsureMaybeHelp<M,false> { };
+template <class M>
+void EnsureMaybe() {
+  //   EnsureListLikeHelp<L,boost::is_base_and_derived<ListLike,L>::value>::
+  // I have used the FC++ way of doing this here.
+  EnsureMaybeHelp<M,Inherits<M,MaybeLike>::value>::
+   trying_to_call_unjust_function_on_a_non_maybe_type();
+}
+
 namespace impl {
    struct XUnJust {
       template <class T> struct Sig : public FunType<T,typename T::ElementType> {};
@@ -467,6 +480,7 @@ namespace impl {
       template <class T>
       typename Sig<T>::ResultType
       operator()( const T& x ) const {
+         EnsureMaybe<T>();
          return x.value();
       }
 #ifdef FCPP_DEBUG
@@ -1006,6 +1020,8 @@ void contrafunctor_examples()
    Serial << "l4 = cofmap(makeList1,inc)(3) = " << l4 << endl;
    List<int> l5 =  xmap(makeList1,head)(inc)(l4);
    Serial << "l5 = xmap(makeList1,head)(inc)(l4) = " << l5 << endl;
+   // Note that head() tests that its argument is a list.
+   // int y0 = contrafmap(head,inc)(just(4)); this fails at compile time with a clear message.
    int y1 = contrafmap(head,inc)(l4);
    Serial << "y1 = contrafmap(head,inc)(l4) =   " << y1 << endl;
    int y2 = xmap(head,inc,makeList1)(y1);
