@@ -968,7 +968,7 @@ void contrafunctor_examples()
   Serial << "==================================================="
             << endl;
   Serial << "Some examples of fmap, cofmap and contrafmap" << endl;
-  Serial >> "A lot of this is a question of type deduction." << endl;
+  Serial << "A lot of this is a question of type deduction." << endl;
   Serial << "fmap(f)(mx) - applies f to the contents of a monadic type mx" << endl;
   Serial << "The monad is deduced. This does not work with nonmonadic types." << endl;
   Serial << "I have made an Identity<T> object which can be made using ident(t)." << endl; 
@@ -978,6 +978,7 @@ void contrafunctor_examples()
   Serial << "Also xmap, xcomap and xcontramap" << endl;
   Serial << "for three functors F,G,H they are used as follows:" << endl;
   Serial << "xmap(f,g,h)(x) -> compose(f,compose(h,g))(x) - apply g then h then f." << endl;
+  Serial << "This means that g(x) extracts a value which is processed using h and wrapped using f." << endl;
   Serial << "xcomap(f,g,h)(x) -> compose(f,compose(g,h))(x) - apply h then g then f." << endl;
   Serial << "xcontramap(f,g,h)(x) -> compose(h,compose(g,f))(x) - apply f then g then h." << endl;
   Serial << "==================================================="
@@ -1003,6 +1004,8 @@ void contrafunctor_examples()
    Serial << "l3 = fmap(inc)(l2)            = " << l3 << endl;
    List<int> l4 = cofmap(makeList1,inc)(3);
    Serial << "l4 = cofmap(makeList1,inc)(3) = " << l4 << endl;
+   List<int> l5 =  xmap(makeList1,head)(inc)(l4);
+   Serial << "l5 = xmap(makeList1,head)(inc)(l4) = " << l5 << endl;
    int y1 = contrafmap(head,inc)(l4);
    Serial << "y1 = contrafmap(head,inc)(l4) =   " << y1 << endl;
    int y2 = xmap(head,inc,makeList1)(y1);
