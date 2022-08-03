@@ -465,7 +465,21 @@ FCPP_MAYBE_NAMESPACE_OPEN
 FCPP_MAYBE_EXTERN XmapM xmapm;
 FCPP_MAYBE_NAMESPACE_CLOSE
 
-template <class L, bool b>
+template <class E, bool b>
+struct EnsureEitherHelp {
+   static void trying_to_call_unjust_function_on_a_non_maybe_type() {}
+};
+template <class E> struct EnsureEitherHelp<E,false> { };
+template <class E>
+void EnsureEither() {
+  //   EnsureListLikeHelp<L,boost::is_base_and_derived<ListLike,L>::value>::
+  // I have used the FC++ way of doing this here.
+  EnsureEitherHelp<E,Inherits<E,EitherLike>::value>::
+   trying_to_call_unright_function_on_a_non_either_type();
+}
+
+
+template <class M, bool b>
 struct EnsureMaybeHelp {
    static void trying_to_call_unjust_function_on_a_non_maybe_type() {}
 };
