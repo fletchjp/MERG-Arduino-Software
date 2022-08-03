@@ -478,6 +478,29 @@ void EnsureEither() {
    trying_to_call_unright_function_on_a_non_either_type();
 }
 
+namespace impl {
+   struct XUnRight {
+      template <class T> struct Sig : public FunType<T,typename T::ElementType> {};
+   
+      template <class T>
+      typename Sig<T>::ResultType
+      operator()( const T& x ) const {
+         EnsureEither<T>();
+         return x.right();
+      }
+#ifdef FCPP_DEBUG
+   std::string name() const
+   {
+     return std::string("UnRight");
+   }
+#endif
+   };
+}
+typedef Full1<impl::XUnRight> UnRight;
+FCPP_MAYBE_NAMESPACE_OPEN
+FCPP_MAYBE_EXTERN UnRight unright;
+FCPP_MAYBE_NAMESPACE_CLOSE
+
 
 template <class M, bool b>
 struct EnsureMaybeHelp {
