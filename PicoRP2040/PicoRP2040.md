@@ -54,5 +54,8 @@ Based on my example unify.cpp bringing together Monad and Functional codes.
 
 This has several more headers from the fcpp (FC++) library which are not in Github.
 
-This example now has a number of new functors. I want to add them to the Arduino copy of the fcpp library. I need to find a way to have that in Github which is not the case at the moment.
+This example now has a number of new functors. 
+
+I want to add them to the Arduino copy of the fcpp library. I now have a copy of that in Github so I can make changes there and copy them to the working version.
+
 
