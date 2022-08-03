@@ -5,6 +5,9 @@
 // This involves disabling exceptions.
 // I have improved the output operators for Maybe<T> Either<T> and List<T>
 // I have also done a lot of work on contrafunctors.
+// I have been using head() to extract a value from a List type.
+// I have invented unjust() to extract a value from a Maybe type.
+// I have also added a new test MaybeLike to check the operation of unjust.
 ////////////////////////////////////////////////////////////////
 // Some of the notes from unify.cpp
 ////////////////////////////////////////////////////////////////
