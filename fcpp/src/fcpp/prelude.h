@@ -3329,8 +3329,10 @@ FCPP_MAYBE_NAMESPACE_OPEN
 FCPP_MAYBE_EXTERN AUniqueTypeForNothing NOTHING;
 FCPP_MAYBE_NAMESPACE_CLOSE
 
+struct MaybeLike {};
+
 template <class T>
-class Maybe {
+class Maybe  : public MaybeLike {
    OddList<T> rep;
 public:
    typedef T ElementType;
