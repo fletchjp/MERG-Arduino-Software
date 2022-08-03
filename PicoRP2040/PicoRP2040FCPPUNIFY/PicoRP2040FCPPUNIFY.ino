@@ -968,8 +968,10 @@ void contrafunctor_examples()
   Serial << "==================================================="
             << endl;
   Serial << "Some examples of fmap, cofmap and contrafmap" << endl;
+  Serial >> "A lot of this is a question of type deduction." << endl;
   Serial << "fmap(f)(mx) - applies f to the contents of a monadic type mx" << endl;
   Serial << "The monad is deduced. This does not work with nonmonadic types." << endl;
+  Serial << "I have made an Identity<T> object which can be made using ident(t)." << endl; 
   Serial << "The restriction is removed by using cofmap or contrafmap which do the conversions." << endl;
   Serial << "cofmap(f,g)(x) - applies g and then f to the object x" << endl;
   Serial << "contrafmap(f,g)(x) - applies f and then g to the object x" << endl;
@@ -982,6 +984,7 @@ void contrafunctor_examples()
             << endl;
    //fmap(id)(inc(1));
    int y00  = fmap(inc)(ident(1));
+   // These work both ways around.
    int y01  = cofmap(inc,id)(1); 
    int y02  = cofmap(id,inc)(1); 
    int y03  = contrafmap(inc,id)(1); 
