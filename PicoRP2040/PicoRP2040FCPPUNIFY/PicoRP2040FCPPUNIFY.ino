@@ -1032,6 +1032,11 @@ void contrafunctor_examples()
    Serial << "y4 = xcontramap(inc,makeList1,head)(y3) = " << y4 << endl;
    Serial << "==================================================="
             << endl;
+   Serial << "There is now a test to make sure that unjust() is called with a Maybe type." << endl;
+   Serial << "This is copied from the similar test for ListLike types." << endl;
+   Serial << "It was not needed before as there was nothing like unjust to extract the value." << endl;
+   Serial << "==================================================="
+            << endl;
    Maybe<int> m1 = just(1);
    Serial << m1 << endl;
    Maybe<int> m2 = fmap(inc)(m1);
