@@ -467,7 +467,7 @@ FCPP_MAYBE_NAMESPACE_CLOSE
 
 template <class E, bool b>
 struct EnsureEitherHelp {
-   static void trying_to_call_unjust_function_on_a_non_maybe_type() {}
+   static void trying_to_call_unright_function_on_a_non_either_type() {}
 };
 template <class E> struct EnsureEitherHelp<E,false> { };
 template <class E>
@@ -1051,6 +1051,8 @@ void contrafunctor_examples()
    Serial << "y02 = cofmap(id,inc)(1)     = " << y02 << endl;
    Serial << "y03 = contrafmap(inc,id)(1) = " << y03 << endl;
    Serial << "y04 = contrafmap(id,inc)(1) = " << y04 << endl;
+   Serial << "==================================================="
+          << endl;
    List<int> l1 = makeList1(1);
    Serial << "l1                            = " << l1 << endl;
    //List<int> l2 = contrafmap(head,inc)(l1);
@@ -1078,7 +1080,7 @@ void contrafunctor_examples()
    Serial << "This is copied from the similar test for ListLike types." << endl;
    Serial << "It was not needed before as there was nothing like unjust to extract the value." << endl;
    Serial << "==================================================="
-            << endl;
+          << endl;
    Maybe<int> m1 = just(1);
    Serial << m1 << endl;
    Maybe<int> m2 = fmap(inc)(m1);
@@ -1090,6 +1092,22 @@ void contrafunctor_examples()
    Serial << "y = contrafmap(unjust,inc)(m2) =   " << y << endl;
    int z = contrafmap(unjust,inc)(m2);
    Serial << z << endl;
+   Serial << "==================================================="
+          << endl;
+   Serial << "A test has now been inserted into Either<T> to test unright() in the same way." << endl;
+   Serial << "==================================================="
+          << endl;
+   Either<int> e1 = right(1);
+   Serial << e1 << endl;
+   Either<int> e2 = fmap(inc)(e1);
+   Serial << e2 << endl;
+   //int ex = unright(m2); //fails as expected.
+   int ex = unright(e2);
+   Serial << ex << endl;
+   int ez = contrafmap(unright,inc)(e2);
+   Serial << ez << endl;
+   Serial << "==================================================="
+          << endl;
   
 }
 //////////////////////////////////////////////////////////
