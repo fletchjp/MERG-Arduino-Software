@@ -3400,6 +3400,8 @@ FCPP_MAYBE_NAMESPACE_CLOSE
 // This is only the simplest in RWH. There is more to come.
 //////////////////////////////////////////////////////////////////////
 
+struct EitherLike {};
+
 // Wrapper for the error string
 // to distinguish it from a string.
   struct EitherError {
@@ -3418,7 +3420,7 @@ public:
 };
 
 template <class T>
-class Either {
+class Either : public EitherLike {
    // Order reversed to deal with warning.
    OddList<T> rep;
    EitherError error;
