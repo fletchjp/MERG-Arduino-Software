@@ -4,6 +4,7 @@
 // I have modified more of the FC++ headers to work in the Arduino/Pico environment.
 // This involves disabling exceptions.
 // I have improved the output operators for Maybe<T> Either<T> and List<T>
+// I have also done a lot of work on contrafunctors.
 ////////////////////////////////////////////////////////////////
 // Some of the notes from unify.cpp
 ////////////////////////////////////////////////////////////////
@@ -979,7 +980,12 @@ void contrafunctor_examples()
   Serial << "xcontramap(f,g,h)(x) -> compose(h,compose(g,f))(x) - apply f then g then h." << endl;
   Serial << "==================================================="
             << endl;
-   //int y0 = fmap(inc)(1) << endl;
+   int y00  = fmap(inc)(ident(1));
+   int y01  = cofmap(inc,id)(1); 
+   int y02  = cofmap(id,inc)(1); 
+   Serial << "y01 = fmap(inc)(ident(1)) = " << y00 << << " needs ident(1) " << endl;
+   Serial << "y01 = cofmap(inc,id)(1)   = " << y01 << endl;
+   Serial << "y02 = cofmap(id,inc)(1)   = " << y02 << endl;
    List<int> l1 = makeList1(1);
    Serial << "l1                            = " << l1 << endl;
    //List<int> l2 = contrafmap(head,inc)(l1);
