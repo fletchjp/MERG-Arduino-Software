@@ -2620,9 +2620,9 @@ FCPP_MAYBE_NAMESPACE_CLOSE
 // Not HSP but close
 //////////////////////////////////////////////////////////////////////
 
-#ifndef FCPP_ARDUINO
 // These next two are defined as _lazy_ versions of these operators on lists
 // For some reason these are a problem on the Arduino.
+// It was not the Arduino = the compiler was finding a bug in the previous code.
 
 namespace impl {
 struct XAnd : public CFunType<List<bool>,bool> {
@@ -2641,7 +2641,7 @@ FCPP_MAYBE_NAMESPACE_CLOSE
 namespace impl {
 struct XOr : public CFunType<List<bool>,bool> {
    bool operator()( const List<bool>& l ) const {
-      return !null(dropWhile()( equal(false), l ));
+      return !null(dropWhile( equal(false), l )); // There was an extra () here after dropWhile.
    }
 };
 }
@@ -2650,7 +2650,6 @@ FCPP_MAYBE_NAMESPACE_OPEN
 FCPP_MAYBE_EXTERN Or or_;
 FCPP_MAYBE_NAMESPACE_CLOSE
 
-#endif
 
 //////////////////////////////////////////////////////////////////////
 // Back to HSP
