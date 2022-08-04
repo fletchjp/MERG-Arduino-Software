@@ -51,3 +51,7 @@ Code for MaybeLike and EitherLike with functoids unjust and unright moved here.
 ### src/fcpp/functor.h  					
 
 Add some explanation.
+
+### src/function.h
+
+Remove unused arguments of nullfunN functions to supress gcc10 warnings.
