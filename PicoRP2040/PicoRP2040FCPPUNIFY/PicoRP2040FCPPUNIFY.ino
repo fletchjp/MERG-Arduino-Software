@@ -1090,22 +1090,24 @@ void contrafunctor_examples()
    //int y = contrafmap(unjust,inc)(l2); fails as expected.
    int y = contrafmap(unjust,inc)(m2);
    Serial << "y = contrafmap(unjust,inc)(m2) =   " << y << endl;
-   int z = contrafmap(unjust,inc)(m2);
-   Serial << z << endl;
+   int z = cofmap(inc,unjust)(m2);
+   Serial << "z = cofmap(inc,unjust)(m2) =   " << z << endl;
    Serial << "==================================================="
           << endl;
    Serial << "A test has now been inserted into Either<T> to test unright() in the same way." << endl;
    Serial << "==================================================="
           << endl;
    Either<int> e1 = right(1);
-   Serial << e1 << endl;
+   Serial << "e1 = right(1) = " << e1 << endl;
    Either<int> e2 = fmap(inc)(e1);
-   Serial << e2 << endl;
+   Serial << "e2 = fmap(inc)(e1) = " << e2 << endl;
    //int ex = unright(m2); //fails as expected.
    int ex = unright(e2);
-   Serial << ex << endl;
-   int ez = contrafmap(unright,inc)(e2);
-   Serial << ez << endl;
+   Serial << "ex = unright(e2) = " << ex << endl;
+   int ey = contrafmap(unright,inc)(e2);
+   Serial << "ey = contrafmap(unright,inc)(e2) =   " << ey << endl;
+   int ez = cofmap(inc,unright)(e2);
+   Serial << "ez = cofmap(inc,unright)(e2) =   " << ez << endl;
    Serial << "==================================================="
           << endl;
   
