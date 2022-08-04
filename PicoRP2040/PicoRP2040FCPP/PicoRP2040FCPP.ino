@@ -14,6 +14,7 @@
 #include <string>
 #define FCPP152
 #define FCPP_ENABLE_LAMBDA
+//#define FCPP_USE_EXCEPTIONS
 #include "fcpp_prelude.h"
 
 #include <Streaming.h>
