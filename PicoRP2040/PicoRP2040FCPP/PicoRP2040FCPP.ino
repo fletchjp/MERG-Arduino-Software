@@ -16,7 +16,7 @@
 #define FCPP_ENABLE_LAMBDA
 #include "fcpp_prelude.h"
 
-//#include <Streaming.h>
+#include <Streaming.h>
 
 using namespace fcpp;
 
@@ -169,6 +169,46 @@ void fcpp_examples()
   Serial << "sum of the odds is " << sum_odds << endl;
 */
 }
+
+// I have put these examples here to show how some things work and also to avoid some warnings
+// that things are defined and not used.
+auto bar() {
+   LambdaVar<1> X;
+   LambdaVar<2> Y;
+   return lambda()[
+      doM[ X <= list_with(1,2), Y <= list_with(3,4),
+           unitM<ListM>()[ makePair[X,Y] ] ] ];
+}
+
+auto qux() {
+   LambdaVar<1> X;
+   LambdaVar<2> Y;
+   return lambda()[ compM<ListM>()[ makePair[X,Y] | 
+          X<=list_with(1,2), guard[true], Y<=list_with(3,4), 
+          guard[equal[divides[Y,X],3] ] ]
+      ];
+}
+auto whoa() {
+   LambdaVar<1> even;
+   LambdaVar<2> odd;
+   LambdaVar<3> X;
+   return lambda()[
+      letrec[ even==lambda(X)[ if1[fcpp::equal[X,0],true,odd[fcpp::minus[X,1]]] ],
+              odd ==lambda(X)[ if2[notEqual[X,0],even[fcpp::minus[X,1]],false] ]
+      ].in[ even[3] ] ];
+}
+
+void lambda_examples()
+{
+   LambdaVar<1> F;
+//   LambdaVar<2> G;
+   //LambdaVar<3> H;
+   LambdaVar<4> X;
+   Serial << "lambda(F,X)[ if0[true,F[X,2],X] ](plus,1) = ";
+   Serial << lambda(F,X)[ if0[true,F[X,2],X] ](plus,1) << endl;
+  
+}
+
 
 void prove_a_point() {
 /*
