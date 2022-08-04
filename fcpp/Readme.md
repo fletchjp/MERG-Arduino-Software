@@ -45,6 +45,8 @@ Added copyright and explanation of the need for the file.
 ### src/fcpp/prelude.h  
 
 Added code for MaybeLike test to be used in unjust(). Also code for EitherLike test. Identify and fix a bug in the code.
+
+Code for MaybeLike and EitherLike with functoids unjust and unright moved here.
 					
 ### src/fcpp/functor.h  					
 
