@@ -3328,6 +3328,9 @@ FCPP_MAYBE_NAMESPACE_OPEN
 FCPP_MAYBE_EXTERN AUniqueTypeForNothing NOTHING;
 FCPP_MAYBE_NAMESPACE_CLOSE
 
+//////////////////////////////////////////////////////////////////////////
+// MaybeLike is copied from ListLike to check on the arguments of unjust()
+//////////////////////////////////////////////////////////////////////////
 struct MaybeLike {};
 
 template <class T>
@@ -3386,6 +3389,43 @@ FCPP_MAYBE_NAMESPACE_OPEN
 FCPP_MAYBE_EXTERN Just just;
 FCPP_MAYBE_NAMESPACE_CLOSE
 
+template <class M, bool b>
+struct EnsureMaybeHelp {
+   static void trying_to_call_unjust_function_on_a_non_maybe_type() {}
+};
+template <class M> struct EnsureMaybeHelp<M,false> { };
+template <class M>
+void EnsureMaybe() {
+  //   EnsureListLikeHelp<L,boost::is_base_and_derived<ListLike,L>::value>::
+  // I have used the FC++ way of doing this here.
+  EnsureMaybeHelp<M,Inherits<M,MaybeLike>::value>::
+   trying_to_call_unjust_function_on_a_non_maybe_type();
+}
+
+namespace impl {
+   struct XUnJust {
+      template <class T> struct Sig : public FunType<T,typename T::ElementType> {};
+   
+      template <class T>
+      typename Sig<T>::ResultType
+      operator()( const T& x ) const {
+         EnsureMaybe<T>();
+         return x.value();
+      }
+#ifdef FCPP_DEBUG
+   std::string name() const
+   {
+     return std::string("UnJust");
+   }
+#endif
+   };
+}
+typedef Full1<impl::XUnJust> UnJust;
+FCPP_MAYBE_NAMESPACE_OPEN
+FCPP_MAYBE_EXTERN UnJust unjust;
+FCPP_MAYBE_NAMESPACE_CLOSE
+
+
 //////////////////////////////////////////////////////////////////////
 // The "Either" type, from Haskell
 // See Real World Haskell p.452
@@ -3399,6 +3439,9 @@ FCPP_MAYBE_NAMESPACE_CLOSE
 // This is only the simplest in RWH. There is more to come.
 //////////////////////////////////////////////////////////////////////
 
+////////////////////////////////////////////////////////////////////////////
+// EitherLike is copied from ListLike to check on the arguments of unright()
+////////////////////////////////////////////////////////////////////////////
 struct EitherLike {};
 
 // Wrapper for the error string
@@ -3482,7 +3525,48 @@ FCPP_MAYBE_NAMESPACE_OPEN
 FCPP_MAYBE_EXTERN Right right;
 FCPP_MAYBE_NAMESPACE_CLOSE
 
+template <class E, bool b>
+struct EnsureEitherHelp {
+   static void trying_to_call_unright_function_on_a_non_either_type() {}
+};
+template <class E> struct EnsureEitherHelp<E,false> { };
+template <class E>
+void EnsureEither() {
+  //   EnsureListLikeHelp<L,boost::is_base_and_derived<ListLike,L>::value>::
+  // I have used the FC++ way of doing this here.
+  EnsureEitherHelp<E,Inherits<E,EitherLike>::value>::
+   trying_to_call_unright_function_on_a_non_either_type();
+}
+
+namespace impl {
+   struct XUnRight {
+      template <class T> struct Sig : public FunType<T,typename T::ElementType> {};
+   
+      template <class T>
+      typename Sig<T>::ResultType
+      operator()( const T& x ) const {
+         EnsureEither<T>();
+         return x.right();
+      }
+#ifdef FCPP_DEBUG
+   std::string name() const
+   {
+     return std::string("UnRight");
+   }
+#endif
+   };
+}
+
+typedef Full1<impl::XUnRight> UnRight;
+FCPP_MAYBE_NAMESPACE_OPEN
+FCPP_MAYBE_EXTERN UnRight unright;
+FCPP_MAYBE_NAMESPACE_CLOSE
+
+
+
+////////////////////////////////////////////////////////////////////
 // I am making this to help make IdentityM into an inferrable monad.
+////////////////////////////////////////////////////////////////////
 template <class T>
 class Identity {
   OddList<T> rep;
