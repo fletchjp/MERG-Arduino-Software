@@ -10,6 +10,8 @@
 // I have also added a new test MaybeLike to check the operation of unjust.
 // This required a change to prelude.h. The code for unjust could now be moved there.
 // I could now do the same thing for the Either type.
+// I have started to move some of the new code to header files.
+// MaybeLike and EitherLike and associated things are now in prelude.h
 ////////////////////////////////////////////////////////////////
 // Some of the notes from unify.cpp
 ////////////////////////////////////////////////////////////////
