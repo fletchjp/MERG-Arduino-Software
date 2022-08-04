@@ -19,6 +19,7 @@
 // of arguments and returns a value using the default constructor
 // for that type ( Result() ). This will work unless the Result type
 // does not have a default constructor.
+// These have now been altered to supress unused arguments (2022)
 // For Fun3 and above, there also has to be a default constructor
 // for FunNGuts, which does the actual work.
 //
@@ -742,7 +743,7 @@ struct Fun1Constructor;
 
 // Special function for the default constructor to call.
 template <class Arg1, class Result>
-Result nullfun1(Arg1 a) { return Result(); }
+Result nullfun1(Arg1 /*a*/) { return Result(); }
 
 template <class Arg1, class Result>
 class Fun1 : public CFunType<Arg1,Result>, public ::fcpp::SmartFunctoid1 {
@@ -1101,7 +1102,7 @@ struct Fun2Constructor;
 
 // Special function for the default constructor to call.
 template <class Arg1, class Arg2, class Result> 
-Result nullfun2(Arg1 a, Arg2 b) { return Result(); }
+Result nullfun2(Arg1 /*a*/, Arg2 /*b*/) { return Result(); }
 
 // Note that this class has two signatures: it can be used either as
 // a two argument function or as a single argument function (currying).
@@ -1405,7 +1406,7 @@ struct Fun3Constructor;
 
 // Special function for the default constructor to call.
 template <class Arg1, class Arg2, class Arg3, class Result> 
-Result nullfun3(Arg1 a, Arg2 b, Arg3 c) { return Result(); }
+Result nullfun3(Arg1 /*a*/, Arg2 /*b*/, Arg3 /*c*/) { return Result(); }
 
 // The "Guts" class helps us implement currying; Fun3 floats gently atop
 // Fun3Guts and adds currying.  
@@ -1923,7 +1924,7 @@ struct Fun4Constructor;
 
 // Special function for the default constructor to call.
 template <class Arg1, class Arg2, class Arg3, class Arg4, class Result> 
-Result nullfun4(Arg1 a, Arg2 b, Arg3 c, Arg4 d) { return Result(); }
+Result nullfun4(Arg1 /*a*/, Arg2 /*b*/, Arg3 /*c*/, Arg4 /*d*/) { return Result(); }
 
 // The "Guts" class helps us implement currying; fun4 floats gently atop
 // Fun4Guts and adds currying.  
@@ -2503,7 +2504,7 @@ struct Fun5Constructor;
 
 // Special function for the default constructor to call.
 template <class Arg1, class Arg2, class Arg3, class Arg4, class Arg5,class Result> 
-Result nullfun5(Arg1 a, Arg2 b, Arg3 c, Arg4 d, Arg5 e) { return Result(); }
+Result nullfun5(Arg1 /*a*/, Arg2 /*b*/, Arg3 /*c*/, Arg4 /*d*/, Arg5 /*e*/) { return Result(); }
 
 
 // The "Guts" class helps us implement currying; Fun5 floats gently atop
