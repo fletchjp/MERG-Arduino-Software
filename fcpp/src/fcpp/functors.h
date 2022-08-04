@@ -254,8 +254,10 @@ template <class Rep> struct InferrableTraits {
   // This works only for monads with the Rep/Unrep and LiftM<Monad>
   // structures.  I want to generalise it to other Functors.
   //
-  // I have build cofmap to work with that.
-  // I think my fmap may be wrong. (This is I think out of date).
+  // I have build cofmap and contrafmap to work where the conversion is specified.
+  // cofmap(f,g)      -> compose(f,g)
+  // contrafmap(f,g)  -> compose(g,f)  
+  //
   /////////////////////////////////////////////////////////////////////////
 
   namespace impl {
@@ -351,6 +353,7 @@ FCPP_MAYBE_NAMESPACE_CLOSE
   // xmap       :: (a -> b) -> (b -> a) -> f a -> f b
   //
   // cofmap(f,g)      -> compose(f,g)             CompF : runCompG :: f (g a)
+  // contrafmap(f,g)  -> compose(g,f)  
   // contrafmap2(f,g) -> apply2fg(g,f)
   // xmap(f,g,h)      -> compose(f,compose(h,g))
   // xmap2(f,g,h)     -> compose(f,apply2fg(h,g))
