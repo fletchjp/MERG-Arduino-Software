@@ -3410,6 +3410,10 @@ namespace impl {
       typename Sig<T>::ResultType
       operator()( const T& x ) const {
          EnsureMaybe<T>();
+#ifdef FCPP_USE_EXCEPTIONS
+         if (x.is.nothing()) 
+			 throw fcpp_exception("unjust error: NOTHING");
+#endif
          return x.value();
       }
 #ifdef FCPP_DEBUG
@@ -3546,6 +3550,10 @@ namespace impl {
       typename Sig<T>::ResultType
       operator()( const T& x ) const {
          EnsureEither<T>();
+#ifdef FCPP_USE_EXCEPTIONS
+         if (x.is.nothing()) 
+			 throw fcpp_exception("unright error: no value");
+#endif
          return x.right();
       }
 #ifdef FCPP_DEBUG
