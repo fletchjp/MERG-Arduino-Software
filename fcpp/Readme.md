@@ -12,6 +12,8 @@ This means that they are actually the master copies for documentation rather tha
 
 These codes have a very long history which I will not go into here.
 
+I have maintained the historical practice that the header codes are all *.h.
+
 The original codes were written for C++ long before there was C++11. A lot was achieved which can be done much more easily now.
 
 The versions in use here have many enhancements I have written over the years which have not been made available previously.
@@ -29,6 +31,8 @@ These codes are compatible with gcc10 and C++17 as available on the Arduino IDE 
 The main limitation is that exceptions are not available which does mean some danger in use of the code.
 
 There is a version of Boost library for the Arduino which is available. It is not uptodate.
+
+Code which is a problem is not compiled when FCPP_ARDUINO is defined. It is defined in this version of prelude.h 
 
 ## New additions and significant changes
 
