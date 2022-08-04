@@ -38,7 +38,14 @@ Code which is a problem is not compiled when FCPP_ARDUINO is defined. It is defi
 
 These will be noted here.
 
-src/fcpp_prelude.h  Added copyright and explanation of the need for the file.
+### src/fcpp_prelude.h
 
-src/fcpp/prelude.h  Added code for MaybeLike test to be used in unjust(). Also code for EitherLike test.
+Added copyright and explanation of the need for the file.
 
+### src/fcpp/prelude.h  
+
+Added code for MaybeLike test to be used in unjust(). Also code for EitherLike test. Identify and fix a bug in the code.
+					
+### src/fcpp/functor.h  					
+
+Add some explanation.
