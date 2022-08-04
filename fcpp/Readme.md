@@ -6,6 +6,8 @@ These copies will be used to update fcpp and provide a backup of the files in us
 
 At the moment there are only a few changes to make the files Arduino compatible for use with RP2040 devices.
 
+This means that they are actually the master copies for documentation rather than being a backup.
+
 ## FC++ History
 
 These codes have a very long history which I will not go into here.
