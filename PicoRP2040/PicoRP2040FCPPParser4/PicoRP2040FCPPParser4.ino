@@ -7,6 +7,8 @@
 // Parser4 will have ParserL and ParserLM with std::pair<List<A>,StringL>
 // This is because I am not clear which one works best.
 // I have found quite a lot of related work on functors which I think will help here.
+// I have done a lot of work using the unify examples - see PicoRP2040FCPPUNIFY.
+// I now want to have a look to see if any of that will help with the parser.
 //////////////////////////////////////////////////////////////////////
 // Thinking.  In HASKELL the monad and an instance have the same name.
 // In FC++ the two are distinct e.g. MaybeM and Maybe which is an instance.
