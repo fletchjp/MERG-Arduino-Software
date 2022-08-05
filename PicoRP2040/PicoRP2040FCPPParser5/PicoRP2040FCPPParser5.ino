@@ -377,6 +377,7 @@ void new_ideas()
    auto what2 = bindM<ParserLM>();
    auto what3 = zeroM<ParserLM>();
    //if (what3(s).is_nothing()) { Serial.println("what3(s) has no data"); }
+   Serial << "----------------" << endl;
   
 }
 
@@ -410,6 +411,25 @@ This works.  I did it just to prove a point.
 
 }
 
+void functor_ideas()
+{
+   Serial.println("Some functor operations with ParserL<A>");
+   ParserL<int> pint;
+   std::string ss("123+45-6");
+   //Serial << "string is " << ss << endl;
+   StringL s( ss.begin(), ss.end() );
+   StringL::iterator si;
+   Serial.print("Input string is ");
+   outStringL(s); Serial.println(" ");
+   ParserL<int> pints(s);
+   ParserL<int> pintex(1,s);
+   //auto idea0 = fmap(id)(pints);
+   auto idea1 = cofmap(id,inc)(pintex.value());
+   Serial << "cofmap(id,inc)(pintex.value()) = " << idea1 << endl;
+  
+}
+
+
 void setup() {
   // put your setup code here, to run once:
   Serial.begin (115200);
@@ -422,6 +442,8 @@ void setup() {
   prove_a_point();
   Serial.println("--------------------------");
   new_ideas();
+  Serial.println("--------------------------");
+  functor_ideas();
   Serial.println("--------------------------");
   //Serial.flush();
 }
