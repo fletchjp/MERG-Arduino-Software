@@ -348,6 +348,8 @@ Print &operator <<( Print &obj, const List<T> &arg)
 // Space here for new functoids!!
 namespace fcpp {
 
+// I think these are related to work on Arrows and also Categories.
+
   namespace impl {
 
     struct XArrA {
