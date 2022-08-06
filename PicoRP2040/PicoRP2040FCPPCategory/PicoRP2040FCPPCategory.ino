@@ -496,6 +496,97 @@ public:
   }
 #endif
 
+template <class F>
+class Writer {
+private:
+  Message m_;
+  F f_;
+public:
+  typedef F FType;
+  template <class FF>
+  struct Sig : public FunType<Writer<FF>,FF> {};
+  Writer(const F& f) : f_(f) {}
+  Writer(const F& f, const Message &m) : f_(f), m_(m) {}
+  typename Sig<F>::ResultType
+  operator()() const { return f_;}
+  Message message() const { return m_; }
+};
+
+namespace impl {
+   struct XWrite {
+     template <class F, class A, class M> struct Sig :
+       public FunType<F,A,M,
+     std::pair<typename RT<F,A>::ResultType,M > >{};
+   
+     template <class F, class A, class M>
+     typename Sig<F,A,M>::ResultType
+     operator()(const F & f, const A& x, const M &m) const {
+       return std::make_pair(f(x), m );
+      }
+   };
+
+
+   struct XWriteP {
+     template <class F, class P, class M> struct Sig :
+       public FunType<F,P,M,
+       std::pair<typename RT<F,typename P::first_type>::ResultType,
+     typename P::second_type > >{};
+   
+     template <class F, class P, class M>
+     typename Sig<F,P,M>::ResultType
+     operator()(const F & f, const P &p, const M& m) const {
+       //return std::make_pair(f(p.first), p.second() + m() );
+       // Now using operator+ defined for Message
+       // which means this would work for any time supporing plus.
+       return std::make_pair(f(p.first), plus(p.second,m) );
+      }
+   };
+
+   struct XWriteW {
+     // The key to this is to get the correct function type
+     // from W, which is now defined as typename W::FType.
+     // This now works when the result type is not P::first_type.
+     template <class W, class P> struct Sig :
+       public FunType<W,P,
+          std::pair<typename RT<
+                       typename W::FType,
+                       typename P::first_type>::ResultType,
+           typename P::second_type > >{};
+   
+     template <class W, class P>
+     typename Sig<W,P>::ResultType
+     operator()(const W& w, const P &p) const {
+       //return std::make_pair(w()(p.first), p.second()+w.message()() );
+       // Now using operator+ defined for Message
+       // which means this would work for any time supporing plus.
+       return std::make_pair(w()(p.first), plus(p.second,w.message()) );
+      }
+   };
+
+}
+
+typedef Full3<impl::XWrite>  Write;
+typedef Full3<impl::XWriteP> WriteP;
+typedef Full2<impl::XWriteW> WriteW;
+FCPP_MAYBE_NAMESPACE_OPEN
+FCPP_MAYBE_EXTERN Write write_;
+FCPP_MAYBE_EXTERN WriteP writep;
+FCPP_MAYBE_EXTERN WriteW writew;
+FCPP_MAYBE_NAMESPACE_CLOSE
+
+// Not yet implemented....
+struct WriterM {
+   template <class A>  struct Rep   { typedef Writer<A> Type; };
+   template <class EA> struct UnRep { typedef typename EA::ElementType Type; };
+
+#ifdef FCPP_DEBUG
+   std::string name() const
+   {
+       return std::string("WriterM");
+   }
+#endif
+};
+
 }
 
 void setup() {
