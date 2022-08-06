@@ -613,6 +613,75 @@ void category_examples()
     {
         Serial << *i << endl;
     }
+  Serial << "=======================" << endl;
+  Serial << "Using FC++ functoids" << endl;
+  Serial << "=======================" << endl;
+  std::string su2 = toUpper(s);
+  Serial << su2 << endl;
+  std::vector<std::string> vw2 = toWords(su);
+  for (auto i = begin(vw2); i != end(vw2); ++i)
+    {
+        Serial << *i << endl;
+    }
+  Serial << "==========================" << endl;
+  Serial << "FC++ functoids with Writer" << endl;
+  Serial << "==========================" << endl;
+  Message mtoUpper ("toUpper ");
+  Message mtoWords ("toWords ");
+  typedef std::vector<std::string> vstring;
+  typedef Fun1<std::string,vstring> Fun1sv;
+  Fun1sv ftoWords(toWords);
+  Writer<ToUpper> wtoUpper(toUpper,mtoUpper);
+  Writer<ToWords> wtoWords(toWords,mtoWords);
+  Writer<Fun1sv>  wftoWords(ftoWords,mtoWords);
+  Message mnull(std::string(""));
+  std::pair<std::string,Message> sm = std::make_pair(s,mnull);
+  std::pair<std::string,Message> um = writew(wtoUpper)(sm);
+  Serial << um.first << " : " << um.second() << endl;
+  vstring vw3 = wftoWords()(su);
+  Serial <<  "wftoWords : " << wftoWords.message()() << endl;
+  for (auto i = begin(vw3); i != end(vw3); ++i)
+    {
+        Serial << *i << endl;
+    }
+  vstring vw4 = wtoWords()(su);
+  Serial << "wtoWords  : " << wtoWords.message()() << endl;
+  for (auto i = begin(vw4); i != end(vw4); ++i)
+    {
+        Serial << *i << endl;
+    }
+  std::pair<vstring,Message> wm = writew(wtoWords)(um);
+  Serial << "writew(wtoWords)(um)  : " << wm.second() << endl;
+  for (auto i = begin(wm.first); i != end(wm.first); ++i)
+    {
+        Serial << *i << endl;
+    }
+  std::pair<vstring,Message> wm2 =
+       compose(writew(wtoWords),writew(wtoUpper))(sm);
+  Serial << "compose(writew(wtoWords),writew(wtoUpper))(sm)  : "
+            << wm2.second() << endl;
+  for (auto i = begin(wm2.first); i != end(wm2.first); ++i)
+    {
+        Serial << *i << endl;
+    }
+  std::pair<vstring,Message> wm2a =
+    (writew(wtoWords) ^dot^ writew(wtoUpper))(sm);
+  std::pair<vstring,Message> wm3 =
+       invcompose(writew(wtoUpper),writew(wtoWords))(sm);
+  Serial << "invcompose(writew(wtoUpper),writew(wtoWords))(sm)  : "
+            << wm3.second() << endl;
+  for (auto i = begin(wm3.first); i != end(wm3.first); ++i)
+    {
+        Serial << *i << endl;
+    }
+  std::pair<vstring,Message> wm3a =
+    (writew(wtoUpper) ^dash^ writew(wtoWords))(sm);
+  Serial << "(writew(wtoUpper) ^dash^ writew(wtoWords))(sm  : "
+            << wm3a.second() << endl;
+  for (auto i = begin(wm3a.first); i != end(wm3a.first); ++i)
+    {
+        Serial << *i << endl;
+    }
 
 }
 
