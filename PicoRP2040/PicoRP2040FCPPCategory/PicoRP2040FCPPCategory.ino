@@ -587,6 +587,32 @@ struct WriterM {
 #endif
 };
 
+  //////////////////////////////////////////////
+  // ParallelM monad moved to fcpp/pattern.h  //
+  //////////////////////////////////////////////
+
+}
+
+Print &operator <<( Print &obj, const std::string &arg)
+{
+    Serial << arg.c_str();
+    return obj; 
+}
+
+void category_examples()
+{
+  Serial << "Without logging" << endl;
+  Serial << "=======================" << endl;
+  std::string s = ("What a load of rubbish");
+  Serial << s << endl;
+  std::string su = toUpper_a(s);
+  Serial << su << endl;
+  std::vector<std::string> vw1 = toWords_a(su);
+  for (auto i = begin(vw1); i != end(vw1); ++i)
+    {
+        Serial << *i << endl;
+    }
+
 }
 
 void setup() {
@@ -599,6 +625,7 @@ void setup() {
   Serial.println("after fcpp_examples");
   prove_a_point();
   Serial.println("--------------------------");
+  category_examples();
   //Serial.flush();
 }
 
