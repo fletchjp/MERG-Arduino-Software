@@ -372,6 +372,101 @@ FCPP_MAYBE_EXTERN ToUpper toUpper;
 FCPP_MAYBE_EXTERN ToWords toWords;
 FCPP_MAYBE_NAMESPACE_CLOSE
 
+  namespace impl {
+    // Trail adds at the end, which is useful for std::string.
+    // It returns a one parameter functoid.
+   struct XTrail {
+  #ifdef FCPP_DEBUG
+   std::string name() const
+   {
+     return std::string("Trail");
+   }
+ #endif
+     // This is how to tell it the A is the second argument for Plus.
+    template <class A> struct Sig :
+       public FunType<A,typename RT<Plus,AutoCurryType,A>::ResultType > {};
+   
+     template <class A>
+     typename Sig<A>::ResultType
+     operator()(const A& a) const {
+       return plus(_,a);
+     }
+   };
+}
+typedef Full1<impl::XTrail> Trail;
+ FCPP_MAYBE_NAMESPACE_OPEN
+ FCPP_MAYBE_EXTERN Trail trail;
+ FCPP_MAYBE_NAMESPACE_CLOSE
+
+#ifdef FCPP_DEBUG
+    namespace traits {
+    template<>
+       class debug_traits<impl::XTrail>
+       {
+       public:
+  static const bool has_name = true;
+  static std::string name(const impl::XTrail &f) { return f.name(); }
+       };
+    }
+ #endif
+
+////////////////////////////////////////////////////////
+// General structure for Writer.
+// Message follows the EitherError structure for Either.
+// Writer holds a one arg functoid and a message.
+//
+// Writer<FType> wtype(functoid,message)
+//
+// There are three ways to use this.
+//
+// write_(functoid,argument,message)
+// writep(functoid,make_pair(argument,message))
+// writew(writer,make_pair(argument,message))
+//
+// All these return std::pair(output,message)
+//
+// The third sort accumulates the messages.
+// It can be composed e.g.
+//
+// compose(writew(wtoWords),writew(wtoUpper))(make_pair(argument,message))
+//
+// where the first writew operation follows the second.
+//
+// Also available as 'dot'
+// (writew(wtoWords) ^dot^ writew(wtoUpper))
+//
+// The opposite order is also available:
+//
+// invcompose(writew(wtoUpper),writew(wtoWords)) is also available.
+//
+// also available as 'dash' (my name for it).
+// (writew(wtoUpper) ^dash^ writew(wtoWords))
+//
+// Things to do: test using the DEBUG name as the message.
+/////////////////////////////////////////////////////////
+// I have now found a link to the work in unify.cpp.
+// The functoids bimap and parallel can be used to implement
+// the functionality of writer without new code.
+// e.g.
+// Message mdec("dec ");
+// bimap(dec,plus(_,mdec),std::pair(1,message))
+//
+// This applies 'dec' to '1' and adds mdec at the end of 'message'.
+//
+// This involves implementing the operator+ for classtype Message.
+//
+// parallel(makePair(dec,trail(mdec)),std::pair(1,message))
+//
+// This does the same using a new functoid trail(a) == plus(_,a)
+//
+// This way also gains the flexibility to do other operations on the message.
+// e.g konst(mdec) will reset the message to 'mdec'.
+//
+// See examples in the file.
+//
+//////////////////////////////////////////////////////////
+
+
 }
 
 void setup() {
