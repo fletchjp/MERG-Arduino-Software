@@ -466,6 +466,35 @@ typedef Full1<impl::XTrail> Trail;
 //
 //////////////////////////////////////////////////////////
 
+struct Message {
+private:
+  std::string message_;
+public:
+  Message() { message_ = std::string("nothing"); }
+  Message(const Message &mm) : message_(mm.message_) {}
+  Message(const std::string &m) : message_(m) {}
+  std::string operator()() const { return message_; }
+};
+
+  Message operator+(const Message& m1,const Message& m2)
+  {
+    return Message(m1() + m2());
+  }
+
+#ifndef FCPP_ARDUINO
+  namespace traits {
+
+       template<>
+   class argument_traits<Message>
+       {
+       public:
+   //static const bool has_name = true;
+   static std::string value(const Message &m)
+   { return m();}
+       };
+
+  }
+#endif
 
 }
 
