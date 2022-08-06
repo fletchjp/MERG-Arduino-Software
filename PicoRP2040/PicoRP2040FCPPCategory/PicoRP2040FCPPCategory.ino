@@ -2,8 +2,67 @@
 // Pico RP2040 FC++ Catgory
 // New example to look at code from category_fcpp.cpp
 //////////////////////////////////////////////////////////////////////
+// File for developments following Bartosz Milewski's work
+// "Category Theory for Programmers" and related material
+//
+// I am looking at his examples in Section 4 "Kleisli Categories".
+// His examples use auto so I am going to implement this as C++14
+// to get the extensions I need.
+//
+
+// In this version I am going to use FC++.
+
+// The experiments on the Writer have shown up a link with the
+// bifunctor operator bimap which has examples in unify.cpp
+// The examples below show that FC++ functoids can be lifted to Writer
+// without any special code using either bimap or parallel.
+
+// To do Bartosz example I have to implement toWords and toUpper as FC++
+// functoids which do not store any message text.
+
+// I have implemented a functoid trail(a) equivalent to plus(_,a)
+// for the purpose of appending to a string or Message.
+// Message is new structure wrapping a std::string.
+
+// The implementation using bimap or parallel is polymorphic and can
+// support other operations on the Message and even other types.
+// One thing which can be done is to reset the message string with
+// konst(Message).
+
+// I have now put this into a ParallelM monad which works on pairs
+// of data and pairs of functions.
+// I have now worked out how to make it inferrable and implemented it.
+// I could add first and second operators to it.
+
+// I intended to do a WriterM monad which still needs some thought.
+// It would work with the same pairs of data but take a function object
+// which did both operations, something like writew().
+
+// There is code for this in "Learn you a Haskell.."
+
+// I have added some code as a result of more reading in
+// "Learn you a Haskell.." relating to the Reader monad which contains
+// functions. This is not directly implementable, but FC++ compose2 does
+// something similar and FC++ lambda allows this to be generalised.
+
+// The C++11 'auto' makes it much easier to use the FC++ lambda as the
+// type of the lambda can be deduced and does not impinge on the user at all.
+
+// I have now moved the monad ParallelM to patterns.h to make it more
+// widely available. There may be other code which can be harvested too.
+
+// ========================
+// headers
+// ========================
 
 #include <string>
+#include <vector>
+#include <algorithm>
+
+// ========================
+// FC++ headers
+// ========================
+
 #define FCPP152
 #define FCPP_ENABLE_LAMBDA
 #define FCPP_EXTRA_STRONG_CURRY
