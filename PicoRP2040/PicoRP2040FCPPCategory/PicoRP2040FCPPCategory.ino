@@ -302,6 +302,78 @@ This works.  I did it just to prove a point.
 
 }
 
+/////////////////////////////////////////////////////////////
+//
+// http://bartoszmilewski.com/2014/12/23/kleisli-categories/
+//
+/////////////////////////////////////////////////////////////
+
+std::string toUpper_a(std::string s) {
+  std::string result;
+    int (*toupperp)(int) = &toupper; // toupper is overloaded
+    std::transform(begin(s), end(s), back_inserter(result), toupperp);
+    return result;
+}
+
+std::vector<std::string> words(std::string s) {
+  std::vector<std::string> result{""};
+    for (auto i = begin(s); i != end(s); ++i)
+    {
+        if (isspace(*i))
+            result.push_back("");
+        else
+            result.back() += *i;
+    }
+    return result;
+}
+
+std::vector<std::string> toWords_a(std::string s) {
+    return words(s);
+}
+
+/////////////////////////////////
+// The Writer Category in FC++ //
+/////////////////////////////////
+
+// Space here for new functoids!!
+namespace fcpp {
+
+////////////////////////////////////////////////////////
+// These implement toUpper and toWord as FC++ functoids.
+////////////////////////////////////////////////////////
+  namespace impl {
+   struct XToUpper {
+     template <class A> struct Sig :
+       public FunType<A,A> {};
+   
+     template <class A>
+     typename Sig<A>::ResultType
+     operator()(const A& a) const {
+       return toUpper_a(a);
+     }
+   };
+
+   struct XToWords {
+     template <class A> struct Sig :
+       public FunType<A,std::vector<A> > {};
+   
+     template <class A>
+     typename Sig<A>::ResultType
+     operator()(const A& a) const {
+       return toWords_a(a);
+     }
+   };
+
+  }
+typedef Full1<impl::XToUpper> ToUpper;
+typedef Full1<impl::XToWords> ToWords;
+FCPP_MAYBE_NAMESPACE_OPEN
+FCPP_MAYBE_EXTERN ToUpper toUpper;
+FCPP_MAYBE_EXTERN ToWords toWords;
+FCPP_MAYBE_NAMESPACE_CLOSE
+
+}
+
 void setup() {
   // put your setup code here, to run once:
   Serial.begin (115200);
