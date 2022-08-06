@@ -58,4 +58,7 @@ This example now has a number of new functors.
 
 I want to add them to the Arduino copy of the fcpp library. I now have a copy of that in Github so I can make changes there and copy them to the working version.
 
+### PicoRP2040FCPPCategory
+
+This example is based on the code in category_fcpp.cpp and had links with the unify.cpp code as well.
 
