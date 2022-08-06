@@ -1,6 +1,7 @@
 //////////////////////////////////////////////////////////////////////
 // Pico RP2040 FC++ Catgory
 // New example to look at code from category_fcpp.cpp
+// I have added a lot of the code and I have started to look at the examples.
 //////////////////////////////////////////////////////////////////////
 // File for developments following Bartosz Milewski's work
 // "Category Theory for Programmers" and related material
