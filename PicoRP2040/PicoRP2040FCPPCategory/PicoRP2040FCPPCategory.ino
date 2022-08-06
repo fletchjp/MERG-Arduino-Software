@@ -2,16 +2,6 @@
 // Pico RP2040 FC++ Catgory
 // New example to look at code from category_fcpp.cpp
 //////////////////////////////////////////////////////////////////////
-// Mysteriously, this gave no output until I put in prove_a_point()
-// and the code needed for it.
-// I can now add the previous examples and get output.
-// The main thing I want to do is to gain confidence with use in the Pico.
-// There have been some strange issues with typedefs needing to become using
-// for some things to work.
-//////////////////////////////////////////////////////////////////////
-// was DUEFCPP and Arduino RP2040 FC++
-// Demo of FC++ Maybe operation
-// This will work on ARDUINO DUE but not on AVR boards.
 
 #include <string>
 #define FCPP152
