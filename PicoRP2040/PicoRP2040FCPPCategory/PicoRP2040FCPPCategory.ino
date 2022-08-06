@@ -9,6 +9,7 @@
 // His examples use auto so I am going to implement this as C++14
 // to get the extensions I need.
 //
+// Note that on the RP2040 I have gcc 10 and C++17 which should be alright for this code.
 
 // In this version I am going to use FC++.
 
