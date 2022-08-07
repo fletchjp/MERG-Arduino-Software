@@ -682,6 +682,23 @@ void category_examples()
     {
         Serial << *i << endl;
     }
+  Serial << "=========================" << endl;
+  Serial << "Using the ParallelM monad" << endl;
+  Serial << "=========================" << endl;
+  std::pair<std::string,Message> monsm = unitM<ParallelM>()(makePair(s,mnull));
+  Serial << "unitM<ParallelM>()(makePair(s,mnull)) : ";
+  Serial << monsm.second() << " : " << monsm.first << endl;
+  std::pair<std::string,Message> monsu =
+    bindM<ParallelM>()(monsm,makePair(toUpper,trail(mtoUpper)));
+  Serial << "bindM<ParallelM>()(monsm,makePair(toUpper,trail(mtoUpper))) : ";
+  Serial << monsu.second() << " : " << monsu.first << endl;
+  std::pair<vstring,Message> monsw = bindM<ParallelM>()(monsu,makePair(toWords,trail(mtoWords)));
+  Serial << "bindM<ParallelM>()(monsu,makePair(toWords,trail(mtoWords))) : "
+            << monsw.second() << endl;
+  for (auto i = begin(monsw.first); i != end(monsw.first); ++i)
+    {
+        Serial << *i << endl;
+    }
 
 }
 
