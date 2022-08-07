@@ -699,6 +699,42 @@ void category_examples()
     {
         Serial << *i << endl;
     }
+  Serial << "=======================" << endl;
+  Serial << "Experiments with Writer" << endl;
+  Serial << "=======================" << endl;
+  
+  Message mplus ("plus ");
+  Message mplus2("plus 2 ");
+  Message minc  ("inc ");
+  typedef Fun1<int,int> Fun1ii;
+  Fun1ii finc(inc), fdec(dec), fplus2(plus(2)); // Monomorphic versions
+  // This does not work well with polymorphic functoids.
+  Writer<Plus> wplus(plus,mplus);
+  Writer<Inc>  winc (inc ,minc);
+  Writer<Fun1ii> wfinc  (finc ,minc);
+  Writer<Fun1ii> wfplus2(fplus2,mplus2); // monomorphic type.
+  int wincres =  winc()(1);
+  Serial << "Writer<Inc>  winc (inc ,minc);" << endl;
+  Serial << "winc   : "
+            <<wincres << " : " << winc.message()() << endl;
+   // write_ takes (functoid,value,message)
+  std::pair<int,Message> writeres = write_(inc,wincres,minc);
+  Serial << "write_  : "
+            << writeres.first << " : " << writeres.second() << endl;
+  // writep takes (functoid,pair(value,messagea,messageb)
+  // and concatenates the messages.
+  std::pair<int,Message> plusres = writep(plus(2),writeres,mplus2);
+  Serial << "writep  : "
+            << plusres.first << " : " << plusres.second() << endl;
+  std::pair<int,Message> plusres2 = writep(fplus2,plusres,mplus2);
+  Serial << "writep  : "
+            << plusres2.first << " : " << plusres2.second() << endl;
+  std::pair<int,Message> plusres3 = writew(wfinc,plusres2);
+  Serial << "writew  : "
+            << plusres3.first << " : " << plusres3.second() << endl;
+  std::pair<int,Message> plusres4 = compose(writew(wfinc),writew(wfinc))(plusres3);
+  Serial << "compose : "
+            << plusres4.first << " : " << plusres4.second() << endl;
 
 }
 
