@@ -58,6 +58,8 @@ I want to add them to the Arduino copy of the fcpp library. I now have a copy of
 
 This example is based on the code in category_fcpp.cpp and had links with the unify.cpp code as well.
 
+There is a lot of experimental code in this example.
+
 These examples link up a lot of work which I have done over the years to implement various ideas about Monads and Functors.
 
 The usual implementations of these are in Haskell and I am using FC++ as a way of translating to C++.
