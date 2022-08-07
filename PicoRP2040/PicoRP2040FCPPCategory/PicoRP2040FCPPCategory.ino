@@ -735,6 +735,232 @@ void category_examples()
   std::pair<int,Message> plusres4 = compose(writew(wfinc),writew(wfinc))(plusres3);
   Serial << "compose : "
             << plusres4.first << " : " << plusres4.second() << endl;
+  Serial << "===========================" << endl;
+  Serial << "Some other ways to do this." << endl;
+  Serial << "===========================" << endl;
+  Message mone("one "), mtwo("two ");
+  Message moneplustwo = mone + mtwo;
+  Message mdec("dec ");
+  std::pair<int,Message> decres = bimap(dec,plus(_,mdec),plusres4);
+  Serial << "bimap(dec,plus(_,mdec),plusres4) : "
+            << decres.first << " : " << decres.second() << endl;
+  std::pair<int,Message> decres2 = parallel(makePair(dec,trail(mdec)),decres);
+  Serial << "parallel(makePair(dec,trail(mdec)),decres) : "
+            << decres2.first << " : " << decres2.second() << endl;
+  std::pair<int,Message> decres3 = parallel(makePair(dec,konst(mdec)),decres);
+  Serial << "parallel(makePair(dec,konst(mdec)),decres) : "
+            << decres3.first << " : " << decres3.second() << endl;
+  Serial << "===========================" << endl;
+  Serial << "Exploration using monads." << endl;
+  Serial << "===========================" << endl;
+  std::pair<int,Message> monres = unitM<IdentityM>()(makePair(1,mone));
+  Serial << "unitM<IdentityM>()(makePair(1,mone) : "
+            << monres.first << " : " << monres.second() << endl;
+  std::pair<int,Message> monres2 =
+    bindM<IdentityM>()(monres,parallel(makePair(inc,trail(minc))));
+  Serial << "bindM<IdentityM>()(monres,parallel(makePair(inc,trail(minc)))) : "
+            << monres2.first << " : " << monres2.second() << endl;
+  std::pair<int,Message> monres3 =
+    bindM<ParallelM>()(monres,makePair(inc,trail(minc)));
+  Serial << "bindM<ParallelM>()(monres,makePair(inc,trail(minc))) : "
+            << monres3.first << " : " << monres3.second() << endl;
+  std::pair<int,Message> monres3a = unitM<ParallelM>()(makePair(1,mone));
+  // Not solved at present.
+  //std::pair<int,Message> monres3b = unit (makePair(1,mone));
+  // This works anyway...
+  std::pair<int,Message> monres3b = unit (ident(makePair(1,mone)));
+  std::pair<int,Message> monres4 =
+    bind (monres3,makePair(dec,trail(mdec)));
+  Serial << "ParallelM monad is now inferrable." << endl;
+  Serial << "bind (monres3,makePair(dec,trail(mdec))) : "
+            << monres4.first << " : " << monres4.second() << endl;
+  Serial << "===========================" << endl;
+  Serial << "Now with the StateM monad." << endl;
+  Serial << "===========================" << endl;
+  Serial << "I am now understanding this as more complicated." << endl;
+  Serial << "There can be more than one way of doing things." << endl;
+  Serial << "This sets up a pair with the types of the first argument"
+            << endl;
+  Serial << "and the second argument which is also the type" << endl;
+  Serial << "given to the StateM monad." << endl;
+  Serial << "==============================================" << endl;
+  std::pair<int,Message> monstate = unitM<StateM<Message> >()(1)(mone);
+  Serial << "monstate = unitM<StateM<Message> >()(1)(mone) : "
+            << monstate.first << " : " << monstate.second() << endl;
+  typedef std::pair<int,Message> StateType;
+  Serial << "The state type now needs to have both int and Message."
+            << endl;
+  Serial << "typedef std::pair<int,Message> StateType;" << endl;
+  Serial << "This is not very useful as it does not change the State variable." << endl;
+  std::pair<int,StateType> is1 = unitM<StateM<StateType> >()(2)(monstate);
+  Serial << "unitM<StateM<StateType> >()(2)(monstate) : ";
+  Serial << is1.first << " : ( " << is1.second.first
+            << " : "  << is1.second.second() << " )" << endl;
+  //bindM<StateM<StateType> >()(parallel(id,id),id)(monstate);
+  std::pair<int,Message> monstate2 =
+       bindM<StateM<Message> >()(id,makePair)(monstate);
+  Serial << "monstate2 = bindM<StateM<Message> >()(id,makePair)(monstate) : "
+            << monstate2.first << " : " << monstate2.second() << endl;
+  Serial << "This works to apply an update and append a message."
+            << endl;
+  std::pair<int,Message> monstate3 =
+    bindM<StateM<Message> >()(parallel(makePair(inc,trail(minc))),makePair)(monstate);
+  Serial << "monstate3 = bindM<StateM<Message> >()(parallel(makePair(inc,trail(minc))),makePair)(monstate) : "
+            << monstate3.first << " : " << monstate3.second() << endl;
+  //std::pair<int,Message> monstate2 = bindM<StateM<Message> >()(monstate,id);
+  // This is not doing what I need.
+  std::pair<Message,Message> pm = StateM<Message>::fetch()(monstate.second);
+  Serial << pm.first() << " : " << pm.second() << endl;
+  Message tm = trail(minc)(monstate.second);
+  std::pair<Empty,Message> em = StateM<Message>::assign(minc)(monstate.second);
+  Serial << em.second() << endl;
+  Serial << "---------" << endl;
+  LambdaVar<1> X;
+  LambdaVar<2> Y;
+  std::pair<int,int> p = bindM<StateM<int> >()( lambda(X)[ makePair[3,X] ],
+          lambda(Y)[ unitM<StateM<int> >()[ Y ] ])(0);
+  Serial << p.first << "," << p.second << endl;
+  std::pair<int,int> p2 = bindM<StateM<int> >()(id,makePair)(p);
+  Serial << "bindM<StateM<int> >()(id,makePair)(p) : ";
+  Serial << p2.first << "," << p2.second << endl;
+  std::pair<int,int> p2a = bindM<StateM<int> >()
+           (parallel(makePair(dec,inc)),makePair)(p);
+  Serial << "bindM<StateM<int> >()(parallel(makePair(dec,inc)),makePair)(p); : ";
+  Serial << p2a.first << "," << p2a.second << endl;
+  std::pair<int,int> p3 = parallel(makePair(dec,inc))(p);
+#ifdef FCPP_DEBUG
+  Serial << sprint(bindM<StateM<int> >()(id,makePair)) << endl;
+  Serial << sprint(bindM<StateM<int> >()(id,makePair)(p)) << endl;
+#endif
+  Serial << p3.first << "," << p3.second << endl;
+  ////////////////////////////////////////////////////////
+  // Reader Monad
+  ////////////////////////////////////////////////////////
+  Serial << "============================" << endl;
+  Serial << "Now reader monad experiments." << endl;
+  Serial << "============================" << endl;
+  // Addition of polymorphic functoids not supported.
+  auto a = multiplies(2);
+  auto b = plus(10);
+  auto c = duplicate(multiplies);
+  int y = 10;
+  Serial << "auto a = multiplies(2);" << endl;
+  Serial << "auto b = plus(10);" << endl;
+  //auto c = plus(a,b);
+  Serial << "auto c = duplicate(multiplies);" << endl;
+  Serial << "c(" << y << ") = " << c(y) << endl;
+  // Addition of monmorphic functoids not supported.
+  Serial << "Attempts to add the two operators as (a + b) fail."
+            << endl;
+  Fun1<int,int> fa = a;
+  Fun1<int,int> fb = b;
+  Fun1<int,int> fc = c;
+  Serial << "The monomorphic versions can be put into a List." << endl;
+  Serial << "Then the list can be used with star." << endl;
+  Serial << "This yields a result list which can be summed." << endl;
+  Serial << "This is not limited to two functions." << endl;
+  //auto fc = plus(fa,fb);
+  // This does work.
+  // Put the monomorphic functoids into a list
+  auto lfc = makeList3(fa,fb,fc);
+  // Put the argument in a list of 1 element.
+  int x = 1;
+  auto lx = makeList1(x);
+  // star them together
+  auto res = lfc ^star^ lx;
+  // sum the result.
+  auto sumres = sum(res);
+  Serial << "(lfc ^star^ lx) : ( " << head(res) << " "
+            << head(tail(res)) << " "
+            << head(tail(tail(res))) << " ) : " << sumres << endl;
+  // These do work. This merits more attention
+  auto resa = a(x) + b(x);
+  auto fres = fa(x) + fb(x);
+  LambdaVar<3> F;
+  LambdaVar<4> G;
+  LambdaVar<5> H;
+  LambdaVar<6> J;
+  auto fgplus = lambda(F,G,X)[ F[X] %plus% G[X] ];
+  Serial << "====================================================="
+            << endl;
+  Serial << "A more general solution is to use an FC++ lambda." << endl;
+  Serial << "The lambda defers the plus until the results are known"
+            << endl;
+  Serial << "auto fgplus = lambda(F,G,X)[ F[X] %plus% G[X] ];" << endl;
+  Serial << "fgplus(a,b)(x)   : " << fgplus(a,b)(x) << endl;
+  Serial << "A more general lambda allows the choice of two parameter operators."
+            << endl;
+  auto fgh = lambda(F,G,H,X)[ F [G[X]][H[X]] ];
+  Serial << "auto fgh = lambda(F,G,H,X)[ F [G[X]][H[X]] ];" << endl;
+  Serial << "fgh(plus,a,b)(x)       : " << fgh(plus,a,b)(x) << endl;
+  Serial << "fgh(multiplies,a,b)(x) : " << fgh(multiplies,a,b)(x)
+            << endl;
+  auto fghj = lambda(F,G,H,J,X)[ F [ F [G[X]][H[X]] ] [J[X]] ];
+  Serial << "This approach can be extended to three functions." << endl;
+  Serial << "It gets messy because plus takes two arguments." << endl;
+  Serial << "F is applied to two results and again to add the third."
+            << endl;
+  Serial << "auto fghj = lambda(F,G,H,J,X)[ F [ F [G[X]][H[X]] ] [J[X]] ];"
+            << endl;
+  Serial << "fghj(plus,a,b,c)(x)       : "
+            << fghj(plus,a,b,c)(x) << endl;
+  Serial << "fghj(multiplies,a,b,c)(x) : "
+            << fghj(multiplies,a,b,c)(x) << endl;
+  Serial << "====================================================="
+            << endl;
+  auto lfg = lambda(F,G)[makeList[F,G] ];
+  // This will work only with monomorphic functoids.
+  auto test = lfg(fa,fb) ^star^ lx;
+  auto comp2 = compose2(plus,a,b)(1);
+  // dot2 is an alternative name.
+  auto comp2a = dot2(plus,a,b)(1);
+  // This does not look very natural.
+  // It has to be like this because of the currying operation.
+  // What is needed is (a !plus! b) where ! is some other symbol
+  // which can be overloaded.
+  auto comp2b = (plus ^dot2^ a)(b)(1);
+  // This works, wrapping the dot2 and plus together first.
+  auto dot2plus = dot2(plus);
+  auto dot2multiplies = dot2(multiplies);
+  Serial << "====================================================="
+            << endl;
+  Serial << "FC++ compose2 (dot2) does the same as fgh." << endl;
+  Serial << "dot2plus defines an operator to do a+b for functoids!"
+            << endl;
+  Serial << "dot2multiplies does a*b for functoids!"
+            << endl;
+  Serial << "auto dot2plus = dot2(plus);" << endl;
+  Serial << "auto dot2multiplies = dot2(multiplies);" << endl;
+  Serial << "This can also be done using a lambda" << endl;
+  Serial << "auto fdot2 = lambda(G,F,H,X)[ F [G[X]][H[X]] ];" << endl;
+  Serial << "The FC++ lambda gives the means to meet specific needs."
+            << endl;
+  Serial << "Use of auto makes it easy to store and pass lambda functions."
+            << endl;
+  Serial << "======================================================"
+            << endl;
+  auto comp2b1 = (a ^dot2plus^ b)(1);
+  Serial << "(a ^dot2plus^ b)(1) : " << comp2b1 << endl;
+  auto fdot2 = lambda(G,F,H,X)[ F [G[X]][H[X]] ];
+  auto comp2c = (a ^fdot2^ plus)(b)(1);
+  Serial << "(a ^fdot2^ plus)(b)(1) : " << comp2c << endl;
+  auto comp2d = (a ^fdot2^ multiplies)(b)(1);
+  auto comp2e = (a ^dot2multiplies^b)(1);
+  auto comp3 = compose2(multiplies,a,b)(1);
+  Serial << "(a ^fdot2^ multiplies)(b)(1) : " << comp2d << endl;
+  Serial << "(a ^dot2multiplies^ b)(1)    : " << comp2e << endl;
+  Serial << "FC++ compose2 does the same as fgh." << endl;
+  Serial << "compose2(plus,a,b)(1) : " << comp2 << endl;
+  Serial << "compose2(multiplies,a,b)(1) : " << comp3 << endl;
+  Serial << "======================================================"
+            << endl;
+  Serial << "Can I generalise this to form a reader monad?" << endl;
+  Serial << "What would that consist of?" << endl;
+  Serial << "I would need formulations for unit and bind." << endl;
+  Serial << "That would enable access to other things as well."
+            << endl;
+  Serial << "======================================================"
+            << endl;
 
 }
 
