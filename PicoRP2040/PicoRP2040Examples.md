@@ -4,7 +4,7 @@
 
 I will be converting some examples to work with the Pico RP2040.
 
-I would like to be able to use the equivalent of the Arduino Streaming library with the Pico code. I have not yet found a way to do this.
+I wanted to be able to use the equivalent of the Arduino Streaming library with the Pico code. I have now found a way to do this.
 
 ### PicoRP2040FCPP
 
