@@ -106,6 +106,21 @@ namespace fcpp {
 ///
 /// Following Monads in monad.h what I need first are the free functions.
 
+/// Infer structure from the equivalent for Monad in monad.h
+template <class Rep> struct ThisTypeIsNotAnInstanceOfAnInferrableMonoid {};
+template <class T> struct MonoidError { inline static void error() {} };
+template <class T>
+struct MonoidError<ThisTypeIsNotAnInstanceOfAnInferrableMonoid<T> > {};
+template <class Rep> struct MonoidTraitsSpecializer {
+   typedef ThisTypeIsNotAnInstanceOfAnInferrableMonoid<Rep> Monoid;
+};
+template <class Rep> struct MonoidTraits {
+   typedef typename MonoidTraitsSpecializer<Rep>::Monoid Monoid;
+   inline static void ensure_is_instance_of_monoid() {
+      MonoidError<Monoid>::error();
+   }
+};
+
 namespace impl {
 
    template <class Monoid>
@@ -175,6 +190,8 @@ Print &operator <<( Print &obj, const std::string &arg)
 /// (2) to have a constructor from a string.
 /// (3) to be able to output the string.
 struct Mstring {
+   template <class A> struct Rep { typedef Mstring Type; };
+   template <class MA> struct UnRep { typedef typename std::string Type; };
 private:
      std::string _string;
 public:
@@ -228,6 +245,10 @@ Print &operator <<( Print &obj, Mstring &arg)
     Serial << arg.get_string();
     return obj; 
 }
+
+template <> struct MonoidTraitsSpecializer<Mstring > {
+   typedef Mstring Monoid;
+};
 
 /// Parser monad which is based on the work of Hutton and Meijer.
 /// I have the paper.
@@ -1111,8 +1132,8 @@ void monoid_examples()
   Mstring ms1s2 = Mstring::mappend()(ms1,ms2);
   Serial << ms1s2 << endl;
   // More work is needed for this to work.
-  //Mstring ms2s1 = mappend(ms2,ms1);
-  //Serial << ms2s1 << endl;
+  Mstring ms2s1 = mappend(ms2,ms1);
+  Serial << ms2s1 << endl;
    
 }
 
