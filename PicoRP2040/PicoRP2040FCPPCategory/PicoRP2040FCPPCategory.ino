@@ -1106,11 +1106,14 @@ void monoid_examples()
   Serial << "======================================================"
             << endl;
   Mstring ms0;
-  Mstring ms1(std::string("one"));
+  Mstring ms1(std::string(" one"));
   Mstring ms2(std::string(" two"));
   Mstring ms1s2 = Mstring::mappend()(ms1,ms2);
   Serial << ms1s2 << endl;
-  
+  // More work is needed for this to work.
+  //Mstring ms2s1 = mappend(ms2,ms1);
+  //Serial << ms2s1 << endl;
+   
 }
 
 void setup() {
