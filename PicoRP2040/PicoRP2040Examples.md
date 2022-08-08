@@ -66,3 +66,6 @@ The usual implementations of these are in Haskell and I am using FC++ as a way o
 
 The work is easier now with modern C++17 than it was when the original FC++ work was done.
 
+I want to add some experimental Monoid implementation ideas.
+
+
