@@ -1132,7 +1132,7 @@ void monoid_examples()
   Mstring ms2(std::string(" two"));
   Mstring ms1s2 = Mstring::mappend()(ms1,ms2);
   Serial << ms1s2 << endl;
-  // More work is needed for this to work.
+  // This one now works.
   Mstring ms2s1 = mappend<Mstring>()(ms2,ms1);
   Serial << ms2s1 << endl;
   Mstring mtest = Mstring::mempty()();
