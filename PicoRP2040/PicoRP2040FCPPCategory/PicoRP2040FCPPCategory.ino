@@ -88,6 +88,99 @@ using namespace fcpp;
 typedef List<char> StringL;
 
 namespace fcpp {
+
+/// Monoid operations based on ideas from https://bartoszmilewski.com/2014/12/05/categories-great-and-small/
+/// and also from Learn You a Haskell for Great Good! p.252.
+///
+/// Haskell code:
+///
+/// class Monoid m where
+///    mempty  :: m
+///    mappend :: m -> m -> m
+///    mconcat :: [m] -> m
+///    mconcat = foldr mappend mempty
+///
+/// Note: mconcat is only in Learn You a Haskell for Great Good! p.252.
+///
+/// Following Monads in monad.h what I need first are the free functions.
+
+namespace impl {
+
+   template <class Monoid>
+   struct XMempty {
+      struct Sig : public CFunType<typename Monoid::MEmpty::Sig::ResultType> {};
+
+      typename Sig::ResultType
+      operator()() const {
+         return Monoid::mempty()();
+      }
+
+   };
+  /* This is for something with one argument.
+   template <class Monoid>
+   struct XMempty {
+      template <class A> struct Sig
+      : public FunType<A,typename Monoid::MEmpty::template Sig<A>::ResultType> {};
+
+      template <class A>
+      typename Sig<A>::ResultType
+      operator()( const A& a ) const {
+         return Monoid::mempty()(a);
+      }
+
+   };
+*/
+   template <class Monoid>
+   struct XMappend {
+
+      template <class A, class B> struct Sig;
+      // Force the monoids to have the same type
+      template <class A> struct Sig<A,A>
+      : public FunType<A,A,typename Monoid::Mappend::template Sig<A>::ResultType> {};
+
+      template <class A>
+      typename Sig<A,A>::ResultType
+      operator()( const A& a1 , const A& a2) const {
+         return Monoid::mappend()(a1,a2);
+      }
+
+ 
+   };
+
+}
+template <class Monoid> Full0<impl::XMempty<Monoid> > mempty()
+{ return makeFull0( impl::XMempty<Monoid>() ); }
+template <class Monoid> struct Mempty
+{ typedef Full0<impl::XMempty<Monoid> > Type; };
+template <class Monoid> Full2<impl::XMappend<Monoid> > mappend()
+{ return makeFull2( impl::XMappend<Monoid>() ); }
+template <class Monoid> struct Mappend
+{ typedef Full2<impl::XMappend<Monoid> > Type; };
+
+struct Mstring {
+
+    struct XMempty : public CFunType<std::string> {      
+      std::string operator()() const {
+         return std::string();
+      }
+    };
+    typedef Full0<XMempty> Mempty;
+    static Mempty& mempty() {static Mempty f; return f;}
+
+/*  This is for something with one argument.
+    struct XMempty {
+      template <class A> struct Sig : public FunType<A,std::string> {};
+      template <class A> 
+      typename Sig<A>::ResultType operator()( const A&) const {
+         return std::string();
+      }
+    };
+    typedef Full1<XMempty> Mempty;
+    static Mempty& mempty() {static Mempty f; return f;}
+*/
+
+};
+
 /// Parser monad which is based on the work of Hutton and Meijer.
 /// I have the paper.
 /// This is a translation of the Haskell in the paper into FC++
