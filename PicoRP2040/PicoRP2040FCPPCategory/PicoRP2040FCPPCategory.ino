@@ -125,8 +125,11 @@ namespace impl {
 
    template <class Monoid>
    struct XMempty {
+      //template <class A> struct Sig;
       //struct Sig : public CFunType<typename Monoid::Mempty::Sig::ResultType> {};
-      struct Sig : public CFunType<typename Monoid::Rep::Type> {};
+      //template <>
+      struct Sig /*: public FunType<typename Monoid::Rep::Type>*/ 
+       { typedef typename Monoid::Rep::Type ResultType; };
 
       typename Sig::ResultType
       operator()() const {
@@ -1137,7 +1140,7 @@ void monoid_examples()
   Serial << ms2s1 << endl;
   Mstring mtest = Mstring::mempty()();
   //Mstring mtest2 = mempty(); //There is nothing here to be able to infer the type.
-  //tring mtest2 = mempty<Mstring>()();
+  //Mstring mtest2 = mempty<Mstring>()(); // This does not work - reason not traced yet.
 }
 
 void setup() {
