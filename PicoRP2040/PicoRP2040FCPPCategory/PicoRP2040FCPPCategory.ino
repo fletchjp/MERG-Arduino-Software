@@ -157,6 +157,8 @@ template <class Monoid> Full2<impl::XMappend<Monoid> > mappend()
 template <class Monoid> struct Mappend
 { typedef Full2<impl::XMappend<Monoid> > Type; };
 
+/// A first construct for an instance of a Monoid.
+/// I also want to make other things e.g. List become Monoids as well.
 struct Mstring {
 
     struct XMempty : public CFunType<std::string> {      
