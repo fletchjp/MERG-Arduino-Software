@@ -159,6 +159,15 @@ template <class Monoid> Full2<impl::XMappend<Monoid> > mappend()
 template <class Monoid> struct Mappend
 { typedef Full2<impl::XMappend<Monoid> > Type; };
 
+
+
+Print &operator <<( Print &obj, const std::string &arg)
+{
+    Serial << arg.c_str();
+    return obj; 
+}
+
+
 /// A first construct for an instance of a Monoid.
 /// I also want to make other things e.g. List become Monoids as well.
 /// I think that this needs to be extended.
@@ -166,18 +175,30 @@ template <class Monoid> struct Mappend
 /// (2) to have a constructor from a string.
 /// (3) to be able to output the string.
 struct Mstring {
-
-    struct XMempty : public CFunType<std::string> {      
-      std::string operator()() const {
-         return std::string();
+private:
+     std::string _string;
+public:
+    // constructors 
+    Mstring() : _string(std::string()) { }
+    Mstring(const std::string &s) : _string(s) { }
+    Mstring(const Mstring& m) : _string(m._string) { } 
+    std::string operator()() const { return _string; }
+    std::string get_string() const { return _string; }
+    Mstring operator+ (const Mstring &a)
+    {
+      return Mstring(this->_string + a._string);
+    }
+    struct XMempty : public CFunType<Mstring> {      
+      Mstring operator()() const {
+         return Mstring();
       }
     };
     typedef Full0<XMempty> Mempty;
     static Mempty& mempty() {static Mempty f; return f;}
 
-    struct XMappend : public CFunType<std::string,std::string,std::string> {
-      std::string operator()(const std::string a,const std::string b) const {
-         return a + b;
+    struct XMappend : public CFunType<Mstring,Mstring,Mstring> {
+      Mstring operator()(const Mstring &a,const Mstring &b) const {
+         return Mstring( a + b );
       }
     };
     typedef Full2<XMappend> Mappend;
@@ -194,8 +215,19 @@ struct Mstring {
     typedef Full1<XMempty> Mempty;
     static Mempty& mempty() {static Mempty f; return f;}
 */
-
+friend Mstring operator+ (const Mstring &a,const Mstring &b);
 };
+
+Mstring operator+ (const Mstring &a,const Mstring &b)
+{
+   return Mstring(a._string + b._string);
+}
+
+Print &operator <<( Print &obj, Mstring &arg)
+{
+    Serial << arg.get_string();
+    return obj; 
+}
 
 /// Parser monad which is based on the work of Hutton and Meijer.
 /// I have the paper.
@@ -703,12 +735,6 @@ struct WriterM {
 
 }
 
-Print &operator <<( Print &obj, const std::string &arg)
-{
-    Serial << arg.c_str();
-    return obj; 
-}
-
 void category_examples()
 {
   Serial << "Without logging" << endl;
@@ -1080,10 +1106,10 @@ void monoid_examples()
   Serial << "======================================================"
             << endl;
   Mstring ms0;
-  std::string s1("one");
-  std::string s2(" two");
-  std::string s1s2 = Mstring::mappend()(s1,s2);
-  Serial << s1s2 << endl;
+  Mstring ms1(std::string("one"));
+  Mstring ms2(std::string(" two"));
+  Mstring ms1s2 = Mstring::mappend()(ms1,ms2);
+  Serial << ms1s2 << endl;
   
 }
 
