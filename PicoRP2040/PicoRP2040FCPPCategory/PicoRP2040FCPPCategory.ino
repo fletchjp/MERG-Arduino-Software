@@ -125,7 +125,8 @@ namespace impl {
 
    template <class Monoid>
    struct XMempty {
-      struct Sig : public CFunType<typename Monoid::MEmpty::Sig::ResultType> {};
+      //struct Sig : public CFunType<typename Monoid::Mempty::Sig::ResultType> {};
+      struct Sig : public CFunType<typename Monoid::Rep::Type> {};
 
       typename Sig::ResultType
       operator()() const {
@@ -153,7 +154,7 @@ namespace impl {
       template <class A, class B> struct Sig;
       // Force the monoids to have the same type
       template <class A> struct Sig<A,A>
-      : public FunType<A,A,typename Monoid::Mappend::template Sig<A>::ResultType> {};
+      : public FunType<A,A,typename Monoid::Mappend::template Sig<A,A>::ResultType> {};
 
       template <class A>
       typename Sig<A,A>::ResultType
@@ -190,8 +191,8 @@ Print &operator <<( Print &obj, const std::string &arg)
 /// (2) to have a constructor from a string.
 /// (3) to be able to output the string.
 struct Mstring {
-   template <class A> struct Rep { typedef Mstring Type; };
-   template <class MA> struct UnRep { typedef typename std::string Type; };
+   struct Rep { typedef Mstring Type; };
+   //struct UnRep { typedef typename std::string Type; };
 private:
      std::string _string;
 public:
@@ -1132,9 +1133,11 @@ void monoid_examples()
   Mstring ms1s2 = Mstring::mappend()(ms1,ms2);
   Serial << ms1s2 << endl;
   // More work is needed for this to work.
-  Mstring ms2s1 = mappend(ms2,ms1);
+  Mstring ms2s1 = mappend<Mstring>()(ms2,ms1);
   Serial << ms2s1 << endl;
-   
+  Mstring mtest = Mstring::mempty()();
+  //Mstring mtest2 = mempty(); //There is nothing here to be able to infer the type.
+  //tring mtest2 = mempty<Mstring>()();
 }
 
 void setup() {
