@@ -3,6 +3,8 @@
 // New example to look at code from category_fcpp.cpp
 // I have added a lot of the code and I have started to look at the examples.
 //////////////////////////////////////////////////////////////////////
+// First experiments with the Monoid structure is looking interesting.
+//////////////////////////////////////////////////////////////////////
 // File for developments following Bartosz Milewski's work
 // "Category Theory for Programmers" and related material
 //
@@ -159,6 +161,10 @@ template <class Monoid> struct Mappend
 
 /// A first construct for an instance of a Monoid.
 /// I also want to make other things e.g. List become Monoids as well.
+/// I think that this needs to be extended.
+/// (1) to provide for it to hold the string.
+/// (2) to have a constructor from a string.
+/// (3) to be able to output the string.
 struct Mstring {
 
     struct XMempty : public CFunType<std::string> {      
@@ -168,6 +174,14 @@ struct Mstring {
     };
     typedef Full0<XMempty> Mempty;
     static Mempty& mempty() {static Mempty f; return f;}
+
+    struct XMappend : public CFunType<std::string,std::string,std::string> {
+      std::string operator()(const std::string a,const std::string b) const {
+         return a + b;
+      }
+    };
+    typedef Full2<XMappend> Mappend;
+    static Mappend& mappend() {static Mappend f; return f;}
 
 /*  This is for something with one argument.
     struct XMempty {
@@ -1059,6 +1073,20 @@ void category_examples()
 
 }
 
+void monoid_examples()
+{
+  Serial << "Monoid examples"
+            << endl;
+  Serial << "======================================================"
+            << endl;
+  Mstring ms0;
+  std::string s1("one");
+  std::string s2(" two");
+  std::string s1s2 = Mstring::mappend()(s1,s2);
+  Serial << s1s2 << endl;
+  
+}
+
 void setup() {
   // put your setup code here, to run once:
   Serial.begin (115200);
@@ -1070,6 +1098,8 @@ void setup() {
   prove_a_point();
   Serial.println("--------------------------");
   category_examples();
+  Serial.println("--------------------------");
+  monoid_examples();
   //Serial.flush();
 }
 
