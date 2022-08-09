@@ -68,4 +68,7 @@ The work is easier now with modern C++17 than it was when the original FC++ work
 
 I want to add some experimental Monoid implementation ideas.
 
+This code now has examples of Monoid implementation including Mstream.
+
+This now includes the capability to infer the Monoid type.
 
