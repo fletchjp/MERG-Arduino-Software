@@ -128,8 +128,12 @@ template <class Rep> struct MonoidTraits {
 ///    mconcat :: [m] -> m
 //////////////////////////////////////////////////////////////////////
 /// mempty<Monoid>()();
+///
 /// mappend<Monoid>()(m1,m2);
+/// mmappend(m1,m2) - now inferrable for Mstring.
+///
 /// mconcat<Monoid>()(lm) where lm has the type List<Monoid>
+/// mmconcat(lm)        - now inferrable for Mstring.
 //////////////////////////////////////////////////////////////////////
 
 namespace impl {
@@ -197,6 +201,70 @@ template <class Monoid> Full1<impl::XMconcat<Monoid> > mconcat()
 template <class Monoid> struct Mconcat
 { typedef Full1<impl::XMconcat<Monoid> > Type; };
 
+////////////////////////////////////////////////////////////////////
+// The next thing is to attempt to infer mmappend(m1,m2)
+// based on bind in monad.h from line 206
+// I have now done mmconcat(lm) as well.
+////////////////////////////////////////////////////////////////////
+
+namespace impl {
+   template <bool b> struct AppendError {};
+   template <> struct AppendError<true> { static inline void error() {} };
+   template <class M, class K>
+   struct AppendHelper {
+      typedef typename MonoidTraits<M>::Monoid MonoidA;
+      //typedef typename MonadA::template UnRep<M>::Type A;
+      typedef typename MonoidA::Mappend::template Sig<M,K>::ResultType ResultType;
+      typedef typename MonoidTraits<ResultType>::Monoid MonoidB;
+      inline static void ensure_m_and_k_are_in_the_same_monoid_instance() {
+         AppendError<Conversion<MonoidA,MonoidB>::sameType>::error();
+      }
+   };
+   struct XMMappend {
+      template <class M, class K> struct Sig
+      : public FunType<M,K,typename AppendHelper<M,K>::ResultType> {};
+
+      template <class M, class K>
+      typename Sig<M,K>::ResultType
+      operator()( const M& m, const K& k ) const {
+         AppendHelper<M,K>::ensure_m_and_k_are_in_the_same_monoid_instance();
+         typedef typename AppendHelper<M,K>::MonoidA MM;
+         return MM::mappend()(m,k);
+      }
+
+   };
+   template <class L>
+   struct ConcatHelper {
+      //EnsureListLike<L>();
+      typedef typename L::ElementType M;
+      typedef typename MonoidTraits<M>::Monoid MonoidA;
+      //typedef typename MonadA::template UnRep<M>::Type A;
+      typedef typename MonoidA::Mconcat::template Sig<M>::ResultType ResultType;
+      typedef typename MonoidTraits<ResultType>::Monoid MonoidB;
+      inline static void ensure_m_and_k_are_in_the_same_monoid_instance() {
+         AppendError<Conversion<MonoidA,MonoidB>::sameType>::error();
+      }
+   };
+   struct XMMconcat {
+      template <class L> struct Sig
+      : public FunType<L,typename ConcatHelper<L>::ResultType> {};
+
+      template <class L>
+      typename Sig<L>::ResultType
+      operator()( const L& l ) const {
+         //AppendHelper<M,K>::ensure_m_and_k_are_in_the_same_monoid_instance();
+         typedef typename ConcatHelper<L>::MonoidA MM;
+         return MM::mconcat()(l);
+      }
+
+   };
+}
+typedef Full2<impl::XMMappend> MMappend;
+typedef Full1<impl::XMMconcat> MMconcat;
+FCPP_MAYBE_NAMESPACE_OPEN
+FCPP_MAYBE_EXTERN MMappend mmappend;
+FCPP_MAYBE_EXTERN MMconcat mmconcat;
+FCPP_MAYBE_NAMESPACE_CLOSE
 
 Print &operator <<( Print &obj, const std::string &arg)
 {
@@ -223,6 +291,9 @@ public:
     Mstring() : _string(std::string()) { }
     Mstring(const std::string &s) : _string(s) { }
     Mstring(const Mstring& m) : _string(m._string) { } 
+    Mstring operator= (const Mstring &a) {
+      _string = a._string; return *this;
+    }
     std::string operator()() const { return _string; }
     std::string get_string() const { return _string; }
     Mstring operator+ (const Mstring &a)
@@ -701,8 +772,8 @@ public:
 template <class F>
 class Writer {
 private:
-  Message m_;
   F f_;
+  Message m_;
 public:
   typedef F FType;
   template <class FF>
@@ -1170,19 +1241,25 @@ void monoid_examples()
   Mstring ms2(std::string(" two"));
   Mstring ms3(std::string(" three"));
   Mstring ms1s2 = Mstring::mappend()(ms1,ms2);
-  Serial << "mappend : " << ms1s2 << endl;
+  Serial << "mappend  : " << ms1s2 << endl;
   // This one now works.
   Mstring ms2s1 = mappend<Mstring>()(ms2,ms1);
-  Serial  << "mappend : "<< ms2s1 << endl;
+  Serial << "mappend  : "<< ms2s1 << endl;
+  Mstring ms2s3 = mmappend(ms2,ms3);
+  Serial << "mmappend : "<< ms2s3 << endl;
   Mstring mtest = Mstring::mempty()();
   Mstring mtest2 = mempty<Mstring>()(); // This does now work
   //Mstring mtest3  = impl::XMempty<Mstring>()(); // This does work.
   List<Mstring> lms = list_with(ms1,ms2,ms3);
+  //Mstring ms2lms = mmappend(ms2,lms);
   Mstring mres = Mstring::mconcat()(lms);
-  Serial << "mconcat : " << mres << endl;
+  Serial << "mconcat  : " << mres << endl;
   List<Mstring> lms2 = list_with(ms3,ms2,ms1);
   Mstring mres2 = mconcat<Mstring>()(lms2);
-  Serial << "mconcat : " << mres2 << endl;
+  Serial << "mconcat  : " << mres2 << endl;
+  List<Mstring> lms3 = list_with(ms3,ms1,ms2);
+  Mstring mres3 = mmconcat(lms3);
+  Serial << "mmconcat : " << mres3 << endl;
 }
 
 void setup() {
