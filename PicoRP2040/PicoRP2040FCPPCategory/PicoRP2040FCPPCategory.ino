@@ -202,7 +202,7 @@ template <class Monoid> struct Mconcat
 { typedef Full1<impl::XMconcat<Monoid> > Type; };
 
 ////////////////////////////////////////////////////////////////////
-// The next thing is to attempt to infer mmappend(m1,m2)
+// The next thing is to infer mmappend(m1,m2)
 // based on bind in monad.h from line 206
 // I have now done mmconcat(lm) as well.
 ////////////////////////////////////////////////////////////////////
