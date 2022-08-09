@@ -121,22 +121,27 @@ template <class Rep> struct MonoidTraits {
    }
 };
 
-namespace impl {
+// Take this out of namespace impl and rename it Mempty
 
    template <class Monoid>
-   struct XMempty {
+   struct Mempty {
+    using MonoidResult = typename Monoid::Rep::Type;
       //template <class A> struct Sig;
       //struct Sig : public CFunType<typename Monoid::Mempty::Sig::ResultType> {};
       //template <>
       struct Sig /*: public FunType<typename Monoid::Rep::Type>*/ 
-       { typedef typename Monoid::Rep::Type ResultType; };
+       { typedef MonoidResult ResultType; };
 
-      typename Sig::ResultType
+      //typename Sig::ResultType
+      MonoidResult
       operator()() const {
          return Monoid::mempty()();
       }
 
    };
+
+namespace impl {
+  
   /* This is for something with one argument.
    template <class Monoid>
    struct XMempty {
@@ -169,10 +174,17 @@ namespace impl {
    };
 
 }
+
+   // Do it this way as XMempty has no template parameter
+   //template <class Monoid>
+   //typedef typename Full0<template impl::XMempty<Monoid>> Mempty;
+   //static Mempty& mempty() { static Mempty f; return f; }
+/*
 template <class Monoid> Full0<impl::XMempty<Monoid> > mempty()
 { return makeFull0( impl::XMempty<Monoid>() ); }
 template <class Monoid> struct Mempty
 { typedef Full0<impl::XMempty<Monoid> > Type; };
+*/
 template <class Monoid> Full2<impl::XMappend<Monoid> > mappend()
 { return makeFull2( impl::XMappend<Monoid>() ); }
 template <class Monoid> struct Mappend
@@ -1141,6 +1153,10 @@ void monoid_examples()
   Mstring mtest = Mstring::mempty()();
   //Mstring mtest2 = mempty(); //There is nothing here to be able to infer the type.
   //Mstring mtest2 = mempty<Mstring>()(); // This does not work - reason not traced yet.
+  Mstring mtest3 = fcpp::Mempty<Mstring>()(); // This does work.
+  auto mspecial = makeFull0( Mempty<Mstring>() );
+  //Mstring mtest4 = mspecial()();
+  auto what = construct0<int>()();
 }
 
 void setup() {
