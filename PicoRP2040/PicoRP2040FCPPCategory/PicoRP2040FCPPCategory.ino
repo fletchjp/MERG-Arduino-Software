@@ -122,26 +122,25 @@ template <class Rep> struct MonoidTraits {
 };
 
 // Take this out of namespace impl and rename it Mempty
+namespace impl {
 
    template <class Monoid>
-   struct Mempty {
+   struct XMempty : public CFunType<typename Monoid::Rep::Type> {
     using MonoidResultType = typename Monoid::Rep::Type;
-      //template <class A> struct Sig;
-      // struct Sig : public CFunType<typename Monoid::Mempty::Sig::ResultType> {};
-      struct Sig : public CFunType<MonoidResultType> {};
-      // struct Sig : public CFunType<RT<Monoid>::ResultType> {};
-      //template <>
-      //struct Sig /*: public FunType<typename Monoid::Rep::Type>*/ 
-      // { typedef MonoidResult ResultType; };
-
-      //typename Sig::ResultType
-      MonoidResultType
+       MonoidResultType
       operator()() const {
          return Monoid::mempty()();
       }
 
    };
 
+}
+
+
+//template <class Monoid>
+//typedef Full0<impl::XMempty<Monoid>> Mempty;
+//Mempty mempty;
+   
 namespace impl {
   
   /* This is for something with one argument.
@@ -177,16 +176,12 @@ namespace impl {
 
 }
 
-   // Do it this way as XMempty has no template parameter
-   //template <class Monoid>
-   //typedef typename Full0<template impl::XMempty<Monoid>> Mempty;
-   //static Mempty& mempty() { static Mempty f; return f; }
-/*
+/* This did not work. */
 template <class Monoid> Full0<impl::XMempty<Monoid> > mempty()
 { return makeFull0( impl::XMempty<Monoid>() ); }
 template <class Monoid> struct Mempty
 { typedef Full0<impl::XMempty<Monoid> > Type; };
-*/
+
 template <class Monoid> Full2<impl::XMappend<Monoid> > mappend()
 { return makeFull2( impl::XMappend<Monoid>() ); }
 template <class Monoid> struct Mappend
@@ -1153,12 +1148,9 @@ void monoid_examples()
   Mstring ms2s1 = mappend<Mstring>()(ms2,ms1);
   Serial << ms2s1 << endl;
   Mstring mtest = Mstring::mempty()();
-  //Mstring mtest2 = mempty(); //There is nothing here to be able to infer the type.
-  //Mstring mtest2 = mempty<Mstring>()(); // This does not work - reason not traced yet.
-  Mstring mtest3  = Mempty<Mstring>()(); // This does work.
-  //auto mspecial = makeFull0( Mempty<Mstring>() );
-  //Mstring mtest4 = mspecial()();
-  auto what = construct0<int>()();
+  Mstring mtest2 = mempty<Mstring>()(); // This does now work
+  Mstring mtest3  = impl::XMempty<Mstring>()(); // This does work.
+  //auto what = construct0<int>()();
 }
 
 void setup() {
