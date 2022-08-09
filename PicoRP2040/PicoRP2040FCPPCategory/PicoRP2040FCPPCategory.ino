@@ -121,9 +121,20 @@ template <class Rep> struct MonoidTraits {
    }
 };
 
-// Take this out of namespace impl and rename it Mempty
-namespace impl {
+//////////////////////////////////////////////////////////////////////
+/// Free functions for Monoids
+///    mempty  :: m
+///    mappend :: m -> m -> m
+//////////////////////////////////////////////////////////////////////
+/// mempty<Monoid>()();
+/// mappend<Monoid>()(m1,m2);
+//////////////////////////////////////////////////////////////////////
 
+namespace impl {
+   // It has been a struggle to get this one correct.
+   // I have used the example of IntZero in prelude.h line 3947 as a basis.
+   // The problem is that it is unlike other cases as there is no template argument for Sig.
+   // I now have a basis for further Monoid examples.
    template <class Monoid>
    struct XMempty : public CFunType<typename Monoid::Rep::Type> {
     using MonoidResultType = typename Monoid::Rep::Type;
@@ -134,29 +145,6 @@ namespace impl {
 
    };
 
-}
-
-
-//template <class Monoid>
-//typedef Full0<impl::XMempty<Monoid>> Mempty;
-//Mempty mempty;
-   
-namespace impl {
-  
-  /* This is for something with one argument.
-   template <class Monoid>
-   struct XMempty {
-      template <class A> struct Sig
-      : public FunType<A,typename Monoid::MEmpty::template Sig<A>::ResultType> {};
-
-      template <class A>
-      typename Sig<A>::ResultType
-      operator()( const A& a ) const {
-         return Monoid::mempty()(a);
-      }
-
-   };
-*/
    template <class Monoid>
    struct XMappend {
 
@@ -173,10 +161,26 @@ namespace impl {
 
  
    };
+  
+  /* This is for something with one argument.
+   * I am starting to look at Mconcat.
+   template <class Monoid>
+   struct Xconcat {
+      template <class A> struct Sig
+      : public FunType<A,typename Monoid::MEmpty::template Sig<A>::ResultType> {};
+
+      template <class A>
+      typename Sig<A>::ResultType
+      operator()( const A& a ) const {
+         return Monoid::mconcat()(a);
+      }
+
+   };
+*/
+
 
 }
 
-/* This did not work. */
 template <class Monoid> Full0<impl::XMempty<Monoid> > mempty()
 { return makeFull0( impl::XMempty<Monoid>() ); }
 template <class Monoid> struct Mempty
@@ -196,9 +200,10 @@ Print &operator <<( Print &obj, const std::string &arg)
 }
 
 
+//////////////////////////////////////////////////////////////////////
 /// A first construct for an instance of a Monoid.
 /// I also want to make other things e.g. List become Monoids as well.
-/// I think that this needs to be extended.
+/// This has been extended.
 /// (1) to provide for it to hold the string.
 /// (2) to have a constructor from a string.
 /// (3) to be able to output the string.
@@ -234,17 +239,18 @@ public:
     typedef Full2<XMappend> Mappend;
     static Mappend& mappend() {static Mappend f; return f;}
 
-/*  This is for something with one argument.
-    struct XMempty {
+/*  This is for something with one argument e.g. mconcat.
+    struct XMconcat {
       template <class A> struct Sig : public FunType<A,std::string> {};
       template <class A> 
       typename Sig<A>::ResultType operator()( const A&) const {
          return std::string();
       }
     };
-    typedef Full1<XMempty> Mempty;
-    static Mempty& mempty() {static Mempty f; return f;}
+    typedef Full1<XMempty> Mconcat;
+    static Mempty& mempty() {static Mconcat f; return f;}
 */
+
 friend Mstring operator+ (const Mstring &a,const Mstring &b);
 };
 
