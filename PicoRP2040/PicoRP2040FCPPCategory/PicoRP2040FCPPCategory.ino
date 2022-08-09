@@ -1163,17 +1163,18 @@ void monoid_examples()
   Mstring ms0;
   Mstring ms1(std::string(" one"));
   Mstring ms2(std::string(" two"));
+  Mstring ms3(std::string(" three"));
   Mstring ms1s2 = Mstring::mappend()(ms1,ms2);
-  Serial << ms1s2 << endl;
+  Serial << "mappend : " << ms1s2 << endl;
   // This one now works.
   Mstring ms2s1 = mappend<Mstring>()(ms2,ms1);
-  Serial << ms2s1 << endl;
+  Serial  << "mappend : "<< ms2s1 << endl;
   Mstring mtest = Mstring::mempty()();
   Mstring mtest2 = mempty<Mstring>()(); // This does now work
   //Mstring mtest3  = impl::XMempty<Mstring>()(); // This does work.
-  List<Mstring> lms = list_with(ms1,ms2);
+  List<Mstring> lms = list_with(ms1,ms2,ms3);
   Mstring mres = Mstring::mconcat()(lms);
-  Serial << mres << endl;
+  Serial << "mconcat : " << mres << endl;
 }
 
 void setup() {
