@@ -1156,7 +1156,6 @@ void monoid_examples()
   Mstring mtest = Mstring::mempty()();
   Mstring mtest2 = mempty<Mstring>()(); // This does now work
   Mstring mtest3  = impl::XMempty<Mstring>()(); // This does work.
-  //auto what = construct0<int>()();
 }
 
 void setup() {
