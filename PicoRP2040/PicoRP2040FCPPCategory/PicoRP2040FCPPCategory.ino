@@ -200,6 +200,7 @@ Print &operator <<( Print &obj, const std::string &arg)
 }
 
 
+
 //////////////////////////////////////////////////////////////////////
 /// A first construct for an instance of a Monoid.
 /// I also want to make other things e.g. List become Monoids as well.
@@ -239,20 +240,34 @@ public:
     typedef Full2<XMappend> Mappend;
     static Mappend& mappend() {static Mappend f; return f;}
 
-/*  This is for something with one argument e.g. mconcat.
     struct XMconcat {
-      template <class A> struct Sig : public FunType<A,std::string> {};
-      template <class A> 
-      typename Sig<A>::ResultType operator()( const A&) const {
-         return std::string();
+      template <class L> struct Sig : public FunType<L,Mstring> {};
+      template <class L> 
+      typename Sig<L>::ResultType operator()( const L& l) const {
+         EnsureListLike<L>();
+         L ltail = l;
+         Mstring res = Mstring();
+         while (!null(ltail)) {
+            res = XMconcatHelper(res,ltail);
+            ltail = tail(ltail);
+         }
+         return res;
       }
     };
-    typedef Full1<XMempty> Mconcat;
-    static Mempty& mempty() {static Mconcat f; return f;}
-*/
+    typedef Full1<XMconcat> Mconcat;
+    static Mconcat& mconcat() {static Mconcat f; return f;}
 
-friend Mstring operator+ (const Mstring &a,const Mstring &b);
+
+    friend Mstring operator+ (const Mstring &a,const Mstring &b);
 };
+
+/*  This is for something with one argument e.g. mconcat. */
+    template <class L> Mstring XMconcatHelper(const Mstring &m, const L& l)
+    {
+       if (null(l)) return m;
+       else return Mstring::mappend()(m,l.head()); 
+    }
+
 
 Mstring operator+ (const Mstring &a,const Mstring &b)
 {
@@ -1155,7 +1170,10 @@ void monoid_examples()
   Serial << ms2s1 << endl;
   Mstring mtest = Mstring::mempty()();
   Mstring mtest2 = mempty<Mstring>()(); // This does now work
-  Mstring mtest3  = impl::XMempty<Mstring>()(); // This does work.
+  //Mstring mtest3  = impl::XMempty<Mstring>()(); // This does work.
+  List<Mstring> lms = list_with(ms1,ms2);
+  Mstring mres = Mstring::mconcat()(lms);
+  Serial << mres << endl;
 }
 
 void setup() {
