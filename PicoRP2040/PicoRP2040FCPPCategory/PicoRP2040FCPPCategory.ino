@@ -125,15 +125,17 @@ template <class Rep> struct MonoidTraits {
 
    template <class Monoid>
    struct Mempty {
-    using MonoidResult = typename Monoid::Rep::Type;
+    using MonoidResultType = typename Monoid::Rep::Type;
       //template <class A> struct Sig;
-      //struct Sig : public CFunType<typename Monoid::Mempty::Sig::ResultType> {};
+      // struct Sig : public CFunType<typename Monoid::Mempty::Sig::ResultType> {};
+      struct Sig : public CFunType<MonoidResultType> {};
+      // struct Sig : public CFunType<RT<Monoid>::ResultType> {};
       //template <>
-      struct Sig /*: public FunType<typename Monoid::Rep::Type>*/ 
-       { typedef MonoidResult ResultType; };
+      //struct Sig /*: public FunType<typename Monoid::Rep::Type>*/ 
+      // { typedef MonoidResult ResultType; };
 
       //typename Sig::ResultType
-      MonoidResult
+      MonoidResultType
       operator()() const {
          return Monoid::mempty()();
       }
@@ -1153,8 +1155,8 @@ void monoid_examples()
   Mstring mtest = Mstring::mempty()();
   //Mstring mtest2 = mempty(); //There is nothing here to be able to infer the type.
   //Mstring mtest2 = mempty<Mstring>()(); // This does not work - reason not traced yet.
-  Mstring mtest3 = fcpp::Mempty<Mstring>()(); // This does work.
-  auto mspecial = makeFull0( Mempty<Mstring>() );
+  Mstring mtest3  = Mempty<Mstring>()(); // This does work.
+  //auto mspecial = makeFull0( Mempty<Mstring>() );
   //Mstring mtest4 = mspecial()();
   auto what = construct0<int>()();
 }
