@@ -125,9 +125,11 @@ template <class Rep> struct MonoidTraits {
 /// Free functions for Monoids
 ///    mempty  :: m
 ///    mappend :: m -> m -> m
+///    mconcat :: [m] -> m
 //////////////////////////////////////////////////////////////////////
 /// mempty<Monoid>()();
 /// mappend<Monoid>()(m1,m2);
+/// mconcat<Monoid>()(lm) where lm has the type List<Monoid>
 //////////////////////////////////////////////////////////////////////
 
 namespace impl {
@@ -163,21 +165,19 @@ namespace impl {
    };
   
   /* This is for something with one argument.
-   * I am starting to look at Mconcat.
+   * I am starting to look at Mconcat. */
    template <class Monoid>
-   struct Xconcat {
-      template <class A> struct Sig
-      : public FunType<A,typename Monoid::MEmpty::template Sig<A>::ResultType> {};
+   struct XMconcat {
+      template <class L> struct Sig
+      : public FunType<L,typename Monoid::Mconcat::template Sig<L>::ResultType> {};
 
-      template <class A>
-      typename Sig<A>::ResultType
-      operator()( const A& a ) const {
-         return Monoid::mconcat()(a);
+      template <class L>
+      typename Sig<L>::ResultType
+      operator()( const L& l ) const {
+         return Monoid::mconcat()(l);
       }
 
    };
-*/
-
 
 }
 
@@ -191,6 +191,11 @@ template <class Monoid> Full2<impl::XMappend<Monoid> > mappend()
 template <class Monoid> struct Mappend
 { typedef Full2<impl::XMappend<Monoid> > Type; };
 
+
+template <class Monoid> Full1<impl::XMconcat<Monoid> > mconcat()
+{ return makeFull1( impl::XMconcat<Monoid>() ); }
+template <class Monoid> struct Mconcat
+{ typedef Full1<impl::XMconcat<Monoid> > Type; };
 
 
 Print &operator <<( Print &obj, const std::string &arg)
@@ -1175,6 +1180,9 @@ void monoid_examples()
   List<Mstring> lms = list_with(ms1,ms2,ms3);
   Mstring mres = Mstring::mconcat()(lms);
   Serial << "mconcat : " << mres << endl;
+  List<Mstring> lms2 = list_with(ms3,ms2,ms1);
+  Mstring mres2 = mconcat<Mstring>()(lms2);
+  Serial << "mconcat : " << mres2 << endl;
 }
 
 void setup() {
