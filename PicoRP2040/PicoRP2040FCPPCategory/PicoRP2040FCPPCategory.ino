@@ -425,9 +425,19 @@ struct Mlist : public List<T> {
     typedef Full0<XMempty> Mempty;
     static Mempty& mempty() {static Mempty f; return f;}
 
-    struct XMappend : public FunType<Mlist<T>,Mlist<T>,Mlist<T>> {
+    struct XMappend {
+       /*public FunType<Mlist<T>,Mlist<T>,Mlist<T>> { */ 
+      //template <class A, class B> struct Sig;
+      // Force the monoids to have the same type
+      //template <class A> struct Sig<A,A>
+      //: public FunType<A,A,typename Monoid::Mappend::template Sig<A,A>::ResultType> {};
+
+      template<class A,class B> struct Sig;
+      template <class A>
+      struct Sig<A,A> : public FunType<A,A,A> {};
+
       Mlist<T> operator()(const Mlist<T> &a,const Mlist<T> &b) const {
-         return Mlist<T>(fcpp::concat( a , b ));
+         return Mlist<T>(cons( head(a) , head(b) ));
       }
     };
     typedef Full2<XMappend> Mappend;
@@ -438,6 +448,19 @@ struct Mlist : public List<T> {
 template <class T> struct MonoidTraitsSpecializer<Mlist<T> > {
    typedef Mlist<T> Monoid;
 };
+
+template <class T>
+Print &operator << ( Print &obj, const Mlist<T> &arg)
+{
+    Serial << "[ ";
+    for (auto i = arg.begin(); i != arg.end(); ++i)
+    {
+        Serial << *i << " ";
+    }
+    Serial << "]";
+    return obj; 
+}
+
 
 /// Parser monad which is based on the work of Hutton and Meijer.
 /// I have the paper.
@@ -1330,12 +1353,12 @@ void monoid_examples()
   Mstring mtest2 = mempty<Mstring>()(); // This does now work
   //Mstring mtest3  = impl::XMempty<Mstring>()(); // This does work.
   List<Mstring> lms = list_with(ms1,ms2,ms3);
-    Serial << "[ ";
+/*    Serial << "[ ";
     for (auto i = lms.begin(); i != lms.end(); ++i)
     {
         Serial << (*i).get_string() << " ";
     }
-    Serial << "]" << endl;
+    Serial << "]" << endl; */
   Serial << lms << endl;
   //Mstring ms2lms = mmappend(ms2,lms);
   Mstring mres = Mstring::mconcat()(lms);
@@ -1349,15 +1372,19 @@ void monoid_examples()
   Serial << "======================================================"
             << endl;
   Mlist<int> ml0;
-  Mlist<int> ml1 = list_with(1,2);
-    Serial << "[ ";
+  Mlist<int> ml12 = list_with(1,2);
+/*    Serial << "[ ";
     for (auto i = ml1.begin(); i != ml1.end(); ++i)
     {
         Serial << *i << " ";
     }
     Serial << "]" << endl;
-
-  Serial << ml1 << endl;
+*/
+  Serial << ml12 << endl;
+  Mlist<int> ml34 = list_with(3,4);
+  Serial << ml34 << endl;
+  //Mlist<int> ml1234 = Mlist<int>::mappend()(ml12,ml34);
+  //Serial << ml1234 << endl;
 }
 
 void setup() {
