@@ -413,7 +413,8 @@ struct Mlist : public List<T> {
     Mlist()  : List<T>() { }
     Mlist(const List<T>&l)  : List<T>(l) { }
     Mlist(const Mlist<T>&m) {
-       List<T>::operator=(m);
+       //List<T>::operator=(m);
+       *this = m;
     } 
     Mlist<T> &operator= (const Mlist<T> &a) {
        List<T>::operator=(a); return *this;
@@ -442,7 +443,10 @@ struct Mlist : public List<T> {
       struct Sig<A,A> : public FunType<A,A,A> {};
 
       Mlist<T> operator()(const Mlist<T> &a,const Mlist<T> &b) const {
-         return Mlist<T>(cons( head(a) , head(b) ));
+          List<Mlist<T>> lm;
+          lm = cons(a,lm);
+          lm = snoc(b,lm);
+          return Mlist<T>(concat( lm ));
       }
     };
     typedef Full2<XMappend> Mappend;
@@ -1388,20 +1392,30 @@ void monoid_examples()
   Serial << ml12 << endl;
   Mlist<int> ml34 = list_with(3,4);
   Serial << ml34 << endl;
+  Mlist<int> ml34a = ml34;  // Copy from Mlist<T>
+  Serial << ml34a << endl;
   List<Mlist<int>> lm;
-  //lm = cons(ml12,lm);
-  //lm = snoc(ml34,lm);
-  //List<int>  l1234 = concat(lm);
-  //Serial << l1234 << endl;
+  lm = cons(ml12,lm);
+  lm = snoc(ml34,lm);
+  Serial << lm << endl;
+  List<int>  l1234 = concat(lm);
+  Serial << l1234 << endl;
+  List<int>  ml1234 = l1234; // Copy from List<T>
+  Serial << ml1234 << endl;
   List<int> l56 = list_with(5,6);
+  Serial << l56 << endl;
+  Mlist<int> ml56 = l56; // Copy from List<T>
+  Serial << ml56 << endl;
   List<int> l78 = list_with(7,8);
   List<List<int>> ll;
   ll = cons(l56,ll);
   ll = snoc(l78,ll);
   List<int> l5678 = concat(ll);
   Serial << l5678 << endl;
-  //Mlist<int> ml1234 = Mlist<int>::mappend()(ml12,ml34);
-  //Serial << ml1234 << endl;
+  Mlist<int> ml1234a = Mlist<int>::mappend()(ml12,ml34);
+  Serial << "Mlist<int>::mappend()(ml12,ml34) = " << ml1234a << endl;
+  Mlist<int> ml1234b = mappend<Mlist<int>>()(ml12,ml34);
+  Serial << "mappend<Mlist<int>>()(ml12,ml34) = " << ml1234b << endl;
 }
 
 void setup() {
@@ -1417,6 +1431,7 @@ void setup() {
   category_examples();
   Serial.println("--------------------------");
   monoid_examples();
+  Serial.println("--------------------------");
   //Serial.flush();
 }
 
