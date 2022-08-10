@@ -412,11 +412,16 @@ struct Mlist : public List<T> {
    struct Rep { typedef Mlist<T> Type; };
     Mlist()  : List<T>() { }
     Mlist(const List<T>&l)  : List<T>(l) { }
-    Mlist(const Mlist<T>&m) { *this = m; } 
-    Mlist operator= (const Mlist<T> &a) {
-      *this = a;
+    Mlist(const Mlist<T>&m) {
+       List<T>::operator=(m);
+    } 
+    Mlist<T> &operator= (const Mlist<T> &a) {
+       List<T>::operator=(a); return *this;
     }
-
+    Mlist<T> &operator= (const List<T> &a) {
+       List<T>::operator=(a); return *this;
+       return *this;
+    }
     struct XMempty : public CFunType<Mlist<T> > {      
       Mstring operator()() const {
          return Mlist<T>();
@@ -1384,10 +1389,10 @@ void monoid_examples()
   Mlist<int> ml34 = list_with(3,4);
   Serial << ml34 << endl;
   List<Mlist<int>> lm;
-  lm = cons(ml12,lm);
-  lm = snoc(ml34,lm);
-  List<int>  l1234 = concat(lm);
-  Serial << l1234 << endl;
+  //lm = cons(ml12,lm);
+  //lm = snoc(ml34,lm);
+  //List<int>  l1234 = concat(lm);
+  //Serial << l1234 << endl;
   List<int> l56 = list_with(5,6);
   List<int> l78 = list_with(7,8);
   List<List<int>> ll;
