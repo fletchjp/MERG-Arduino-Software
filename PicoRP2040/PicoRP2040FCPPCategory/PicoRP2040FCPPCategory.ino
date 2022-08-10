@@ -4,6 +4,7 @@
 // I have added a lot of the code and I have started to look at the examples.
 //////////////////////////////////////////////////////////////////////
 // First experiments with the Monoid structure is looking interesting.
+// Idea: use CRTP to implement a Monoid for List<T>.
 //////////////////////////////////////////////////////////////////////
 // File for developments following Bartosz Milewski's work
 // "Category Theory for Programmers" and related material
@@ -82,6 +83,7 @@
 
 
 #include <Streaming.h>
+//#include "printops.h"
 
 using namespace fcpp;
 
@@ -273,7 +275,6 @@ Print &operator <<( Print &obj, const std::string &arg)
 }
 
 
-
 //////////////////////////////////////////////////////////////////////
 /// A first construct for an instance of a Monoid.
 /// I also want to make other things e.g. List become Monoids as well.
@@ -356,8 +357,61 @@ Print &operator <<( Print &obj, Mstring &arg)
     return obj; 
 }
 
+
+
 template <> struct MonoidTraitsSpecializer<Mstring > {
    typedef Mstring Monoid;
+};
+
+//#include "printops.h"
+
+/*
+template <class T>
+Print &operator << ( Print &obj, const List<T> &arg)
+{
+    Serial << "[ ";
+    for (auto i = arg.begin(); i != arg.end(); ++i)
+    {
+        Serial << *i << " " << endl;
+    }
+    Serial << "]";
+    return obj; 
+}
+*/
+
+//////////////////////////////////////////////////////////////////////
+/// A construct for an instance of a Monoid based on List<T>.
+/////////////////////////////////////////////////////////////////////
+template <class T>
+struct Mlist : public List<T> {
+   struct Rep { typedef Mlist<T> Type; };
+    Mlist()  : List<T>() { }
+    Mlist(const List<T>&l)  : List<T>(l) { }
+    Mlist(const Mlist<T>&m) { *this = m; } 
+    Mlist operator= (const Mlist<T> &a) {
+      *this = a;
+    }
+
+    struct XMempty : public CFunType<Mlist<T> > {      
+      Mstring operator()() const {
+         return Mlist<T>();
+      }
+    };
+    typedef Full0<XMempty> Mempty;
+    static Mempty& mempty() {static Mempty f; return f;}
+
+    struct XMappend : public FunType<Mlist<T>,Mlist<T>,Mlist<T>> {
+      Mlist<T> operator()(const Mlist<T> &a,const Mlist<T> &b) const {
+         return Mlist<T>(fcpp::concat( a , b ));
+      }
+    };
+    typedef Full2<XMappend> Mappend;
+    static Mappend& mappend() {static Mappend f; return f;}
+
+};
+
+template <class T> struct MonoidTraitsSpecializer<Mlist<T> > {
+   typedef Mlist<T> Monoid;
 };
 
 /// Parser monad which is based on the work of Hutton and Meijer.
@@ -1251,6 +1305,7 @@ void monoid_examples()
   Mstring mtest2 = mempty<Mstring>()(); // This does now work
   //Mstring mtest3  = impl::XMempty<Mstring>()(); // This does work.
   List<Mstring> lms = list_with(ms1,ms2,ms3);
+  Serial << lms << endl;
   //Mstring ms2lms = mmappend(ms2,lms);
   Mstring mres = Mstring::mconcat()(lms);
   Serial << "mconcat  : " << mres << endl;
@@ -1260,6 +1315,11 @@ void monoid_examples()
   List<Mstring> lms3 = list_with(ms3,ms1,ms2);
   Mstring mres3 = mmconcat(lms3);
   Serial << "mmconcat : " << mres3 << endl;
+  Serial << "======================================================"
+            << endl;
+  Mlist<int> ml0;
+  Mlist<int> ml1 = list_with(1,2);
+  Serial << ml1 << endl;
 }
 
 void setup() {
