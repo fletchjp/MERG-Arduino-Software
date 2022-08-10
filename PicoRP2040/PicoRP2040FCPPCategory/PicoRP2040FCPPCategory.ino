@@ -365,7 +365,8 @@ template <> struct MonoidTraitsSpecializer<Mstring > {
 
 //#include "printops.h"
 
-/*
+
+
 template <class T>
 Print &operator << ( Print &obj, const List<T> &arg)
 {
@@ -377,7 +378,19 @@ Print &operator << ( Print &obj, const List<T> &arg)
     Serial << "]";
     return obj; 
 }
-*/
+
+template <>
+Print &operator << ( Print &obj, const List<Mstring> &arg)
+{
+    Serial << "[ ";
+    for (auto i = arg.begin(); i != arg.end(); ++i)
+    {
+        Serial << (*i).get_string() << " " << endl;
+    }
+    Serial << "]";
+    return obj; 
+}
+
 
 //////////////////////////////////////////////////////////////////////
 /// A construct for an instance of a Monoid based on List<T>.
@@ -1305,6 +1318,12 @@ void monoid_examples()
   Mstring mtest2 = mempty<Mstring>()(); // This does now work
   //Mstring mtest3  = impl::XMempty<Mstring>()(); // This does work.
   List<Mstring> lms = list_with(ms1,ms2,ms3);
+    Serial << "[ ";
+    for (auto i = lms.begin(); i != lms.end(); ++i)
+    {
+        Serial << (*i).get_string() << " " << endl;
+    }
+    Serial << "]";
   Serial << lms << endl;
   //Mstring ms2lms = mmappend(ms2,lms);
   Mstring mres = Mstring::mconcat()(lms);
@@ -1319,6 +1338,13 @@ void monoid_examples()
             << endl;
   Mlist<int> ml0;
   Mlist<int> ml1 = list_with(1,2);
+    Serial << "[ ";
+    for (auto i = ml1.begin(); i != ml1.end(); ++i)
+    {
+        Serial << *i << " " << endl;
+    }
+    Serial << "]";
+
   Serial << ml1 << endl;
 }
 
