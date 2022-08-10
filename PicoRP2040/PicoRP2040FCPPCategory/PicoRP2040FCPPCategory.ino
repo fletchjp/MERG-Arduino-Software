@@ -4,7 +4,8 @@
 // I have added a lot of the code and I have started to look at the examples.
 //////////////////////////////////////////////////////////////////////
 // First experiments with the Monoid structure is looking interesting.
-// Idea: use CRTP to implement a Monoid for List<T>.
+// Idea: use inheritance from List<T> to implement a Monoid for List<T>.
+// This is now working.
 //////////////////////////////////////////////////////////////////////
 // File for developments following Bartosz Milewski's work
 // "Category Theory for Programmers" and related material
