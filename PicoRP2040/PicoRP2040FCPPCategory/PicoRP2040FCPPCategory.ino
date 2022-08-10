@@ -1383,6 +1383,18 @@ void monoid_examples()
   Serial << ml12 << endl;
   Mlist<int> ml34 = list_with(3,4);
   Serial << ml34 << endl;
+  List<Mlist<int>> lm;
+  lm = cons(ml12,lm);
+  lm = snoc(ml34,lm);
+  List<int>  l1234 = concat(lm);
+  Serial << l1234 << endl;
+  List<int> l56 = list_with(5,6);
+  List<int> l78 = list_with(7,8);
+  List<List<int>> ll;
+  ll = cons(l56,ll);
+  ll = snoc(l78,ll);
+  List<int> l5678 = concat(ll);
+  Serial << l5678 << endl;
   //Mlist<int> ml1234 = Mlist<int>::mappend()(ml12,ml34);
   //Serial << ml1234 << endl;
 }
