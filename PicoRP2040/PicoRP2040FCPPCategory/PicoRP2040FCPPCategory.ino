@@ -452,6 +452,17 @@ struct Mlist : public List<T> {
     typedef Full2<XMappend> Mappend;
     static Mappend& mappend() {static Mappend f; return f;}
 
+    struct XMconcat {
+      template <class L> struct Sig : public FunType<L,Mlist<T>> {};
+      template <class L> 
+      typename Sig<L>::ResultType operator()( const L& l) const {
+         EnsureListLike<L>();
+         return Mlist<T>(concat( l ));
+      }
+    };
+    typedef Full1<XMconcat> Mconcat;
+    static Mconcat& mconcat() {static Mconcat f; return f;}
+
 };
 
 template <class T> struct MonoidTraitsSpecializer<Mlist<T> > {
@@ -1407,15 +1418,31 @@ void monoid_examples()
   Mlist<int> ml56 = l56; // Copy from List<T>
   Serial << ml56 << endl;
   List<int> l78 = list_with(7,8);
+  Mlist<int> ml78 = l78; // Copy from List<T>
   List<List<int>> ll;
   ll = cons(l56,ll);
   ll = snoc(l78,ll);
   List<int> l5678 = concat(ll);
   Serial << l5678 << endl;
+  Serial << "======================================================"
+            << endl;
+  Serial << "Monoid operations mmappend and mmconcat on Mlist<T>" << endl;
+  Serial << "======================================================"
+            << endl;  
   Mlist<int> ml1234a = Mlist<int>::mappend()(ml12,ml34);
   Serial << "Mlist<int>::mappend()(ml12,ml34) = " << ml1234a << endl;
   Mlist<int> ml1234b = mappend<Mlist<int>>()(ml12,ml34);
   Serial << "mappend<Mlist<int>>()(ml12,ml34) = " << ml1234b << endl;
+  Mlist<int> ml1234c = mmappend(ml12,ml34);
+  Serial << "mmappend(ml12,ml34)              = " << ml1234c << endl;
+  Mlist<int> ml1234d = Mlist<int>::mconcat()(lm);
+  Serial << "Mlist<int>::mconcat()(lm)        = " << ml1234d << endl;
+  lm = snoc(ml56,lm);
+  Mlist<int> ml1234e = mconcat<Mlist<int>>()(lm);
+  Serial << "mconcat<Mlist<int>>()(lm)        = " << ml1234e << endl;
+  lm = snoc(ml78,lm);
+  Mlist<int> ml1234f = mmconcat(lm);
+  Serial << "mmconcat(lm)                     = " << ml1234f << endl;
 }
 
 void setup() {
