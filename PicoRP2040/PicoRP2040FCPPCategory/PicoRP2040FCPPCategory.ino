@@ -373,7 +373,19 @@ Print &operator << ( Print &obj, const List<T> &arg)
     Serial << "[ ";
     for (auto i = arg.begin(); i != arg.end(); ++i)
     {
-        Serial << *i << " " << endl;
+        Serial << *i << " ";
+    }
+    Serial << "]";
+    return obj; 
+}
+
+template <>
+Print &operator << ( Print &obj, const List<int> &arg)
+{
+    Serial << "[ ";
+    for (auto i = arg.begin(); i != arg.end(); ++i)
+    {
+        Serial << *i << " ";
     }
     Serial << "]";
     return obj; 
@@ -385,7 +397,7 @@ Print &operator << ( Print &obj, const List<Mstring> &arg)
     Serial << "[ ";
     for (auto i = arg.begin(); i != arg.end(); ++i)
     {
-        Serial << (*i).get_string() << " " << endl;
+        Serial << (*i).get_string() << " ";
     }
     Serial << "]";
     return obj; 
@@ -1321,9 +1333,9 @@ void monoid_examples()
     Serial << "[ ";
     for (auto i = lms.begin(); i != lms.end(); ++i)
     {
-        Serial << (*i).get_string() << " " << endl;
+        Serial << (*i).get_string() << " ";
     }
-    Serial << "]";
+    Serial << "]" << endl;
   Serial << lms << endl;
   //Mstring ms2lms = mmappend(ms2,lms);
   Mstring mres = Mstring::mconcat()(lms);
@@ -1341,9 +1353,9 @@ void monoid_examples()
     Serial << "[ ";
     for (auto i = ml1.begin(); i != ml1.end(); ++i)
     {
-        Serial << *i << " " << endl;
+        Serial << *i << " ";
     }
-    Serial << "]";
+    Serial << "]" << endl;
 
   Serial << ml1 << endl;
 }
