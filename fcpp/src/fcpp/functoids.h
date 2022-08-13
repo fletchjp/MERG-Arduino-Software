@@ -189,6 +189,83 @@ FCPP_MAYBE_EXTERN MMappend mmappend;
 FCPP_MAYBE_EXTERN MMconcat mmconcat;
 FCPP_MAYBE_NAMESPACE_CLOSE
 
-}
+//////////////////////////////////////////////////////////////////////
+/// A first construct for an instance of a Monoid.
+/// I also want to make other things e.g. List become Monoids as well.
+/// This has been extended.
+/// (1) to provide for it to hold the string.
+/// (2) to have a constructor from a string.
+/// (3) to be able to output the string.
+struct Mstring {
+   struct Rep { typedef Mstring Type; };
+   //struct UnRep { typedef typename std::string Type; };
+private:
+     std::string _string;
+public:
+    // constructors 
+    Mstring() : _string(std::string()) { }
+    Mstring(const std::string &s) : _string(s) { }
+    Mstring(const Mstring& m) : _string(m._string) { } 
+    Mstring operator= (const Mstring &a) {
+      _string = a._string; return *this;
+    }
+    std::string operator()() const { return _string; }
+    std::string get_string() const { return _string; }
+    Mstring operator+ (const Mstring &a)
+    {
+      return Mstring(this->_string + a._string);
+    }
+    struct XMempty : public CFunType<Mstring> {      
+      Mstring operator()() const {
+         return Mstring();
+      }
+    };
+    typedef Full0<XMempty> Mempty;
+    static Mempty& mempty() {static Mempty f; return f;}
+
+    struct XMappend : public CFunType<Mstring,Mstring,Mstring> {
+      Mstring operator()(const Mstring &a,const Mstring &b) const {
+         return Mstring( a + b );
+      }
+    };
+    typedef Full2<XMappend> Mappend;
+    static Mappend& mappend() {static Mappend f; return f;}
+
+    struct XMconcat {
+      template <class L> struct Sig : public FunType<L,Mstring> {};
+      template <class L> 
+      typename Sig<L>::ResultType operator()( const L& l) const {
+         EnsureListLike<L>();
+         L ltail = l;
+         Mstring res = Mstring();
+         while (!null(ltail)) {
+            res = XMconcatHelper(res,ltail);
+            ltail = tail(ltail);
+         }
+         return res;
+      }
+    };
+    typedef Full1<XMconcat> Mconcat;
+    static Mconcat& mconcat() {static Mconcat f; return f;}
+
+
+    friend Mstring operator+ (const Mstring &a,const Mstring &b);
+};
+
+    template <class L> Mstring XMconcatHelper(const Mstring &m, const L& l)
+    {
+       if (null(l)) return m;
+       else return Mstring::mappend()(m,l.head()); 
+    }
+
+
+    template <> struct MonoidTraitsSpecializer<Mstring > {
+       typedef Mstring Monoid;
+    };
+
+
+
+
+} // namespace fcpp
 
 #endif
