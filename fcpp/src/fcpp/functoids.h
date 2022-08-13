@@ -271,7 +271,64 @@ public:
        typedef Mstring Monoid;
     };
 
+//////////////////////////////////////////////////////////////////////
+/// A construct for an instance of a Monoid based on List<T>.
+/////////////////////////////////////////////////////////////////////
+template <class T>
+struct Mlist : public List<T> {
+   struct Rep { typedef Mlist<T> Type; };
+    Mlist()  : List<T>() { }
+    Mlist(const List<T>&l)  : List<T>(l) { }
+    Mlist(const Mlist<T>&m) {       //List<T>::operator=(m);
+       *this = m;
+    } 
+    Mlist<T> &operator= (const Mlist<T> &a) {
+       List<T>::operator=(a); return *this;
+    }
+    Mlist<T> &operator= (const List<T> &a) {
+       List<T>::operator=(a); return *this;
+       return *this;
+    }
+    struct XMempty : public CFunType<Mlist<T> > {      
+      Mstring operator()() const {
+         return Mlist<T>();
+      }
+    };
+    typedef Full0<XMempty> Mempty;
+    static Mempty& mempty() {static Mempty f; return f;}
 
+    struct XMappend {
+ 
+      template<class A,class B> struct Sig;
+      template <class A>
+      struct Sig<A,A> : public FunType<A,A,A> {};
+
+      Mlist<T> operator()(const Mlist<T> &a,const Mlist<T> &b) const {
+          List<Mlist<T>> lm;
+          lm = cons(a,lm);
+          lm = snoc(b,lm);
+          return Mlist<T>(concat( lm ));
+      }
+    };
+    typedef Full2<XMappend> Mappend;
+    static Mappend& mappend() {static Mappend f; return f;}
+
+    struct XMconcat {
+      template <class L> struct Sig : public FunType<L,Mlist<T>> {};
+      template <class L> 
+      typename Sig<L>::ResultType operator()( const L& l) const {
+         EnsureListLike<L>();
+         return Mlist<T>(concat( l ));
+      }
+    };
+    typedef Full1<XMconcat> Mconcat;
+    static Mconcat& mconcat() {static Mconcat f; return f;}
+
+};
+
+template <class T> struct MonoidTraitsSpecializer<Mlist<T> > {
+   typedef Mlist<T> Monoid;
+};
 
 
 } // namespace fcpp
