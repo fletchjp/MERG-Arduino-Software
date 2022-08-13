@@ -197,6 +197,7 @@ Print &operator << ( Print &obj, const List<Mstring> &arg)
 //////////////////////////////////////////////////////////////////////
 /// A construct for an instance of a Monoid based on List<T>.
 /////////////////////////////////////////////////////////////////////
+/* code now in functoids.h
 template <class T>
 struct Mlist : public List<T> {
    struct Rep { typedef Mlist<T> Type; };
@@ -222,7 +223,6 @@ struct Mlist : public List<T> {
     static Mempty& mempty() {static Mempty f; return f;}
 
     struct XMappend {
-       /*public FunType<Mlist<T>,Mlist<T>,Mlist<T>> { */ 
       //template <class A, class B> struct Sig;
       // Force the monoids to have the same type
       //template <class A> struct Sig<A,A>
@@ -258,6 +258,7 @@ struct Mlist : public List<T> {
 template <class T> struct MonoidTraitsSpecializer<Mlist<T> > {
    typedef Mlist<T> Monoid;
 };
+*/
 
 template <class T>
 Print &operator << ( Print &obj, const Mlist<T> &arg)
