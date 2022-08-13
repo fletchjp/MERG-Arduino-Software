@@ -6,6 +6,8 @@
 // First experiments with the Monoid structure is looking interesting.
 // Idea: use inheritance from List<T> to implement a Monoid for List<T>.
 // This is now working.
+// The monoid codes have now been moved to a new header file fcpp/monoids.h
+// The Arduino specific output operators are in this file.
 //////////////////////////////////////////////////////////////////////
 // File for developments following Bartosz Milewski's work
 // "Category Theory for Programmers" and related material
