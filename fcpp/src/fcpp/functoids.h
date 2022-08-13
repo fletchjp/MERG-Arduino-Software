@@ -11,6 +11,8 @@
 #ifndef FCPP_FUNCTOIDS_DOT_H
 #define FCPP_FUNCTOIDS_DOT_H
 
+//#include <string>
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// Monoid operations based on ideas from https://bartoszmilewski.com/2014/12/05/categories-great-and-small/
 /// and also from Learn You a Haskell for Great Good! p.252.
@@ -252,6 +254,12 @@ public:
     friend Mstring operator+ (const Mstring &a,const Mstring &b);
 };
 
+
+    Mstring operator+ (const Mstring &a,const Mstring &b)
+    {
+       return Mstring(a._string + b._string);
+    }
+	
     template <class L> Mstring XMconcatHelper(const Mstring &m, const L& l)
     {
        if (null(l)) return m;
