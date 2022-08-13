@@ -50,10 +50,16 @@ Identified and fixed a bug in the code.
 
 Code for MaybeLike and EitherLike with functoids unjust and unright moved here.
 					
-### src/fcpp/functor.h  					
+### src/fcpp/functors.h  					
 
 Add some explanation.
 
-### src/function.h
+### src/fcpp/function.h
 
 Remove unused arguments of nullfunN functions to supress gcc10 warnings.
+
+### src/fcpp/functoids.h  					
+
+This is a new file to hold the functoid codes which have been developed using an RPi Pico.
+
+I have decided not to include the output operators which are Arduino specific.
