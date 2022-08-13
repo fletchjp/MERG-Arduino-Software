@@ -81,6 +81,7 @@
 #include "fcpp/functors.h"
 #include "fcpp/comonad.h"
 #include "fcpp/arrow.h"
+#include "fcpp/functoids.h"
 
 
 #include <Streaming.h>
@@ -109,6 +110,7 @@ namespace fcpp {
 /// Following Monads in monad.h what I need first are the free functions.
 
 /// Infer structure from the equivalent for Monad in monad.h
+/* code now in functoids.h
 template <class Rep> struct ThisTypeIsNotAnInstanceOfAnInferrableMonoid {};
 template <class T> struct MonoidError { inline static void error() {} };
 template <class T>
@@ -122,7 +124,7 @@ template <class Rep> struct MonoidTraits {
       MonoidError<Monoid>::error();
    }
 };
-
+*/
 //////////////////////////////////////////////////////////////////////
 /// Free functions for Monoids
 ///    mempty  :: m
@@ -137,6 +139,7 @@ template <class Rep> struct MonoidTraits {
 /// mconcat<Monoid>()(lm) where lm has the type List<Monoid>
 /// mmconcat(lm)        - now inferrable for Mstring.
 //////////////////////////////////////////////////////////////////////
+/* code now in functoids.h
 
 namespace impl {
    // It has been a struggle to get this one correct.
@@ -169,9 +172,7 @@ namespace impl {
 
  
    };
-  
-  /* This is for something with one argument.
-   * I am starting to look at Mconcat. */
+
    template <class Monoid>
    struct XMconcat {
       template <class L> struct Sig
@@ -267,6 +268,8 @@ FCPP_MAYBE_NAMESPACE_OPEN
 FCPP_MAYBE_EXTERN MMappend mmappend;
 FCPP_MAYBE_EXTERN MMconcat mmconcat;
 FCPP_MAYBE_NAMESPACE_CLOSE
+
+*/
 
 Print &operator <<( Print &obj, const std::string &arg)
 {
