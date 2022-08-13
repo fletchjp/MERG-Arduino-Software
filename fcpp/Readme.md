@@ -62,4 +62,6 @@ Remove unused arguments of nullfunN functions to supress gcc10 warnings.
 
 This is a new file to hold the functoid codes which have been developed using an RPi Pico.
 
+This now includes the implementations Mstring and Mlist.
+
 I have decided not to include the output operators which are Arduino specific.
