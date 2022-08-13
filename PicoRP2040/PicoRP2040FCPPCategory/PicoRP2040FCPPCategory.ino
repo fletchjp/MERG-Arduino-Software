@@ -147,6 +147,7 @@ Print &operator <<( Print &obj, const std::string &arg)
 /// (1) to provide for it to hold the string.
 /// (2) to have a constructor from a string.
 /// (3) to be able to output the string.
+/* code now in functoids.h
 struct Mstring {
    struct Rep { typedef Mstring Type; };
    //struct UnRep { typedef typename std::string Type; };
@@ -203,7 +204,6 @@ public:
     friend Mstring operator+ (const Mstring &a,const Mstring &b);
 };
 
-/*  This is for something with one argument e.g. mconcat. */
     template <class L> Mstring XMconcatHelper(const Mstring &m, const L& l)
     {
        if (null(l)) return m;
@@ -215,22 +215,20 @@ Mstring operator+ (const Mstring &a,const Mstring &b)
 {
    return Mstring(a._string + b._string);
 }
-
+*/
 Print &operator <<( Print &obj, Mstring &arg)
 {
     Serial << arg.get_string();
     return obj; 
 }
 
-
+/*
 
 template <> struct MonoidTraitsSpecializer<Mstring > {
    typedef Mstring Monoid;
 };
 
-//#include "printops.h"
-
-
+*/
 
 template <class T>
 Print &operator << ( Print &obj, const List<T> &arg)
