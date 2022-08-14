@@ -114,6 +114,7 @@ namespace fcpp {
 /// Infer structure from the equivalent for Monad in monad.h
 
 /// Code now moved to fcpp/functoids.h except for Arduino specific output operators which are retained here.
+/// I meant to call the file fcpp/monoids.h and I have become confused.
 
 //////////////////////////////////////////////////////////////////////
 /// Free functions for Monoids
@@ -157,18 +158,58 @@ namespace fcpp {
 // The type needs to have a zero and an op for append.
 /////////////////////////////////////////////////////////////////////
 
-template <class T>
+template <class T, class Op>
 struct MonoidType {
-   Full2 op();
- 
+   static T zero;
+   static Op op;
+//   MonoidType(const T &z,const Op &o) : zero(z), op(o) { };
+   typedef T ElementType;
+   T value;
+   MonoidType() : value(zero) {}
+   MonoidType(const T& t) : value(t) {}
+   T operator()() { return value; }
+  // T oper(const T& a, const T& b) { return t(op(a.value,b.value)); }
 };
 
+typedef MonoidType<int,Plus> MonoidPlus;
+template <> int MonoidType<int,Plus>::zero = 0;
+template <> fcpp::Plus MonoidPlus::op = fcpp::plus;
+
+typedef MonoidType<int,Multiplies> MonoidMultiplies;
+template <> int MonoidType<int,Multiplies>::zero = 1;
+template <> fcpp::Multiplies MonoidMultiplies::op = fcpp::multiplies;
+
 template <class T>
-struct Monoid
+struct MonoidT
 {
+     typedef typename T::ElementType Mtype;
+     struct Rep { typedef MonoidT<T> Type; };
+     
+     struct XMempty : public CFunType<T> {      
+      T operator()() const {
+         return T();
+      }
+    };
+    typedef Full0<XMempty> Mempty;
+    static Mempty& mempty() {static Mempty f; return f;}
+     
+struct XMappend {
+ 
+      template<class A,class B> struct Sig;
+      template <class A>
+      struct Sig<A,A> : public FunType<A,A,A> {};
 
+      T operator()(const T &a,const T &b) const {
+          return T(T::op(a.value,b.value));
+      }
+    };
+    typedef Full2<XMappend> Mappend;
+    static Mappend& mappend() {static Mappend f; return f;}
 
+};
 
+template <class T> struct MonoidTraitsSpecializer<MonoidT<T> > {
+   typedef MonoidT<T> Monoid;
 };
 
 //////////////////////////////////////////////////////////////////////////
@@ -233,6 +274,13 @@ Print &operator << ( Print &obj, const Mlist<T> &arg)
         Serial << *i << " ";
     }
     Serial << "]";
+    return obj; 
+}
+
+template <class T,class Op>
+Print &operator << ( Print &obj, const MonoidType<T,Op> &arg)
+{
+    Serial << arg.value;
     return obj; 
 }
 
@@ -1198,6 +1246,17 @@ void monoid_examples()
   lm = snoc(ml78,lm);
   Mlist<int> ml1234f = mmconcat(lm);
   Serial << "mmconcat(lm)                     = " << ml1234f << endl;
+  Serial << "======================================================"
+            << endl;
+  Serial << "MonoidType examples for plus and multiplies" << endl;
+  Serial << "======================================================"
+            << endl;
+  MonoidPlus p00;
+  MonoidPlus p01 = MonoidT<MonoidPlus>::mempty()();
+  MonoidPlus p1(1);
+  MonoidPlus p2(2);
+  MonoidPlus p3 = MonoidT<MonoidPlus>::mappend()(p1,p2);;
+
 }
 
 void setup() {
