@@ -184,6 +184,15 @@ typedef MonoidType<int,Multiplies> MonoidMultiplies;
 template <> int MonoidType<int,Multiplies>::zero = 1;
 template <> fcpp::Multiplies MonoidMultiplies::op = fcpp::multiplies;
 
+typedef MonoidType<bool,Or2> MonoidAny;
+template <> bool MonoidType<bool,Or2>::zero = false;
+template <> fcpp::Or2 MonoidAny::op = fcpp::or2;
+
+typedef MonoidType<bool,And2> MonoidAll;
+template <> bool MonoidType<bool,And2>::zero = true;
+template <> fcpp::And2 MonoidAll::op = fcpp::and2;
+
+
 template <class T>
 struct MonoidT
 {
