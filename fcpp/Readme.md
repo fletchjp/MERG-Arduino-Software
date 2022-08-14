@@ -65,3 +65,5 @@ This is a new file to hold the functoid codes which have been developed using an
 This now includes the implementations Mstring and Mlist.
 
 I have decided not to include the output operators which are Arduino specific.
+
+I meant to call this monoids.h. I will rename it sometime soon.
