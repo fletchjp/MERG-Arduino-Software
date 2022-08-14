@@ -234,7 +234,7 @@ template <class T> struct MonoidTraitsSpecializer<MonoidT<T> > {
    typedef MonoidT<T> Monoid;
 };
 
-// Note that this uses two levels of template.
+// Note that this uses two levels of template to set up the trait.
 template <class T, class Op> struct MonoidTraitsSpecializer<MonoidType<T,Op> > {
    typedef MonoidT<MonoidType<T,Op>> Monoid;
 };
