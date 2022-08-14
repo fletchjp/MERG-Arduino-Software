@@ -1263,18 +1263,15 @@ void monoid_examples()
             << endl;
   MonoidPlus p00;
   MonoidPlus p01 = MonoidT<MonoidPlus>::mempty()();
+  Serial << "MonoidT<MonoidPlus>::mempty()() = " << p01 << endl;
   MonoidPlus p1(1);
   MonoidPlus p2(2);
-  MonoidPlus p3 = MonoidT<MonoidPlus>::mappend()(p1,p2);;
-  Serial << p3 << endl;
-  MonoidPlus p3a = mappend<MonoidT<MonoidPlus>>()(p1,p2);;
-  Serial << p3a << endl;
-  //MonoidT<MonoidPlus> mp1(p1);
-  //MonoidT<MonoidPlus> mp2(p2);
-  //MonoidT<MonoidPlus> mp3 = mmappend(mp1,mp2);
-  // This is not working.
-  MonoidPlus p3b = mmappend(p1,p2);;
-  Serial << p3b << endl;
+  MonoidPlus p3 = MonoidT<MonoidPlus>::mappend()(p1,p2);
+  Serial << "MonoidT<MonoidPlus>::mappend()(p1,p2) = " << p3 << endl;
+  MonoidPlus p3a = mappend<MonoidT<MonoidPlus>>()(p1,p2);
+  Serial << " mappend<MonoidT<MonoidPlus>>()(p1,p2) = " << p3a << endl;
+  MonoidPlus p3b = mmappend(p1,p2);
+  Serial << "mmappend(p1,p2) = " << p3b << endl;
 
 }
 
