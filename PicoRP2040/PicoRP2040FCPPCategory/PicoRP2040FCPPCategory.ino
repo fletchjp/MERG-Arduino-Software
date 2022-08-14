@@ -1283,14 +1283,26 @@ void monoid_examples()
   Serial << "MonoidT<MonoidPlus>::mempty()() = " << p01 << endl;
   MonoidPlus p1(1);
   MonoidPlus p2(2);
-  MonoidPlus p3 = MonoidT<MonoidPlus>::mappend()(p1,p2);
-  Serial << "MonoidT<MonoidPlus>::mappend()(p1,p2) = " << p3 << endl;
+  MonoidPlus p3(3);
+  MonoidPlus p30 = MonoidT<MonoidPlus>::mappend()(p1,p2);
+  Serial << "MonoidT<MonoidPlus>::mappend()(p1,p2) = " << p30 << endl;
   MonoidPlus p3a = mappend<MonoidT<MonoidPlus>>()(p1,p2);
   Serial << "mappend<MonoidT<MonoidPlus>>()(p1,p2) = " << p3a << endl;
   MonoidPlus p3b = mmappend(p1,p2);
   Serial << "mmappend(p1,p2) = " << p3b << endl;
+  List<MonoidPlus> lp3 = list_with(p1,p2,p3);
+  MonoidPlus p6 = mconcat<MonoidT<MonoidPlus>>()(lp3);
+  Serial << "mconcat<MonoidT<MonoidPlus>>()(lp3) = " << p6 << endl;
+  MonoidMultiplies m1(1);
+  MonoidMultiplies m2(2);
+  MonoidMultiplies m3(3);
+  List<MonoidMultiplies> lm3 = list_with(m1,m2,m3);
   MonoidMultiplies m01 = MonoidT<MonoidMultiplies>::mempty()();
   Serial << "MonoidT<MonoidMultiplies>::mempty()() = " << m01 << endl;
+  MonoidMultiplies m30 = MonoidT<MonoidMultiplies>::mappend()(m1,m2);
+  Serial << "MonoidT<MonoidMultiplies>::mappend()() = " << m30 << endl;
+  MonoidMultiplies m6 = mconcat<MonoidT<MonoidMultiplies>>()(lm3);
+  Serial << "mconcat<MonoidT<MonoidMultiplies>>()(lm3) = " << m6 << endl;
 
 }
 
