@@ -156,11 +156,15 @@ namespace fcpp {
 /////////////////////////////////////////////////////////////////////
 // Idea for a structure which can be a Monoid for different types.
 // The type needs to have a zero and an op for append.
+// This now works such that the operations specific to the 
+// type and operator are in MonoidType and MonoidT handles the interface.
+// This makes it very easy to generate new instances.
+// It lacks mconcat at the moment.
 /////////////////////////////////////////////////////////////////////
 
 template <class T, class Op>
 struct MonoidType {
-   struct Rep { typedef MonoidType<T,Op> Type; };
+   //struct Rep { typedef MonoidType<T,Op> Type; };
    static T zero;
    static Op op;
 //   MonoidType(const T &z,const Op &o) : zero(z), op(o) { };
@@ -169,23 +173,7 @@ struct MonoidType {
    MonoidType() : value(zero) {}
    MonoidType(const T& t) : value(t) {}
    T operator()() { return value; }
-  // T oper(const T& a, const T& b) { return t(op(a.value,b.value)); }
-  struct XMappend {
- 
-      template<class A,class B> struct Sig;
-      template <class A>
-      struct Sig<A,A> : public FunType<A,A,A> {};
 
-      T operator()(const T &a,const T &b) const {
-          return T(op(a,b));
-      }
-    };
-    typedef Full2<XMappend> Mappend;
-    static Mappend& mappend() {static Mappend f; return f;}
-    };
-
-template <class T, class Op> struct MonoidTraitsSpecializer<MonoidType<T,Op> > {
-   typedef MonoidType<T,Op> Monoid;
 };
 
 typedef MonoidType<int,Plus> MonoidPlus;
@@ -227,6 +215,11 @@ struct MonoidT
 
 template <class T> struct MonoidTraitsSpecializer<MonoidT<T> > {
    typedef MonoidT<T> Monoid;
+};
+
+// Note that this uses two levels of template.
+template <class T, class Op> struct MonoidTraitsSpecializer<MonoidType<T,Op> > {
+   typedef MonoidT<MonoidType<T,Op>> Monoid;
 };
 
 //////////////////////////////////////////////////////////////////////////
@@ -1280,8 +1273,8 @@ void monoid_examples()
   //MonoidT<MonoidPlus> mp2(p2);
   //MonoidT<MonoidPlus> mp3 = mmappend(mp1,mp2);
   // This is not working.
-  ///MonoidPlus p3b = mmappend(p1,p2);;
-  //Serial << p3b << endl;
+  MonoidPlus p3b = mmappend(p1,p2);;
+  Serial << p3b << endl;
 
 }
 
