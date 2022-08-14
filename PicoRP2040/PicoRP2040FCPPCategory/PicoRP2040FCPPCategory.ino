@@ -211,6 +211,23 @@ struct MonoidT
     typedef Full2<XMappend> Mappend;
     static Mappend& mappend() {static Mappend f; return f;}
 
+    struct XMconcat {
+      template <class L> struct Sig : public FunType<L,T> {};
+      template <class L> 
+      typename Sig<L>::ResultType operator()( const L& l) const {
+         EnsureListLike<L>();
+         T res;
+         L ltail = l;
+         while (!null(ltail)) {
+            res = T(T::op(res.value,ltail.head().value));
+            ltail = tail(ltail);
+         }
+         return res;
+      }
+    };
+    typedef Full1<XMconcat> Mconcat;
+    static Mconcat& mconcat() {static Mconcat f; return f;}
+
 };
 
 template <class T> struct MonoidTraitsSpecializer<MonoidT<T> > {
@@ -1269,9 +1286,11 @@ void monoid_examples()
   MonoidPlus p3 = MonoidT<MonoidPlus>::mappend()(p1,p2);
   Serial << "MonoidT<MonoidPlus>::mappend()(p1,p2) = " << p3 << endl;
   MonoidPlus p3a = mappend<MonoidT<MonoidPlus>>()(p1,p2);
-  Serial << " mappend<MonoidT<MonoidPlus>>()(p1,p2) = " << p3a << endl;
+  Serial << "mappend<MonoidT<MonoidPlus>>()(p1,p2) = " << p3a << endl;
   MonoidPlus p3b = mmappend(p1,p2);
   Serial << "mmappend(p1,p2) = " << p3b << endl;
+  MonoidMultiplies m01 = MonoidT<MonoidMultiplies>::mempty()();
+  Serial << "MonoidT<MonoidMultiplies>::mempty()() = " << m01 << endl;
 
 }
 
