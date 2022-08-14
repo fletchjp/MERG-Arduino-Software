@@ -1256,6 +1256,12 @@ void monoid_examples()
   MonoidPlus p1(1);
   MonoidPlus p2(2);
   MonoidPlus p3 = MonoidT<MonoidPlus>::mappend()(p1,p2);;
+  Serial << p3 << endl;
+  MonoidPlus p3a = mappend<MonoidT<MonoidPlus>>()(p1,p2);;
+  Serial << p3a << endl;
+  // This is not working.
+  //MonoidPlus p3b = mmappend(p1,p2);;
+  //Serial << p3b << endl;
 
 }
 
