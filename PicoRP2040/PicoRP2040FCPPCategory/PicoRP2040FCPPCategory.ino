@@ -160,6 +160,7 @@ namespace fcpp {
 
 template <class T, class Op>
 struct MonoidType {
+   struct Rep { typedef MonoidType<T,Op> Type; };
    static T zero;
    static Op op;
 //   MonoidType(const T &z,const Op &o) : zero(z), op(o) { };
@@ -169,6 +170,22 @@ struct MonoidType {
    MonoidType(const T& t) : value(t) {}
    T operator()() { return value; }
   // T oper(const T& a, const T& b) { return t(op(a.value,b.value)); }
+  struct XMappend {
+ 
+      template<class A,class B> struct Sig;
+      template <class A>
+      struct Sig<A,A> : public FunType<A,A,A> {};
+
+      T operator()(const T &a,const T &b) const {
+          return T(op(a,b));
+      }
+    };
+    typedef Full2<XMappend> Mappend;
+    static Mappend& mappend() {static Mappend f; return f;}
+    };
+
+template <class T, class Op> struct MonoidTraitsSpecializer<MonoidType<T,Op> > {
+   typedef MonoidType<T,Op> Monoid;
 };
 
 typedef MonoidType<int,Plus> MonoidPlus;
@@ -193,7 +210,7 @@ struct MonoidT
     typedef Full0<XMempty> Mempty;
     static Mempty& mempty() {static Mempty f; return f;}
      
-struct XMappend {
+    struct XMappend {
  
       template<class A,class B> struct Sig;
       template <class A>
@@ -1259,8 +1276,11 @@ void monoid_examples()
   Serial << p3 << endl;
   MonoidPlus p3a = mappend<MonoidT<MonoidPlus>>()(p1,p2);;
   Serial << p3a << endl;
+  //MonoidT<MonoidPlus> mp1(p1);
+  //MonoidT<MonoidPlus> mp2(p2);
+  //MonoidT<MonoidPlus> mp3 = mmappend(mp1,mp2);
   // This is not working.
-  //MonoidPlus p3b = mmappend(p1,p2);;
+  ///MonoidPlus p3b = mmappend(p1,p2);;
   //Serial << p3b << endl;
 
 }
