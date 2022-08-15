@@ -230,7 +230,7 @@ namespace impl {
 
 typedef Full2<impl::XMMappend> MMappend;
 typedef Full1<impl::XMMconcat> MMconcat;
-typedef Full2<impl::XMMnot>    MMnot;
+typedef Full1<impl::XMMnot>    MMnot;
 FCPP_MAYBE_NAMESPACE_OPEN
 FCPP_MAYBE_EXTERN MMappend mmappend;
 FCPP_MAYBE_EXTERN MMconcat mmconcat;
