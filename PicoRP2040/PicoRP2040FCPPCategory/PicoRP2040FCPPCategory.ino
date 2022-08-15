@@ -134,6 +134,7 @@ FCPP_MAYBE_NAMESPACE_CLOSE
 ///    mappend :: m -> m -> m
 ///    mconcat :: [m] -> m
 ///    mconcat = foldr mappend mempty
+///    mnot    :: m -> !m  - implemented to negate bool values.
 ///
 /// Note: mconcat is only in Learn You a Haskell for Great Good! p.252.
 ///
@@ -153,10 +154,14 @@ FCPP_MAYBE_NAMESPACE_CLOSE
 /// mempty<Monoid>()();
 ///
 /// mappend<Monoid>()(m1,m2);
-/// mmappend(m1,m2) - now inferrable for Mstring.
+/// mmappend(m1,m2) - now inferrable for Mstring, Mlist<T> and MonoidT<T> types
+///.
 ///
 /// mconcat<Monoid>()(lm) where lm has the type List<Monoid>
-/// mmconcat(lm)        - now inferrable for Mstring.
+/// mmconcat(lm)       - now inferrable for Mstring, Mlist<T> and MonoidT<T> types
+///
+/// mnot<Monoid>()(m)  - m -> !m  - I have invented this to make things easier to use.
+/// mmnot(m)           - now inferrable for MonoidT<T> types.
 //////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////
@@ -1452,7 +1457,11 @@ void monoid_examples()
   MonoidXor xor3 = mmappend(xort,xort);
   if (xor3()) Serial << "mmappend(xort,xort) is true"  << endl;
   else Serial << "mmappend(xort,xort) is false"  << endl;
-  }
+  MonoidXor xor4 = mmappend(xort,mmnot(xort));
+  if (xor4()) Serial << "mmappend(xort,mmnot(xort)) is true"  << endl;
+  else Serial << "mmappend(xort,mmnot(xort)) is false"  << endl;
+  
+}
 
 void setup() {
   // put your setup code here, to run once:
