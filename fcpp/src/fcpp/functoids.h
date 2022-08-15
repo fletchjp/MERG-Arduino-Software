@@ -207,13 +207,34 @@ namespace impl {
       }
 
    };
+
+   template <class T>
+   struct NotHelper {
+     typedef typename MonoidTraits<T>::Monoid Monoid;
+   };
+
+   struct XMMnot {
+      template <class A> struct Sig
+      : public FunType<A,A> {};
+
+      template <class T>
+      T operator()( const T& t ) const {
+         //AppendHelper<M,K>::ensure_m_and_k_are_in_the_same_monoid_instance();
+         typedef typename NotHelper<T>::Monoid MM;
+         return MM::mnot()(t);
+      }
+
+   };
+
 }
 
 typedef Full2<impl::XMMappend> MMappend;
 typedef Full1<impl::XMMconcat> MMconcat;
+typedef Full2<impl::XMMnot>    MMnot;
 FCPP_MAYBE_NAMESPACE_OPEN
 FCPP_MAYBE_EXTERN MMappend mmappend;
 FCPP_MAYBE_EXTERN MMconcat mmconcat;
+FCPP_MAYBE_EXTERN MMnot    mmnot;
 FCPP_MAYBE_NAMESPACE_CLOSE
 
 //////////////////////////////////////////////////////////////////////
