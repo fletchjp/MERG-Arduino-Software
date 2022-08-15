@@ -159,7 +159,8 @@ namespace fcpp {
 // This now works such that the operations specific to the 
 // type and operator are in MonoidType and MonoidT handles the interface.
 // This makes it very easy to generate new instances.
-// It lacks mconcat at the moment.
+// It now has mconcat as well.
+// I want to explore interoperability of types with the same underlying T.
 /////////////////////////////////////////////////////////////////////
 
 template <class T, class Op>
@@ -168,7 +169,7 @@ struct MonoidType {
    static T zero;
    static Op op;
 //   MonoidType(const T &z,const Op &o) : zero(z), op(o) { };
-   typedef T ElementType;
+   typedef T Mtype;
    T value;
    MonoidType() : value(zero) {}
    MonoidType(const T& t) : value(t) {}
@@ -196,7 +197,7 @@ template <> fcpp::And2 MonoidAll::op = fcpp::and2;
 template <class T>
 struct MonoidT
 {
-     typedef typename T::ElementType Mtype;
+     typedef typename T::Mtype Mtype;
      struct Rep { typedef MonoidT<T> Type; };
      
      struct XMempty : public CFunType<T> {      
@@ -206,16 +207,37 @@ struct MonoidT
     };
     typedef Full0<XMempty> Mempty;
     static Mempty& mempty() {static Mempty f; return f;}
+
+    template<class A,class B>
+    struct XMappendHelper {
+      typedef typename A::Mtype Atype;
+      typedef typename B::Mtype Btype;
+      inline static void ensure_a_and_b_have_the_same_data_type() {
+         impl::AppendError<Conversion<Atype,Btype>::sameType>::error();
+      }
+     
+    };
      
     struct XMappend {
- 
-      template<class A,class B> struct Sig;
+      // force the return of the same type as T
+      template<class A,class B> struct Sig : public FunType<A,B,T> {};;
+
       template <class A>
-      struct Sig<A,A> : public FunType<A,A,A> {};
+      struct Sig<A,A> : public FunType<A,A,T> {};
 
       T operator()(const T &a,const T &b) const {
           return T(T::op(a.value,b.value));
       }
+
+      template<class A,class B>
+      typename Sig<A,B>::ResultType operator()(const A &a,const B &b) const {
+        // Check that both A and B are have the same type as T.
+         typedef typename XMappendHelper<A,T>::Atype Atype;
+         typedef typename XMappendHelper<T,B>::Btype Btype;
+         return T(T::op(a.value,b.value));
+      }
+
+    
     };
     typedef Full2<XMappend> Mappend;
     static Mappend& mappend() {static Mappend f; return f;}
@@ -1312,6 +1334,9 @@ void monoid_examples()
   Serial << "MonoidT<MonoidMultiplies>::mappend()() = " << m30 << endl;
   MonoidMultiplies m6 = mconcat<MonoidT<MonoidMultiplies>>()(lm3);
   Serial << "mconcat<MonoidT<MonoidMultiplies>>()(lm3) = " << m6 << endl;
+  MonoidMultiplies m31 = MonoidT<MonoidMultiplies>::mappend()(m1,p2);
+  MonoidMultiplies m32 = MonoidT<MonoidMultiplies>::mappend()(p1,m2);
+  MonoidMultiplies m33 = MonoidT<MonoidMultiplies>::mappend()(p1,p2);
 
 }
 
