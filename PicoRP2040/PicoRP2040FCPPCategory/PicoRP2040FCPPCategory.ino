@@ -186,13 +186,11 @@ namespace fcpp {
 // It now has mconcat as well.
 // I want to explore interoperability of types with the same underlying T.
 /////////////////////////////////////////////////////////////////////
-
+/*
 template <class T, class Op>
 struct MonoidType {
-   //struct Rep { typedef MonoidType<T,Op> Type; };
    static T zero;
    static Op op;
-//   MonoidType(const T &z,const Op &o) : zero(z), op(o) { };
    typedef T Mtype;
    T value;
    MonoidType() : value(zero) {}
@@ -219,8 +217,8 @@ template <> fcpp::XOr2 MonoidXor::op = fcpp::xor2;
 typedef MonoidType<bool,And2> MonoidAll;
 template <> bool MonoidType<bool,And2>::zero = true;
 template <> fcpp::And2 MonoidAll::op = fcpp::and2;
-
-
+*/
+/*
 template <class T>
 struct MonoidT
 { 
@@ -307,7 +305,7 @@ template <class T> struct MonoidTraitsSpecializer<MonoidT<T> > {
 template <class T, class Op> struct MonoidTraitsSpecializer<MonoidType<T,Op> > {
    typedef MonoidT<MonoidType<T,Op>> Monoid;
 };
-
+*/
 //////////////////////////////////////////////////////////////////////////
 /// Output operators for the Monoid types.
 /////////////////////////////////////////////////////////////////////////
