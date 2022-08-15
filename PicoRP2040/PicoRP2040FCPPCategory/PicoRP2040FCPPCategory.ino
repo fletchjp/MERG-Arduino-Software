@@ -1463,6 +1463,7 @@ void monoid_examples()
   MonoidXor xor4 = mmappend(xort,mmnot(xort));
   if (xor4()) Serial << "mmappend(xort,mmnot(xort)) is true"  << endl;
   else Serial << "mmappend(xort,mmnot(xort)) is false"  << endl;
+  MonoidXor xor1a = xor0 ^mmappend^ xort; // Infix works so I could invent a shorter name.
   
 }
 
