@@ -1334,6 +1334,7 @@ void monoid_examples()
   if (xor4()) Serial << "mmappend(xort,mmnot(xort)) is true"  << endl;
   else Serial << "mmappend(xort,mmnot(xort)) is false"  << endl;
   MonoidXor xor1a = xor0 ^mmappend^ xort; // Infix works so I could invent a shorter name.
+  if (xor1a()) Serial << "xor0 ^mmappend^ xort is true"  << endl;
   
 }
 
