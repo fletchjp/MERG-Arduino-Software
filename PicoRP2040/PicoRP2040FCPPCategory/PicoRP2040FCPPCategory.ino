@@ -20,6 +20,9 @@
 // I do not think it is possible to infer the type of the mixed operations.
 // I would like to extend to exclusive or (XOR) which I have not found in FC++.
 //////////////////////////////////////////////////////////////////////
+// I think that the above work on monoids will help me sort out the next section too.
+// See https://wiki.haskell.org/Typeclassopedia for some explanation.
+//////////////////////////////////////////////////////////////////////
 // File for developments following Bartosz Milewski's work
 // "Category Theory for Programmers" and related material
 //
