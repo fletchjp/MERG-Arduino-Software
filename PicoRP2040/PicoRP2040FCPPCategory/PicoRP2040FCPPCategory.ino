@@ -202,7 +202,6 @@ struct MonoidType {
    MonoidType() : value(zero) {}
    MonoidType(const T& t) : value(t) {}
    T operator()() { return value; }
-   
 };
 
 typedef MonoidType<int,Plus> MonoidPlus;
@@ -291,6 +290,16 @@ struct MonoidT
     };
     typedef Full1<XMconcat> Mconcat;
     static Mconcat& mconcat() {static Mconcat f; return f;}
+
+    struct XMnot{
+      template <class A>
+      struct Sig : public FunType<A,A> {};
+      T operator()(const T &t) const {
+         return T(!t.value);
+      }
+    };
+    typedef Full1<XMnot> Mnot;
+    static Mnot& mnot() {static Mnot f; return f;}
 
 };
 
@@ -1409,6 +1418,9 @@ void monoid_examples()
   MonoidAny any3 = mmconcat(lany);
   if (any3()) Serial << "mmconcat(lany) is true"  << endl;
   else Serial << "mmconcat(lany) is false"  << endl;
+  MonoidAny any4 = MonoidT<MonoidAny>::mnot()(mmconcat(lany));
+  if (any4()) Serial << "MonoidT<MonoidAny>::mnot()(mmconcat(lany)) is true"  << endl;
+  else Serial << "MonoidT<MonoidAny>::mnot()(mmconcat(lany)) is false"  << endl;
   MonoidAll all0;
   MonoidAll allt = true;
   MonoidAll allf = false;
