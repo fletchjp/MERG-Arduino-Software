@@ -8,6 +8,7 @@
 // This is now working.
 // The monoid codes have now been moved to a new header file fcpp/monoids.h
 // The Arduino specific output operators are in this file.
+// I have now built a more general way of doing Monoid types.
 //////////////////////////////////////////////////////////////////////
 // File for developments following Bartosz Milewski's work
 // "Category Theory for Programmers" and related material
@@ -1335,6 +1336,8 @@ void monoid_examples()
   Serial << "MonoidT<MonoidMultiplies>::mappend()(m1,m2) = " << m30 << endl;
   MonoidMultiplies m6 = mconcat<MonoidT<MonoidMultiplies>>()(lm3);
   Serial << "mconcat<MonoidT<MonoidMultiplies>>()(lm3) = " << m6 << endl;
+  MonoidMultiplies m330 = mmappend(m1,m2);
+  Serial << "mmappend(m1,m2) = " << m330 << endl;
   Serial << "mixed type operations" << endl;
   MonoidMultiplies m31 = MonoidT<MonoidMultiplies>::mappend()(m1,p2);
   MonoidMultiplies m32 = MonoidT<MonoidMultiplies>::mappend()(p1,m2);
