@@ -49,6 +49,8 @@ Added code for MaybeLike test to be used in unjust(). Also code for EitherLike t
 Identified and fixed a bug in the code.
 
 Code for MaybeLike and EitherLike with functoids unjust and unright moved here.
+
+Add new operator xor2 to do exclusive or.
 					
 ### src/fcpp/functors.h  					
 
