@@ -386,6 +386,155 @@ template <class T> struct MonoidTraitsSpecializer<Mlist<T> > {
    typedef Mlist<T> Monoid;
 };
 
+/////////////////////////////////////////////////////////////////////
+// Idea for a structure which can be a Monoid for different types.
+// The type needs to have a zero and an op for append.
+// This now works such that the operations specific to the 
+// type and operator are in MonoidType and MonoidT handles the interface.
+// This makes it very easy to generate new instances.
+// It now has mconcat as well.
+// I want to explore interoperability of types with the same underlying T.
+//
+// In comparison with the examples above, this separates the two parts of the code.
+//
+// MonoidType<T,Op> contains the specific data for the type, 
+// including static values for the zero element of type T
+// and the already existing FC++ operator type Op
+// which have to be declared for each use of the type.
+//
+// MonoidT<MonoidType> then provides the generalised definitions of
+// mempty, mappend, mconcat and mnot which apply to all instances.
+//
+// mnot :: m -> !m  is an extra which I have invented to suit my usage.
+//
+/////////////////////////////////////////////////////////////////////
+
+template <class T, class Op>
+struct MonoidType {
+   static T zero;
+   static Op op;
+   typedef T Mtype;
+   T value;
+   MonoidType() : value(zero) {}
+   MonoidType(const T& t) : value(t) {}
+   T operator()() { return value; }
+};
+
+///////////////////////////////////////////////////////////////////////////
+// Some instances of MonoidType.
+///////////////////////////////////////////////////////////////////////////
+typedef MonoidType<int,Plus> MonoidPlus;
+template <> int MonoidType<int,Plus>::zero = 0;
+template <> fcpp::Plus MonoidPlus::op = fcpp::plus;
+
+typedef MonoidType<int,Multiplies> MonoidMultiplies;
+template <> int MonoidType<int,Multiplies>::zero = 1;
+template <> fcpp::Multiplies MonoidMultiplies::op = fcpp::multiplies;
+
+typedef MonoidType<bool,Or2> MonoidAny;
+template <> bool MonoidType<bool,Or2>::zero = false;
+template <> fcpp::Or2 MonoidAny::op = fcpp::or2;
+
+typedef MonoidType<bool,XOr2> MonoidXor;
+template <> bool MonoidType<bool,XOr2>::zero = false;
+template <> fcpp::XOr2 MonoidXor::op = fcpp::xor2;
+
+typedef MonoidType<bool,And2> MonoidAll;
+template <> bool MonoidType<bool,And2>::zero = true;
+template <> fcpp::And2 MonoidAll::op = fcpp::and2;
+
+///////////////////////////////////////////////////////////////
+// MonoidT<MonoidType>
+///////////////////////////////////////////////////////////////
+
+template <class T>
+struct MonoidT
+{ 
+     typedef typename T::Mtype Mtype;
+     typedef T MonoidType;
+     struct Rep { typedef MonoidT<T> Type; };
+     
+     struct XMempty : public CFunType<T> {      
+      T operator()() const {
+         return T();
+      }
+    };
+    typedef Full0<XMempty> Mempty;
+    static Mempty& mempty() {static Mempty f; return f;}
+
+    template<class A,class B>
+    struct XMappendHelper {
+      typedef typename A::Mtype Atype;
+      typedef typename B::Mtype Btype;
+      inline static void ensure_a_and_b_have_the_same_data_type() {
+         impl::AppendError<Conversion<Atype,Btype>::sameType>::error();
+      }
+     
+    };
+		    
+    struct XMappend {
+      // force the return of the same type as T
+      template<class A,class B> struct Sig : public FunType<A,B,T> {};
+
+      template <class A>
+      struct Sig<A,A> : public FunType<A,A,T> {};
+
+      T operator()(const T &a,const T &b) const {
+          return T(T::op(a.value,b.value));
+      }
+
+      template<class A,class B>
+      typename Sig<A,B>::ResultType operator()(const A &a,const B &b) const {
+        // Check that both A and B are have the same type as T.
+         typedef typename XMappendHelper<A,T>::Atype Atype;
+         typedef typename XMappendHelper<T,B>::Btype Btype;
+         return T(T::op(a.value,b.value));
+      }
+
+    
+    };
+    typedef Full2<XMappend> Mappend;
+    static Mappend& mappend() {static Mappend f; return f;}
+
+    struct XMconcat {
+      template <class L> struct Sig : public FunType<L,T> {};
+      template <class L> 
+      typename Sig<L>::ResultType operator()( const L& l) const {
+         EnsureListLike<L>();
+         T res;
+         L ltail = l;
+         while (!null(ltail)) {
+            res = T(T::op(res.value,ltail.head().value));
+            ltail = tail(ltail);
+         }
+         return res;
+      }
+    };
+    typedef Full1<XMconcat> Mconcat;
+    static Mconcat& mconcat() {static Mconcat f; return f;}
+
+    struct XMnot{
+      template <class A>
+      struct Sig : public FunType<A,A> {};
+      T operator()(const T &t) const {
+         return T(!t.value);
+      }
+    };
+    typedef Full1<XMnot> Mnot;
+    static Mnot& mnot() {static Mnot f; return f;}
+
+};
+
+template <class T> struct MonoidTraitsSpecializer<MonoidT<T> > {
+   typedef MonoidT<T> Monoid;
+};
+
+// Note that this uses two levels of template to set up the trait.
+template <class T, class Op> struct MonoidTraitsSpecializer<MonoidType<T,Op> > {
+   typedef MonoidT<MonoidType<T,Op>> Monoid;
+};
+
+
 
 } // namespace fcpp
 
