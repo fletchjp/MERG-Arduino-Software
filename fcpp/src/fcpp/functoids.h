@@ -79,7 +79,7 @@ namespace impl {
    template <class Monoid>
    struct XMappend {
       using MonoidResultType = typename Monoid::Rep::Type;
-      typename MonoidResultType T;
+      typedef typename MonoidResultType::MonoidType T;
 	  
       template <class A, class B> struct Sig: public FunType<A,B,T> {};
 
@@ -96,7 +96,7 @@ namespace impl {
       // Type checks will be done at the next level down.
       template<class A,class B>
       typename Sig<A,B>::ResultType operator()(const A &a,const B &b) const {
-        return Monoid::mappend()(a1,a2);
+        return Monoid::mappend()(a,b);
  	  }
    };
 
@@ -208,6 +208,7 @@ FCPP_MAYBE_NAMESPACE_CLOSE
 /// (3) to be able to output the string.
 struct Mstring {
    struct Rep { typedef Mstring Type; };
+   typedef Mstring MonoidType;
    //struct UnRep { typedef typename std::string Type; };
 private:
      std::string _string;
@@ -285,6 +286,7 @@ public:
 template <class T>
 struct Mlist : public List<T> {
    struct Rep { typedef Mlist<T> Type; };
+   typedef Mlist<T> MonoidType;
     Mlist()  : List<T>() { }
     Mlist(const List<T>&l)  : List<T>(l) { }
     Mlist(const Mlist<T>&m) {       //List<T>::operator=(m);
