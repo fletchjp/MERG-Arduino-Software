@@ -24,8 +24,11 @@
 ///    mappend :: m -> m -> m
 ///    mconcat :: [m] -> m
 ///    mconcat = foldr mappend mempty
+///    mnot    :: m -> !m  - implemented to negate bool values.
 ///
-/// Note: mconcat is only in Learn You a Haskell for Great Good! p.252.
+/// Note(1): mconcat is only in Learn You a Haskell for Great Good! p.252.
+///
+/// Note(2): mnot is something I have invented and added to my implementation.
 ///
 /// Following Monads in monad.h what I need first are the free functions.
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -154,6 +157,8 @@ template <class Monoid> struct Mnot
 // The next thing is to infer mmappend(m1,m2)
 // based on bind in monad.h from line 206
 // I have now done mmconcat(lm) as well.
+// mmnot is also available for MonoidT<MonoidType> types
+// These are still to added here.
 ////////////////////////////////////////////////////////////////////
 
 namespace impl {
