@@ -1372,7 +1372,12 @@ void monoid_examples()
   MonoidAny anyt = true;
   MonoidAny anyf = false;
   MonoidAny any1 = mmappend(any0,anyt);
-  if (any1.value) Serial << "mmappend(any0,anyt) is true"  << endl;
+  if (any1()) Serial << "mmappend(any0,anyt) is true"  << endl;
+  MonoidAll all0;
+  MonoidAll allt = true;
+  MonoidAll allf = false;
+  MonoidAll all1 = mmappend(all0,allt);
+  if (all1()) Serial << "mmappend(all0,allt) is true"  << endl;
  }
 
 void setup() {
