@@ -8,8 +8,8 @@
 // software is provided "as is" without any express or implied
 // warranty.
 
-#ifndef FCPP_FUNCTOIDS_DOT_H
-#define FCPP_FUNCTOIDS_DOT_H
+#ifndef FCPP_MONOIDS_DOT_H
+#define FCPP_MONOIDS_DOT_H
 
 //#include <string>
 
