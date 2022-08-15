@@ -9,6 +9,12 @@
 // The monoid codes have now been moved to a new header file fcpp/monoids.h
 // The Arduino specific output operators are in this file.
 // I have now built a more general way of doing Monoid types.
+// These are defines by MonoidT<MonoidType<T,Op>> where T is the return type and 
+// Op the operation defined as an FC++ binary operator.
+// e.g. MonoidType<int,fcpp::Plus> and MonoidType<int,fcpp::Multiplies>
+// I have started to implement ways in which monoids of the same type T and different 
+// operators can be combined using mappend operations to get a result.
+// I want to have types which do bool with and and or.
 //////////////////////////////////////////////////////////////////////
 // File for developments following Bartosz Milewski's work
 // "Category Theory for Programmers" and related material
@@ -1338,7 +1344,11 @@ void monoid_examples()
   Serial << "mconcat<MonoidT<MonoidMultiplies>>()(lm3) = " << m6 << endl;
   MonoidMultiplies m330 = mmappend(m1,m2);
   Serial << "mmappend(m1,m2) = " << m330 << endl;
+  Serial << "======================================================"
+            << endl;
   Serial << "mixed type operations" << endl;
+  Serial << "======================================================"
+            << endl;
   MonoidMultiplies m31 = MonoidT<MonoidMultiplies>::mappend()(m1,p2);
   MonoidMultiplies m32 = MonoidT<MonoidMultiplies>::mappend()(p1,m2);
   MonoidMultiplies m33 = MonoidT<MonoidMultiplies>::mappend()(p1,p2);
@@ -1347,15 +1357,23 @@ void monoid_examples()
   Serial << "MonoidT<MonoidMultiplies>::mappend()(p1,p2) = " << m33 << endl;
   MonoidPlus p33 = MonoidT<MonoidPlus>::mappend()(m1,m2);
   Serial << "MonoidT<MonoidPlus>::mappend()(m1,m2) = " << p33 << endl;
-  // This is not working yet.
+  // This is now working.
   MonoidPlus p33a = mappend<MonoidT<MonoidPlus>>()(p1,m2);
   Serial << "mappend<MonoidT<MonoidPlus>>()(p1,m2) = " << p33a << endl;
   MonoidPlus p33b = mappend<MonoidT<MonoidPlus>>()(m1,p2);
   Serial << "mappend<MonoidT<MonoidPlus>>()(m1,p2) = " << p33b << endl;
+  // This also works.
   MonoidPlus p33c = mappend<MonoidT<MonoidPlus>>()(m1,m2);
   Serial << "mappend<MonoidT<MonoidPlus>>()(m1,m2) = " << p33c << endl;
-
-}
+  // I can see no way to get mmappend(p1,m2) working.
+  Serial << "======================================================"
+            << endl;
+  MonoidAny any0;
+  MonoidAny anyt = true;
+  MonoidAny anyf = false;
+  MonoidAny any1 = mmappend(any0,anyt);
+  if (any1.value) Serial << "mmappend(any0,anyt) is true"  << endl;
+ }
 
 void setup() {
   // put your setup code here, to run once:
