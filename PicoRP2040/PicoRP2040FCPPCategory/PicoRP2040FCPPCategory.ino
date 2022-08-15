@@ -107,27 +107,8 @@ typedef List<char> StringL;
 
 namespace fcpp {
 
- // Missing XOR operator for FC++ it has been moved to fcpp/prelude.h
- /*
- namespace impl {
-  struct XXOr2 {
-   template<class T,class U> struct Sig;
+// New XOR operator for FC++ it has been moved to fcpp/prelude.h
 
-   template<class T>
-   struct Sig<T,T> : public FunType<T,T,bool> {};
-
-    template <class T>
-    bool operator()( const T& x, const T& y ) const {
-      return (!x != !y );
-      }
-    };
- 
-  }
-typedef Full2<impl::XXOr2> XOr2;
-FCPP_MAYBE_NAMESPACE_OPEN
-FCPP_MAYBE_EXTERN XOr2 xor2;
-FCPP_MAYBE_NAMESPACE_CLOSE
-*/
 
 /// Monoid operations based on ideas from https://bartoszmilewski.com/2014/12/05/categories-great-and-small/
 /// and also from Learn You a Haskell for Great Good! p.252.
