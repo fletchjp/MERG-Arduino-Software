@@ -113,6 +113,17 @@ namespace impl {
 
    };
 
+   template <class Monoid>
+   struct XMnot {
+      template <class A> struct Sig
+      : public FunType<A,A> {};
+
+      template <class T>
+      T operator()( const T& t ) const {
+         return Monoid::mnot()(t);
+      }
+
+   };
 
 
   }
@@ -132,6 +143,12 @@ template <class Monoid> Full1<impl::XMconcat<Monoid> > mconcat()
 { return makeFull1( impl::XMconcat<Monoid>() ); }
 template <class Monoid> struct Mconcat
 { typedef Full1<impl::XMconcat<Monoid> > Type; };
+
+template <class Monoid> Full1<impl::XMnot<Monoid> > mnot()
+{ return makeFull1( impl::XMnot<Monoid>() ); }
+template <class Monoid> struct Mnot
+{ typedef Full1<impl::Xnot<Monoid> > Type; };
+
 
 ////////////////////////////////////////////////////////////////////
 // The next thing is to infer mmappend(m1,m2)
