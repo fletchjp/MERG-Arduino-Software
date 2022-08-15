@@ -202,7 +202,7 @@ struct MonoidType {
    MonoidType() : value(zero) {}
    MonoidType(const T& t) : value(t) {}
    T operator()() { return value; }
-
+   
 };
 
 typedef MonoidType<int,Plus> MonoidPlus;
