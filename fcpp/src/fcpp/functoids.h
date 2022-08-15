@@ -78,9 +78,12 @@ namespace impl {
 
    template <class Monoid>
    struct XMappend {
+      using MonoidResultType = typename Monoid::Rep::Type;
+      typename MonoidResultType T;
+	  
+      template <class A, class B> struct Sig: public FunType<A,B,T> {};
 
-      template <class A, class B> struct Sig;
-      // Force the monoids to have the same type
+      // The case where the monoids have the same type
       template <class A> struct Sig<A,A>
       : public FunType<A,A,typename Monoid::Mappend::template Sig<A,A>::ResultType> {};
 
@@ -90,6 +93,11 @@ namespace impl {
          return Monoid::mappend()(a1,a2);
       }
 
+      // Type checks will be done at the next level down.
+      template<class A,class B>
+      typename Sig<A,B>::ResultType operator()(const A &a,const B &b) const {
+        return Monoid::mappend()(a1,a2);
+ 	  }
    };
 
    template <class Monoid>
