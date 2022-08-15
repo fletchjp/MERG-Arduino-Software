@@ -56,6 +56,7 @@ template <class Rep> struct MonoidTraits {
 ///    mempty  :: m
 ///    mappend :: m -> m -> m
 ///    mconcat :: [m] -> m
+///    mnot    :: m -> !m  - implemented to negate bool values.
 //////////////////////////////////////////////////////////////////////
 /// mempty<Monoid>()();
 ///
@@ -65,6 +66,8 @@ template <class Rep> struct MonoidTraits {
 ///
 /// mconcat<Monoid>()(lm) where lm has the type List<Monoid>
 /// mmconcat(lm)        - now inferrable for Mstring.
+///
+/// mmnot(m)            - now inferrable for MonoidT<MonoidType> types.
 //////////////////////////////////////////////////////////////////////
 
 namespace impl {
