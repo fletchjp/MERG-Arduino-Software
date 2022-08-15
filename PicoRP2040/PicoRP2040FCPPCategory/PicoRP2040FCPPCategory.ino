@@ -196,8 +196,9 @@ template <> fcpp::And2 MonoidAll::op = fcpp::and2;
 
 template <class T>
 struct MonoidT
-{
+{ 
      typedef typename T::Mtype Mtype;
+     typedef T MonoidType;
      struct Rep { typedef MonoidT<T> Type; };
      
      struct XMempty : public CFunType<T> {      
@@ -220,7 +221,7 @@ struct MonoidT
      
     struct XMappend {
       // force the return of the same type as T
-      template<class A,class B> struct Sig : public FunType<A,B,T> {};;
+      template<class A,class B> struct Sig : public FunType<A,B,T> {};
 
       template <class A>
       struct Sig<A,A> : public FunType<A,A,T> {};
@@ -1344,7 +1345,7 @@ void monoid_examples()
   MonoidPlus p33 = MonoidT<MonoidPlus>::mappend()(m1,m2);
   Serial << "MonoidT<MonoidPlus>::mappend()(m1,m2) = " << p33 << endl;
   // This is not working yet.
-  //MonoidPlus p33a = mappend<MonoidT<MonoidPlus>>()(p1,m2);
+  MonoidPlus p33a = mappend<MonoidT<MonoidPlus>>()(p1,m2);
 
 }
 
