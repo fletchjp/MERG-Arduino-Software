@@ -15,6 +15,8 @@
 // I have started to implement ways in which monoids of the same type T and different 
 // operators can be combined using mappend operations to get a result.
 // I want to have types which do bool with and and or.
+// I have done a lot on the use of mixed monoids where the result type is the same.
+// I do not think it is possible to infer the type of the mixed operations.
 //////////////////////////////////////////////////////////////////////
 // File for developments following Bartosz Milewski's work
 // "Category Theory for Programmers" and related material
@@ -1368,6 +1370,9 @@ void monoid_examples()
   // I can see no way to get mmappend(p1,m2) working.
   Serial << "======================================================"
             << endl;
+  Serial << "Operations on monoid types returning bool" << endl;
+  Serial << "======================================================"
+            << endl;
   MonoidAny any0;
   MonoidAny anyt = true;
   MonoidAny anyf = false;
@@ -1376,6 +1381,11 @@ void monoid_examples()
   MonoidAny any2 = mmappend(any0,anyf);
   if (any2()) Serial << "mmappend(any0,anyf) is true"  << endl;
   else Serial << "mmappend(any0,anyf) is false"  << endl;
+  List<MonoidAny> lany = list_with(any0,anyt,anyf);
+  Serial << "List<MonoidAny> lany = list_with(any0,anyt,anyf);" << endl;
+  MonoidAny any3 = mmconcat(lany);
+  if (any3()) Serial << "mmconcat(lany) is true"  << endl;
+  else Serial << "mmconcat(lany) is false"  << endl;
   MonoidAll all0;
   MonoidAll allt = true;
   MonoidAll allf = false;
@@ -1385,6 +1395,11 @@ void monoid_examples()
   MonoidAll all2 = mmappend(all0,allf);
   if (all2()) Serial << "mmappend(all0,allf) is true"  << endl;
   else Serial << "mmappend(all0,allf) is false"  << endl;
+  List<MonoidAll> lall = list_with(all0,allt,allf);
+  Serial << "List<MonoidAll> lall = list_with(all0,allt,allf);" << endl;
+  MonoidAll all3 = mmconcat(lall);
+  if (all3()) Serial << "mmconcat(lall) is true"  << endl;
+  else Serial << "mmconcat(lall) is false"  << endl;
  }
 
 void setup() {
