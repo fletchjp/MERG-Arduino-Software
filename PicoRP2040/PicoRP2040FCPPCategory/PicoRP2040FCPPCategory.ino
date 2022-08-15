@@ -1378,6 +1378,7 @@ void monoid_examples()
   MonoidAll allf = false;
   MonoidAll all1 = mmappend(all0,allt);
   if (all1()) Serial << "mmappend(all0,allt) is true"  << endl;
+  else Serial << "mmappend(all0,allt) is false"  << endl;
  }
 
 void setup() {
