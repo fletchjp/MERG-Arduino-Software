@@ -1431,6 +1431,9 @@ void monoid_examples()
   MonoidXor xor2 = mmappend(xor0,xorf);
   if (xor2()) Serial << "mmappend(xor0,xorf) is true"  << endl;
   else Serial << "mmappend(xor0,xorf) is false"  << endl;
+  MonoidXor xor3 = mmappend(xort,xort);
+  if (xor3()) Serial << "mmappend(xort,xort) is true"  << endl;
+  else Serial << "mmappend(xort,xort) is false"  << endl;
   }
 
 void setup() {
