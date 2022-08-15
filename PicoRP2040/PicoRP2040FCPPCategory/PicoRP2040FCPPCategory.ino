@@ -1331,12 +1331,16 @@ void monoid_examples()
   MonoidMultiplies m01 = MonoidT<MonoidMultiplies>::mempty()();
   Serial << "MonoidT<MonoidMultiplies>::mempty()() = " << m01 << endl;
   MonoidMultiplies m30 = MonoidT<MonoidMultiplies>::mappend()(m1,m2);
-  Serial << "MonoidT<MonoidMultiplies>::mappend()() = " << m30 << endl;
+  Serial << "MonoidT<MonoidMultiplies>::mappend()(m1,m2) = " << m30 << endl;
   MonoidMultiplies m6 = mconcat<MonoidT<MonoidMultiplies>>()(lm3);
   Serial << "mconcat<MonoidT<MonoidMultiplies>>()(lm3) = " << m6 << endl;
+  Serial << "mixed type operations" << endl;
   MonoidMultiplies m31 = MonoidT<MonoidMultiplies>::mappend()(m1,p2);
   MonoidMultiplies m32 = MonoidT<MonoidMultiplies>::mappend()(p1,m2);
   MonoidMultiplies m33 = MonoidT<MonoidMultiplies>::mappend()(p1,p2);
+  Serial << "MonoidT<MonoidMultiplies>::mappend()(m1,p2) = " << m31 << endl;
+  Serial << "MonoidT<MonoidMultiplies>::mappend()(p1,m2) = " << m32 << endl;
+  Serial << "MonoidT<MonoidMultiplies>::mappend()(p1,p2) = " << m33 << endl;
 
 }
 
