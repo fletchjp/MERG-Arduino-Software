@@ -58,7 +58,7 @@ Add some explanation.
 
 Remove unused arguments of nullfunN functions to supress gcc10 warnings.
 
-### src/fcpp/functoids.h  					
+### src/fcpp/monoids.h  					
 
 This is a new file to hold the functoid codes which have been developed using an RPi Pico.
 
@@ -66,4 +66,8 @@ This now includes the implementations Mstring and Mlist.
 
 I have decided not to include the output operators which are Arduino specific.
 
-I meant to call this monoids.h. I will rename it sometime soon.
+This has now been renamed from functoids.h.
+
+It now has quite a lot more code for the versions which infer the operands.
+
+There is more code to come for MonoidT<MonoidType> implementations which make it easy to have more monoids.
