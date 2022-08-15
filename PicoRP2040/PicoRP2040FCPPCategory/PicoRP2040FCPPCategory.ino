@@ -1,7 +1,8 @@
 //////////////////////////////////////////////////////////////////////
-// Pico RP2040 FC++ Catgory
+// Pico RP2040 FC++ Category
 // New example to look at code from category_fcpp.cpp
 // I have added a lot of the code and I have started to look at the examples.
+// This example is also being used for the development of the monoid code.
 //////////////////////////////////////////////////////////////////////
 // First experiments with the Monoid structure is looking interesting.
 // Idea: use inheritance from List<T> to implement a Monoid for List<T>.
@@ -106,8 +107,10 @@ typedef List<char> StringL;
 
 namespace fcpp {
 
- // Missing XOR operator for FC++ it can go to fcpp/prelude.h
- namespace impl {struct XXOr2 {
+ // Missing XOR operator for FC++ it has been moved to fcpp/prelude.h
+ /*
+ namespace impl {
+  struct XXOr2 {
    template<class T,class U> struct Sig;
 
    template<class T>
@@ -124,6 +127,7 @@ typedef Full2<impl::XXOr2> XOr2;
 FCPP_MAYBE_NAMESPACE_OPEN
 FCPP_MAYBE_EXTERN XOr2 xor2;
 FCPP_MAYBE_NAMESPACE_CLOSE
+*/
 
 /// Monoid operations based on ideas from https://bartoszmilewski.com/2014/12/05/categories-great-and-small/
 /// and also from Learn You a Haskell for Great Good! p.252.
