@@ -1424,9 +1424,9 @@ void monoid_examples()
   MonoidAny any5 = mnot<MonoidT<MonoidAny>>()(mmconcat(lany));
   if (any4()) Serial << "mnot<MonoidT<MonoidAny>>()(mmconcat(lany)) is true"  << endl;
   else Serial << "mnot<MonoidT<MonoidAny>>()(mmconcat(lany)) is false"  << endl;
-  MonoidAny any6 = mnot(mmconcat(lany));
-  if (any4()) Serial << "mnot(mmconcat(lany)) is true"  << endl;
-  else Serial << "mnot(mmconcat(lany)) is false"  << endl;
+  MonoidAny any6 = mmnot(mmconcat(lany));
+  if (any4()) Serial << "mmnot(mmconcat(lany)) is true"  << endl;
+  else Serial << "mmnot(mmconcat(lany)) is false"  << endl;
   MonoidAll all0;
   MonoidAll allt = true;
   MonoidAll allf = false;
