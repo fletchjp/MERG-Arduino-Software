@@ -147,7 +147,7 @@ template <class Monoid> struct Mconcat
 template <class Monoid> Full1<impl::XMnot<Monoid> > mnot()
 { return makeFull1( impl::XMnot<Monoid>() ); }
 template <class Monoid> struct Mnot
-{ typedef Full1<impl::Xnot<Monoid> > Type; };
+{ typedef Full1<impl::XMnot<Monoid> > Type; };
 
 
 ////////////////////////////////////////////////////////////////////
