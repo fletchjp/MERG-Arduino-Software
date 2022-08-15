@@ -17,6 +17,7 @@
 // I want to have types which do bool with and and or.
 // I have done a lot on the use of mixed monoids where the result type is the same.
 // I do not think it is possible to infer the type of the mixed operations.
+// I would like to extend to exclusive or (XOR) which I have not found in FC++.
 //////////////////////////////////////////////////////////////////////
 // File for developments following Bartosz Milewski's work
 // "Category Theory for Programmers" and related material
@@ -104,6 +105,24 @@ using namespace fcpp;
 typedef List<char> StringL;
 
 namespace fcpp {
+ // Missing XOR operator for FC++
+ namespace impl {struct XXOr2 {
+   template<class T,class U> struct Sig;
+
+   template<class T>
+   struct Sig<T,T> : public FunType<T,T,bool> {};
+
+    template <class T>
+    bool operator()( const T& x, const T& y ) const {
+      return (!x != !y );
+      }
+    };
+ 
+  }
+typedef Full2<impl::XXOr2> XOr2;
+FCPP_MAYBE_NAMESPACE_OPEN
+FCPP_MAYBE_EXTERN XOr2 xor2;
+FCPP_MAYBE_NAMESPACE_CLOSE
 
 /// Monoid operations based on ideas from https://bartoszmilewski.com/2014/12/05/categories-great-and-small/
 /// and also from Learn You a Haskell for Great Good! p.252.
@@ -197,6 +216,10 @@ template <> fcpp::Multiplies MonoidMultiplies::op = fcpp::multiplies;
 typedef MonoidType<bool,Or2> MonoidAny;
 template <> bool MonoidType<bool,Or2>::zero = false;
 template <> fcpp::Or2 MonoidAny::op = fcpp::or2;
+
+typedef MonoidType<bool,XOr2> MonoidXor;
+template <> bool MonoidType<bool,XOr2>::zero = false;
+template <> fcpp::XOr2 MonoidXor::op = fcpp::xor2;
 
 typedef MonoidType<bool,And2> MonoidAll;
 template <> bool MonoidType<bool,And2>::zero = true;
@@ -1400,7 +1423,15 @@ void monoid_examples()
   MonoidAll all3 = mmconcat(lall);
   if (all3()) Serial << "mmconcat(lall) is true"  << endl;
   else Serial << "mmconcat(lall) is false"  << endl;
- }
+  MonoidXor xor0;
+  MonoidXor xort = true;
+  MonoidXor xorf = false;
+  MonoidXor xor1 = mmappend(xor0,xort);
+  if (xor1()) Serial << "mmappend(xor0,xort) is true"  << endl;
+  MonoidXor xor2 = mmappend(xor0,xorf);
+  if (xor2()) Serial << "mmappend(xor0,xorf) is true"  << endl;
+  else Serial << "mmappend(xor0,xorf) is false"  << endl;
+  }
 
 void setup() {
   // put your setup code here, to run once:
