@@ -1568,14 +1568,30 @@ namespace impl {
       return x || y;
     }
  };
+
+ // Previously missing XOR operator
+  struct XXOr2 {
+   template<class T,class U> struct Sig;
+
+   template<class T>
+   struct Sig<T,T> : public FunType<T,T,bool> {};
+
+    template <class T>
+    bool operator()( const T& x, const T& y ) const {
+      return (!x != !y );
+      }
+    };
+ 
 }
 typedef Full1<impl::XNot> Not_;
 typedef Full2<impl::XAnd2> And2;
 typedef Full2<impl::XOr2> Or2;
+typedef Full2<impl::XXOr2> XOr2;
 FCPP_MAYBE_NAMESPACE_OPEN
 FCPP_MAYBE_EXTERN Not_ not_;
 FCPP_MAYBE_EXTERN And2 and2;
 FCPP_MAYBE_EXTERN Or2 or2;
+FCPP_MAYBE_EXTERN XOr2 xor2;
 FCPP_MAYBE_NAMESPACE_CLOSE
 
 namespace impl {
