@@ -105,7 +105,8 @@ using namespace fcpp;
 typedef List<char> StringL;
 
 namespace fcpp {
- // Missing XOR operator for FC++
+
+ // Missing XOR operator for FC++ it can go to fcpp/prelude.h
  namespace impl {struct XXOr2 {
    template<class T,class U> struct Sig;
 
@@ -142,9 +143,11 @@ FCPP_MAYBE_NAMESPACE_CLOSE
 
 /// Infer structure from the equivalent for Monad in monad.h
 
-/// Code now moved to fcpp/functoids.h except for Arduino specific output operators which are retained here.
-/// I meant to call the file fcpp/monoids.h and I have become confused.
-
+/// Code now moved to fcpp/monoids.h except for Arduino specific output operators which are retained here.
+/// It is now renamed from fcpp/functoids.h.
+///
+/// More code (below) can now move as well.
+///
 //////////////////////////////////////////////////////////////////////
 /// Free functions for Monoids
 ///    mempty  :: m
@@ -161,7 +164,7 @@ FCPP_MAYBE_NAMESPACE_CLOSE
 /// mmconcat(lm)       - now inferrable for Mstring, Mlist<T> and MonoidT<T> types
 ///
 /// mnot<Monoid>()(m)  - m -> !m  - I have invented this to make things easier to use.
-/// mmnot(m)           - now inferrable for MonoidT<T> types.
+/// mmnot(m)           - now inferrable for MonoidT<MonoidType> types.
 //////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////
@@ -183,7 +186,7 @@ FCPP_MAYBE_NAMESPACE_CLOSE
 //////////////////////////////////////////////////////////////////////
 /// A construct for an instance of a Monoid based on List<T>.
 /////////////////////////////////////////////////////////////////////
-/// The above have been moved to fcpp/functoids.h
+/// The above have been moved to fcpp/monoids.h
 /////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////
