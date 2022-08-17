@@ -72,3 +72,5 @@ This code now has examples of Monoid implementation including Mstream and Mlist<
 
 This now includes the capability to infer the Monoid type when this is implemented.
 
+This example is becoming a location for bringing together various definitions and ways of looking at things.
+
