@@ -10,5 +10,7 @@ I will be converting some examples to work with the Pico RP2040.
 
 I wanted to be able to use the equivalent of the Arduino Streaming library with the Pico code. I have found that is works.
 
-The examples are described in a separate file
+The examples are described in a separate file.
+
+I am accumulating there a lot of understanding of functional programming in C++
 
