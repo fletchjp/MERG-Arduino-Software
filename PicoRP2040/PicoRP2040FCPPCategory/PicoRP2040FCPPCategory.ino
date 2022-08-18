@@ -187,8 +187,24 @@ namespace fcpp {
 // I want to explore interoperability of types with the same underlying T.
 // MonoidType and MonoidT code now moved to fcpp/monoid.h
 /////////////////////////////////////////////////////////////////////
+// Insights from Typeclassopedia.
+// 1.
+// If a and b are instances of Monoid, then so is (a,b),
+// using the monoid operations for a and b in the obvious pairwise manner.
+// Note: (a,b) is Haskell notation for a pair.
+// 2.
+// If a is a Monoid, then so is the function type e -> a for any e;
+// in particular, g `mappend` h is the function which applies both g and h
+// to its argument and then combines the results
+// using the underlying Monoid instance for a.
+// This can be quite useful and elegant 
+//
 
-
+// Example of 1.
+//typedef std::pair<MonoidPlus,MonoidMultiplies> MonoidPair;
+typedef MonoidType<std::pair<int,int>,std::pair<Plus,Multiplies>> MonoidPair;
+template <> std::pair<int,int> MonoidPair::zero = std::make_pair(0,1);
+template <> std::pair<fcpp::Plus,fcpp::Multiplies> MonoidPair::op = std::make_pair(fcpp::plus,fcpp::multiplies);
 
 //////////////////////////////////////////////////////////////////////////
 /// Output operators for the Monoid types.
@@ -262,7 +278,10 @@ Print &operator << ( Print &obj, const MonoidType<T,Op> &arg)
     return obj; 
 }
 
-
+////////////////////////////////////////////////////////////////////////
+/// I am going to look at this in the light of the comments
+/// in Typeclassopedia. I am going to look at the Writer monad as well.
+////////////////////////////////////////////////////////////////////////
 /// Parser monad which is based on the work of Hutton and Meijer.
 /// I have the paper.
 /// This is a translation of the Haskell in the paper into FC++
@@ -586,6 +605,9 @@ typedef Full1<impl::XTrail> Trail;
     }
  #endif
 
+////////////////////////////////////////////////////////
+// I am going to review this in the light of the things
+// in Typeclassopedia.
 ////////////////////////////////////////////////////////
 // General structure for Writer.
 // Message follows the EitherError structure for Either.
