@@ -1,5 +1,6 @@
 //////////////////////////////////////////////////////////////////////
 // Pico RP2040 Glucat
+// This will not work until I have sorted out some way to deal with exceptions.
 //////////////////////////////////////////////////////////////////////
 
 #include <string>
@@ -32,7 +33,7 @@ void do_test1_double()
     index_set<DEFAULT_LO,DEFAULT_HI> i1(1);
     index_set<DEFAULT_LO,DEFAULT_HI> i2(2);
     //number z1(i1,1.);
-    number z2(i2);
+    //number z2(i2);
     //Serial<< "in do_test1() after sqrt with i1 = " << i1 << endl;
     //Serial << "in do_test1() after sqrt with z1 = " << z1 << endl;
     //Serial << "in do_test1() after sqrt with z2 = " << z2 << endl;
