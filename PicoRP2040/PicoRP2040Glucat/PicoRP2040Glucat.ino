@@ -4,6 +4,8 @@
 
 #include <string>
 
+#include "glucat.h"
+
 #include <Streaming.h>
 
 
@@ -19,7 +21,7 @@ void setup() {
   Serial.begin (115200);
   while (!Serial) { }
   //::delay(5000);
-  Serial.printf("Pico RP2040 Glucay operations\n");
+  Serial.printf("Pico RP2040 Glucat operations\n");
   glucat_examples();
   Serial.println("after fcpp_examples");
 }
