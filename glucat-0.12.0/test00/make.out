@@ -1,0 +1,282 @@
+g++ -std=c++11 -std=c++11 -DHAVE_CONFIG_H -I. -I..  -I. -I..   -I/home/leopardi/src-downloaded/numeric_bindings   -Wall -g -O3  -march=native -finline-limit=8000 --param large-function-insns=8000 --param max-inline-insns-auto=8000 --param max-inline-insns-single=8000 --param inline-unit-growth=200 --param large-function-growth=200 -funroll-loops -fvariable-expansion-in-unroller -DNDEBUG -D_GLUCAT_USE_QD -D_GLUCAT_USE_EIGENVALUES -D_GLUCAT_USE_BINDINGS -D_GLUCAT_USE_DENSE_MATRICES -D_GLUCAT_CHECK_ISNAN -Wno-unused-local-typedefs -Wno-deprecated-register -fno-check-new -DHAVE_BITS_WORDSIZE_H -D_GLUCAT_HAVE_BOOST_SERIALIZATION_ARRAY_WRAPPER_H -fexceptions -MT peg00.o -MD -MP -MF .deps/peg00.Tpo -c -o peg00.o peg00.cpp
+In file included from ../glucat/glucat_imp.h:46,
+                 from ../test/driver.h:36,
+                 from peg00.cpp:32:
+../glucat/framed_multi_imp.h: In function ‘const glucat::framed_multi<Scalar_T, LO, HI> glucat::operator*(const glucat::framed_multi<Scalar_T, LO, HI>&, const glucat::framed_multi<Scalar_T, LO, HI>&)’:
+../glucat/framed_multi_imp.h:452:13: error: ‘result_array’ was not declared in this scope; did you mean ‘reallocarray’?
+  452 |         if (result_array[stv] != Scalar_T(0))
+      |             ^~~~~~~~~~~~
+      |             reallocarray
+../glucat/framed_multi_imp.h: At global scope:
+../glucat/framed_multi_imp.h:457:5: error: expected unqualified-id before ‘else’
+  457 |     else
+      |     ^~~~
+../glucat/framed_multi_imp.h:466:38: error: ‘index_t’ does not name a type
+  466 |   template< typename Scalar_T, const index_t LO, const index_t HI >
+      |                                      ^~~~~~~
+../glucat/framed_multi_imp.h:474:3: error: expected ‘>’ before ‘template’
+  474 |   template< typename Scalar_T, const index_t LO, const index_t HI >
+      |   ^~~~~~~~
+../glucat/framed_multi_imp.h:477:3: error: expected unqualified-id before ‘{’ token
+  477 |   { // Arvind Raja's original reference:
+      |   ^
+../glucat/framed_multi_imp.h:549:38: error: ‘index_t’ does not name a type
+  549 |   template< typename Scalar_T, const index_t LO, const index_t HI >
+      |                                      ^~~~~~~
+../glucat/framed_multi_imp.h:557:3: error: expected ‘>’ before ‘template’
+  557 |   template< typename Scalar_T, const index_t LO, const index_t HI >
+      |   ^~~~~~~~
+../glucat/framed_multi_imp.h:560:3: error: expected unqualified-id before ‘{’ token
+  560 |   { // Arvind Raja's original reference:
+      |   ^
+../glucat/framed_multi_imp.h:655:38: error: ‘index_t’ does not name a type
+  655 |   template< typename Scalar_T, const index_t LO, const index_t HI >
+      |                                      ^~~~~~~
+../glucat/framed_multi_imp.h:663:3: error: expected ‘>’ before ‘template’
+  663 |   template< typename Scalar_T, const index_t LO, const index_t HI >
+      |   ^~~~~~~~
+../glucat/framed_multi_imp.h:666:3: error: expected unqualified-id before ‘{’ token
+  666 |   {
+      |   ^
+../glucat/framed_multi_imp.h:776:38: error: ‘index_t’ does not name a type
+  776 |   template< typename Scalar_T, const index_t LO, const index_t HI >
+      |                                      ^~~~~~~
+../glucat/framed_multi_imp.h:784:3: error: expected ‘>’ before ‘template’
+  784 |   template< typename Scalar_T, const index_t LO, const index_t HI >
+      |   ^~~~~~~~
+../glucat/framed_multi_imp.h:787:3: error: expected unqualified-id before ‘{’ token
+  787 |   {
+      |   ^
+../glucat/framed_multi_imp.h:818:38: error: ‘index_t’ does not name a type
+  818 |   template< typename Scalar_T, const index_t LO, const index_t HI >
+      |                                      ^~~~~~~
+../glucat/framed_multi_imp.h:842:3: error: expected ‘>’ before ‘template’
+  842 |   template< typename Scalar_T, const index_t LO, const index_t HI >
+      |   ^~~~~~~~
+../glucat/framed_multi_imp.h:846:3: error: expected unqualified-id before ‘{’ token
+  846 |   {
+      |   ^
+../glucat/framed_multi_imp.h:860:38: error: ‘index_t’ does not name a type
+  860 |   template< typename Scalar_T, const index_t LO, const index_t HI >
+      |                                      ^~~~~~~
+../glucat/framed_multi_imp.h:868:3: error: expected ‘>’ before ‘template’
+  868 |   template< typename Scalar_T, const index_t LO, const index_t HI >
+      |   ^~~~~~~~
+../glucat/framed_multi_imp.h:872:3: error: expected unqualified-id before ‘{’ token
+  872 |   {
+      |   ^
+../glucat/framed_multi_imp.h:880:38: error: ‘index_t’ does not name a type
+  880 |   template< typename Scalar_T, const index_t LO, const index_t HI >
+      |                                      ^~~~~~~
+../glucat/framed_multi_imp.h:888:3: error: expected ‘>’ before ‘template’
+  888 |   template< typename Scalar_T, const index_t LO, const index_t HI >
+      |   ^~~~~~~~
+../glucat/framed_multi_imp.h:893:3: error: expected unqualified-id before ‘{’ token
+  893 |   {
+      |   ^
+../glucat/framed_multi_imp.h:899:38: error: ‘index_t’ does not name a type
+  899 |   template< typename Scalar_T, const index_t LO, const index_t HI >
+      |                                      ^~~~~~~
+../glucat/framed_multi_imp.h:906:3: error: expected ‘>’ before ‘template’
+  906 |   template< typename Scalar_T, const index_t LO, const index_t HI >
+      |   ^~~~~~~~
+../glucat/framed_multi_imp.h:910:3: error: expected unqualified-id before ‘{’ token
+  910 |   {
+      |   ^
+../glucat/framed_multi_imp.h:924:38: error: ‘index_t’ does not name a type
+  924 |   template< typename Scalar_T, const index_t LO, const index_t HI >
+      |                                      ^~~~~~~
+../glucat/framed_multi_imp.h:940:3: error: expected ‘>’ before ‘template’
+  940 |   template< typename Scalar_T, const index_t LO, const index_t HI >
+      |   ^~~~~~~~
+../glucat/framed_multi_imp.h:945:3: error: expected unqualified-id before ‘{’ token
+  945 |   {
+      |   ^
+../glucat/framed_multi_imp.h:956:38: error: ‘index_t’ does not name a type
+  956 |   template< typename Scalar_T, const index_t LO, const index_t HI >
+      |                                      ^~~~~~~
+../glucat/framed_multi_imp.h:970:3: error: expected ‘>’ before ‘template’
+  970 |   template< typename Scalar_T, const index_t LO, const index_t HI >
+      |   ^~~~~~~~
+../glucat/framed_multi_imp.h:974:3: error: expected unqualified-id before ‘{’ token
+  974 |   {
+      |   ^
+../glucat/framed_multi_imp.h:991:38: error: ‘index_t’ does not name a type
+  991 |   template< typename Scalar_T, const index_t LO, const index_t HI >
+      |                                      ^~~~~~~
+../glucat/framed_multi_imp.h:999:3: error: expected ‘>’ before ‘template’
+  999 |   template< typename Scalar_T, const index_t LO, const index_t HI >
+      |   ^~~~~~~~
+../glucat/framed_multi_imp.h:1004:3: error: expected unqualified-id before ‘{’ token
+ 1004 |   { return *this - this->scalar(); }
+      |   ^
+../glucat/framed_multi_imp.h:1007:38: error: ‘index_t’ does not name a type
+ 1007 |   template< typename Scalar_T, const index_t LO, const index_t HI >
+      |                                      ^~~~~~~
+../glucat/framed_multi_imp.h:1023:3: error: expected ‘>’ before ‘template’
+ 1023 |   template< typename Scalar_T, const index_t LO, const index_t HI >
+      |   ^~~~~~~~
+../glucat/framed_multi_imp.h:1027:3: error: expected unqualified-id before ‘{’ token
+ 1027 |   { // even part of x, sum of the pure(count) with even count
+      |   ^
+../glucat/framed_multi_imp.h:1039:38: error: ‘index_t’ does not name a type
+ 1039 |   template< typename Scalar_T, const index_t LO, const index_t HI >
+      |                                      ^~~~~~~
+../glucat/framed_multi_imp.h:1046:3: error: expected ‘>’ before ‘template’
+ 1046 |   template< typename Scalar_T, const index_t LO, const index_t HI >
+      |   ^~~~~~~~
+../glucat/framed_multi_imp.h:1050:3: error: expected unqualified-id before ‘{’ token
+ 1050 |   {
+      |   ^
+../glucat/framed_multi_imp.h:1068:38: error: ‘index_t’ does not name a type
+ 1068 |   template< typename Scalar_T, const index_t LO, const index_t HI >
+      |                                      ^~~~~~~
+../glucat/framed_multi_imp.h:1086:3: error: expected ‘>’ before ‘template’
+ 1086 |   template< typename Scalar_T, const index_t LO, const index_t HI >
+      |   ^~~~~~~~
+../glucat/framed_multi_imp.h:1090:3: error: expected unqualified-id before ‘{’ token
+ 1090 |   {
+      |   ^
+../glucat/framed_multi_imp.h:1111:38: error: ‘index_t’ does not name a type
+ 1111 |   template< typename Scalar_T, const index_t LO, const index_t HI >
+      |                                      ^~~~~~~
+../glucat/framed_multi_imp.h:1136:3: error: expected ‘>’ before ‘template’
+ 1136 |   template< typename Scalar_T, const index_t LO, const index_t HI >
+      |   ^~~~~~~~
+../glucat/framed_multi_imp.h:1140:3: error: expected unqualified-id before ‘{’ token
+ 1140 |   {
+      |   ^
+../glucat/framed_multi_imp.h:1159:38: error: ‘index_t’ does not name a type
+ 1159 |   template< typename Scalar_T, const index_t LO, const index_t HI >
+      |                                      ^~~~~~~
+../glucat/framed_multi_imp.h:1179:3: error: expected ‘>’ before ‘template’
+ 1179 |   template< typename Scalar_T, const index_t LO, const index_t HI >
+      |   ^~~~~~~~
+../glucat/framed_multi_imp.h:1183:3: error: expected unqualified-id before ‘{’ token
+ 1183 |   {
+      |   ^
+../glucat/framed_multi_imp.h:1200:38: error: ‘index_t’ does not name a type
+ 1200 |   template< typename Scalar_T, const index_t LO, const index_t HI >
+      |                                      ^~~~~~~
+../glucat/framed_multi_imp.h:1235:3: error: expected ‘>’ before ‘template’
+ 1235 |   template< typename Scalar_T, const index_t LO, const index_t HI >
+      |   ^~~~~~~~
+../glucat/framed_multi_imp.h:1240:3: error: expected unqualified-id before ‘{’ token
+ 1240 |   { std::cout << msg << std::endl << "  " << (*this) << std::endl; }
+      |   ^
+../glucat/framed_multi_imp.h:1243:38: error: ‘index_t’ does not name a type
+ 1243 |   template< typename Scalar_T, const index_t LO, const index_t HI >
+      |                                      ^~~~~~~
+../glucat/framed_multi_imp.h:1255:3: error: expected ‘>’ before ‘template’
+ 1255 |   template< typename Map_T,typename Sorted_Map_T >
+      |   ^~~~~~~~
+../glucat/framed_multi_imp.h:1257:3: error: expected unqualified-id before ‘{’ token
+ 1257 |   {
+      |   ^
+../glucat/framed_multi_imp.h:1278:9: error: ‘sorted_range’ is not a class template
+ 1278 |   class sorted_range< Sorted_Map_T, Sorted_Map_T >
+      |         ^~~~~~~~~~~~
+../glucat/framed_multi_imp.h:1294:38: error: ‘index_t’ does not name a type
+ 1294 |   template< typename Scalar_T, const index_t LO, const index_t HI >
+      |                                      ^~~~~~~
+../glucat/framed_multi_imp.h:1355:3: error: expected ‘>’ before ‘template’
+ 1355 |   template< typename Scalar_T, const index_t LO, const index_t HI >
+      |   ^~~~~~~~
+../glucat/framed_multi_imp.h:1358:3: error: expected unqualified-id before ‘{’ token
+ 1358 |   {
+      |   ^
+../glucat/framed_multi_imp.h:1393:38: error: ‘index_t’ does not name a type
+ 1393 |   template< typename Scalar_T, const index_t LO, const index_t HI >
+      |                                      ^~~~~~~
+../glucat/framed_multi_imp.h:1501:3: error: expected ‘>’ before ‘template’
+ 1501 |   template< typename Scalar_T, const index_t LO, const index_t HI >
+      |   ^~~~~~~~
+../glucat/framed_multi_imp.h:1505:3: error: expected unqualified-id before ‘{’ token
+ 1505 |   { return this->size(); }
+      |   ^
+../glucat/framed_multi_imp.h:1508:38: error: ‘index_t’ does not name a type
+ 1508 |   template< typename Scalar_T, const index_t LO, const index_t HI >
+      |                                      ^~~~~~~
+../glucat/framed_multi_imp.h:1529:3: error: expected ‘>’ before ‘template’
+ 1529 |   template< typename Scalar_T, const index_t LO, const index_t HI >
+      |   ^~~~~~~~
+../glucat/framed_multi_imp.h:1533:3: error: expected unqualified-id before ‘{’ token
+ 1533 |   {
+      |   ^
+../glucat/framed_multi_imp.h:1547:38: error: ‘index_t’ does not name a type
+ 1547 |   template< typename Scalar_T, const index_t LO, const index_t HI >
+      |                                      ^~~~~~~
+../glucat/framed_multi_imp.h:1565:3: error: expected ‘>’ before ‘template’
+ 1565 |   template< typename Scalar_T, const index_t LO, const index_t HI >
+      |   ^~~~~~~~
+../glucat/framed_multi_imp.h:1569:3: error: expected unqualified-id before ‘{’ token
+ 1569 |   {
+      |   ^
+../glucat/framed_multi_imp.h:1588:38: error: ‘index_t’ does not name a type
+ 1588 |   template< typename Scalar_T, const index_t LO, const index_t HI >
+      |                                      ^~~~~~~
+../glucat/framed_multi_imp.h:1608:3: error: expected ‘>’ before ‘template’
+ 1608 |   template< typename Scalar_T, const index_t LO, const index_t HI >
+      |   ^~~~~~~~
+../glucat/framed_multi_imp.h:1612:3: error: expected unqualified-id before ‘{’ token
+ 1612 |   {
+      |   ^
+../glucat/framed_multi_imp.h:1629:38: error: ‘index_t’ does not name a type
+ 1629 |   template< typename Scalar_T, const index_t LO, const index_t HI >
+      |                                      ^~~~~~~
+../glucat/framed_multi_imp.h:1674:3: error: expected ‘>’ before ‘template’
+ 1674 |   template< typename Scalar_T, const index_t LO, const index_t HI >
+      |   ^~~~~~~~
+../glucat/framed_multi_imp.h:1678:3: error: expected unqualified-id before ‘{’ token
+ 1678 |   {
+      |   ^
+../glucat/framed_multi_imp.h:1719:38: error: ‘index_t’ does not name a type
+ 1719 |   template< typename Scalar_T, const index_t LO, const index_t HI >
+      |                                      ^~~~~~~
+../glucat/framed_multi_imp.h:1755:3: error: expected ‘>’ before ‘template’
+ 1755 |   template< typename Scalar_T, const index_t LO, const index_t HI >
+      |   ^~~~~~~~
+../glucat/framed_multi_imp.h:1759:3: error: expected unqualified-id before ‘{’ token
+ 1759 |   {
+      |   ^
+../glucat/framed_multi_imp.h:1774:38: error: ‘index_t’ does not name a type
+ 1774 |   template< typename Scalar_T, const index_t LO, const index_t HI >
+      |                                      ^~~~~~~
+../glucat/framed_multi_imp.h:1839:3: error: expected ‘>’ before ‘template’
+ 1839 |   template< typename Scalar_T, const index_t LO, const index_t HI >
+      |   ^~~~~~~~
+../glucat/framed_multi_imp.h:1844:3: error: expected unqualified-id before ‘{’ token
+ 1844 |   {
+      |   ^
+../glucat/framed_multi_imp.h:1871:38: error: ‘index_t’ does not name a type
+ 1871 |   template< typename Scalar_T, const index_t LO, const index_t HI >
+      |                                      ^~~~~~~
+../glucat/framed_multi_imp.h:1879:3: error: expected ‘>’ before ‘template’
+ 1879 |   template< typename Scalar_T, const index_t LO, const index_t HI >
+      |   ^~~~~~~~
+../glucat/framed_multi_imp.h:1885:3: error: expected unqualified-id before ‘{’ token
+ 1885 |   { return lhs.first.sign_of_mult(rhs.first) * lhs.second * rhs.second; }
+      |   ^
+../glucat/framed_multi_imp.h:1888:38: error: ‘index_t’ does not name a type
+ 1888 |   template< typename Scalar_T, const index_t LO, const index_t HI >
+      |                                      ^~~~~~~
+../glucat/framed_multi_imp.h:1899:3: error: expected ‘>’ before ‘template’
+ 1899 |   template< typename Scalar_T, const index_t LO, const index_t HI >
+      |   ^~~~~~~~
+../glucat/framed_multi_imp.h:1902:3: error: expected unqualified-id before ‘{’ token
+ 1902 |   {
+      |   ^
+../glucat/framed_multi_imp.h:1922:38: error: ‘index_t’ does not name a type
+ 1922 |   template< typename Scalar_T, const index_t LO, const index_t HI >
+      |                                      ^~~~~~~
+../glucat/framed_multi_imp.h:1972:3: error: expected ‘>’ before ‘template’
+ 1972 |   template< typename Scalar_T, const index_t LO, const index_t HI >
+      |   ^~~~~~~~
+../glucat/framed_multi_imp.h:1975:3: error: expected unqualified-id before ‘{’ token
+ 1975 |   {
+      |   ^
+../glucat/framed_multi_imp.h:1993:1: error: expected declaration before ‘}’ token
+ 1993 | }
+      | ^
+cc1plus: note: unrecognized command-line option ‘-Wno-deprecated-register’ may have been intended to silence earlier diagnostics
+make: *** [Makefile:363: peg00.o] Error 1

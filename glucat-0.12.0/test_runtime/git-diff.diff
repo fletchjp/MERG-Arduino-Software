@@ -1,0 +1,1009 @@
+diff --git a/INSTALL.md b/INSTALL.md
+index aa3fdd4..11aea28 100644
+--- a/INSTALL.md
++++ b/INSTALL.md
+@@ -524,17 +524,18 @@ order. With zero parameters, all examples from `00` to `17` are run in order.
+ Many of the examples are run twice - once with `framed_multi<Scalar_T>` and once
+ with `matrix_multi<Scalar_T>`.
+ 
+-The `./test_runtime` directory contains 20 sample versions of the regression test
+-results, corresponding to 10 different combinations of configuration parameters,
++The `./test_runtime` directory contains 24 sample versions of the regression test
++results, corresponding to 14 different combinations of configuration parameters,
+ for two different sets of tests, the complete set of 18 tests, and a subset of 3
+ tests. The tests were all run on an Intel(R) Core(TM) i7 CPU 870  @ 2.93GHz+ with
+ ```
+-    Linux 5.13.0-25-generic #26-Ubuntu SMP x86_64
+-    Kubuntu 21.10
+-    gcc version 11.2.0 (Ubuntu 11.2.0-7ubuntu2)
++    Linux 5.15.0-33-generic #34-Ubuntu SMP x86_64
++    Kubuntu 22.04 LTS
++    gcc version 12.1.0 (Ubuntu 12.1.0-2ubuntu1~22.04)
++    Blaze 3.9.0
+     Boost 1.74.0
+     Boost Numeric Bindings
+-    GSL 2.6
++    GSL 2.7.1
+     QD 2.3.22
+     Cython 0.29.21
+     Python 3.9.7
+@@ -783,15 +784,16 @@ The default is:
+ The sample timing test results in `./test_runtime` are from programs
+ built and run using the configure command:
+ ```
+-./configure --with-eig=bindings --with-extra-includes=$PATHTO/numeric_bindings \
+-            --with-qd
++./configure --with-eig=blaze --with-qd
+ ```
+ on `Intel(R) Core(TM) i7 CPU 870  @ 2.93GHz+` with
+ ```
+-    Linux 5.15.0-27-generic #28-Ubuntu SMP x86_64
++    Linux 5.15.0-33-generic #34-Ubuntu SMP x86_64
+     Kubuntu 22.04 LTS
+-    gcc version 11.2.0 (Ubuntu 11.2.0-19ubuntu1)
++    gcc version 12.1.0 (Ubuntu 12.1.0-2ubuntu1~22.04)
++    Blaze 3.9.0
+     Boost 1.74.0
++    Boost Numeric Bindings
+     GSL 2.7.1
+     QD 2.3.23
+ ```
+diff --git a/test_runtime/gfft_test-11.out b/test_runtime/gfft_test-11.out
+index 1dfe947..9a33f80 100644
+--- a/test_runtime/gfft_test-11.out
++++ b/test_runtime/gfft_test-11.out
+@@ -1,70 +1,70 @@
+ Clifford algebra transform test:
+ Fill: 0.5
+ R_{-11,11} in R_{-11,11}:
+- CPU = mm:        0.031 fm:        0.017 trials mm:     1 fm:     1  diff: 0.00e+00
++ CPU = mm:        0.026 fm:        0.020 trials mm:     1 fm:     1  diff: 0.00e+00
+ R_{-10,10} in R_{-10,10}:
+- CPU = mm:        0.010 fm:        0.008 trials mm:     1 fm:     1  diff: 0.00e+00
++ CPU = mm:        0.007 fm:        0.006 trials mm:     1 fm:     1  diff: 0.00e+00
+ R_{-9,9} in R_{-9,9}:
+- CPU = mm:        0.007 fm:        0.006 trials mm:     1 fm:     1  diff: 7.74e-17
++ CPU = mm:        0.005 fm:        0.005 trials mm:     1 fm:     1  diff: 7.74e-17
+ R_{-8,8} in R_{-8,8}:
+- CPU = mm:        0.006 fm:        0.006 trials mm:     1 fm:     1  diff: 0.00e+00
++ CPU = mm:        0.005 fm:        0.005 trials mm:     1 fm:     1  diff: 0.00e+00
+ R_{-7,7} in R_{-7,7}:
+- CPU = mm:        0.008 fm:        0.006 trials mm:     1 fm:     1  diff: 0.00e+00
+-R_{-6,6} in R_{-6,6}:
+  CPU = mm:        0.006 fm:        0.005 trials mm:     1 fm:     1  diff: 0.00e+00
++R_{-6,6} in R_{-6,6}:
++ CPU = mm:        0.004 fm:        0.004 trials mm:     1 fm:     1  diff: 0.00e+00
+ R_{-5,5} in R_{-5,5}:
+- CPU = mm:        0.007 fm:        0.006 trials mm:     1 fm:     1  diff: 0.00e+00
++ CPU = mm:        0.006 fm:        0.005 trials mm:     1 fm:     1  diff: 0.00e+00
+ R_{-10,-5,5,10} in R_{-10,-5,5,10}:
+- CPU = mm:        0.042 fm:        0.038 trials mm:     1 fm:     1  diff: 5.30e-17
++ CPU = mm:        0.034 fm:        0.031 trials mm:     1 fm:     1  diff: 5.30e-17
+ R_{-4,4} in R_{-4,4}:
+- CPU = mm:        0.007 fm:        0.006 trials mm:     1 fm:     1  diff: 0.00e+00
++ CPU = mm:        0.005 fm:        0.005 trials mm:     1 fm:     1  diff: 0.00e+00
+ R_{-8,-4,4,8} in R_{-8,-4,4,8}:
+- CPU = mm:        0.025 fm:        0.025 trials mm:     1 fm:     1  diff: 4.73e-17
++ CPU = mm:        0.019 fm:        0.020 trials mm:     1 fm:     1  diff: 4.73e-17
+ R_{-3,3} in R_{-3,3}:
+- CPU = mm:        0.006 fm:        0.005 trials mm:     1 fm:     1  diff: 0.00e+00
++ CPU = mm:        0.005 fm:        0.005 trials mm:     1 fm:     1  diff: 0.00e+00
+ R_{-6,-3,3,6} in R_{-6,-3,3,6}:
+- CPU = mm:        0.029 fm:        0.028 trials mm:     1 fm:     1  diff: 9.73e-17
++ CPU = mm:        0.023 fm:        0.023 trials mm:     1 fm:     1  diff: 9.73e-17
+ R_{-9,-6,-3,3,6,9} in R_{-9,-6,-3,3,6,9}:
+- CPU = mm:        0.170 fm:        0.188 trials mm:     1 fm:     1  diff: 1.00e-16
++ CPU = mm:        0.136 fm:        0.153 trials mm:     1 fm:     1  diff: 1.00e-16
+ R_{-2,2} in R_{-2,2}:
+- CPU = mm:        0.009 fm:        0.006 trials mm:     1 fm:     1  diff: 0.00e+00
++ CPU = mm:        0.006 fm:        0.005 trials mm:     1 fm:     1  diff: 0.00e+00
+ R_{-4,-2,2,4} in R_{-4,-2,2,4}:
+- CPU = mm:        0.031 fm:        0.032 trials mm:     1 fm:     1  diff: 5.40e-17
++ CPU = mm:        0.025 fm:        0.026 trials mm:     1 fm:     1  diff: 5.40e-17
+ R_{-6,-4,-2,2,4,6} in R_{-6,-4,-2,2,4,6}:
+- CPU = mm:        0.147 fm:        0.254 trials mm:     1 fm:     1  diff: 8.38e-17
++ CPU = mm:        0.117 fm:        0.148 trials mm:     1 fm:     1  diff: 8.38e-17
+ R_{-8,-6,-4,-2,2,4,6,8} in R_{-8,-6,-4,-2,2,4,6,8}:
+- CPU = mm:        0.577 fm:        0.771 trials mm:     1 fm:     1  diff: 1.14e-16
++ CPU = mm:        0.583 fm:        0.783 trials mm:     1 fm:     1  diff: 1.14e-16
+ R_{-10,-8,-6,-4,-2,2,4,6,8,10} in R_{-10,-8,-6,-4,-2,2,4,6,8,10}:
+- CPU = mm:        2.996 fm:        4.372 trials mm:     1 fm:     1  diff: 1.36e-16
++ CPU = mm:        2.909 fm:        4.478 trials mm:     1 fm:     1  diff: 1.36e-16
+ R_{-1,1} in R_{-1,1}:
+- CPU = mm:        0.006 fm:        0.005 trials mm:     1 fm:     1  diff: 0.00e+00
++ CPU = mm:        0.007 fm:        0.004 trials mm:     1 fm:     1  diff: 0.00e+00
+ R_{-2,-1,1,2} in R_{-2,-1,1,2}:
+- CPU = mm:        0.027 fm:        0.027 trials mm:     1 fm:     1  diff: 7.57e-17
++ CPU = mm:        0.028 fm:        0.144 trials mm:     1 fm:     1  diff: 7.57e-17
+ R_{-3,-2,-1,1,2,3} in R_{-3,-2,-1,1,2,3}:
+- CPU = mm:        0.094 fm:        0.115 trials mm:     1 fm:     1  diff: 9.64e-17
++ CPU = mm:        0.084 fm:        0.102 trials mm:     1 fm:     1  diff: 9.64e-17
+ R_{-4,-3,-2,-1,1,2,3,4} in R_{-4,-3,-2,-1,1,2,3,4}:
+- CPU = mm:        0.574 fm:        0.793 trials mm:     1 fm:     1  diff: 1.05e-16
++ CPU = mm:        0.508 fm:        0.672 trials mm:     1 fm:     1  diff: 1.05e-16
+ R_{-5,-4,-3,-2,-1,1,2,3,4,5} in R_{-5,-4,-3,-2,-1,1,2,3,4,5}:
+- CPU = mm:        2.445 fm:        3.697 trials mm:     1 fm:     1  diff: 1.35e-16
++ CPU = mm:        2.408 fm:        3.679 trials mm:     1 fm:     1  diff: 1.35e-16
+ R_{-6,-5,-4,-3,-2,-1,1,2,3,4,5,6} in R_{-6,-5,-4,-3,-2,-1,1,2,3,4,5,6}:
+- CPU = mm:       10.241 fm:       15.508 trials mm:     1 fm:     1  diff: 1.53e-16
++ CPU = mm:       10.000 fm:       16.380 trials mm:     1 fm:     1  diff: 1.53e-16
+ R_{-7,-6,-5,-4,-3,-2,-1,1,2,3,4,5,6,7} in R_{-7,-6,-5,-4,-3,-2,-1,1,2,3,4,5,6,7}:
+- CPU = mm:       34.039 fm:       53.531 trials mm:     1 fm:     1  diff: 1.62e-16
++ CPU = mm:       34.055 fm:       55.942 trials mm:     1 fm:     1  diff: 1.62e-16
+ R_{-8,-7,-6,-5,-4,-3,-2,-1,1,2,3,4,5,6,7,8} in R_{-8,-7,-6,-5,-4,-3,-2,-1,1,2,3,4,5,6,7,8}:
+- CPU = mm:      138.447 fm:      257.855 trials mm:     1 fm:     1  diff: 1.76e-16
++ CPU = mm:      141.608 fm:      263.798 trials mm:     1 fm:     1  diff: 1.76e-16
+ R_{-9,-8,-7,-6,-5,-4,-3,-2,-1,1,2,3,4,5,6,7,8,9} in R_{-9,-8,-7,-6,-5,-4,-3,-2,-1,1,2,3,4,5,6,7,8,9}:
+- CPU = mm:      630.232 fm:     1263.399 trials mm:     1 fm:     1  diff: 1.87e-16
++ CPU = mm:      648.104 fm:     1293.148 trials mm:     1 fm:     1  diff: 1.87e-16
+ R_{-10,-9,-8,-7,-6,-5,-4,-3,-2,-1,1,2,3,4,5,6,7,8,9,10} in R_{-10,-9,-8,-7,-6,-5,-4,-3,-2,-1,1,2,3,4,5,6,7,8,9,10}:
+- CPU = mm:     3039.964 fm:     6162.253 trials mm:     1 fm:     1  diff: 1.98e-16
++ CPU = mm:     3061.109 fm:     6211.931 trials mm:     1 fm:     1  diff: 1.98e-16
+ R_{-11,-10,-9,-8,-7,-6,-5,-4,-3,-2,-1,1,2,3,4,5,6,7,8,9,10,11} in R_{-11,-10,-9,-8,-7,-6,-5,-4,-3,-2,-1,1,2,3,4,5,6,7,8,9,10,11}:
+- CPU = mm:    14858.769 fm:    31077.762 trials mm:     1 fm:     1  diff: 2.09e-16
++ CPU = mm:    14995.542 fm:    31788.350 trials mm:     1 fm:     1  diff: 2.09e-16
+ Fill: 1
+ R_{-11,11} in R_{-11,11}:
+  CPU = mm:        0.019 fm:        0.007 trials mm:     1 fm:     1  diff: 5.93e-17
+ R_{-10,10} in R_{-10,10}:
+  CPU = mm:        0.004 fm:        0.003 trials mm:     1 fm:     1  diff: 1.73e-17
+ R_{-9,9} in R_{-9,9}:
+- CPU = mm:        0.004 fm:        0.003 trials mm:     1 fm:     1  diff: 1.27e-16
++ CPU = mm:        0.003 fm:        0.003 trials mm:     1 fm:     1  diff: 1.27e-16
+ R_{-8,8} in R_{-8,8}:
+  CPU = mm:        0.004 fm:        0.003 trials mm:     1 fm:     1  diff: 2.89e-17
+ R_{-7,7} in R_{-7,7}:
+@@ -76,44 +76,44 @@ R_{-5,5} in R_{-5,5}:
+ R_{-10,-5,5,10} in R_{-10,-5,5,10}:
+  CPU = mm:        0.023 fm:        0.021 trials mm:     1 fm:     1  diff: 1.32e-16
+ R_{-4,4} in R_{-4,4}:
+- CPU = mm:        0.004 fm:        0.004 trials mm:     1 fm:     1  diff: 0.00e+00
++ CPU = mm:        0.004 fm:        0.003 trials mm:     1 fm:     1  diff: 0.00e+00
+ R_{-8,-4,4,8} in R_{-8,-4,4,8}:
+- CPU = mm:        0.019 fm:        0.019 trials mm:     1 fm:     1  diff: 6.19e-17
++ CPU = mm:        0.018 fm:        0.019 trials mm:     1 fm:     1  diff: 6.19e-17
+ R_{-3,3} in R_{-3,3}:
+  CPU = mm:        0.004 fm:        0.004 trials mm:     1 fm:     1  diff: 4.20e-17
+ R_{-6,-3,3,6} in R_{-6,-3,3,6}:
+- CPU = mm:        0.018 fm:        0.018 trials mm:     1 fm:     1  diff: 5.61e-17
++ CPU = mm:        0.019 fm:        0.019 trials mm:     1 fm:     1  diff: 5.61e-17
+ R_{-9,-6,-3,3,6,9} in R_{-9,-6,-3,3,6,9}:
+- CPU = mm:        0.100 fm:        0.102 trials mm:     1 fm:     1  diff: 1.05e-16
++ CPU = mm:        0.101 fm:        0.103 trials mm:     1 fm:     1  diff: 1.05e-16
+ R_{-2,2} in R_{-2,2}:
+- CPU = mm:        0.004 fm:        0.003 trials mm:     1 fm:     1  diff: 3.26e-17
++ CPU = mm:        0.005 fm:        0.004 trials mm:     1 fm:     1  diff: 3.26e-17
+ R_{-4,-2,2,4} in R_{-4,-2,2,4}:
+- CPU = mm:        0.019 fm:        0.018 trials mm:     1 fm:     1  diff: 9.31e-17
++ CPU = mm:        0.018 fm:        0.019 trials mm:     1 fm:     1  diff: 9.31e-17
+ R_{-6,-4,-2,2,4,6} in R_{-6,-4,-2,2,4,6}:
+- CPU = mm:        0.092 fm:        0.099 trials mm:     1 fm:     1  diff: 9.21e-17
++ CPU = mm:        0.093 fm:        0.100 trials mm:     1 fm:     1  diff: 9.21e-17
+ R_{-8,-6,-4,-2,2,4,6,8} in R_{-8,-6,-4,-2,2,4,6,8}:
+- CPU = mm:        0.491 fm:        0.524 trials mm:     1 fm:     1  diff: 1.28e-16
++ CPU = mm:        0.498 fm:        0.560 trials mm:     1 fm:     1  diff: 1.28e-16
+ R_{-10,-8,-6,-4,-2,2,4,6,8,10} in R_{-10,-8,-6,-4,-2,2,4,6,8,10}:
+- CPU = mm:        2.323 fm:        2.688 trials mm:     1 fm:     1  diff: 1.40e-16
++ CPU = mm:        2.352 fm:        2.733 trials mm:     1 fm:     1  diff: 1.40e-16
+ R_{-1,1} in R_{-1,1}:
+- CPU = mm:        0.005 fm:        0.004 trials mm:     1 fm:     1  diff: 0.00e+00
++ CPU = mm:        0.005 fm:        0.003 trials mm:     1 fm:     1  diff: 0.00e+00
+ R_{-2,-1,1,2} in R_{-2,-1,1,2}:
+- CPU = mm:        0.017 fm:        0.017 trials mm:     1 fm:     1  diff: 9.69e-17
++ CPU = mm:        0.018 fm:        0.018 trials mm:     1 fm:     1  diff: 9.69e-17
+ R_{-3,-2,-1,1,2,3} in R_{-3,-2,-1,1,2,3}:
+- CPU = mm:        0.083 fm:        0.092 trials mm:     1 fm:     1  diff: 1.03e-16
++ CPU = mm:        0.083 fm:        0.093 trials mm:     1 fm:     1  diff: 1.03e-16
+ R_{-4,-3,-2,-1,1,2,3,4} in R_{-4,-3,-2,-1,1,2,3,4}:
+- CPU = mm:        0.452 fm:        0.497 trials mm:     1 fm:     1  diff: 1.29e-16
++ CPU = mm:        0.460 fm:        0.502 trials mm:     1 fm:     1  diff: 1.29e-16
+ R_{-5,-4,-3,-2,-1,1,2,3,4,5} in R_{-5,-4,-3,-2,-1,1,2,3,4,5}:
+- CPU = mm:        2.153 fm:        2.521 trials mm:     1 fm:     1  diff: 1.39e-16
++ CPU = mm:        2.194 fm:        2.619 trials mm:     1 fm:     1  diff: 1.39e-16
+ R_{-6,-5,-4,-3,-2,-1,1,2,3,4,5,6} in R_{-6,-5,-4,-3,-2,-1,1,2,3,4,5,6}:
+- CPU = mm:       15.391 fm:       12.297 trials mm:     1 fm:     1  diff: 1.51e-16
++ CPU = mm:       16.115 fm:       12.634 trials mm:     1 fm:     1  diff: 1.51e-16
+ R_{-7,-6,-5,-4,-3,-2,-1,1,2,3,4,5,6,7} in R_{-7,-6,-5,-4,-3,-2,-1,1,2,3,4,5,6,7}:
+- CPU = mm:       47.410 fm:       57.727 trials mm:     1 fm:     1  diff: 1.68e-16
++ CPU = mm:       48.760 fm:       59.476 trials mm:     1 fm:     1  diff: 1.68e-16
+ R_{-8,-7,-6,-5,-4,-3,-2,-1,1,2,3,4,5,6,7,8} in R_{-8,-7,-6,-5,-4,-3,-2,-1,1,2,3,4,5,6,7,8}:
+- CPU = mm:      237.135 fm:      272.769 trials mm:     1 fm:     1  diff: 1.79e-16
++ CPU = mm:      226.378 fm:      284.221 trials mm:     1 fm:     1  diff: 1.79e-16
+ R_{-9,-8,-7,-6,-5,-4,-3,-2,-1,1,2,3,4,5,6,7,8,9} in R_{-9,-8,-7,-6,-5,-4,-3,-2,-1,1,2,3,4,5,6,7,8,9}:
+- CPU = mm:     1079.799 fm:     1314.416 trials mm:     1 fm:     1  diff: 1.90e-16
++ CPU = mm:     1062.837 fm:     1354.728 trials mm:     1 fm:     1  diff: 1.90e-16
+ R_{-10,-9,-8,-7,-6,-5,-4,-3,-2,-1,1,2,3,4,5,6,7,8,9,10} in R_{-10,-9,-8,-7,-6,-5,-4,-3,-2,-1,1,2,3,4,5,6,7,8,9,10}:
+- CPU = mm:     5175.038 fm:     6359.705 trials mm:     1 fm:     1  diff: 2.01e-16
++ CPU = mm:     5326.635 fm:     6497.438 trials mm:     1 fm:     1  diff: 2.01e-16
+ R_{-11,-10,-9,-8,-7,-6,-5,-4,-3,-2,-1,1,2,3,4,5,6,7,8,9,10,11} in R_{-11,-10,-9,-8,-7,-6,-5,-4,-3,-2,-1,1,2,3,4,5,6,7,8,9,10,11}:
+- CPU = mm:    26445.895 fm:    32029.287 trials mm:     1 fm:     1  diff: 2.12e-16
++ CPU = mm:    26878.942 fm:    32686.575 trials mm:     1 fm:     1  diff: 2.12e-16
+diff --git a/test_runtime/products-8.out b/test_runtime/products-8.out
+index 402d7c1..b0c7ac5 100644
+--- a/test_runtime/products-8.out
++++ b/test_runtime/products-8.out
+@@ -2,211 +2,211 @@
+ framed_multi<float,-4,4>
+ Clifford algebra products test:
+ Fill: 0.5
+-Cl( 1, 0) in Cl( 1, 0) CPU =        0.034 ms (setup)        0.010 (*)        0.007 (^)        0.003 (&)        0.003 (%) 
+-Cl( 1, 1) in Cl( 1, 1) CPU =        0.003 ms (setup)        0.002 (*)        0.002 (^)        0.002 (&)        0.002 (%) 
+-Cl( 2, 1) in Cl( 2, 1) CPU =        0.005 ms (setup)        0.003 (*)        0.002 (^)        0.003 (&)        0.003 (%) 
+-Cl( 2, 2) in Cl( 2, 2) CPU =        0.005 ms (setup)        0.006 (*)        0.002 (^)        0.003 (&)        0.004 (%) 
+-Cl( 3, 2) in Cl( 3, 2) CPU =        0.015 ms (setup)        0.024 (*)        0.009 (^)        0.013 (&)        0.011 (%) 
+-Cl( 3, 3) in Cl( 3, 3) CPU =        0.018 ms (setup)        0.082 (*)        0.030 (^)        0.031 (&)        0.028 (%) 
+-Cl( 4, 3) in Cl( 4, 3) CPU =        0.045 ms (setup)        0.472 (*)        0.107 (^)        0.159 (&)        0.119 (%) 
+-Cl( 4, 4) in Cl( 4, 4) CPU =        0.080 ms (setup)        2.233 (*)        0.262 (^)        0.502 (&)        0.341 (%) 
+-Cl( 1, 0) in Cl( 4, 4) CPU =        0.004 ms (setup)        0.002 (*)        0.003 (^)        0.002 (&)        0.002 (%) 
+-Cl( 1, 1) in Cl( 4, 4) CPU =        0.003 ms (setup)        0.002 (*)        0.001 (^)        0.002 (&)        0.002 (%) 
+-Cl( 2, 1) in Cl( 4, 4) CPU =        0.003 ms (setup)        0.003 (*)        0.002 (^)        0.002 (&)        0.002 (%) 
+-Cl( 2, 2) in Cl( 4, 4) CPU =        0.007 ms (setup)        0.010 (*)        0.006 (^)        0.007 (&)        0.005 (%) 
+-Cl( 3, 2) in Cl( 4, 4) CPU =        0.012 ms (setup)        0.026 (*)        0.013 (^)        0.016 (&)        0.011 (%) 
+-Cl( 3, 3) in Cl( 4, 4) CPU =        0.021 ms (setup)        0.111 (*)        0.045 (^)        0.056 (&)        0.042 (%) 
+-Cl( 4, 3) in Cl( 4, 4) CPU =        0.037 ms (setup)        0.462 (*)        0.115 (^)        0.209 (&)        0.116 (%) 
+-Cl( 4, 4) in Cl( 4, 4) CPU =        0.093 ms (setup)        2.183 (*)        0.309 (^)        0.675 (&)        0.364 (%) 
++Cl( 1, 0) in Cl( 1, 0) CPU =        0.041 ms (setup)        0.047 (*)        0.003 (^)        0.002 (&)        0.003 (%) 
++Cl( 1, 1) in Cl( 1, 1) CPU =        0.004 ms (setup)        0.003 (*)        0.002 (^)        0.002 (&)        0.002 (%) 
++Cl( 2, 1) in Cl( 2, 1) CPU =        0.004 ms (setup)        0.044 (*)        0.003 (^)        0.002 (&)        0.002 (%) 
++Cl( 2, 2) in Cl( 2, 2) CPU =        0.005 ms (setup)        0.065 (*)        0.003 (^)        0.005 (&)        0.004 (%) 
++Cl( 3, 2) in Cl( 3, 2) CPU =        0.016 ms (setup)        0.280 (*)        0.009 (^)        0.014 (&)        0.011 (%) 
++Cl( 3, 3) in Cl( 3, 3) CPU =        0.018 ms (setup)        0.373 (*)        0.028 (^)        0.035 (&)        0.031 (%) 
++Cl( 4, 3) in Cl( 4, 3) CPU =        0.039 ms (setup)        1.714 (*)        0.129 (^)        0.163 (&)        0.121 (%) 
++Cl( 4, 4) in Cl( 4, 4) CPU =        0.070 ms (setup)        2.155 (*)        0.271 (^)        0.510 (&)        0.349 (%) 
++Cl( 1, 0) in Cl( 4, 4) CPU =        0.003 ms (setup)        0.011 (*)        0.002 (^)        0.001 (&)        0.002 (%) 
++Cl( 1, 1) in Cl( 4, 4) CPU =        0.003 ms (setup)        0.002 (*)        0.002 (^)        0.002 (&)        0.002 (%) 
++Cl( 2, 1) in Cl( 4, 4) CPU =        0.003 ms (setup)        0.015 (*)        0.002 (^)        0.003 (&)        0.003 (%) 
++Cl( 2, 2) in Cl( 4, 4) CPU =        0.006 ms (setup)        0.035 (*)        0.005 (^)        0.071 (&)        0.006 (%) 
++Cl( 3, 2) in Cl( 4, 4) CPU =        0.013 ms (setup)        0.245 (*)        0.013 (^)        0.017 (&)        0.012 (%) 
++Cl( 3, 3) in Cl( 4, 4) CPU =        0.021 ms (setup)        0.331 (*)        0.045 (^)        0.055 (&)        0.043 (%) 
++Cl( 4, 3) in Cl( 4, 4) CPU =        0.038 ms (setup)        1.632 (*)        0.103 (^)        0.172 (&)        0.120 (%) 
++Cl( 4, 4) in Cl( 4, 4) CPU =        0.094 ms (setup)        2.169 (*)        0.280 (^)        0.535 (&)        0.332 (%) 
+ Fill: 1
+-Cl( 1, 0) in Cl( 1, 0) CPU =        0.007 ms (setup)        0.003 (*)        0.003 (^)        0.002 (&)        0.002 (%) 
+-Cl( 1, 1) in Cl( 1, 1) CPU =        0.004 ms (setup)        0.003 (*)        0.003 (^)        0.003 (&)        0.002 (%) 
+-Cl( 2, 1) in Cl( 2, 1) CPU =        0.005 ms (setup)        0.007 (*)        0.006 (^)        0.005 (&)        0.005 (%) 
+-Cl( 2, 2) in Cl( 2, 2) CPU =        0.009 ms (setup)        0.015 (*)        0.009 (^)        0.011 (&)        0.010 (%) 
+-Cl( 3, 2) in Cl( 3, 2) CPU =        0.015 ms (setup)        0.054 (*)        0.024 (^)        0.032 (&)        0.023 (%) 
+-Cl( 3, 3) in Cl( 3, 3) CPU =        0.031 ms (setup)        0.252 (*)        0.075 (^)        0.188 (&)        0.066 (%) 
+-Cl( 4, 3) in Cl( 4, 3) CPU =        0.077 ms (setup)        1.216 (*)        0.260 (^)        0.430 (&)        0.264 (%) 
+-Cl( 4, 4) in Cl( 4, 4) CPU =        0.150 ms (setup)        2.527 (*)        1.172 (^)        2.144 (&)        1.187 (%) 
+-Cl( 1, 0) in Cl( 4, 4) CPU =        0.003 ms (setup)        0.003 (*)        0.003 (^)        0.002 (&)        0.002 (%) 
+-Cl( 1, 1) in Cl( 4, 4) CPU =        0.003 ms (setup)        0.003 (*)        0.002 (^)        0.002 (&)        0.003 (%) 
+-Cl( 2, 1) in Cl( 4, 4) CPU =        0.005 ms (setup)        0.005 (*)        0.005 (^)        0.005 (&)        0.004 (%) 
+-Cl( 2, 2) in Cl( 4, 4) CPU =        0.007 ms (setup)        0.013 (*)        0.008 (^)        0.009 (&)        0.008 (%) 
+-Cl( 3, 2) in Cl( 4, 4) CPU =        0.014 ms (setup)        0.048 (*)        0.020 (^)        0.028 (&)        0.020 (%) 
+-Cl( 3, 3) in Cl( 4, 4) CPU =        0.028 ms (setup)        0.222 (*)        0.066 (^)        0.103 (&)        0.066 (%) 
+-Cl( 4, 3) in Cl( 4, 4) CPU =        0.081 ms (setup)        1.214 (*)        0.334 (^)        0.386 (&)        0.237 (%) 
+-Cl( 4, 4) in Cl( 4, 4) CPU =        0.132 ms (setup)        2.163 (*)        1.097 (^)        1.797 (&)        1.061 (%) 
++Cl( 1, 0) in Cl( 1, 0) CPU =        0.007 ms (setup)        0.011 (*)        0.002 (^)        0.002 (&)        0.002 (%) 
++Cl( 1, 1) in Cl( 1, 1) CPU =        0.004 ms (setup)        0.023 (*)        0.002 (^)        0.003 (&)        0.003 (%) 
++Cl( 2, 1) in Cl( 2, 1) CPU =        0.005 ms (setup)        0.023 (*)        0.005 (^)        0.005 (&)        0.005 (%) 
++Cl( 2, 2) in Cl( 2, 2) CPU =        0.008 ms (setup)        0.040 (*)        0.008 (^)        0.010 (&)        0.009 (%) 
++Cl( 3, 2) in Cl( 3, 2) CPU =        0.014 ms (setup)        0.253 (*)        0.021 (^)        0.029 (&)        0.021 (%) 
++Cl( 3, 3) in Cl( 3, 3) CPU =        0.029 ms (setup)        0.459 (*)        0.067 (^)        0.103 (&)        0.068 (%) 
++Cl( 4, 3) in Cl( 4, 3) CPU =        0.079 ms (setup)        1.786 (*)        0.270 (^)        0.433 (&)        0.271 (%) 
++Cl( 4, 4) in Cl( 4, 4) CPU =        0.156 ms (setup)        2.568 (*)        1.214 (^)        2.049 (&)        1.243 (%) 
++Cl( 1, 0) in Cl( 4, 4) CPU =        0.004 ms (setup)        0.010 (*)        0.002 (^)        0.001 (&)        0.002 (%) 
++Cl( 1, 1) in Cl( 4, 4) CPU =        0.003 ms (setup)        0.011 (*)        0.002 (^)        0.002 (&)        0.003 (%) 
++Cl( 2, 1) in Cl( 4, 4) CPU =        0.004 ms (setup)        0.020 (*)        0.004 (^)        0.004 (&)        0.003 (%) 
++Cl( 2, 2) in Cl( 4, 4) CPU =        0.007 ms (setup)        0.034 (*)        0.008 (^)        0.009 (&)        0.007 (%) 
++Cl( 3, 2) in Cl( 4, 4) CPU =        0.011 ms (setup)        0.188 (*)        0.019 (^)        0.025 (&)        0.019 (%) 
++Cl( 3, 3) in Cl( 4, 4) CPU =        0.025 ms (setup)        0.408 (*)        0.060 (^)        0.092 (&)        0.061 (%) 
++Cl( 4, 3) in Cl( 4, 4) CPU =        0.075 ms (setup)        1.566 (*)        0.242 (^)        0.388 (&)        0.243 (%) 
++Cl( 4, 4) in Cl( 4, 4) CPU =        0.137 ms (setup)        2.358 (*)        1.089 (^)        1.841 (&)        1.110 (%) 
+ 
+ matrix_multi<float,-4,4>
+ Clifford algebra products test:
+ Fill: 0.5
+-Cl( 1, 0) in Cl( 1, 0) CPU =        0.017 ms (setup)        0.002 (*)        0.007 (^)        0.006 (&)        0.004 (%) 
+-Cl( 1, 1) in Cl( 1, 1) CPU =        0.008 ms (setup)        0.002 (*)        0.010 (^)        0.006 (&)        0.007 (%) 
+-Cl( 2, 1) in Cl( 2, 1) CPU =        0.021 ms (setup)        0.002 (*)        0.018 (^)        0.014 (&)        0.014 (%) 
+-Cl( 2, 2) in Cl( 2, 2) CPU =        0.019 ms (setup)        0.001 (*)        0.036 (^)        0.034 (&)        0.023 (%) 
+-Cl( 3, 2) in Cl( 3, 2) CPU =        0.071 ms (setup)        0.003 (*)        0.187 (^)        0.167 (&)        0.280 (%) 
+-Cl( 3, 3) in Cl( 3, 3) CPU =        0.133 ms (setup)        0.002 (*)        0.300 (^)        0.287 (&)        0.257 (%) 
+-Cl( 4, 3) in Cl( 4, 3) CPU =        0.234 ms (setup)        0.006 (*)        1.057 (^)        1.104 (&)        1.111 (%) 
+-Cl( 4, 4) in Cl( 4, 4) CPU =        0.434 ms (setup)        0.006 (*)        1.999 (^)        2.189 (&)        2.070 (%) 
+-Cl( 1, 0) in Cl( 4, 4) CPU =        0.025 ms (setup)        0.006 (*)        0.047 (^)        0.043 (&)        0.043 (%) 
+-Cl( 1, 1) in Cl( 4, 4) CPU =        0.021 ms (setup)        0.005 (*)        0.072 (^)        0.068 (&)        0.070 (%) 
+-Cl( 2, 1) in Cl( 4, 4) CPU =        0.027 ms (setup)        0.006 (*)        0.081 (^)        0.137 (&)        0.079 (%) 
+-Cl( 2, 2) in Cl( 4, 4) CPU =        0.060 ms (setup)        0.006 (*)        0.127 (^)        0.123 (&)        0.124 (%) 
+-Cl( 3, 2) in Cl( 4, 4) CPU =        0.149 ms (setup)        0.006 (*)        0.171 (^)        0.176 (&)        0.177 (%) 
+-Cl( 3, 3) in Cl( 4, 4) CPU =        0.254 ms (setup)        0.005 (*)        0.350 (^)        0.368 (&)        0.363 (%) 
+-Cl( 4, 3) in Cl( 4, 4) CPU =        0.715 ms (setup)        0.006 (*)        0.888 (^)        0.856 (&)        0.847 (%) 
+-Cl( 4, 4) in Cl( 4, 4) CPU =        0.389 ms (setup)        0.005 (*)        1.969 (^)        2.014 (&)        1.934 (%) 
++Cl( 1, 0) in Cl( 1, 0) CPU =        0.005 ms (setup)        0.002 (*)        0.005 (^)        0.006 (&)        0.006 (%) 
++Cl( 1, 1) in Cl( 1, 1) CPU =        0.005 ms (setup)        0.001 (*)        0.007 (^)        0.006 (&)        0.007 (%) 
++Cl( 2, 1) in Cl( 2, 1) CPU =        0.006 ms (setup)        0.002 (*)        0.012 (^)        0.014 (&)        0.013 (%) 
++Cl( 2, 2) in Cl( 2, 2) CPU =        0.008 ms (setup)        0.001 (*)        0.018 (^)        0.033 (&)        0.021 (%) 
++Cl( 3, 2) in Cl( 3, 2) CPU =        0.018 ms (setup)        0.002 (*)        0.171 (^)        0.158 (&)        0.163 (%) 
++Cl( 3, 3) in Cl( 3, 3) CPU =        0.049 ms (setup)        0.003 (*)        0.262 (^)        0.263 (&)        0.254 (%) 
++Cl( 4, 3) in Cl( 4, 3) CPU =        0.232 ms (setup)        0.004 (*)        1.051 (^)        1.159 (&)        1.083 (%) 
++Cl( 4, 4) in Cl( 4, 4) CPU =        0.449 ms (setup)        0.005 (*)        2.082 (^)        2.335 (&)        2.152 (%) 
++Cl( 1, 0) in Cl( 4, 4) CPU =        0.023 ms (setup)        0.005 (*)        0.043 (^)        0.039 (&)        0.038 (%) 
++Cl( 1, 1) in Cl( 4, 4) CPU =        0.020 ms (setup)        0.004 (*)        0.067 (^)        0.064 (&)        0.064 (%) 
++Cl( 2, 1) in Cl( 4, 4) CPU =        0.025 ms (setup)        0.005 (*)        0.076 (^)        0.072 (&)        0.084 (%) 
++Cl( 2, 2) in Cl( 4, 4) CPU =        0.054 ms (setup)        0.004 (*)        0.119 (^)        0.126 (&)        0.117 (%) 
++Cl( 3, 2) in Cl( 4, 4) CPU =        0.134 ms (setup)        0.004 (*)        0.162 (^)        0.166 (&)        0.168 (%) 
++Cl( 3, 3) in Cl( 4, 4) CPU =        0.233 ms (setup)        0.005 (*)        0.335 (^)        0.351 (&)        0.345 (%) 
++Cl( 4, 3) in Cl( 4, 4) CPU =        0.763 ms (setup)        0.004 (*)        0.855 (^)        0.894 (&)        0.889 (%) 
++Cl( 4, 4) in Cl( 4, 4) CPU =        0.403 ms (setup)        0.005 (*)        2.000 (^)        2.110 (&)        1.834 (%) 
+ Fill: 1
+-Cl( 1, 0) in Cl( 1, 0) CPU =        0.004 ms (setup)        0.002 (*)        0.006 (^)        0.005 (&)        0.006 (%) 
+-Cl( 1, 1) in Cl( 1, 1) CPU =        0.005 ms (setup)        0.002 (*)        0.009 (^)        0.007 (&)        0.008 (%) 
+-Cl( 2, 1) in Cl( 2, 1) CPU =        0.007 ms (setup)        0.001 (*)        0.017 (^)        0.015 (&)        0.016 (%) 
+-Cl( 2, 2) in Cl( 2, 2) CPU =        0.012 ms (setup)        0.001 (*)        0.032 (^)        0.031 (&)        0.031 (%) 
+-Cl( 3, 2) in Cl( 3, 2) CPU =        0.024 ms (setup)        0.003 (*)        0.182 (^)        0.182 (&)        0.176 (%) 
+-Cl( 3, 3) in Cl( 3, 3) CPU =        0.115 ms (setup)        0.002 (*)        0.386 (^)        0.346 (&)        0.385 (%) 
+-Cl( 4, 3) in Cl( 4, 3) CPU =        0.317 ms (setup)        0.005 (*)        1.289 (^)        1.140 (&)        1.039 (%) 
+-Cl( 4, 4) in Cl( 4, 4) CPU =        0.480 ms (setup)        0.004 (*)        2.437 (^)        2.876 (&)        2.286 (%) 
+-Cl( 1, 0) in Cl( 4, 4) CPU =        0.009 ms (setup)        0.005 (*)        0.051 (^)        0.047 (&)        0.047 (%) 
+-Cl( 1, 1) in Cl( 4, 4) CPU =        0.010 ms (setup)        0.004 (*)        0.053 (^)        0.051 (&)        0.051 (%) 
+-Cl( 2, 1) in Cl( 4, 4) CPU =        0.017 ms (setup)        0.004 (*)        0.069 (^)        0.066 (&)        0.067 (%) 
+-Cl( 2, 2) in Cl( 4, 4) CPU =        0.029 ms (setup)        0.004 (*)        0.099 (^)        0.096 (&)        0.096 (%) 
+-Cl( 3, 2) in Cl( 4, 4) CPU =        0.107 ms (setup)        0.004 (*)        0.181 (^)        0.183 (&)        0.178 (%) 
+-Cl( 3, 3) in Cl( 4, 4) CPU =        0.333 ms (setup)        0.004 (*)        0.411 (^)        0.377 (&)        0.409 (%) 
+-Cl( 4, 3) in Cl( 4, 4) CPU =        0.807 ms (setup)        0.004 (*)        1.035 (^)        1.151 (&)        1.039 (%) 
+-Cl( 4, 4) in Cl( 4, 4) CPU =        0.480 ms (setup)        0.005 (*)        2.301 (^)        3.009 (&)        2.295 (%) 
++Cl( 1, 0) in Cl( 1, 0) CPU =        0.009 ms (setup)        0.001 (*)        0.005 (^)        0.004 (&)        0.004 (%) 
++Cl( 1, 1) in Cl( 1, 1) CPU =        0.004 ms (setup)        0.001 (*)        0.008 (^)        0.006 (&)        0.007 (%) 
++Cl( 2, 1) in Cl( 2, 1) CPU =        0.006 ms (setup)        0.001 (*)        0.020 (^)        0.017 (&)        0.018 (%) 
++Cl( 2, 2) in Cl( 2, 2) CPU =        0.014 ms (setup)        0.001 (*)        0.030 (^)        0.025 (&)        0.030 (%) 
++Cl( 3, 2) in Cl( 3, 2) CPU =        0.022 ms (setup)        0.002 (*)        0.179 (^)        0.158 (&)        0.153 (%) 
++Cl( 3, 3) in Cl( 3, 3) CPU =        0.097 ms (setup)        0.001 (*)        0.333 (^)        0.294 (&)        0.331 (%) 
++Cl( 4, 3) in Cl( 4, 3) CPU =        0.268 ms (setup)        0.004 (*)        1.185 (^)        1.190 (&)        1.093 (%) 
++Cl( 4, 4) in Cl( 4, 4) CPU =        0.499 ms (setup)        0.004 (*)        2.555 (^)        3.096 (&)        2.424 (%) 
++Cl( 1, 0) in Cl( 4, 4) CPU =        0.008 ms (setup)        0.004 (*)        0.057 (^)        0.048 (&)        0.048 (%) 
++Cl( 1, 1) in Cl( 4, 4) CPU =        0.010 ms (setup)        0.003 (*)        0.054 (^)        0.052 (&)        0.053 (%) 
++Cl( 2, 1) in Cl( 4, 4) CPU =        0.018 ms (setup)        0.004 (*)        0.161 (^)        0.069 (&)        0.069 (%) 
++Cl( 2, 2) in Cl( 4, 4) CPU =        0.030 ms (setup)        0.004 (*)        0.104 (^)        0.101 (&)        0.101 (%) 
++Cl( 3, 2) in Cl( 4, 4) CPU =        0.112 ms (setup)        0.004 (*)        0.192 (^)        0.194 (&)        0.189 (%) 
++Cl( 3, 3) in Cl( 4, 4) CPU =        0.321 ms (setup)        0.004 (*)        0.432 (^)        0.422 (&)        0.438 (%) 
++Cl( 4, 3) in Cl( 4, 4) CPU =        0.864 ms (setup)        0.003 (*)        1.222 (^)        1.190 (&)        1.091 (%) 
++Cl( 4, 4) in Cl( 4, 4) CPU =        0.499 ms (setup)        0.003 (*)        2.541 (^)        3.116 (&)        2.400 (%) 
+ 
+ framed_multi<double>
+ Clifford algebra products test:
+ Fill: 0.5
+-Cl( 1, 0) in Cl( 1, 0) CPU =        0.007 ms (setup)        0.009 (*)        0.002 (^)        0.001 (&)        0.002 (%) 
+-Cl( 1, 1) in Cl( 1, 1) CPU =        0.002 ms (setup)        0.001 (*)        0.001 (^)        0.002 (&)        0.001 (%) 
+-Cl( 2, 1) in Cl( 2, 1) CPU =        0.002 ms (setup)        0.002 (*)        0.002 (^)        0.002 (&)        0.001 (%) 
+-Cl( 2, 2) in Cl( 2, 2) CPU =        0.003 ms (setup)        0.003 (*)        0.001 (^)        0.002 (&)        0.003 (%) 
+-Cl( 3, 2) in Cl( 3, 2) CPU =        0.006 ms (setup)        0.011 (*)        0.004 (^)        0.007 (&)        0.006 (%) 
+-Cl( 3, 3) in Cl( 3, 3) CPU =        0.010 ms (setup)        0.037 (*)        0.014 (^)        0.017 (&)        0.015 (%) 
+-Cl( 4, 3) in Cl( 4, 3) CPU =        0.022 ms (setup)        0.161 (*)        0.044 (^)        0.063 (&)        0.049 (%) 
+-Cl( 4, 4) in Cl( 4, 4) CPU =        0.042 ms (setup)        1.206 (*)        0.090 (^)        0.145 (&)        0.107 (%) 
+-Cl( 5, 4) in Cl( 5, 4) CPU =        0.112 ms (setup)        4.458 (*)        0.399 (^)        0.569 (&)        0.391 (%) 
+-Cl( 5, 5) in Cl( 5, 5) CPU =        0.191 ms (setup)        5.943 (*)        1.393 (^)        2.116 (&)        1.439 (%) 
+-Cl( 6, 5) in Cl( 6, 5) CPU =        0.381 ms (setup)       21.600 (*)        4.656 (^)        6.428 (&)        4.708 (%) 
+-Cl( 6, 6) in Cl( 6, 6) CPU =        0.744 ms (setup)       27.832 (*)       53.534 (^)       75.509 (&)       54.334 (%) 
+-Cl( 7, 6) in Cl( 7, 6) CPU =        1.540 ms (setup)       97.003 (*)      182.755 (^)      232.621 (&)      173.800 (%) 
+-Cl( 7, 7) in Cl( 7, 7) CPU =        3.075 ms (setup)      130.420 (*)      497.316 (^)      703.541 (&)      536.582 (%) 
+-Cl( 8, 7) in Cl( 8, 7) CPU =        6.165 ms (setup)      457.515 (*)     1667.221 (^)     2341.981 (&)     1811.574 (%) 
+-Cl( 8, 8) in Cl( 8, 8) CPU =       12.528 ms (setup)      622.408 (*)     5123.454 (^)     7115.127 (&)     5459.561 (%) 
+-Cl( 1, 0) in Cl( 8, 8) CPU =        0.009 ms (setup)        0.003 (*)        0.008 (^)        0.002 (&)        0.002 (%) 
+-Cl( 1, 1) in Cl( 8, 8) CPU =        0.002 ms (setup)        0.002 (*)        0.001 (^)        0.001 (&)        0.002 (%) 
+-Cl( 2, 1) in Cl( 8, 8) CPU =        0.003 ms (setup)        0.003 (*)        0.002 (^)        0.002 (&)        0.002 (%) 
+-Cl( 2, 2) in Cl( 8, 8) CPU =        0.004 ms (setup)        0.008 (*)        0.003 (^)        0.004 (&)        0.003 (%) 
+-Cl( 3, 2) in Cl( 8, 8) CPU =        0.007 ms (setup)        0.017 (*)        0.006 (^)        0.008 (&)        0.007 (%) 
+-Cl( 3, 3) in Cl( 8, 8) CPU =        0.014 ms (setup)        0.060 (*)        0.019 (^)        0.030 (&)        0.021 (%) 
+-Cl( 4, 3) in Cl( 8, 8) CPU =        0.025 ms (setup)        0.145 (*)        0.054 (^)        0.061 (&)        0.049 (%) 
+-Cl( 4, 4) in Cl( 8, 8) CPU =        0.056 ms (setup)        1.579 (*)        0.119 (^)        0.155 (&)        0.115 (%) 
+-Cl( 5, 4) in Cl( 8, 8) CPU =        0.103 ms (setup)        4.911 (*)        0.385 (^)        0.573 (&)        0.393 (%) 
+-Cl( 5, 5) in Cl( 8, 8) CPU =        0.215 ms (setup)        6.823 (*)        1.448 (^)        2.308 (&)        1.526 (%) 
+-Cl( 6, 5) in Cl( 8, 8) CPU =        0.427 ms (setup)       23.050 (*)        5.432 (^)        7.334 (&)        5.421 (%) 
+-Cl( 6, 6) in Cl( 8, 8) CPU =        0.801 ms (setup)       28.703 (*)       19.429 (^)       26.420 (&)       19.070 (%) 
+-Cl( 7, 6) in Cl( 8, 8) CPU =        1.544 ms (setup)       94.752 (*)      160.444 (^)      227.700 (&)      172.299 (%) 
+-Cl( 7, 7) in Cl( 8, 8) CPU =        3.028 ms (setup)      132.054 (*)      514.515 (^)      729.554 (&)      545.959 (%) 
+-Cl( 8, 7) in Cl( 8, 8) CPU =        6.212 ms (setup)      488.885 (*)     1619.977 (^)     2280.767 (&)     1705.468 (%) 
+-Cl( 8, 8) in Cl( 8, 8) CPU =       12.638 ms (setup)      652.837 (*)     5011.689 (^)     7167.791 (&)     5555.197 (%) 
++Cl( 1, 0) in Cl( 1, 0) CPU =        0.007 ms (setup)        0.019 (*)        0.002 (^)        0.002 (&)        0.004 (%) 
++Cl( 1, 1) in Cl( 1, 1) CPU =        0.002 ms (setup)        0.002 (*)        0.001 (^)        0.001 (&)        0.002 (%) 
++Cl( 2, 1) in Cl( 2, 1) CPU =        0.089 ms (setup)        0.034 (*)        0.002 (^)        0.002 (&)        0.002 (%) 
++Cl( 2, 2) in Cl( 2, 2) CPU =        0.006 ms (setup)        0.036 (*)        0.001 (^)        0.003 (&)        0.002 (%) 
++Cl( 3, 2) in Cl( 3, 2) CPU =        0.005 ms (setup)        0.137 (*)        0.005 (^)        0.008 (&)        0.006 (%) 
++Cl( 3, 3) in Cl( 3, 3) CPU =        0.011 ms (setup)        0.199 (*)        0.015 (^)        0.017 (&)        0.014 (%) 
++Cl( 4, 3) in Cl( 4, 3) CPU =        0.022 ms (setup)        0.931 (*)        0.046 (^)        0.062 (&)        0.049 (%) 
++Cl( 4, 4) in Cl( 4, 4) CPU =        0.041 ms (setup)        1.199 (*)        0.092 (^)        0.149 (&)        0.110 (%) 
++Cl( 5, 4) in Cl( 5, 4) CPU =        0.103 ms (setup)        4.770 (*)        0.406 (^)        0.573 (&)        0.388 (%) 
++Cl( 5, 5) in Cl( 5, 5) CPU =        0.192 ms (setup)        5.971 (*)        1.435 (^)        2.207 (&)        1.448 (%) 
++Cl( 6, 5) in Cl( 6, 5) CPU =        0.381 ms (setup)       21.132 (*)        4.573 (^)        6.509 (&)        4.710 (%) 
++Cl( 6, 6) in Cl( 6, 6) CPU =        0.752 ms (setup)       28.388 (*)       68.656 (^)       84.309 (&)       58.070 (%) 
++Cl( 7, 6) in Cl( 7, 6) CPU =        1.524 ms (setup)       97.738 (*)      174.105 (^)      246.564 (&)      176.632 (%) 
++Cl( 7, 7) in Cl( 7, 7) CPU =        3.049 ms (setup)      131.760 (*)      529.800 (^)      756.620 (&)      553.893 (%) 
++Cl( 8, 7) in Cl( 8, 7) CPU =        6.168 ms (setup)      478.281 (*)     1763.023 (^)     2479.506 (&)     1850.881 (%) 
++Cl( 8, 8) in Cl( 8, 8) CPU =       12.684 ms (setup)      611.744 (*)     5251.437 (^)     7285.735 (&)     5545.048 (%) 
++Cl( 1, 0) in Cl( 8, 8) CPU =        0.007 ms (setup)        0.015 (*)        0.002 (^)        0.002 (&)        0.002 (%) 
++Cl( 1, 1) in Cl( 8, 8) CPU =        0.002 ms (setup)        0.001 (*)        0.001 (^)        0.001 (&)        0.001 (%) 
++Cl( 2, 1) in Cl( 8, 8) CPU =        0.002 ms (setup)        0.010 (*)        0.001 (^)        0.002 (&)        0.001 (%) 
++Cl( 2, 2) in Cl( 8, 8) CPU =        0.004 ms (setup)        0.018 (*)        0.002 (^)        0.004 (&)        0.004 (%) 
++Cl( 3, 2) in Cl( 8, 8) CPU =        0.007 ms (setup)        0.157 (*)        0.005 (^)        0.007 (&)        0.006 (%) 
++Cl( 3, 3) in Cl( 8, 8) CPU =        0.014 ms (setup)        0.189 (*)        0.017 (^)        0.026 (&)        0.019 (%) 
++Cl( 4, 3) in Cl( 8, 8) CPU =        0.022 ms (setup)        0.856 (*)        0.050 (^)        0.055 (&)        0.044 (%) 
++Cl( 4, 4) in Cl( 8, 8) CPU =        0.041 ms (setup)        1.559 (*)        0.106 (^)        0.138 (&)        0.103 (%) 
++Cl( 5, 4) in Cl( 8, 8) CPU =        0.090 ms (setup)        4.281 (*)        0.342 (^)        0.508 (&)        0.344 (%) 
++Cl( 5, 5) in Cl( 8, 8) CPU =        0.193 ms (setup)        6.149 (*)        1.315 (^)        2.069 (&)        1.354 (%) 
++Cl( 6, 5) in Cl( 8, 8) CPU =        0.369 ms (setup)       20.733 (*)        4.869 (^)        6.617 (&)        4.834 (%) 
++Cl( 6, 6) in Cl( 8, 8) CPU =        0.748 ms (setup)       27.828 (*)       18.788 (^)       25.549 (&)       19.227 (%) 
++Cl( 7, 6) in Cl( 8, 8) CPU =        1.548 ms (setup)       96.729 (*)      171.005 (^)      242.794 (&)      175.383 (%) 
++Cl( 7, 7) in Cl( 8, 8) CPU =        3.265 ms (setup)      131.248 (*)      528.618 (^)      767.894 (&)      544.985 (%) 
++Cl( 8, 7) in Cl( 8, 8) CPU =        6.291 ms (setup)      449.414 (*)     1687.681 (^)     2335.056 (&)     1771.913 (%) 
++Cl( 8, 8) in Cl( 8, 8) CPU =       12.617 ms (setup)      609.197 (*)     5296.055 (^)     7239.457 (&)     5514.798 (%) 
+ Fill: 1
+-Cl( 1, 0) in Cl( 1, 0) CPU =        0.006 ms (setup)        0.003 (*)        0.006 (^)        0.001 (&)        0.002 (%) 
+-Cl( 1, 1) in Cl( 1, 1) CPU =        0.003 ms (setup)        0.002 (*)        0.002 (^)        0.002 (&)        0.002 (%) 
+-Cl( 2, 1) in Cl( 2, 1) CPU =        0.004 ms (setup)        0.006 (*)        0.003 (^)        0.003 (&)        0.003 (%) 
+-Cl( 2, 2) in Cl( 2, 2) CPU =        0.008 ms (setup)        0.010 (*)        0.006 (^)        0.007 (&)        0.006 (%) 
+-Cl( 3, 2) in Cl( 3, 2) CPU =        0.010 ms (setup)        0.033 (*)        0.015 (^)        0.020 (&)        0.014 (%) 
+-Cl( 3, 3) in Cl( 3, 3) CPU =        0.019 ms (setup)        0.128 (*)        0.040 (^)        0.060 (&)        0.039 (%) 
+-Cl( 4, 3) in Cl( 4, 3) CPU =        0.041 ms (setup)        0.439 (*)        0.108 (^)        0.176 (&)        0.112 (%) 
+-Cl( 4, 4) in Cl( 4, 4) CPU =        0.076 ms (setup)        1.806 (*)        0.306 (^)        0.496 (&)        0.318 (%) 
+-Cl( 5, 4) in Cl( 5, 4) CPU =        0.159 ms (setup)        5.188 (*)        1.197 (^)        1.862 (&)        1.230 (%) 
+-Cl( 5, 5) in Cl( 5, 5) CPU =        0.295 ms (setup)        7.600 (*)        5.360 (^)        7.674 (&)        5.409 (%) 
+-Cl( 6, 5) in Cl( 6, 5) CPU =        0.614 ms (setup)       24.202 (*)       17.150 (^)       22.973 (&)       17.285 (%) 
+-Cl( 6, 6) in Cl( 6, 6) CPU =        1.215 ms (setup)       35.511 (*)       49.713 (^)       80.016 (&)       51.146 (%) 
+-Cl( 7, 6) in Cl( 7, 6) CPU =        2.567 ms (setup)      112.994 (*)      151.834 (^)      241.134 (&)      164.120 (%) 
+-Cl( 7, 7) in Cl( 7, 7) CPU =        4.918 ms (setup)      164.573 (*)      457.344 (^)      733.211 (&)      525.493 (%) 
+-Cl( 8, 7) in Cl( 8, 7) CPU =        9.828 ms (setup)      535.139 (*)     1461.763 (^)     2331.037 (&)     1621.797 (%) 
+-Cl( 8, 8) in Cl( 8, 8) CPU =       20.972 ms (setup)      780.153 (*)     4553.853 (^)     7151.249 (&)     5109.727 (%) 
+-Cl( 1, 0) in Cl( 8, 8) CPU =        0.007 ms (setup)        0.003 (*)        0.008 (^)        0.002 (&)        0.001 (%) 
+-Cl( 1, 1) in Cl( 8, 8) CPU =        0.003 ms (setup)        0.002 (*)        0.002 (^)        0.002 (&)        0.002 (%) 
+-Cl( 2, 1) in Cl( 8, 8) CPU =        0.003 ms (setup)        0.006 (*)        0.003 (^)        0.003 (&)        0.003 (%) 
+-Cl( 2, 2) in Cl( 8, 8) CPU =        0.008 ms (setup)        0.010 (*)        0.006 (^)        0.007 (&)        0.006 (%) 
+-Cl( 3, 2) in Cl( 8, 8) CPU =        0.011 ms (setup)        0.033 (*)        0.014 (^)        0.020 (&)        0.014 (%) 
+-Cl( 3, 3) in Cl( 8, 8) CPU =        0.019 ms (setup)        0.128 (*)        0.040 (^)        0.060 (&)        0.039 (%) 
+-Cl( 4, 3) in Cl( 8, 8) CPU =        0.041 ms (setup)        0.439 (*)        0.108 (^)        0.176 (&)        0.112 (%) 
+-Cl( 4, 4) in Cl( 8, 8) CPU =        0.075 ms (setup)        1.987 (*)        0.310 (^)        0.494 (&)        0.323 (%) 
+-Cl( 5, 4) in Cl( 8, 8) CPU =        0.159 ms (setup)        5.248 (*)        1.210 (^)        1.873 (&)        1.251 (%) 
+-Cl( 5, 5) in Cl( 8, 8) CPU =        0.312 ms (setup)        8.072 (*)        5.338 (^)        7.753 (&)        5.411 (%) 
+-Cl( 6, 5) in Cl( 8, 8) CPU =        0.629 ms (setup)       24.254 (*)       17.289 (^)       23.032 (&)       17.416 (%) 
+-Cl( 6, 6) in Cl( 8, 8) CPU =        1.225 ms (setup)       35.461 (*)       49.417 (^)       85.138 (&)       56.085 (%) 
+-Cl( 7, 6) in Cl( 8, 8) CPU =        2.691 ms (setup)      113.098 (*)      150.532 (^)      238.300 (&)      164.032 (%) 
+-Cl( 7, 7) in Cl( 8, 8) CPU =        4.871 ms (setup)      164.633 (*)      475.778 (^)      717.030 (&)      500.138 (%) 
+-Cl( 8, 7) in Cl( 8, 8) CPU =        9.860 ms (setup)      572.406 (*)     1453.316 (^)     2288.228 (&)     1633.035 (%) 
+-Cl( 8, 8) in Cl( 8, 8) CPU =       20.044 ms (setup)      823.290 (*)     4603.284 (^)     7224.193 (&)     5041.041 (%) 
++Cl( 1, 0) in Cl( 1, 0) CPU =        0.007 ms (setup)        0.016 (*)        0.002 (^)        0.002 (&)        0.002 (%) 
++Cl( 1, 1) in Cl( 1, 1) CPU =        0.003 ms (setup)        0.017 (*)        0.002 (^)        0.001 (&)        0.001 (%) 
++Cl( 2, 1) in Cl( 2, 1) CPU =        0.003 ms (setup)        0.016 (*)        0.003 (^)        0.003 (&)        0.003 (%) 
++Cl( 2, 2) in Cl( 2, 2) CPU =        0.008 ms (setup)        0.030 (*)        0.006 (^)        0.007 (&)        0.006 (%) 
++Cl( 3, 2) in Cl( 3, 2) CPU =        0.010 ms (setup)        0.179 (*)        0.037 (^)        0.043 (&)        0.016 (%) 
++Cl( 3, 3) in Cl( 3, 3) CPU =        0.023 ms (setup)        0.324 (*)        0.039 (^)        0.060 (&)        0.038 (%) 
++Cl( 4, 3) in Cl( 4, 3) CPU =        0.045 ms (setup)        1.081 (*)        0.115 (^)        0.179 (&)        0.114 (%) 
++Cl( 4, 4) in Cl( 4, 4) CPU =        0.075 ms (setup)        1.596 (*)        0.303 (^)        0.487 (&)        0.310 (%) 
++Cl( 5, 4) in Cl( 5, 4) CPU =        0.156 ms (setup)        5.204 (*)        1.207 (^)        1.968 (&)        1.196 (%) 
++Cl( 5, 5) in Cl( 5, 5) CPU =        0.313 ms (setup)        7.632 (*)        5.495 (^)        7.853 (&)        5.433 (%) 
++Cl( 6, 5) in Cl( 6, 5) CPU =        0.610 ms (setup)       24.675 (*)       17.842 (^)       23.736 (&)       17.629 (%) 
++Cl( 6, 6) in Cl( 6, 6) CPU =        1.231 ms (setup)       37.500 (*)       56.050 (^)       82.870 (&)       54.954 (%) 
++Cl( 7, 6) in Cl( 7, 6) CPU =        2.688 ms (setup)      114.777 (*)      170.661 (^)      261.275 (&)      176.074 (%) 
++Cl( 7, 7) in Cl( 7, 7) CPU =        5.659 ms (setup)      186.143 (*)      516.063 (^)      783.695 (&)      526.808 (%) 
++Cl( 8, 7) in Cl( 8, 7) CPU =        9.958 ms (setup)      542.958 (*)     1646.803 (^)     2435.443 (&)     1677.767 (%) 
++Cl( 8, 8) in Cl( 8, 8) CPU =       21.250 ms (setup)      816.726 (*)     5080.355 (^)     7633.529 (&)     5258.474 (%) 
++Cl( 1, 0) in Cl( 8, 8) CPU =        0.008 ms (setup)        0.022 (*)        0.002 (^)        0.002 (&)        0.002 (%) 
++Cl( 1, 1) in Cl( 8, 8) CPU =        0.003 ms (setup)        0.013 (*)        0.002 (^)        0.002 (&)        0.002 (%) 
++Cl( 2, 1) in Cl( 8, 8) CPU =        0.004 ms (setup)        0.019 (*)        0.004 (^)        0.003 (&)        0.003 (%) 
++Cl( 2, 2) in Cl( 8, 8) CPU =        0.008 ms (setup)        0.036 (*)        0.006 (^)        0.008 (&)        0.007 (%) 
++Cl( 3, 2) in Cl( 8, 8) CPU =        0.011 ms (setup)        0.159 (*)        0.014 (^)        0.020 (&)        0.015 (%) 
++Cl( 3, 3) in Cl( 8, 8) CPU =        0.020 ms (setup)        0.302 (*)        0.040 (^)        0.061 (&)        0.039 (%) 
++Cl( 4, 3) in Cl( 8, 8) CPU =        0.045 ms (setup)        1.219 (*)        0.114 (^)        0.187 (&)        0.170 (%) 
++Cl( 4, 4) in Cl( 8, 8) CPU =        0.086 ms (setup)        2.383 (*)        0.335 (^)        0.517 (&)        0.321 (%) 
++Cl( 5, 4) in Cl( 8, 8) CPU =        0.157 ms (setup)        5.859 (*)        1.184 (^)        1.936 (&)        1.168 (%) 
++Cl( 5, 5) in Cl( 8, 8) CPU =        0.308 ms (setup)        7.908 (*)        5.444 (^)        7.993 (&)        5.601 (%) 
++Cl( 6, 5) in Cl( 8, 8) CPU =        0.611 ms (setup)       25.008 (*)       17.797 (^)       23.629 (&)       17.682 (%) 
++Cl( 6, 6) in Cl( 8, 8) CPU =        1.337 ms (setup)       37.441 (*)       56.256 (^)       82.959 (&)       54.763 (%) 
++Cl( 7, 6) in Cl( 8, 8) CPU =        2.618 ms (setup)      115.848 (*)      171.167 (^)      264.277 (&)      179.287 (%) 
++Cl( 7, 7) in Cl( 8, 8) CPU =        4.803 ms (setup)      168.743 (*)      511.696 (^)      779.439 (&)      542.688 (%) 
++Cl( 8, 7) in Cl( 8, 8) CPU =        9.926 ms (setup)      542.722 (*)     1638.611 (^)     2498.447 (&)     1695.519 (%) 
++Cl( 8, 8) in Cl( 8, 8) CPU =       20.481 ms (setup)      804.906 (*)     5131.725 (^)     7630.279 (&)     5265.698 (%) 
+ 
+ matrix_multi<double>
+ Clifford algebra products test:
+ Fill: 0.5
+-Cl( 1, 0) in Cl( 1, 0) CPU =        0.021 ms (setup)        0.003 (*)        0.009 (^)        0.004 (&)        0.004 (%) 
+-Cl( 1, 1) in Cl( 1, 1) CPU =        0.005 ms (setup)        0.001 (*)        0.009 (^)        0.004 (&)        0.004 (%) 
+-Cl( 2, 1) in Cl( 2, 1) CPU =        0.009 ms (setup)        0.002 (*)        0.017 (^)        0.009 (&)        0.010 (%) 
+-Cl( 2, 2) in Cl( 2, 2) CPU =        0.019 ms (setup)        0.001 (*)        0.031 (^)        0.020 (&)        0.021 (%) 
+-Cl( 3, 2) in Cl( 3, 2) CPU =        0.053 ms (setup)        0.002 (*)        0.135 (^)        0.127 (&)        0.117 (%) 
+-Cl( 3, 3) in Cl( 3, 3) CPU =        0.078 ms (setup)        0.002 (*)        0.212 (^)        0.198 (&)        0.181 (%) 
+-Cl( 4, 3) in Cl( 4, 3) CPU =        0.248 ms (setup)        0.005 (*)        0.716 (^)        0.690 (&)        0.710 (%) 
+-Cl( 4, 4) in Cl( 4, 4) CPU =        0.337 ms (setup)        0.005 (*)        1.387 (^)        1.411 (&)        1.437 (%) 
+-Cl( 5, 4) in Cl( 5, 4) CPU =        0.753 ms (setup)        0.022 (*)        3.685 (^)        4.054 (&)        3.907 (%) 
+-Cl( 5, 5) in Cl( 5, 5) CPU =        1.480 ms (setup)        0.022 (*)        7.729 (^)        8.575 (&)        7.987 (%) 
+-Cl( 6, 5) in Cl( 6, 5) CPU =        3.638 ms (setup)        0.135 (*)       23.197 (^)       25.536 (&)       23.688 (%) 
+-Cl( 6, 6) in Cl( 6, 6) CPU =        7.177 ms (setup)        0.132 (*)       85.207 (^)      105.480 (&)       85.370 (%) 
+-Cl( 7, 6) in Cl( 7, 6) CPU =       16.050 ms (setup)        0.932 (*)      270.791 (^)      343.855 (&)      258.324 (%) 
+-Cl( 7, 7) in Cl( 7, 7) CPU =       31.416 ms (setup)        0.949 (*)      685.115 (^)      948.589 (&)      692.710 (%) 
+-Cl( 8, 7) in Cl( 8, 7) CPU =       84.161 ms (setup)        9.883 (*)     2095.839 (^)     2961.244 (&)     2161.564 (%) 
+-Cl( 8, 8) in Cl( 8, 8) CPU =      146.497 ms (setup)        7.571 (*)     6269.284 (^)     8862.306 (&)     6211.900 (%) 
+-Cl( 1, 0) in Cl( 8, 8) CPU =        0.420 ms (setup)        7.456 (*)        3.187 (^)        3.172 (&)        3.173 (%) 
+-Cl( 1, 1) in Cl( 8, 8) CPU =        0.233 ms (setup)        7.455 (*)        3.951 (^)        3.958 (&)        3.948 (%) 
+-Cl( 2, 1) in Cl( 8, 8) CPU =        0.606 ms (setup)        7.482 (*)        3.978 (^)        3.975 (&)        3.980 (%) 
+-Cl( 2, 2) in Cl( 8, 8) CPU =        1.092 ms (setup)        7.476 (*)        4.041 (^)        4.083 (&)        4.016 (%) 
+-Cl( 3, 2) in Cl( 8, 8) CPU =        1.811 ms (setup)        7.449 (*)        4.088 (^)        4.077 (&)        4.098 (%) 
+-Cl( 3, 3) in Cl( 8, 8) CPU =        3.845 ms (setup)        7.467 (*)        4.300 (^)        4.309 (&)        4.307 (%) 
+-Cl( 4, 3) in Cl( 8, 8) CPU =        3.895 ms (setup)        7.444 (*)        4.862 (^)        4.800 (&)        4.816 (%) 
+-Cl( 4, 4) in Cl( 8, 8) CPU =        4.351 ms (setup)        7.469 (*)        5.739 (^)        7.207 (&)        9.379 (%) 
+-Cl( 5, 4) in Cl( 8, 8) CPU =        8.632 ms (setup)        8.939 (*)       10.768 (^)        9.781 (&)        8.969 (%) 
+-Cl( 5, 5) in Cl( 8, 8) CPU =        9.899 ms (setup)        7.883 (*)       13.831 (^)       14.648 (&)       14.066 (%) 
+-Cl( 6, 5) in Cl( 8, 8) CPU =       17.536 ms (setup)        7.475 (*)       28.498 (^)       30.469 (&)       28.521 (%) 
+-Cl( 6, 6) in Cl( 8, 8) CPU =       29.574 ms (setup)        7.457 (*)       61.560 (^)       65.956 (&)       60.742 (%) 
+-Cl( 7, 6) in Cl( 8, 8) CPU =       67.907 ms (setup)        7.645 (*)      259.387 (^)      352.742 (&)      264.540 (%) 
+-Cl( 7, 7) in Cl( 8, 8) CPU =      125.071 ms (setup)        7.455 (*)      733.342 (^)      955.247 (&)      716.185 (%) 
+-Cl( 8, 7) in Cl( 8, 8) CPU =      325.071 ms (setup)        7.424 (*)     2062.735 (^)     2886.780 (&)     2143.300 (%) 
+-Cl( 8, 8) in Cl( 8, 8) CPU =      142.161 ms (setup)        7.415 (*)     6128.777 (^)     8756.951 (&)     6183.088 (%) 
++Cl( 1, 0) in Cl( 1, 0) CPU =        0.015 ms (setup)        0.002 (*)        0.009 (^)        0.003 (&)        0.003 (%) 
++Cl( 1, 1) in Cl( 1, 1) CPU =        0.004 ms (setup)        0.001 (*)        0.006 (^)        0.004 (&)        0.019 (%) 
++Cl( 2, 1) in Cl( 2, 1) CPU =        0.005 ms (setup)        0.001 (*)        0.020 (^)        0.010 (&)        0.011 (%) 
++Cl( 2, 2) in Cl( 2, 2) CPU =        0.011 ms (setup)        0.002 (*)        0.029 (^)        0.021 (&)        0.022 (%) 
++Cl( 3, 2) in Cl( 3, 2) CPU =        0.021 ms (setup)        0.002 (*)        0.136 (^)        0.127 (&)        0.128 (%) 
++Cl( 3, 3) in Cl( 3, 3) CPU =        0.041 ms (setup)        0.002 (*)        0.210 (^)        0.179 (&)        0.179 (%) 
++Cl( 4, 3) in Cl( 4, 3) CPU =        0.176 ms (setup)        0.006 (*)        0.747 (^)        0.718 (&)        0.737 (%) 
++Cl( 4, 4) in Cl( 4, 4) CPU =        0.376 ms (setup)        0.006 (*)        1.496 (^)        1.447 (&)        1.544 (%) 
++Cl( 5, 4) in Cl( 5, 4) CPU =        0.758 ms (setup)        0.018 (*)        3.748 (^)        4.053 (&)        3.904 (%) 
++Cl( 5, 5) in Cl( 5, 5) CPU =        1.480 ms (setup)        0.020 (*)        7.797 (^)        8.692 (&)        8.063 (%) 
++Cl( 6, 5) in Cl( 6, 5) CPU =        3.669 ms (setup)        0.121 (*)       23.451 (^)       25.736 (&)       23.379 (%) 
++Cl( 6, 6) in Cl( 6, 6) CPU =        7.151 ms (setup)        0.119 (*)       89.105 (^)      110.638 (&)       89.490 (%) 
++Cl( 7, 6) in Cl( 7, 6) CPU =       16.407 ms (setup)        0.916 (*)      264.867 (^)      345.908 (&)      264.232 (%) 
++Cl( 7, 7) in Cl( 7, 7) CPU =       32.527 ms (setup)        0.912 (*)      732.604 (^)      985.139 (&)      715.156 (%) 
++Cl( 8, 7) in Cl( 8, 7) CPU =       73.987 ms (setup)        8.005 (*)     2184.632 (^)     3004.183 (&)     2170.034 (%) 
++Cl( 8, 8) in Cl( 8, 8) CPU =      146.696 ms (setup)        7.331 (*)     6388.346 (^)     9019.571 (&)     6344.190 (%) 
++Cl( 1, 0) in Cl( 8, 8) CPU =        0.357 ms (setup)        7.419 (*)        3.184 (^)        3.157 (&)        3.263 (%) 
++Cl( 1, 1) in Cl( 8, 8) CPU =        0.235 ms (setup)        7.479 (*)        4.072 (^)        3.920 (&)        3.921 (%) 
++Cl( 2, 1) in Cl( 8, 8) CPU =        0.606 ms (setup)        7.418 (*)        3.949 (^)        4.046 (&)        4.014 (%) 
++Cl( 2, 2) in Cl( 8, 8) CPU =        1.085 ms (setup)        7.424 (*)        4.001 (^)        4.069 (&)        3.986 (%) 
++Cl( 3, 2) in Cl( 8, 8) CPU =        1.783 ms (setup)        7.410 (*)        4.071 (^)        4.048 (&)        4.132 (%) 
++Cl( 3, 3) in Cl( 8, 8) CPU =        3.796 ms (setup)        7.529 (*)        4.326 (^)        4.287 (&)        4.379 (%) 
++Cl( 4, 3) in Cl( 8, 8) CPU =        3.908 ms (setup)        7.497 (*)        4.762 (^)        4.839 (&)        4.830 (%) 
++Cl( 4, 4) in Cl( 8, 8) CPU =        4.485 ms (setup)        7.391 (*)        5.811 (^)        5.920 (&)        5.842 (%) 
++Cl( 5, 4) in Cl( 8, 8) CPU =        6.441 ms (setup)        7.394 (*)        8.219 (^)        8.715 (&)        8.899 (%) 
++Cl( 5, 5) in Cl( 8, 8) CPU =        9.100 ms (setup)        7.315 (*)       14.138 (^)       14.667 (&)       14.088 (%) 
++Cl( 6, 5) in Cl( 8, 8) CPU =       18.391 ms (setup)        7.640 (*)       28.856 (^)       31.145 (&)       28.626 (%) 
++Cl( 6, 6) in Cl( 8, 8) CPU =       30.560 ms (setup)        7.376 (*)       60.000 (^)       67.919 (&)       60.873 (%) 
++Cl( 7, 6) in Cl( 8, 8) CPU =       67.511 ms (setup)        7.468 (*)      266.764 (^)      346.733 (&)      285.474 (%) 
++Cl( 7, 7) in Cl( 8, 8) CPU =      128.407 ms (setup)        7.455 (*)      749.266 (^)     1002.881 (&)      740.609 (%) 
++Cl( 8, 7) in Cl( 8, 8) CPU =      309.692 ms (setup)        7.314 (*)     2138.878 (^)     2972.402 (&)     2152.715 (%) 
++Cl( 8, 8) in Cl( 8, 8) CPU =      145.135 ms (setup)        7.498 (*)     6352.781 (^)     9078.713 (&)     6337.541 (%) 
+ Fill: 1
+-Cl( 1, 0) in Cl( 1, 0) CPU =        0.009 ms (setup)        0.003 (*)        0.009 (^)        0.005 (&)        0.005 (%) 
+-Cl( 1, 1) in Cl( 1, 1) CPU =        0.005 ms (setup)        0.001 (*)        0.008 (^)        0.006 (&)        0.006 (%) 
+-Cl( 2, 1) in Cl( 2, 1) CPU =        0.008 ms (setup)        0.001 (*)        0.015 (^)        0.013 (&)        0.014 (%) 
+-Cl( 2, 2) in Cl( 2, 2) CPU =        0.058 ms (setup)        0.002 (*)        0.033 (^)        0.030 (&)        0.027 (%) 
+-Cl( 3, 2) in Cl( 3, 2) CPU =        0.030 ms (setup)        0.003 (*)        0.169 (^)        0.157 (&)        0.152 (%) 
+-Cl( 3, 3) in Cl( 3, 3) CPU =        0.109 ms (setup)        0.002 (*)        0.336 (^)        0.331 (&)        0.334 (%) 
+-Cl( 4, 3) in Cl( 4, 3) CPU =        0.276 ms (setup)        0.006 (*)        1.032 (^)        1.161 (&)        1.040 (%) 
+-Cl( 4, 4) in Cl( 4, 4) CPU =        0.517 ms (setup)        0.006 (*)        1.881 (^)        2.139 (&)        1.887 (%) 
+-Cl( 5, 4) in Cl( 5, 4) CPU =        1.292 ms (setup)        0.021 (*)        5.778 (^)        6.622 (&)        5.731 (%) 
+-Cl( 5, 5) in Cl( 5, 5) CPU =        2.396 ms (setup)        0.022 (*)       12.866 (^)       15.507 (&)       12.909 (%) 
+-Cl( 6, 5) in Cl( 6, 5) CPU =        5.609 ms (setup)        0.132 (*)       38.183 (^)       48.511 (&)       38.019 (%) 
+-Cl( 6, 6) in Cl( 6, 6) CPU =       11.096 ms (setup)        0.133 (*)       88.900 (^)      123.719 (&)       91.709 (%) 
+-Cl( 7, 6) in Cl( 7, 6) CPU =       25.592 ms (setup)        0.933 (*)      261.161 (^)      376.091 (&)      312.871 (%) 
+-Cl( 7, 7) in Cl( 7, 7) CPU =       58.879 ms (setup)        0.934 (*)      708.416 (^)     1075.029 (&)      748.496 (%) 
+-Cl( 8, 7) in Cl( 8, 7) CPU =      117.739 ms (setup)        7.465 (*)     2278.862 (^)     3695.879 (&)     2350.951 (%) 
+-Cl( 8, 8) in Cl( 8, 8) CPU =      236.165 ms (setup)        7.513 (*)     7020.015 (^)    11362.833 (&)     7098.267 (%) 
+-Cl( 1, 0) in Cl( 8, 8) CPU =        0.240 ms (setup)        7.448 (*)        4.022 (^)        3.962 (&)        3.958 (%) 
+-Cl( 1, 1) in Cl( 8, 8) CPU =        0.407 ms (setup)        7.417 (*)        3.971 (^)        3.945 (&)        3.976 (%) 
+-Cl( 2, 1) in Cl( 8, 8) CPU =        0.784 ms (setup)        7.399 (*)        3.983 (^)        3.971 (&)        3.983 (%) 
+-Cl( 2, 2) in Cl( 8, 8) CPU =        1.535 ms (setup)        7.396 (*)        4.052 (^)        4.026 (&)        4.026 (%) 
+-Cl( 3, 2) in Cl( 8, 8) CPU =        3.192 ms (setup)        7.434 (*)        4.172 (^)        4.173 (&)        4.172 (%) 
+-Cl( 3, 3) in Cl( 8, 8) CPU =        3.881 ms (setup)        7.456 (*)        4.550 (^)        4.520 (&)        4.669 (%) 
+-Cl( 4, 3) in Cl( 8, 8) CPU =        4.200 ms (setup)        7.525 (*)        5.363 (^)        5.430 (&)        5.320 (%) 
+-Cl( 4, 4) in Cl( 8, 8) CPU =        5.019 ms (setup)        7.458 (*)        6.806 (^)        7.012 (&)        6.830 (%) 
+-Cl( 5, 4) in Cl( 8, 8) CPU =        7.616 ms (setup)        7.470 (*)       10.653 (^)       11.373 (&)       10.731 (%) 
+-Cl( 5, 5) in Cl( 8, 8) CPU =       11.546 ms (setup)        7.466 (*)       19.952 (^)       22.681 (&)       19.926 (%) 
+-Cl( 6, 5) in Cl( 8, 8) CPU =       22.901 ms (setup)        7.476 (*)       44.978 (^)       52.914 (&)       44.126 (%) 
+-Cl( 6, 6) in Cl( 8, 8) CPU =       40.886 ms (setup)        7.455 (*)      101.875 (^)      136.732 (&)      105.007 (%) 
+-Cl( 7, 6) in Cl( 8, 8) CPU =       90.950 ms (setup)        7.458 (*)      288.306 (^)      388.624 (&)      280.769 (%) 
+-Cl( 7, 7) in Cl( 8, 8) CPU =      172.418 ms (setup)        7.362 (*)      766.370 (^)     1133.938 (&)      766.664 (%) 
+-Cl( 8, 7) in Cl( 8, 8) CPU =      418.366 ms (setup)       10.019 (*)     2263.834 (^)     3566.108 (&)     2376.721 (%) 
+-Cl( 8, 8) in Cl( 8, 8) CPU =      245.086 ms (setup)        7.512 (*)     7000.102 (^)    11316.976 (&)     7049.867 (%) 
++Cl( 1, 0) in Cl( 1, 0) CPU =        0.010 ms (setup)        0.003 (*)        0.009 (^)        0.005 (&)        0.004 (%) 
++Cl( 1, 1) in Cl( 1, 1) CPU =        0.006 ms (setup)        0.001 (*)        0.008 (^)        0.006 (&)        0.006 (%) 
++Cl( 2, 1) in Cl( 2, 1) CPU =        0.009 ms (setup)        0.002 (*)        0.016 (^)        0.013 (&)        0.013 (%) 
++Cl( 2, 2) in Cl( 2, 2) CPU =        0.015 ms (setup)        0.002 (*)        0.030 (^)        0.026 (&)        0.026 (%) 
++Cl( 3, 2) in Cl( 3, 2) CPU =        0.029 ms (setup)        0.002 (*)        0.167 (^)        0.155 (&)        0.149 (%) 
++Cl( 3, 3) in Cl( 3, 3) CPU =        0.111 ms (setup)        0.002 (*)        0.370 (^)        0.295 (&)        0.327 (%) 
++Cl( 4, 3) in Cl( 4, 3) CPU =        0.285 ms (setup)        0.006 (*)        1.040 (^)        1.089 (&)        1.023 (%) 
++Cl( 4, 4) in Cl( 4, 4) CPU =        0.525 ms (setup)        0.006 (*)        1.906 (^)        2.089 (&)        1.917 (%) 
++Cl( 5, 4) in Cl( 5, 4) CPU =        1.289 ms (setup)        0.019 (*)        5.792 (^)        6.597 (&)        5.733 (%) 
++Cl( 5, 5) in Cl( 5, 5) CPU =        2.441 ms (setup)        0.018 (*)       13.038 (^)       15.860 (&)       13.031 (%) 
++Cl( 6, 5) in Cl( 6, 5) CPU =        5.705 ms (setup)        0.121 (*)       39.004 (^)       46.762 (&)       38.377 (%) 
++Cl( 6, 6) in Cl( 6, 6) CPU =       11.346 ms (setup)        0.119 (*)       97.764 (^)      131.943 (&)       96.125 (%) 
++Cl( 7, 6) in Cl( 7, 6) CPU =       26.075 ms (setup)        0.899 (*)      304.610 (^)      401.306 (&)      278.052 (%) 
++Cl( 7, 7) in Cl( 7, 7) CPU =       52.384 ms (setup)        0.919 (*)      768.207 (^)     1148.925 (&)      784.478 (%) 
++Cl( 8, 7) in Cl( 8, 7) CPU =      120.944 ms (setup)        7.296 (*)     2491.778 (^)     3721.435 (&)     2427.788 (%) 
++Cl( 8, 8) in Cl( 8, 8) CPU =      243.295 ms (setup)        7.668 (*)     7424.280 (^)    11748.353 (&)     7485.724 (%) 
++Cl( 1, 0) in Cl( 8, 8) CPU =        0.242 ms (setup)        7.513 (*)        3.978 (^)        4.004 (&)        3.946 (%) 
++Cl( 1, 1) in Cl( 8, 8) CPU =        0.408 ms (setup)        7.516 (*)        3.960 (^)        3.954 (&)        3.981 (%) 
++Cl( 2, 1) in Cl( 8, 8) CPU =        0.777 ms (setup)        7.319 (*)        4.013 (^)        3.978 (&)        4.058 (%) 
++Cl( 2, 2) in Cl( 8, 8) CPU =        1.546 ms (setup)        7.440 (*)        4.065 (^)        4.030 (&)        4.026 (%) 
++Cl( 3, 2) in Cl( 8, 8) CPU =        3.150 ms (setup)        7.476 (*)        4.361 (^)        4.216 (&)        4.179 (%) 
++Cl( 3, 3) in Cl( 8, 8) CPU =        3.678 ms (setup)        7.396 (*)        4.526 (^)        4.462 (&)        4.492 (%) 
++Cl( 4, 3) in Cl( 8, 8) CPU =        4.215 ms (setup)        7.339 (*)        5.299 (^)        5.324 (&)        5.529 (%) 
++Cl( 4, 4) in Cl( 8, 8) CPU =        5.133 ms (setup)        7.375 (*)        6.931 (^)        6.999 (&)        6.834 (%) 
++Cl( 5, 4) in Cl( 8, 8) CPU =        7.679 ms (setup)        7.383 (*)       10.726 (^)       11.691 (&)       10.737 (%) 
++Cl( 5, 5) in Cl( 8, 8) CPU =       11.777 ms (setup)        7.475 (*)       20.441 (^)       22.930 (&)       20.067 (%) 
++Cl( 6, 5) in Cl( 8, 8) CPU =       23.336 ms (setup)        7.386 (*)       46.056 (^)       54.333 (&)       45.245 (%) 
++Cl( 6, 6) in Cl( 8, 8) CPU =       41.780 ms (setup)        7.448 (*)      111.156 (^)      145.908 (&)      110.302 (%) 
++Cl( 7, 6) in Cl( 8, 8) CPU =       93.008 ms (setup)        7.380 (*)      292.313 (^)      409.212 (&)      286.294 (%) 
++Cl( 7, 7) in Cl( 8, 8) CPU =      176.316 ms (setup)        7.521 (*)      828.936 (^)     1184.263 (&)      790.003 (%) 
++Cl( 8, 7) in Cl( 8, 8) CPU =      403.608 ms (setup)        7.332 (*)     2429.106 (^)     3715.289 (&)     2428.309 (%) 
++Cl( 8, 8) in Cl( 8, 8) CPU =      241.427 ms (setup)        7.310 (*)     7392.101 (^)    11807.116 (&)     7239.033 (%) 
+diff --git a/test_runtime/squaring-11.out b/test_runtime/squaring-11.out
+index 92b3484..aed9f44 100644
+--- a/test_runtime/squaring-11.out
++++ b/test_runtime/squaring-11.out
+@@ -2,97 +2,97 @@
+ framed_multi<double>
+ Clifford algebra squaring test:
+ Fill: 0.5
+-Cl( 1, 0) in Cl( 1, 0) CPU =        0.018 ms (setup)        0.006 (*) 
+-Cl( 1, 1) in Cl( 1, 1) CPU =        0.002 ms (setup)        0.001 (*) 
+-Cl( 2, 1) in Cl( 2, 1) CPU =        0.003 ms (setup)        0.002 (*) 
+-Cl( 2, 2) in Cl( 2, 2) CPU =        0.003 ms (setup)        0.003 (*) 
+-Cl( 3, 2) in Cl( 3, 2) CPU =        0.008 ms (setup)        0.012 (*) 
+-Cl( 3, 3) in Cl( 3, 3) CPU =        0.012 ms (setup)        0.036 (*) 
+-Cl( 4, 3) in Cl( 4, 3) CPU =        0.025 ms (setup)        0.132 (*) 
+-Cl( 4, 4) in Cl( 4, 4) CPU =        0.045 ms (setup)        1.233 (*) 
+-Cl( 5, 4) in Cl( 5, 4) CPU =        0.102 ms (setup)        4.364 (*) 
+-Cl( 5, 5) in Cl( 5, 5) CPU =        0.190 ms (setup)        5.764 (*) 
+-Cl( 6, 5) in Cl( 6, 5) CPU =        0.365 ms (setup)       20.289 (*) 
+-Cl( 6, 6) in Cl( 6, 6) CPU =        0.772 ms (setup)       27.079 (*) 
+-Cl( 7, 6) in Cl( 7, 6) CPU =        1.518 ms (setup)      109.172 (*) 
+-Cl( 7, 7) in Cl( 7, 7) CPU =        3.338 ms (setup)      127.330 (*) 
+-Cl( 8, 7) in Cl( 8, 7) CPU =        6.176 ms (setup)      437.992 (*) 
+-Cl( 8, 8) in Cl( 8, 8) CPU =       12.559 ms (setup)      580.512 (*) 
+-Cl( 9, 8) in Cl( 9, 8) CPU =       25.796 ms (setup)     2134.805 (*) 
+-Cl( 9, 9) in Cl( 9, 9) CPU =       57.086 ms (setup)     2815.536 (*) 
+-Cl(10, 9) in Cl(10, 9) CPU =      126.073 ms (setup)    10361.970 (*) 
+-Cl(10,10) in Cl(10,10) CPU =      316.515 ms (setup)    13888.082 (*) 
+-Cl(11,10) in Cl(11,10) CPU =      684.171 ms (setup)    55655.754 (*) 
+-Cl(11,11) in Cl(11,11) CPU =     1516.606 ms (setup)    72179.204 (*) 
++Cl( 1, 0) in Cl( 1, 0) CPU =        0.054 ms (setup)        0.063 (*) 
++Cl( 1, 1) in Cl( 1, 1) CPU =        0.004 ms (setup)        0.002 (*) 
++Cl( 2, 1) in Cl( 2, 1) CPU =        0.005 ms (setup)        0.048 (*) 
++Cl( 2, 2) in Cl( 2, 2) CPU =        0.006 ms (setup)        0.069 (*) 
++Cl( 3, 2) in Cl( 3, 2) CPU =        0.018 ms (setup)        0.290 (*) 
++Cl( 3, 3) in Cl( 3, 3) CPU =        0.021 ms (setup)        0.385 (*) 
++Cl( 4, 3) in Cl( 4, 3) CPU =        0.044 ms (setup)        1.842 (*) 
++Cl( 4, 4) in Cl( 4, 4) CPU =        0.078 ms (setup)        2.274 (*) 
++Cl( 5, 4) in Cl( 5, 4) CPU =        0.198 ms (setup)        7.687 (*) 
++Cl( 5, 5) in Cl( 5, 5) CPU =        0.335 ms (setup)        9.441 (*) 
++Cl( 6, 5) in Cl( 6, 5) CPU =        0.557 ms (setup)       28.411 (*) 
++Cl( 6, 6) in Cl( 6, 6) CPU =        0.971 ms (setup)       29.335 (*) 
++Cl( 7, 6) in Cl( 7, 6) CPU =        1.464 ms (setup)       97.401 (*) 
++Cl( 7, 7) in Cl( 7, 7) CPU =        3.069 ms (setup)      128.969 (*) 
++Cl( 8, 7) in Cl( 8, 7) CPU =        6.367 ms (setup)      472.508 (*) 
++Cl( 8, 8) in Cl( 8, 8) CPU =       12.777 ms (setup)      604.617 (*) 
++Cl( 9, 8) in Cl( 9, 8) CPU =       26.305 ms (setup)     2186.006 (*) 
++Cl( 9, 9) in Cl( 9, 9) CPU =       61.835 ms (setup)     2848.867 (*) 
++Cl(10, 9) in Cl(10, 9) CPU =      147.695 ms (setup)    10601.713 (*) 
++Cl(10,10) in Cl(10,10) CPU =      298.282 ms (setup)    14168.394 (*) 
++Cl(11,10) in Cl(11,10) CPU =      688.603 ms (setup)    56622.736 (*) 
++Cl(11,11) in Cl(11,11) CPU =     1500.862 ms (setup)    73496.892 (*) 
+ Fill: 1
+-Cl( 1, 0) in Cl( 1, 0) CPU =        0.008 ms (setup)        0.002 (*) 
+-Cl( 1, 1) in Cl( 1, 1) CPU =        0.011 ms (setup)        0.002 (*) 
+-Cl( 2, 1) in Cl( 2, 1) CPU =        0.003 ms (setup)        0.004 (*) 
+-Cl( 2, 2) in Cl( 2, 2) CPU =        0.007 ms (setup)        0.009 (*) 
+-Cl( 3, 2) in Cl( 3, 2) CPU =        0.013 ms (setup)        0.031 (*) 
+-Cl( 3, 3) in Cl( 3, 3) CPU =        0.020 ms (setup)        0.124 (*) 
+-Cl( 4, 3) in Cl( 4, 3) CPU =        0.041 ms (setup)        0.429 (*) 
+-Cl( 4, 4) in Cl( 4, 4) CPU =        0.073 ms (setup)        1.540 (*) 
+-Cl( 5, 4) in Cl( 5, 4) CPU =        0.157 ms (setup)       11.048 (*) 
+-Cl( 5, 5) in Cl( 5, 5) CPU =        0.313 ms (setup)        7.388 (*) 
+-Cl( 6, 5) in Cl( 6, 5) CPU =        0.608 ms (setup)       23.518 (*) 
+-Cl( 6, 6) in Cl( 6, 6) CPU =        1.221 ms (setup)       34.707 (*) 
+-Cl( 7, 6) in Cl( 7, 6) CPU =        2.565 ms (setup)      117.146 (*) 
+-Cl( 7, 7) in Cl( 7, 7) CPU =        4.930 ms (setup)      163.739 (*) 
+-Cl( 8, 7) in Cl( 8, 7) CPU =       12.126 ms (setup)      535.262 (*) 
+-Cl( 8, 8) in Cl( 8, 8) CPU =       20.890 ms (setup)      758.091 (*) 
+-Cl( 9, 8) in Cl( 9, 8) CPU =       43.693 ms (setup)     2534.440 (*) 
+-Cl( 9, 9) in Cl( 9, 9) CPU =       91.805 ms (setup)     3681.043 (*) 
+-Cl(10, 9) in Cl(10, 9) CPU =      194.699 ms (setup)    12511.395 (*) 
+-Cl(10,10) in Cl(10,10) CPU =      420.314 ms (setup)    18321.005 (*) 
+-Cl(11,10) in Cl(11,10) CPU =      945.989 ms (setup)    66703.516 (*) 
+-Cl(11,11) in Cl(11,11) CPU =     2052.987 ms (setup)    97038.126 (*) 
++Cl( 1, 0) in Cl( 1, 0) CPU =        0.008 ms (setup)        0.023 (*) 
++Cl( 1, 1) in Cl( 1, 1) CPU =        0.002 ms (setup)        0.016 (*) 
++Cl( 2, 1) in Cl( 2, 1) CPU =        0.003 ms (setup)        0.015 (*) 
++Cl( 2, 2) in Cl( 2, 2) CPU =        0.006 ms (setup)        0.027 (*) 
++Cl( 3, 2) in Cl( 3, 2) CPU =        0.012 ms (setup)        0.170 (*) 
++Cl( 3, 3) in Cl( 3, 3) CPU =        0.019 ms (setup)        0.296 (*) 
++Cl( 4, 3) in Cl( 4, 3) CPU =        0.044 ms (setup)        1.064 (*) 
++Cl( 4, 4) in Cl( 4, 4) CPU =        0.077 ms (setup)        1.706 (*) 
++Cl( 5, 4) in Cl( 5, 4) CPU =        0.162 ms (setup)        5.279 (*) 
++Cl( 5, 5) in Cl( 5, 5) CPU =        0.313 ms (setup)        7.704 (*) 
++Cl( 6, 5) in Cl( 6, 5) CPU =        0.608 ms (setup)       24.897 (*) 
++Cl( 6, 6) in Cl( 6, 6) CPU =        1.230 ms (setup)       36.181 (*) 
++Cl( 7, 6) in Cl( 7, 6) CPU =        2.648 ms (setup)      116.301 (*) 
++Cl( 7, 7) in Cl( 7, 7) CPU =        4.838 ms (setup)      167.581 (*) 
++Cl( 8, 7) in Cl( 8, 7) CPU =       10.257 ms (setup)      558.311 (*) 
++Cl( 8, 8) in Cl( 8, 8) CPU =       20.836 ms (setup)      789.271 (*) 
++Cl( 9, 8) in Cl( 9, 8) CPU =       44.084 ms (setup)     2601.784 (*) 
++Cl( 9, 9) in Cl( 9, 9) CPU =       90.001 ms (setup)     3719.502 (*) 
++Cl(10, 9) in Cl(10, 9) CPU =      192.551 ms (setup)    12753.882 (*) 
++Cl(10,10) in Cl(10,10) CPU =      412.570 ms (setup)    18658.146 (*) 
++Cl(11,10) in Cl(11,10) CPU =      917.568 ms (setup)    67865.074 (*) 
++Cl(11,11) in Cl(11,11) CPU =     2019.469 ms (setup)    98446.892 (*) 
+ 
+ matrix_multi<double>
+ Clifford algebra squaring test:
+ Fill: 0.5
+-Cl( 1, 0) in Cl( 1, 0) CPU =        0.034 ms (setup)        0.003 (*) 
++Cl( 1, 0) in Cl( 1, 0) CPU =        0.018 ms (setup)        0.002 (*) 
++Cl( 1, 1) in Cl( 1, 1) CPU =        0.004 ms (setup)        0.001 (*) 
++Cl( 2, 1) in Cl( 2, 1) CPU =        0.006 ms (setup)        0.002 (*) 
++Cl( 2, 2) in Cl( 2, 2) CPU =        0.013 ms (setup)        0.001 (*) 
++Cl( 3, 2) in Cl( 3, 2) CPU =        0.013 ms (setup)        0.002 (*) 
++Cl( 3, 3) in Cl( 3, 3) CPU =        0.059 ms (setup)        0.002 (*) 
++Cl( 4, 3) in Cl( 4, 3) CPU =        0.209 ms (setup)        0.004 (*) 
++Cl( 4, 4) in Cl( 4, 4) CPU =        0.354 ms (setup)        0.005 (*) 
++Cl( 5, 4) in Cl( 5, 4) CPU =        0.834 ms (setup)        0.018 (*) 
++Cl( 5, 5) in Cl( 5, 5) CPU =        1.465 ms (setup)        0.019 (*) 
++Cl( 6, 5) in Cl( 6, 5) CPU =        3.643 ms (setup)        0.120 (*) 
++Cl( 6, 6) in Cl( 6, 6) CPU =        7.089 ms (setup)        0.117 (*) 
++Cl( 7, 6) in Cl( 7, 6) CPU =       16.521 ms (setup)        0.920 (*) 
++Cl( 7, 7) in Cl( 7, 7) CPU =       32.025 ms (setup)        0.917 (*) 
++Cl( 8, 7) in Cl( 8, 7) CPU =       73.108 ms (setup)        7.430 (*) 
++Cl( 8, 8) in Cl( 8, 8) CPU =      146.329 ms (setup)        7.533 (*) 
++Cl( 9, 8) in Cl( 9, 8) CPU =      333.986 ms (setup)       58.490 (*) 
++Cl( 9, 9) in Cl( 9, 9) CPU =      695.568 ms (setup)       58.682 (*) 
++Cl(10, 9) in Cl(10, 9) CPU =     1539.368 ms (setup)      559.569 (*) 
++Cl(10,10) in Cl(10,10) CPU =     3188.441 ms (setup)      624.790 (*) 
++Cl(11,10) in Cl(11,10) CPU =     7611.162 ms (setup)     5800.307 (*) 
++Cl(11,11) in Cl(11,11) CPU =    15745.735 ms (setup)     5850.968 (*) 
++Fill: 1
++Cl( 1, 0) in Cl( 1, 0) CPU =        0.009 ms (setup)        0.002 (*) 
+ Cl( 1, 1) in Cl( 1, 1) CPU =        0.005 ms (setup)        0.001 (*) 
+-Cl( 2, 1) in Cl( 2, 1) CPU =        0.015 ms (setup)        0.001 (*) 
++Cl( 2, 1) in Cl( 2, 1) CPU =        0.009 ms (setup)        0.001 (*) 
+ Cl( 2, 2) in Cl( 2, 2) CPU =        0.014 ms (setup)        0.001 (*) 
+-Cl( 3, 2) in Cl( 3, 2) CPU =        0.037 ms (setup)        0.002 (*) 
+-Cl( 3, 3) in Cl( 3, 3) CPU =        0.082 ms (setup)        0.002 (*) 
+-Cl( 4, 3) in Cl( 4, 3) CPU =        0.219 ms (setup)        0.005 (*) 
+-Cl( 4, 4) in Cl( 4, 4) CPU =        0.333 ms (setup)        0.005 (*) 
+-Cl( 5, 4) in Cl( 5, 4) CPU =        0.819 ms (setup)        0.021 (*) 
+-Cl( 5, 5) in Cl( 5, 5) CPU =        1.463 ms (setup)        0.021 (*) 
+-Cl( 6, 5) in Cl( 6, 5) CPU =        3.535 ms (setup)        0.130 (*) 
+-Cl( 6, 6) in Cl( 6, 6) CPU =        6.945 ms (setup)        0.130 (*) 
+-Cl( 7, 6) in Cl( 7, 6) CPU =       16.486 ms (setup)        1.055 (*) 
+-Cl( 7, 7) in Cl( 7, 7) CPU =       32.568 ms (setup)        0.937 (*) 
+-Cl( 8, 7) in Cl( 8, 7) CPU =       73.215 ms (setup)        7.452 (*) 
+-Cl( 8, 8) in Cl( 8, 8) CPU =      143.169 ms (setup)        7.291 (*) 
+-Cl( 9, 8) in Cl( 9, 8) CPU =      328.836 ms (setup)       57.329 (*) 
+-Cl( 9, 9) in Cl( 9, 9) CPU =      649.093 ms (setup)       57.336 (*) 
+-Cl(10, 9) in Cl(10, 9) CPU =     1560.701 ms (setup)      576.899 (*) 
+-Cl(10,10) in Cl(10,10) CPU =     3151.327 ms (setup)      553.812 (*) 
+-Cl(11,10) in Cl(11,10) CPU =     7647.180 ms (setup)     6124.777 (*) 
+-Cl(11,11) in Cl(11,11) CPU =    15837.284 ms (setup)     5998.254 (*) 
+-Fill: 1
+-Cl( 1, 0) in Cl( 1, 0) CPU =        0.015 ms (setup)        0.002 (*) 
+-Cl( 1, 1) in Cl( 1, 1) CPU =        0.010 ms (setup)        0.001 (*) 
+-Cl( 2, 1) in Cl( 2, 1) CPU =        0.014 ms (setup)        0.002 (*) 
+-Cl( 2, 2) in Cl( 2, 2) CPU =        0.028 ms (setup)        0.001 (*) 
+-Cl( 3, 2) in Cl( 3, 2) CPU =        0.063 ms (setup)        0.002 (*) 
+-Cl( 3, 3) in Cl( 3, 3) CPU =        0.111 ms (setup)        0.002 (*) 
+-Cl( 4, 3) in Cl( 4, 3) CPU =        0.274 ms (setup)        0.005 (*) 
+-Cl( 4, 4) in Cl( 4, 4) CPU =        0.513 ms (setup)        0.005 (*) 
+-Cl( 5, 4) in Cl( 5, 4) CPU =        1.226 ms (setup)        0.021 (*) 
+-Cl( 5, 5) in Cl( 5, 5) CPU =        2.409 ms (setup)        0.021 (*) 
+-Cl( 6, 5) in Cl( 6, 5) CPU =        5.826 ms (setup)        0.131 (*) 
+-Cl( 6, 6) in Cl( 6, 6) CPU =       11.579 ms (setup)        0.131 (*) 
+-Cl( 7, 6) in Cl( 7, 6) CPU =       26.443 ms (setup)        0.936 (*) 
+-Cl( 7, 7) in Cl( 7, 7) CPU =       51.905 ms (setup)        0.967 (*) 
+-Cl( 8, 7) in Cl( 8, 7) CPU =      120.137 ms (setup)        7.469 (*) 
+-Cl( 8, 8) in Cl( 8, 8) CPU =      236.484 ms (setup)        7.357 (*) 
+-Cl( 9, 8) in Cl( 9, 8) CPU =      565.670 ms (setup)       58.711 (*) 
+-Cl( 9, 9) in Cl( 9, 9) CPU =     1173.902 ms (setup)       57.397 (*) 
+-Cl(10, 9) in Cl(10, 9) CPU =     2695.278 ms (setup)      575.098 (*) 
+-Cl(10,10) in Cl(10,10) CPU =     5607.560 ms (setup)      628.380 (*) 
+-Cl(11,10) in Cl(11,10) CPU =    13460.339 ms (setup)     5913.980 (*) 
+-Cl(11,11) in Cl(11,11) CPU =    27893.483 ms (setup)     5894.591 (*) 
++Cl( 3, 2) in Cl( 3, 2) CPU =        0.031 ms (setup)        0.002 (*) 
++Cl( 3, 3) in Cl( 3, 3) CPU =        0.115 ms (setup)        0.002 (*) 
++Cl( 4, 3) in Cl( 4, 3) CPU =        0.283 ms (setup)        0.004 (*) 
++Cl( 4, 4) in Cl( 4, 4) CPU =        0.523 ms (setup)        0.004 (*) 
++Cl( 5, 4) in Cl( 5, 4) CPU =        1.246 ms (setup)        0.018 (*) 
++Cl( 5, 5) in Cl( 5, 5) CPU =        2.476 ms (setup)        0.019 (*) 
++Cl( 6, 5) in Cl( 6, 5) CPU =        5.709 ms (setup)        0.119 (*) 
++Cl( 6, 6) in Cl( 6, 6) CPU =       11.288 ms (setup)        0.117 (*) 
++Cl( 7, 6) in Cl( 7, 6) CPU =       25.961 ms (setup)        0.910 (*) 
++Cl( 7, 7) in Cl( 7, 7) CPU =       51.761 ms (setup)        0.899 (*) 
++Cl( 8, 7) in Cl( 8, 7) CPU =      119.931 ms (setup)        7.342 (*) 
++Cl( 8, 8) in Cl( 8, 8) CPU =      258.735 ms (setup)        8.103 (*) 
++Cl( 9, 8) in Cl( 9, 8) CPU =      553.480 ms (setup)       58.051 (*) 
++Cl( 9, 9) in Cl( 9, 9) CPU =     1133.657 ms (setup)       61.212 (*) 
++Cl(10, 9) in Cl(10, 9) CPU =     2652.259 ms (setup)      563.638 (*) 
++Cl(10,10) in Cl(10,10) CPU =     5532.677 ms (setup)      571.820 (*) 
++Cl(11,10) in Cl(11,10) CPU =    13483.854 ms (setup)     5846.493 (*) 
++Cl(11,11) in Cl(11,11) CPU =    27867.758 ms (setup)     5716.924 (*) 
+diff --git a/test_runtime/transforms-8.out b/test_runtime/transforms-8.out
+index 97880b6..168ce9d 100644
+--- a/test_runtime/transforms-8.out
++++ b/test_runtime/transforms-8.out
+@@ -1,100 +1,100 @@
+ framed_multi<double,DEFAULT_LO,DEFAULT_HI,tuning_naive>
+ Clifford algebra transform test:
+ Fill: 0.5
+-Cl( 1, 0) in Cl(16, 0) CPU = mm:       1.98 (old)       7.58 (new) fm:    3993.18 (old)       1.99 (new)  diff: old: 6.43e-15 new: 0.00e+00 fm: 0.00e+00 mm: 6.43e-15
+-Cl( 2, 0) in Cl(16, 0) CPU = mm:       0.30 (old)       4.23 (new) fm:    3972.90 (old)       2.00 (new)  diff: old: 5.10e-15 new: 3.36e-17 fm: 0.00e+00 mm: 5.10e-15
+-Cl( 3, 0) in Cl(16, 0) CPU = mm:       0.60 (old)       4.23 (new) fm:    3987.01 (old)       2.01 (new)  diff: old: 2.68e-15 new: 0.00e+00 fm: 0.00e+00 mm: 2.68e-15
+-Cl( 4, 0) in Cl(16, 0) CPU = mm:       0.79 (old)       4.26 (new) fm:    4059.05 (old)       2.02 (new)  diff: old: 2.34e-15 new: 6.47e-17 fm: 0.00e+00 mm: 2.35e-15
+-Cl( 5, 0) in Cl(16, 0) CPU = mm:       1.53 (old)       4.30 (new) fm:    3990.97 (old)       2.09 (new)  diff: old: 2.83e-15 new: 1.83e-16 fm: 0.00e+00 mm: 2.82e-15
+-Cl( 6, 0) in Cl(16, 0) CPU = mm:       3.17 (old)       4.48 (new) fm:    3965.34 (old)       2.43 (new)  diff: old: 3.12e-15 new: 1.63e-16 fm: 0.00e+00 mm: 3.15e-15
+-Cl( 7, 0) in Cl(16, 0) CPU = mm:       6.53 (old)       4.67 (new) fm:    3982.99 (old)       2.80 (new)  diff: old: 3.97e-15 new: 1.10e-16 fm: 0.00e+00 mm: 3.98e-15
+-Cl( 8, 0) in Cl(16, 0) CPU = mm:      12.44 (old)       6.34 (new) fm:    3994.56 (old)       4.35 (new)  diff: old: 3.03e-15 new: 1.55e-16 fm: 0.00e+00 mm: 3.04e-15
+-Cl( 9, 0) in Cl(16, 0) CPU = mm:      28.95 (old)       8.43 (new) fm:    3972.84 (old)       6.74 (new)  diff: old: 3.14e-15 new: 2.56e-16 fm: 0.00e+00 mm: 2.93e-15
+-Cl(10, 0) in Cl(16, 0) CPU = mm:      57.63 (old)      13.27 (new) fm:    3968.48 (old)      10.17 (new)  diff: old: 2.86e-15 new: 2.11e-16 fm: 5.70e-17 mm: 2.63e-15
+-Cl(11, 0) in Cl(16, 0) CPU = mm:     117.64 (old)      16.94 (new) fm:    3973.93 (old)      16.55 (new)  diff: old: 2.14e-15 new: 3.66e-16 fm: 1.05e-16 mm: 2.05e-15
+-Cl(12, 0) in Cl(16, 0) CPU = mm:     239.06 (old)      27.74 (new) fm:    4018.64 (old)      29.04 (new)  diff: old: 2.09e-15 new: 6.75e-16 fm: 1.31e-16 mm: 2.01e-15
+-Cl(13, 0) in Cl(16, 0) CPU = mm:     492.73 (old)      46.02 (new) fm:    4013.45 (old)      53.68 (new)  diff: old: 2.21e-15 new: 1.38e-15 fm: 1.76e-16 mm: 1.36e-15
+-Cl(14, 0) in Cl(16, 0) CPU = mm:    1017.62 (old)      60.11 (new) fm:    4029.01 (old)      91.68 (new)  diff: old: 1.57e-15 new: 9.58e-16 fm: 2.28e-16 mm: 9.45e-16
+-Cl(15, 0) in Cl(16, 0) CPU = mm:    2090.66 (old)      88.57 (new) fm:    4035.34 (old)     150.55 (new)  diff: old: 1.15e-15 new: 7.50e-16 fm: 3.03e-16 mm: 7.04e-16
+-Cl(16, 0) in Cl(16, 0) CPU = mm:    4336.95 (old)     158.89 (new) fm:    4016.80 (old)     281.29 (new)  diff: old: 6.68e-16 new: 4.12e-16 fm: 4.10e-16 mm: 6.04e-16
+-Cl( 1, 0) in Cl( 8, 8) CPU = mm:       0.25 (old)       3.15 (new) fm:    4006.48 (old)       1.95 (new)  diff: old: 1.59e-15 new: 0.00e+00 fm: 0.00e+00 mm: 1.59e-15
+-Cl( 1, 1) in Cl( 8, 8) CPU = mm:       0.11 (old)       1.75 (new) fm:    3991.01 (old)       1.57 (new)  diff: old: 3.96e-15 new: 0.00e+00 fm: 0.00e+00 mm: 3.96e-15
+-Cl( 2, 1) in Cl( 8, 8) CPU = mm:       0.38 (old)       3.21 (new) fm:    3969.79 (old)       1.97 (new)  diff: old: 2.93e-15 new: 4.13e-17 fm: 0.00e+00 mm: 2.89e-15
+-Cl( 2, 2) in Cl( 8, 8) CPU = mm:       0.73 (old)       3.25 (new) fm:    3995.68 (old)       1.97 (new)  diff: old: 8.58e-16 new: 2.79e-17 fm: 5.57e-17 mm: 8.52e-16
+-Cl( 3, 2) in Cl( 8, 8) CPU = mm:       1.71 (old)       3.20 (new) fm:    3979.58 (old)       2.02 (new)  diff: old: 3.91e-15 new: 1.99e-16 fm: 7.53e-17 mm: 4.03e-15
+-Cl( 3, 3) in Cl( 8, 8) CPU = mm:       3.67 (old)       3.42 (new) fm:    3990.42 (old)       2.11 (new)  diff: old: 2.46e-15 new: 1.72e-16 fm: 9.48e-17 mm: 2.43e-15
+-Cl( 4, 3) in Cl( 8, 8) CPU = mm:       6.10 (old)       3.36 (new) fm:    3986.97 (old)       2.27 (new)  diff: old: 2.18e-15 new: 1.89e-16 fm: 8.31e-17 mm: 2.26e-15
+-Cl( 4, 4) in Cl( 8, 8) CPU = mm:      12.13 (old)       3.61 (new) fm:    3995.88 (old)       2.73 (new)  diff: old: 9.26e-16 new: 1.59e-16 fm: 1.26e-16 mm: 8.74e-16
+-Cl( 5, 4) in Cl( 8, 8) CPU = mm:      26.25 (old)       4.13 (new) fm:    3971.66 (old)       3.57 (new)  diff: old: 1.05e-15 new: 2.15e-16 fm: 1.35e-16 mm: 1.06e-15
+-Cl( 5, 5) in Cl( 8, 8) CPU = mm:      56.76 (old)       5.09 (new) fm:    3971.28 (old)       5.63 (new)  diff: old: 6.35e-16 new: 2.76e-16 fm: 1.69e-16 mm: 6.28e-16
+-Cl( 6, 5) in Cl( 8, 8) CPU = mm:     111.97 (old)       6.74 (new) fm:    4010.83 (old)       9.04 (new)  diff: old: 7.55e-16 new: 3.08e-16 fm: 1.69e-16 mm: 6.93e-16
+-Cl( 6, 6) in Cl( 8, 8) CPU = mm:     275.37 (old)      10.91 (new) fm:    3995.10 (old)      16.79 (new)  diff: old: 5.41e-16 new: 3.64e-16 fm: 2.29e-16 mm: 5.38e-16
+-Cl( 7, 6) in Cl( 8, 8) CPU = mm:     516.89 (old)      18.46 (new) fm:    4009.18 (old)      32.92 (new)  diff: old: 6.19e-16 new: 4.13e-16 fm: 2.33e-16 mm: 5.23e-16
+-Cl( 7, 7) in Cl( 8, 8) CPU = mm:    1050.45 (old)      34.78 (new) fm:    3999.54 (old)      67.06 (new)  diff: old: 5.42e-16 new: 5.10e-16 fm: 3.09e-16 mm: 5.09e-16
+-Cl( 8, 7) in Cl( 8, 8) CPU = mm:    2083.77 (old)      66.30 (new) fm:    4026.51 (old)     169.91 (new)  diff: old: 5.44e-16 new: 5.65e-16 fm: 3.00e-16 mm: 5.08e-16
+-Cl( 8, 8) in Cl( 8, 8) CPU = mm:    4297.81 (old)     132.41 (new) fm:    4008.47 (old)     253.15 (new)  diff: old: 6.69e-16 new: 4.08e-16 fm: 4.07e-16 mm: 6.10e-16
+-Cl( 1, 0) in Cl( 1, 0) CPU = mm:       0.01 (old)       0.01 (new) fm:       0.00 (old)       0.01 (new)  diff: old: 0.00e+00 new: 0.00e+00 fm: 0.00e+00 mm: 0.00e+00
++Cl( 1, 0) in Cl(16, 0) CPU = mm:       2.14 (old)       8.20 (new) fm:    4001.98 (old)       2.00 (new)  diff: old: 6.43e-15 new: 0.00e+00 fm: 0.00e+00 mm: 6.43e-15
++Cl( 2, 0) in Cl(16, 0) CPU = mm:       0.30 (old)       4.21 (new) fm:    3968.63 (old)       2.04 (new)  diff: old: 5.10e-15 new: 3.36e-17 fm: 0.00e+00 mm: 5.10e-15
++Cl( 3, 0) in Cl(16, 0) CPU = mm:       0.61 (old)       4.29 (new) fm:    3983.38 (old)       1.99 (new)  diff: old: 2.68e-15 new: 0.00e+00 fm: 0.00e+00 mm: 2.68e-15
++Cl( 4, 0) in Cl(16, 0) CPU = mm:       0.80 (old)       4.22 (new) fm:    4000.01 (old)       2.00 (new)  diff: old: 2.34e-15 new: 6.47e-17 fm: 0.00e+00 mm: 2.35e-15
++Cl( 5, 0) in Cl(16, 0) CPU = mm:       1.56 (old)       4.38 (new) fm:    3996.74 (old)       2.10 (new)  diff: old: 2.83e-15 new: 1.83e-16 fm: 0.00e+00 mm: 2.82e-15
++Cl( 6, 0) in Cl(16, 0) CPU = mm:       3.23 (old)       4.44 (new) fm:    3978.66 (old)       2.53 (new)  diff: old: 3.12e-15 new: 1.63e-16 fm: 0.00e+00 mm: 3.15e-15
++Cl( 7, 0) in Cl(16, 0) CPU = mm:       6.59 (old)       4.70 (new) fm:    4001.49 (old)       2.79 (new)  diff: old: 3.97e-15 new: 1.10e-16 fm: 0.00e+00 mm: 3.98e-15
++Cl( 8, 0) in Cl(16, 0) CPU = mm:      12.62 (old)       6.34 (new) fm:    4004.99 (old)       4.29 (new)  diff: old: 3.03e-15 new: 1.55e-16 fm: 0.00e+00 mm: 3.04e-15
++Cl( 9, 0) in Cl(16, 0) CPU = mm:      29.13 (old)       8.44 (new) fm:    4007.23 (old)       6.67 (new)  diff: old: 3.14e-15 new: 2.56e-16 fm: 0.00e+00 mm: 2.93e-15
++Cl(10, 0) in Cl(16, 0) CPU = mm:      58.40 (old)      13.28 (new) fm:    4014.23 (old)      10.02 (new)  diff: old: 2.86e-15 new: 2.11e-16 fm: 5.70e-17 mm: 2.63e-15
++Cl(11, 0) in Cl(16, 0) CPU = mm:     121.28 (old)      17.21 (new) fm:    4051.24 (old)      16.64 (new)  diff: old: 2.14e-15 new: 3.66e-16 fm: 1.05e-16 mm: 2.05e-15
++Cl(12, 0) in Cl(16, 0) CPU = mm:     241.77 (old)      26.71 (new) fm:    4080.08 (old)      28.59 (new)  diff: old: 2.09e-15 new: 6.75e-16 fm: 1.31e-16 mm: 2.01e-15
++Cl(13, 0) in Cl(16, 0) CPU = mm:     496.27 (old)      37.05 (new) fm:    4011.47 (old)      52.86 (new)  diff: old: 2.21e-15 new: 1.38e-15 fm: 1.76e-16 mm: 1.36e-15
++Cl(14, 0) in Cl(16, 0) CPU = mm:    1043.18 (old)      61.13 (new) fm:    4073.96 (old)      91.66 (new)  diff: old: 1.57e-15 new: 9.58e-16 fm: 2.28e-16 mm: 9.45e-16
++Cl(15, 0) in Cl(16, 0) CPU = mm:    2116.30 (old)      89.85 (new) fm:    4034.56 (old)     154.69 (new)  diff: old: 1.15e-15 new: 7.50e-16 fm: 3.03e-16 mm: 7.04e-16
++Cl(16, 0) in Cl(16, 0) CPU = mm:    4348.10 (old)     150.19 (new) fm:    4029.85 (old)     286.38 (new)  diff: old: 6.68e-16 new: 4.12e-16 fm: 4.10e-16 mm: 6.04e-16
++Cl( 1, 0) in Cl( 8, 8) CPU = mm:       0.25 (old)       3.12 (new) fm:    4094.39 (old)       1.96 (new)  diff: old: 1.59e-15 new: 0.00e+00 fm: 0.00e+00 mm: 1.59e-15
++Cl( 1, 1) in Cl( 8, 8) CPU = mm:       0.11 (old)       1.75 (new) fm:    4062.46 (old)       1.55 (new)  diff: old: 3.96e-15 new: 0.00e+00 fm: 0.00e+00 mm: 3.96e-15
++Cl( 2, 1) in Cl( 8, 8) CPU = mm:       0.37 (old)       4.13 (new) fm:    4031.43 (old)       1.95 (new)  diff: old: 2.93e-15 new: 4.13e-17 fm: 0.00e+00 mm: 2.89e-15
++Cl( 2, 2) in Cl( 8, 8) CPU = mm:       0.74 (old)       3.38 (new) fm:    4053.47 (old)       2.04 (new)  diff: old: 8.58e-16 new: 2.79e-17 fm: 5.57e-17 mm: 8.52e-16
++Cl( 3, 2) in Cl( 8, 8) CPU = mm:       1.69 (old)       3.40 (new) fm:    4031.24 (old)       2.01 (new)  diff: old: 3.91e-15 new: 1.99e-16 fm: 7.53e-17 mm: 4.03e-15
++Cl( 3, 3) in Cl( 8, 8) CPU = mm:       3.92 (old)       3.42 (new) fm:    4069.82 (old)       2.24 (new)  diff: old: 2.46e-15 new: 1.72e-16 fm: 9.48e-17 mm: 2.43e-15
++Cl( 4, 3) in Cl( 8, 8) CPU = mm:       6.37 (old)       3.41 (new) fm:    4044.59 (old)       2.28 (new)  diff: old: 2.18e-15 new: 1.89e-16 fm: 8.31e-17 mm: 2.26e-15
++Cl( 4, 4) in Cl( 8, 8) CPU = mm:      12.41 (old)       3.76 (new) fm:    4083.45 (old)       3.17 (new)  diff: old: 9.26e-16 new: 1.59e-16 fm: 1.26e-16 mm: 8.74e-16
++Cl( 5, 4) in Cl( 8, 8) CPU = mm:      27.51 (old)       4.21 (new) fm:    4077.87 (old)       3.72 (new)  diff: old: 1.05e-15 new: 2.15e-16 fm: 1.35e-16 mm: 1.06e-15
++Cl( 5, 5) in Cl( 8, 8) CPU = mm:      58.45 (old)       5.14 (new) fm:    4067.34 (old)       5.53 (new)  diff: old: 6.35e-16 new: 2.76e-16 fm: 1.69e-16 mm: 6.28e-16
++Cl( 6, 5) in Cl( 8, 8) CPU = mm:     115.86 (old)       7.23 (new) fm:    4090.29 (old)       9.40 (new)  diff: old: 7.55e-16 new: 3.08e-16 fm: 1.69e-16 mm: 6.93e-16
++Cl( 6, 6) in Cl( 8, 8) CPU = mm:     237.58 (old)      10.83 (new) fm:    4051.50 (old)      17.29 (new)  diff: old: 5.41e-16 new: 3.64e-16 fm: 2.29e-16 mm: 5.38e-16
++Cl( 7, 6) in Cl( 8, 8) CPU = mm:     496.58 (old)      18.77 (new) fm:    4068.97 (old)      34.16 (new)  diff: old: 6.19e-16 new: 4.13e-16 fm: 2.33e-16 mm: 5.23e-16
++Cl( 7, 7) in Cl( 8, 8) CPU = mm:    1046.74 (old)      35.45 (new) fm:    4066.76 (old)      68.70 (new)  diff: old: 5.42e-16 new: 5.10e-16 fm: 3.09e-16 mm: 5.09e-16
++Cl( 8, 7) in Cl( 8, 8) CPU = mm:    2086.57 (old)      68.08 (new) fm:    4116.71 (old)     142.99 (new)  diff: old: 5.44e-16 new: 5.65e-16 fm: 3.00e-16 mm: 5.08e-16
++Cl( 8, 8) in Cl( 8, 8) CPU = mm:    4309.29 (old)     135.77 (new) fm:    4071.66 (old)     262.12 (new)  diff: old: 6.69e-16 new: 4.08e-16 fm: 4.07e-16 mm: 6.10e-16
++Cl( 1, 0) in Cl( 1, 0) CPU = mm:       0.01 (old)       0.01 (new) fm:       0.01 (old)       0.01 (new)  diff: old: 0.00e+00 new: 0.00e+00 fm: 0.00e+00 mm: 0.00e+00
+ Cl( 1, 1) in Cl( 1, 1) CPU = mm:       0.00 (old)       0.00 (new) fm:       0.00 (old)       0.00 (new)  diff: old: 0.00e+00 new: 0.00e+00 fm: 0.00e+00 mm: 0.00e+00
+ Cl( 2, 1) in Cl( 2, 1) CPU = mm:       0.01 (old)       0.01 (new) fm:       0.01 (old)       0.01 (new)  diff: old: 3.59e-17 new: 3.59e-17 fm: 0.00e+00 mm: 0.00e+00
+ Cl( 2, 2) in Cl( 2, 2) CPU = mm:       0.01 (old)       0.01 (new) fm:       0.02 (old)       0.01 (new)  diff: old: 5.73e-17 new: 5.73e-17 fm: 0.00e+00 mm: 4.46e-17
+ Cl( 3, 2) in Cl( 3, 2) CPU = mm:       0.03 (old)       0.04 (new) fm:       0.05 (old)       0.05 (new)  diff: old: 1.07e-16 new: 3.24e-17 fm: 3.70e-17 mm: 9.50e-17
+-Cl( 3, 3) in Cl( 3, 3) CPU = mm:       0.04 (old)       0.06 (new) fm:       0.10 (old)       0.07 (new)  diff: old: 7.39e-17 new: 1.00e-16 fm: 9.72e-17 mm: 7.81e-17
+-Cl( 4, 3) in Cl( 4, 3) CPU = mm:       0.17 (old)       0.15 (new) fm:       0.35 (old)       0.21 (new)  diff: old: 1.79e-16 new: 8.28e-17 fm: 7.67e-17 mm: 1.79e-16
+-Cl( 4, 4) in Cl( 4, 4) CPU = mm:       0.42 (old)       0.30 (new) fm:       0.77 (old)       0.40 (new)  diff: old: 1.93e-16 new: 1.35e-16 fm: 1.48e-16 mm: 2.01e-16
+-Cl( 5, 4) in Cl( 5, 4) CPU = mm:       1.58 (old)       0.73 (new) fm:       2.75 (old)       1.32 (new)  diff: old: 1.94e-16 new: 1.42e-16 fm: 1.38e-16 mm: 2.07e-16
+-Cl( 5, 5) in Cl( 5, 5) CPU = mm:       3.24 (old)       1.34 (new) fm:       5.95 (old)       2.26 (new)  diff: old: 2.55e-16 new: 1.93e-16 fm: 1.83e-16 mm: 2.52e-16
+-Cl( 6, 5) in Cl( 6, 5) CPU = mm:      13.78 (old)       3.37 (new) fm:      24.16 (old)       6.07 (new)  diff: old: 2.70e-16 new: 1.78e-16 fm: 1.74e-16 mm: 2.75e-16
+-Cl( 6, 6) in Cl( 6, 6) CPU = mm:      30.07 (old)       6.28 (new) fm:      50.55 (old)      11.07 (new)  diff: old: 3.36e-16 new: 2.33e-16 fm: 2.31e-16 mm: 3.19e-16
+-Cl( 7, 6) in Cl( 7, 6) CPU = mm:     156.44 (old)      14.23 (new) fm:     206.60 (old)      29.45 (new)  diff: old: 3.83e-16 new: 2.27e-16 fm: 2.23e-16 mm: 3.76e-16
+-Cl( 7, 7) in Cl( 7, 7) CPU = mm:     333.33 (old)      28.72 (new) fm:     443.12 (old)      52.75 (new)  diff: old: 4.80e-16 new: 3.05e-16 fm: 3.08e-16 mm: 4.46e-16
+-Cl( 8, 7) in Cl( 8, 7) CPU = mm:    2119.09 (old)      76.09 (new) fm:    1865.81 (old)     164.53 (new)  diff: old: 5.36e-16 new: 3.05e-16 fm: 3.04e-16 mm: 5.08e-16
+-Cl( 8, 8) in Cl( 8, 8) CPU = mm:    4361.21 (old)     131.25 (new) fm:    4023.98 (old)     255.32 (new)  diff: old: 6.69e-16 new: 4.05e-16 fm: 4.05e-16 mm: 6.03e-16
++Cl( 3, 3) in Cl( 3, 3) CPU = mm:       0.05 (old)       0.06 (new) fm:       0.10 (old)       0.07 (new)  diff: old: 7.39e-17 new: 1.00e-16 fm: 9.72e-17 mm: 7.81e-17
++Cl( 4, 3) in Cl( 4, 3) CPU = mm:       0.17 (old)       0.16 (new) fm:       0.34 (old)       0.21 (new)  diff: old: 1.79e-16 new: 8.28e-17 fm: 7.67e-17 mm: 1.79e-16
++Cl( 4, 4) in Cl( 4, 4) CPU = mm:       0.43 (old)       0.31 (new) fm:       0.81 (old)       0.45 (new)  diff: old: 1.93e-16 new: 1.35e-16 fm: 1.48e-16 mm: 2.01e-16
++Cl( 5, 4) in Cl( 5, 4) CPU = mm:       1.60 (old)       0.75 (new) fm:       2.81 (old)       1.35 (new)  diff: old: 1.94e-16 new: 1.42e-16 fm: 1.38e-16 mm: 2.07e-16
++Cl( 5, 5) in Cl( 5, 5) CPU = mm:       3.27 (old)       1.55 (new) fm:       6.12 (old)       2.35 (new)  diff: old: 2.55e-16 new: 1.93e-16 fm: 1.83e-16 mm: 2.52e-16
++Cl( 6, 5) in Cl( 6, 5) CPU = mm:      15.66 (old)       3.86 (new) fm:      27.45 (old)       7.22 (new)  diff: old: 2.70e-16 new: 1.78e-16 fm: 1.74e-16 mm: 2.75e-16
++Cl( 6, 6) in Cl( 6, 6) CPU = mm:      31.51 (old)       6.67 (new) fm:      52.11 (old)      11.53 (new)  diff: old: 3.36e-16 new: 2.33e-16 fm: 2.31e-16 mm: 3.19e-16
++Cl( 7, 6) in Cl( 7, 6) CPU = mm:     156.19 (old)      14.80 (new) fm:     208.51 (old)      30.26 (new)  diff: old: 3.83e-16 new: 2.27e-16 fm: 2.23e-16 mm: 3.76e-16
++Cl( 7, 7) in Cl( 7, 7) CPU = mm:     331.10 (old)      29.82 (new) fm:     446.26 (old)      55.47 (new)  diff: old: 4.80e-16 new: 3.05e-16 fm: 3.08e-16 mm: 4.46e-16
++Cl( 8, 7) in Cl( 8, 7) CPU = mm:    2159.89 (old)      70.22 (new) fm:    1927.50 (old)     141.35 (new)  diff: old: 5.36e-16 new: 3.05e-16 fm: 3.04e-16 mm: 5.08e-16
++Cl( 8, 8) in Cl( 8, 8) CPU = mm:    4391.39 (old)     136.75 (new) fm:    4096.39 (old)     263.51 (new)  diff: old: 6.69e-16 new: 4.05e-16 fm: 4.05e-16 mm: 6.03e-16
+ Fill: 1
+-Cl( 1, 0) in Cl(16, 0) CPU = mm:       0.26 (old)       3.19 (new) fm:    3995.28 (old)       1.96 (new)  diff: old: 4.99e-15 new: 0.00e+00 fm: 0.00e+00 mm: 4.99e-15
+-Cl( 2, 0) in Cl(16, 0) CPU = mm:       0.39 (old)       3.14 (new) fm:    3968.54 (old)       1.96 (new)  diff: old: 3.56e-15 new: 3.91e-17 fm: 0.00e+00 mm: 3.56e-15
+-Cl( 3, 0) in Cl(16, 0) CPU = mm:       0.72 (old)       3.34 (new) fm:    3972.86 (old)       1.97 (new)  diff: old: 2.11e-15 new: 1.15e-17 fm: 0.00e+00 mm: 2.13e-15
+-Cl( 4, 0) in Cl(16, 0) CPU = mm:       1.49 (old)       3.48 (new) fm:    3993.35 (old)       2.02 (new)  diff: old: 3.33e-15 new: 1.54e-16 fm: 0.00e+00 mm: 3.26e-15
+-Cl( 5, 0) in Cl(16, 0) CPU = mm:       3.04 (old)       3.31 (new) fm:    3953.91 (old)       2.13 (new)  diff: old: 3.36e-15 new: 1.74e-16 fm: 0.00e+00 mm: 3.31e-15
+-Cl( 6, 0) in Cl(16, 0) CPU = mm:       6.38 (old)       3.52 (new) fm:    3971.65 (old)       2.38 (new)  diff: old: 3.28e-15 new: 1.79e-16 fm: 0.00e+00 mm: 3.25e-15
+-Cl( 7, 0) in Cl(16, 0) CPU = mm:      12.89 (old)       4.09 (new) fm:    3991.31 (old)       3.16 (new)  diff: old: 3.61e-15 new: 1.75e-16 fm: 0.00e+00 mm: 3.59e-15
+-Cl( 8, 0) in Cl(16, 0) CPU = mm:      26.54 (old)       5.75 (new) fm:    3991.04 (old)       5.11 (new)  diff: old: 3.19e-15 new: 2.06e-16 fm: 0.00e+00 mm: 3.16e-15
+-Cl( 9, 0) in Cl(16, 0) CPU = mm:      54.85 (old)       8.05 (new) fm:    4020.02 (old)       7.86 (new)  diff: old: 2.96e-15 new: 2.93e-16 fm: 0.00e+00 mm: 2.70e-15
+-Cl(10, 0) in Cl(16, 0) CPU = mm:     115.72 (old)      13.90 (new) fm:    3995.39 (old)      12.47 (new)  diff: old: 2.55e-15 new: 3.09e-16 fm: 8.44e-17 mm: 2.37e-15
+-Cl(11, 0) in Cl(16, 0) CPU = mm:     243.65 (old)      19.48 (new) fm:    3974.25 (old)      20.11 (new)  diff: old: 2.05e-15 new: 4.27e-16 fm: 1.30e-16 mm: 1.88e-15
+-Cl(12, 0) in Cl(16, 0) CPU = mm:     479.23 (old)      32.88 (new) fm:    3980.05 (old)      33.22 (new)  diff: old: 2.07e-15 new: 7.63e-16 fm: 1.74e-16 mm: 1.96e-15
+-Cl(13, 0) in Cl(16, 0) CPU = mm:    1016.54 (old)      50.97 (new) fm:    3972.91 (old)      58.90 (new)  diff: old: 2.19e-15 new: 1.42e-15 fm: 2.30e-16 mm: 1.38e-15
+-Cl(14, 0) in Cl(16, 0) CPU = mm:    2073.00 (old)      86.36 (new) fm:    3991.82 (old)     122.43 (new)  diff: old: 1.58e-15 new: 1.03e-15 fm: 3.03e-16 mm: 9.97e-16
+-Cl(15, 0) in Cl(16, 0) CPU = mm:    4216.31 (old)     131.59 (new) fm:    3998.14 (old)     164.49 (new)  diff: old: 1.23e-15 new: 8.86e-16 fm: 4.10e-16 mm: 8.10e-16
+-Cl(16, 0) in Cl(16, 0) CPU = mm:    8836.41 (old)     252.02 (new) fm:    4007.43 (old)     297.31 (new)  diff: old: 7.53e-16 new: 5.53e-16 fm: 5.56e-16 mm: 7.79e-16
+-Cl( 1, 0) in Cl( 8, 8) CPU = mm:       0.28 (old)       3.22 (new) fm:    3961.62 (old)       1.94 (new)  diff: old: 4.52e-15 new: 0.00e+00 fm: 0.00e+00 mm: 4.52e-15
+-Cl( 1, 1) in Cl( 8, 8) CPU = mm:       0.43 (old)       3.18 (new) fm:    3956.25 (old)       2.23 (new)  diff: old: 2.02e-15 new: 0.00e+00 fm: 0.00e+00 mm: 2.01e-15
+-Cl( 2, 1) in Cl( 8, 8) CPU = mm:       0.73 (old)       3.17 (new) fm:    3978.53 (old)       1.96 (new)  diff: old: 1.68e-15 new: 5.31e-17 fm: 0.00e+00 mm: 1.65e-15
+-Cl( 2, 2) in Cl( 8, 8) CPU = mm:       1.48 (old)       3.19 (new) fm:    3968.01 (old)       1.99 (new)  diff: old: 1.47e-15 new: 1.78e-16 fm: 1.30e-16 mm: 1.43e-15
+-Cl( 3, 2) in Cl( 8, 8) CPU = mm:       2.98 (old)       3.24 (new) fm:    3971.62 (old)       2.07 (new)  diff: old: 1.89e-15 new: 2.08e-16 fm: 1.06e-16 mm: 1.89e-15
+-Cl( 3, 3) in Cl( 8, 8) CPU = mm:       6.13 (old)       3.35 (new) fm:    3981.86 (old)       2.19 (new)  diff: old: 1.05e-15 new: 2.03e-16 fm: 1.37e-16 mm: 9.90e-16
+-Cl( 4, 3) in Cl( 8, 8) CPU = mm:      12.65 (old)       3.60 (new) fm:    3968.79 (old)       2.44 (new)  diff: old: 1.22e-15 new: 2.21e-16 fm: 1.18e-16 mm: 1.26e-15
+-Cl( 4, 4) in Cl( 8, 8) CPU = mm:      25.91 (old)       4.04 (new) fm:    3973.95 (old)       2.91 (new)  diff: old: 9.43e-16 new: 2.71e-16 fm: 1.65e-16 mm: 9.19e-16
+-Cl( 5, 4) in Cl( 8, 8) CPU = mm:      54.11 (old)       4.94 (new) fm:    3995.21 (old)       3.89 (new)  diff: old: 8.75e-16 new: 2.69e-16 fm: 1.78e-16 mm: 8.54e-16
+-Cl( 5, 5) in Cl( 8, 8) CPU = mm:     110.57 (old)       6.20 (new) fm:    3975.97 (old)       5.86 (new)  diff: old: 7.31e-16 new: 3.65e-16 fm: 2.20e-16 mm: 6.63e-16
+-Cl( 6, 5) in Cl( 8, 8) CPU = mm:     229.22 (old)       9.23 (new) fm:    4013.92 (old)      10.04 (new)  diff: old: 7.92e-16 new: 3.64e-16 fm: 2.24e-16 mm: 7.02e-16
+-Cl( 6, 6) in Cl( 8, 8) CPU = mm:     485.30 (old)      15.52 (new) fm:    4022.57 (old)      18.43 (new)  diff: old: 5.47e-16 new: 4.95e-16 fm: 3.13e-16 mm: 5.70e-16
+-Cl( 7, 6) in Cl( 8, 8) CPU = mm:     985.15 (old)      28.63 (new) fm:    4022.76 (old)      36.55 (new)  diff: old: 5.62e-16 new: 5.17e-16 fm: 2.95e-16 mm: 5.82e-16
+-Cl( 7, 7) in Cl( 8, 8) CPU = mm:    2037.63 (old)      55.51 (new) fm:    4022.97 (old)      73.20 (new)  diff: old: 5.96e-16 new: 6.71e-16 fm: 4.03e-16 mm: 6.21e-16
+-Cl( 8, 7) in Cl( 8, 8) CPU = mm:    4170.76 (old)     108.37 (new) fm:    4053.47 (old)     152.20 (new)  diff: old: 5.94e-16 new: 7.11e-16 fm: 4.03e-16 mm: 6.18e-16
+-Cl( 8, 8) in Cl( 8, 8) CPU = mm:    8621.61 (old)     218.18 (new) fm:    4049.40 (old)     275.96 (new)  diff: old: 7.51e-16 new: 5.57e-16 fm: 5.58e-16 mm: 7.81e-16
++Cl( 1, 0) in Cl(16, 0) CPU = mm:       0.26 (old)       3.18 (new) fm:    3969.32 (old)       1.99 (new)  diff: old: 4.99e-15 new: 0.00e+00 fm: 0.00e+00 mm: 4.99e-15
++Cl( 2, 0) in Cl(16, 0) CPU = mm:       0.46 (old)       3.22 (new) fm:    3963.53 (old)       1.96 (new)  diff: old: 3.56e-15 new: 3.91e-17 fm: 0.00e+00 mm: 3.56e-15
++Cl( 3, 0) in Cl(16, 0) CPU = mm:       0.74 (old)       3.22 (new) fm:    3963.97 (old)       2.01 (new)  diff: old: 2.11e-15 new: 1.15e-17 fm: 0.00e+00 mm: 2.13e-15
++Cl( 4, 0) in Cl(16, 0) CPU = mm:       1.52 (old)       3.21 (new) fm:    3961.81 (old)       2.02 (new)  diff: old: 3.33e-15 new: 1.54e-16 fm: 0.00e+00 mm: 3.26e-15
++Cl( 5, 0) in Cl(16, 0) CPU = mm:       3.15 (old)       6.05 (new) fm:    4023.70 (old)       2.20 (new)  diff: old: 3.36e-15 new: 1.74e-16 fm: 0.00e+00 mm: 3.31e-15
++Cl( 6, 0) in Cl(16, 0) CPU = mm:       6.34 (old)       3.64 (new) fm:    3986.33 (old)       2.37 (new)  diff: old: 3.28e-15 new: 1.79e-16 fm: 0.00e+00 mm: 3.25e-15
++Cl( 7, 0) in Cl(16, 0) CPU = mm:      13.08 (old)       4.08 (new) fm:    4017.50 (old)       3.04 (new)  diff: old: 3.61e-15 new: 1.75e-16 fm: 0.00e+00 mm: 3.59e-15
++Cl( 8, 0) in Cl(16, 0) CPU = mm:      27.00 (old)       5.78 (new) fm:    4043.45 (old)       4.93 (new)  diff: old: 3.19e-15 new: 2.06e-16 fm: 0.00e+00 mm: 3.16e-15
++Cl( 9, 0) in Cl(16, 0) CPU = mm:      55.60 (old)       8.12 (new) fm:    4033.88 (old)       7.80 (new)  diff: old: 2.96e-15 new: 2.93e-16 fm: 0.00e+00 mm: 2.70e-15
++Cl(10, 0) in Cl(16, 0) CPU = mm:     117.11 (old)      14.28 (new) fm:    4058.86 (old)      12.23 (new)  diff: old: 2.55e-15 new: 3.09e-16 fm: 8.44e-17 mm: 2.37e-15
++Cl(11, 0) in Cl(16, 0) CPU = mm:     233.16 (old)      21.09 (new) fm:    4042.51 (old)      20.41 (new)  diff: old: 2.05e-15 new: 4.27e-16 fm: 1.30e-16 mm: 1.88e-15
++Cl(12, 0) in Cl(16, 0) CPU = mm:     486.11 (old)      33.01 (new) fm:    4026.40 (old)      33.24 (new)  diff: old: 2.07e-15 new: 7.63e-16 fm: 1.74e-16 mm: 1.96e-15
++Cl(13, 0) in Cl(16, 0) CPU = mm:    1003.44 (old)      52.68 (new) fm:    4024.94 (old)      59.53 (new)  diff: old: 2.19e-15 new: 1.42e-15 fm: 2.30e-16 mm: 1.38e-15
++Cl(14, 0) in Cl(16, 0) CPU = mm:    2068.89 (old)      89.50 (new) fm:    4070.17 (old)     100.64 (new)  diff: old: 1.58e-15 new: 1.03e-15 fm: 3.03e-16 mm: 9.97e-16
++Cl(15, 0) in Cl(16, 0) CPU = mm:    4233.87 (old)     136.50 (new) fm:    4028.26 (old)     190.93 (new)  diff: old: 1.23e-15 new: 8.86e-16 fm: 4.10e-16 mm: 8.10e-16
++Cl(16, 0) in Cl(16, 0) CPU = mm:    8858.99 (old)     250.34 (new) fm:    4052.75 (old)     308.99 (new)  diff: old: 7.53e-16 new: 5.53e-16 fm: 5.56e-16 mm: 7.79e-16
++Cl( 1, 0) in Cl( 8, 8) CPU = mm:       0.26 (old)       3.25 (new) fm:    4052.31 (old)       1.99 (new)  diff: old: 4.52e-15 new: 0.00e+00 fm: 0.00e+00 mm: 4.52e-15
++Cl( 1, 1) in Cl( 8, 8) CPU = mm:       0.39 (old)       3.32 (new) fm:    4036.92 (old)       2.34 (new)  diff: old: 2.02e-15 new: 0.00e+00 fm: 0.00e+00 mm: 2.01e-15
++Cl( 2, 1) in Cl( 8, 8) CPU = mm:       0.77 (old)       3.24 (new) fm:    4028.51 (old)       1.95 (new)  diff: old: 1.68e-15 new: 5.31e-17 fm: 0.00e+00 mm: 1.65e-15
++Cl( 2, 2) in Cl( 8, 8) CPU = mm:       1.48 (old)       3.22 (new) fm:    4024.92 (old)       1.98 (new)  diff: old: 1.47e-15 new: 1.78e-16 fm: 1.30e-16 mm: 1.43e-15
++Cl( 3, 2) in Cl( 8, 8) CPU = mm:       3.10 (old)       3.22 (new) fm:    4022.34 (old)       2.15 (new)  diff: old: 1.89e-15 new: 2.08e-16 fm: 1.06e-16 mm: 1.89e-15
++Cl( 3, 3) in Cl( 8, 8) CPU = mm:       6.30 (old)       3.36 (new) fm:    4045.91 (old)       2.17 (new)  diff: old: 1.05e-15 new: 2.03e-16 fm: 1.37e-16 mm: 9.90e-16
++Cl( 4, 3) in Cl( 8, 8) CPU = mm:      12.94 (old)       3.62 (new) fm:    4043.19 (old)       2.48 (new)  diff: old: 1.22e-15 new: 2.21e-16 fm: 1.18e-16 mm: 1.26e-15
++Cl( 4, 4) in Cl( 8, 8) CPU = mm:      26.25 (old)       4.00 (new) fm:    4028.87 (old)       2.94 (new)  diff: old: 9.43e-16 new: 2.71e-16 fm: 1.65e-16 mm: 9.19e-16
++Cl( 5, 4) in Cl( 8, 8) CPU = mm:      54.57 (old)       5.08 (new) fm:    4053.12 (old)       3.92 (new)  diff: old: 8.75e-16 new: 2.69e-16 fm: 1.78e-16 mm: 8.54e-16
++Cl( 5, 5) in Cl( 8, 8) CPU = mm:     113.35 (old)       6.33 (new) fm:    4058.09 (old)       6.07 (new)  diff: old: 7.31e-16 new: 3.65e-16 fm: 2.20e-16 mm: 6.63e-16
++Cl( 6, 5) in Cl( 8, 8) CPU = mm:     232.71 (old)       9.49 (new) fm:    4096.76 (old)      10.22 (new)  diff: old: 7.92e-16 new: 3.64e-16 fm: 2.24e-16 mm: 7.02e-16
++Cl( 6, 6) in Cl( 8, 8) CPU = mm:     483.29 (old)      16.23 (new) fm:    4061.77 (old)      18.87 (new)  diff: old: 5.47e-16 new: 4.95e-16 fm: 3.13e-16 mm: 5.70e-16
++Cl( 7, 6) in Cl( 8, 8) CPU = mm:     983.91 (old)      29.26 (new) fm:    4070.20 (old)      38.53 (new)  diff: old: 5.62e-16 new: 5.17e-16 fm: 2.95e-16 mm: 5.82e-16
++Cl( 7, 7) in Cl( 8, 8) CPU = mm:    2046.19 (old)      56.46 (new) fm:    4043.68 (old)      74.70 (new)  diff: old: 5.96e-16 new: 6.71e-16 fm: 4.03e-16 mm: 6.21e-16
++Cl( 8, 7) in Cl( 8, 8) CPU = mm:    4201.31 (old)     111.99 (new) fm:    4058.83 (old)     154.15 (new)  diff: old: 5.94e-16 new: 7.11e-16 fm: 4.03e-16 mm: 6.18e-16
++Cl( 8, 8) in Cl( 8, 8) CPU = mm:    8603.48 (old)     229.74 (new) fm:    4087.53 (old)     282.23 (new)  diff: old: 7.51e-16 new: 5.57e-16 fm: 5.58e-16 mm: 7.81e-16
+ Cl( 1, 0) in Cl( 1, 0) CPU = mm:       0.01 (old)       0.01 (new) fm:       0.01 (old)       0.01 (new)  diff: old: 0.00e+00 new: 0.00e+00 fm: 0.00e+00 mm: 0.00e+00
+ Cl( 1, 1) in Cl( 1, 1) CPU = mm:       0.00 (old)       0.01 (new) fm:       0.00 (old)       0.00 (new)  diff: old: 0.00e+00 new: 0.00e+00 fm: 0.00e+00 mm: 0.00e+00
+ Cl( 2, 1) in Cl( 2, 1) CPU = mm:       0.01 (old)       0.01 (new) fm:       0.01 (old)       0.01 (new)  diff: old: 2.07e-17 new: 2.07e-17 fm: 0.00e+00 mm: 0.00e+00
+ Cl( 2, 2) in Cl( 2, 2) CPU = mm:       0.02 (old)       0.02 (new) fm:       0.02 (old)       0.02 (new)  diff: old: 5.13e-17 new: 7.99e-17 fm: 1.18e-16 mm: 1.45e-16
+ Cl( 3, 2) in Cl( 3, 2) CPU = mm:       0.05 (old)       0.05 (new) fm:       0.05 (old)       0.06 (new)  diff: old: 8.70e-17 new: 1.16e-16 fm: 9.20e-17 mm: 1.25e-16
+-Cl( 3, 3) in Cl( 3, 3) CPU = mm:       0.11 (old)       0.09 (new) fm:       0.12 (old)       0.10 (new)  diff: old: 1.39e-16 new: 1.09e-16 fm: 1.24e-16 mm: 1.81e-16
+-Cl( 4, 3) in Cl( 4, 3) CPU = mm:       0.38 (old)       0.24 (new) fm:       0.38 (old)       0.31 (new)  diff: old: 1.39e-16 new: 1.26e-16 fm: 1.19e-16 mm: 1.74e-16
+-Cl( 4, 4) in Cl( 4, 4) CPU = mm:       0.82 (old)       0.54 (new) fm:       0.84 (old)       0.58 (new)  diff: old: 1.91e-16 new: 1.75e-16 fm: 1.77e-16 mm: 2.41e-16
+-Cl( 5, 4) in Cl( 5, 4) CPU = mm:       2.98 (old)       1.11 (new) fm:       2.78 (old)       1.50 (new)  diff: old: 2.13e-16 new: 1.66e-16 fm: 1.71e-16 mm: 2.53e-16
+-Cl( 5, 5) in Cl( 5, 5) CPU = mm:       6.41 (old)       2.12 (new) fm:       6.15 (old)       2.63 (new)  diff: old: 2.69e-16 new: 2.15e-16 fm: 2.35e-16 mm: 3.10e-16
+-Cl( 6, 5) in Cl( 6, 5) CPU = mm:      28.39 (old)       5.15 (new) fm:      23.41 (old)       7.02 (new)  diff: old: 2.92e-16 new: 2.20e-16 fm: 2.39e-16 mm: 3.32e-16
+-Cl( 6, 6) in Cl( 6, 6) CPU = mm:      60.25 (old)       9.83 (new) fm:      50.64 (old)      12.18 (new)  diff: old: 3.77e-16 new: 2.94e-16 fm: 2.94e-16 mm: 4.11e-16
+-Cl( 7, 6) in Cl( 7, 6) CPU = mm:     316.26 (old)      23.20 (new) fm:     212.71 (old)      37.62 (new)  diff: old: 4.23e-16 new: 2.93e-16 fm: 2.98e-16 mm: 4.45e-16
+-Cl( 7, 7) in Cl( 7, 7) CPU = mm:     673.56 (old)      46.28 (new) fm:     440.13 (old)      57.41 (new)  diff: old: 5.45e-16 new: 4.01e-16 fm: 4.12e-16 mm: 5.82e-16
+-Cl( 8, 7) in Cl( 8, 7) CPU = mm:    4227.81 (old)     109.42 (new) fm:    1905.98 (old)     151.16 (new)  diff: old: 5.81e-16 new: 4.00e-16 fm: 4.06e-16 mm: 6.12e-16
+-Cl( 8, 8) in Cl( 8, 8) CPU = mm:    8594.58 (old)     219.73 (new) fm:    4066.10 (old)     286.49 (new)  diff: old: 7.47e-16 new: 5.50e-16 fm: 5.60e-16 mm: 7.81e-16
++Cl( 3, 3) in Cl( 3, 3) CPU = mm:       0.11 (old)       0.09 (new) fm:       0.11 (old)       0.10 (new)  diff: old: 1.39e-16 new: 1.09e-16 fm: 1.24e-16 mm: 1.81e-16
++Cl( 4, 3) in Cl( 4, 3) CPU = mm:       0.37 (old)       0.24 (new) fm:       0.37 (old)       0.31 (new)  diff: old: 1.39e-16 new: 1.26e-16 fm: 1.19e-16 mm: 1.74e-16
++Cl( 4, 4) in Cl( 4, 4) CPU = mm:       0.79 (old)       0.46 (new) fm:       0.79 (old)       0.50 (new)  diff: old: 1.91e-16 new: 1.75e-16 fm: 1.77e-16 mm: 2.41e-16
++Cl( 5, 4) in Cl( 5, 4) CPU = mm:       3.02 (old)       1.15 (new) fm:       2.81 (old)       1.52 (new)  diff: old: 2.13e-16 new: 1.66e-16 fm: 1.71e-16 mm: 2.53e-16
++Cl( 5, 5) in Cl( 5, 5) CPU = mm:       6.51 (old)       2.17 (new) fm:       6.13 (old)       2.58 (new)  diff: old: 2.69e-16 new: 2.15e-16 fm: 2.35e-16 mm: 3.10e-16
++Cl( 6, 5) in Cl( 6, 5) CPU = mm:      28.92 (old)       5.40 (new) fm:      23.70 (old)       7.21 (new)  diff: old: 2.92e-16 new: 2.20e-16 fm: 2.39e-16 mm: 3.32e-16
++Cl( 6, 6) in Cl( 6, 6) CPU = mm:      74.45 (old)      12.33 (new) fm:      51.96 (old)      12.71 (new)  diff: old: 3.77e-16 new: 2.94e-16 fm: 2.94e-16 mm: 4.11e-16
++Cl( 7, 6) in Cl( 7, 6) CPU = mm:     313.59 (old)      24.02 (new) fm:     209.32 (old)      33.27 (new)  diff: old: 4.23e-16 new: 2.93e-16 fm: 2.98e-16 mm: 4.45e-16
++Cl( 7, 7) in Cl( 7, 7) CPU = mm:     669.84 (old)      48.02 (new) fm:     447.45 (old)      59.35 (new)  diff: old: 5.45e-16 new: 4.01e-16 fm: 4.12e-16 mm: 5.82e-16
++Cl( 8, 7) in Cl( 8, 7) CPU = mm:    4294.76 (old)     112.94 (new) fm:    1924.72 (old)     155.09 (new)  diff: old: 5.81e-16 new: 4.00e-16 fm: 4.06e-16 mm: 6.12e-16
++Cl( 8, 8) in Cl( 8, 8) CPU = mm:    8714.03 (old)     226.26 (new) fm:    4103.09 (old)     283.93 (new)  diff: old: 7.47e-16 new: 5.50e-16 fm: 5.60e-16 mm: 7.81e-16

@@ -1,0 +1,736 @@
+NEWS for GluCat 0.12.0 with PyClical
+====================================
+
+2022-04-19: 0.12.0
+GluCat has an improved sqrt function.
+
+GluCat 0.12.0 has an improved sqrt() function that can deal with some cases
+where the matrix representation of multivector is a singular matrix.
+Additionally, the absolute and relative error estimation and approximate
+equality functions used in test11 have been streamlined and added to
+glucat/clifford_algebra.h and glucat/clifford_algebra_imp.h as the functions
+error_squared_tol(), error_squared() and approx_equal().
+
+2022-04-09: 0.11.1
+GluCat can now use Blaze to find eigenvalues.
+
+GluCat 0.11.1 now has the configuration option
+./configure --with-eig=blaze
+This uses the Blaze C++ mathematics library to find eigenvalues, making the
+square root, logarithm and related inverse trigonometric functions more
+accurate.
+
+2022-03-27: 0.11.0
+Deprecated configuration options have been removed.
+
+The configuration options that are deprecated in GluCat 0.10.1 have been
+removed in GluCat 0.11.0. The comprehensive regression tests now test for
+10 different combinations of configuration options, rather than the 15
+different combinations tested previously.
+
+2022-02-19: 0.10.1
+Some GluCat configuration options have been deprecated.
+
+The following configuration options are deprecated as of GluCat 0.10.1
+and will be removed in future releases. See INSTALL for details.
+
+  --enable-check-isnan    check for NaN values at various places in the code
+  --with-stdlib[=ARG]     C++ standard library to use (libcxx|libstdcxx)
+  --with-map[=ARG]        type of map to use (map|stdunordered)
+  --with-dense-mat        use dense matrices
+  --with-random[=ARG]     type of random number generator to use (std|gsl)
+  --with-pool-alloc       use Boost Pool allocator
+
+2022-02-12: 0.10.0
+GluCat tuning is now done via a template parameter.
+
+GluCat 0.10.0 introduces a change in the way that the headers are to be used.
+Instead of
+#include "glucat/glucat.h"
+#include "my_tuning.h"
+#include "glucat/glucat_imp.h"
+with "my_tuning.h" containing a definition of Tune_P, the tuning policy class,
+you are expected to use
+#include "glucat/glucat.h"
+#include "glucat/glucat_imp.h"
+#include "my_tuning.h"
+with "my_tuning.h" containing a definition of the tuning policy class that
+you are using as a template parameter. See README for details.
+
+Also:
+o The ./configure script has been refactored.
+o Successfully running ./configure --with-eig=bindings now requires a Fortran
+  compiler.
+o The Python scripts used to build the PyClical extension module now use
+  setuptools rather than distutils.
+
+2021-12-20: 0.9.0
+GluCat has revised promotion, truncation and printing.
+
+GluCat 0.9.0 introduces some changes that improve usability of the results,
+but produce bit-for-bit different output when compared to previous versions.
+o Promotion of Scalar_T now increases the number of floating point mantissa
+  bits on all tested architectures, including ARM v8. Demotion is the reverse.
+o The default limit for the truncated() member function is now
+  std::numeric_limits<Scalar_T>::epsilon().
+o The constructor from framed_multi<> to matrix_multi<> now uses the default
+  trancation before the transform, and the constructor from matrix_multi<> to
+  framed_multi<> uses the default truncation after the transform.
+o The truncation of output via operator<<() now depends on ostream precision().
+  See test17 for examples.
+
+Some GluCat classes now have new member functions.
+o clifford_algebra<>, framed_multi<>, matrix_multi<>:  isinf(), operator-=()
+o index_set<> reference: operator==().
+The function isinf() has also been added to matrix.h an.d matrix_imp.h.
+
+GluCat header code is now modernized. Compilation now requires C++11.
+
+2021-10-06: 0.8.5
+GluCat now supports the Intel icpx oneAPI C++ compiler.
+
+The GluCat headers compile with recent Clang, GCC and Intel C++ compilers,
+but are mostly unchanged. The ./configure script has been restructured to
+provide better support for configuration options and compiler differences.
+The PyClical plotting demo has been updated to support more recent versions
+of Matplotlib Pyplot.
+
+See INSTALL for details.
+
+2020-07-12: 0.8.4
+PyClical is now compatible with Python 3.
+
+PyClical has now been ported to Python 3, and can no longer be used with
+Python 2. The PyClical classes are unchanged except that the constructors
+now use Python 3 default Unicode strings rather than Python 2 byte strings.
+The C++ code is essentially unchanged.
+
+See INSTALL and README for details.
+
+2020-05-13: 0.8.3
+GluCat now builds with current toolchains.
+
+GluCat 0.8.3 builds with current versions of Clang, GCC and Intel compilers,
+Boost, Cython and Python. The source code is otherwise unchanged.
+
+See INSTALL for details.
+
+2016-07-06: 0.8.2:
+The GluCat classes basis_matrix_t and framed_multi<> have been refined.
+
+The class basis_matrix_t is now based on int rather than on Scalar_T. This
+should make basis matrix generation more efficient, especially when Scalar_T
+is of class dd_real or qd_real.
+
+The class framed_multi<> is now based on either map<index_set_t, Scalar_T> or
+unordered_map<index_set_t, Scalar_T>, rather than the previous base class,
+map<const index_set_t, Scalar_T> or unordered_map<const index_set_t, Scalar_T>.
+This is for compatibility with the libc++ implementations of these bases
+classes.
+
+The framed_multi<> and matrix_multi<> constructors that use the parameters
+val, frm and prechecked have changed. The frame used for the constuction now
+includes the union of val.frame() with frm, and these constructors no longer
+throw an exception if val is oustide of frm.
+
+A new function, reframe(lhs,rhs,lhs_reframed,rhs_reframed) fixes a bug in
+reframing for binary operations on class matrix_multi<>.
+
+The function reframe(self, ixt) in pyclical/PyCliCal.pyx now puts self into
+a larger frame, containing the union of self.frame() and index set ixt.
+
+GluCat now compiles with clang++ and libc++.
+
+PyClical can now be built with g++ version 4.8 and possibly earlier versions.
+
+GluCat also compiles cleanly with Intel C++ 16.0.2. The Intel compiler
+workarounds in glucat/portability.h have been removed. This involved changing
+those functions returning a value of type const T, where T is a primitive type,
+to instead return a value of type T.
+
+2016-05-22: 0.8.1-1:
+GluCat is again in synch with the OpenSUSE Science project.
+
+A number of patches suggested by Atri Bhattacharya of the OpenSUSE Science
+project have been applied to the build and installation process for GluCat.
+The GluCat and Pyclical code itself is unchanged from GluCat 0.8.1.
+
+2016-05-01: 0.8.1:
+GluCat 0.8.1 makes testing faster, easier and more comprehensive.
+
+The configuration option --with-tuning=arg controls test tuning via preprocessor
+macros and the header files test/tuning.h and test/undefine.h.
+
+The configuration option --enable-check-isnan controls checks for NaN values,
+and the configuration option --with-pool-alloc controls the use of the Boost
+pool allocator.
+
+The scripts test/test-all-config-options.sh, test/diff-all-config-outputs.sh
+and test/copy-all-config-outputs.sh enable comprehensive tesing of configuration
+options.
+
+The use of Autotools has again been improved, with enhancements to make,
+make clean, make dist and make install, and the introduction of make check,
+make doc and make install-doc.
+
+2015-09-06: 0.8.0:
+All deprecated options have been removed from the code,
+along with the code associated with related defined options. Because this is
+a backwards-incompatible change, the version number has been bumped to 0.8.0.
+
+Specfically, the code can no longer optionally use:
+<ext/hash_map> (was enabled by the option _GLUCAT_USE_GNU_CXX_HASH_MAP),
+<backward/hash_map> (_GLUCAT_USE_BACKWARD_HASH_MAP),
+<tr1/unordered_map> (_GLUCAT_USE_TR1_UNORDERED_MAP),
+<tr1/random> (the old default: the option _GLUCAT_USE_STD_RANDOM
+is no longer needed, and is ignored, as <random> is now the default),
+<alglib/evd.h> (_GLUCAT_USE_ALGLIB) or
+<boost/numeric/bindings/lapack/gees.hpp> (_GLUCAT_USE_BINDINGS_V1).
+
+2015-08-31: 0.7.5:
+The use of Autotools in configuring, building and installing GluCat and
+PyClical has been simplified and improved. Deprecated configuration options
+have been dropped. The default for --with-random is now std. The default
+for --with-map is now stdunordered.
+
+2014-12-24: 0.7.4:
+GluCat 0.7.4 optionally improves the precision of the sqrt, log and exp functions.
+It does so by implementing constructors that allow mixed precision, e.g. a
+matrix_multi<float> can be initialized using a framed_multi<double>, etc.
+The precision of the sqrt(), log() and exp() functions is controlled by the
+tuning parameter function_precision.
+
+2014-04-02: 0.7.3:
+GluCat 0.7.3 fixes a bug where the line
+
+print_exec("from PyClical import *")
+
+was left out of some of the pyclical_tutorial*.py files.
+The C++ code, Cython code and the configure and Makefiles are unchanged from
+GluCat 0.7.2, other than updating the version number, and so these have not been
+tested again.
+
+2014-03-31: 0.7.2:
+GluCat 0.7.2 with PyClical now generates IPython notebooks.
+
+The Pyclical tutorials are now accompanied by corresponding IPython notebooks.
+
+The nork() function in matrix.h and matrix_imp.h that implements the left
+Kronecker quotient is now accompanied by the signed_perm_nork() function, which
+is faster for the case used by fast<>() in matrix_mult_imp.h.
+
+Use of the Boost pool allocator with framed_multi<> is now optional, controlled
+via the new symbol _GLUCAT_USE_BOOST_POOL_ALLOC.
+
+GluCat compiles cleanly with g++ 4.8. It does not trigger the "unused local
+typedefs" warning caused by the addition of -Wunused-local-typedefs to -Wall
+in g++ 4.8. See http://gcc.gnu.org/ml/gcc-patches/2011-07/msg02460.html
+http://gcc.gnu.org/ml/gcc-patches/2012-05/msg01388.html
+
+GluCat also compiles cleanly and builds correctly with clang++ 3.4.
+
+2012-11-11: 0.7.1:
+GluCat 0.7.1 fixes a bug which prevented compilation in the case where the class
+glucat::framed_multi<> is based on std::map.
+
+
+2012-10-10: 0.7.0:
+GluCat 0.7.0 has more accurate sqrt and transcendental functions and includes
+PyClical tutorials.
+
+The PyClical Python extension module now comes with a set of tutorials that
+guide you through working with Clifford algebra calculations in Python.
+
+The GluCat library now supports C++11, including <unordered_map> and <random>.
+
+The GluCat library now has transcendental functions that are more accurate when
+used with higher precision arithmetic. This is accomplished by using different
+Pade' approximations according to the numerical precision needed.
+
+The class glucat::framed_multi<> based on hash_map or unordered_map now uses
+constructors that specify an initial number of buckets.
+
+The basis_element cache used for glucat::matrix_multi<> now uses pointers to
+matrices instead of matrices.
+
+The GluCat header files have been reorganized so that they now directly include
+the header files they depend on, rather than relying on glucat/glucat.h and
+glucat/glucat_imp.h to do this.
+
+The default options for ./configure now yield the simplest usable production
+case: ./configure without arguments with GluCat 0.7.0 gives the same results as
+"./configure --with-map=unordered --enable-debug=no --enable-pyclical" did with
+GluCat 0.6.0.
+
+The README and INSTALL files have been completely rewritten, and AUTHORS has
+been updated.
+
+
+2012-05-12: 0.6.0
+GluCat 0.6.0 includes the PyClical extension module for Python.
+
+The PyClical extension module is based on the prototype from GluCat 0.5.0,
+but includes a much more comprehensive interface to the GluCat classes
+index_set<> and matrix_multi<>, as Python classes index_set and clifford.
+The functions and member functions defined in PyClical include doctests.
+
+There are some changes to the clifford_algebra<> API:
+o GluCat does not support complex Clifford algebras, so the real() function
+  is now synonymous with scalar() and the imag() function always returns 0.
+o New operators lhs | rhs and lhs |= rhs transform lhs by the twisted adjoint
+  action of rhs.
+o New member functions, grade() : maximum of the grades of each term;
+  pure() : pure part.
+o New function complexifier(val) : square root of -1 which commutes with all
+  members of the frame of the multivector val. The name "elliptic" is now
+  deprecated: use "complexifier" instead.
+o New functions sqrt(val,i,prechecked), and log(val,i,prechecked) :
+  square root and logarithm of multivector with specified complexifier.
+
+
+2010-05-31: 0.5.1
+GluCat 0.5.1 fixes sqrt and transcendental functions.
+
+The sqrt and log functions, and functions based on them, such as acos, acosh, etc.
+may give incorrect results when using GluCat 0.5.0 and earlier. This is because
+the algorithms used in GluCat 0.5.0 and earlier for sqrt(x) and log(x) fail if
+x is represented as a matrix having a negative real eigenvalue.
+
+This has now been fixed in GluCat 0.5.1, with the aid of external libraries
+which contain eigenvalue functions.
+
+o See Approximating functions in Clifford algebras:
+  What to do with negative eigenvalues? AGACSE 2010.
+( To be posted on http://www.maths.anu.edu.au/~leopardi )
+
+
+2010-05-28: 0.5.0
+Introducing PyCliCal: a Python interface to GluCat.
+
+GluCat now includes PyCliCal: a prototype Python interface to GluCat,
+implemented via Cython. The included files pyclical/pyclical_demo.py and
+pyclical/pyclical_demo.out highlight some of its capabilities.
+
+The framed_multi<> and matrix_multi<> classes now also have a new
+static member function random(frm), which returns a random multivector
+within the given frame frm, with each coordinate independently distributed
+according to the standard normal distribution, rescaled by dividing by the
+square root of the dimension ofthe frame. The random() function uses either
+TR1 or GSL normal random numbers, via the random_generator<> class defined
+in glucat/random.h.
+
+The ./configure options have changed. See ./INSTALL for details.
+
+The tests, ./test00 (Geometric algebra identities) and ./test11 (Square root
+and transcendental functions) have been updated to take advantage of the new
+random() function. Other tests may be updated later.
+
+A new header file, test/control.h, defines a new struct, control_t, which is
+used for control parameters defined via program arguments. Only the arguments
+--help and --verbose are defined via control_t. Both ./test00 and ./test1 use
+control_t and the --verbose flag.
+
+The C++ code has been updated to support the Intel C++ compiler, version 11.1.
+This involved updateing glucat/portability.h and moving the definitions of
+var_term member fnctions from glucat/framed_multi_imp.h to glucat/framed_multi.h.
+
+
+2010-04-04: 0.4.4
+GluCat supports QD high precision arithmetic.
+
+GluCat now supports the high precision floating point classes
+qd_real and dd_real from the QD library.
+The test directories test00 and test11 have been updated to
+test support for dd_real and qd_real.
+
+See http://crd.lbl.gov/~dhbailey/mpdist/ and
+Y. Hida, X. S. Li, and D. H. Bailey,
+Algorithms for Quad-Double Precision Floating Point Arithmetic.
+In Proceedings of the 15th IEEE Symposium on Computer Arithmetic (2001).
+ARITH. IEEE Computer Society, 2001.
+
+
+2009-12-21: 0.4.3
+GluCat has a fix for another comparison operator.
+
+For operator!= (const Scalar_T& scr, const Multivector<Scalar_T,LO,HI>& rhs),
+there was essentially the same bug as was fixed in GluCat 0.4.2, but this was
+missed by Bug 2847758. GluCat 0.4.3 fixes this operator, and there are more tests
+in test14 to check this case as well.
+
+
+2009-12-15: 0.4.2
+Bug 2847758: "operator!=(lhs,scr) sometimes wrongly returns true" has been fixed.
+
+In operator!= (const Multivector<Scalar_T,LO,HI>& lhs, const Scalar_T& scr).,
+with GluCat 0.4.1 and earlier, when lhs is of type matrix_multi_t,
+it is possible that lhs.frame().count() !=0 and yet the matrix is scr times the
+identity matrix. In this case operator!=() returns false when it should return true.
+
+This bug has been fixed in GluCat 0.4.2, and new tests have been added to test14
+to check that both operator==() and operator!=() return correct results.
+
+
+2009-07-28: 0.4.1
+GluCat has improved transcendental functions and better support for scalars.
+
+Extensive changes have been made to the implementation of trancendental functions,
+primilarily to improve accuracy. The Pade' approximations now use degree 13. For
+the sqrt() and log() functions, number of cases of negative eigenvalues are
+detected and avoided. More minor changes have been also made to improve speed.
+For details, see the Changelog for clifford_algebra_imp.h. See also
+Approximating functions in Clifford algebras, ANZMC 2008.
+http://wwwmaths.anu.edu.au/~leopardi/ANZMC-2008-Leopardi-clifford-functions-talk.pdf
+
+A number of changes have been made to provide better support for more diverse
+scalars, primarily to allow new versions of GluCat to support the QD package.
+In particular, there are new constructors for framed_multi<> and
+matrix_multi<> from character strings, and more static functions defined via
+numeric_traits<Scalar_T>. For details, see the Changelog.
+
+Warning: The standalone function glucat::log2() defined in scalar.h and the
+functions std::conj(), std::real() and std::imag() defined in long_double.h are
+now deprecated and will be removed in future versions of GluCat.
+
+For the QD package, see http://crd.lbl.gov/~dhbailey/mpdist/
+and Y. Hida, X. S. Li, and D. H. Bailey,
+Algorithms for Quad-Double Precision Floating Point Arithmetic.
+In Proceedings of the 15th IEEE Symposium on Computer Arithmetic (2001).
+ARITH. IEEE Computer Society, 2001.
+
+
+2007-11-06: 0.4.0
+GluCat is now faster and more accurate.
+
+Some errors in transcendental functions have been fixed.
+These errors occurred because the functions were inconsistent in their use of
+elliptic(). This has been fixed by creating new versions of the functions
+sqrt, log, acosh, cos, acos, asinh, sin, asin, atanh, tan, atan,
+with a second parameter i, which is a specified complexifier and
+a third parameter prechecked which controls a new function check_complex().
+The function check_complex(val, i) checks that i is a valid complexifier
+for val, ie. checks that i and elliptic(val) are consistent.
+
+The functions, exp, log, sqrt and the transcendental functions are more accurate
+in many cases, mostly as a result of better Pade approximation and better default
+timing parameters.
+
+GluCat can now use framed_multi<> based on tr1::unordered_map<> rather than
+map<> or has_map<>.
+
+The new symbol _GLUCAT_USE_TR1_UNORDERED_MAP controls the use of the header
+file <tr1/unordered_map>.
+
+The new configure script flag --with-unordered-map adds the flag
+ -D_GLUCAT_USE_TR1_UNORDERED_MAP to CXXFLAGS in the test Makefiles.
+
+The functions sign_of_mult(), many of the index_set<> operations, and the
+Clifford algebra multiplication operations ^, % and & have new algorithms,
+which are in some cases much faster both for small and large sizes of
+index_sets and multivectors respectively.
+
+The function index_range(), deprecated in GluCat 0.3.0, has been removed.
+
+There are many other minor changes.
+
+See the files INSTALL, README, glucat-api/refman.pdf and Changelog for more
+details.
+
+
+2007-09-09: 0.3.0
+Two errors lurking in GluCat versions 0.0.1 through 0.2.3 have been fixed.
+
+1. The inner product was wrong. According to the definition, a & b == 0 if
+either a or b is a scalar. In previous versions of GluCat a & b == a*b == a^b if
+either a or b is a scalar. A new test, ./test00, checks many Geometric algebra
+identities, to ensure that this type of error is caught much earlier.
+The increase in version number from 0.2.3 to 0.3.0 is to remind users that the
+value of a & b has changed.
+
+2. The lexicographical ordering of index sets was wrong. This affected the
+ordering of terms both in output and internally in framed_multi<> when framed
+multivectors use map<> rather than hash_map<>, ie. when
+_GLUCAT_USE_GNU_CXX_HASH_MAP is not defined.
+
+Also:
+o The timing tests have been revised to add precision to the measurement of
+operations on smaller multivectors. A new test, ./products is a timing test for
+the *, ^, & and % products.
+o A new constructor has been added, index_set(range), where range is a pair of
+index_t values. This is intended to replace the function index_range(), which is
+now deprecated and will be removed from GluCat 0.4.0. The new constructor was
+needed because of differences between the current GNU and Intel compilers. The
+timing tests have been revised to use this new constructor.
+
+See the Changelog for a detailed list of changes.
+
+
+2007-08-23: 0.2.3
+GluCat now uses either dense or compressed matrices; LGPLv3.
+
+If _GLUCAT_USE_DENSE_MATRICES is defined, matrix_multi<> uses a a dense
+matrix. Otherwise matrix_multi<> uses a compressed matrix type. In either
+case, basis matrices always use a compressed matrix type.
+
+The ublas noalias assignment has been used where possible, to reduce the
+creation of temporary copies of matrices.
+
+The use of IEEE NaN has been improved to ensure that dense and compressed
+matrices give the same result even if one or more entry is NaN.
+IEEE Inf is now also used where appropriate.
+
+The pow() functions have been fixed to yield the correct powers of 0.
+
+The following fixes which were in CVS are included in this release.
+index_set_imp.h:
+Correct is_contiguous() so that it matches the requirements of
+framed_multi<>::fold() and framed_multi<>::unfold().
+
+framed_multi_imp.h:
+Fix fold() and unfold().
+
+GluCat is now licenced using LGPLv3 or later. See COPYING.
+
+See the Changelog for a detailed list of changes.
+
+
+2007-02-28: 0.2.2
+GluCat, now with Bit Wizardry, is even faster.
+
+Various functions in glucat/index_set_imp.h now use bitwise algorithms whose
+time is proportional to the log of the number of bits, or proportional to the
+number of bits set to true.
+
+These algorithms are taken from and inspired by Joerg Arndt,
+"Algorithms for programmers", http://www.jjj.de/fxt/fxtbook.pdf
+Chapter 1, Bit wizardry, http://www.jjj.de/bitwizardry/bitwizardrypage.html
+
+The file glucat/global.h now defines the macro _GLUCAT_BITS_PER_ULONG,
+which is used in glucat/index_set_imp.h to enable the proprocessor to select
+the 32-bit or 64-bit versions of some of the bitwise algorithms.
+
+
+2007-01-14: 0.2.1
+GluCat fifth anniversary edition is now faster.
+
+A brief list of changes includes:
+
+Configuration:
+o Add optional argument --with-dense-mult corresponding to variable
+glucat_use_dense_matrix_mult.
+o Use variable glucat_use_dense_matrix_mult to decide when to add
+-D_GLUCAT_USE_DENSE_MATRIX_MULT to CXXFLAGS.
+o Drop support for KAI C++. GluCat was never tested with KAI C++, and Intel has
+effectively replaced it with Intel C++.
+o Change preferred name for Intel C++ from "icc" to "icpc" as per Intel
+documentation.
+o Check Intel C++ version and store it in icpcversion.
+o When icpcversion is between "8" and "9" use -fabi-version=1 rather than
+-fabi-version=0.
+o Remove -I/usr/local/include from CXXFLAGS. GluCat configure has never checked
+if this include helped.
+
+Library:
+Overall:
+o Prefer const index_set_t to const index_set_t& - ie. pass index_set_t by value
+rather than reference.
+o Rename pair_t to term_t.
+o Give "Construct a multivector from an index set and a scalar coordinate" a
+default value of Scalar_T(1) for the coordinate.
+
+glucat/glucat/framed_multi.h
+o Make var_pair_t into the nested class var_term_t, including operator*= which
+multiplies by a term_t.
+o Delete operator* for var_pair_t.
+o Define size_type.
+o Make operator+= ("Add a term, if non-zero") public rather than private, to
+allow fast() in matrix_multi_imp.h to use this operator.
+
+glucat/index_set.h
+o Add bool member function is_contiguous ("Determine if the index set is
+contiguous, ie. has no gaps").
+
+glucat/matrix_multi.h
+o Define the type dense_matrix_t to use for dense matrices.
+
+glucat/matrix_multi_imp.h
+o In operator*= for matrix_multi_t use dense ublas::prod based on
+_GLUCAT_USE_DENSE_MATRIX_MULT but only if both *this and rhs are both "dense
+enough" -- defined as nnz is at least half the number of entries in the matrix.
+
+glucat/portability.h
+o Drop ISNAN macro -- never used.
+
+Tests:
+glucat/gfft_test/gfft_test.h
+o Test GFFT for frames which are not contiguous.
+
+See the Changelog for a detailed list of changes.
+
+
+2006-12-06: 0.2.0
+GluCat now properly defines and uses numeric_limits and isnan().
+A brief list of changes includes:
+
+o Define ISNAN(x) macro which uses isnan(x) macro if available, and otherwise
+  uses std::isnan(x).
+o Define numeric_limits<> and numeric_traits<>.
+o Use std::numeric_limits<Scalar_T>::has_quiet_NaN and
+  numeric_traits<Scalar_T>::isNaN().
+o Use Doxygen to generate a PDF version of the GluCat API documentation.
+o Prefer pass by value for types which are not expected to be larger than the
+  word size.
+o Use streamsize and cout.precision().
+o Use index_t where applicable.
+o Drop some portability workarounds for old compilers.
+o In test11, define NDEBUG, to turn off spurious checking in uBLAS
+  sparse_prod().
+o Define template functions as static if they are intended to be used only
+  within the header file.
+o In tests, define template functions as static and move test functions from
+  header files to source files.
+o In portability.h, suppress spurious Intel compiler warnings.
+
+See the Changelog for a detailed list of changes.
+
+
+2005-08-31: 0.1.9
+GluCat continues to track changes in g++ and Boost.
+The code is now even closer to Standard C++, and a little cleaner.
+This version of GluCat requires Boost 1.31.0, 1.33.0 or later.
+See the Changelog for a detailed list of changes.
+
+
+2004-08-11: 0.1.8
+GluCat has had a few bugs fixed, and a few minor enhancements.
+The constuctor for index_set<> from string and the corresponding stream input
+operator >> now work properly with strings of the form "1,2" as well as
+"{1,2}".
+The sign_of_mult() function for index_set<> has been improved.
+The subscripting operator [] for matrix_multi<> now works properly for index
+sets not contained in m_frame.
+Programs which use GluCat can now invoke GluCat classes and functions from
+separately compiled modules. To allow for this, the try_catch functions have
+been moved from glucat/errors.h and glucat/errors_imp.h to the new file
+test/try_catch.h.
+Some constructors for matrix_multi<> have minor speed improvements.
+The left contraction operator %= for framed_multi<> has a minor speed
+improvement.
+Compilation using g++ versions older than 3.3 now uses less agressive inlining.
+
+
+2004-06-20: 0.1.7
+GluCat now has an improved ./configure script which is better able to
+determine whether you have <boost/numeric/ublas/lu.hpp> available.
+
+
+2004-05-09: 0.1.6
+GluCat now compiles under gcc 3.4.
+Note that the uBLAS in Boost 1.31.0 does NOT compile under gcc 3.4.
+This has been fixed in Boost CVS.
+
+
+2004-05-05: 0.1.5
+GluCat has further optimizations. The fast conversion between framed_multi<>
+and matrix_multi<> and its inverse are now implementations of the matrix
+representation algorithms described in the paper, "A generalized FFT for
+Clifford algebras". The optimized fast conversion uses the new function odd(),
+which gives the odd part of a multivector. A new configure option
+"--with-hash-map" replaces the separate hash_map version of GluCat.
+Note: This version of GluCat does NOT compile under gcc 3.4.
+
+
+2003-07-05: 0.1.4-hash_map
+This is a hack to glucat-0.1.4 which uses __gnu_cxx::hash_map<> instead of
+std::map<> for framed_multi<>. gfft_test-10.out shows that the computational
+complexity of the GFT for R_{n,n}is now O(n*4^n).
+
+
+2003-06-29: 0.1.4
+GluCat has gained two bits. The mapping of index_set_t to bitset_t now treats
+index 0 of index_set_t as a "virtual" bit rather than a real dead bit of
+bitset_t. This allows DEFAULT_LO to be reduced by 1, and DEFAULT_HI to be
+increased by 1. For a 32 bit unsigned long, the default index_set_t is
+now index_set<-16,16>, using std::bitset<32> rather than index_set<-15,15>,
+which used std::bitset<31>.
+
+
+2003-06-23: 0.1.3
+GluCat now has a few optimizations. The tests have been split up into different
+directories to reduce memory usage during compilation, especially with g++ -O3.
+index_set<> has been optimized by using bitset_t and masks in fold() and
+value_of_fold(). The inverse generalized FFT has been optimized by use of an
+optimization to unit() and an optimization to nork() for the monomial case.
+GluCat remains compatible with Boost 1.30.0, and also takes advantage of recent
+changes to uBLAS, currently in Boost CVS.
+
+
+2003-03-02: 0.1.2
+GluCat now uses a generalized Fast Fourier Transform (FFT) to map between
+framed_multi<> and matrix-multi<> at high dimensions. This greatly speeds up
+operations in higher dimensions, for example multiplication and division.
+A new ./transforms subdirectory includes a test program for the generalized FFT.
+Also, the build process has been updated to make better use of autoconf and
+automake. As a result, you should no longer need to edit Makefile.in
+
+
+2003-01-08: 0.1.1
+An enhancement to basis_element() includes the use of a basis_table as a cache
+for basis elements. This should improve the speed of conversion between
+framed_multi<> and matrix_multi<>, at the expense of memory. The tuning
+parameter Tune_P::basis_max_count controls the size of the cache. If this is
+set to zero, the cache is not used. The default value is
+DEFAULT_Basis_Max_Count, which is set to 10. You can change it when you define
+Tune_P, as is done intest/driver.h
+Also included is a change to definition of template defaults for tuning<>, to
+make these defaults easier to override.
+
+
+2002-12-31: 0.1.0
+GluCat is now compatible with gcc 3.2 and Intel C++ 7.0.
+This should ensure that the code is closer to standard C++.
+This version of GluCat was built using KDevelop 2.1.3 and Boost CVS
+(2002-12-28).
+GluCat now uses Boost uBLAS rather than MTL, for a number of reasons:
+1 MTL needed extensive patching to work with Intel C++.
+2 MTL maintenance seems to have halted.
+3 Joerg Walter contributed a uBLAS interface for GluCat.
+4 uBLAS uses expression templates and uBLAS matrices have value semantics.
+  This makes the relevant GluCat library code easier to read and understand.
+5 GluCat with uBLAS compiles faster than with MTL.
+6 uBLAS is also generally faster than MTL. This makes GluCat generally faster.
+Other improvements to GluCat include better use of IEEE NaN.
+
+
+2002-08-15: 0.0.7
+GluCat has been finally updated to be compatible with gcc 3.1.1, autoconf 2.5.2
+and automake 1.63.This version of GluCat was built using KDevelop 2.1.2 and MTL
+2.1.2-21.
+Work continues to make GluCat and MTL compatible with Intel C++ 6.0.
+
+
+2002-04-15: 0.0.6
+A bug in elliptic() has been fixed. elliptic now returns a unit volume element I
+whichcommutes with the whole relevant subalgebra
+
+
+2002-01-27: 0.0.5
+GluCat has now been tested with gcc 3.0.3 and should now be very compatible with
+standard C++.
+
+
+2002-01-24: 0.0.4
+GluCat now uses the real irreducible representation for matrix_multi<>, which
+should now runacceptably quickly for Cl(p,0) and Cl(0,q).
+
+
+2002-01-22: 0.0.3
+A nasty bug in matrix_multi<>::operator==() is now fixed. cos(), sin() and
+matrx_multi<>::norm() have been optimized.
+
+
+2002-01-12: 0.0.2
+GluCat now uses CVS.
+
+
+2002-01-09: 0.0.1
