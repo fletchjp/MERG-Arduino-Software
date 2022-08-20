@@ -203,10 +203,10 @@ namespace fcpp {
 // This can be quite useful and elegant 
 //
 
+//////////////////////////////////////////////////////////////////////////
 // Example of 1.
-// I need a different operator which applies the first operators to the first part of the data pair
-// and the second operator to the second part of the data pair.
-// I may have something already - bimap adapted as bimap2.
+//////////////////////////////////////////////////////////////////////////
+// I have adapted bimap as bimap2.
 // I need to store the type of this curried function.
 using OpType = typeof(bimap2(fcpp::plus,fcpp::multiplies));
 typedef MonoidType<std::pair<int,int>,OpType> MonoidPair;
