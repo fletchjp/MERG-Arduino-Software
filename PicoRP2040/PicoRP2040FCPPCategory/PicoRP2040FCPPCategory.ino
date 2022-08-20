@@ -112,6 +112,41 @@ namespace fcpp {
 
 // New XOR operator for FC++ it has been moved to fcpp/prelude.h
 
+#ifdef FCPP152
+
+// I need a version of bimap which works on two argument functoids  bimap2(f,g,p1,p2)
+
+  namespace impl {
+
+    struct XBimap2 {
+#ifdef FCPP_DEBUG
+       std::string name() const
+       {
+           return std::string("Bimap2");
+       }
+#endif
+      template <class F, class G,class P,class Q> struct Sig; // force the two pairs to have the same type.
+      
+      template <class F, class G,class Q>
+      struct Sig<F,G,Q,Q> : public FunType<F,G,Q,Q,
+       std::pair<typename RT<F,typename Q::first_type,typename Q::first_type>::ResultType,
+           typename RT<G,typename Q::second_type,typename Q::second_type>::ResultType > > { };
+
+      template <class F, class G,class Q>
+      typename Sig<F,G,Q,Q>::ResultType operator()
+      (const F& f,const G& g,const Q &p,const Q &q) const
+      {
+         return std::make_pair(f(p.first,q.first),g(p.first,q.second));
+      }
+    };
+
+  }
+ typedef Full4<impl::XBimap2> Bimap2;
+ FCPP_MAYBE_NAMESPACE_OPEN
+ FCPP_MAYBE_EXTERN Bimap2 bimap2;
+ FCPP_MAYBE_NAMESPACE_CLOSE
+
+#endif
 
 /// Monoid operations based on ideas from https://bartoszmilewski.com/2014/12/05/categories-great-and-small/
 /// and also from Learn You a Haskell for Great Good! p.252.
@@ -204,10 +239,11 @@ namespace fcpp {
 //typedef std::pair<MonoidPlus,MonoidMultiplies> MonoidPair;
 // I need a different operator which applies the first operators to the first part of the data pair
 // and the second operator to the second part of the data pair.
-// I may have something already.
-typedef MonoidType<std::pair<int,int>,std::pair<Plus,Multiplies>> MonoidPair;
+// I may have something already - bimap
+using OpType = typeof(bimap2(fcpp::plus,fcpp::multiplies));
+typedef MonoidType<std::pair<int,int>,OpType> MonoidPair;
 template <> std::pair<int,int> MonoidPair::zero = std::make_pair(0,1);
-template <> std::pair<fcpp::Plus,fcpp::Multiplies> MonoidPair::op = std::make_pair(fcpp::plus,fcpp::multiplies);
+template <> OpType MonoidPair::op = bimap2(fcpp::plus,fcpp::multiplies);
 
 //////////////////////////////////////////////////////////////////////////
 /// Output operators for the Monoid types.
@@ -1370,7 +1406,10 @@ void monoid_examples()
   Serial << "( " << mp0.value.first << ", " << mp0.value.second << " )" << endl;
   Serial << "( " << mp1.value.first << ", " << mp1.value.second << " )" << endl;
   // This does not work it needs an operator which can work on the two parts.
-  //MonoidPair mp2 = mmappend(mp0,mp1);
+  MonoidPair mp2 = mmappend(mp0,mp1);
+  Serial << "( " << mp2.value.first << ", " << mp2.value.second << " )" << endl;
+  MonoidPair mp3 = mmappend(mp2,mp1);
+  Serial << "( " << mp3.value.first << ", " << mp3.value.second << " )" << endl;
 }
 
 void setup() {
