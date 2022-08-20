@@ -241,6 +241,36 @@ template <> OpTypeAnyAll2 MonoidAnyAll2::op = parallel2(makePair(fcpp::or2,fcpp:
 // The difference is that bimap2 takes the two functors as separate arguments
 // and parallel2 takes them as a pair.
 //////////////////////////////////////////////////////////////////////////
+// Monoid Type for Endo. I think I need a functoid first to handle the polymorphism.
+// Maybe the MonoidType is inside the functoid?
+
+namespace impl {
+  struct XEndo {
+#ifdef FCPP_DEBUG
+       std::string name() const
+       {
+           return std::string("Endo");
+       }
+#endif
+       template <class F> struct Sig : public FunType<F,F> {};
+
+       template <class F> typename Sig<F>::ResultType operator()(const F& f)
+       {
+          return f;
+       }
+
+  };
+}
+ typedef Full1<impl::XEndo> Endo;
+ FCPP_MAYBE_NAMESPACE_OPEN
+ FCPP_MAYBE_EXTERN Endo endo;
+ FCPP_MAYBE_NAMESPACE_CLOSE
+
+typedef MonoidType<Endo,Compose> MonoidEndo;
+template <> Endo MonoidEndo::zero = endo;
+template <> Compose MonoidEndo::op = compose;
+
+//////////////////////////////////////////////////////////////////////////
 /// Output operators for the Monoid types.
 /////////////////////////////////////////////////////////////////////////
 
@@ -1431,6 +1461,12 @@ void monoid_examples()
   MonoidAnyAll2 maa22 = std::make_pair(anyt(),allt());
   Serial << "MonoidAnyAll2 maa22 = std::make_pair(anyt(),allt());" << endl;
   if (maa22.value.first && maa22().second) Serial << "maa22 values are both true" << endl;
+  Serial << "======================================================"
+            << endl;
+  MonoidEndo e0;
+  //MonoidEndo e1(id);
+  //e0()(id);
+  
 }
 
 void setup() {
