@@ -129,7 +129,7 @@ namespace fcpp {
            return std::string("Parallel2");
        }
 #endif
-      template <class P,class Q, class R> struct Sig; // Force data pairs to be the same.
+      template <class P,class Q, class R> struct Sig; // Force data pairs to be the same type.
       
       template <class P,class Q>
       struct Sig<P,Q,Q> : public FunType<P,Q,Q,
