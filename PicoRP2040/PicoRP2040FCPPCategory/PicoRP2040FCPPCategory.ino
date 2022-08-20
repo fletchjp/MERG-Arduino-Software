@@ -112,42 +112,7 @@ namespace fcpp {
 
 // New XOR operator for FC++ it has been moved to fcpp/prelude.h
 
-#ifdef FCPP152
-
-// I need a version of bimap which works on two argument functoids  bimap2(f,g,p1,p2)
-// This is a four argument functoid, supported in FC++ 1.5.2
-
-  namespace impl {
-
-    struct XBimap2 {
-#ifdef FCPP_DEBUG
-       std::string name() const
-       {
-           return std::string("Bimap2");
-       }
-#endif
-      template <class F, class G,class P,class Q> struct Sig; // force the two pairs to have the same type.
-      
-      template <class F, class G,class Q>
-      struct Sig<F,G,Q,Q> : public FunType<F,G,Q,Q,
-       std::pair<typename RT<F,typename Q::first_type,typename Q::first_type>::ResultType,
-           typename RT<G,typename Q::second_type,typename Q::second_type>::ResultType > > { };
-
-      template <class F, class G,class Q>
-      typename Sig<F,G,Q,Q>::ResultType operator()
-      (const F& f,const G& g,const Q &p,const Q &q) const
-      {
-         return std::make_pair(f(p.first,q.first),g(p.second,q.second));
-      }
-    };
-
-  }
- typedef Full4<impl::XBimap2> Bimap2;
- FCPP_MAYBE_NAMESPACE_OPEN
- FCPP_MAYBE_EXTERN Bimap2 bimap2;
- FCPP_MAYBE_NAMESPACE_CLOSE
-
-#endif
+// New Bimap2 operator for FC++ it has been moved to fcpp/functors.h
 
 /// Monoid operations based on ideas from https://bartoszmilewski.com/2014/12/05/categories-great-and-small/
 /// and also from Learn You a Haskell for Great Good! p.252.
