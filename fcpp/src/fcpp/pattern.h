@@ -175,7 +175,7 @@ namespace impl {
       typename Sig<P,Q,Q>::ResultType operator()
       (const P& p,const Q &q1,const Q &q2) const
       {
-  return std::make_pair(p.first(q1.first,q2.first),p.second(q1.second,q2.second));
+     return std::make_pair(p.first(q1.first,q2.first),p.second(q1.second,q2.second));
       }
     };
 
