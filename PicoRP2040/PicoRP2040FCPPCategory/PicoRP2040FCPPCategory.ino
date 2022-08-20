@@ -136,7 +136,7 @@ namespace fcpp {
       typename Sig<F,G,Q,Q>::ResultType operator()
       (const F& f,const G& g,const Q &p,const Q &q) const
       {
-         return std::make_pair(f(p.first,q.first),g(p.first,q.second));
+         return std::make_pair(f(p.first,q.first),g(p.second,q.second));
       }
     };
 
@@ -1403,13 +1403,13 @@ void monoid_examples()
             << endl;
   MonoidPair mp0;
   MonoidPair mp1 = std::make_pair(1,2);
-  Serial << "( " << mp0.value.first << ", " << mp0.value.second << " )" << endl;
-  Serial << "( " << mp1.value.first << ", " << mp1.value.second << " )" << endl;
+  Serial << "MonoidPair mp0 = ( " << mp0.value.first << ", " << mp0.value.second << " )" << endl;
+  Serial << "MonoidPair mp1 = std::make_pair(1,2) = ( " << mp1.value.first << ", " << mp1.value.second << " )" << endl;
   // This does not work it needs an operator which can work on the two parts.
   MonoidPair mp2 = mmappend(mp0,mp1);
-  Serial << "( " << mp2.value.first << ", " << mp2.value.second << " )" << endl;
+  Serial << "mp2 = mmappend(mp0,mp1) = ( " << mp2.value.first << ", " << mp2.value.second << " )" << endl;
   MonoidPair mp3 = mmappend(mp2,mp1);
-  Serial << "( " << mp3.value.first << ", " << mp3.value.second << " )" << endl;
+  Serial << "mp3 = mmappend(mp2,mp1) = ( " << mp3.value.first << ", " << mp3.value.second << " )" << endl;
 }
 
 void setup() {
