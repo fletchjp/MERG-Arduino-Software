@@ -202,7 +202,6 @@ namespace fcpp {
 //
 
 // Example of 1.
-//typedef std::pair<MonoidPlus,MonoidMultiplies> MonoidPair;
 // I need a different operator which applies the first operators to the first part of the data pair
 // and the second operator to the second part of the data pair.
 // I may have something already - bimap adapted as bimap2.
@@ -1379,6 +1378,10 @@ void monoid_examples()
   Serial << "mp2 = mmappend(mp0,mp1) = ( " << mp2.value.first << ", " << mp2.value.second << " )" << endl;
   MonoidPair mp3 = mmappend(mp2,mp1);
   Serial << "mp3 = mmappend(mp2,mp1) = ( " << mp3.value.first << ", " << mp3.value.second << " )" << endl;
+  MonoidPair mp4 = std::make_pair(4,4);
+  List<MonoidPair> lmp = list_with(mp0,mp1,mp2,mp3,mp4);
+  MonoidPair mp5 = mmconcat(lmp);
+  Serial << "mp5 = mmconcat(lmp) = ( " << mp5.value.first << ", " << mp5.value.second << " )" << endl;
 }
 
 void setup() {
