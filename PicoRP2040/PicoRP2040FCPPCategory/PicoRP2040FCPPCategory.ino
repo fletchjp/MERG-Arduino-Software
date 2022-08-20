@@ -202,6 +202,9 @@ namespace fcpp {
 
 // Example of 1.
 //typedef std::pair<MonoidPlus,MonoidMultiplies> MonoidPair;
+// I need a different operator which applies the first operators to the first part of the data pair
+// and the second operator to the second part of the data pair.
+// I may have something already.
 typedef MonoidType<std::pair<int,int>,std::pair<Plus,Multiplies>> MonoidPair;
 template <> std::pair<int,int> MonoidPair::zero = std::make_pair(0,1);
 template <> std::pair<fcpp::Plus,fcpp::Multiplies> MonoidPair::op = std::make_pair(fcpp::plus,fcpp::multiplies);
