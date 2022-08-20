@@ -4,6 +4,7 @@
 // I have added a lot of the code and I have started to look at the examples.
 // This example is also being used for the development of the monoid code.
 // I now have an example working applying two different operators to paired data.
+// I have built bimap2 and parallel2 to operate on pairs of two argument functoids.
 // As I invent new FC++ functoids I am moving them to be in the most relevant location.
 //////////////////////////////////////////////////////////////////////
 // First experiments with the Monoid structure is looking interesting.
@@ -116,43 +117,10 @@ namespace fcpp {
 
 // New Bimap2 operator for FC++ it has been moved to fcpp/functors.h
 
-// Now extend parallel to work on two argument functions - parallel2(makePair(f,g),p1,p2).
+// New Bimap2 operator for FC++ it has been moved to fcpp/pattern.h
+// This extends parallel to work on two argument functions - parallel2(makePair(f,g),p1,p2).
 // This returns std::make_pair(f(p1.first,p2.first),g(p1.second,p2.second)).
 // Note that makePair is an FC++ operator.
-
- namespace impl {
-
-    struct XParallel2 {
-#ifdef FCPP_DEBUG
-       std::string name() const
-       {
-           return std::string("Parallel2");
-       }
-#endif
-      template <class P,class Q, class R> struct Sig; // Force data pairs to be the same type.
-      
-      template <class P,class Q>
-      struct Sig<P,Q,Q> : public FunType<P,Q,Q,
-       std::pair<typename RT<typename P::first_type,typename Q::first_type,
-                             typename Q::first_type>::ResultType,
-           typename RT<typename P::second_type,typename Q::second_type,
-                                   typename Q::second_type>::ResultType > > { };
-
-      template <class P,class Q>
-      typename Sig<P,Q,Q>::ResultType operator()
-      (const P& p,const Q &q1,const Q &q2) const
-      {
-  return std::make_pair(p.first(q1.first,q2.first),p.second(q1.second,q2.second));
-      }
-    };
-
- }
-
- typedef Full3<impl::XParallel2> Parallel2;
- FCPP_MAYBE_NAMESPACE_OPEN
- FCPP_MAYBE_EXTERN Parallel2 parallel2;
- FCPP_MAYBE_NAMESPACE_CLOSE
-
 
 /// Monoid operations based on ideas from https://bartoszmilewski.com/2014/12/05/categories-great-and-small/
 /// and also from Learn You a Haskell for Great Good! p.252.
