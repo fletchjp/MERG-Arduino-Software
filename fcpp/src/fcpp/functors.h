@@ -353,7 +353,7 @@ FCPP_MAYBE_NAMESPACE_CLOSE
   //
   // I don't know how to write the Haskell version of this.
   //
-  // I am using this with to make monoids work on pairs.
+  // I am using this with to make monoids which work on pairs.
   //
   /////////////////////////////////////////////////////////////////////////
 
