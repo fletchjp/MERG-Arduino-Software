@@ -3,6 +3,8 @@
 // New example to look at code from category_fcpp.cpp
 // I have added a lot of the code and I have started to look at the examples.
 // This example is also being used for the development of the monoid code.
+// I now have an example working applying two different operators to paired data.
+// As I invent new FC++ functoids I am moving them to be in the most relevant location.
 //////////////////////////////////////////////////////////////////////
 // First experiments with the Monoid structure is looking interesting.
 // Idea: use inheritance from List<T> to implement a Monoid for List<T>.
