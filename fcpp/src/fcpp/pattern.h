@@ -123,6 +123,14 @@ namespace impl {
  FCPP_MAYBE_EXTERN Second second;
  FCPP_MAYBE_NAMESPACE_CLOSE
 
+///////////////////////////////////////////////////////////////////////////////
+// parallel2(makePair(f,g),p).
+// Now extend parallel to work on two argument functions 
+// parallel2(makePair(f,g),p1,p2).
+// This returns std::make_pair(f(p1.first,p2.first),g(p1.second,p2.second)).
+// Note that makePair is an FC++ operator.
+///////////////////////////////////////////////////////////////////////////////
+
   namespace impl {
 
     struct XParallel {
@@ -144,6 +152,30 @@ namespace impl {
       (const P& p,const Q &q) const
       {
 	return std::make_pair(p.first(q.first),p.second(q.second));
+      }
+    };
+
+    struct XParallel2 {
+#ifdef FCPP_DEBUG
+       std::string name() const
+       {
+           return std::string("Parallel2");
+       }
+#endif
+      template <class P,class Q, class R> struct Sig; // Force data pairs to be the same type.
+      
+      template <class P,class Q>
+      struct Sig<P,Q,Q> : public FunType<P,Q,Q,
+       std::pair<typename RT<typename P::first_type,typename Q::first_type,
+                             typename Q::first_type>::ResultType,
+           typename RT<typename P::second_type,typename Q::second_type,
+                                   typename Q::second_type>::ResultType > > { };
+
+      template <class P,class Q>
+      typename Sig<P,Q,Q>::ResultType operator()
+      (const P& p,const Q &q1,const Q &q2) const
+      {
+  return std::make_pair(p.first(q1.first,q2.first),p.second(q1.second,q2.second));
       }
     };
 
@@ -217,11 +249,13 @@ namespace impl {
  
    }
  typedef Full2<impl::XParallel> Parallel;
+ typedef Full3<impl::XParallel2> Parallel2;
  typedef Full1<impl::XOut>      Out;
  typedef Full1<impl::XUnfold1>  Unfold1;
  typedef Full2<impl::XUnfold2>  Unfold2;
  FCPP_MAYBE_NAMESPACE_OPEN
  FCPP_MAYBE_EXTERN Parallel parallel, prod; // prod is Jeremy's name for this.
+ FCPP_MAYBE_EXTERN Parallel2 parallel2;
  FCPP_MAYBE_EXTERN Out      out;
  FCPP_MAYBE_EXTERN Unfold1  unfold1;
  FCPP_MAYBE_EXTERN Unfold2  unfold2, unfold;
