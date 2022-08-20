@@ -1366,6 +1366,8 @@ void monoid_examples()
   MonoidPair mp1 = std::make_pair(1,2);
   Serial << "( " << mp0.value.first << ", " << mp0.value.second << " )" << endl;
   Serial << "( " << mp1.value.first << ", " << mp1.value.second << " )" << endl;
+  // This does not work it needs an operator which can work on the two parts.
+  //MonoidPair mp2 = mmappend(mp0,mp1);
 }
 
 void setup() {
