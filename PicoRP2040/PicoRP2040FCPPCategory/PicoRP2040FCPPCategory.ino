@@ -214,6 +214,13 @@ template <> std::pair<int,int> MonoidPair::zero = std::make_pair(0,1);
 // This stores an operator which will work on two arguments which are both pairs.
 // I have restricted it to the case where the two pairs have the same type std::pair<A,B>
 template <> OpType MonoidPair::op = bimap2(fcpp::plus,fcpp::multiplies);
+//////////////////////////////////////////////////////////////////////////
+// This example combines Any and All into one monoid working on pairs.
+using OpTypeAnyAll = typeof(bimap2(fcpp::or2,fcpp::and2));
+typedef MonoidType<std::pair<bool,bool>,OpTypeAnyAll> MonoidAnyAll;
+template <> std::pair<bool,bool> MonoidAnyAll::zero = std::make_pair(false,true);
+template <> OpTypeAnyAll MonoidAnyAll::op = bimap2(fcpp::or2,fcpp::and2);
+//////////////////////////////////////////////////////////////////////////
 
 //////////////////////////////////////////////////////////////////////////
 /// Output operators for the Monoid types.
@@ -1380,10 +1387,15 @@ void monoid_examples()
   Serial << "mp2 = mmappend(mp0,mp1) = ( " << mp2.value.first << ", " << mp2.value.second << " )" << endl;
   MonoidPair mp3 = mmappend(mp2,mp1);
   Serial << "mp3 = mmappend(mp2,mp1) = ( " << mp3.value.first << ", " << mp3.value.second << " )" << endl;
-  MonoidPair mp4 = std::make_pair(4,4);
+  MonoidPlus p4(4);
+  MonoidPair mp4 = std::make_pair(p4(),p4());
   List<MonoidPair> lmp = list_with(mp0,mp1,mp2,mp3,mp4);
   MonoidPair mp5 = mmconcat(lmp);
   Serial << "mp5 = mmconcat(lmp) = ( " << mp5.value.first << ", " << mp5.value.second << " )" << endl;
+  MonoidAnyAll maa0;
+  MonoidAnyAll maa1 = std::make_pair(any0.value,all0.value);
+  MonoidAnyAll maa2 = std::make_pair(anyt(),allt());
+  if (maa2.value.first && maa2().second) Serial << "maa2 values are both true" << endl;
 }
 
 void setup() {
