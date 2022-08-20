@@ -115,6 +115,7 @@ namespace fcpp {
 #ifdef FCPP152
 
 // I need a version of bimap which works on two argument functoids  bimap2(f,g,p1,p2)
+// This is a four argument functoid, supported in FC++ 1.5.2
 
   namespace impl {
 
@@ -239,10 +240,13 @@ namespace fcpp {
 //typedef std::pair<MonoidPlus,MonoidMultiplies> MonoidPair;
 // I need a different operator which applies the first operators to the first part of the data pair
 // and the second operator to the second part of the data pair.
-// I may have something already - bimap
+// I may have something already - bimap adapted as bimap2.
+// I need to store the type of this curried function.
 using OpType = typeof(bimap2(fcpp::plus,fcpp::multiplies));
 typedef MonoidType<std::pair<int,int>,OpType> MonoidPair;
 template <> std::pair<int,int> MonoidPair::zero = std::make_pair(0,1);
+// This stores an operator which will work on two arguments which are both pairs.
+// I have restricted it to the case where the two pairs have the same type std::pair<A,B>
 template <> OpType MonoidPair::op = bimap2(fcpp::plus,fcpp::multiplies);
 
 //////////////////////////////////////////////////////////////////////////
