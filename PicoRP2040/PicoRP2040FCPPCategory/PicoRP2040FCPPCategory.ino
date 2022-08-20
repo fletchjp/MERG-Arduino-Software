@@ -1388,7 +1388,9 @@ void monoid_examples()
   MonoidPair mp3 = mmappend(mp2,mp1);
   Serial << "mp3 = mmappend(mp2,mp1) = ( " << mp3.value.first << ", " << mp3.value.second << " )" << endl;
   MonoidPlus p4(4);
-  MonoidPair mp4 = std::make_pair(p4(),p4());
+  MonoidPlus p4a(p4); // Make a monoid instance from another of the same type.
+  MonoidMultiplies m4(p4a.value); // If the data types match this works.
+  MonoidPair mp4 = std::make_pair(p4(),m4());
   List<MonoidPair> lmp = list_with(mp0,mp1,mp2,mp3,mp4);
   MonoidPair mp5 = mmconcat(lmp);
   Serial << "mp5 = mmconcat(lmp) = ( " << mp5.value.first << ", " << mp5.value.second << " )" << endl;
