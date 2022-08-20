@@ -1376,6 +1376,7 @@ void monoid_examples()
   Serial << "======================================================"
             << endl;
   Serial << "New ideas for monoid types " << endl;
+  Serial << "(1) - monoids which work on a pair of values" << endl;
   Serial << "======================================================"
             << endl;
   MonoidPair mp0;
@@ -1394,9 +1395,15 @@ void monoid_examples()
   List<MonoidPair> lmp = list_with(mp0,mp1,mp2,mp3,mp4);
   MonoidPair mp5 = mmconcat(lmp);
   Serial << "mp5 = mmconcat(lmp) = ( " << mp5.value.first << ", " << mp5.value.second << " )" << endl;
+  Serial << "======================================================"
+            << endl;
+  Serial << "MonoidAnyAll combines any and all into a pair." << endl;
+  Serial << "======================================================"
+            << endl;
   MonoidAnyAll maa0;
   MonoidAnyAll maa1 = std::make_pair(any0.value,all0.value);
   MonoidAnyAll maa2 = std::make_pair(anyt(),allt());
+  Serial << "MonoidAnyAll maa2 = std::make_pair(anyt(),allt());" << endl;
   if (maa2.value.first && maa2().second) Serial << "maa2 values are both true" << endl;
 }
 
