@@ -242,7 +242,7 @@ namespace fcpp {
 //
 
 //////////////////////////////////////////////////////////////////////////
-// Example of 1.
+// Examples of 1.
 //////////////////////////////////////////////////////////////////////////
 // I have adapted bimap as bimap2.
 // I need to store the type of this curried function.
@@ -254,6 +254,7 @@ template <> std::pair<int,int> MonoidPair::zero = std::make_pair(0,1);
 template <> OpType MonoidPair::op = bimap2(fcpp::plus,fcpp::multiplies);
 //////////////////////////////////////////////////////////////////////////
 // This example combines Any and All into one monoid working on pairs.
+// This version uses bimap2
 using OpTypeAnyAll = typeof(bimap2(fcpp::or2,fcpp::and2));
 typedef MonoidType<std::pair<bool,bool>,OpTypeAnyAll> MonoidAnyAll;
 template <> std::pair<bool,bool> MonoidAnyAll::zero = std::make_pair(false,true);
@@ -266,7 +267,8 @@ typedef MonoidType<std::pair<bool,bool>,OpTypeAnyAll2> MonoidAnyAll2;
 template <> std::pair<bool,bool> MonoidAnyAll2::zero = std::make_pair(false,true);
 template <> OpTypeAnyAll2 MonoidAnyAll2::op = parallel2(makePair(fcpp::or2,fcpp::and2));
 //////////////////////////////////////////////////////////////////////////
-
+// The difference is that bimap2 takes the two functors as separate arguments
+// and parallel2 takes them as a pair.
 //////////////////////////////////////////////////////////////////////////
 /// Output operators for the Monoid types.
 /////////////////////////////////////////////////////////////////////////
