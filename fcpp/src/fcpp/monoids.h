@@ -417,6 +417,7 @@ struct MonoidType {
    T value;
    MonoidType() : value(zero) {}
    MonoidType(const T& t) : value(t) {}
+   MonoidType(const MonoidType& m) : value(m.value) {}
    T operator()() { return value; }
 };
 
