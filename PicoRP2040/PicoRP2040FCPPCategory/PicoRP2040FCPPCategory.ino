@@ -259,6 +259,13 @@ typedef MonoidType<std::pair<bool,bool>,OpTypeAnyAll> MonoidAnyAll;
 template <> std::pair<bool,bool> MonoidAnyAll::zero = std::make_pair(false,true);
 template <> OpTypeAnyAll MonoidAnyAll::op = bimap2(fcpp::or2,fcpp::and2);
 //////////////////////////////////////////////////////////////////////////
+// This example combines Any and All into one monoid working on pairs.
+// This is an alternative using parallel2.
+using OpTypeAnyAll2 = typeof(parallel2(makePair(fcpp::or2,fcpp::and2)));
+typedef MonoidType<std::pair<bool,bool>,OpTypeAnyAll2> MonoidAnyAll2;
+template <> std::pair<bool,bool> MonoidAnyAll2::zero = std::make_pair(false,true);
+template <> OpTypeAnyAll2 MonoidAnyAll2::op = parallel2(makePair(fcpp::or2,fcpp::and2));
+//////////////////////////////////////////////////////////////////////////
 
 //////////////////////////////////////////////////////////////////////////
 /// Output operators for the Monoid types.
@@ -1447,6 +1454,10 @@ void monoid_examples()
   MonoidAnyAll maa2 = std::make_pair(anyt(),allt());
   Serial << "MonoidAnyAll maa2 = std::make_pair(anyt(),allt());" << endl;
   if (maa2.value.first && maa2().second) Serial << "maa2 values are both true" << endl;
+  MonoidAnyAll2 maa20;
+  MonoidAnyAll2 maa22 = std::make_pair(anyt(),allt());
+  Serial << "MonoidAnyAll2 maa22 = std::make_pair(anyt(),allt());" << endl;
+  if (maa22.value.first && maa22().second) Serial << "maa22 values are both true" << endl;
 }
 
 void setup() {
