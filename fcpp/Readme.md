@@ -56,6 +56,10 @@ Add new operator xor2 to do exclusive or.
 
 Add some explanation.
 
+Added new Bimap2 operator to extend Bimap to two argument functions, bimap2(f,g,p1,p2)
+
+This returns the pair  (f(p1.first,p2.first),g(p1.second,p2.second)
+
 ### src/fcpp/function.h
 
 Remove unused arguments of nullfunN functions to supress gcc10 warnings.
