@@ -1357,7 +1357,15 @@ void monoid_examples()
   else Serial << "mmappend(xort,mmnot(xort)) is false"  << endl;
   MonoidXor xor1a = xor0 ^mmappend^ xort; // Infix works so I could invent a shorter name.
   if (xor1a()) Serial << "xor0 ^mmappend^ xort is true"  << endl;
-  
+  Serial << "======================================================"
+            << endl;
+  Serial << "New ideas for monoid types " << endl;
+  Serial << "======================================================"
+            << endl;
+  MonoidPair mp0;
+  MonoidPair mp1 = std::make_pair(1,2);
+  Serial << "( " << mp0.value.first << ", " << mp0.value.second << " )" << endl;
+  Serial << "( " << mp1.value.first << ", " << mp1.value.second << " )" << endl;
 }
 
 void setup() {
