@@ -207,8 +207,11 @@ namespace fcpp {
 // to its argument and then combines the results
 // using the underlying Monoid instance for a.
 // This can be quite useful and elegant 
-//
-
+// 3.
+// Endo a is a newtype wrapper for functions a -> a, which form a monoid under composition.
+// I have been exploring this and have found these which I want to explore:
+// https://www.reddit.com/r/haskelltil/comments/337g7t/endo_the_monoid_of_endomorphisms_under/
+// https://hackage.haskell.org/package/endo-0.1.0.0/candidate/docs/Data-Monoid-Endo.html
 //////////////////////////////////////////////////////////////////////////
 // Examples of 1.
 //////////////////////////////////////////////////////////////////////////
