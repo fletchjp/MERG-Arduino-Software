@@ -116,6 +116,44 @@ namespace fcpp {
 
 // New Bimap2 operator for FC++ it has been moved to fcpp/functors.h
 
+// Now extend parallel to work on two argument functions - parallel2(makePair(f,g),p1,p2).
+// This returns std::make_pair(f(p1.first,p2.first),g(p1.second,p2.second)).
+// Note that makePair is an FC++ operator.
+
+ namespace impl {
+
+    struct XParallel2 {
+#ifdef FCPP_DEBUG
+       std::string name() const
+       {
+           return std::string("Parallel2");
+       }
+#endif
+      template <class P,class Q, class R> struct Sig; // Force data pairs to be the same.
+      
+      template <class P,class Q>
+      struct Sig<P,Q,Q> : public FunType<P,Q,Q,
+       std::pair<typename RT<typename P::first_type,typename Q::first_type,
+                             typename Q::first_type>::ResultType,
+           typename RT<typename P::second_type,typename Q::second_type,
+                                   typename Q::second_type>::ResultType > > { };
+
+      template <class P,class Q>
+      typename Sig<P,Q,Q>::ResultType operator()
+      (const P& p,const Q &q1,const Q &q2) const
+      {
+  return std::make_pair(p.first(q1.first,q2.first),p.second(q1.second,q2.second));
+      }
+    };
+
+ }
+
+ typedef Full3<impl::XParallel2> Parallel2;
+ FCPP_MAYBE_NAMESPACE_OPEN
+ FCPP_MAYBE_EXTERN Parallel2 parallel2;
+ FCPP_MAYBE_NAMESPACE_CLOSE
+
+
 /// Monoid operations based on ideas from https://bartoszmilewski.com/2014/12/05/categories-great-and-small/
 /// and also from Learn You a Haskell for Great Good! p.252.
 ///
@@ -1395,6 +1433,10 @@ void monoid_examples()
   List<MonoidPair> lmp = list_with(mp0,mp1,mp2,mp3,mp4);
   MonoidPair mp5 = mmconcat(lmp);
   Serial << "mp5 = mmconcat(lmp) = ( " << mp5.value.first << ", " << mp5.value.second << " )" << endl;
+  MonoidPair mp6 = parallel2(makePair(fcpp::plus,fcpp::multiplies),mp2.value,mp3.value);
+  Serial << "MonoidPair mp6 = parallel2(makePair(fcpp::plus,fcpp::multiplies),mp2.value,mp3.value);" << endl;
+  Serial << "mp6 = ( " << mp6.value.first << ", " << mp6.value.second << " )" << endl;
+  
   Serial << "======================================================"
             << endl;
   Serial << "MonoidAnyAll combines any and all into a pair." << endl;
