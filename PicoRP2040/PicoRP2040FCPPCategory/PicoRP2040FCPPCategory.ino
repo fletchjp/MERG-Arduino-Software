@@ -272,17 +272,15 @@ namespace impl {
  FCPP_MAYBE_NAMESPACE_CLOSE
 
 // I am caught by the polymorphism of FC++ - I want a "type" for any Full1<T>.
-//typedef MonoidType<Endo,Compose> MonoidEndo;
-//template <> Endo MonoidEndo::zero = endo;
-//template <> Compose MonoidEndo::op = compose;
 // So I make Mendo polymorphic.
 // This now works but I am not sure when it is worthwhile to use it.
 // Mendo::mempty()()(1) == id(1)
 // Mendo::mappend()(inc,inc)(1) ==  compose(inc,inc)(1)
-// Also it is more restricted than compose which can cope with e.g compose(inc,plus)
+// These cases use compose which can cope with e.g compose(inc,plus)
+// as long as it is the second arg which has more than one argument.
 // with more than one argument.
-// I am not sure how to make mmappend(inc,inc) work.
-  
+// I have now made mmappend(inc,inc) work using a specialisation in monoids.h to use compose directly.
+
 struct Mendo {
    struct Rep { typedef Mendo Type; };
    typedef Mendo MonoidType;
