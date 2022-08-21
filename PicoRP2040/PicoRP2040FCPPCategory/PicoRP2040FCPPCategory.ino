@@ -241,8 +241,12 @@ template <> OpTypeAnyAll2 MonoidAnyAll2::op = parallel2(makePair(fcpp::or2,fcpp:
 // The difference is that bimap2 takes the two functors as separate arguments
 // and parallel2 takes them as a pair.
 //////////////////////////////////////////////////////////////////////////
-// Monoid Type for Endo. I think I need a functoid first to handle the polymorphism.
-// Maybe the MonoidType is inside the functoid?
+
+//////////////////////////////////////////////////////////////////////////
+// Examples of 3.
+//////////////////////////////////////////////////////////////////////////
+// Monoid Type for Endo.
+// I think I need a functoid first to handle the polymorphism.
 
 namespace impl {
   struct XEndo {
@@ -271,22 +275,29 @@ namespace impl {
  FCPP_MAYBE_EXTERN Endo endo;
  FCPP_MAYBE_NAMESPACE_CLOSE
 
+//////////////////////////////////////////////////////////////////////////
 // I am caught by the polymorphism of FC++ - I want a "type" for any Full1<T>.
-// So I make Mendo polymorphic.
+// So I have made Mendo polymorphic.
 // This now works but I am not sure when it is worthwhile to use it.
 // Mendo::mempty()()(1) == id(1)
 // Mendo::mappend()(inc,inc)(1) ==  compose(inc,inc)(1)
 // These cases use compose which can cope with e.g compose(inc,plus)
 // as long as it is the second arg which has more than one argument.
 // with more than one argument.
-// I have now made mmappend(inc,inc) work using a specialisation in monoids.h to use compose directly.
+// I have now made mmappend(inc,inc) work using a specialisation
+// in fcpp/monoids.h to use compose directly.
+//////////////////////////////////////////////////////////////////////////
 
 struct Mendo {
    struct Rep { typedef Mendo Type; };
    typedef Mendo MonoidType;
 private:
 // ?? How do I hold the contents? Do I need to?
-
+// No - this Monoid has no state.
+// mempty returns id
+// mappend on (f,g) returns compose(f,g).
+// mconcat is not implemented as I have no way
+// to have a list of polymorphic functoids.
 public:
       struct XMempty : public CFunType<Id> {      
       Id operator()() const {
