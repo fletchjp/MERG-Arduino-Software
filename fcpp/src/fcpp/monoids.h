@@ -85,9 +85,10 @@ namespace impl {
    template <class Monoid>
    struct XMappend {
       using MonoidResultType = typename Monoid::Rep::Type;
-      typedef typename MonoidResultType::MonoidType T;
-	  
-      template <class A, class B> struct Sig: public FunType<A,B,T> {};
+      //typedef typename MonoidResultType::MonoidType T;
+	  // This case can occur e.g. with Mendo.
+      template <class A, class B> struct Sig
+	  : public FunType<A,B,typename Monoid::Mappend::template Sig<A,B>::ResultType> {};
 
       // The case where the monoids have the same type
       template <class A> struct Sig<A,A>
