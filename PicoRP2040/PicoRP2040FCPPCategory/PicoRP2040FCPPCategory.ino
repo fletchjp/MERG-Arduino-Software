@@ -1529,6 +1529,7 @@ void monoid_examples()
   //int z = mmappend(inc,inc)(2);
   auto endoinc = endo(inc); 
   int z = mappend<Mendo>()(endo(inc),endoinc)(3);
+  //int zz = mmappend(endoinc,endoinc)(4);
   
 }
 
