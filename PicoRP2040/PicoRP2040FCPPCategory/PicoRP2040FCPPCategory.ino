@@ -1530,7 +1530,8 @@ void monoid_examples()
   int z = mappend<Mendo>()(endo(inc),endoinc)(3);
   //int zz = mmappend(inc,inc)(2);
   //int zzz = mmappend(endoinc,endoinc)(4);
-  
+  int p = Mendo::mappend()(inc,fcpp::plus(2))(3);
+ 
 }
 
 void setup() {
