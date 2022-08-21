@@ -1528,8 +1528,11 @@ void monoid_examples()
          << ", compose(inc,inc)(2) = " << compose(inc,inc)(2)<< endl;
   auto endoinc = endo(inc); 
   int z = mappend<Mendo>()(endo(inc),endoinc)(3);
-  //int zz = mmappend(inc,inc)(2);
-  //int zzz = mmappend(endoinc,endoinc)(4);
+  Serial << "mappend<Mendo>()(endo(inc),endoinc)(3) = " << z << endl;
+  int zz = mmappend(inc,inc)(2);
+  Serial << "mmappend(inc,inc)(2) = " << zz << endl;
+  int zzz = mmappend(endoinc,endoinc)(4);
+  Serial << "mmappend(endoinc,endoinc)(4) = " << zzz << endl;
   int p = Mendo::mappend()(inc,fcpp::plus(2))(3);
   int q = mappend<Mendo>()(inc,fcpp::plus(2))(4);
   int r = Mendo::mappend()(inc,fcpp::plus)(2,3);
