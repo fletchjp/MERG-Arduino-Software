@@ -254,11 +254,16 @@ namespace impl {
 #endif
        template <class F> struct Sig : public FunType<F,F> {};
 
-       template <class F> typename Sig<F>::ResultType operator()(const F& f)
+       template <class F> typename Sig<F>::ResultType operator()(const F& f) const
        {
           return f;
        }
-
+/* I need to do this with a helper.
+       template <> typename Sig<NoOp>::ResultType operator()() const
+       {
+          return noOp;
+       }
+*/
   };
 }
  typedef Full1<impl::XEndo> Endo;
@@ -266,6 +271,7 @@ namespace impl {
  FCPP_MAYBE_EXTERN Endo endo;
  FCPP_MAYBE_NAMESPACE_CLOSE
 
+// I am caught by the polymorphism of FC++ - I want a "type" for any Full1<T>.
 typedef MonoidType<Endo,Compose> MonoidEndo;
 template <> Endo MonoidEndo::zero = endo;
 template <> Compose MonoidEndo::op = compose;
@@ -1466,6 +1472,8 @@ void monoid_examples()
   MonoidEndo e0;
   //MonoidEndo e1(id);
   //e0()(id);
+  endo(id)(1);
+  endo(noOp);
   
 }
 
