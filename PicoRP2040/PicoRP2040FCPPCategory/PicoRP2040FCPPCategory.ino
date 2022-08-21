@@ -272,9 +272,44 @@ namespace impl {
  FCPP_MAYBE_NAMESPACE_CLOSE
 
 // I am caught by the polymorphism of FC++ - I want a "type" for any Full1<T>.
-typedef MonoidType<Endo,Compose> MonoidEndo;
-template <> Endo MonoidEndo::zero = endo;
-template <> Compose MonoidEndo::op = compose;
+//typedef MonoidType<Endo,Compose> MonoidEndo;
+//template <> Endo MonoidEndo::zero = endo;
+//template <> Compose MonoidEndo::op = compose;
+// So I make Mendo polymorphic.
+struct Mendo {
+   struct Rep { typedef Mendo Type; };
+   typedef Mendo MonoidType;
+private:
+// ?? How do I hold the contents? Do I need to?
+
+public:
+      struct XMempty : public CFunType<Id> {      
+      Id operator()() const {
+         return id;
+      }
+    };
+    typedef Full0<XMempty> Mempty;
+    static Mempty& mempty() {static Mempty f; return f;}
+
+    struct XMappend {
+     template <class F,class G>
+     struct Sig : public FunType<F,G,
+       typename F::template Sig<typename RT<G>::ResultType>::ResultType> {};
+
+       template <class F,class G>
+       typename Sig<F,G>::ResultType
+       operator()(const F &f,const G &g) const {
+         return f ^dot^ g;
+      }
+    };
+    typedef Full2<XMappend> Mappend;
+    static Mappend& mappend() {static Mappend f; return f;}
+
+};
+
+template <> struct MonoidTraitsSpecializer<Mendo > {
+   typedef Mendo Monoid;
+};
 
 //////////////////////////////////////////////////////////////////////////
 /// Output operators for the Monoid types.
@@ -1469,10 +1504,10 @@ void monoid_examples()
   if (maa22.value.first && maa22().second) Serial << "maa22 values are both true" << endl;
   Serial << "======================================================"
             << endl;
-  MonoidEndo e0;
+  //MonoidEndo e0;
   //MonoidEndo e1(id);
   //e0()(id);
-  endo(id)(1);
+  //endo(id)(1);
   endo(noOp);
   
 }
