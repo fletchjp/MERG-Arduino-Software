@@ -1526,10 +1526,10 @@ void monoid_examples()
   int y = mappend<Mendo>()(inc,inc)(2);
   Serial << "mappend<Mendo>()(inc,inc)(2) = " << y 
          << ", compose(inc,inc)(2) = " << compose(inc,inc)(2)<< endl;
-  //int z = mmappend(inc,inc)(2);
   auto endoinc = endo(inc); 
   int z = mappend<Mendo>()(endo(inc),endoinc)(3);
-  //int zz = mmappend(endoinc,endoinc)(4);
+  //int zz = mmappend(inc,inc)(2);
+  //int zzz = mmappend(endoinc,endoinc)(4);
   
 }
 
