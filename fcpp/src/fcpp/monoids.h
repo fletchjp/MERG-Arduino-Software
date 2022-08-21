@@ -197,7 +197,7 @@ namespace impl {
 	          Full1<F>,Full1<G>>::Result> {};
 
         template <class F,class G>
-       typename Sig<Full1<F,>Full1<G>>::ResultType
+       typename Sig<Full1<F>,Full1<G>>::ResultType
        operator()(const Full1<F> &f,const Full1<G> &g) const {
          return f ^dot^ g;
       }
