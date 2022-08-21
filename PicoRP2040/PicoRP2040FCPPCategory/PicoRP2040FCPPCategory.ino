@@ -1531,6 +1531,9 @@ void monoid_examples()
   //int zz = mmappend(inc,inc)(2);
   //int zzz = mmappend(endoinc,endoinc)(4);
   int p = Mendo::mappend()(inc,fcpp::plus(2))(3);
+  int q = mappend<Mendo>()(inc,fcpp::plus(2))(4);
+  int r = Mendo::mappend()(inc,fcpp::plus)(2,3);
+  int s = mappend<Mendo>()(inc,fcpp::plus)(3,4);
  
 }
 
