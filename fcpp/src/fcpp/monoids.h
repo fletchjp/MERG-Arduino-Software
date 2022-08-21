@@ -189,16 +189,17 @@ namespace impl {
          typedef typename AppendHelper<M,K>::MonoidA MM;
          return MM::mappend()(m,k);
       }
- 
-      template <class F,class G>
-     struct Sig<Full1<F>,Full1<G>> 
-	 : public FunType<Full1<F>,Full1<G>,
-	 typename impl::XCompose::Helper<FunctoidTraits<Full1<G>>::max_args,
-	          Full1<F>,Full1<G>>::Result> {};
 
-        template <class F,class G>
-       typename Sig<Full1<F>,Full1<G>>::ResultType
-       operator()(const Full1<F> &f,const Full1<G> &g) const {
+      // This specialisation is to handle cases such as mmappend(inc,inc)
+	  // for Mendo without actually accessing the Mendo monoid.
+      template <class F,class G>
+      struct Sig<Full1<F>,Full1<G>> : public FunType<Full1<F>,Full1<G>,
+	  typename impl::XCompose::Helper<FunctoidTraits<Full1<G>>::max_args,
+	           Full1<F>,Full1<G>>::Result> {};
+
+      template <class F,class G>
+      typename Sig<Full1<F>,Full1<G>>::ResultType
+      operator()(const Full1<F> &f,const Full1<G> &g) const {
          return f ^dot^ g;
       }
 
