@@ -276,6 +276,13 @@ namespace impl {
 //template <> Endo MonoidEndo::zero = endo;
 //template <> Compose MonoidEndo::op = compose;
 // So I make Mendo polymorphic.
+// This now works but I am not sure when it is worthwhile to use it.
+// Mendo::mempty()()(1) == id(1)
+// Mendo::mappend()(inc,inc)(1) ==  compose(inc,inc)(1)
+// Also it is more restricted than compose which can cope with e.g compose(inc,plus)
+// with more than one argument.
+// I am not sure how to make mmappend(inc,inc) work.
+  
 struct Mendo {
    struct Rep { typedef Mendo Type; };
    typedef Mendo MonoidType;
@@ -293,7 +300,7 @@ public:
 
     struct XMappend {
      template <class F,class G>
-     struct Sig : public FunType<F,G,Full1<impl::XCompose1Helper<F,G> > {};
+     struct Sig : public FunType<F,G,typename impl::XCompose::Helper<FunctoidTraits<G>::max_args,F,G>::Result> {};
        //typename F::template Sig<typename RT<G>::ResultType>::ResultType> {};
 
        template <class F,class G>
@@ -1510,7 +1517,18 @@ void monoid_examples()
   //endo(id)(1);
   endo(noOp);
   Mendo mendo;
-  int x = Mendo::mappend()(inc,inc)()(1);
+  int w = Mendo::mempty()()(1);
+  Serial << "Mendo::mempty()()(1) = " << w 
+         << ", id(1) = " << id(1) << endl;
+  int x = Mendo::mappend()(inc,inc)(1);
+  Serial << "Mendo::mappend()(inc,inc)(1) = " << x 
+         << ", compose(inc,inc)(1) = " << compose(inc,inc)(1)<< endl;
+  int y = mappend<Mendo>()(inc,inc)(2);
+  Serial << "mappend<Mendo>()(inc,inc)(2) = " << y 
+         << ", compose(inc,inc)(2) = " << compose(inc,inc)(2)<< endl;
+  //int z = mmappend(inc,inc)(2);
+  auto endoinc = endo(inc); 
+  int z = mappend<Mendo>()(endo(inc),endoinc)(3);
   
 }
 
