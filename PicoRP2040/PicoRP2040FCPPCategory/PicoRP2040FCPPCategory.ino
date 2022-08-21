@@ -293,8 +293,8 @@ public:
 
     struct XMappend {
      template <class F,class G>
-     struct Sig : public FunType<F,G,
-       typename F::template Sig<typename RT<G>::ResultType>::ResultType> {};
+     struct Sig : public FunType<F,G,Full1<impl::XCompose1Helper<F,G> > {};
+       //typename F::template Sig<typename RT<G>::ResultType>::ResultType> {};
 
        template <class F,class G>
        typename Sig<F,G>::ResultType
@@ -1509,6 +1509,8 @@ void monoid_examples()
   //e0()(id);
   //endo(id)(1);
   endo(noOp);
+  Mendo mendo;
+  int x = Mendo::mappend()(inc,inc)()(1);
   
 }
 
