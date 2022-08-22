@@ -24,10 +24,15 @@
 // I want to have types which do bool with and and or.
 // I have done a lot on the use of mixed monoids where the result type is the same.
 // I do not think it is possible to infer the type of the mixed operations.
-// I would like to extend to exclusive or (XOR) which I have not found in FC++.
+// I have now extended this to exclusive or (XOR) which I have not found in FC++
+// so I have had to add a functoid operator for this.
 //////////////////////////////////////////////////////////////////////
 // I think that the above work on monoids will help me sort out the next section too.
 // See https://wiki.haskell.org/Typeclassopedia for some explanation.
+// The first result of this is the Monoid Mendo for endmorphic transformations.
+// I am not sure that this has any practical use I have the FC++ compose (aka dot)
+// which does it without the structure.
+// It does help me with understanding.
 //////////////////////////////////////////////////////////////////////
 // File for developments following Bartosz Milewski's work
 // "Category Theory for Programmers" and related material
