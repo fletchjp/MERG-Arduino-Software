@@ -1548,10 +1548,10 @@ void monoid_examples()
   auto endoinc = endo(inc); 
   int z = mappend<Mendo>()(endo(inc),endoinc)(3);
   Serial << "mappend<Mendo>()(endo(inc),endoinc)(3) = " << z << endl;
-  //int zz = mmappend(inc,inc)(2);
-  //Serial << "mmappend(inc,inc)(2) = " << zz << endl;
-  //int zzz = mmappend(endoinc,endoinc)(4);
-  //Serial << "mmappend(endoinc,endoinc)(4) = " << zzz << endl;
+  int zz = mmappend(inc,inc)(2);
+  Serial << "mmappend(inc,inc)(2) = " << zz << endl;
+  int zzz = mmappend(endoinc,endoinc)(4);
+  Serial << "mmappend(endoinc,endoinc)(4) = " << zzz << endl;
   Serial << "======================================================"
             << endl;
   Serial << "The way Mendo mappend is defined allows the second argument" << endl;
@@ -1569,8 +1569,8 @@ void monoid_examples()
   Serial << "Mendo::mappend()(inc,fcpp::plus)(2,5) = " << r << endl;
   int s = mappend<Mendo>()(inc,fcpp::plus)(3,5);
   Serial << "mappend<Mendo>()(inc,fcpp::plus)(3,5) = " << s << endl;
-  //int t= mmappend(inc,fcpp::plus(3))(6);
-  //Serial << "mmappend(inc,fcpp::plus(3))(6) = " << t << endl;
+  int t= mmappend(inc,fcpp::plus(3))(6);
+  Serial << "mmappend(inc,fcpp::plus(3))(6) = " << t << endl;
   Serial << "======================================================"
             << endl;
   Serial << "Monomorphic operations suspended" << endl;
@@ -1581,6 +1581,7 @@ void monoid_examples()
   //Fun1<int,int> eid = endo(fid);
   //int f2 = mmappend(fid,finc)(1);
   //Serial << "f2 = mmappend(fid,finc)(1) = " << f2 << endl;
+  // This one does not work which is FC++
   //int f3 = compose(fid,finc)(2);
   //Serial << "f3 = compose(fid,finc)(2) = " << f3 << endl;
 }
