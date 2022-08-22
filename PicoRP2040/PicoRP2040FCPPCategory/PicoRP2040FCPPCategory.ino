@@ -1412,8 +1412,8 @@ void monoid_examples()
   Serial << "MonoidT<MonoidMultiplies>::mappend()(m1,m2) = " << m30 << endl;
   MonoidMultiplies m6 = mconcat<MonoidT<MonoidMultiplies>>()(lm3);
   Serial << "mconcat<MonoidT<MonoidMultiplies>>()(lm3) = " << m6 << endl;
-  MonoidMultiplies m330 = mmappend(m1,m2);
-  Serial << "mmappend(m1,m2) = " << m330 << endl;
+  //MonoidMultiplies m330 = mmappend(m1,m2);
+  //Serial << "mmappend(m1,m2) = " << m330 << endl;
   Serial << "======================================================"
             << endl;
   Serial << "mixed type operations" << endl;
@@ -1549,10 +1549,10 @@ void monoid_examples()
   auto endoinc = endo(inc); 
   int z = mappend<Mendo>()(endo(inc),endoinc)(3);
   Serial << "mappend<Mendo>()(endo(inc),endoinc)(3) = " << z << endl;
-  int zz = mmappend(inc,inc)(2);
-  Serial << "mmappend(inc,inc)(2) = " << zz << endl;
-  int zzz = mmappend(endoinc,endoinc)(4);
-  Serial << "mmappend(endoinc,endoinc)(4) = " << zzz << endl;
+  //int zz = mmappend(inc,inc)(2);
+  //Serial << "mmappend(inc,inc)(2) = " << zz << endl;
+  //int zzz = mmappend(endoinc,endoinc)(4);
+  //Serial << "mmappend(endoinc,endoinc)(4) = " << zzz << endl;
   Serial << "======================================================"
             << endl;
   Serial << "The way Mendo mappend is defined allows the second argument" << endl;
@@ -1570,8 +1570,8 @@ void monoid_examples()
   Serial << "Mendo::mappend()(inc,fcpp::plus)(2,5) = " << r << endl;
   int s = mappend<Mendo>()(inc,fcpp::plus)(3,5);
   Serial << "mappend<Mendo>()(inc,fcpp::plus)(3,5) = " << s << endl;
-  int t= mmappend(inc,fcpp::plus(3))(6);
-  Serial << "mmappend(inc,fcpp::plus(3))(6) = " << t << endl;
+  //int t= mmappend(inc,fcpp::plus(3))(6);
+  //Serial << "mmappend(inc,fcpp::plus(3))(6) = " << t << endl;
   Serial << "======================================================"
             << endl;
   Serial << "Monomorphic operations" << endl;
