@@ -208,12 +208,12 @@ namespace impl {
 	  // for Mendo without actually accessing the Mendo monoid.
 	  // The arguments are type Fun1<T,T> e.g. Full1<int,int> finc = inc
      template <class T>
-      struct Sig<Fun1<T,T>> : public FunType<Fun1<T,T>,Fun1<T,T>,
+      struct Sig<Fun1<T,T>,Fun1<T,T>> : public FunType<Fun1<T,T>,Fun1<T,T>,
 	  typename impl::XCompose::Helper<FunctoidTraits<Fun1<T,T>>::max_args,
 	           Fun11<T,T>,Fun1<T,T>>::Result> {};
 
       template <class T>
-      typename Sig<Fun1<T,T>>::ResultType
+      typename Sig<Fun1<T,T>,Fun1<T,T>>::ResultType
       operator()(const Fun1<T,T> &f,const Fun1<T,T> &g) const {
          return f ^dot^ g;
       }
