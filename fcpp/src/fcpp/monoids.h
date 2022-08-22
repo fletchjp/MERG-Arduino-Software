@@ -192,6 +192,7 @@ namespace impl {
 
       // This specialisation is to handle cases such as mmappend(inc,inc)
 	  // for Mendo without actually accessing the Mendo monoid.
+	  // The arguments are type Full1<F>.
       template <class F,class G>
       struct Sig<Full1<F>,Full1<G>> : public FunType<Full1<F>,Full1<G>,
 	  typename impl::XCompose::Helper<FunctoidTraits<Full1<G>>::max_args,
@@ -200,6 +201,20 @@ namespace impl {
       template <class F,class G>
       typename Sig<Full1<F>,Full1<G>>::ResultType
       operator()(const Full1<F> &f,const Full1<G> &g) const {
+         return f ^dot^ g;
+      }
+
+      // This specialisation is to handle cases such as mmappend(finc,finc)
+	  // for Mendo without actually accessing the Mendo monoid.
+	  // The arguments are type Fun1<T,T> e.g. Full1<int,int> finc = inc
+     template <class T>
+      struct Sig<Fun1<T,T>> : public FunType<Fun1<T,T>,Fun1<T,T>,
+	  typename impl::XCompose::Helper<FunctoidTraits<Fun1<T,T>>::max_args,
+	           Fun11<T,T>,Fun1<T,T>>::Result> {};
+
+      template <class T>
+      typename Sig<Fun1<T,T>>::ResultType
+      operator()(const Fun1<T,T> &f,const Fun1<T,T> &g) const {
          return f ^dot^ g;
       }
 
