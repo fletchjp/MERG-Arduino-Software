@@ -1580,8 +1580,10 @@ void monoid_examples()
   Fun1<int,int> fid = fid;
   Fun1<int,int> finc = inc;
   Fun1<int,int> eid = endo(fid);
-  mmappend(fid,finc);
-  compose(fid,finc);
+  //int f2 = mmappend(fid,finc)(1);
+  //Serial << "f2 = mmappend(fid,finc)(1) = " << f2 << endl;
+  int f3 = compose(fid,finc)(2);
+  Serial << "f3 = compose(fid,finc)(2) = " << f3 << endl;
 }
 
 void setup() {
