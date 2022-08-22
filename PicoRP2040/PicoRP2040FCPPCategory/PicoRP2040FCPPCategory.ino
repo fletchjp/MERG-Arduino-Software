@@ -1523,10 +1523,6 @@ void monoid_examples()
   if (maa22.value.first && maa22().second) Serial << "maa22 values are both true" << endl;
   Serial << "======================================================"
             << endl;
-  //MonoidEndo e0;
-  //MonoidEndo e1(id);
-  //e0()(id);
-  //endo(id)(1);
   endo(noOp);
   Mendo mendo;
   int w = Mendo::mempty()()(1);
@@ -1545,11 +1541,25 @@ void monoid_examples()
   Serial << "mmappend(inc,inc)(2) = " << zz << endl;
   int zzz = mmappend(endoinc,endoinc)(4);
   Serial << "mmappend(endoinc,endoinc)(4) = " << zzz << endl;
+  Serial << "======================================================"
+            << endl;
+  Serial << "The way Mendo mappend is defined allows the second argument" << endl;
+  Serial << "to have more than one argument."  << endl;
+  Serial << "This is because of the way compose is implemented." << endl;
+  Serial << "This does not apply to the mmappend implementation," << endl;
+  Serial << "which must use the curried version." << endl;
+  Serial << "======================================================"
+            << endl;
   int p = Mendo::mappend()(inc,fcpp::plus(2))(3);
+  Serial << "Mendo::mappend()(inc,fcpp::plus(2))(3) = " << p << endl;
   int q = mappend<Mendo>()(inc,fcpp::plus(2))(4);
-  int r = Mendo::mappend()(inc,fcpp::plus)(2,3);
-  int s = mappend<Mendo>()(inc,fcpp::plus)(3,4);
- 
+  Serial << "mappend<Mendo>()(inc,fcpp::plus(2))(4) = " << q << endl;
+  int r = Mendo::mappend()(inc,fcpp::plus)(2,5);
+  Serial << "Mendo::mappend()(inc,fcpp::plus)(2,5) = " << r << endl;
+  int s = mappend<Mendo>()(inc,fcpp::plus)(3,5);
+  Serial << "mappend<Mendo>()(inc,fcpp::plus)(3,5) = " << s << endl;
+  int t= mmappend(inc,fcpp::plus(3))(6);
+  Serial << "mmappend(inc,fcpp::plus(3))(6) = " << t << endl;
 }
 
 void setup() {
