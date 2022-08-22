@@ -1,0 +1,766 @@
+Debug Notes 2022
+================
+
+Notes on the status of debug information providing an index.
+
+I am starting to add information for VFC++ (variadic FC++)
+which will not be in the full index.
+
+This is a new copy adding some new things written in 2022.
+
+Headers
+=======
+
+The headers have been a mess. In particular "debug_traits.h" has
+been included in a lot of different files, which was quite unnecessary.
+That has now been sorted out.
+
+The Index
+=========
+
+Each functoid will have an entry under the filename in file order
+and also an alphabetical index entry to the filename.
+
+Alternate names are shown in brackets in both entries.
+The same column has type if this is a C++ type rather than a functoid.
+
+Some functoids end with _ e.g. break_ because they are otherwise C++ words.
+
+Where functoids have C++11 specialisation (FCPP_CXX11)
+I will add CXX11 in the description
+
+Some items marked OBSOLETE have an alternative in [...]
+
+This reflects the state of the files in late 2015 containing many things
+I have added to FC++ to make what I call FC++ 1.5.2.
+
+(*)  Modifications to debug information as part of this campaign.
+(**) New functoid as part of this campaign.
+
+Note that there is close coupling between curry.h and full.h and some things
+are declared in curry.h and instantiated in full.h.
+
+Examples of many of the debug cases are in understand_list.cpp.
+There are also examples in structural.cpp, functors.cpp and unify.cpp.
+
+John Fletcher  December 2015 - March 2016
+
+File Index
+==========
+
+curry.h
+curry_binders5.h
+full.h
+function.h
+functors.h
+gcf.h
+list.h
+monad.h
+monoids.h (New in 2022)
+operator.h
+pattern.h
+prelude.h
+reuse.h
+
+curry.h
+=======
+
+const_			full information(*)
+konst			full information(*)
+
+bind1of1     	(hold1) full information
+
+bind1of2		full information
+bind2of2		full information
+bind1and2of2	(hold2)	full information
+
+cycle2			full information(*)(does same thing as flip)
+cycle3			full information
+cycle3r			full information
+
+curry4			full information
+curry3			full information
+curry2			full information
+curry1			full information
+
+curry			full information(**)(was previously a synonym of curry1)
+
+bind1and2and3of3 (hold3) full information
+
+bind1and2and3and4of4 (hold4) full information(*)
+
+curry_binders5.h
+================
+
+curry5			no information
+
+full.h
+======
+
+(nothing done yet)
+
+function.h
+==========
+
+Fun0<R>			full information
+
+Make0<T>	 	full information(*)
+Make1<T,A1>		full information(*)
+Make2<T,A1,A2>		full information(*)
+Make3<T,A1,A2,A3>	full information(*)
+Make4<T,A1,A2,A3,A4>	full information(**)
+
+LazyPtrProxy<T>		full information(*)
+
+Proxy1<F,A1>		full information(**)
+Proxy2<F,A1,A2>		full information(**)
+Proxy3<F,A1,A2,A3>	full information(**)
+Proxy4<F,A1,A2,A3,A4>	full information(**)
+
+Fun1<A1,R>		full information
+
+functors.h
+==========
+(New file for functors and applicative functors)
+
+fmap 	      	        full information(**)
+bimap			full information(**)
+bimap2          full information(**) (2022)
+
+contrafmap		full information(**)
+contrafmap2		full information(**)
+xmap			full information(**)
+xmap2			full information(**)
+
+star			full information(**)
+pure			full information(**)
+star2			full information(**)
+star2a			full information(**)
+
+pureA<Functor>		full information(**)
+starA<Functor>		full information(**)
+
+nothing			full information(**)
+
+MaybeA			full information(**)
+EitherA			full information(**)
+ListA			full information(**)
+
+
+gcf.h
+=====
+
+NOTE: These are test routines.
+
+gcf
+gcf3
+gcf4
+
+
+list.h
+======
+
+(nothing done yet)
+
+monad.h
+=======
+
+UnitM<Monad>		full information
+BindM<Monad>		full information
+BindM_<Monad>		full information
+ZeroM<Monad>		full information
+PlusM<Monad>		full information
+bind	(inferrable)	full information(*)
+bind_	(inferrable)	full information(*)
+MapM<Monad>		full information
+ForM<Monad>		full information
+JoinM<Monad>		full information
+join			full information(**)
+doM			information not needed
+compM<Monad>		information not needed
+
+liftM<Monad>            full information(*)
+liftM2<Monad>           no information
+liftM3<Monad>           no information
+liftM4<Monad>           no information
+liftM5<Monad>           no information
+
+monoids.h
+=========
+(New file for monoids added in 2022)
+There are some new entries elsewhere as a result.
+
+operator.h
+==========
+
+(infix)^		no information
+(infix)%		no information
+
+makePair		full information
+
+min		CXX11	full information(*)
+max		CXX11	full information(*)
+
+plus		CXX11	full information
+minus		CXX11	full information
+multiplies	CXX11	full information
+divides		CXX11	full information(*)
+
+modulus			full information(*)
+negate			full information(*)
+
+equal			full information(*)
+notEqual		full information(*)
+
+greater			full information
+less			full information
+greaterEqual		full information(*)
+lessEqual		full information(*)
+
+logicalAnd		full information(*)
+logicalOr		full information(*)
+logicalNot		full information(*)
+
+dereference		no information
+addressOf		no information
+delete_			no information
+dynamicCast<T>		no information
+
+outStream		no information
+inStream		no information
+makeManip		no information
+
+There now follow a set of converters for STL,
+Boost Lambda Library and Boost Phoenix.
+I am leaving these out. None has debug information.
+
+monomorphize0 to 7. These are template functions.
+monomorphize1 to 4 have debug information.
+
+ptr_to_fun is a large set of templated operators.
+A small number have some debug information.
+
+inc	       (succ)	full information
+dec	       (prev)	full information(*)
+
+always1	       (yes)  	full information(*)  [konst(true))]
+never1	       (no)	full information(*)  [konst(false))]
+
+pattern.h
+=========
+
+These are functoids I have implemented as part of the work on
+Patterns In Functional Programming and then further ideas.
+
+first	    	full information
+second	    	full information
+parallel (prod)	full information
+parallel2    	full information (2022)
+out	       		full information
+unfold1			full information
+unfold (unfold2) full information
+doublef	     	full information
+double1			full information
+double_			full information
+repeatS			full information
+diagS			full information
+diag (diag2)	full information
+diagRep	       	full information
+mapS			full information
+snoc			full information
+reverse2		full information
+iterateSum		full information(**)
+iterate2		full information(**)
+
+Queue<T>	type	no information
+
+unit	(inferrable)	no information
+
+prelude.h
+=========
+
+id		(value)	full information
+
+compose 	(dot)	some information
+                        compose0helper has information
+	 		compose1Helper has information
+			compose has some.
+                	other helpers need information.
+
+invcompose	(dash)	no information
+		(invdot)
+
+of			no information
+
+invof		(then) 	no information
+
+compose2	(dot2) 	some information(*)
+
+until			no information
+
+while			no information
+
+last			no information
+
+init			full information
+
+length			no information
+
+at			no information
+
+filter			some information - needs checking.
+filter2			some information - needs checking
+
+not_			no information
+
+and2			no information
+
+or2			    no information
+xor2			no information (2022)
+
+number			no information(**)
+contains (in)	no information(**)
+
+concat			full information(*)
+
+foldr			full information
+foldr1			no information
+
+foldl			full information
+foldl1			no information
+
+scanr			no information
+scanrl			no information
+scanr1			no information
+
+scanl			no information
+scanl1			no information
+
+iterate			full information
+
+repeat			full information
+
+map				full information
+map2			no information
+
+take			full information
+
+drop			full information
+
+takewhile		no information
+takeuntil		no information
+
+dropwhile		no information
+dropuntil		no information
+
+replicate		no information
+
+cycle			full information(*)
+
+splitat			no information
+
+span			no information
+
+break_			no information
+
+flip			full information (does same thing as cycle2)
+
+reverse			full information
+reverse1		full information
+
+and			no information
+
+or_			no information
+
+all			no information
+
+any			no information
+
+elem			no information
+notElem			no information
+
+sum			no information
+
+product			no information
+
+minimum			no information
+maximum			no information
+
+zip			full information
+zipwith			full information
+zipwith3		full information
+zipwith4		full information
+
+fst			full information
+snd			full information
+
+unzip			no information
+
+gcd			no information
+
+odd			no information
+
+even			no information
+
+enumFrom		full information
+enumFromTo		full information
+
+listUntil		no information
+listWhile		no information
+
+NOTHING			Name only. For Maybe<T>
+Maybe<T>	type	full information
+just			full information
+
+Either<T>	type	full information(*)
+right			full information(*)
+
+Identity<T>	type	no information
+ident			no information
+
+empty			full information
+
+hCurry			no information
+hUncurry		no information
+
+between			no information
+
+fork_			no information
+fork2			no information
+forkp			no information
+
+apply			no information
+apply2			no information
+applyp			no information
+apply2fg		no information
+apply2gf		no information
+
+noOp			full information
+
+intZero			full information
+intOne			full information
+intTwo			full information
+
+before			no information
+after			no information
+emptify			no information
+
+thunkFuncToFunc (tFTF)	some information
+
+uncurry (splitArgs)	some information
+uncurry0		full information
+
+duplicate		full information(*)
+
+ignore			some information
+ignore2			full information
+
+construct0		full information(*)
+construct1		full information(*)
+construct2		full information(*)
+construct3		full information(*)
+construct4		full information(*)
+construct5		full information(*)
+construct6		full information(*)
+construct7		full information(*)
+
+new0			full information(*)
+new1			full information(*)
+new2			full information(*)
+new3			full information(*)
+new4			full information(*)
+new5			full information(*)
+new6			full information(*)
+new7			full information(*)
+
+reuse.h
+=========
+
+NIL	constant	full information(*)
+
+variadic_fcpp.h
+===============
+I will make entries for this file here.
+I will not include them in the full index.
+
+
+
+
+Index
+=====
+
+addressOf	operator.h
+all		prelude.h
+always1		operator.h
+after		prelude.h
+and		prelude.h
+and2		prelude.h
+any		prelude.h
+apply		prelude.h
+applyp		prelude.h
+apply2		prelude.h
+apply2fg	prelude.h
+apply2gf	prelude.h
+at		prelude.h
+
+before		prelude.h
+between		prelude.h
+bimap		functors.h
+bind	        monad.h
+bind_           monad.h
+BindM<Monad>	monad.h
+BindM_<Monad>	monad.h
+bind1of1	curry.h
+bind1of2	curry.h
+bind2of2	curry.h
+bind1and2of2	curry.h
+bind1and2and3of3 curry.h
+bind1and2and3and4of4 curry.h
+break_		prelude.h
+
+compM<Monad>	monad.h
+compose		prelude.h
+compose2	prelude.h
+concat		prelude.h
+const_		curry.h
+construct0	prelude.h
+construct1	prelude.h
+construct2	prelude.h
+construct3	prelude.h
+construct4	prelude.h
+construct5	prelude.h
+construct6	prelude.h
+construct7	prelude.h
+contains	prelude.h
+contrafmap	functors.h
+contrafmap2	functors.h
+curry		curry.h
+curry1		curry.h
+curry2		curry.h
+curry3		curry.h
+curry4		curry.h
+curry5		curry_binders5.h
+cycle		prelude.h
+cycle2		curry.h
+cycle3		curry.h
+cycle3r		curry.h
+
+(dash)		prelude.h
+dec		operator.h
+delete_		operator.h
+dereference	operator.h
+diagS		pattern.h
+diag   (diag2)	pattern.h
+diagRep		pattern.h
+diagS		pattern.h
+divides		operator.h
+doM		monad.h
+(dot)		prelude.h
+(dot2)		prelude.h
+double_		pattern.h
+doublef		pattern.h
+double1		pattern.h
+drop		prelude.h
+dropwhile	prelude.h
+dropuntil	prelude.h
+duplicate	prelude.h
+dynamicCast<T>	operator.h
+
+Either<T>	prelude.h
+EitherA		functors.h
+elem		prelude.h
+emptify		prelude.h
+enumFrom	prelude.h
+enumFromTo	prelude.h
+equal		operator.h
+even		prelude.h
+
+filter		prelude.h
+filter2		prelude.h
+first		pattern.h
+flip		prelude.h
+fmap		functors.h
+foldl		prelude.h
+foldl1		prelude.h
+foldr		prelude.h
+foldr1		prelude.h
+fork_		prelude.h
+forkp		prelude.h
+fork2		prelude.h
+ForM<Monad>	monad.h
+fst		prelude.h
+Fun0<R>		function.h
+Fun1<A1,R>	function.h
+
+gcd		prelude.h
+gcf		gcf.h
+gcf3		gcf.h
+gcf4		gcf.h
+greater		prelude.h
+greaterEqual	prelude.h
+
+hCurry		prelude.h
+(hold1)		curry.h
+(hold2)		curry.h
+(hold3)		curry.h
+(hold4)		curry.h
+hUncurry	prelude.h
+
+id		prelude.h
+ident		prelude.h
+Identity<T>	prelude.h
+ignore		prelude.h
+ignore2		prelude.h
+(in)		prelude.h
+inc		operator.h
+init		prelude.h
+inStream	operator.h
+intOne		prelude.h
+intTwo		prelude.h
+intZero		prelude.h
+invcompose	prelude.h
+(invdot)	prelude.h
+invof		prelude.h
+iterate		prelude.h
+iterateSum	pattern.h
+iterate2	pattern.h
+
+join		monad.h
+JoinM<Monad>	monad.h
+just		prelude.h
+
+konst		curry.h
+
+last		prelude.h
+LazyPtrProxy<T> function.h
+length		prelude.h
+less		operator.h
+lessEqual	operator.h
+ListA		functors.h
+listUntil	prelude.h
+listWhile	prelude.h
+logicalAnd	operator.h
+logicalNot	operator.h
+logicalOr	operator.h
+
+makeManip	operator.h
+makePair	operator.h
+Make0<T>	function.h
+Make1<T,A1>	function.h
+Make2<T,A1,A2>	function.h
+Make3<T,A1,A2,A3> function.h
+Make4<T,A1,A2,A3,A4> function.h
+map		prelude.h
+MapM<Monad>	monad.h
+mapS		pattern.h
+map2		prelude.h
+Maybe<T>	prelude.h
+MaybeA		functors.h
+max		operator.h
+maximum		prelude.h
+min		operator.h
+minimum		prelude.h
+minus		operator.h
+modulus		operator.h
+monomorphize	operator.h
+multiplies	operator.h
+
+negate		operator.h
+never1		operator.h
+new0		prelude.h
+new1		prelude.h
+new2		prelude.h
+new3		prelude.h
+new4		prelude.h
+new5		prelude.h
+new6		prelude.h
+new7		prelude.h
+NIL		reuse.h
+(no)		operator.h
+noOp		prelude.h
+not_		prelude.h
+notElem		prelude.h
+notEqual	operator.h
+nothing		functors.h
+NOTHING		prelude.h
+number		prelude.h
+
+odd		prelude.h
+of		prelude.h
+or_		prelude.h
+or2		prelude.h
+out		pattern.h
+outStream	operator.h
+
+parallel	pattern.h
+plus		operator.h
+PlusM<Monad>	monad.h
+(prev)		operator.h
+(prod)		pattern.h
+Proxy1<F,A1>	function.h
+Proxy2<F,A1,A2>	function.h
+Proxy3<F,A1,A2,A3> function.h
+Proxy4<F,A1,A2,A3,A4> function.h
+ptr_to_fun	operator.h
+pure		functors.h
+pureA<Functor>	functors.h
+
+Queue<T>	pattern.h
+
+repeat		prelude.h
+repeatS		pattern.h
+reverse2	pattern.h
+replicate	prelude.h
+reverse		prelude.h
+reverse1	prelude.h
+reverse2	pattern.h
+right		prelude.h
+
+scanl		prelude.h
+scanl1		prelude.h
+scanr		prelude.h
+scanr1		prelude.h
+scanrl		prelude.h
+second		pattern.h
+snd		prelude.h
+snoc		pattern.h
+span		prelude.h
+(splitArgs)	prelude.h
+splitat		prelude.h
+star		functors.h
+starA<Functor>	functors.h
+star2		functors.h
+star2a		functors.h
+(succ)		operator.h
+
+take		prelude.h
+takewhile	prelude.h
+takeuntil	prelude.h
+(tFTF)		prelude.h
+(then)		prelude.h
+thunkFuncToFunc prelude.h
+
+uncurry		prelude.h
+uncurry0	prelude.h
+unfold		pattern.h
+unfold1		pattern.h
+(unfold2)	pattern.h
+unit		pattern.h
+UnitM<Monad>	monad.h
+until		prelude.h
+unzip		prelude.h
+
+(value)		prelude.h
+
+while		prelude.h
+
+xmap		functors.h
+xmap2		functors.h
+
+(yes)		operator.h
+
+ZeroM<Monad>	monad.h
+zip		prelude.h
+zipwith		prelude.h
+zipwith3	prelude.h
+zipwith4	prelude.h
