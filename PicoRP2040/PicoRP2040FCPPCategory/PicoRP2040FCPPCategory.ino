@@ -6,6 +6,9 @@
 // I now have an example working applying two different operators to paired data.
 // I have built bimap2 and parallel2 to operate on pairs of two argument functoids.
 // As I invent new FC++ functoids I am moving them to be in the most relevant location.
+// I have manaded to make e.g. mmappend(inc,inc) by making a specialization for it.
+// I think that is a clue to me that there are things which are Monoid implementations
+// in FC++ which I have not recognised as such as I did not understand Monoid. 
 //////////////////////////////////////////////////////////////////////
 // First experiments with the Monoid structure is looking interesting.
 // Idea: use inheritance from List<T> to implement a Monoid for List<T>.
