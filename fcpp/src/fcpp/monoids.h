@@ -210,7 +210,7 @@ namespace impl {
      template <class T>
       struct Sig<Fun1<T,T>,Fun1<T,T>> : public FunType<Fun1<T,T>,Fun1<T,T>,
 	  typename impl::XCompose::Helper<FunctoidTraits<Fun1<T,T>>::max_args,
-	           Fun11<T,T>,Fun1<T,T>>::Result> {};
+	           Fun1<T,T>,Fun1<T,T>>::Result> {};
 
       template <class T>
       typename Sig<Fun1<T,T>,Fun1<T,T>>::ResultType
