@@ -33,6 +33,9 @@
 // I am not sure that this has any practical use I have the FC++ compose (aka dot)
 // which does it without the structure.
 // It does help me with understanding.
+// I have attempted to extend Mendo to monomorphic Fun1<T,T> items.
+// This has now been taken out of use as compose(f,g) crashes for such items.
+// Cases just do not terminate. This is an FC++ issue and not in the monoid code.
 // The whole of the next section was written before I understood monoids.
 //////////////////////////////////////////////////////////////////////
 // File for developments following Bartosz Milewski's work
