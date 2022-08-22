@@ -79,3 +79,7 @@ It now has quite a lot more code for the versions which infer the operands.
 There is more code to come for MonoidT<MonoidType> implementations which make it easy to have more monoids.
 
 Added a new constructor so that a MonoidType can be constructed from its own type.
+
+### src/fcpp/pattern.h
+
+Added new Parallel2 operator to extend Parallel to two argument functions, parallel2(makePair(f,g),p1,p2)
