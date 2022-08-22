@@ -1503,7 +1503,7 @@ void monoid_examples()
   MonoidPair mp1 = std::make_pair(1,2);
   Serial << "MonoidPair mp0 = ( " << mp0.value.first << ", " << mp0.value.second << " )" << endl;
   Serial << "MonoidPair mp1 = std::make_pair(1,2) = ( " << mp1.value.first << ", " << mp1.value.second << " )" << endl;
-  // This does not work it needs an operator which can work on the two parts.
+  // This does now work with an operator which can work on the two parts.
   MonoidPair mp2 = mmappend(mp0,mp1);
   Serial << "mp2 = mmappend(mp0,mp1) = ( " << mp2.value.first << ", " << mp2.value.second << " )" << endl;
   MonoidPair mp3 = mmappend(mp2,mp1);
@@ -1517,8 +1517,7 @@ void monoid_examples()
   Serial << "mp5 = mmconcat(lmp) = ( " << mp5.value.first << ", " << mp5.value.second << " )" << endl;
   MonoidPair mp6 = parallel2(makePair(fcpp::plus,fcpp::multiplies),mp2.value,mp3.value);
   Serial << "MonoidPair mp6 = parallel2(makePair(fcpp::plus,fcpp::multiplies),mp2.value,mp3.value);" << endl;
-  Serial << "mp6 = ( " << mp6.value.first << ", " << mp6.value.second << " )" << endl;
-  
+  Serial << "mp6 = ( " << mp6.value.first << ", " << mp6.value.second << " )" << endl;  
   Serial << "======================================================"
             << endl;
   Serial << "MonoidAnyAll combines any and all into a pair." << endl;
@@ -1574,16 +1573,16 @@ void monoid_examples()
   //Serial << "mmappend(inc,fcpp::plus(3))(6) = " << t << endl;
   Serial << "======================================================"
             << endl;
-  Serial << "Monomorphic operations" << endl;
+  Serial << "Monomorphic operations suspended" << endl;
   Serial << "======================================================"
             << endl;
-  Fun1<int,int> fid = fid;
-  Fun1<int,int> finc = inc;
-  Fun1<int,int> eid = endo(fid);
+  //Fun1<int,int> fid = fid;
+  //Fun1<int,int> finc = inc;
+  //Fun1<int,int> eid = endo(fid);
   //int f2 = mmappend(fid,finc)(1);
   //Serial << "f2 = mmappend(fid,finc)(1) = " << f2 << endl;
-  int f3 = compose(fid,finc)(2);
-  Serial << "f3 = compose(fid,finc)(2) = " << f3 << endl;
+  //int f3 = compose(fid,finc)(2);
+  //Serial << "f3 = compose(fid,finc)(2) = " << f3 << endl;
 }
 
 void setup() {
