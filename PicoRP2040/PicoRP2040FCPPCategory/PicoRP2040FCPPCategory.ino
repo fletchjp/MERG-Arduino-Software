@@ -120,7 +120,7 @@ namespace fcpp {
 
 // New Bimap2 operator for FC++ it has been moved to fcpp/functors.h
 
-// New Bimap2 operator for FC++ it has been moved to fcpp/pattern.h
+// New Parallel2 operator for FC++ it has been moved to fcpp/pattern.h
 // This extends parallel to work on two argument functions - parallel2(makePair(f,g),p1,p2).
 // This returns std::make_pair(f(p1.first,p2.first),g(p1.second,p2.second)).
 // Note that makePair is an FC++ operator.
