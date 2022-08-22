@@ -33,6 +33,7 @@
 // I am not sure that this has any practical use I have the FC++ compose (aka dot)
 // which does it without the structure.
 // It does help me with understanding.
+// The whole of the next section was written before I understood monoids.
 //////////////////////////////////////////////////////////////////////
 // File for developments following Bartosz Milewski's work
 // "Category Theory for Programmers" and related material
