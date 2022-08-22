@@ -208,7 +208,7 @@ namespace impl {
       // This specialisation is to handle cases such as mmappend(finc,finc)
 	  // for Mendo without actually accessing the Mendo monoid.
 	  // The arguments are type Fun1<T,T> e.g. Full1<int,int> finc = inc
-	  /* This breaks other things.
+	  /* This breaks other things. compose does not work in this context.
      template <class T>
       struct Sig<Fun1<T,T>,Fun1<T,T>> : public FunType<Fun1<T,T>,Fun1<T,T>,
 	  typename impl::XCompose::Helper<FunctoidTraits<Fun1<T,T>>::max_args,
