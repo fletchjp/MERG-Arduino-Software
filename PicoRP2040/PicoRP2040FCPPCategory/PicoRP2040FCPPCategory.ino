@@ -154,6 +154,10 @@ namespace fcpp {
 ///
 /// More code (below) can now move as well.
 ///
+/// Note: the inferred versions start with mm.
+/// They infer the type of the monoid from the arguments.
+/// In the case of Mendo the type is Full1<T> and there is a specific implementation.
+///
 //////////////////////////////////////////////////////////////////////
 /// Free functions for Monoids
 ///    mempty  :: m
@@ -256,6 +260,8 @@ template <> OpTypeAnyAll2 MonoidAnyAll2::op = parallel2(makePair(fcpp::or2,fcpp:
 //////////////////////////////////////////////////////////////////////////
 // Monoid Type for Endo.
 // I think I need a functoid first to handle the polymorphism.
+// I have a problem with this as each Full1<F> has a different type.
+// I can have monomorphic versions Fun1<T,T> which I have used in the past.
 
 namespace impl {
   struct XEndo {
@@ -1566,6 +1572,18 @@ void monoid_examples()
   Serial << "mappend<Mendo>()(inc,fcpp::plus)(3,5) = " << s << endl;
   int t= mmappend(inc,fcpp::plus(3))(6);
   Serial << "mmappend(inc,fcpp::plus(3))(6) = " << t << endl;
+  Serial << "======================================================"
+            << endl;
+  Serial << "Monomorphic operations" << endl;
+  Serial << "======================================================"
+            << endl;
+  Fun1<int,int> fid = fid;
+  Fun1<int,int> finc = inc;
+  Fun1<int,int> eid = endo(fid);
+  //int f2 = mmappend(fid,finc)(1);
+  //Serial << "f2 = mmappend(fid,finc)(1) = " << f2 << endl;
+  int f3 = compose(fid,finc)(2);
+  Serial << "f3 = compose(fid,finc)(2) = " << f3 << endl;
 }
 
 void setup() {
