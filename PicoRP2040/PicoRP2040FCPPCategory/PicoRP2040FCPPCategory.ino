@@ -273,6 +273,7 @@ template <> OpTypeAnyAll2 MonoidAnyAll2::op = parallel2(makePair(fcpp::or2,fcpp:
 // as monomorphic.
 // Endo<int> endoid now holds id such that endoid() is equivalent.
 // I now have MonoidEndo which uses Endo and MonadType.
+// It supports mconcat operations, which Mendo does not.
 // I think this has other applications.
 // This is a separate thing from Mendo which is polymorphic.
 //////////////////////////////////////////////////////////////////////////
