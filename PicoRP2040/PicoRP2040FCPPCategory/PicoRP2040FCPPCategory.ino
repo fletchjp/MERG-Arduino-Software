@@ -10,6 +10,9 @@
 // I think that is a clue to me that there are things which are Monoid implementations
 // in FC++ which I have not recognised as such as I did not understand Monoid. 
 //////////////////////////////////////////////////////////////////////
+// URGENT: Put something into Compose (and InvCompose) in prelude.h
+// to stop crashes with Fun1<T,T> objects
+//////////////////////////////////////////////////////////////////////
 // First experiments with the Monoid structure is looking interesting.
 // Idea: use inheritance from List<T> to implement a Monoid for List<T>.
 // This is now working.
@@ -265,6 +268,9 @@ template <> OpTypeAnyAll2 MonoidAnyAll2::op = parallel2(makePair(fcpp::or2,fcpp:
 // I think I need a functoid first to handle the polymorphism.
 // I have a problem with this as each Full1<F> has a different type.
 // I can have monomorphic versions Fun1<T,T> which I have used in the past.
+// I would like Endo to be a non template type which can hold ANY Full1<T> type.
+// I have not figured out how to do this.
+//////////////////////////////////////////////////////////////////////////
 
 namespace impl {
   struct XEndo {
