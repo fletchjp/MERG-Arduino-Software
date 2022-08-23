@@ -1582,15 +1582,14 @@ void monoid_examples()
   Serial << "mmappend(inc,fcpp::plus(3))(6) = " << t << endl;
   Serial << "======================================================"
             << endl;
-  Serial << "Monomorphic operations suspended until I found my bug." << endl;
+  Serial << "Monomorphic operations are now working." << endl;
   Serial << "======================================================"
             << endl;
   Fun1<int,int> fid = id; // This was fid which was causing a big problem!!
   Fun1<int,int> finc = inc;
   //Fun1<int,int> eid = endo(fid);
-  //int f2 = mmappend(fid,finc)(1);
-  //Serial << "f2 = mmappend(fid,finc)(1) = " << f2 << endl;
-  // This one does not work which is FC++ because of my bug.
+  int f2 = mmappend(fid,finc)(1);
+  Serial << "f2 = mmappend(fid,finc)(1) = " << f2 << endl;
   int f3 = compose(fid,finc)(2);
   Serial << "f3 = compose(fid,finc)(2) = " << f3 << endl;
   int f4 = fid(finc(3));
