@@ -1557,6 +1557,10 @@ void monoid_examples()
   if (maa22.value.first && maa22().second) Serial << "maa22 values are both true" << endl;
   Serial << "======================================================"
             << endl;
+  Serial << "Endo is an endomorphic wrapper for Full1 operators once a type is given." << endl;
+  Serial << "MonoidEndo provides mempty mappend and mconcat for Endo." << endl;          
+  Serial << "======================================================"
+            << endl;
   Endo<int> endoid;
   Serial << "Endo<int> endoid;"  << endl;
   Endo<int> endoinc(inc);
@@ -1566,11 +1570,14 @@ void monoid_examples()
   MonoidEndo monendoinc(endoinc);
   Serial << "MonoidEndo monendoinc(endoinc);" << endl;
   MonoidEndo monendo2 = MonoidT<MonoidEndo>::mappend()(monendo,monendoinc);
-  Serial << "Monendo monendo2 = MonoidT<MonoidEndo>::mappend()(monendo,monendoinc);" << endl;
+  Serial << "MonoidEndo monendo2 = MonoidT<MonoidEndo>::mappend()(monendo,monendoinc);" << endl;
   Serial << "monendo2()(3) = " << monendo2()(3) << endl; ;
   MonoidEndo monendo3 = mappend<MonoidT<MonoidEndo>>()(monendo,monendoinc);
   Serial << "MonoidEndo monendo3 = mappend<MonoidT<MonoidEndo>>()(monendo,monendoinc);" << endl;
-  Serial << "monendo2()(4) = " << monendo3()(4) << endl; ;
+  Serial << "monendo3()(4) = " << monendo3()(4) << endl;
+  MonoidEndo monendo4 = mmappend(monendo,monendoinc);
+  Serial << "MonoidEndo monendo4 = mmappend(monendo,monendoinc);" << endl;
+  Serial << "monendo4()(5) = " << monendo4()(5) << endl;
   Serial << "======================================================"
             << endl;
   int w = Mendo::mempty()()(1);
