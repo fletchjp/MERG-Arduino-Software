@@ -1559,7 +1559,7 @@ void monoid_examples()
   Serial << "======================================================"
             << endl;
   Serial << "Endo<T> is an endomorphic wrapper for Full1 operators once a type is given." << endl;
-  Serial << "MonoidEndo provides mempty mappend and mconcat for Endo." << endl;          
+  Serial << "MonoidEndo provides mempty mappend and mconcat for Endo<T>." << endl;          
   Serial << "typedef MonoidType<Endo<int>::Type,Compose> MonoidEndo;" << endl;
   Serial << "======================================================"
             << endl;
