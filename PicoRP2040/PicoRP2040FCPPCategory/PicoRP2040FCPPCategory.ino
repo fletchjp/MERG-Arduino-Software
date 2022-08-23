@@ -1558,8 +1558,9 @@ void monoid_examples()
   if (maa22.value.first && maa22().second) Serial << "maa22 values are both true" << endl;
   Serial << "======================================================"
             << endl;
-  Serial << "Endo is an endomorphic wrapper for Full1 operators once a type is given." << endl;
+  Serial << "Endo<T> is an endomorphic wrapper for Full1 operators once a type is given." << endl;
   Serial << "MonoidEndo provides mempty mappend and mconcat for Endo." << endl;          
+  Serial << "typedef MonoidType<Endo<int>::Type,Compose> MonoidEndo;" << endl;
   Serial << "======================================================"
             << endl;
   Endo<int> endoid;
