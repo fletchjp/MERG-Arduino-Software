@@ -76,6 +76,8 @@ This has now been renamed from functoids.h.
 
 It now has quite a lot more code for the versions which infer the operands.
 
+There are now specializations in mmappend for Fun1<T,T> and Full1<F>.
+
 There is more code to come for MonoidT<MonoidType> implementations which make it easy to have more monoids.
 
 Added a new constructor so that a MonoidType can be constructed from its own type.
