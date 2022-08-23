@@ -272,7 +272,8 @@ template <> OpTypeAnyAll2 MonoidAnyAll2::op = parallel2(makePair(fcpp::or2,fcpp:
 // as monomorphic.
 // Endo<int> endoid now holds id such that endoid() is equivalent.
 // I now have MonoidEndo which uses Endo and MonadType.
-// This is a separate thing from Mendo
+// I think this has other applications.
+// This is a separate thing from Mendo which is polymorphic.
 //////////////////////////////////////////////////////////////////////////
 
   template <class T>
@@ -315,7 +316,7 @@ template <> Compose MonoidEndo::op = compose;
 
 //////////////////////////////////////////////////////////////////////////
 // I am caught by the polymorphism of FC++ - I want a "type" for any Full1<T>.
-// So I have made Mendo polymorphic.
+// So I made Mendo polymorphic.
 // This now works but I am not sure when it is worthwhile to use it.
 // Mendo::mempty()()(1) == id(1)
 // Mendo::mappend()(inc,inc)(1) ==  compose(inc,inc)(1)
