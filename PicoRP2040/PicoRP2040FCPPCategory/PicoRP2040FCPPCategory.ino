@@ -230,7 +230,7 @@ namespace fcpp {
 // https://www.reddit.com/r/haskelltil/comments/337g7t/endo_the_monoid_of_endomorphisms_under/
 // https://hackage.haskell.org/package/endo-0.1.0.0/candidate/docs/Data-Monoid-Endo.html
 //////////////////////////////////////////////////////////////////////////
-// Examples of 1.
+// Examples of 1. Monoids using new FC++ operators bimap2 or parallel2 
 //////////////////////////////////////////////////////////////////////////
 // I have adapted bimap as bimap2.
 // I need to store the type of this curried function.
@@ -259,9 +259,10 @@ template <> OpTypeAnyAll2 MonoidAnyAll2::op = parallel2(makePair(fcpp::or2,fcpp:
 // and parallel2 takes them as a pair.
 //////////////////////////////////////////////////////////////////////////
 
-//////////////////////////////////////////////////////////////////////////
-// Examples of 3.
-//////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+// Examples of 3. Endomorphic operations with Fun1<T,T> and Full1<F> operations.
+// These overcome an important issue that Full1<F> objects all have different types.
+///////////////////////////////////////////////////////////////////////////////
 // Monoid Type for Endo.
 // I think I need a functoid first to handle the polymorphism.
 // I have a problem with this as each Full1<F> has a different type.
@@ -309,6 +310,7 @@ public:
 
   };
 
+// This is using MonoidType and MonoidT from monoids.h
 typedef MonoidType<Endo<int>::Type,Compose> MonoidEndo;
 template <> Endo<int>::Type MonoidEndo::zero = id;
 template <> Compose MonoidEndo::op = compose;
@@ -1571,6 +1573,7 @@ void monoid_examples()
   Serial << "MonoidEndo monendo;" << endl;
   MonoidEndo monendoinc(endoinc);
   Serial << "MonoidEndo monendoinc(endoinc);" << endl;
+  MonoidEndo monendoP2(fcpp::plus(2));
   MonoidEndo monendo2 = MonoidT<MonoidEndo>::mappend()(monendo,monendoinc);
   Serial << "MonoidEndo monendo2 = MonoidT<MonoidEndo>::mappend()(monendo,monendoinc);" << endl;
   Serial << "monendo2()(3) = " << monendo2()(3) << endl; ;
@@ -1580,6 +1583,11 @@ void monoid_examples()
   MonoidEndo monendo4 = mmappend(monendo,monendoinc);
   Serial << "MonoidEndo monendo4 = mmappend(monendo,monendoinc);" << endl;
   Serial << "monendo4()(5) = " << monendo4()(5) << endl;
+  List<MonoidEndo> lmonendo = list_with(monendo,monendoinc,monendoP2);
+  MonoidEndo monendo5 = MonoidT<MonoidEndo>::mconcat()(lmonendo);
+  Serial << "List<MonoidEndo> lmonendo = list_with(monendo,monendoinc,monendoP2);" << endl;
+  Serial << "MonoidEndo monendo5 = MonoidT<MonoidEndo>::mconcat()(lmonendo);" << endl;
+  Serial << "monendo5()(4) = " << monendo5()(4) << endl;
   Serial << "======================================================"
             << endl;
   int w = Mendo::mempty()()(1);
