@@ -271,7 +271,8 @@ template <> OpTypeAnyAll2 MonoidAnyAll2::op = parallel2(makePair(fcpp::or2,fcpp:
 // I think the answer is to template it for the type and hold the object
 // as monomorphic.
 // Endo<int> endoid now holds id such that endoid() is equivalent.
-// This is not yet linked to Mendo
+// I now have MonoidEndo which uses Endo and MonadType.
+// This is a separate thing from Mendo
 //////////////////////////////////////////////////////////////////////////
 
   template <class T>
@@ -1567,6 +1568,9 @@ void monoid_examples()
   MonoidEndo monendo2 = MonoidT<MonoidEndo>::mappend()(monendo,monendoinc);
   Serial << "Monendo monendo2 = MonoidT<MonoidEndo>::mappend()(monendo,monendoinc);" << endl;
   Serial << "monendo2()(3) = " << monendo2()(3) << endl; ;
+  MonoidEndo monendo3 = mappend<MonoidT<MonoidEndo>>()(monendo,monendoinc);
+  Serial << "MonoidEndo monendo3 = mappend<MonoidT<MonoidEndo>>()(monendo,monendoinc);" << endl;
+  Serial << "monendo2()(4) = " << monendo3()(4) << endl; ;
   Serial << "======================================================"
             << endl;
   int w = Mendo::mempty()()(1);
