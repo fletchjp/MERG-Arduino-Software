@@ -270,9 +270,10 @@ template <> OpTypeAnyAll2 MonoidAnyAll2::op = parallel2(makePair(fcpp::or2,fcpp:
 // I have not figured out how to do this.
 // I think the answer is to template it for the type and hold the object
 // as monomorphic.
+// Endo<int> endoid now holds id such that endoid() is equivalent.
+// This is not yet linked to Mendo
 //////////////////////////////////////////////////////////////////////////
 
-//namespace impl {
   template <class T>
   struct Endo {
   typedef Fun1<T,T> Type;
@@ -295,8 +296,20 @@ public:
        {
           return f_;
        }
+       operator Type() const
+       {
+          return f_;
+       }
+       T operator()(const T& t) const
+       {
+          return f_(t);
+       }
 
   };
+
+typedef MonoidType<Endo<int>::Type,Compose> MonoidEndo;
+template <> Endo<int>::Type MonoidEndo::zero = id;
+template <> Compose MonoidEndo::op = compose;
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -1544,7 +1557,18 @@ void monoid_examples()
   Serial << "======================================================"
             << endl;
   Endo<int> endoid;
-  //Mendo mendo;
+  Serial << "Endo<int> endoid;"  << endl;
+  Endo<int> endoinc(inc);
+  Serial << "Endo<int> endoinc(inc);" << endl;
+  MonoidEndo monendo;
+  Serial << "MonoidEndo monendo;" << endl;
+  MonoidEndo monendoinc(endoinc);
+  Serial << "MonoidEndo monendoinc(endoinc);" << endl;
+  MonoidEndo monendo2 = MonoidT<MonoidEndo>::mappend()(monendo,monendoinc);
+  Serial << "Monendo monendo2 = MonoidT<MonoidEndo>::mappend()(monendo,monendoinc);" << endl;
+  Serial << "monendo2()(3) = " << monendo2()(3) << endl; ;
+  Serial << "======================================================"
+            << endl;
   int w = Mendo::mempty()()(1);
   Serial << "Mendo::mempty()()(1) = " << w 
          << ", id(1) = " << id(1) << endl;
@@ -1554,13 +1578,12 @@ void monoid_examples()
   int y = mappend<Mendo>()(inc,inc)(2);
   Serial << "mappend<Mendo>()(inc,inc)(2) = " << y 
          << ", compose(inc,inc)(2) = " << compose(inc,inc)(2)<< endl;
-  Endo<int> endoinc(inc); 
-  int z = mappend<Mendo>()(endoinc,endoinc)(3);
-  Serial << "mappend<Mendo>()(endoinc,endoinc)(3) = " << z << endl;
+  int z = mappend<Mendo>()(endoinc(),endoinc())(3);
+  Serial << "mappend<Mendo>()(endoinc(),endoinc())(3) = " << z << endl;
   int zz = mmappend(inc,inc)(2);
   Serial << "mmappend(inc,inc)(2) = " << zz << endl;
-  int zzz = mmappend(endoinc,endoinc)(4);
-  Serial << "mmappend(endoinc,endoinc)(4) = " << zzz << endl;
+  int zzz = mmappend(endoinc(),endoinc())(4);
+  Serial << "mmappend(endoinc(),endoinc())(4) = " << zzz << endl;
   Serial << "======================================================"
             << endl;
   Serial << "The way Mendo mappend is defined allows the second argument" << endl;
