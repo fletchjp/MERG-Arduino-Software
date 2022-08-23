@@ -2,7 +2,7 @@
 // Pico RP2040 FC++ Category
 // New example to look at code from category_fcpp.cpp
 // I have added a lot of the code and I have started to look at the examples.
-// This example is also being used for the development of the monoid code.
+// This example is also being used for the development of the monoid code. 
 // I now have an example working applying two different operators to paired data.
 // I have built bimap2 and parallel2 to operate on pairs of two argument functoids.
 // As I invent new FC++ functoids I am moving them to be in the most relevant location.
@@ -268,34 +268,36 @@ template <> OpTypeAnyAll2 MonoidAnyAll2::op = parallel2(makePair(fcpp::or2,fcpp:
 // I can have monomorphic versions Fun1<T,T> which I have used in the past.
 // I would like Endo to be a non template type which can hold ANY Full1<T> type.
 // I have not figured out how to do this.
+// I think the answer is to template it for the type and hold the object
+// as monomorphic.
 //////////////////////////////////////////////////////////////////////////
 
-namespace impl {
-  struct XEndo {
+//namespace impl {
+  template <class T>
+  struct Endo {
+  typedef Fun1<T,T> Type;
+  typedef T ElementType;
 #ifdef FCPP_DEBUG
        std::string name() const
        {
            return std::string("Endo");
        }
 #endif
-       template <class F> struct Sig : public FunType<F,F> {};
+private:
+       Type f_;
+public:
+       Endo() : f_(id) { }
+       template <class F>
+       Endo(const Full1<F> &f) : f_(f) { }
+       Endo(const Fun1<T,T> &f) : f_(f) { }
+       Endo(const Endo &x) : f_(x.f_) { }
+       Type operator()() const
+       {
+          return f_;
+       }
 
-       template <class F> typename Sig<F>::ResultType operator()(const F& f) const
-       {
-          return f;
-       }
-/* I need to do this with a helper.
-       template <> typename Sig<NoOp>::ResultType operator()() const
-       {
-          return noOp;
-       }
-*/
   };
-}
- typedef Full1<impl::XEndo> Endo;
- FCPP_MAYBE_NAMESPACE_OPEN
- FCPP_MAYBE_EXTERN Endo endo;
- FCPP_MAYBE_NAMESPACE_CLOSE
+
 
 //////////////////////////////////////////////////////////////////////////
 // I am caught by the polymorphism of FC++ - I want a "type" for any Full1<T>.
@@ -1541,8 +1543,8 @@ void monoid_examples()
   if (maa22.value.first && maa22().second) Serial << "maa22 values are both true" << endl;
   Serial << "======================================================"
             << endl;
-  endo(noOp);
-  Mendo mendo;
+  Endo<int> endoid;
+  //Mendo mendo;
   int w = Mendo::mempty()()(1);
   Serial << "Mendo::mempty()()(1) = " << w 
          << ", id(1) = " << id(1) << endl;
@@ -1552,9 +1554,9 @@ void monoid_examples()
   int y = mappend<Mendo>()(inc,inc)(2);
   Serial << "mappend<Mendo>()(inc,inc)(2) = " << y 
          << ", compose(inc,inc)(2) = " << compose(inc,inc)(2)<< endl;
-  auto endoinc = endo(inc); 
-  int z = mappend<Mendo>()(endo(inc),endoinc)(3);
-  Serial << "mappend<Mendo>()(endo(inc),endoinc)(3) = " << z << endl;
+  Endo<int> endoinc(inc); 
+  int z = mappend<Mendo>()(endoinc,endoinc)(3);
+  Serial << "mappend<Mendo>()(endoinc,endoinc)(3) = " << z << endl;
   int zz = mmappend(inc,inc)(2);
   Serial << "mmappend(inc,inc)(2) = " << zz << endl;
   int zzz = mmappend(endoinc,endoinc)(4);
