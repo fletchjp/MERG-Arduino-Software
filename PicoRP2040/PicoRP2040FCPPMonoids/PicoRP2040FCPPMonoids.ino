@@ -227,7 +227,7 @@ template <> OpTypeAnyAll2 MonoidAnyAll2::op = parallel2(makePair(fcpp::or2,fcpp:
 // I think this has other applications.
 // This is a separate thing from Mendo which is polymorphic.
 //////////////////////////////////////////////////////////////////////////
-
+/*
   template <class T>
   struct Endo {
   typedef Fun1<T,T> Type;
@@ -265,7 +265,7 @@ public:
 typedef MonoidType<Endo<int>::Type,Compose> MonoidEndo;
 template <> Endo<int>::Type MonoidEndo::zero = id;
 template <> Compose MonoidEndo::op = compose;
-
+*/
 
 //////////////////////////////////////////////////////////////////////////
 // I am caught by the polymorphism of FC++ - I want a "type" for any Full1<T>.
@@ -279,7 +279,7 @@ template <> Compose MonoidEndo::op = compose;
 // I have now made mmappend(inc,inc) work using a specialisation
 // in fcpp/monoids.h to use compose directly.
 //////////////////////////////////////////////////////////////////////////
-
+/*
 struct Mendo {
    struct Rep { typedef Mendo Type; };
    typedef Mendo MonoidType;
@@ -318,7 +318,7 @@ public:
 template <> struct MonoidTraitsSpecializer<Mendo > {
    typedef Mendo Monoid;
 };
-
+*/
 //////////////////////////////////////////////////////////////////////////
 /// Output operators for the Monoid types.
 /////////////////////////////////////////////////////////////////////////
