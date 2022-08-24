@@ -567,6 +567,112 @@ template <class T, class Op> struct MonoidTraitsSpecializer<MonoidType<T,Op> > {
    typedef MonoidT<MonoidType<T,Op>> Monoid;
 };
 
+///////////////////////////////////////////////////////////////////////////////
+// Monoid Type for Endo.
+// I think I need a functoid first to handle the polymorphism.
+// I have a problem with this as each Full1<F> has a different type.
+// I can have monomorphic versions Fun1<T,T> which I have used in the past.
+// I would like Endo to be a non template type which can hold ANY Full1<T> type.
+// I have not figured out how to do this.
+// I think the answer is to template it for the type and hold the object
+// as monomorphic.
+// Endo<int> endoid now holds id such that endoid() is equivalent.
+// I now have MonoidEndo which uses Endo and MonadType.
+// It supports mconcat operations, which Mendo does not.
+// I think this has other applications.
+// This is a separate thing from Mendo which is polymorphic.
+//////////////////////////////////////////////////////////////////////////
+
+  template <class T>
+  struct Endo {
+  typedef Fun1<T,T> Type;
+  typedef T ElementType;
+#ifdef FCPP_DEBUG
+       std::string name() const
+       {
+           return std::string("Endo");
+       }
+#endif
+private:
+       Type f_;
+public:
+       Endo() : f_(id) { }
+       template <class F>
+       Endo(const Full1<F> &f) : f_(f) { }
+       Endo(const Fun1<T,T> &f) : f_(f) { }
+       Endo(const Endo &x) : f_(x.f_) { }
+       Type operator()() const
+       {
+          return f_;
+       }
+       operator Type() const
+       {
+          return f_;
+       }
+       T operator()(const T& t) const
+       {
+          return f_(t);
+       }
+
+  };
+
+// This is using MonoidType and MonoidT from monoids.h
+typedef MonoidType<Endo<int>::Type,Compose> MonoidEndo;
+template <> Endo<int>::Type MonoidEndo::zero = id;
+template <> Compose MonoidEndo::op = compose;
+
+//////////////////////////////////////////////////////////////////////////
+// I am caught by the polymorphism of FC++ - I want a "type" for any Full1<T>.
+// So I made Mendo polymorphic.
+// This now works but I am not sure when it is worthwhile to use it.
+// Mendo::mempty()()(1) == id(1)
+// Mendo::mappend()(inc,inc)(1) ==  compose(inc,inc)(1)
+// These cases use compose which can cope with e.g compose(inc,plus)
+// as long as it is the second arg which has more than one argument.
+// with more than one argument.
+// I have now made mmappend(inc,inc) work using a specialisation
+// in fcpp/monoids.h to use compose directly.
+//////////////////////////////////////////////////////////////////////////
+
+struct Mendo {
+   struct Rep { typedef Mendo Type; };
+   typedef Mendo MonoidType;
+private:
+// ?? How do I hold the contents? Do I need to?
+// No - this Monoid has no state.
+// mempty returns id
+// mappend on (f,g) returns compose(f,g).
+// mconcat is not implemented as I have no way
+// to have a list of polymorphic functoids.
+public:
+      struct XMempty : public CFunType<Id> {      
+      Id operator()() const {
+         return id;
+      }
+    };
+    typedef Full0<XMempty> Mempty;
+    static Mempty& mempty() {static Mempty f; return f;}
+
+    struct XMappend {
+     template <class F,class G>
+     struct Sig : public FunType<F,G,typename impl::XCompose::Helper<FunctoidTraits<G>::max_args,F,G>::Result> {};
+       //typename F::template Sig<typename RT<G>::ResultType>::ResultType> {};
+
+       template <class F,class G>
+       typename Sig<F,G>::ResultType
+       operator()(const F &f,const G &g) const {
+         return f ^dot^ g;
+      }
+    };
+    typedef Full2<XMappend> Mappend;
+    static Mappend& mappend() {static Mappend f; return f;}
+
+};
+
+template <> struct MonoidTraitsSpecializer<Mendo > {
+   typedef Mendo Monoid;
+};
+
 
 
 } // namespace fcpp
