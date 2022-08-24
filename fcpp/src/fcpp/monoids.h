@@ -525,9 +525,9 @@ struct MonoidT
       template<class A,class B>
       typename Sig<A,B>::ResultType operator()(const A &a,const B &b) const {
         // Check that both A and B are have the same type as T.
-         typedef typename XMappendHelper<A,T>::Atype Atype;
-         typedef typename XMappendHelper<T,B>::Btype Btype;
-         return T(T::op(a.value,b.value));
+        //typedef typename XMappendHelper<A,T>::Atype Atype;
+        //typedef typename XMappendHelper<T,B>::Btype Btype;
+        return T(T::op(a.value,b.value));
       }
 
     
