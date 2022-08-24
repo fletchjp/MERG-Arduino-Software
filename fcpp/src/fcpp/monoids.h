@@ -450,6 +450,9 @@ struct MonoidType {
    MonoidType() : value(zero) {}
    MonoidType(const T& t) : value(t) {}
    MonoidType(const MonoidType& m) : value(m.value) {}
+   MonoidType operator= (const MondoidType &a) {
+      value = a.value; return *this;
+   }
    T operator()() { return value; }
 };
 
