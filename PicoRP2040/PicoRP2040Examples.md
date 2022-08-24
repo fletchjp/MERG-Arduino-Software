@@ -74,3 +74,10 @@ This now includes the capability to infer the Monoid type when this is implement
 
 This example is becoming a location for bringing together various definitions and ways of looking at things.
 
+## PicoRP2040FCPPMonoids
+
+This example has all of the monoid examples from PicoRP2040FCPPCategory
+
+This includes the examples of Endo endomorphic operations.
+
+I am going to move more definitions to fcpp/monoids.h to make them available for work in other examples.
