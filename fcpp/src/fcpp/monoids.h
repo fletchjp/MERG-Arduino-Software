@@ -369,7 +369,7 @@ struct Mlist : public List<T> {
     Mlist(const List<T>&l)  : List<T>(l) { }
     Mlist(const Mlist<T>&m) //: List<T>(m) 
 	{       //List<T>::operator=(m);
-	// Base class initialisation
+	// Base class initialisation warning which I cannot resolve.
     // List<T>(m); This does not work
 	   *this = m;
     } 
