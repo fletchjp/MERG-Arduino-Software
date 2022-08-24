@@ -12,6 +12,10 @@ This is an example using the buttons and LEDs on the sb components breadboard ki
 
 I had lost track of the example.
 
+### Multicore and MulticoreTalking
+
+These are simple examples of use of the second core.
+
 ### PicoRP2040FCPP
 
 Some basic tests of FC++.
