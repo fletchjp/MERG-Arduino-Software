@@ -593,6 +593,8 @@ void monoid_examples()
             << endl;
   MonoidAnyAll maa0;
   MonoidAnyAll maa1 = std::make_pair(any0.value,all0.value);
+  Serial << "MonoidAnyAll maa1 = std::make_pair(any0.value,all0.value);" << endl;
+  if (!maa1.value.first && maa1().second) Serial << "maa1 values are false,true as expected" << endl;
   MonoidAnyAll maa2 = std::make_pair(anyt(),allt());
   Serial << "MonoidAnyAll maa2 = std::make_pair(anyt(),allt());" << endl;
   if (maa2.value.first && maa2().second) Serial << "maa2 values are both true" << endl;
