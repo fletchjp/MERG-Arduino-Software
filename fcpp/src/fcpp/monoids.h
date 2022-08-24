@@ -567,6 +567,53 @@ template <class T, class Op> struct MonoidTraitsSpecializer<MonoidType<T,Op> > {
    typedef MonoidT<MonoidType<T,Op>> Monoid;
 };
 
+/////////////////////////////////////////////////////////////////////
+// Insights from Typeclassopedia.
+// 1.
+// If a and b are instances of Monoid, then so is (a,b),
+// using the monoid operations for a and b in the obvious pairwise manner.
+// Note: (a,b) is Haskell notation for a pair.
+// 2.
+// If a is a Monoid, then so is the function type e -> a for any e;
+// in particular, g `mappend` h is the function which applies both g and h
+// to its argument and then combines the results
+// using the underlying Monoid instance for a.
+// This can be quite useful and elegant 
+// 3.
+// Endo a is a newtype wrapper for functions a -> a, which form a monoid under composition.
+// I have been exploring this and have found these which I want to explore:
+// https://www.reddit.com/r/haskelltil/comments/337g7t/endo_the_monoid_of_endomorphisms_under/
+// https://hackage.haskell.org/package/endo-0.1.0.0/candidate/docs/Data-Monoid-Endo.html
+
+// Examples of 1. Monoids using new FC++ operators bimap2 or parallel2 
+//////////////////////////////////////////////////////////////////////////
+// I have adapted bimap as bimap2.
+// I need to store the type of this curried function.
+using OpType = typeof(bimap2(fcpp::plus,fcpp::multiplies));
+typedef MonoidType<std::pair<int,int>,OpType> MonoidPair;
+template <> std::pair<int,int> MonoidPair::zero = std::make_pair(0,1);
+// This stores an operator which will work on two arguments which are both pairs.
+// I have restricted it to the case where the two pairs have the same type std::pair<A,B>
+template <> OpType MonoidPair::op = bimap2(fcpp::plus,fcpp::multiplies);
+//////////////////////////////////////////////////////////////////////////
+// This example combines Any and All into one monoid working on pairs.
+// This version uses bimap2
+using OpTypeAnyAll = typeof(bimap2(fcpp::or2,fcpp::and2));
+typedef MonoidType<std::pair<bool,bool>,OpTypeAnyAll> MonoidAnyAll;
+template <> std::pair<bool,bool> MonoidAnyAll::zero = std::make_pair(false,true);
+template <> OpTypeAnyAll MonoidAnyAll::op = bimap2(fcpp::or2,fcpp::and2);
+//////////////////////////////////////////////////////////////////////////
+// This example combines Any and All into one monoid working on pairs.
+// This is an alternative using parallel2.
+using OpTypeAnyAll2 = typeof(parallel2(makePair(fcpp::or2,fcpp::and2)));
+typedef MonoidType<std::pair<bool,bool>,OpTypeAnyAll2> MonoidAnyAll2;
+template <> std::pair<bool,bool> MonoidAnyAll2::zero = std::make_pair(false,true);
+template <> OpTypeAnyAll2 MonoidAnyAll2::op = parallel2(makePair(fcpp::or2,fcpp::and2));
+//////////////////////////////////////////////////////////////////////////
+// The difference is that bimap2 takes the two functors as separate arguments
+// and parallel2 takes them as a pair.
+//////////////////////////////////////////////////////////////////////////
+
 ///////////////////////////////////////////////////////////////////////////////
 // Monoid Type for Endo.
 // I think I need a functoid first to handle the polymorphism.
