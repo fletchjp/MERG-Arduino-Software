@@ -348,6 +348,16 @@ auto whoa() {
       ].in[ even[3] ] ];
 }
 
+void lambda_examples()
+{
+   LambdaVar<1> F;
+//   LambdaVar<2> G;
+   //LambdaVar<3> H;
+   LambdaVar<4> X;
+   Serial << "lambda(F,X)[ if0[true,F[X,2],X] ](plus,1) = ";
+   Serial << lambda(F,X)[ if0[true,F[X,2],X] ](plus,1) << endl;
+  
+}
 
 void monoid_examples()
 {
