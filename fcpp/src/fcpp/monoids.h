@@ -367,9 +367,11 @@ struct Mlist : public List<T> {
    typedef Mlist<T> MonoidType;
     Mlist()  : List<T>() { }
     Mlist(const List<T>&l)  : List<T>(l) { }
-    Mlist(const Mlist<T>&m) {       //List<T>::operator=(m);
+    Mlist(const Mlist<T>&m) //: List<T>(m) 
+	{       //List<T>::operator=(m);
 	// Base class initialisation
-       List<T>(m); *this = m;
+    // List<T>(m); This does not work
+	   *this = m;
     } 
     Mlist<T> &operator= (const Mlist<T> &a) {
        List<T>::operator=(a); return *this;
