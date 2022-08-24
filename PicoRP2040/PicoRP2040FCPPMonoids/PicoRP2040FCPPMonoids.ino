@@ -226,47 +226,12 @@ template <> OpTypeAnyAll2 MonoidAnyAll2::op = parallel2(makePair(fcpp::or2,fcpp:
 // It supports mconcat operations, which Mendo does not.
 // I think this has other applications.
 // This is a separate thing from Mendo which is polymorphic.
+// Endo is now in fcpp/monoids.h
 //////////////////////////////////////////////////////////////////////////
-/*
-  template <class T>
-  struct Endo {
-  typedef Fun1<T,T> Type;
-  typedef T ElementType;
-#ifdef FCPP_DEBUG
-       std::string name() const
-       {
-           return std::string("Endo");
-       }
-#endif
-private:
-       Type f_;
-public:
-       Endo() : f_(id) { }
-       template <class F>
-       Endo(const Full1<F> &f) : f_(f) { }
-       Endo(const Fun1<T,T> &f) : f_(f) { }
-       Endo(const Endo &x) : f_(x.f_) { }
-       Type operator()() const
-       {
-          return f_;
-       }
-       operator Type() const
-       {
-          return f_;
-       }
-       T operator()(const T& t) const
-       {
-          return f_(t);
-       }
-
-  };
-
 // This is using MonoidType and MonoidT from monoids.h
-typedef MonoidType<Endo<int>::Type,Compose> MonoidEndo;
-template <> Endo<int>::Type MonoidEndo::zero = id;
-template <> Compose MonoidEndo::op = compose;
-*/
-
+//typedef MonoidType<Endo<int>::Type,Compose> MonoidEndo;
+//template <> Endo<int>::Type MonoidEndo::zero = id;
+//template <> Compose MonoidEndo::op = compose;
 //////////////////////////////////////////////////////////////////////////
 // I am caught by the polymorphism of FC++ - I want a "type" for any Full1<T>.
 // So I made Mendo polymorphic.
@@ -279,46 +244,7 @@ template <> Compose MonoidEndo::op = compose;
 // I have now made mmappend(inc,inc) work using a specialisation
 // in fcpp/monoids.h to use compose directly.
 //////////////////////////////////////////////////////////////////////////
-/*
-struct Mendo {
-   struct Rep { typedef Mendo Type; };
-   typedef Mendo MonoidType;
-private:
-// ?? How do I hold the contents? Do I need to?
-// No - this Monoid has no state.
-// mempty returns id
-// mappend on (f,g) returns compose(f,g).
-// mconcat is not implemented as I have no way
-// to have a list of polymorphic functoids.
-public:
-      struct XMempty : public CFunType<Id> {      
-      Id operator()() const {
-         return id;
-      }
-    };
-    typedef Full0<XMempty> Mempty;
-    static Mempty& mempty() {static Mempty f; return f;}
-
-    struct XMappend {
-     template <class F,class G>
-     struct Sig : public FunType<F,G,typename impl::XCompose::Helper<FunctoidTraits<G>::max_args,F,G>::Result> {};
-       //typename F::template Sig<typename RT<G>::ResultType>::ResultType> {};
-
-       template <class F,class G>
-       typename Sig<F,G>::ResultType
-       operator()(const F &f,const G &g) const {
-         return f ^dot^ g;
-      }
-    };
-    typedef Full2<XMappend> Mappend;
-    static Mappend& mappend() {static Mappend f; return f;}
-
-};
-
-template <> struct MonoidTraitsSpecializer<Mendo > {
-   typedef Mendo Monoid;
-};
-*/
+// Mendo is now in fcpp/mopnoids.h
 //////////////////////////////////////////////////////////////////////////
 /// Output operators for the Monoid types.
 /////////////////////////////////////////////////////////////////////////
