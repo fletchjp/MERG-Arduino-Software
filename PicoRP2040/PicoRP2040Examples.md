@@ -6,6 +6,12 @@ I will be converting some examples to work with the Pico RP2040.
 
 I wanted to be able to use the equivalent of the Arduino Streaming library with the Pico code. I have now found a way to do this.
 
+### BlinkWithSerialGPIO3
+
+This is an example using the buttons and LEDs on the sb components breadboard kit.
+
+I had lost track of the example.
+
 ### PicoRP2040FCPP
 
 Some basic tests of FC++.
