@@ -391,6 +391,8 @@ Print &operator << ( Print &obj, const MonoidType<T,Op> &arg)
     return obj; 
 }
 
+}
+
 void monoid_examples()
 {
   Serial << "Monoid examples"
@@ -720,7 +722,7 @@ void setup() {
   while (!Serial) { }
   //::delay(5000);
   Serial.printf("Pico RP2040 FC++ Monoid operations\n");
-  Serial.println("------------------------------------);
+  Serial.println("------------------------------------");
   monoid_examples();
   Serial.println("------------------------------------");
   Serial.println("End of FC++ Monoid examples.");
