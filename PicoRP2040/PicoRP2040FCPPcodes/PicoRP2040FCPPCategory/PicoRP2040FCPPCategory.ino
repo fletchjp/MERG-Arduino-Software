@@ -358,6 +358,7 @@ auto qux() {
           guard[equal[divides[Y,X],3] ] ]
       ];
 }
+
 auto whoa() {
    LambdaVar<1> even;
    LambdaVar<2> odd;
