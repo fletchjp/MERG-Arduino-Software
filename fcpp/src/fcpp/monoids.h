@@ -368,7 +368,8 @@ struct Mlist : public List<T> {
     Mlist()  : List<T>() { }
     Mlist(const List<T>&l)  : List<T>(l) { }
     Mlist(const Mlist<T>&m) {       //List<T>::operator=(m);
-       *this = m;
+	// Base class initialisation
+       List<T>(m); *this = m;
     } 
     Mlist<T> &operator= (const Mlist<T> &a) {
        List<T>::operator=(a); return *this;
