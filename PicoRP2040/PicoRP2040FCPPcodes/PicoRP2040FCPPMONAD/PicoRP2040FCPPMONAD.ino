@@ -10,7 +10,14 @@
 // Function 6, 7 and 8 now operational.
 #define FCPP152
 #define FCPP_ENABLE_LAMBDA
+#define FCPP_EXTRA_STRONG_CURRY
+#define FCPP_PATTERN // define this to include pattern.h
+#define FCPP_UNIFY // Unification of Monads and Functors in functors.h
 #include "fcpp_prelude.h"
+#include "fcpp/functors.h"
+#include "fcpp/comonad.h"
+#include "fcpp/arrow.h"
+#include "fcpp/monoids.h"
 
 #include <Streaming.h>
 
