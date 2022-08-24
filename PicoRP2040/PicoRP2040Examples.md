@@ -16,6 +16,10 @@ I had lost track of the example.
 
 These are simple examples of use of the second core.
 
+## PicoRP2040FCPP examples
+
+These are now in a folder of their own
+
 ### PicoRP2040FCPP
 
 Some basic tests of FC++.
