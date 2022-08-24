@@ -2,6 +2,9 @@
 // Pico RP2040 FC++ Monad
 // I want to extend this to explore some of the things about Monads
 // See https://wiki.haskell.org/Typeclassopedia for some explanation.
+// There are some things there which I have never seen before.
+// I think that some of them were not around when the original FC++
+// was written.
 ////////////////////////////////////////////////////////////////
 // was Arduino RP2040 Monad
 ////////////////////////////////////////////////////////////////
