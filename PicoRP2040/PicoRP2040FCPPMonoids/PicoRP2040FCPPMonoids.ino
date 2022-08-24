@@ -184,26 +184,26 @@ namespace fcpp {
 //////////////////////////////////////////////////////////////////////////
 // I have adapted bimap as bimap2.
 // I need to store the type of this curried function.
-using OpType = typeof(bimap2(fcpp::plus,fcpp::multiplies));
-typedef MonoidType<std::pair<int,int>,OpType> MonoidPair;
-template <> std::pair<int,int> MonoidPair::zero = std::make_pair(0,1);
+//using OpType = typeof(bimap2(fcpp::plus,fcpp::multiplies));
+//typedef MonoidType<std::pair<int,int>,OpType> MonoidPair;
+//template <> std::pair<int,int> MonoidPair::zero = std::make_pair(0,1);
 // This stores an operator which will work on two arguments which are both pairs.
 // I have restricted it to the case where the two pairs have the same type std::pair<A,B>
-template <> OpType MonoidPair::op = bimap2(fcpp::plus,fcpp::multiplies);
+//template <> OpType MonoidPair::op = bimap2(fcpp::plus,fcpp::multiplies);
 //////////////////////////////////////////////////////////////////////////
 // This example combines Any and All into one monoid working on pairs.
 // This version uses bimap2
-using OpTypeAnyAll = typeof(bimap2(fcpp::or2,fcpp::and2));
-typedef MonoidType<std::pair<bool,bool>,OpTypeAnyAll> MonoidAnyAll;
-template <> std::pair<bool,bool> MonoidAnyAll::zero = std::make_pair(false,true);
-template <> OpTypeAnyAll MonoidAnyAll::op = bimap2(fcpp::or2,fcpp::and2);
+//using OpTypeAnyAll = typeof(bimap2(fcpp::or2,fcpp::and2));
+//typedef MonoidType<std::pair<bool,bool>,OpTypeAnyAll> MonoidAnyAll;
+//template <> std::pair<bool,bool> MonoidAnyAll::zero = std::make_pair(false,true);
+//template <> OpTypeAnyAll MonoidAnyAll::op = bimap2(fcpp::or2,fcpp::and2);
 //////////////////////////////////////////////////////////////////////////
 // This example combines Any and All into one monoid working on pairs.
 // This is an alternative using parallel2.
-using OpTypeAnyAll2 = typeof(parallel2(makePair(fcpp::or2,fcpp::and2)));
-typedef MonoidType<std::pair<bool,bool>,OpTypeAnyAll2> MonoidAnyAll2;
-template <> std::pair<bool,bool> MonoidAnyAll2::zero = std::make_pair(false,true);
-template <> OpTypeAnyAll2 MonoidAnyAll2::op = parallel2(makePair(fcpp::or2,fcpp::and2));
+//using OpTypeAnyAll2 = typeof(parallel2(makePair(fcpp::or2,fcpp::and2)));
+//typedef MonoidType<std::pair<bool,bool>,OpTypeAnyAll2> MonoidAnyAll2;
+//template <> std::pair<bool,bool> MonoidAnyAll2::zero = std::make_pair(false,true);
+//template <> OpTypeAnyAll2 MonoidAnyAll2::op = parallel2(makePair(fcpp::or2,fcpp::and2));
 //////////////////////////////////////////////////////////////////////////
 // The difference is that bimap2 takes the two functors as separate arguments
 // and parallel2 takes them as a pair.
