@@ -349,21 +349,25 @@ void lambda_examples()
 
 template <class T>
 class B {
+protected:
   int x_;
 public:
   B() : x_(0) { }
   B(int x) : x_(x) { }
   B(B const& b) : x_(b.x_) { }
+  B<T> &operator= (const B& b) { this->x_ = b.x_; return *this; }
 };
 
 template <class T>
 class A : public B<T> {
 public:
-
+  using B<T>::x_;
   A() { }
   A(int y) : B<T>(y) { }
   A(const B<T> &b) : B<T>(b) { }
-  A(const A<T> &a) { *this = a; } 
+  A(const A<T> &a) : B<T>(a) { /*this->x_ = a.x_;*/ /* *this = a; */ } 
+  A<T> &operator= (const A<T>& a) { B<T>::operator=(a); return *this; }
+  A<T> &operator= (const B<T>& b) { B<T>::operator=(b); return *this; }
 };
 
 
@@ -409,7 +413,12 @@ void setup() {
   //Mlist<int> mli1(mli0);
   Mlist<int> mli2(li0);
   Mlist<int> mli3 = mli0;
-
+  A<int> a0;
+  B<int> b0;
+  //A<int> a1(a0);
+  A<int> a2(b0);
+  A<int> a3 = a0;
+  A<int> a4 = b0;
   Serial << "--------------------------" << endl;
 /*  LambdaVar<4> W;
   LambdaVar<1> X;
