@@ -347,6 +347,27 @@ void lambda_examples()
   
 }
 
+template <class T>
+class B {
+  int x_;
+public:
+  B() : x_(0) { }
+  B(int x) : x_(x) { }
+  B(B const& b) : x_(b.x_) { }
+};
+
+template <class T>
+class A : public B<T> {
+public:
+
+  A() { }
+  A(int y) : B<T>(y) { }
+  A(const B<T> &b) : B<T>(b) { }
+  A(const A<T> &a) { *this = a; } 
+};
+
+
+
 void setup() {
   // put your setup code here, to run once:
   Serial.begin (115200);
@@ -381,9 +402,16 @@ void setup() {
      Serial.print("mz has "); Serial.println(mz.value());
   }
   Serial.println("--------------------------");
-/*
+  List<int> li0;
+  List<int> li1(li0);
+  List<int> li2 = li1;
+  Mlist<int> mli0;
+  //Mlist<int> mli1(mli0);
+  Mlist<int> mli2(li0);
+  Mlist<int> mli3 = mli0;
+
   Serial << "--------------------------" << endl;
-  LambdaVar<4> W;
+/*  LambdaVar<4> W;
   LambdaVar<1> X;
   LambdaVar<2> Y;
   LambdaVar<3> Z;
@@ -451,9 +479,9 @@ void setup() {
 
   Serial << "Length of odds is " << length(odds) << endl;
   Serial << "sum of the odds is " << sum_odds << endl;
-  explore_bindm();
-  while (!delay_without_delaying(5000) ) { };
 */
+  explore_bindm();
+  //while (!delay_without_delaying(5000) ) { };
 }
 
 void loop() {
