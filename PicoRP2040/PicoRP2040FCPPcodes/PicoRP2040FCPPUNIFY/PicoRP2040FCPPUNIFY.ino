@@ -8,10 +8,25 @@
 // I have been using head() to extract a value from a List type.
 // I have invented unjust() to extract a value from a Maybe type.
 // I have also added a new test MaybeLike to check the operation of unjust.
-// This required a change to prelude.h. The code for unjust could now be moved there.
+// This required a change to fcpp/prelude.h. The code for unjust could now be moved there.
 // I could now do the same thing for the Either type.
 // I have started to move some of the new code to header files.
-// MaybeLike and EitherLike and associated things are now in prelude.h
+// MaybeLike and EitherLike and associated things are now in fcpp/prelude.h
+////////////////////////////////////////////////////////////////
+// I want to extend this to explore some of the things about Monads
+// See https://wiki.haskell.org/Typeclassopedia for some explanation.
+// There are some things there which I have never seen before.
+// I think that some of them were not around when the original FC++
+// was written.
+// I have no w found that what I have done in the past is to add things
+// to the applicative examples in fcpp/functors.h to make them act as monads.
+// This is done with FCPP_UNIFY.
+// I did not do the reverse, which is to make the monads in fcpp/monads.h applicative.
+// What that means is that MaybeA in fcpp/functors.h can act as MaybeM
+// but not the opposite.
+// This would be difficult to do given the order of the header files.
+// I think what I will do is leave fcpp/monads.h unchanged and do the new things
+// in fcpp/functors.h.
 ////////////////////////////////////////////////////////////////
 // See also PicoRP2040FCPPCategory
 ////////////////////////////////////////////////////////////////
