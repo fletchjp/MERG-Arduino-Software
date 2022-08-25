@@ -60,10 +60,10 @@
 // Some exceptions guarding in pattern.h have had to be removed.
 #define FCPP_UNIFY // Unification of Monads and Functors in functors.h
 #include "fcpp_prelude.h"
+#include "fcpp/monoids.h"
 #include "fcpp/functors.h"
 #include "fcpp/comonad.h"
 #include "fcpp/arrow.h"
-#include "fcpp/monoids.h"
 
 
 #include <Streaming.h>
@@ -598,10 +598,10 @@ void monoid_examples()
   MonoidAnyAll maa2 = std::make_pair(anyt(),allt());
   Serial << "MonoidAnyAll maa2 = std::make_pair(anyt(),allt());" << endl;
   if (maa2.value.first && maa2().second) Serial << "maa2 values are both true" << endl;
-  MonoidAnyAll2 maa20;
-  MonoidAnyAll2 maa22 = std::make_pair(anyt(),allt());
-  Serial << "MonoidAnyAll2 maa22 = std::make_pair(anyt(),allt());" << endl;
-  if (maa22.value.first && maa22().second) Serial << "maa22 values are both true" << endl;
+  //MonoidAnyAll2 maa20; removed as MonoidAnyAll now uses Parallel2 not Bimap2
+  //MonoidAnyAll2 maa22 = std::make_pair(anyt(),allt());
+  //Serial << "MonoidAnyAll2 maa22 = std::make_pair(anyt(),allt());" << endl;
+  //if (maa22.value.first && maa22().second) Serial << "maa22 values are both true" << endl;
   Serial << "======================================================"
             << endl;
   Serial << "Endo<T> is an endomorphic wrapper for Full1 operators once a type is given." << endl;
