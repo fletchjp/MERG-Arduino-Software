@@ -23,6 +23,8 @@
 // should be explicitly initialized in the copy constructor [-Wextra]
 // 370 |     Mlist(const Mlist<T>&m) //: List<T>(m)
 // I have experimented and been unable to find the correct code to sort this out.
+// This may be because List<T> construction is a complicated matter.
+// There is no constructor from List<T>. It works via OddList<T>.
 //////////////////////////////////////////////////////////////////////
 // First experiments with the Monoid structure is looking interesting.
 // Idea: use inheritance from List<T> to implement a Monoid for List<T>.
