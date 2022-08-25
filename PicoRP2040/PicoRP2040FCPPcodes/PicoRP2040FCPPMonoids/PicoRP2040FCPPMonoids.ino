@@ -8,7 +8,21 @@
 // I have managed to make e.g. mmappend(inc,inc) by making a specialization for it.
 // I have now also extended that to monoporphic versions.
 // I think that is a clue to me that there are things which are Monoid implementations
-// in FC++ which I have not recognised as such as I did not understand Monoid. 
+// in FC++ which I have not recognised as such as I did not understand Monoid.
+//////////////////////////////////////////////////////////////////////
+// I have moved the fcpp/monoids.h header up the list of headers to just after
+// fcpp/prelude.h to make the monoids available for use elsewhere.
+// There was one problem with this which was the use of Bimap2 which is in fcpp/functors.h
+// I have replaced this with the alternative Parallel2 which is in fcpp/pattern.h
+// which is included from fcpp/prelude.h when FCPP_PATTERN is defined.
+// Issues like this will be a consideration in further developments.
+//////////////////////////////////////////////////////////////////////
+// Remaining issue: I get this warning on compiling:
+// C:\Users\john\Documents\Arduino\libraries\fcpp\src/fcpp/monoids.h:370:5:
+// warning: base class 'class fcpp::impl::List<int>' 
+// should be explicitly initialized in the copy constructor [-Wextra]
+// 370 |     Mlist(const Mlist<T>&m) //: List<T>(m)
+// I have experimented and been unable to find the correct code to sort this out.
 //////////////////////////////////////////////////////////////////////
 // First experiments with the Monoid structure is looking interesting.
 // Idea: use inheritance from List<T> to implement a Monoid for List<T>.
