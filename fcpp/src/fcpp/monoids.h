@@ -367,18 +367,18 @@ struct Mlist : public List<T> {
    typedef Mlist<T> MonoidType;
     Mlist()  : List<T>() { }
     Mlist(const List<T>&l)  : List<T>(l) { }
-    Mlist(const Mlist<T>&m) //: List<T>(m) 
+    Mlist(const Mlist<T>&m) //: List<T>(m) fails on internals of List<T>.
 	{       //List<T>::operator=(m);
 	// Base class initialisation warning which I cannot resolve.
     // List<T>(m); This does not work
-	   *this = m;
+  	   *this = m;
     } 
     Mlist<T> &operator= (const Mlist<T> &a) {
        List<T>::operator=(a); return *this;
     }
     Mlist<T> &operator= (const List<T> &a) {
        List<T>::operator=(a); return *this;
-       return *this;
+ //      return *this;
     }
     struct XMempty : public CFunType<Mlist<T> > {      
       Mstring operator()() const {
