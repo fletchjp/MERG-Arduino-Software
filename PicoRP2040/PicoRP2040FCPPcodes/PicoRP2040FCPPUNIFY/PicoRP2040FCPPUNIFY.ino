@@ -55,6 +55,7 @@
 #include "fcpp/functors.h"
 #include "fcpp/comonad.h"
 #include "fcpp/arrow.h"
+#include "fcpp/monoids.h"
 
 
 #include <Streaming.h>
