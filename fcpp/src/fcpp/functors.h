@@ -242,7 +242,7 @@ template <class Rep> struct InferrableTraits {
   //
   // MaybeT<Monad>   Monad transformer    pattern.h
   // MaybeA          Applicative functor  functors.h
-  // MaybeF<Functor> Functor transformer  functors.cpp
+  // MaybeF<Functor> Functor transformer  functors.h
   //
   // Currently only applicative functors are inheriting Inferrable.
   /////////////////////////////////////////////////////////////////////////
