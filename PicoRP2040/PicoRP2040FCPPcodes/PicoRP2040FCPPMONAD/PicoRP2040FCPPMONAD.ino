@@ -413,6 +413,8 @@ void setup() {
   //Mlist<int> mli1(mli0);
   Mlist<int> mli2(li0);
   Mlist<int> mli3 = mli0;
+  OddList<int> ol1(mli0);
+  List<int> li3(ol1);
   A<int> a0;
   B<int> b0;
   A<int> a1(a0);
