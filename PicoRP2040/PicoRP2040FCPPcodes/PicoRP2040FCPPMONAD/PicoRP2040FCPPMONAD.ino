@@ -415,7 +415,7 @@ void setup() {
   Mlist<int> mli3 = mli0;
   A<int> a0;
   B<int> b0;
-  //A<int> a1(a0);
+  A<int> a1(a0);
   A<int> a2(b0);
   A<int> a3 = a0;
   A<int> a4 = b0;
