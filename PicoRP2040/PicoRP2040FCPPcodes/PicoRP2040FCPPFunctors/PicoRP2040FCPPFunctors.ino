@@ -395,7 +395,9 @@ namespace fcpp {
   //
   /////////////////////////////////////////////////////////////////////////
 
-
+//////////////////////////////////////////////////////////////
+// The code described above has been moved to fcpp/functors.h
+//////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////
 // Copied from testeither.cpp, named as follows,
@@ -417,6 +419,248 @@ namespace fcpp {
 // functoid which is called.
 // Note that constrain3xyz is a Full6 and needs a 7 parameter lambda.
 // This is approaching or on the limit of what is available in FC++.
+
+namespace impl {
+  struct XConstrain1x {
+     // OP will be an FC++ functoid taking one operand of type T
+     // B=boolean function with operand x
+     // and S=std::string
+     // If the boolean function is true this indicates failure
+     // and the string will be returned as an error message.
+     // I have moved T to the end to ease currying.
+     // I have also made the return type be
+     // Either<Type of the result of op(x)> instead of Either<T>.
+     template <class OP, class B, class E, class T > struct Sig :
+      public FunType<OP,B,E,T,Either<typename RT<OP,T>::ResultType> > {};
+   
+     template <class OP, class B, class E, class T >
+     typename Sig<OP,B,E,T>::ResultType
+      operator()(const OP& op, const B& test,
+                 const E& message, const T& x) const {
+       typedef typename Sig<OP,B,E,T>::ResultType R;
+       if ( test(x) ) {
+          R result ( message );
+          return result;
+        } else {
+          typename RT<OP,T>::ResultType r = op(x);
+          R result ( r );
+          return result;
+        }
+      }
+   };
+}
+typedef Full4<impl::XConstrain1x> Constrain1x;
+FCPP_MAYBE_NAMESPACE_OPEN
+FCPP_MAYBE_EXTERN Constrain1x constrain1x;
+FCPP_MAYBE_NAMESPACE_CLOSE
+
+namespace impl {
+  struct XConstrain2y {
+     // OP will be an FC++ functoid taking two operands of type T
+     // B=boolean function with operand y
+     // and E=EitherError
+     // If the boolean function is true this indicates failure
+     // and the string will be returned as an error message.
+     // I have made the return type be
+     // Either<Type of the result of op(x,y)> instead of Either<T>.
+     template <class OP, class T, class U, class B, class E> struct Sig;
+     template <class OP, class T, class B, class E > struct Sig<OP,T,T,B,E> :
+      public FunType<OP,T,T,B,E,Either<typename RT<OP,T,T>::ResultType> > {};
+   
+     template <class OP, class T, class B, class E >
+     typename Sig<OP,T,T,B,E>::ResultType
+      operator()(const OP& op, const T& x,const T& y, const B& test,
+        const E& message) const {
+       typedef typename Sig<OP,T,T,B,E>::ResultType R;
+       if ( test(y) ) {
+          R result ( message );
+          return result;
+        } else {
+          typename RT<OP,T,T>::ResultType r = op(x,y);
+          R result ( r );
+          return result;
+        }
+      }
+   };
+}
+typedef Full5<impl::XConstrain2y> Constrain2y;
+FCPP_MAYBE_NAMESPACE_OPEN
+FCPP_MAYBE_EXTERN Constrain2y constrain2y;
+FCPP_MAYBE_NAMESPACE_CLOSE
+
+
+namespace impl {
+  struct XConstrain2x {
+     // OP will be an FC++ functoid taking two operands of type T
+     // B=boolean function with operand x
+     // and E=EitherError
+     // If the boolean function is true this indicates failure
+     // and the string will be returned as an error message.
+     template <class OP, class T, class U, class B, class E> struct Sig;
+     template <class OP, class T, class B, class E > struct Sig<OP,T,T,B,E> :
+       public FunType<OP,T,T,B,E,Either<typename RT<OP,T,T>::ResultType> > {};
+   
+     template <class OP, class T, class B, class E >
+     typename Sig<OP,T,T,B,E>::ResultType
+      operator()(const OP& op, const T& x,const T& y, const B& test,
+        const E& message) const {
+       typedef typename Sig<OP,T,T,B,E>::ResultType R;
+       if ( test(x) ) {
+          R result ( message );
+          return result;
+        } else {
+          typename RT<OP,T,T>::ResultType r = op(x,y);
+          R result ( r );
+          return result;
+        }
+      }
+   };
+}
+typedef Full5<impl::XConstrain2x> Constrain2x;
+FCPP_MAYBE_NAMESPACE_OPEN
+FCPP_MAYBE_EXTERN Constrain2x constrain2x;
+FCPP_MAYBE_NAMESPACE_CLOSE
+
+namespace impl {
+  struct XConstrain2xy {
+     // OP will be an FC++ functoid taking two operands of type T
+     // B=boolean function with operands x and y
+     // and E=EitherError
+     // If the boolean function is true this indicates failure
+     // and the string will be returned as an error message.
+     template <class OP, class T, class U, class B, class E> struct Sig;
+     template <class OP, class T, class B, class E > struct Sig<OP,T,T,B,E> :
+       public FunType<OP,T,T,B,E,Either<typename RT<OP,T,T>::ResultType> > {};
+   
+     template <class OP, class T, class B, class E >
+     typename Sig<OP,T,T,B,E>::ResultType
+      operator()(const OP& op, const T& x,const T& y, const B& test,
+        const E& message) const {
+       typedef typename Sig<OP,T,T,B,E>::ResultType R;
+       if ( test(x,y) ) {
+          R result ( message );
+          return result;
+        } else {
+          typename RT<OP,T,T>::ResultType r = op(x,y);
+          R result ( r );
+          return result;
+        }
+      }
+   };
+}
+typedef Full5<impl::XConstrain2xy> Constrain2xy;
+FCPP_MAYBE_NAMESPACE_OPEN
+FCPP_MAYBE_EXTERN Constrain2xy constrain2xy;
+FCPP_MAYBE_NAMESPACE_CLOSE
+
+namespace impl {
+  struct XConstrain3xyz {
+     // OP will be an FC++ functoid taking three operands of type T
+     // B=boolean function with operands x y and z
+     // and E=EitherError
+     // If the boolean function is true this indicates failure
+     // and the string will be returned as an error message.
+    template <class OP, class T, class U, class V, class B, class E> struct Sig;
+    template <class OP, class T, class B, class E > struct Sig<OP,T,T,T,B,E> :
+      public FunType<OP,T,T,T,B,E,Either<typename RT<OP,T,T,T>::ResultType> > {};
+   
+     template <class OP, class T, class B, class E >
+     typename Sig<OP,T,T,T,B,E>::ResultType
+     operator()(const OP& op, const T& x,const T& y, const T& z,const B& test,
+        const E& message) const {
+       typedef typename Sig<OP,T,T,T,B,E>::ResultType R;
+       if ( test(x,y,z) ) {
+          R result ( message );
+          return result;
+        } else {
+          typename RT<OP,T,T,T>::ResultType r = op(x,y,z);
+          R result ( r );
+          return result;
+        }
+      }
+   };
+}
+typedef Full6<impl::XConstrain3xyz> Constrain3xyz;
+FCPP_MAYBE_NAMESPACE_OPEN
+FCPP_MAYBE_EXTERN Constrain3xyz constrain3xyz;
+FCPP_MAYBE_NAMESPACE_CLOSE
+
+
+  /////////////////////////////////////////////////////////////////////////
+  // EitherA is an applicable version of Either. (moved to fcpp/functors.h)
+  /////////////////////////////////////////////////////////////////////////
+
+
+  ///////////////////////////////////////////////////////////////////
+  // Functor Transformer MaybeF puts Maybe on the inside.
+  // Usage is MaybeF<Functor>
+  // which is a version of MaybeT transformer for monads.
+  // (moved to fcpp/functors.h)
+  ///////////////////////////////////////////////////////////////////
+
+  //////////////////////////////////////////////////////////////////////
+  // EitherF functor transformer following MaybeF
+  // (moved to fcpp/functors.h)
+  //////////////////////////////////////////////////////////////////////
+
+  ///////////////////////////////////////////////////////////////////
+  // ListA Applicative operations on List<T>.
+  // The functors in lists will have to be monomorphic.
+  // The type will be Fun1<T,T> where T is the element type.
+  // Otherwise the types are different and cannot be in a List type.
+  // (moved to fcpp/functors.h)
+  ///////////////////////////////////////////////////////////////////
+
+  /////////////////////////////////////////////////////////////////////////
+  // Applicative - see p.228
+  //
+  // class (Functor f) => Applicative f where
+  //   pure :: a -> f a
+  //  (<*>) :: f (a -> b) -> f a -> f b
+  //
+  // Note: fmap :: (a -> b) -> f a -> f b
+  //
+  // I need a name for <*> which I will call 'star'
+  // This is difficult to construct in general as what is needed
+  // is a way to get to (a -> b) from within f (a -> b)
+  // (I think that this is a comonad!!)
+  //
+  /////////////////////////////////////////////////////////////////////////
+
+  // If templated could it make functors applicative on the fly?
+  // Should this be templated or inherited?
+  //template <typename Functor>
+    struct Applicative {
+#ifdef FCPP_DEBUG
+     std::string name() const
+     {
+       return std::string("Applicative");
+     }
+#endif
+      //typedef Functor F;
+
+      //
+      //template <typename F,typename A>
+      struct XPure {
+        template <typename F,class A>
+        struct Sig : public FunType<F,A,typename RT<F,A>::ResultType> {};
+        template <typename F, typename A>
+        typename Sig<F,A>::ResultType
+        operator() (const F& f,const A& a) const
+        {
+          return f(a);
+        }
+      };
+      typedef Full2<XPure> Pure;
+      static Pure& pure() {static Pure f; return f;}
+
+      // I want to put something generic in here as well.
+      struct XStar {
+
+      };
+
+
+    };
 
 }
 //////////////////////////////////////////////////////////
