@@ -111,6 +111,82 @@
 // "Something between a large bathing machine and a very small second class
 // carriage." (G&S patter song in Iolanthe)
 
+//////////////////////////////////////////////////////////////////////////
+// Inferrable pure is a problem.
+//////////////////////////////////////////////////////////////////////////
+// The problem is that in many cases it is not known what it should infer.
+// This can be remedied in most cases when it is used around an argument
+// to star, when what it is can be inferred from the other argument.
+// To get to that I have put in a placeholder of id.
+// This works in many cases but not with ListA.
+// New idea. Make id a default case with a hidden argument.
+// Experiment with pure2 carried out.
+// There is now a version called pureL which works with ListA.
+// Unfortunately I do not yet have a way in which it can be called
+// silently. I will think about that.
+//
+//     example    :    pureL(inc) ^star^ (l12)
+//     equivalent :    map(inc,l12)
+//
+// I have now done pureM and pureE for MaybeA and EitherA.
+//
+// So I now have a situation where 'pure' will work in some cases where
+// the correct action can be deduced. Where the action needed is known the
+// user can give a steer by using the correct one, as follows:
+//
+// pureE  for EitherA and Either<T>
+// pureL  for ListA   and List<T>
+// pureM  for MaybeA  and Maybe<T>
+//
+/////////////////////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////////////////////////////
+// functors.cpp
+//////////////////////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////////////////////////////
+//
+// This file contains a lot of examples of the use of the
+// applicative functors which I have developed as an extension of FC++.
+// It also has examples of the use of the functors as FC++ monads.
+// These actions are activated when FCPP_UNIFY is defined.
+// The aim of this is to make it such that the applicative functor
+// can be used wherever the monad can be used  e.g. MaybeA for MaybeM
+//
+// John Fletcher December 2016
+//////////////////////////////////////////////////////////////////////////
+
+// I now have a star functoid which works both with a named applicative functor
+// and can infer the applicative functor.
+
+// There are now three ways to access the star in a functor:
+// 1. ApplicativeA::star()(arg1,arg2)
+// 2. starA<ApplicativeA>()(arg1,arg2)
+// 3. star (arg1,arg2)
+
+// Only for the last one, the functoid can be inferred from one of the
+// arguments and will be applied to the other one.
+
+// A lot of functoids have now been moved to a new file fcpp/functors.h
+// which means they can now be used in other files.
+
+// I have now moved MaybeA to  fcpp/functors.h.
+
+// I now also made and moved ListA.
+
+// There is an important limitation on ListA. It is necessary to make a list
+// of functors to use it. FC++ List<T> only supports a list of items of all
+// the same type. Things like inc and dec are different types so that
+// e.g. makeList2(inc,dec) will not compile.
+
+// They can however be used in the monomorphic form by declaring e.g.
+// Fun1<int,int> finc(inc), fdec(dec);
+
+////////////////////////////////////////////////////////////////////////////////
+/// New note: this is where Endo and MonoidEndo will be of help.
+/////////////////////////////////////////////////////////////////////////////////
+
+
 // ========================
 // headers
 // ========================
