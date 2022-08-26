@@ -282,6 +282,142 @@ typedef List<char> StringL;
 namespace fcpp {
 /// Space for new functoids.
 
+  ////////////////////////////////////////////////////////////////////////
+  // This is an adaption of the code for inferrable monads.
+  ////////////////////////////////////////////////////////////////////////
+
+  ////////////////////////////////////////////////////////////////////////
+  // This allows star to be inferred for the MaybeA applicative functor.
+  //
+  // Idea: Use either argument to infer pure for the other one!
+  //       This would allow such things as:
+  //
+  //       star( pure(plus(2)), just(4))
+  //
+  //       rather than this which already works.
+  //
+  //       star ((MaybeA::pure()(plus(2))), just(4))
+  //
+  // These have now been implemented using a series of helper structs.
+  // These are in order with the deepest level first.
+  // I have attempted to keep the top level code as clean as possible.
+  ////////////////////////////////////////////////////////////////////////
+
+    //////////////////////////////////////////////////////////////////////
+    // I want this to detect whether one of the arguments to star
+    // is an applicative functor or a suitable type.
+    // If the other argument is pure then convert it.
+    // e.g.
+    // star (pure inc, just(2) )         -> star(MaybeA::pure()(inc),just(2))
+    // star (MaybeA::pure()(inc),pure 2) -> star(MaybeA::pure()(inc),just(2))
+    //
+    // If this works it could also be inferred within
+    // an applicative functor's star as well.
+    //
+    // Note that Applicative::pure applies a functor and could be useful.
+    //
+    ///////////////////////////////////////////////////////////////////////
+
+    ////////////////////////////////////////////////////////////////
+    // StarTypeHelper sorts out applicative types.
+    ////////////////////////////////////////////////////////////////
+
+    ////////////////////////////////////////////////////////////////////
+    //  struct StarHelper
+    // This replaces ApplicativeHelper and give the same result
+    // for two arguments neither of which is pure(x).
+    // For (a,pure(x)) it will use the type of a.
+    // for (pure(f),b) it will use the type of b.
+    // for (a,b) it will us Ids on both (not yet available).
+    //
+    // Note the availability of Applicative::pure()(f,x)
+    //
+    // The Type calculation needs to be like this:
+    // Given A and K
+    // if both A and K are applicative -> use A
+    // if only A       is  applicative -> use A
+    // if only K       is  applicative -> use K
+    //
+    // The return type is the same in each case.
+    //
+    // StarHelper works with Applicative types.
+    //
+    ////////////////////////////////////////////////////////////////////
+
+  ////////////////////////////////////////////////////////////////////
+  // pureA<Functor>() and starA<Functor>() implemented as in Monads.
+  ////////////////////////////////////////////////////////////////////
+
+  /////////////////////////////////////////////////////////////////////////
+  // Applicative - see p.228
+  //
+  // class (Functor f) => Applicative f where
+  //   pure :: a -> f a
+  //  (<*>) :: f (a -> b) -> f a -> f b
+  //
+  // Note: fmap :: (a -> b) -> f a -> f b
+  //
+  // I need a name for <*> which I will call 'star'
+  // This is difficult to construct in general as what is needed
+  // is a way to get to (a -> b) from within f (a -> b)
+  // (I think that this is a comonad!!)
+  //
+  // Here MaybeA is an applicable version of Maybe.
+  //
+  // The most significant aspect of this is the idea to store
+  // functoids (functors) in Maybe types and then apply them to other
+  // Maybe objects.
+  //
+  // This works (see examples) but the grammar is clunky.
+  // I have now made this inferrable for 'star'.
+  // I want to do the same for 'pure' if a context can be established.
+  //
+  /////////////////////////////////////////////////////////////////////////
+
+  /////////////////////////////////////////////////////////////////////////
+  // Working with Either/EitherM/EitherA
+  //
+  // In all cases my implementation uses EitherError for the left()
+  // value. In the file testeither.cpp there are a lot of examples of
+  // functoids to implement various examples. These predate the current work
+  // on applicable functors. I think what is needed is something more general
+  // which will take both an operator and a predicate to test the result.
+  //
+  // constraint(op,test)
+  //
+  // This will apply op to the argument(s) and test the result with (op).
+  // There could be a version which did:
+  //
+  // constraint(op,test,message) where the message is the failure message.
+  //
+  // The result is an Either containing an operation and a message.
+  // Perhaps what I want is a standard pair with an operand and a test.
+  //
+  /////////////////////////////////////////////////////////////////////////
+
+
+
+/////////////////////////////////////////////////////////////////////////
+// Copied from testeither.cpp, named as follows,
+// the no indicates the no of arguments
+// and the letters indicates a test on the first (x) or second (y) argument.
+//
+// These are modified here so that return types are not assumed to be the
+// same as the inputs.
+// The input parameters are assumed to be all the same type for 2 and 3
+// parameter cases.
+//
+// Versions defined:
+// constrain1x   (modified RTs and argument order)
+// constrain2x   (modified RTs)
+// constrain2y   (modified RTs)
+// constrain2xy  (modified RTs)
+// constrain3xyz (modified RTs)
+// Also change name to constrain as that is what it does to the
+// functoid which is called.
+// Note that constrain3xyz is a Full6 and needs a 7 parameter lambda.
+// This is approaching or on the limit of what is available in FC++.
+
 }
 //////////////////////////////////////////////////////////
 
