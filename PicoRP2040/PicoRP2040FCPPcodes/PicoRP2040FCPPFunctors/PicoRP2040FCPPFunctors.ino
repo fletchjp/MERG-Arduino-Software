@@ -182,10 +182,70 @@
 // They can however be used in the monomorphic form by declaring e.g.
 // Fun1<int,int> finc(inc), fdec(dec);
 
+// Then this will work:
+// List<Fun1<int,int> > flist = makeList2(finc,fdec);
+
+// See examples lower down this file.
+
+// This limitation will not be a problem as the arguments have to be lists
+// of all the same type anyway.
+
 ////////////////////////////////////////////////////////////////////////////////
 /// New note: this is where Endo and MonoidEndo will be of help.
+/// This is one of the things I plan to explore.
 /////////////////////////////////////////////////////////////////////////////////
 
+// I have also constructed EitherA.
+
+// Note that in my implementation the left value is of type EitherError.
+// This is a wrapper around std::string, needed in case the real data is also
+// std::string.
+
+// I am looking at some ways of using it which involve pairs of functors.
+
+// I think the theory should then lead me to Arrows and Comonads.
+
+// Work in progress.
+
+// In particular, the proposed transformer for applicative functors,
+// maybeF, is incomplete in that I have not been able to define a
+// transformation for the star operation.
+
+// I am wondering whether I need the separate implementations of
+// Applicable Functors or whether with a bit more thought and
+// understanding I can integrate this with FC++ Monads.
+
+// See files unify.cpp and category_fcpp.cpp for more examples.
+
+// John Fletcher  February and March 2016
+
+// November 2016 : I have done some updates to solve a problem with the
+// debug output from inside the functor transformers MaybeF and EitherF.
+// The following did not give any useful output.
+// sprint(MaybeF<ListA>::pure())
+// The solution is to provide a debug_trait which will call the correct
+// name function.
+// The trait passes to the name function the name of the functor.
+// This is needed as the functor cannot be decoded from a nested
+// template.
+/*
+    template<>
+    class debug_traits<typename MaybeF<ListA>::XPure >
+       {
+       public:
+         static const bool has_name = true;
+         static std::string name(const typename MaybeF<ListA>::XPure &f) { return f.name("ListA"); }
+       };
+
+      std::string name(const std::string& functor) const
+      {
+         return std::string("MaybeF<") + functor + std::string(">::Pure");
+      }
+*/
+
+////////////////////////////////////////////////////////////////
+// NEW NOTE: I am not using the traits yet in the RP2040 work.
+////////////////////////////////////////////////////////////////
 
 // ========================
 // headers
