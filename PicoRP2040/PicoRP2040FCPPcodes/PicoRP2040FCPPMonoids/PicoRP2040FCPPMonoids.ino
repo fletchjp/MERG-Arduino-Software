@@ -9,6 +9,7 @@
 // I have now also extended that to monoporphic versions.
 // I think that is a clue to me that there are things which are Monoid implementations
 // in FC++ which I have not recognised as such as I did not understand Monoid.
+// I have now put some effort into tidying up the code and dealing with warnings.
 //////////////////////////////////////////////////////////////////////
 // I have moved the fcpp/monoids.h header up the list of headers to just after
 // fcpp/prelude.h to make the monoids available for use elsewhere.
@@ -25,6 +26,8 @@
 // I have experimented and been unable to find the correct code to sort this out.
 // This may be because List<T> construction is a complicated matter.
 // There is no constructor from List<T>. It works via OddList<T>.
+// I have now resolved this with this code:
+//     Mlist(const Mlist<T>&m) : List<T>(OddList<T>(m)) { } 
 //////////////////////////////////////////////////////////////////////
 // First experiments with the Monoid structure is looking interesting.
 // Idea: use inheritance from List<T> to implement a Monoid for List<T>.
