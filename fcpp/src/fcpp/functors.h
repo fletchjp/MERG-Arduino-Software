@@ -1000,7 +1000,7 @@ template <class Functor> struct StarA
       template <class T> struct Sig
         : public FunType<T,Maybe<T> > {};
       template <class T>
-      typename Sig<T>::ResultType operator()( const T& x ) const {
+      typename Sig<T>::ResultType operator()( const T& /*x*/ ) const {
           return Maybe<T>();
       }
    };
