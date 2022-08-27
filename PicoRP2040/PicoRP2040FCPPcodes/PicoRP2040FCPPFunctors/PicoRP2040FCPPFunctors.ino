@@ -822,7 +822,91 @@ void functor_examples2()
   Maybe<int> my2 = star(star(pure(plus),just(2)),just(4));
   Serial << "star(star(pure(plus),just(2)),just(4)) : "
             << my2 << endl;
- 
+  Serial << "===============================================" << endl;
+  Serial << "O.K. to chain from the left with values." << endl;
+  Serial << "pure and pureM both work in expressions." << endl;
+  Serial << "===============================================" << endl;
+  Maybe<int> my3 =(pure(plus) ^star^ just(2)) ^star^ (just(4));
+  Serial << "(pure(plus) ^star^ just(2)) ^star^ (just(4) : "
+            << my3 << endl;
+  Maybe<int> my4 = pure(plus) ^star^ just(2) ^star^ (just(4));
+  Serial << " pure(plus) ^star^ just(2)  ^star^ (just(4) : "
+            << my4 << endl;
+  Maybe<int> my5 = (pure(plus) ^star2^ just(2)) (just(4));
+  Serial << "(pure(plus) ^star2^ just(2)) (just(4)) : "
+            << my5 << endl;
+  Serial << "===============================================" << endl;
+  Serial << "Experiments with ListA." << endl;
+  Serial << "===============================================" << endl;
+  List<int> l1 = ListA::pure()(1);
+  List<int> l2 = pureA<ListA>()(2);
+  //List<int> l3 = starA<ListA>() (pureA<ListA>()(inc),l2);
+  List<int> l12 = list_with(1,2);
+  Serial << "===============================================" << endl;
+  Serial << "Development of a version of pure called pureL"   << endl;
+  Serial << "pureL replaces pure for cases involving ListA"   << endl;
+  Serial << "NOTE: delay and map have to be fcpp::delay and fcpp::map" << endl;
+  Serial << "===============================================" << endl;
+  List<int>::iterator li;
+  List<int> l23 = pureA<ListA>()(inc) ^star^ l12;
+  Serial << "List<int> l23    = pureA<ListA>()(inc) ^star^ l12 : [ ";
+  for (li= l23.begin(); li!=l23.end(); ++li)
+    {
+      Serial << *li << " ";
+    }
+  Serial << "]" << endl;
+  List<int> l23aa = star(pureA<ListA>()(inc),l12);
+  List<int> l23ab = star(ListA::pure()(inc),l12);
+  // List is a special case as pure does id while the others make a List
+  // This is a special version of pure called pure2 which takes an argument
+  // to tell pure what to apply internally.
+  List<int> l23ac = star(pure2(pureA<ListA>())(inc),l12);
+  Serial << "List<int> l23ac  = star(pure2(pureA<ListA>())(inc),l12) : [ ";
+  for (li= l23ac.begin(); li!=l23ac.end(); ++li)
+    {
+      Serial << *li << " ";
+    }
+  Serial << "]" << endl;
+  // No member named delay in binder2of2.
+  // The problem is that cons returns OddList not List.
+  //List<int> l23ad = star(pure2(cons(_,NIL).delay())(inc),l12);
+  // .delay() has to come after the binder is satisfied.
+  List<int> l23ad = star((pure2(cons(_,NIL))(inc)).delay(),l12);
+  List<int> l23ae = star(cons(inc,NIL).delay(),l12);
+  List<int> l23af = star(fcpp::delay(cons(inc,NIL)),l12);
+  List<int> l23ag = star((fcpp::delay ^dot^ cons)(inc,NIL),l12);
+  List<int> l23ag2 = star((fcpp::delay ^dot^ cons)(_,NIL)(inc),l12);
+  List<int> l23ag3 = (fcpp::delay ^dot^ cons)(_,NIL)(inc) ^star^ (l12);
+  Serial << "List<int> l23ag3 = (fcpp::delay ^dot^ cons)(_,NIL)(inc)^star^(l12) : [ ";
+  for (li= l23ag3.begin(); li!=l23ag3.end(); ++li)
+    {
+      Serial << *li << " ";
+    }
+  Serial << "]" << endl;
+  // I have made pureL which should be used with ListA
+  // instead of just pure.
+  List<int> l23ag4 = pureL(inc) ^star^ (l12);
+  Serial << "List<int> l23ag4 = pureL(inc) ^star^ (l12) : [ ";
+  for (li= l23ag4.begin(); li!=l23ag4.end(); ++li)
+    {
+      Serial << *li << " ";
+    }
+  Serial << "]" << endl;
+  // This is the easy way to do this.
+  List<int> l23ah = fcpp::map(inc,l12);
+  Serial << "List<int> l23ah  = map(inc,l12) : [ ";
+  for (li= l23ah.begin(); li!=l23ah.end(); ++li)
+    {
+      Serial << *li << " ";
+    }
+  Serial << "]" << endl;
+  Maybe<int> m2a = star(pure(inc),just(3));
+  // Use fmap for things other than lists as well as lists.
+  List<int> l23aj = fmap(inc,l12);
+  Maybe<int> m2b  = fmap(inc,just(3));
+  Either<int> e2b = fmap(inc,right(3));
+  List<int> l2a = pureL(2);
+
 }
 
 void fcpp_examples()
@@ -899,6 +983,7 @@ void setup() {
   Serial.println("--------------------------");
   functor_examples();
   functor_examples2();
+  Serial.println("--------------------------");
   Serial.println("after functor_examples");
   Serial.println("--------------------------");
  }
