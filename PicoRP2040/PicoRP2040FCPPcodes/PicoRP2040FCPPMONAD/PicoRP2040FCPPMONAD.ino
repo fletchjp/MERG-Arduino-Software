@@ -49,9 +49,11 @@ namespace fcpp {
 Print &operator <<( Print &obj, const Maybe<int> &arg)
 {
     if (arg.is_nothing()) { 
-       obj.print("nothing");
+       obj.print(" nothing ");
     } else {
+       Serial << "just ( ";
        obj.print(arg.value());
+       Serial << " )";
     }
     return obj; 
 }
@@ -59,9 +61,13 @@ Print &operator <<( Print &obj, const Maybe<int> &arg)
 Print &operator <<( Print &obj, const Either<int> &arg)
 {
     if (arg.is_error()) { 
+       Serial << "left ( ";
        obj.print(arg.left());
+       Serial << " )";
     } else {
+       Serial << "right ( ";
        obj.print(arg.right());
+       Serial << " )";
     }
     return obj; 
 }
