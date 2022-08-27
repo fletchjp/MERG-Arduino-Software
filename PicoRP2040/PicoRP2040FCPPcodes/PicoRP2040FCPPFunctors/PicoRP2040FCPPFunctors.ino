@@ -665,7 +665,7 @@ FCPP_MAYBE_NAMESPACE_CLOSE
 Print &operator <<( Print &obj, const Maybe<int> &arg)
 {
     if (arg.is_nothing()) { 
-       obj.print("nothing");
+       obj.print(" nothing ");
     } else {
        Serial << "just ( ";
        obj.print(arg.value());
@@ -677,9 +677,13 @@ Print &operator <<( Print &obj, const Maybe<int> &arg)
 Print &operator <<( Print &obj, const Either<int> &arg)
 {
     if (arg.is_error()) { 
+       Serial << "left ( ";
        obj.print(arg.left());
-    } else {
+       Serial << " )";
+     } else {
+       Serial << "right ( ";
        obj.print(arg.right());
+       Serial << " )";
     }
     return obj; 
 }
@@ -707,17 +711,49 @@ void functor_examples()
   Serial << "joinM<MaybeM>()( just (just (2) ) ) : " << mj << endl;
   Serial << "----------------------------------------------------"
             << endl;
-  Serial << "MaybeM is the only FC++ monad with an explicit join."
+  Serial << "MaybeM was the only FC++ monad with an explicit join."
+            << endl;
+  Serial << "There is now an explicit join for EitherM."
             << endl;
   Serial << "----------------------------------------------------"
             << endl;
   Maybe<int> mj2 = MaybeM::join()( just (just (2) ) );
   Serial << "MaybeM::join()( just (just (2) ) )  : " << mj2 << endl;
-
-
-  
+  Serial << "--------------------------------------" << endl;
+  Either<int> ej = (joinM<EitherM>())( right (right (2) ) );
+  Serial << "joinM<EitherM>()( right (right (2) ) ) : " << ej
+            << endl;
+  Either<int> el = liftM<EitherM>()(inc) (right (2) );
+  Serial << "liftM<EitherM>()(inc) (right (2) )     : " << el
+            << endl;
 }
 
+void functor_examples2()
+{
+  Serial << "===============================================" << endl;
+  Serial << "First use of Applicative Functors." << endl;
+  Serial << "===============================================" << endl;
+#ifdef FCPP_UNIFY
+  Serial << "These are monad uses being unified into MaybeA" << endl;
+  Serial << "--------------------------------------" << endl;
+  Serial << "liftM<MaybeA>()(inc)( just(3) ) : "
+            <<  liftM<MaybeA>()(inc)( just(3) ) << endl;
+  Maybe<int> mja = joinM<MaybeA>()( just (just (2) ) );
+  Serial << "joinM<MaybeA>()( just (just (2) ) ) : " << mja << endl;
+  Maybe<int> mj2a = MaybeA::join()( just (just (2) ) );
+  Serial << "MaybeA::join()( just (just (2) ) )  : " << mj2a << endl;
+  Serial << "--------------------------------------" << endl;
+  Either<int> eja = joinM<EitherA>()( right (right (2) ) );
+  Serial << "joinM<EitherA>()( right (right (2) ) ) : " << eja
+            << endl;
+  Either<int> ela = liftM<EitherA>()(inc) (right (2) );
+  Serial << "liftM<EitherA>()(inc) (right (2) )     : " << ela
+            << endl;
+  Serial << "--------------------------------------" << endl;
+#endif
+  Serial << "MaybeA::pure()(2)         : " << MaybeA::pure()(2) << endl;
+
+}
 
 void fcpp_examples()
 {
@@ -792,6 +828,7 @@ void setup() {
   Serial.println("after fcpp_examples");
   Serial.println("--------------------------");
   functor_examples();
+  functor_examples2();
   Serial.println("after functor_examples");
   Serial.println("--------------------------");
  }
