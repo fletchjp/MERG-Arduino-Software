@@ -752,7 +752,77 @@ void functor_examples2()
   Serial << "--------------------------------------" << endl;
 #endif
   Serial << "MaybeA::pure()(2)         : " << MaybeA::pure()(2) << endl;
+  Serial << "MaybeA::star()((MaybeA::pure()(inc)),just(4) : "
+            << MaybeA::star()((MaybeA::pure()(inc)),just(4)) << endl;
+  Serial << "MaybeA::star()(MaybeA::pure()(plus(2)),just(4)) : "
+            << MaybeA::star()(MaybeA::pure()(plus(2)),just(4)) << endl;
+  Serial << "starA<MaybeA>()(pureA<MaybeA>()(plus(2)),just(4)) : "
+            << starA<MaybeA>()(pureA<MaybeA>()(plus(2)),just(4)) << endl;
+  //Serial << "starA<MaybeA>()(pureA<MaybeA>()(plus(2)),pure(4)) : "
+  //          << starA<MaybeA>()(pureA<MaybeA>()(plus(2)),pure(4)) << endl;
+  Serial << "===============================================" << endl;
+  Serial << "First use of inferred Applicative Functors." << endl;
+  Serial << "===============================================" << endl;
+  Serial << "star ((MaybeA::pure()(inc)),just(4) : "
+            << star ((MaybeA::pure()(inc)),just(4)) << endl;
+  Serial << "star (pureA<MaybeA>()(inc),just(4)) : "
+            << star (pureA<MaybeA>()(inc),just(4)) << endl;
+  Serial << "nothing(2)                  : " << nothing(2) << endl;
+  Serial << "Applicative::pure()(just,2) : " << Applicative::pure()(just,2)
+            << endl;
+  Serial << "pure(just(2))               : " << pure(just(2)) << endl;
+  // These are now implemented.
+  Serial << "star (MaybeA::pure()(inc),pure(4)) : "
+            <<  star (MaybeA::pure()(inc),pure(4)) << endl;
+  Serial << "star (pureA<MaybeA>()(inc),pure(4)) : "
+            <<  star (pureA<MaybeA>()(inc),pure(4)) << endl;
+  Serial << "star (pure(inc), just(4)) : "
+            << star ( pure(inc), just(4)) << endl;
+  Serial << "star can infer that inc should be in MaybeA!" << endl;
+  Serial << "star (inc, just(4)) : "
+            << star ( inc, just(4)) << endl;
+  Serial << "MaybeA::star()((MaybeA::pure()(plus(2))),just(4)) : "
+             << MaybeA::star()((MaybeA::pure()(plus(2))),just(4)) << endl;
+  Serial << "MaybeA::star()((MaybeA::pure()(plus(2))),pure2(just,4)) : "
+      << MaybeA::star()((MaybeA::pure()(plus(2))),pure2(just,4))
+            << endl;
+  Serial << "MaybeA::star()((MaybeA::pure()(plus(2))),pure2(just)(4)) : "
+      << MaybeA::star()((MaybeA::pure()(plus(2))),pure2(just)(4))
+            << endl;
+  Serial << "===============================================" << endl;
+  Serial << "Examples from p.230 and extensions" << endl;
+  Serial << "===============================================" << endl;
+  Serial << "star (pure(plus(3)),just(10))   : "
+            << star (pure(plus(3)),just(10)) << endl;
+  Serial << "===============================================" << endl;
+  Serial << "Brackets needed to chain from the right with functors."
+            << endl;
+  Serial << "===============================================" << endl;
+  Serial << "star(pure(plus(3)),star(pureA<MaybeA>()(inc),just(10))) : "
+            <<  star(pure(plus(3)),star(pureA<MaybeA>()(inc),just(10)))
+            << endl;
+  Serial << "star2a(pure(plus(3)),pureA<MaybeA>()(inc),just(10)) : "
+            <<  star2a(pure(plus(3)),pureA<MaybeA>()(inc),just(10))
+            << endl;
+   // This cannot be output directly (operator precedence?)
+  Maybe<int> mx = pure(plus(3)) ^star^ (just(10));
+  Serial << "pure(plus(3)) ^star^ (just(10)) : " << mx << endl;
+  Serial << "star(pure(plus(3)),just(10))    : "
+            << star(pure(plus(3)),just(10)) << endl;
+  // InfixOpThingy cannot cope with this.
+  // The grouping must be from the right.
+  //Maybe<int> my0 = (pure(plus(3)) ^star^ pureA<MaybeA>()(inc)) ^star^ (just(10));
+  Maybe<int> my = pure(plus(3)) ^star^ (pureA<MaybeA>()(inc) ^star^ (just(10)));
+  Serial << "pure(plus(3)) ^star^ (pureA<MaybeA>()(inc)) ^star^ (just(10))) : "
+            << my << endl;
+  Maybe<int> mz = (pure(plus(3)) ^star^ nothing(2));
+  Serial << "pure(plus(3)) ^star^ nothing(2) : "
+            << mz << endl;
 
+  Maybe<int> my2 = star(star(pure(plus),just(2)),just(4));
+  Serial << "star(star(pure(plus),just(2)),just(4)) : "
+            << my2 << endl;
+ 
 }
 
 void fcpp_examples()
