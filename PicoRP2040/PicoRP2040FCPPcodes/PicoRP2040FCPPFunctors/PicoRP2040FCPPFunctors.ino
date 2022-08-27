@@ -667,7 +667,9 @@ Print &operator <<( Print &obj, const Maybe<int> &arg)
     if (arg.is_nothing()) { 
        obj.print("nothing");
     } else {
+       Serial << "just ( ";
        obj.print(arg.value());
+       Serial << " )";
     }
     return obj; 
 }
@@ -686,6 +688,9 @@ Print &operator <<( Print &obj, const Either<int> &arg)
 
 void functor_examples()
 {
+  Serial << "dot is a synonym for FC++ compose" << endl;
+  Serial << "----------------------------------------------------"
+            << endl;
   Serial << "dot(multiplies(3),plus(100))(1)    : "
             << dot(multiplies(3),plus(100))(1) << " (page 221)" << endl;
   Serial << "(multiplies(3) ^dot^ plus(100))(1)  : "
@@ -782,9 +787,12 @@ void setup() {
   Serial.begin (115200);
   while (!Serial) { }
   //::delay(5000);
-  Serial.printf("Pico RP2040 FC++ operations\n");
+  Serial.printf("Pico RP2040 FC++ Functor operations\n");
   fcpp_examples();
   Serial.println("after fcpp_examples");
+  Serial.println("--------------------------");
+  functor_examples();
+  Serial.println("after functor_examples");
   Serial.println("--------------------------");
  }
 
