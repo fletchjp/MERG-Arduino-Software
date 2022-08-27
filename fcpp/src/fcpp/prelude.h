@@ -3474,6 +3474,9 @@ public:
   EitherError() { message_ = std::string("nothing"); }
   EitherError(const EitherError &ee) : message_(ee.message_) {}
   EitherError(const std::string &m) : message_(m) {}
+  EitherError operator= (const EitherError &e) {
+      message_ = e.message_; return *this;
+   }
   // I have made this return std::string for ease of output.
   // There is no constructor of an Either direct from
   // std::string. That was the original problem.
@@ -3495,11 +3498,14 @@ public:
    // The error constructor which ignores the rep and leaves it null.
    // This means that it can be detected by is_error() in calling program.
    // See usage in DivBy and example in the test program.
- Either( const EitherError &error_message ) : error(error_message) { }
- Either( const T& x, const EitherError &something =
-       EitherError(std::string("success")) )
-     : rep( cons(x,NIL) ), error(something) {} // default string supplied
- Either(const Either<T> &e) : rep(e.rep), error(e.error) { }
+   Either( const EitherError &error_message ) : error(error_message) { }
+   Either( const T& x, const EitherError &something =
+          EitherError(std::string("success")) )
+        : rep( cons(x,NIL) ), error(something) {} // default string supplied
+   Either(const Either<T> &e) : rep(e.rep), error(e.error) { }
+   Either operator= (const Either &e) {
+      rep = e.rep; error = e.error; return *this;
+   }
    void set_error(const EitherError &something) { error = something; }
    bool is_error() const { return null(rep); }
    T right() const { return head(rep); }
