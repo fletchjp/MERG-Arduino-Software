@@ -44,7 +44,8 @@ typedef List<char> StringL;
 // It seems to regard T as an undeclared class.
 // I think the problem is that there is already a generic templated operator<< in Streaming.
 // template <typename T>
-/*
+
+namespace fcpp {
 Print &operator <<( Print &obj, const Maybe<int> &arg)
 {
     if (arg.is_nothing()) { 
@@ -64,7 +65,7 @@ Print &operator <<( Print &obj, const Either<int> &arg)
     }
     return obj; 
 }
-*/
+}
 
 // This does compile.
 template <class T>
@@ -281,7 +282,7 @@ void explore_bindm()
     Serial.println("Exploring use of join with MaybeM and EitherM monads and associated values.");
     Serial.println("---------------------");
     //bindM<MaybeM>()(ll,id); fails as expected
-/*
+
     // Exploring use of join with MaybeM and EitherM monads and associated values. 
     Maybe<int> mj = joinM<MaybeM>()( just (just (2) ) );
     Serial << "joinM<MaybeM>()( just (just (2) ) ) : ";
@@ -303,7 +304,6 @@ void explore_bindm()
     Either<int> ej3 = join ( right (right (2) ) ); 
     Serial << ej3 << endl;
     Serial.println("---------------------");
-*/
 }
 
 //////////////////////////////////////////////////////////
