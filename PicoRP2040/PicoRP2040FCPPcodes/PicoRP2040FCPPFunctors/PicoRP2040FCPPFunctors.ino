@@ -662,8 +662,56 @@ FCPP_MAYBE_NAMESPACE_CLOSE
 
     };
 
+Print &operator <<( Print &obj, const Maybe<int> &arg)
+{
+    if (arg.is_nothing()) { 
+       obj.print("nothing");
+    } else {
+       obj.print(arg.value());
+    }
+    return obj; 
 }
+
+Print &operator <<( Print &obj, const Either<int> &arg)
+{
+    if (arg.is_error()) { 
+       obj.print(arg.left());
+    } else {
+       obj.print(arg.right());
+    }
+    return obj; 
+}
+} // namespace fcpp
 //////////////////////////////////////////////////////////
+
+void functor_examples()
+{
+  Serial << "dot(multiplies(3),plus(100))(1)    : "
+            << dot(multiplies(3),plus(100))(1) << " (page 221)" << endl;
+  Serial << "(multiplies(3) ^dot^ plus(100))(1)  : "
+            << (multiplies(3) ^dot^ plus(100))(1) << endl;
+  Serial << "dot (id, id ) ( just(3)) : " << dot (id, id ) ( just(3))
+            << " needs repeat of id!" << endl;
+  Serial << "id ( just(3) )            : " << id ( just(3) )
+            << " (page 224)"<< endl;
+  Serial << "liftM<MaybeM>()(id)( just(3) )  : "
+            <<  liftM<MaybeM>()(id)( just(3) ) << endl;
+  Serial << "liftM<MaybeM>()(inc)( just(3) ) : "
+            <<  liftM<MaybeM>()(inc)( just(3) ) << endl;
+  Maybe<int> mj = joinM<MaybeM>()( just (just (2) ) );
+  Serial << "joinM<MaybeM>()( just (just (2) ) ) : " << mj << endl;
+  Serial << "----------------------------------------------------"
+            << endl;
+  Serial << "MaybeM is the only FC++ monad with an explicit join."
+            << endl;
+  Serial << "----------------------------------------------------"
+            << endl;
+  Maybe<int> mj2 = MaybeM::join()( just (just (2) ) );
+  Serial << "MaybeM::join()( just (just (2) ) )  : " << mj2 << endl;
+
+
+  
+}
 
 
 void fcpp_examples()
