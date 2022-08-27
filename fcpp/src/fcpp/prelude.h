@@ -3464,22 +3464,22 @@ FCPP_MAYBE_NAMESPACE_CLOSE
 ////////////////////////////////////////////////////////////////////////////
 struct EitherLike {};
 
-typedef List<char> StringL;
+//typedef List<char> StringL;
 // Wrapper for the error string
 // to distinguish it from a string.
   struct EitherError {
 private:
-  StringL message_;
+  std::string message_;
 public:
-  EitherError() { message_ = StringL("nothing"); }
+  EitherError() { message_ = std::string("nothing"); }
   EitherError(const EitherError &ee) : message_(ee.message_) {}
-  EitherError(const StringL &m) : message_(m) {}
+  EitherError(const std::string &m) : message_(m) {}
   // I have made this return std::string for ease of output.
   // There is no constructor of an Either direct from
   // std::string. That was the original problem.
   // When needed it has to be wrapped explictly.
   // See examples in testeither.cpp.
-  StringL operator()() const { return message_; }
+  std::string operator()() const { return message_; }
 };
 
 template <class T>
@@ -3497,13 +3497,13 @@ public:
    // See usage in DivBy and example in the test program.
  Either( const EitherError &error_message ) : error(error_message) { }
  Either( const T& x, const EitherError &something =
-       EitherError(String("success")) )
+       EitherError(std::string("success")) )
      : rep( cons(x,NIL) ), error(something) {} // default string supplied
  Either(const Either<T> &e) : rep(e.rep), error(e.error) { }
    void set_error(const EitherError &something) { error = something; }
    bool is_error() const { return null(rep); }
    T right() const { return head(rep); }
-   StringL left() const { return error(); }
+   std::string left() const { return error(); }
 #ifdef FCPP_DEBUG
    std::string name() const
    {
