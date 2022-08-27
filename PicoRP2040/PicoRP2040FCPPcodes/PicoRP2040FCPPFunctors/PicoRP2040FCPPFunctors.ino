@@ -662,6 +662,14 @@ FCPP_MAYBE_NAMESPACE_CLOSE
 
     };
 
+} // namespace fcpp
+
+Print &operator <<( Print &obj, const std::string &arg)
+{
+    obj.print(arg.c_str());
+    return obj; 
+}
+
 Print &operator <<( Print &obj, const Maybe<int> &arg)
 {
     if (arg.is_nothing()) { 
@@ -678,7 +686,7 @@ Print &operator <<( Print &obj, const Either<int> &arg)
 {
     if (arg.is_error()) { 
        Serial << "left ( ";
-       obj.print(arg.left());
+       obj.print(arg.left().c_str());
        Serial << " )";
      } else {
        Serial << "right ( ";
@@ -687,7 +695,7 @@ Print &operator <<( Print &obj, const Either<int> &arg)
     }
     return obj; 
 }
-} // namespace fcpp
+
 //////////////////////////////////////////////////////////
 
 void functor_examples()
@@ -906,6 +914,172 @@ void functor_examples2()
   Maybe<int> m2b  = fmap(inc,just(3));
   Either<int> e2b = fmap(inc,right(3));
   List<int> l2a = pureL(2);
+  Serial << "===============================================" << endl;
+  Serial << "Experiments with pureA<MaybeF<ListA> >()." << endl;
+  Serial << "This uses a functor transformer on a functors" << endl;
+  Serial << "===============================================" << endl;
+  List<Maybe<int> > lm2 = pureA<MaybeF<ListA> >()(just(2));
+  List<Maybe<int> > lm2a = pureA<MaybeF<ListA> >()(pureM(2));
+  List<Maybe<int> >::iterator lmi;
+  Serial << "pureA<MaybeF<ListA> >()(just(2))  : [ ";
+  for (lmi= lm2.begin(); lmi!=lm2.end(); ++lmi)
+    {
+      Serial << *lmi << " ";
+    }
+  Serial << "]" << endl;
+  Serial << "pureA<MaybeF<ListA> >()(pureM(2)) : [ ";
+  for (lmi= lm2a.begin(); lmi!=lm2a.end(); ++lmi)
+    {
+      Serial << *lmi << " ";
+    }
+  Serial << "]" << endl;
+  List<Maybe<int> > lm12 = list_with(just(1),just(2));
+  Fun1<int,int> finc(inc), fdec(dec), fp2(plus(2));
+  Serial << "===============================================" << endl;
+  Serial << "Experiments with starA<ListA>()." << endl;
+  Serial << "This uses a list of monomorphic functors." << endl;
+  Serial << "===============================================" << endl;
+  //Serial << sprint(makeList2(inc,dec)) << endl; This fails.
+  List<Fun1<int,int> > lf2 = makeList3(finc,fdec,fp2);
+  List<int> res = starA<ListA>() (pureA<ListA>()(finc))(l12);
+  int res2 = head(tail(res));
+  Serial << "Fun1<int,int> finc(inc), fdec(dec), fp2(plus(2));"
+            << endl;
+  Serial << "List<Fun1<int,int> > lf2 = makeList3(finc,fdec,fp2);"
+            << endl;
+  Serial << "starA<ListA>() (pureA<ListA>()(finc))(l12) : ";
+  for (li= res.begin(); li!=res.end(); ++li)
+    {
+      Serial << *li << " ";
+    }
+  Serial << endl;
+  List<int> res3 = fcpp::map(finc,l12);
+  Serial << "map(finc,l12) : ";
+  for (li= res3.begin(); li!=res3.end(); ++li)
+    {
+      Serial << *li << " ";
+    }
+  Serial << endl;
+  Serial << "(*lfi)(2) : ";
+  List<Fun1<int,int> >::iterator lfi;
+  for (lfi= lf2.begin(); lfi!=lf2.end(); ++lfi)
+    {
+      Serial << (*lfi)(2) << " ";
+    }
+  Serial << endl;
+  Serial << "lres = cat(lres,map(*lfi)(l12)) : ";
+  List<int> lres;
+  for (lfi= lf2.begin(); lfi!=lf2.end(); ++lfi)
+    {
+      lres = cat(lres,fcpp::map(*lfi)(l12));
+    }
+  for (li= lres.begin(); li!=lres.end(); ++li)
+    {
+      Serial << *li << " ";
+    }
+  Serial << endl;
+  List<int> lres2 = starA<ListA>()(lf2)(l12);
+  Serial << "starA<ListA>()(lf2)(l12) : ";
+  for (li= lres2.begin(); li!=lres2.end(); ++li)
+    {
+      Serial << *li << " ";
+    }
+  Serial << endl;
+  List<int> lres3 = star (pureA<ListA>()(finc),l12);
+  Serial << "star (pureA<ListA>()(finc),l12) : ";
+  for (li= lres3.begin(); li!=lres3.end(); ++li)
+    {
+      Serial << *li << " ";
+    }
+  Serial << endl;
+  Serial << "star (lf2)(l12) : ";
+  List<int> lres4 = star (lf2)(l12);
+  for (li= lres4.begin(); li!=lres4.end(); ++li)
+    {
+      Serial << *li << " ";
+    }
+  Serial << endl;
+  Serial << "===============================================" << endl;
+  Serial << "Experiments with starA<MaybeF<ListA> >()." << endl;
+  Serial << "This uses a list of monomorphic functors." << endl;
+  Serial << "WARNING: this code is not functional at the moment."
+            << endl;
+  Serial << "===============================================" << endl;
+  Serial << "===============================================" << endl;
+  Serial << "Test use of EitherA" << endl;
+  Serial << "===============================================" << endl;
+  Either<int> e1(1,std::string("This is one") );
+  Serial << e1 << endl;
+  Either<int> e2, e3;
+  Either<int> e1p = star(pureA<EitherA>()(inc), e1 );
+  Serial << e1p << endl;
+  Either<int> e1pp = star ( inc, e1p );
+  Serial << e1pp << endl;
+  int x = -1;
+  EitherError xbelowzero(std::string("x below zero"));
+  Either<int> test1x = constrain1x(inc,less(_,0),xbelowzero,x);
+  if (test1x.is_error() )
+       Serial << "test1x.left() = " << test1x.left() << endl;
+  else Serial << "test1x.right() = " << test1x.right() << endl;
+  // This applies the operator twice.
+  Either<int> test1xa = constrain1x(inc,greater(0),xbelowzero,inc(x));
+  if (test1xa.is_error() )
+       Serial << "test1xa.left() = " << test1xa.left() << endl;
+  else Serial << "test1xa.right() = " << test1xa.right() << endl;
+  Serial << "===============================================" << endl;
+  Serial << "This is beginning to look very interesting." << endl;
+  Serial << "It is a question of how to hold the information" << endl;
+  Serial << "for a case handled by an Either." << endl;
+  Serial << "===============================================" << endl;
+  // This is beginning to look like an arrow...
+  typedef std::pair<int,Fun1<int,bool> > Pip;
+  Serial << "typedef std::pair<int,Fun1<int,bool> > Pip;" << endl;
+  // Perhaps it should be std::pair<Either<int>,Fun1<int,bool> >
+  Either<Pip> e1b(makePair(x,greater(0)));
+  Serial << "Either<Pip> e1b(makePair(x,greater(0)));" << endl;
+  Either<Pip> e1c = first(inc,e1b.right());
+  Serial << "Either<Pip> e1c = first(inc,e1b.right()) = ";
+  Serial << fst(e1c.right()) << endl;
+  typedef std::pair<Fun1<int,int>,Fun1<int,bool> > Pfp;
+  Either<Pfp> efp(makePair(finc,greater(0)));
+  // Define a pair of operators.
+  Pfp fp = makePair(finc,greater(0));
+  typedef std::pair<int,bool> Pib;
+  Serial << "typedef std::pair<int,bool> Pib;" << endl;
+  Pib ib  = makePair(fst(fp)(x),snd(fp)(x));
+  Serial << "Pib ib  = makePair(fst(fp)(x),snd(fp)(x)) : ";
+  if (snd(ib) ) Serial << fst(ib) << endl;
+  // This compose is similar to one I have used in fcpp/arrow.h
+  Pib ib2 = compose(first(fst(fp)),second(snd(fp)))(makePair(x,inc(x)));
+  Serial << "Pib ib2 = compose(first(fst(fp)),second(snd(fp)))(makePair(x,inc(x))) : ";
+  if (snd(ib) ) Serial << fst(ib) << endl;
+  // This provides a way to move from the pair of functors to an Either.
+  // What needs to be sorted also is how to handle the message.
+  Either<int> eres = snd(ib) ? xbelowzero : right(fst(ib));
+  Serial << "Either<int> eres = snd(ib) ? xbelowzero : right(fst(ib)) : ";
+  Serial << eres << endl;
+  Either<int> eres2 = snd(ib2) ? xbelowzero : right(fst(ib2));
+  Serial << "Either<int> eres2 = snd(ib2) ? xbelowzero : right(fst(ib2)) : ";
+  Serial << eres2 << endl;
+  Serial << "===============================================" << endl;
+  Serial << "Experiments with pureA<EitherF<ListA> >()." << endl;
+  Serial << "This uses a functor transformer on functors" << endl;
+  Serial << "===============================================" << endl;
+  List<Either<int> > le2 = pureA<EitherF<ListA> >()(right(2));
+  List<Either<int> > le2a = pureA<EitherF<ListA> >()(pureE(2));
+  List<Either<int> >::iterator lei;
+  Serial << "pureA<EitherF<ListA> >()(right(2)) : [ ";
+  for (lei= le2.begin(); lei!=le2.end(); ++lei)
+    {
+      Serial << *lei << " ";
+    }
+  Serial << "]" << endl;
+  Serial << "pureA<EitherF<ListA> >()(pureE(2)) : [ ";
+  for (lei= le2a.begin(); lei!=le2a.end(); ++lei)
+    {
+      Serial << *lei << " ";
+    }
+  Serial << "]" << endl;
 
 }
 
