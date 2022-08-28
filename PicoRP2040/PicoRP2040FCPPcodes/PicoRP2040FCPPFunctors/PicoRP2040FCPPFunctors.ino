@@ -1155,6 +1155,7 @@ void functor_examples2()
   Serial << "Endo<T> is an endomorphic wrapper for Full1 operators once a type is given." << endl;
   Serial << "MonoidEndo provides mempty mappend and mconcat for Endo<T>." << endl;          
   Serial << "typedef MonoidType<Endo<int>::Type,Compose> MonoidEndo;" << endl;
+  Serial << "At the moment I cannot get these to work as with finc etc." << endl;
   Serial << "======================================================"
             << endl;
   Endo<int> endoid;
@@ -1187,11 +1188,12 @@ void functor_examples2()
     }
   Serial << "]" << endl;
   List<int> l23y = (pureA<ListA>()(endoinc())) ^star^ (l12);
+  List<int> l23z = pureL(inc) ^star^ (l12);
   // I would like to do this:
   //List<int> l23z = (pureA<ListA>()(lendo)) ^star^ (l12);
   // It does not work, I think because an extra () should be applied to the elements in lendo.
   // I am not sure if this makes any sense.
-  //List<int> l23z = (pure2(lendo)) ^star^ (l12);
+  //List<int> l23z = (pureF(lendo)) ^star^ (l12);
   List<MonoidEndo> lmonendo = list_with(monendodec,monendoinc,monendoP2);
   List<MonoidEndo>::iterator lmit;
 
