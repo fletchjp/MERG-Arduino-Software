@@ -1084,6 +1084,72 @@ void functor_examples2()
       Serial << *lei << " ";
     }
   Serial << "]" << endl;
+  Serial << "===============================================" << endl;
+  Serial << "Some examples of forM and mapM" << endl;
+  Serial << "===============================================" << endl;
+  // So can I use these?
+  //bind(mfinc,just(2));
+  Maybe<int> mi11 = forM<MaybeM>()(just(10),inc);
+  Serial << "forM<MaybeM>()(just(10),inc) : " << mi11 << endl;
+  Either<int> ei11 = forM<EitherM>()(right(10),inc);
+  Serial << "forM<EitherM>()(right(10),inc) : " << ei11 << endl;
+#ifdef FCPP_UNIFY
+  Maybe<int> mi11a = forM<MaybeA>()(just(10),inc);
+  Serial << "forM<MaybeA>()(just(10),inc) : " << mi11a << endl;
+  Maybe<int> mi12a= mapM<MaybeA>()(inc,just(11));
+  Serial << "mapM<MaybeA>()(inc,just(11)) : " << mi12a << endl;
+  Either<int> ei11a = forM<EitherA>()(right(10),inc);
+  Serial << "forM<EitherA>()(right(10),inc) : " << ei11a << endl;
+  Either<int> ei12a= mapM<EitherA>()(inc,right(11));
+  Serial << "mapM<EitherA>()(inc,right(11)) : " << ei12a << endl;
+#endif
+  Serial << "===============================================" << endl;
+  Serial << "Can FC++ monads contain functoids?" << endl;
+  Serial << "These examples use monomorphic functoids." << endl;
+  Serial << "===============================================" << endl;
+  Maybe<Fun1<int,int> > mfinc  = just(finc);
+  Either<Fun1<int,int> > efinc = right(finc);
+  List<Fun1<int,int> > lfinc = list_with(finc);
+  List<Fun1<int,int> > lfincdec = list_with(finc,fdec);
+  //List<Maybe<int> > lm12 = list_with(just(1),just(2));
+  List<int> l23a = starA<ListA>() (pureA<ListA>()(finc))(l12);
+  List<int> l23b = (pureA<ListA>()(finc)) ^star^ (l12);
+  //List<int> l23b2 = pure(finc) ^star^ (l12); This does not compile.
+  //List<int> l23b3 =(lfinc) ^star^ pure(2); Nor does this.
+  // Use the pureL version instead.
+  List<int> l23b2 = pureL(finc) ^star^ (l12); // This does compile.
+  List<int> l23b3 =(lfinc) ^star^ pureL(2); // so does this.
+  List<int> l23c = (lfinc) ^star^ (l12);
+  List<int> l23d = (lfincdec) ^star^ (l12);
+  Serial << "(pureA<ListA>()(finc)) ^star^ (l12) : [ ";
+  for (li= l23b.begin(); li!=l23b.end(); ++li)
+    {
+      Serial << *li << " ";
+    }
+  Serial << "]" << endl;
+  Serial << "(lfinc) ^star^ (l12) : [ ";
+  for (li= l23c.begin(); li!=l23c.end(); ++li)
+    {
+      Serial << *li << " ";
+    }
+  Serial << "]" << endl;
+  Serial << "----------------------------------------------------------"
+            << endl;
+  Serial << "This applies each operator in a list to a list of numbers."
+            << endl;
+  Serial << "----------------------------------------------------------"
+            << endl;
+  Serial << "List<Fun1<int,int> > lfincdec = list_with(finc,fdec)"
+            << endl;
+  Serial << "(lfincdec) ^star^ (l12) : [ ";
+  for (li= l23d.begin(); li!=l23d.end(); ++li)
+    {
+      Serial << *li << " ";
+    }
+  Serial << "]" << endl;
+  List<Maybe<int> > lm23a = liftM<ListM>()(liftM<MaybeM>()(inc))(lm12);
+  //  List<Maybe<int> > lm23b = starA<MaybeF<ListA> >()(pureA<MaybeF<ListA> >()(inc))(lm12);
+  //List<Maybe<int> > lm23b = starA<MaybeF<ListA> >()(pureA<MaybeF<ListA> >()(pureL(inc)))(lm12);
 
 }
 
