@@ -823,6 +823,23 @@ template <class Rep> struct ApplicativeTraits {
       }
    };
 
+  // This version returns the function
+  struct XPureF {
+#ifdef FCPP_DEBUG
+      std::string name() const {
+        return std::string("PureX ");
+   }
+#endif
+    template <class F> struct Sig
+	: public FunType<F,F> {};
+   
+    template <class F>
+      typename Sig<F>::ResultType
+      operator()(const F& f) const {
+          return f;
+      }
+   };
+
   }
 
 typedef Full2<impl::XStar> Star;
@@ -831,12 +848,14 @@ typedef Full1<impl::XPureM> PureM;
 typedef Full1<impl::XPureE> PureE;
 typedef Full1<impl::XPureL> PureL;
 typedef Full2<impl::XPure2> Pure2;
+typedef Full1<impl::XPureL> PureF;
 FCPP_MAYBE_NAMESPACE_OPEN
 FCPP_MAYBE_EXTERN Pure pure;
 FCPP_MAYBE_EXTERN PureM pureM;
 FCPP_MAYBE_EXTERN PureE pureE;
 FCPP_MAYBE_EXTERN PureL pureL;
 FCPP_MAYBE_EXTERN Pure2 pure2;
+FCPP_MAYBE_EXTERN PureF pureF;
 FCPP_MAYBE_EXTERN Star star;
 FCPP_MAYBE_NAMESPACE_CLOSE
 
