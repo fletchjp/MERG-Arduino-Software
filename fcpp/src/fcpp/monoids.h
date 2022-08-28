@@ -654,6 +654,9 @@ public:
        Endo(const Full1<F> &f) : f_(f) { }
        Endo(const Fun1<T,T> &f) : f_(f) { }
        Endo(const Endo &x) : f_(x.f_) { }
+       Endo operator= (const Endo &e) {
+         f_ = e.f_; return *this;
+       }
        Type operator()() const
        {
           return f_;
