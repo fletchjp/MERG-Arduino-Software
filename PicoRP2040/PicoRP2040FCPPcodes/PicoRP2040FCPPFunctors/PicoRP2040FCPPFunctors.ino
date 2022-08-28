@@ -1173,21 +1173,25 @@ void functor_examples2()
   List<EndoInt> lendo = list_with(endodec,endoinc);
   List<EndoInt>::iterator leit;
   Serial << "List<EndoInt> lendo = list_with(endodec,endoinc);" << endl;
-  Serial << "lendo applied to (2) = ";
+  Serial << "lendo applied to (2) =  [ ";
   for (leit= lendo.begin(); leit!=lendo.end(); ++leit)
     {
       Serial << (*leit)(2) << " ";
     }
-  Serial << endl;
+  Serial << " ]" << endl;
   List<int> l23x = pureL(endoinc()) ^star^ (l12);
-  Serial << "List<int> l23x = pureL(endoinc()) ^star^ (l12) : [";
+  Serial << "List<int> l23x = pureL(endoinc()) ^star^ (l12) : [ ";
   for (li= l23x.begin(); li!=l23x.end(); ++li)
     {
       Serial << *li << " ";
     }
   Serial << "]" << endl;
-
- // Serial << endoinc
+  List<int> l23y = (pureA<ListA>()(endoinc())) ^star^ (l12);
+  // I would like to do this:
+  //List<int> l23z = (pureA<ListA>()(lendo)) ^star^ (l12);
+  // It does not work, I think because an extra () should be applied to the elements in lendo.
+  // I am not sure if this makes any sense.
+  //List<int> l23z = (pure2(lendo)) ^star^ (l12);
   List<MonoidEndo> lmonendo = list_with(monendodec,monendoinc,monendoP2);
   List<MonoidEndo>::iterator lmit;
 
