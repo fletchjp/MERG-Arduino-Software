@@ -9,7 +9,11 @@
 // This relates closely to things about Monads in
 // https://wiki.haskell.org/Typeclassopedia
 // which has been a source of much enlightenment for me.
-//////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////
+// I have brought in a lot of the examples from the old functors.cpp
+// I have ignored the FCPP_DEBUG code which is not yet supported here.
+// I have done quite a lot to Either in fcpp/prelude.h to sort out warnings.
+////////////////////////////////////////////////////////////////////////////
 //
 // Developments of FC++ functors.
 //
