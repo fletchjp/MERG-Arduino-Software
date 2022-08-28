@@ -13,6 +13,7 @@
 // I have brought in a lot of the examples from the old functors.cpp
 // I have ignored the FCPP_DEBUG code which is not yet supported here.
 // I have done quite a lot to Either in fcpp/prelude.h to sort out warnings.
+// I now have Endo<T> working with functors.
 ////////////////////////////////////////////////////////////////////////////
 //
 // Developments of FC++ functors.
@@ -1195,7 +1196,7 @@ void functor_examples2()
   List<int> l23z = pureL(inc) ^star^ (l12);
   // I would like to do this:
   //List<int> l23z = (pureA<ListA>()(lendo)) ^star^ (l12);
-  // It does not work, I think because an extra () should be applied to the elements in lendo.
+  // It does now work, now that I have provided a Sig in Endo<T>.
   List<int> l23w = (lendo) ^star^ (l12);
   Serial << "List<int> l23w = (lendo) ^star^ (l12) = [ ";
   for (li= l23w.begin(); li!=l23w.end(); ++li)
