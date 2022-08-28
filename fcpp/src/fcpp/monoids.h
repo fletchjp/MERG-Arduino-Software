@@ -657,6 +657,7 @@ public:
        Endo operator= (const Endo &e) {
          f_ = e.f_; return *this;
        }
+	   // This enables the Endo objects to work with functors.
        template <class A> struct Sig : public FunType<A,T> {};
        Type operator()() const
        {
