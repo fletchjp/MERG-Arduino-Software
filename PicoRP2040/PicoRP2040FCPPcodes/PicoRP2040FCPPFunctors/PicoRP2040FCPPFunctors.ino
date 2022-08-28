@@ -946,7 +946,7 @@ void functor_examples2()
   //Serial << sprint(makeList2(inc,dec)) << endl; This fails.
   List<Fun1<int,int> > lf2 = makeList3(finc,fdec,fp2);
   List<int> res = starA<ListA>() (pureA<ListA>()(finc))(l12);
-  int res2 = head(tail(res));
+  //int res2 = head(tail(res));
   Serial << "Fun1<int,int> finc(inc), fdec(dec), fp2(plus(2));"
             << endl;
   Serial << "List<Fun1<int,int> > lf2 = makeList3(finc,fdec,fp2);"
@@ -1150,6 +1150,35 @@ void functor_examples2()
   List<Maybe<int> > lm23a = liftM<ListM>()(liftM<MaybeM>()(inc))(lm12);
   //  List<Maybe<int> > lm23b = starA<MaybeF<ListA> >()(pureA<MaybeF<ListA> >()(inc))(lm12);
   //List<Maybe<int> > lm23b = starA<MaybeF<ListA> >()(pureA<MaybeF<ListA> >()(pureL(inc)))(lm12);
+  Serial << "======================================================"
+            << endl;
+  Serial << "Endo<T> is an endomorphic wrapper for Full1 operators once a type is given." << endl;
+  Serial << "MonoidEndo provides mempty mappend and mconcat for Endo<T>." << endl;          
+  Serial << "typedef MonoidType<Endo<int>::Type,Compose> MonoidEndo;" << endl;
+  Serial << "======================================================"
+            << endl;
+  Endo<int> endoid;
+  typedef Endo<int> EndoInt;
+  Serial << "Endo<int> endoid;"  << endl;
+  Endo<int> endoinc(inc);
+  Serial << "Endo<int> endoinc(inc);" << endl;
+  Endo<int> endodec(dec);
+  Serial << "Endo<int> endodec(dec);" << endl;
+  MonoidEndo monendo;
+  Serial << "MonoidEndo monendo;" << endl;
+  MonoidEndo monendoinc(endoinc);
+  Serial << "MonoidEndo monendoinc(endoinc);" << endl;
+  MonoidEndo monendodec(endodec);
+  MonoidEndo monendoP2(fcpp::plus(2));
+  List<EndoInt> lendo = list_with(endodec,endoinc);
+  List<EndoInt>::iterator leit;
+  List<MonoidEndo> lmonendo = list_with(monendodec,monendoinc,monendoP2);
+  List<MonoidEndo>::iterator lmit;
+  for (leit= lendo.begin(); leit!=lendo.end(); ++leit)
+    {
+      Serial << (*leit)(2) << " ";
+    }
+  Serial << endl;
 
 }
 
