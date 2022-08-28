@@ -1155,9 +1155,12 @@ void functor_examples2()
   Serial << "Endo<T> is an endomorphic wrapper for Full1 operators once a type is given." << endl;
   Serial << "MonoidEndo provides mempty mappend and mconcat for Endo<T>." << endl;          
   Serial << "typedef MonoidType<Endo<int>::Type,Compose> MonoidEndo;" << endl;
-  Serial << "At the moment I cannot get these to work as with finc etc." << endl;
+  Serial << "I now have these working as with finc etc." << endl;
   Serial << "======================================================"
             << endl;
+  // I think if I get the Endo objects correct they should work the same as Fun1<T,T> above.
+  // I have not got it correct at the moment and things do not work as I wish.
+  // It turns out that what was needed was to add a Sig to Endo.
   Endo<int> endoid;
   typedef Endo<int> EndoInt;
   Serial << "Endo<int> endoid;"  << endl;
@@ -1173,6 +1176,7 @@ void functor_examples2()
   MonoidEndo monendoP2(fcpp::plus(2));
   List<EndoInt> lendo = list_with(endodec,endoinc);
   List<EndoInt>::iterator leit;
+  // This does generate a list which I can apply to the arguments.
   Serial << "List<EndoInt> lendo = list_with(endodec,endoinc);" << endl;
   Serial << "lendo applied to (2) =  [ ";
   for (leit= lendo.begin(); leit!=lendo.end(); ++leit)
@@ -1187,13 +1191,19 @@ void functor_examples2()
       Serial << *li << " ";
     }
   Serial << "]" << endl;
-  List<int> l23y = (pureA<ListA>()(endoinc())) ^star^ (l12);
+  List<int> l23y = (pureA<ListA>()(endoinc())) ^star^ (l12); // This works with an extra bracket to get the function.
   List<int> l23z = pureL(inc) ^star^ (l12);
   // I would like to do this:
   //List<int> l23z = (pureA<ListA>()(lendo)) ^star^ (l12);
   // It does not work, I think because an extra () should be applied to the elements in lendo.
+  List<int> l23w = (lendo) ^star^ (l12);
+  Serial << "List<int> l23w = (lendo) ^star^ (l12) = [ ";
+  for (li= l23w.begin(); li!=l23w.end(); ++li)
+    {
+      Serial << *li << " ";
+    }
+  Serial << "]" << endl;
   // I am not sure if this makes any sense.
-  //List<int> l23z = (pureF(lendo)) ^star^ (l12);
   List<MonoidEndo> lmonendo = list_with(monendodec,monendoinc,monendoP2);
   List<MonoidEndo>::iterator lmit;
 
