@@ -1172,13 +1172,24 @@ void functor_examples2()
   MonoidEndo monendoP2(fcpp::plus(2));
   List<EndoInt> lendo = list_with(endodec,endoinc);
   List<EndoInt>::iterator leit;
-  List<MonoidEndo> lmonendo = list_with(monendodec,monendoinc,monendoP2);
-  List<MonoidEndo>::iterator lmit;
+  Serial << "List<EndoInt> lendo = list_with(endodec,endoinc);" << endl;
+  Serial << "lendo applied to (2) = ";
   for (leit= lendo.begin(); leit!=lendo.end(); ++leit)
     {
       Serial << (*leit)(2) << " ";
     }
   Serial << endl;
+  List<int> l23x = pureL(endoinc()) ^star^ (l12);
+  Serial << "List<int> l23x = pureL(endoinc()) ^star^ (l12) : [";
+  for (li= l23x.begin(); li!=l23x.end(); ++li)
+    {
+      Serial << *li << " ";
+    }
+  Serial << "]" << endl;
+
+ // Serial << endoinc
+  List<MonoidEndo> lmonendo = list_with(monendodec,monendoinc,monendoP2);
+  List<MonoidEndo>::iterator lmit;
 
 }
 
