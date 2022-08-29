@@ -54,8 +54,13 @@
 // It does help me with understanding.
 // I have attempted to extend Mendo to monomorphic Fun1<T,T> items.
 // This has now been taken out of use as compose(f,g) crashes for such items.
-// Cases just do not terminate. This is an FC++ issue and not in the monoid code.
+// Cases just do not terminate, which turned out to be a bug in my code.
+// I wrongly thought this was an FC++ issue and not in the monoid code.
 // The whole of the next section was written before I understood monoids.
+////////////////////////////////////////////////////////////////////////////
+// I now have Endo<T> working with functors. Examples are in PicoRP2040FCPPFunctors.
+// I have invented Endo2<T> which will take a two argument functoid e.g. fcpp::plus.
+// I think it cannot be a monoid as it does not have a valid zero.
 //////////////////////////////////////////////////////////////////////
 
 // ========================
