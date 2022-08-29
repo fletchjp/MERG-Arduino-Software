@@ -139,6 +139,69 @@
      
 // How about forkp( (f,g), a) -> (f(a),g(a))  DONE
 
+/////////////////////////////////////////////////////////////////
+// I think some of these will be useful for work with
+// objects with state, in particular
+// fork_(head,tail,some_list) -> (head(some_list),tail(some_list)
+/////////////////////////////////////////////////////////////////
+//
+// I have gone back to the blog on the stream monad.
+// I have some of the names different as follows.
+//
+// fork(f,g)a = (fa,ga)     is my forkp (fork from a pair)
+//
+// prod(f,g)(a,b) = (fa,gb) is my parallel though I can have two names.
+
+// double = fork (id,id)    is forkp(makePair(id,id))
+// I have called this double1.
+
+// What is needed is double(a) -> (a,double(a)) where head() will always
+// return a. which I cannot get to compile until I have defined it
+// as out(repeat) which works fine. I could not get the Sig
+// to define with the Reuser in a std::pair.
+
+// repeat is alreade in prelude and does what is needed.
+
+// unfold needs to be figured out.
+// unfold :: (b->(a,b))->b->Stream a
+// unfold f b = a : unfold f b' where (a,b') = f b
+// Here : puts a at the front of a list.
+// This is a recursive definition!
+// See Real World Haskell p.203
+
+// unfold f generates a stream from a seed, using a body f
+// that transforms a seed b into an element a and a new
+// seed b'.
+// I have made this unfold2 and also unfold.
+
+// out = fork(head,tail) on a list.  I can do this one.
+
+// So unfold takes the pair (element,list) and puts the list together.
+
+// unfold(pair(element,list)) -> cons(element,list)
+// I have made that unfold1 (A one argment version).
+
+// mapS ::
+// mapS f = unfold (fork (f.head,tail))
+
+//////////////////////////////////////////////////////////////
+// Unrelated to the above, I am building exceptions into
+// operators on List<T> which would not terminate on a
+// lazy infinite list e.g. EnumFrom(1).
+// This has lead me to look at Reusers, which are in fcpp/reuse.h
+// and which I seem only to have modified once to add some
+// concept code, now out of use.
+// I have never extended them beyond three parameters.
+// Operators so far protected:
+// last, length, reverse.
+// Although reverse itself is lazy, use of the result
+// e.g. head(reverse(l)) is risky, so I have put a call
+// to length() inside reverse to force a fail if needed.
+// init is lazy and is O.K.
+//////////////////////////////////////////////////////////////
+// John Fletcher November 2013.
+// NOTE: exceptions are not available in the RP2040 work.
+
 // ========================
 // headers
 // ========================
