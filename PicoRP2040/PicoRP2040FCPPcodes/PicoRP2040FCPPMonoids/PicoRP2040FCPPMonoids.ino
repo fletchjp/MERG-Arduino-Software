@@ -776,8 +776,8 @@ void monoid_examples()
 // I need something else for this.
 //template <> Endo2<int>::Type MonoidEndo2::zero = id;
 //template <> Compose MonoidEndo2::op = compose;
-//  using EndoPair = MonoidType<std::pair<Endo<int>::Type,Endo<int>::Type>,std::pair<Compose,Compose>>;
-   Serial << "duplicate(fcpp::plus)(2) = " << duplicate(fcpp::plus)(2) << endl;
+//using EndoPair = MonoidType<std::pair<Endo<int>::Type,Endo<int>::Type>,std::pair<Compose,Compose>>;
+//    Serial << "duplicate(fcpp::plus)(2) = " << duplicate(fcpp::plus)(2) << endl;
 }
 
 void setup() {
