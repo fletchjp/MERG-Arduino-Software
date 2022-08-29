@@ -204,6 +204,11 @@
 // John Fletcher November 2013.
 // NOTE: exceptions are not available in the RP2040 work.
 
+// I think fork_ is useful enough to go into fcpp/prelude.h
+// so I have made fork2 and forkp as well.
+// These are also now in fcpp/prelude.h
+// The remaining functoids are now in fcpp/pattern.h
+
 // ========================
 // headers
 // ========================
