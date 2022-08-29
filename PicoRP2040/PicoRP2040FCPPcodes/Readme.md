@@ -8,7 +8,7 @@ Many of these are derived from previous work which is now being extended.
 
 Some basic tests of FC++.
 
-I have added some of the code from the parser example as there seems to be a minimum amount of work below which I get no moditor output.
+I have added some of the code from the parser example as there seems to be a minimum amount of work below which I get no monitor output.
 
 ## PicoRP2040FCPPBase
 
