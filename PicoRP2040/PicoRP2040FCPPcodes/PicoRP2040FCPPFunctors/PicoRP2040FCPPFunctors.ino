@@ -1169,16 +1169,19 @@ void functor_examples2()
   Serial << "Endo<int> endoinc(inc);" << endl;
   Endo<int> endodec(dec);
   Serial << "Endo<int> endodec(dec);" << endl;
+  Endo<int> endop3(fcpp::plus(3));
+  Serial << "Endo<int> endop3(fcpp::plus(3));" << endl;
   MonoidEndo monendo;
   Serial << "MonoidEndo monendo;" << endl;
   MonoidEndo monendoinc(endoinc);
   Serial << "MonoidEndo monendoinc(endoinc);" << endl;
   MonoidEndo monendodec(endodec);
-  MonoidEndo monendoP2(fcpp::plus(2));
-  List<EndoInt> lendo = list_with(endodec,endoinc);
+  Serial << "MonoidEndo monendop2(fcpp::plus(2));" << endl;
+  MonoidEndo monendop2(fcpp::plus(2));
+  List<EndoInt> lendo = list_with(endodec,endoinc,endop3);
   List<EndoInt>::iterator leit;
   // This does generate a list which I can apply to the arguments.
-  Serial << "List<EndoInt> lendo = list_with(endodec,endoinc);" << endl;
+  Serial << "List<EndoInt> lendo = list_with(endodec,endoinc,endop3);" << endl;
   Serial << "lendo applied to (2) =  [ ";
   for (leit= lendo.begin(); leit!=lendo.end(); ++leit)
     {
@@ -1205,7 +1208,7 @@ void functor_examples2()
     }
   Serial << "]" << endl;
   // I am not sure if this makes any sense.
-  List<MonoidEndo> lmonendo = list_with(monendodec,monendoinc,monendoP2);
+  List<MonoidEndo> lmonendo = list_with(monendodec,monendoinc,monendop2);
   List<MonoidEndo>::iterator lmit;
 
 }
