@@ -735,6 +735,10 @@ public:
 //template <> Compose MonoidEndo2::op = compose;
 
 //////////////////////////////////////////////////////////////////////////
+// Idea: EndoP which will take a pair of functions and apply them to a pair of data.
+//////////////////////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////////////////////////////
 // I am caught by the polymorphism of FC++ - I want a "type" for any Full1<T>.
 // So I made Mendo polymorphic.
 // This now works but I am not sure when it is worthwhile to use it.
