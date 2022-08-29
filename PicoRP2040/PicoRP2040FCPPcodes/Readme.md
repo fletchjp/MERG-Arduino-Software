@@ -10,6 +10,10 @@ Some basic tests of FC++.
 
 I have added some of the code from the parser example as there seems to be a minimum amount of work below which I get no moditor output.
 
+## PicoRP2040FCPPBase
+
+This is a base case to which new code can be added.
+
 ## PicoRP2040FCPPParser
 
 This example is based on the old FC++ parser.cpp example. I have it mostly working.
