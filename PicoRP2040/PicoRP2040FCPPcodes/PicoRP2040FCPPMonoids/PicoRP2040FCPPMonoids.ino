@@ -778,6 +778,11 @@ void monoid_examples()
 //template <> Compose MonoidEndo2::op = compose;
 //using EndoPair = MonoidType<std::pair<Endo<int>::Type,Endo<int>::Type>,std::pair<Compose,Compose>>;
 //    Serial << "duplicate(fcpp::plus)(2) = " << duplicate(fcpp::plus)(2) << endl;
+   typedef std::pair<int,int> PairInt;
+   //using Endo = typeof(parallel2(makePair(fcpp::or2,fcpp::and2)));
+   //using EndoPair = MonoidType<std::pair<EndoInt::Type,EndoInt::Type>,
+   //Endo<PairInt> endopair;
+   //Endo<PairInt> endopairincdec(parallel2(makePair(inc,dec)));
 }
 
 void setup() {
