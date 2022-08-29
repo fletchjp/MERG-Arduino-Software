@@ -1210,7 +1210,16 @@ void functor_examples2()
   // I am not sure if this makes any sense.
   List<MonoidEndo> lmonendo = list_with(monendodec,monendoinc,monendop2);
   List<MonoidEndo>::iterator lmit;
-
+  Serial << "======================================================"
+            << endl;
+  Serial << "Endo2<T> takes a two argument functoid." << endl;
+  Serial << "======================================================"
+            << endl;
+  Endo2<int> endo2plus(fcpp::plus);
+  Serial << "Endo2<int> endo2plus(fcpp::plus);" << endl;
+  Serial << "endo2plus(1,2)  = " << endo2plus(1,2) << endl;
+  // I can now do this curried.
+  Serial << "endo2plus(2)(3) = " << endo2plus(2)(3) << endl;
 }
 
 void fcpp_examples()
