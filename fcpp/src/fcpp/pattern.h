@@ -124,7 +124,8 @@ namespace impl {
  FCPP_MAYBE_NAMESPACE_CLOSE
 
 ///////////////////////////////////////////////////////////////////////////////
-// parallel2(makePair(f,g),p).
+// parallel(makePair(f,g),p).
+// This returns std::make_pair(f(p.first),g(p.second)).
 // Now extend parallel to work on two argument functions 
 // parallel2(makePair(f,g),p1,p2).
 // This returns std::make_pair(f(p1.first,p2.first),g(p1.second,p2.second)).
