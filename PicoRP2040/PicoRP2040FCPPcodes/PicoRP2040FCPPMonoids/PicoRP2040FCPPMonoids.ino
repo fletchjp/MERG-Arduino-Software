@@ -760,6 +760,9 @@ void monoid_examples()
   Serial << "Endo2<T> takes a two argument functoid." << endl;
   Serial << "======================================================"
             << endl;
+  Fun2<int,int,int> f2null;
+  Endo2<int> endo2null; //not available.
+  Serial << "Endo2<int> endo2null = " << endo2null(0,0) << endl;
   Endo2<int> endo2plus(fcpp::plus);
   Serial << "Endo2<int> endo2plus(fcpp::plus);" << endl;
   Serial << "endo2plus(1,2)  = " << endo2plus(1,2) << endl;
@@ -771,6 +774,7 @@ void monoid_examples()
 //template <> Endo2<int>::Type MonoidEndo2::zero = id;
 //template <> Compose MonoidEndo2::op = compose;
 //  using EndoPair = MonoidType<std::pair<Endo<int>::Type,Endo<int>::Type>,std::pair<Compose,Compose>>;
+   Serial << "duplicate(fcpp::plus)(2) = " << duplicate(fcpp::plus)(2) << endl;
 }
 
 void setup() {
