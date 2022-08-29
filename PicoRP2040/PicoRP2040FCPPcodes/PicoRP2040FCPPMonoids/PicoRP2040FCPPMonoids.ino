@@ -761,9 +761,12 @@ void monoid_examples()
   Serial << "======================================================"
             << endl;
   Fun2<int,int,int> f2null;
-  Endo2<int> endo2null; //not available.
-  Serial << "Endo2<int> endo2null = " << endo2null(0,0) << endl;
+  Endo2<int> endo2null;
+  Serial << "Endo2<int> endo2null(1,2) = " << endo2null(1,2) << endl;
   Endo2<int> endo2plus(fcpp::plus);
+  endo2null = endo2plus;
+  Serial << "endo2null = endo2plus;" << endl;
+  Serial << "Endo2<int> endo2null (1,2) = " <<endo2null(1,2) << endl;
   Serial << "Endo2<int> endo2plus(fcpp::plus);" << endl;
   Serial << "endo2plus(1,2)  = " << endo2plus(1,2) << endl;
   // I can now do this curried.
