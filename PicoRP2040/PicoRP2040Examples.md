@@ -1,5 +1,7 @@
 # Pico RP2040 Examples
 
+There are some more examples to be described.
+
 ## Examples
 
 I will be converting some examples to work with the Pico RP2040.
