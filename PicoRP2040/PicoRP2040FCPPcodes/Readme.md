@@ -79,3 +79,9 @@ This example has all of the monoid examples from PicoRP2040FCPPCategory
 This includes the examples of Endo endomorphic operations.
 
 I am going to move more definitions to fcpp/monoids.h to make them available for work in other examples.
+
+## PicoRP2040FCPPFunctors
+
+This is developed from the old functors.cpp with some additions.
+
+I am now developing examples using monoids.
