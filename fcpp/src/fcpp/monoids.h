@@ -679,6 +679,50 @@ typedef MonoidType<Endo<int>::Type,Compose> MonoidEndo;
 template <> Endo<int>::Type MonoidEndo::zero = id;
 template <> Compose MonoidEndo::op = compose;
 
+  template <class T>
+  struct Endo2 {
+  typedef Fun2<T,T,T> Type;
+  typedef T ElementType;
+#ifdef FCPP_DEBUG
+       std::string name() const
+       {
+           return std::string("Endo2");
+       }
+#endif
+private:
+       Type f_;
+public:
+       Endo2() : f_(id) { }
+       template <class F>
+       Endo2(const Full2<F> &f) : f_(f) { }
+       Endo2(const Fun2<T,T,T> &f) : f_(f) { }
+       Endo2(const Endo2 &x) : f_(x.f_) { }
+       Endo2 operator= (const Endo2 &e) {
+         f_ = e.f_; return *this;
+       }
+	   // This enables the Endo objects to work with functors.
+       template <class A> struct Sig : public FunType<A,T> {};
+       Type operator()() const
+       {
+          return f_;
+       }
+       operator Type() const
+       {
+          return f_;
+       }
+       T operator()(const T& t1, const T& t2) const
+       {
+          return f_(t1,t2);
+       }
+
+  };
+
+// This is using MonoidType and MonoidT from monoids.h
+typedef MonoidType<Endo2<int>::Type,Compose> MonoidEndo2;
+// I need something else for this.
+//template <> Endo2<int>::Type MonoidEndo2::zero = id;
+template <> Compose MonoidEndo2::op = compose;
+
 //////////////////////////////////////////////////////////////////////////
 // I am caught by the polymorphism of FC++ - I want a "type" for any Full1<T>.
 // So I made Mendo polymorphic.
