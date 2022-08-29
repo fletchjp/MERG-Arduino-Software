@@ -706,6 +706,65 @@ void monoid_examples()
   Serial << "f3 = compose(fid,finc)(2) = " << f3 << endl;
   int f4 = fid(finc(3));
   Serial << "f4 = fid(finc(3)) = " << f4 << endl;
+  Serial << "======================================================"
+            << endl;
+  Serial << "Endo<T> is an endomorphic wrapper for Full1 operators once a type is given." << endl;
+  Serial << "MonoidEndo provides mempty mappend and mconcat for Endo<T>." << endl;          
+  Serial << "typedef MonoidType<Endo<int>::Type,Compose> MonoidEndo;" << endl;
+  Serial << "I now have these working as with finc etc." << endl;
+  Serial << "======================================================"
+            << endl;
+  List<int>::iterator li;
+  typedef Endo<int> EndoInt;
+  List<int> l12 = list_with(1,2);
+  // I think if I get the Endo objects correct they should work the same as Fun1<T,T> above.
+  // I have not got it correct at the moment and things do not work as I wish.
+  // It turns out that what was needed was to add a Sig to Endo.
+  Serial << "Endo<int> endoinc(inc);" << endl;
+  Endo<int> endodec(dec);
+  Endo<int> endop3(fcpp::plus(3));
+  Serial << "Endo<int> endop3(fcpp::plus(3));" << endl;
+  Serial << "MonoidEndo monendop2(fcpp::plus(2));" << endl;
+  MonoidEndo monendop2(fcpp::plus(2));
+  List<EndoInt> lendo = list_with(endodec,endoinc,endop3);
+  List<EndoInt>::iterator leit;
+  // This does generate a list which I can apply to the arguments.
+  Serial << "List<EndoInt> lendo = list_with(endodec,endoinc,endop3);" << endl;
+  Serial << "lendo applied to (2) =  [ ";
+  for (leit= lendo.begin(); leit!=lendo.end(); ++leit)
+    {
+      Serial << (*leit)(2) << " ";
+    }
+  Serial << " ]" << endl;
+  List<int> l23x = pureL(endoinc()) ^star^ (l12);
+  Serial << "List<int> l23x = pureL(endoinc()) ^star^ (l12) : [ ";
+  for (li= l23x.begin(); li!=l23x.end(); ++li)
+    {
+      Serial << *li << " ";
+    }
+  Serial << "]" << endl;
+  List<int> l23y = (pureA<ListA>()(endoinc())) ^star^ (l12); // This works with an extra bracket to get the function.
+  List<int> l23z = pureL(inc) ^star^ (l12);
+  // I would like to do this:
+  //List<int> l23z = (pureA<ListA>()(lendo)) ^star^ (l12);
+  // It does now work, now that I have provided a Sig in Endo<T>.
+  List<int> l23w = (lendo) ^star^ (l12);
+  Serial << "List<int> l23w = (lendo) ^star^ (l12) = [ ";
+  for (li= l23w.begin(); li!=l23w.end(); ++li)
+    {
+      Serial << *li << " ";
+    }
+  Serial << "]" << endl;
+  Serial << "======================================================"
+            << endl;
+  Serial << "Endo2<T> takes a two argument functoid." << endl;
+  Serial << "======================================================"
+            << endl;
+  Endo2<int> endo2plus(fcpp::plus);
+  Serial << "Endo2<int> endo2plus(fcpp::plus);" << endl;
+  Serial << "endo2plus(1,2)  = " << endo2plus(1,2) << endl;
+  // I can now do this curried.
+  Serial << "endo2plus(2)(3) = " << endo2plus(2)(3) << endl;
 }
 
 void setup() {
