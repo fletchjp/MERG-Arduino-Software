@@ -590,8 +590,8 @@ template <class T, class Op> struct MonoidTraitsSpecializer<MonoidType<T,Op> > {
 //////////////////////////////////////////////////////////////////////////
 // I have adapted bimap as bimap2.
 // I need to store the type of this curried function.
-// I am going to use parallel2 instead of bimap2 as that is in fcpp/functors.h 
 //using OpType = typeof(bimap2(fcpp::plus,fcpp::multiplies));
+// I am using parallel2 instead of bimap2 as that is in fcpp/functors.h 
 using OpType = typeof(parallel2(makePair(fcpp::plus,fcpp::multiplies)));
 typedef MonoidType<std::pair<int,int>,OpType> MonoidPair;
 template <> std::pair<int,int> MonoidPair::zero = std::make_pair(0,1);
@@ -603,6 +603,7 @@ template <> OpType MonoidPair::op = parallel2(makePair(fcpp::plus,fcpp::multipli
 // This example combines Any and All into one monoid working on pairs.
 // This version uses bimap2
 //using OpTypeAnyAll = typeof(bimap2(fcpp::or2,fcpp::and2));
+// I am now using parallel2 instead of bimap2 as that is in fcpp/functors.h 
 using OpTypeAnyAll = typeof(parallel2(makePair(fcpp::or2,fcpp::and2)));
 typedef MonoidType<std::pair<bool,bool>,OpTypeAnyAll> MonoidAnyAll;
 template <> std::pair<bool,bool> MonoidAnyAll::zero = std::make_pair(false,true);
@@ -679,6 +680,12 @@ typedef MonoidType<Endo<int>::Type,Compose> MonoidEndo;
 template <> Endo<int>::Type MonoidEndo::zero = id;
 template <> Compose MonoidEndo::op = compose;
 
+//using OpTypeEndoPair = typeof(parallel2(makePair(Endo<int>,)));
+//using EndoPair = MonoidType<std::pair<Endo<int>::Type,Endo<int>::Type>;
+//typedef MonoidType<std::pair<Endo<int>::Type,Endo<int>::Type>,OpTypeAnyAll2> MonoidAnyAll2;
+//template <> std::pair<,bool> MonoidAnyAll2::zero = std::make_pair(false,true);
+//template <> OpTypeAnyAll2 MonoidAnyAll2::op = parallel2(makePair(fcpp::or2,fcpp::and2));
+
   template <class T>
   struct Endo2 {
   typedef Fun2<T,T,T> Type;
@@ -736,6 +743,8 @@ public:
 // These cases use compose which can cope with e.g compose(inc,plus)
 // as long as it is the second arg which has more than one argument.
 // with more than one argument.
+
+
 // I have now made mmappend(inc,inc) work using a specialisation
 // in fcpp/monoids.h to use compose directly.
 //////////////////////////////////////////////////////////////////////////
