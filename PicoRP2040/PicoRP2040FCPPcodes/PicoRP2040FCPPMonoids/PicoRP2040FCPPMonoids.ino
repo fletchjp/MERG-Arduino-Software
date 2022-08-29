@@ -765,6 +765,12 @@ void monoid_examples()
   Serial << "endo2plus(1,2)  = " << endo2plus(1,2) << endl;
   // I can now do this curried.
   Serial << "endo2plus(2)(3) = " << endo2plus(2)(3) << endl;
+// Endo2 cannot be made into a monoid.
+//typedef MonoidType<Endo2<int>::Type,Compose> MonoidEndo2;
+// I need something else for this.
+//template <> Endo2<int>::Type MonoidEndo2::zero = id;
+//template <> Compose MonoidEndo2::op = compose;
+//  using EndoPair = MonoidType<std::pair<Endo<int>::Type,Endo<int>::Type>,std::pair<Compose,Compose>>;
 }
 
 void setup() {
