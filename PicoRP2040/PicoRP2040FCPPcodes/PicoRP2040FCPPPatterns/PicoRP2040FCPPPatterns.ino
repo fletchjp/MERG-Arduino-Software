@@ -76,6 +76,68 @@
 // I can then add overloaded operators to do arithmetic.
 //
 //////////////////////////////////////////////////////////////
+// ORGANISATION
+// I am going to put the remaining general purpose functoids
+// into fcpp/prelude.h
+// (I think that is only applyp, the rest are there already.)
+//
+// I am going to make fcpp/pattern.h as a new file
+// and put patterns in fp functoids there. It makes it easier
+// for editing the tests to be able to see the functoids in a
+// different file. I will also move first and second there
+// from arrow.h.
+//
+// When complete, the Stream monad will go into fcpp/monad.h.
+//
+// This has developed differently, and fcpp/pattern.h is now
+// the location of a lot of new work on Monads.
+/////////////////////////////////////////////////////////////
+
+// fork_(f,g,a) -> (f(a),g(a))
+// Note: I have named it fork_ as there is something else called fork.
+
+// Also the same thing for 2 arg functoids
+// fork2(f,g,a,b) -> (f(a,b),g(a,b))
+
+// There are related things already
+// hCurry(f,a,b)     -> f((a,b)) makes arguments into a pair.
+// hUncurry(f,(a,b)) -> f(a,b)   takes arguments as a pair.
+
+// I have used hUncurry in arrows_examples.cpp
+// I have not seen examples of hCurry.
+// I don't know of a functoid taking a pair.
+
+// I already have these which are in arrow.h
+// first(f,p) and second(f,p) with p a pair (x,y)
+// first  applies f to x and returns a pair f(x) and y
+// second applies f to y and returns a pair x and f(y)
+// first(f,(a,b))  -> (f(a),b)
+// second(f,(a,b)) -> (a,f(b))
+// Example of use:
+// hUncurry(plus,compose(first(inc),second(dec))(makePair(x,x)))
+// This takes an argument (x) and makes a pair of two copies.
+// It increments the first and decrements the second.
+// It then uncurries the pair and feeds it to plus,
+// adding them together.
+
+// I could now do something with parallel((f,g),(a,b))
+
+// What about this  something(f,a,b) -> (f(a),f(b)) ??
+// Is there a something?? It is like map, which works with lists.
+// How about apply or apply2 ?
+// apply(f,a)      -> f(a)           (hardly needed)
+// apply2(f,a,b)   -> (f(a),f(b))
+
+// Further ideas
+// applyp(f,(a,b)) -> (f(a),f(b)) (DONE)
+// parallel((f,g),(a,b)) -> (f(a),g(b)) (DONE) (called prod by Jeremy)
+// parallel2((f,g),(a,b),(c,d)) -> (f(a,c),g(b,d)) (added 2022)
+
+// related: compose2(f,g,h)(x)   -> f( g(x), h(x) )
+// also:    combine (f,g,h)(x,y) -> f( g(x), h(y) )
+// (also known as compose2xy)
+     
+// How about forkp( (f,g), a) -> (f(a),g(a))  DONE
 
 // ========================
 // headers
