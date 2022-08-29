@@ -14,6 +14,8 @@
 // I have ignored the FCPP_DEBUG code which is not yet supported here.
 // I have done quite a lot to Either in fcpp/prelude.h to sort out warnings.
 // I now have Endo<T> working with functors.
+// I have invented Endo2<T> which will take a two argument functoid e.g. fcpp::plus.
+// I think it cannot be a monoid as it does not have a valid zero.
 ////////////////////////////////////////////////////////////////////////////
 //
 // Developments of FC++ functors.
