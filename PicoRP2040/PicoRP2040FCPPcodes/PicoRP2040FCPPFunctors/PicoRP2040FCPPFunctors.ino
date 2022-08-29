@@ -16,6 +16,7 @@
 // I now have Endo<T> working with functors.
 // I have invented Endo2<T> which will take a two argument functoid e.g. fcpp::plus.
 // I think it cannot be a monoid as it does not have a valid zero.
+// I now have a number of examples which can be developed further.
 ////////////////////////////////////////////////////////////////////////////
 //
 // Developments of FC++ functors.
@@ -1160,7 +1161,7 @@ void functor_examples2()
   Serial << "typedef MonoidType<Endo<int>::Type,Compose> MonoidEndo;" << endl;
   Serial << "I now have these working as with finc etc." << endl;
   Serial << "There are some more examples in PicoRP2040FCPPMonoids." << endl;
-  Serial >> "There is more work to be done to explore what is now possible." << endl;
+  Serial << "There is more work to be done to explore what is now possible." << endl;
   Serial << "======================================================"
             << endl;
   // I think if I get the Endo objects correct they should work the same as Fun1<T,T> above.
