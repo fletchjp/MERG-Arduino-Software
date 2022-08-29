@@ -699,7 +699,7 @@ template <> Compose MonoidEndo::op = compose;
 private:
        Type f_;
 public:       
-       Endo2() {}  // This will compile.
+       Endo2() {}  // This will compile using the default constructor for Fun2.
        template <class F>
        Endo2(const Full2<F> &f) : f_(f) { }
        Endo2(const Fun2<T,T,T> &f) : f_(f) { }
