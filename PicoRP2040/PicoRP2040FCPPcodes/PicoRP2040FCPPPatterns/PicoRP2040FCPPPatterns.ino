@@ -3,6 +3,80 @@
 // Examples from patternsinfp.cpp and other sources
 //////////////////////////////////////////////////////////////////////
 
+//////////////////////////////////////////////////////////////
+// I have found a new source of inspiration.
+// The reason I found it was that I was looking for a lost file
+// of my own, translator.cpp.
+//
+// This is for a start from one of many pages.
+//
+// http://patternsinfp.wordpress.com/2010/12/31/stream-monad/
+//
+// I have also now been in contact with Jeremy Gibbons.
+//
+// See also
+// http://zenzike.com/posts/2010-10-21-streams-and-monad-laws
+//
+//////////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////////////////
+// What is coming into being is a new set of FC++ functoids
+// which are versions of what Jeremy is talking about in his
+// pages. I am starting with his work on the Stream monad
+// where the Stream translates in FC++ terms into a List,
+// often an infinite List e.g. enumFrom(1).
+// He calls his work Patterns in Functional Programming.
+// These functoids are going to form the patterns.
+// I am not sticking strictly to his names and I explain that
+// as I am going along.
+//
+// These functoids are now being located in either
+// fcpp/prelude.h for those of general applicability or
+// fcpp/pattern.h for those specific to the patterns.
+//
+// I think that the set of tools I am building will lead also
+// to comonads and arrows, particularly as I already have
+// first and second defined from my previous work on arrows.
+//
+// Also I think it is going to help me with the State monad in
+// FC++ which I have not done much with yet.
+
+// Monads
+// ------
+// Real World Haskell (p.329) defines the monad class in terms
+// of bind(>>=) and return.
+// FC++ uses bind and unit for these.
+//
+// The Stream Monad is defined in terms of join and return as follows.
+//
+//  Making streams a monad amounts to defining functions
+//
+//     return :: a -> Stream a
+//     join   :: Stream( Stream a) -> Stream a
+//  satisfying the monad laws:
+//
+//     join . return      = id
+//     join . mapS return = id
+//     join . mapS join   = join . join
+//
+//  It then defines
+//     return = repeat         where
+//     repeat = unfold double  and
+//     double = fork(id,id)
+//
+// This is not consistent with FC++ where in the ListM monad
+//
+//     unit a  returns a List with only a, not a repeat.
+//
+// I am not sure what to do about that.
+//
+// I am now defining the Stream monad as StreamM.
+//
+// I have also defined Stream<T> as inheriting from List<T>.
+// I can then add overloaded operators to do arithmetic.
+//
+//////////////////////////////////////////////////////////////
+
 // ========================
 // headers
 // ========================
