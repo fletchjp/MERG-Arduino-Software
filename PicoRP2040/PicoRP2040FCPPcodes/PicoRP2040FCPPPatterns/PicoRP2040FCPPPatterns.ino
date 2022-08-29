@@ -246,7 +246,80 @@ namespace fcpp {
 
 }
 //////////////////////////////////////////////////////////
+void testing_patterns()
+{
+  Serial << "fork_ functoid" << endl;
+  Serial << "--------------" << endl;
+  Serial << "fork_(f,g,a) -> (f(a),g(a))" << endl;
+  std::pair<int,int> res = fork_(inc,dec,1);
+  Serial << "fork_(inc,dec,1) = ";
+  Serial << "(" << res.first << "," << res.second << ")" << endl;
+  Serial << "--------------" << endl;
+  Serial << "fork2 functoid" << endl;
+  Serial << "fork2(f,g,a,b) -> (f(a,b),g(a,b))" << endl;
+  Serial << "--------------" << endl;
+  std::pair<int,int> res2 = fork2(plus,minus,4,2);
+  Serial << "fork2(plus,minus,4,2) = ";
+  Serial << "(" << res2.first << "," << res2.second << ")" << endl;
+  std::pair<int,int> res2a = fork2(plus,minus,4,3);
+  Serial << "fork2(plus,minus,4,3) = ";
+  Serial << "(" << res2a.first << "," << res2a.second << ")" << endl;
+  Serial << "---------------" << endl;
+  Serial << "forkp functoid receives a pair of functoids." << endl;
+  Serial << "forkp((f,g),a) -> (f(a),g(a))" << endl;
+  Serial << "--------------" << endl;
+  std::pair<int,int> resp = forkp(std::make_pair(inc,dec),4);
+  Serial << "forkp(std::make_pair(inc,dec),4) = ";
+  Serial << "(" << resp.first << "," << resp.second << ")" << endl;
+  Serial << "---------------" << endl;
+  Serial << "apply functoid" << endl;
+  Serial << "apply(f,a) -> f(a)" << endl;
+  Serial << "---------------" << endl;
+  int y = apply(inc,4);
+  Serial << "apply(inc,4) = " << y << endl;  
+  Serial << "---------------" << endl;
+  Serial << "apply2 functoid" << endl;
+  Serial << "apply2(f,a,b) -> (f(a),f(b))" << endl;
+  Serial << "---------------" << endl;
+  std::pair<int,int> res3 = apply2(inc,4,2);
+  Serial << "apply2(inc,4,2) = ";
+  Serial << "(" << res3.first << "," << res3.second << ")" << endl;
+  Serial << "---------------" << endl;
+  Serial << "applyp functoid" << endl;
+  Serial << "applyp(f,(a,b) ) -> (f(a),f(b))" << endl;
+  Serial << "---------------" << endl;
+  std::pair<int,int> res4 = applyp(inc,std::make_pair(4,2));
+  Serial << "applyp(inc,std::make_pair(4,2)) = ";
+  Serial << "(" << res4.first << "," << res4.second << ")" << endl;
+  Serial << "---------------" << endl;
+  Serial << "parallel functoid" << endl;
+  Serial << "parallel((f,g),(a,b) ) -> (f(a),g(b))" << endl;
+  Serial << "---------------" << endl;
+  Serial << "parallel(makePair(inc,dec),std::make_pair(4,4)) = ";
+  std::pair<int,int> res5 = parallel(makePair(inc,dec),std::make_pair(4,4));
+  Serial << "(" << res5.first << "," << res5.second << ")" << endl;
+  Serial << "---------------" << endl;
+  Serial << "Compare with this using first and second" << endl;
+  Serial << "compose(first(inc),second(dec))(makePair(4,4)) = ";
+  std::pair<int,int> res6 = compose(first(inc),second(dec))(makePair(4,4));
+  Serial << "(" << res6.first << "," << res6.second << ")" << endl;
+  Serial << "---------------" << endl;
+  Serial << "NOTE: makePair is the FC++ functoid for std::pair."
+            << endl;
+  Serial << "==================================" << endl;
+  Serial << "Comparison with hCurry and hUncurry " << endl;
+  Serial << "==================================" << endl;
+  Serial << "hCurry(f,a,b) -> f( (a,b) ) makes a pair for f " << endl;
+  Serial << "hUncurry(f, (a,b) ) -> f(a,b) takes a pair " << endl;
+  int x = hCurry(hUncurry(plus),1,2);
+  Serial << "hCurry(hUncurry(plus),1,2) = " << x << endl;
+  Serial << "hUncurry with fork_" << endl;
+  x = hUncurry(plus,res); // using previous result.
+  x = hUncurry(plus,fork_(inc,dec,1));
+  Serial << "hUncurry(plus,fork_(inc,dec,1)) = " << x << endl;
+  Serial << "==================================" << endl;
 
+}
 
 void fcpp_examples()
 {
@@ -316,9 +389,13 @@ void setup() {
   Serial.begin (115200);
   while (!Serial) { }
   //::delay(5000);
-  Serial.printf("Pico RP2040 FC++ operations\n");
+  Serial.printf("Pico RP2040 FC++ pattern operations\n");
   fcpp_examples();
   Serial.println("after fcpp_examples");
+  Serial.println("--------------------------");
+  testing_patterns();
+  Serial.println("--------------------------");
+  Serial.println("after testing_patterns");
   Serial.println("--------------------------");
  }
 
