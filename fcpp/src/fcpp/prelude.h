@@ -3773,7 +3773,7 @@ FCPP_MAYBE_NAMESPACE_CLOSE
 // fork_(f,g,a)        -> pair(f(a),g(a)) (Note: fork_ not fork)
 // fork2(f,g,a,b)      -> pair(f(a,b),g(a,b)) (FC++ 1.5.2 only)
 // forkp(pair(f,g), a) -> pair(f(a),g(a))
-// The next ones are some I have dreampt up as a result.
+// The next ones are some I have dreamt up as a result.
 // apply(f,a)          -> f(a)           (hardly needed)
 // apply2(f,a,b)       -> pair(f(a),f(b))
 // applyp(f,pair(a,b)) -> pair(f(a),f(b))
