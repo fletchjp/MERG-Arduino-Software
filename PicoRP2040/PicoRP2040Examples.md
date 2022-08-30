@@ -20,4 +20,4 @@ These are simple examples of use of the second core.
 
 ## PicoRP2040FCPP examples
 
-These have now been moved to a separate folder.
+These have now been moved to a separate folder. 
