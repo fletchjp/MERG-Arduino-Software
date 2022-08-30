@@ -783,13 +783,14 @@ void monoid_examples()
    //using EndoPair = MonoidType<std::pair<EndoInt::Type,EndoInt::Type>,
    //Endo<PairInt> endopair;
    //Endo<PairInt> endopairincdec(parallel2(makePair(inc,dec)));
-// I have rediscovered apply(f,x) -> f(x) which I wrote some time ago.
   Serial << "======================================================"
             << endl;
   Serial << "Bringing things in defined for patternsinfp" << endl;
   Serial << "======================================================"
             << endl;
+  // I have rediscovered apply(f,x) -> f(x) which I wrote some time ago.
   Serial << "apply(inc,3) = " << apply(inc,3) << endl;
+  // It is really nice that this works without any extra code.
   Serial << "apply(endoinc,3) = " << apply(endoinc,3) << endl;
 }
 
