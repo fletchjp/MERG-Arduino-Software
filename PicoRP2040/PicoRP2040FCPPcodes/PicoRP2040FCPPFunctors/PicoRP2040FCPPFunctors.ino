@@ -1194,14 +1194,22 @@ void functor_examples2()
       Serial << (*leit)(2) << " ";
     }
   Serial << " ]" << endl;
-  List<int> l23x = pureL(endoinc()) ^star^ (l12);
-  Serial << "List<int> l23x = pureL(endoinc()) ^star^ (l12) : [ ";
+  List<int> l23x = pureL(endoinc) ^star^ (l12);
+  Serial << "List<int> l23x = pureL(endoinc) ^star^ (l12) : [ ";
   for (li= l23x.begin(); li!=l23x.end(); ++li)
     {
       Serial << *li << " ";
     }
   Serial << "]" << endl;
-  List<int> l23y = (pureA<ListA>()(endoinc())) ^star^ (l12); // This works with an extra bracket to get the function.
+  // This works with an extra bracket to get the function.
+  // It also now works without ().
+  List<int> l23y = (pureA<ListA>()(endoinc)) ^star^ (l12); // This works with an extra bracket to get the function.
+  Serial << "List<int> l23y = (pureA<ListA>()(endoinc)) ^star^ (l12) = [ ";
+  for (li= l23y.begin(); li!=l23y.end(); ++li)
+    {
+      Serial << *li << " ";
+    }
+  Serial << "]" << endl;
   List<int> l23z = pureL(inc) ^star^ (l12);
   // I would like to do this:
   //List<int> l23z = (pureA<ListA>()(lendo)) ^star^ (l12);
