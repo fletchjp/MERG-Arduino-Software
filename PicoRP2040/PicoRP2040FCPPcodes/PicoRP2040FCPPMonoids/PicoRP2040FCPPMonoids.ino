@@ -104,26 +104,7 @@ namespace fcpp {
 
 // apply2a(f,a,b) -> f(a,b)
 // Not apply2 as I have one of those already.
-namespace impl {
-    struct XApply2a {
-      template <class F,class A,class B>
-      struct Sig : public FunType<F,A,B,
-                    typename RT<F,A,B>::ResultType > { };
-
-      template <class F,class A,class B>
-      typename Sig<F,A,B>::ResultType operator()
-      (const F& f,const A &a,const B& b) const
-      {
-         return f(a,b);
-      }
-    };
-
-}
- typedef Full3<impl::XApply2a> Apply2a;
- FCPP_MAYBE_NAMESPACE_OPEN
- FCPP_MAYBE_EXTERN Apply2a apply2a;
- FCPP_MAYBE_NAMESPACE_CLOSE
-
+// Moved to fcpp/prelude.h
 
 // New XOR operator for FC++ it has been moved to fcpp/prelude.h
 
