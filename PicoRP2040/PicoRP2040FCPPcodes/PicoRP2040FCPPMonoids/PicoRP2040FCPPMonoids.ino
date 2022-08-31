@@ -817,7 +817,15 @@ void monoid_examples()
   Serial << "apply(inc,4) = " << apply(inc,4) << endl;
   // It is really nice that this works without any extra code.
   Serial << "apply(endoinc,5) = " << apply(endoinc,5) << endl;
-  Serial << "This is apply2a as I already have apply2." << endl;
+  Serial << "---------------" << endl;
+  std::pair<int,int> res3 = apply2(inc,4,2);
+  Serial << "apply2(inc,4,2) = ";
+  Serial << "(" << res3.first << "," << res3.second << ")" << endl;
+  std::pair<int,int> res4 = apply2(endoinc,5,3);
+  Serial << "apply2(endoinc,5,3) = ";
+  Serial << "(" << res4.first << "," << res4.second << ")" << endl;
+  Serial << "---------------" << endl;
+  Serial << "This is apply2a as I already have apply2 (see above)." << endl;
   Serial << "apply2a(fcpp::plus,3,4) = " << apply2a(fcpp::plus,3,4) << endl;
   Serial << "apply2a(fcpp::plus,3)(5) = " << apply2a(fcpp::plus,3)(5) << endl;
   // This needs () to get it working.
