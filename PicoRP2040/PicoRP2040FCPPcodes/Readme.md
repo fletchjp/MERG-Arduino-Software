@@ -89,3 +89,8 @@ I am going to move more definitions to fcpp/monoids.h to make them available for
 This is developed from the old functors.cpp with some additions.
 
 I am now developing examples using monoids.
+
+## PicoRP2040FCPPPatterns
+
+patternsinfp.cpp code moved over.
+
