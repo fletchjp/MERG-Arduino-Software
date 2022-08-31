@@ -3774,7 +3774,8 @@ FCPP_MAYBE_NAMESPACE_CLOSE
 // fork2(f,g,a,b)      -> pair(f(a,b),g(a,b)) (FC++ 1.5.2 only)
 // forkp(pair(f,g), a) -> pair(f(a),g(a))
 // The next ones are some I have dreamt up as a result.
-// apply(f,a)          -> f(a)           (hardly needed)
+// apply(f,a)          -> f(a)   (used with endo)
+// apply2a(f,a,b)      -> f(a,b) (used with endo2)
 // apply2(f,a,b)       -> pair(f(a),f(b))
 // applyp(f,pair(a,b)) -> pair(f(a),f(b))
 /////////////////////////////////////////////////////////////////////
@@ -3851,6 +3852,18 @@ namespace impl {
         return f(a);
       }
     };
+    struct XApply2a {
+      template <class F,class A,class B>
+      struct Sig : public FunType<F,A,B,
+                    typename RT<F,A,B>::ResultType > { };
+
+      template <class F,class A,class B>
+      typename Sig<F,A,B>::ResultType operator()
+      (const F& f,const A &a,const B& b) const
+      {
+         return f(a,b);
+      }
+    };
     struct XApply2 {
       template <class F,class A,class B>
       struct Sig : public FunType<F,A,B,
@@ -3911,6 +3924,7 @@ namespace impl {
 
 }
  typedef Full2<impl::XApply>  Apply;
+ typedef Full3<impl::XApply2a> Apply2a;
  typedef Full3<impl::XApply2> Apply2;
  typedef Full2<impl::XApplyp> Applyp;
 #ifdef FCPP152
@@ -3919,6 +3933,7 @@ namespace impl {
 #endif
  FCPP_MAYBE_NAMESPACE_OPEN
  FCPP_MAYBE_EXTERN Apply  apply;
+ FCPP_MAYBE_EXTERN Apply2a apply2a;
  FCPP_MAYBE_EXTERN Apply2 apply2;
  FCPP_MAYBE_EXTERN Applyp applyp;
 #ifdef FCPP152
@@ -3926,6 +3941,7 @@ namespace impl {
  FCPP_MAYBE_EXTERN Apply2GF apply2gf;
 #endif
  FCPP_MAYBE_NAMESPACE_CLOSE
+ 
 
 //////////////////////////////////////////////////////////////////////
 // Useful effect combinators
