@@ -61,6 +61,8 @@
 // I now have Endo<T> working with functors. Examples are in PicoRP2040FCPPFunctors.
 // I have invented Endo2<T> which will take a two argument functoid e.g. fcpp::plus.
 // I think it cannot be a monoid as it does not have a valid zero.
+// I have now used apply(f,a) and apply2a(f,a,b) to Endo<T> and Endo2<T>
+// These have to be apply(ef,a) and apply2a(e2f(),a,b) to work.
 //////////////////////////////////////////////////////////////////////
 
 // ========================
@@ -815,6 +817,7 @@ void monoid_examples()
   Serial << "apply(inc,4) = " << apply(inc,4) << endl;
   // It is really nice that this works without any extra code.
   Serial << "apply(endoinc,5) = " << apply(endoinc,5) << endl;
+  Serial << "This is apply2a as I already have apply2." << endl;
   Serial << "apply2a(fcpp::plus,3,4) = " << apply2a(fcpp::plus,3,4) << endl;
   Serial << "apply2a(fcpp::plus,3)(5) = " << apply2a(fcpp::plus,3)(5) << endl;
   // This needs () to get it working.
