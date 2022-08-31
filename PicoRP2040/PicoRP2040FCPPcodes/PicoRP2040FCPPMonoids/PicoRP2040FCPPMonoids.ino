@@ -818,7 +818,7 @@ void monoid_examples()
   Serial << "apply2a(fcpp::plus,3,4) = " << apply2a(fcpp::plus,3,4) << endl;
   Serial << "apply2a(fcpp::plus,3)(5) = " << apply2a(fcpp::plus,3)(5) << endl;
   // This is not working yet.
-  //Serial << "apply2a(endo2plus,3,4) = " << apply2a(endo2plus,3,4) << endl;
+  Serial << "apply2a(endo2plus(),3,4) = " << apply2a(endo2plus(),3,4) << endl;
 }
 
 void setup() {
