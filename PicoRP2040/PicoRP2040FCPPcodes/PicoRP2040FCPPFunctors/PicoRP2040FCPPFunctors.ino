@@ -17,6 +17,7 @@
 // I have invented Endo2<T> which will take a two argument functoid e.g. fcpp::plus.
 // I think it cannot be a monoid as it does not have a valid zero.
 // I now have a number of examples which can be developed further.
+// There are now some examples of use in PicoRP2040FCPPMonoids.
 ////////////////////////////////////////////////////////////////////////////
 //
 // Developments of FC++ functors.
