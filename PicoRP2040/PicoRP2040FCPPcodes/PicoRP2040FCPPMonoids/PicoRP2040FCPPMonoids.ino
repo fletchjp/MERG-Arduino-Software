@@ -812,14 +812,15 @@ void monoid_examples()
   Serial << "======================================================"
             << endl;
   // I have rediscovered apply(f,x) -> f(x) which I wrote some time ago.
-  Serial << "apply(inc,3) = " << apply(inc,3) << endl;
+  Serial << "apply(inc,4) = " << apply(inc,4) << endl;
   // It is really nice that this works without any extra code.
-  Serial << "apply(endoinc,3) = " << apply(endoinc,3) << endl;
+  Serial << "apply(endoinc,5) = " << apply(endoinc,5) << endl;
   Serial << "apply2a(fcpp::plus,3,4) = " << apply2a(fcpp::plus,3,4) << endl;
   Serial << "apply2a(fcpp::plus,3)(5) = " << apply2a(fcpp::plus,3)(5) << endl;
   // This needs () to get it working.
   // I need to think about why this needs an extra ().
-  Serial << "apply2a(endo2plus(),3,4) = " << apply2a(endo2plus(),3,4) << endl;
+  Serial << "apply2a(endo2plus(),3,6) = " << apply2a(endo2plus(),3,6) << endl;
+  Serial << "apply2a(endo2plus(),3)(7) = " << apply2a(endo2plus(),3)(7) << endl;
 }
 
 void setup() {
