@@ -708,8 +708,9 @@ public:
          f_ = e.f_; return *this;
        }
 	   // This enables the Endo2 objects to work with functors.
-	   template <class A,class A1,class A2> struct Sig;
-       template <class A> struct Sig<A,T,T> : public FunType<A,T,T,T> {};
+       template <class A> struct Sig : public FunType<A,T> {};
+       //template <class A,class A1,class A2> struct Sig;
+       //template <class A> struct Sig<A,T,T> : public FunType<A,T,T,T> {};
        Type operator()() const
        {
           return f_;
