@@ -810,9 +810,10 @@ void monoid_examples()
   Serial << "apply2a(fcpp::plus,3,4) = " << apply2a(fcpp::plus,3,4) << endl;
   Serial << "apply2a(fcpp::plus,3)(5) = " << apply2a(fcpp::plus,3)(5) << endl;
   // This needs () to get it working.
-  // I need to think about why this needs an extra ().
-  Serial << "apply2a(endo2plus(),3,6) = " << apply2a(endo2plus(),3,6) << endl;
-  Serial << "apply2a(endo2plus(),3)(7) = " << apply2a(endo2plus(),3)(7) << endl;
+  // This no longer needs an extra ().
+  Serial << "apply2a(endo2plus,3,6) = " << apply2a(endo2plus,3,6) << endl;
+  Serial << "apply2a(endo2plus,3)(7) = " << apply2a(endo2plus,3)(7) << endl;
+  Serial << "apply2a(endo2plus,3,8) = " << apply2a(endo2plus,3,8) << endl;
 }
 
 void setup() {
