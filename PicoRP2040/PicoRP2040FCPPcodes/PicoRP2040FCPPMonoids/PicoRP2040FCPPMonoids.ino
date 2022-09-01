@@ -62,7 +62,7 @@
 // I have invented Endo2<T> which will take a two argument functoid e.g. fcpp::plus.
 // I think it cannot be a monoid as it does not have a valid zero.
 // I have now used apply(f,a) and apply2a(f,a,b) to Endo<T> and Endo2<T>
-// These have to be apply(ef,a) and apply2a(e2f(),a,b) to work.
+// These can be apply(ef,a) and apply2a(e2f,a,b) as I have now sorted out a Sig for each.
 //////////////////////////////////////////////////////////////////////
 
 // ========================
