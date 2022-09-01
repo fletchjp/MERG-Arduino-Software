@@ -708,9 +708,8 @@ public:
          f_ = e.f_; return *this;
        }
 	   // This enables the Endo2 objects to work with functors.
-	   // e.g. apply2a(endo2plus(),3,4) where Endo2<int> endo2plus(fcpp::plus)
-	   // Note the extra bracket needed.
-       template <class A> struct Sig : public FunType<A,T> {};
+	   // e.g. apply2a(endo2plus,3,4) where Endo2<int> endo2plus(fcpp::plus)
+       template <class A, class B> struct Sig : public FunType<A,B,B,B> {};
        Type operator()() const
        {
           return f_;
