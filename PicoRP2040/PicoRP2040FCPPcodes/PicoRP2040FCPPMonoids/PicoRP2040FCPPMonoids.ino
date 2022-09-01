@@ -57,6 +57,7 @@
 // This can be wrapper as a monoid - MonoidEndo.
 // I have invented Endo2<T> which will take a two argument functoid e.g. fcpp::plus.
 // I think it cannot be a monoid as it does not have a valid zero.
+// Also mappend will not make sense. It can only go at the end of a chain.
 // I have now used apply(f,a) and apply2a(f,a,b) to Endo<T> and Endo2<T>
 // These can be apply(ef,a) and apply2a(e2f,a,b) as I have now sorted out a Sig for each.
 //////////////////////////////////////////////////////////////////////
