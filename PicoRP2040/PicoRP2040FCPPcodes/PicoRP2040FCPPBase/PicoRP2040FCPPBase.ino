@@ -111,6 +111,10 @@ void setup() {
   while (!Serial) { }
   //::delay(5000);
   Serial.printf("Pico RP2040 FC++ operations\n");
+#ifdef ARDUINO_PICO_VERSION_STR
+  Serial.printf("ARDUINO_PICO_VERSION_STR ");
+  Serial.println(ARDUINO_PICO_VERSION_STR);
+#endif
   fcpp_examples();
   Serial.println("after fcpp_examples");
   Serial.println("--------------------------");
