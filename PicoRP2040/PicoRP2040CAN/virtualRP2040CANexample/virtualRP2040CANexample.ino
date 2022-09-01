@@ -11,7 +11,8 @@ void print(struct can2040_msg *msg) {
     Serial.print("](");
     Serial.print(msg->dlc);
     Serial.print(")");
-    for(int i=0; i<msg->dlc; i++) {
+    uint32_t i;
+    for(i=0; i<msg->dlc; i++) {
       Serial.print(" ");
       Serial.print(msg->data[i], HEX);
     }
@@ -63,7 +64,11 @@ void setup() {
   // put your setup code here, to run once:
   while(!Serial) {}
    Serial.begin(115200);
-   Serial.print("\n\nHello\n");
+   Serial.print("\n\nvirtualRP2040CANexample\n");
+#ifdef ARDUINO_PICO_VERSION_STR
+   Serial.printf("ARDUINO_PICO_VERSION_STR ");
+   Serial.println(ARDUINO_PICO_VERSION_STR);
+#endif
    canbus_setup();
    print(&msg0);   // see if the assignment worked.  
 }
