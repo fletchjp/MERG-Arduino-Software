@@ -2,6 +2,7 @@
 // Demo of FC++ Maybe operation
 // This will work on ARDUINO DUE and also on AVR boards.
 // The secret is to include this to have the std library.
+//#include <Arduino.h>
 #include<ArduinoSTL.h>
 
 // This will now work with FC++ as an Arduino library - just include "prelude.h" and it will find it.
@@ -33,7 +34,7 @@ void setup() {
      cout << "mz has " << mz.value() << endl;
   }
   cout << "--------------------------" << endl;
-
+/*
   List<double>::iterator idx1, idx2;
   List<double> x1 = list_with(0.,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0);
   List<double> x2 = x1; //fcpp::map(fcpp::minus(1.0),x1);
@@ -59,7 +60,7 @@ void setup() {
 
   cout << "Length of odds is " << length(odds) << endl;
   cout << "sum of the odds is " << sum_odds << endl;
-
+*/
 }
 
 void loop() {
