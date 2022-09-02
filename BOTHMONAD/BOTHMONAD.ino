@@ -4,16 +4,17 @@
 // The secret is to include this to have the std library.
 #include<ArduinoSTL.h>
 
+#define FCPP_ARDUINO
 // 5 parameter functoids and more for example working.
 // Function 6, 7 and 8 now operational.
 #define FCPP152
 #define FCPP_ENABLE_LAMBDA
-#include "prelude.h"
+#include "fcpp_prelude.h"
 
 using namespace std;
 
 using namespace fcpp;
-/*
+
 //- templated version does not compile.
 // It seems to regard T as an undeclared class.
 // I think the problem is that there is already a generic templated operator<< in Streaming.
@@ -37,7 +38,7 @@ Print &operator <<( Print &obj, const Either<int> &arg)
     }
     return obj; 
 }
-*/
+
 
 // This does compile.
 //template <class T>
