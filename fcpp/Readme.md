@@ -8,6 +8,10 @@ At the moment there are only a few changes to make the files Arduino compatible 
 
 This means that they are actually the master copies for documentation rather than being a backup.
 
+I have made some more changes to get the codes working with AVR UNO and DUEs. Those changes seem to be alright on the Pico as well.
+
+FCPP_ARDUINO is defined in all cases to isolate features not supported.
+
 ## FC++ History
 
 These codes have a very long history which I will not go into here.
@@ -51,6 +55,8 @@ Identified and fixed a bug in the code.
 Code for MaybeLike and EitherLike with functoids unjust and unright moved here.
 
 Add new operator xor2 to do exclusive or.
+
+I have made DropWhileEqual into a full functoid and used it to solve some other problems.
 					
 ### src/fcpp/functors.h  					
 
