@@ -4,7 +4,9 @@
 // The secret is to include this to have the std library.
 //#include <Arduino.h>
 #include<ArduinoSTL.h>
-
+#define FCPP_ARDUINO
+// There is a problem with XEqual for the compiler version on the DUE.
+#define FCPP_ARDUINO_DUE
 // This will now work with FC++ as an Arduino library - just include "prelude.h" and it will find it.
 #include "fcpp_prelude.h"
 
@@ -23,7 +25,7 @@ void setup() {
   cout << "plus(1)(2) = " << fcpp::plus(1)(2) << endl;
   cout << "inc(1) = " << inc(1) << endl;
   cout << "--------------------------" << endl;
-
+/*
   Maybe<int> mx(2), my(3);
   Maybe<int> mz;
   if (mz.is_nothing()) cout << "mz is nothing" << endl;
@@ -34,7 +36,7 @@ void setup() {
      cout << "mz has " << mz.value() << endl;
   }
   cout << "--------------------------" << endl;
-/*
+
   List<double>::iterator idx1, idx2;
   List<double> x1 = list_with(0.,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0);
   List<double> x2 = x1; //fcpp::map(fcpp::minus(1.0),x1);
