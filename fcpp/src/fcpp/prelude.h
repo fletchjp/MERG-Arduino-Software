@@ -2351,12 +2351,13 @@ struct XDropUntil {
 // For FCPP_CONCEPTS
 // I have put this together because the calls at 1137 and 1153
 // will not compile with a curried argument. This works.
+// I have now turned it into a proper functoid.
 struct XDropWhileEqual {
-   template <class L>
-   struct Sig : public FunType<L,List<typename L::ElementType> > {};
-
-  template <class T, class L>
-    List<typename L::ElementType> operator()( const T& t, const L& ll ) const {
+   template <class T,class L>
+   struct Sig : public FunType<T,L,List<typename L::ElementType> > {};
+ 
+    template <class T,class L>
+    typename Sig<T,L>::ResultType operator()( const T& t, const L& ll ) const {
       List<typename L::ElementType> l = ll;
       while( !null(l) && equal( t, head(l) ) )
          l = tail(l);
@@ -2367,9 +2368,11 @@ struct XDropWhileEqual {
 
 }
 typedef Full2<impl::XDropWhile> DropWhile;
+typedef Full2<impl::XDropWhileEqual> DropWhileEqual;
 typedef Full2<impl::XDropUntil> DropUntil;
 FCPP_MAYBE_NAMESPACE_OPEN
 FCPP_MAYBE_EXTERN DropWhile dropWhile;
+FCPP_MAYBE_EXTERN DropWhileEqual dropWhileEqual;
 FCPP_MAYBE_EXTERN DropUntil dropUntil;
 FCPP_MAYBE_NAMESPACE_CLOSE
 
@@ -2639,11 +2642,12 @@ FCPP_MAYBE_NAMESPACE_CLOSE
 // These next two are defined as _lazy_ versions of these operators on lists
 // For some reason these are a problem on the Arduino.
 // It was not the Arduino = the compiler was finding a bug in the previous code.
-
+#ifndef FCPP_ARDUINO_DUE
 namespace impl {
 struct XAnd : public CFunType<List<bool>,bool> {
    bool operator()( const List<bool>& l ) const {
-      return null(dropWhile( equal(true), l ));
+	  bool b = true;
+      return null(dropWhileEqual( b , l ));
    }
 };
 }
@@ -2651,13 +2655,15 @@ typedef Full1<impl::XAnd> And;
 FCPP_MAYBE_NAMESPACE_OPEN
 FCPP_MAYBE_EXTERN And and_;
 FCPP_MAYBE_NAMESPACE_CLOSE
+#endif
 
-
+#ifndef FCPP_ARDUINO_DUE
 
 namespace impl {
 struct XOr : public CFunType<List<bool>,bool> {
    bool operator()( const List<bool>& l ) const {
-      return !null(dropWhile( equal(false), l )); // There was an extra () here after dropWhile.
+	   bool b = false;
+       return !null(dropWhileEqual(b , l )); // There was an extra () here after dropWhile.
    }
 };
 }
@@ -2702,7 +2708,7 @@ typedef Full2<impl::XAny> Any;
 FCPP_MAYBE_NAMESPACE_OPEN
 FCPP_MAYBE_EXTERN Any any;
 FCPP_MAYBE_NAMESPACE_CLOSE
-
+#endif
 namespace impl {
 struct XElem {
    template <class T, class L>

@@ -332,7 +332,7 @@ struct FunctoidTraits {
 // This can be used for run time.
 // Retain the old version for template arguments.
 template <class F>
-const int FunctoidTraits_max_args()
+/* const */ int FunctoidTraits_max_args()
     {
       return FunctoidTraits<F>::max_args;
     }

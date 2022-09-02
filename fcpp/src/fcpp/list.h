@@ -30,8 +30,10 @@
 #ifdef FCPP_USE_EXCEPTIONS
 #include <exception>
 #endif
+#ifndef FCPP_ARDUINO
 #include <new>
 #include <cstdlib>
+#endif
 
 #ifdef FCPP_USE_EXCEPTIONS
 // Moved here to make it available to operator.hpp
@@ -549,7 +551,7 @@ class Cache {
 #ifdef FCPP_USE_EXCEPTIONS
          throw fcpp_exception("You have entered a black hole.");
 #endif
-#ifdef ARDUINO_ARCH_RP2040
+#if defined(ARDUINO_ARCH_RP2040) || defined (FCPP_ARDUINO)
          OddList<T> empty; // Added for RP2040
 		 return empty;
 #endif 
