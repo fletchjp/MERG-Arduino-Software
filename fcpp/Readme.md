@@ -12,6 +12,12 @@ I have made some more changes to get the codes working with AVR UNO and DUEs. Th
 
 FCPP_ARDUINO is defined in all cases to isolate features not supported.
 
+At the moment these files are only on the RP2040 branch of MERG-Arduino-Software as copies of the version in the library which is actually used.
+
+I mainly edit the RO2040 copy and then move the changes to the library.
+
+While working on the AVR (master) and DUE (due_cbus) branches I have edited the copy in the library and only later copied the changes back to RP2040.
+
 ## FC++ History
 
 These codes have a very long history which I will not go into here.
