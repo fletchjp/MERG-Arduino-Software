@@ -1,5 +1,6 @@
 // ArduinoSTLIntegers
 // This example now works as long as the AVR Boards are 1.8.2 not 1.8.3
+// It also will not work with AVR 1.8.5 - multiple definition of std::nothrow.
 #include <ArduinoSTL.h>
 
 using namespace std;
