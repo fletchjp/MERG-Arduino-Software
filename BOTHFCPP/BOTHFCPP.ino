@@ -5,7 +5,7 @@
 #include<ArduinoSTL.h>
 
 // This will now work with FC++ as an Arduino library - just include "prelude.h" and it will find it.
-#include "prelude.h"
+#include "fcpp_prelude.h"
 
 using namespace std;
 
@@ -36,7 +36,7 @@ void setup() {
 
   List<double>::iterator idx1, idx2;
   List<double> x1 = list_with(0.,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0);
-  List<double> x2 = fcpp::map(fcpp::minus(1.0),x1);
+  List<double> x2 = x1; //fcpp::map(fcpp::minus(1.0),x1);
   double sumx1 = foldl(fcpp::plus,0.,x1);
   for (idx1 = x1.begin(), idx2 = x2.begin(); idx1 != x1.end(); ++idx1, ++idx2) {
      cout << *idx1 << " " << *idx2 << endl;
