@@ -7,7 +7,7 @@
 #define FCPP_ARDUINO
 // There is a problem with XEqual for the compiler version on the DUE.
 // This has now been resolved
-// This will now work with FC++ as an Arduino library - just include "prelude.h" and it will find it.
+// This will now work with FC++ as an Arduino library - just include "fcpp_prelude.h" and it will find it.
 #include "fcpp_prelude.h"
 
 using namespace std;
