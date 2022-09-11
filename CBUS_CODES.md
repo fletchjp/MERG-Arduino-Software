@@ -24,7 +24,11 @@ I also want to develop the code for the CANTOTEM series.
 
 I now have a display (4 by 20) mounted and not yet programmed.
 
-I would also like to put in PJON as well.
+I would also like to put in PJON as well. It turns out that this will not work with the task management libraries.
+
+### September 2022) 
+
+I am now starting some new tests with the CAN shield developed by Martin Da Costa. I may need some new codes for this work.
 
 ## CBUS Long Message codes
 
