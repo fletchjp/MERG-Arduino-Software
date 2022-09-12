@@ -173,7 +173,15 @@ class DrawingEvent : public BaseEvent {
 private:
     volatile bool emergency; // if an event comes from an external interrupt the variable must be volatile.
     bool hasChanged;
+    bool hasKey;
+    const char* key;
 public:
+    /** This constructor sets the initial values for various variables. */
+    DrawingEvent() {
+      hasChanged = false;
+      hasKey = false;
+      key = "blank ";      
+    }
     /**
      * This is called by task manager every time the number of microseconds returned expires, if you trigger the
      * event it will run the exec(), if you complete the event, it will be removed from task manager.
@@ -190,12 +198,17 @@ public:
     void exec() override {
         hasChanged = false;
 
-        lcd.setCursor(10, 0);
-        lcd.print("     ");
-        lcd.setCursor(10, 0);
+        if (hasKey) {
+          hasKey = false;
+          lcd.setCursor(10,1);
+          lcd.print (key);
+        }
+        //lcd.setCursor(10, 0);
+        //lcd.print("     ");
+        //lcd.setCursor(10, 0);
        // lcd.print(heaterTemperature);
 
-        lcd.setCursor(10, 1);
+        //lcd.setCursor(10, 1);
        // lcd.print(heaterIsOn ? " ON" : "OFF");
 
         lcd.setCursor(14, 1);
@@ -213,7 +226,12 @@ public:
         //heaterIsOn = on;
         hasChanged = true;// we are happy to wait out the 500 millis
     }
-
+    /* This provides for the logging of the key information */
+    void drawKey(const char* whichKey) {
+        key = whichKey;
+        hasKey = true;
+        hasChanged = true;// we are happy to wait out the 500 millis
+    }
     /**
      * Triggers an emergency that requires immediate update of the screen
      * @param isEmergency if there is an urgent notification
@@ -372,8 +390,9 @@ void serialPrintErrorln(int i)
 void logKeyPressed(int pin,const char* whichKey, bool heldDown) {
     Serial.print("Key ");
     Serial.print(whichKey);
-    lcd.setCursor(10,1);
-    lcd.print (whichKey);
+    drawingEvent.drawKey(whichKey);
+    //lcd.setCursor(10,1);
+    //lcd.print (whichKey);
     Serial.println(heldDown ? " Held" : " Pressed");
     button = pin;
 }
@@ -553,6 +572,10 @@ void setup()
   taskManager.scheduleFixedRate(250, processSwitches);
   taskManager.scheduleFixedRate(250, processSerialInput);
   taskManager.scheduleFixedRate(250, processButtons);
+
+  // create any other tasks that you need here for your sketch
+
+  taskManager.registerEvent(&drawingEvent);
 
   // end of setup
   DEBUG_PRINT(F("> Using buzzer on pin ") << SOUNDER
