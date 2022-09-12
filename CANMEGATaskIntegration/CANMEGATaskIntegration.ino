@@ -28,8 +28,8 @@
 /// Digital pin 38             Encoder 1 Switch (SW on encoder)
 /// Digital pin 40             Encoder 2 Switch (SW on encoder)
 /// Digital / Analog pin 8     Encoder 1 A (CLK on encoder)
-/// Digital / Analog pin 10    Encoder 2 A (CLK on encoder)
 /// Digital / Analog pin 9     Encoder 1 B (DT  on encoder)
+/// Digital / Analog pin 10    Encoder 2 A (CLK on encoder)
 /// Digital / Analog pin 11    Encoder 2 B (DT  on encoder)
 
 #include <Wire.h>
