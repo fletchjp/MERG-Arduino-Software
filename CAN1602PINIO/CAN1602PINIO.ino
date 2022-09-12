@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////////
 // CAN1602PINIO
 // Version using DfRobotInputAbstraction.h to model input pins.
-// This uses code from IoAbstraction examples dfRobotAnalogInSwitches 
+// This uses code from IoAbstraction examples dfRobotAnalogInSwitches
 // This is also using LiquidCrystalIO
 ////////////////////////////////////////////////////////////////////////////////////
 // Version 2.0b beta 1 Change to use switches and listener.
