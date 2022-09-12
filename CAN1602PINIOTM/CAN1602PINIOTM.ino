@@ -1,10 +1,11 @@
 ////////////////////////////////////////////////////////////////////////////////////
-// CAN1602PINIO
+// CAN1602PINIOTM
 // Version using DfRobotInputAbstraction.h to model input pins.
 // This uses code from IoAbstraction examples dfRobotAnalogInSwitches
 // This is also using LiquidCrystalIO
 // I have another code, CANMEGATaskIntegration,
 // which demonstrates full use of LiquidCrystalIO.
+// I am using the example TaskMgrIntegration to bring that in here.
 ////////////////////////////////////////////////////////////////////////////////////
 // Version 2.0b beta 1 Change to use switches and listener.
 ////////////////////////////////////////////////////////////////////////////////////
