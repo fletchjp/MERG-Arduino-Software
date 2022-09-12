@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////
 // LiquidCrystalIO versions
 // Version 4.0a beta 1 simple change of library.
+// Version 4.1a beta 1 proper task integration for the display.
 // Long messages disabled for now.
 // #define CBUS_LONG_MESSAGE
 ////////////////////////////////////////////////////////////////////////////////////
@@ -161,6 +162,71 @@ const int pin_d6 = 6;
 const int pin_d7 = 7; 
 const int pin_BL = 10; 
 LiquidCrystal lcd( pin_RS,  pin_EN,  pin_d4,  pin_d5,  pin_d6,  pin_d7);
+
+//void redraw_display(); I will need to sort this out.
+
+/**
+ * Here we create an event that handles all the drawing for an application, in this case printing out readings
+ * of a sensor when changed. It uses polling and immediate triggering to show both examples
+ */
+class DrawingEvent : public BaseEvent {
+private:
+    volatile bool emergency; // if an event comes from an external interrupt the variable must be volatile.
+    bool hasChanged;
+public:
+    /**
+     * This is called by task manager every time the number of microseconds returned expires, if you trigger the
+     * event it will run the exec(), if you complete the event, it will be removed from task manager.
+     * @return the number of micros before calling again. 
+     */
+    uint32_t timeOfNextCheck() override {
+        setTriggered(hasChanged);
+        return millisToMicros(500); // no point refreshing more often on an LCD, as its unreadable
+    }
+
+    /**
+     * This is called when the event is triggered, it prints all the data onto the screen.
+     */
+    void exec() override {
+        hasChanged = false;
+
+        lcd.setCursor(10, 0);
+        lcd.print("     ");
+        lcd.setCursor(10, 0);
+       // lcd.print(heaterTemperature);
+
+        lcd.setCursor(10, 1);
+       // lcd.print(heaterIsOn ? " ON" : "OFF");
+
+        lcd.setCursor(14, 1);
+        lcd.print(emergency ? "!!" : "  ");
+    }
+
+    /**
+     * This sets the latest temperature and heater status, but only marks the event changed, so it will need
+     * to poll in order to trigger. This prevents excessive screen updates.
+     * @param temp the new temperature
+     * @param on if the heater is on
+     */
+    void setLatestStatus(/*int temp, bool on*/) {
+        //heaterTemperature = temp;
+        //heaterIsOn = on;
+        hasChanged = true;// we are happy to wait out the 500 millis
+    }
+
+    /**
+     * Triggers an emergency that requires immediate update of the screen
+     * @param isEmergency if there is an urgent notification
+     */
+    void triggerEmergency(bool isEmergency) {
+        emergency = isEmergency;
+        markTriggeredAndNotify(); // get on screen asap.
+    }
+};
+
+// create an instance of the above class
+DrawingEvent drawingEvent;
+
 
 // Variables for buttons
 // Most are not needed here.
