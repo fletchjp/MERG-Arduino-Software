@@ -239,8 +239,8 @@ public:
         //lcd.setCursor(10, 1);
        // lcd.print(heaterIsOn ? " ON" : "OFF");
 
-        lcd.setCursor(14, 1);
-        lcd.print(emergency ? "!!" : "  ");
+       // lcd.setCursor(14, 1);
+       // lcd.print(emergency ? "!!" : "  ");
     }
 
     /* This provides for the logging of the key information */
