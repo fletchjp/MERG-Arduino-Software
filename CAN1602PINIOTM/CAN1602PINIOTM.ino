@@ -192,7 +192,7 @@ private:
     volatile bool emergency; // if an event comes from an external interrupt the variable must be volatile.
     bool hasChanged;
     bool hasKey;
-    const char* key;
+    char key[7];
     bool hasError;
     Error error;
 public:
@@ -200,7 +200,7 @@ public:
     DrawingEvent() {
       hasChanged = false;
       hasKey = false;
-      key = "      ";
+      //key = "      ";
       hasError = false;      
     }
     /**
@@ -222,7 +222,7 @@ public:
         if (hasKey) {
           hasKey = false;
           lcd.setCursor(10,1);
-          lcd.print (key);
+          lcd.print(key);
         }
         if (hasError) {
             getErrorMessage(error.i);
@@ -245,7 +245,8 @@ public:
 
     /* This provides for the logging of the key information */
     void drawKey(const char* whichKey) {
-        key = whichKey;
+        memcpy(key,whichKey,7); //= whichKey;
+        //Serial.print(key);
         hasKey = true;
         hasChanged = true;// we are happy to wait out the 500 millis
     }
@@ -411,9 +412,9 @@ void serialPrintErrorln(int i)
 }
 
 void logKeyPressed(int pin,const char* whichKey, bool heldDown) {
+    drawingEvent.drawKey(whichKey);
     Serial.print("Key ");
     Serial.print(whichKey);
-    drawingEvent.drawKey(whichKey);
     //lcd.setCursor(10,1);
     //lcd.print (whichKey);
     Serial.println(heldDown ? " Held" : " Pressed");
