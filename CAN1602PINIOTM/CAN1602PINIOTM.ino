@@ -165,6 +165,24 @@ LiquidCrystal lcd( pin_RS,  pin_EN,  pin_d4,  pin_d5,  pin_d6,  pin_d7);
 
 //void redraw_display(); I will need to sort this out.
 
+struct Error
+{
+  int i;
+  byte x;
+  byte y;
+  Error() : i(0),x(0),y(0) {}
+  Error(int ii,byte xx,byte yy) : i(ii), x(xx), y(yy) { }
+  Error(const Error &e) : i(e.i), x(e.x), y(e.y) { }
+};
+
+// Buffer for string output.
+// This has been made safe for line termination.
+#define MAX_LENGTH_OF_STRING 16
+#define LENGTH_OF_BUFFER (MAX_LENGTH_OF_STRING + 1)
+char error_buffer[LENGTH_OF_BUFFER];
+
+void getErrorMessage(int i);
+
 /**
  * Here we create an event that handles all the drawing for an application, in this case printing out readings
  * of a sensor when changed. It uses polling and immediate triggering to show both examples
@@ -175,12 +193,15 @@ private:
     bool hasChanged;
     bool hasKey;
     const char* key;
+    bool hasError;
+    Error error;
 public:
     /** This constructor sets the initial values for various variables. */
     DrawingEvent() {
       hasChanged = false;
       hasKey = false;
-      key = "blank ";      
+      key = "      ";
+      hasError = false;      
     }
     /**
      * This is called by task manager every time the number of microseconds returned expires, if you trigger the
@@ -203,6 +224,13 @@ public:
           lcd.setCursor(10,1);
           lcd.print (key);
         }
+        if (hasError) {
+            getErrorMessage(error.i);
+            lcd.setCursor(error.x, error.y);
+            lcd.write("E: ");
+            lcd.write(error_buffer);
+            hasError = false;
+        }
         //lcd.setCursor(10, 0);
         //lcd.print("     ");
         //lcd.setCursor(10, 0);
@@ -215,21 +243,16 @@ public:
         lcd.print(emergency ? "!!" : "  ");
     }
 
-    /**
-     * This sets the latest temperature and heater status, but only marks the event changed, so it will need
-     * to poll in order to trigger. This prevents excessive screen updates.
-     * @param temp the new temperature
-     * @param on if the heater is on
-     */
-    void setLatestStatus(/*int temp, bool on*/) {
-        //heaterTemperature = temp;
-        //heaterIsOn = on;
-        hasChanged = true;// we are happy to wait out the 500 millis
-    }
     /* This provides for the logging of the key information */
     void drawKey(const char* whichKey) {
         key = whichKey;
         hasKey = true;
+        hasChanged = true;// we are happy to wait out the 500 millis
+    }
+    void displayError(const Error &e)
+    {
+        error = e;
+        hasError = true;
         hasChanged = true;// we are happy to wait out the 500 millis
     }
     /**
@@ -364,9 +387,9 @@ const char* const error_string_table[] PROGMEM = {
 
 // Buffer for string output.
 // This has been made safe for line termination.
-#define MAX_LENGTH_OF_STRING 16
-#define LENGTH_OF_BUFFER (MAX_LENGTH_OF_STRING + 1)
-char error_buffer[LENGTH_OF_BUFFER];
+//#define MAX_LENGTH_OF_STRING 16
+//#define LENGTH_OF_BUFFER (MAX_LENGTH_OF_STRING + 1)
+//char error_buffer[LENGTH_OF_BUFFER];
 
 // Add check for invalid error
 void getErrorMessage(int i)
@@ -728,7 +751,7 @@ bool sendEvent(byte opCode, unsigned int eventNo)
   }
   return success;
 }
-
+/*
 void displayError(int i,byte x,byte y)
 {
   getErrorMessage(i);
@@ -736,6 +759,7 @@ void displayError(int i,byte x,byte y)
   lcd.write("E: ");
   lcd.write(error_buffer);
 }
+*/
 
 //
 /// called from the CBUS library when a learned event is received
@@ -759,13 +783,13 @@ void eventhandler(byte index, CANFrame *msg)
       case OPC_ACON:
       case OPC_ASON:
      
-      displayError(event_number-nonEvent,0,0);
+      drawingEvent.displayError(Error(event_number-nonEvent,0,0));
       break;
 
       case OPC_ACOF:
       case OPC_ASOF:
       
-      displayError(blankError,0,0);
+      drawingEvent.displayError(Error(blankError,0,0));
       break;
       
      }   
