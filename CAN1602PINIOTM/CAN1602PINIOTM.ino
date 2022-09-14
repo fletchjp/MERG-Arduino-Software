@@ -5,7 +5,8 @@
 // This is also using LiquidCrystalIO
 // I have another code, CANMEGATaskIntegration,
 // which demonstrates full use of LiquidCrystalIO.
-// I am using the example TaskMgrIntegration to bring that in here.
+// I have used the example TaskMgrIntegration to bring that in here.
+// All updating of the LCD screen is now done through the DrawingEvent object.
 ////////////////////////////////////////////////////////////////////////////////////
 // Version 2.0b beta 1 Change to use switches and listener.
 ////////////////////////////////////////////////////////////////////////////////////
@@ -24,33 +25,10 @@
 // LiquidCrystalIO versions
 // Version 4.0a beta 1 simple change of library.
 // Version 4.1a beta 1 proper task integration for the display.
-// Long messages disabled for now.
+// Long messages disabled for now (there is not enough memory on a UNO - 102%)
+// Memory usage without long messages is 95% (30780).
 // #define CBUS_LONG_MESSAGE
 ////////////////////////////////////////////////////////////////////////////////////
-// CAN1602BUT
-// Take code from CANALCDBUT to make a new code on the CANmINnOUT base.
-// Version 1.0b beta2 starting to add the code for input events setting the display.
-// Version 1.0b beta3 Adding more code from CANTEXT 
-// and decoding of node number and event number of incoming events.
-// Also change the display in response to an incoming event.
-// Version 1.0b beta4 Changes as the previous version did not update the display.
-// Add some more opcodes.
-// Version 1.0b beta5 Correct bugs inherited from CANmINmOUT event code.
-// Version 1.0b beta6 Add Sven's modifications to CANmINmOUT event code.
-// Version 1.0b beta7 Correct lack of return value from sendEvent.
-// Version 1.0b beta8 Use DEBUG_PRINT and process send fail in processSwitches.
-// Version 1.0b beta9 Change event no of incoming error.
-// Version 1.0b beta10 Changes to code processing the incoming error.
-// Version 1.0b beta11 Make processSerialInput a task.
-////////////////////////////////////////////////////////////////////////////////////
-// CANTOTEM
-// Modification to start to use IoAbstraction and TaskManagerIO
-// as has been done in CANCMDDC in CANCMDDC2
-// This is to run on the TOTEM Minilab with a CAN interface.
-// working from
-// TOTEMmINnOUT
-// Copied from
-// CANmINnOUT
 
 
 /*
