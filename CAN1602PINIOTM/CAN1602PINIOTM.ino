@@ -8,6 +8,12 @@
 // I have used the example TaskMgrIntegration to bring that in here.
 // All updating of the LCD screen is now done through the DrawingEvent object.
 ////////////////////////////////////////////////////////////////////////////////////
+// NOTE: The CS pin for CAN has to be changed from 10 to 15 as 10 is used by the lcd.
+// IMPORTANT: The external MCP2515 boards use 8Mhz
+//            The CBUS shield uses 16Mhz
+// Define this for the external board. This code must be compiled separately for each option.
+#define USE_EXTERNAL_MCP2515
+////////////////////////////////////////////////////////////////////////////////////
 // Version 2.0b beta 1 Change to use switches and listener.
 ////////////////////////////////////////////////////////////////////////////////////
 // Version 3.0a beta 1 Start version with long message code.
@@ -26,7 +32,7 @@
 // Version 4.0a beta 1 simple change of library.
 // Version 4.1a beta 1 proper task integration for the display.
 // Long messages disabled for now (there is not enough memory on a UNO - 102%)
-// Memory usage without long messages is 95% (30780).
+// Memory usage without long messages is 95% (3083 0).
 // #define CBUS_LONG_MESSAGE
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -86,13 +92,13 @@
 // Digital pin 7          LCD pin_d7
 // Digital pin 8          LCD pin_RS
 // Digital pin 9 (PWM)    LCD pin_EN
-// Digital pin 10         LCD backlight pin
+// Digital pin 10         LCD backlight pin NOTE: This is NOT the CS pin
 // Digital pin 11 (MOSI)  SI    CAN
 // Digital pin 12 (MISO)  SO    CAN
 // Digital pin 13 (SCK)   Sck   CAN
 
 // Digital pin 14 / Analog pin 0  Analog input from buttons
-// Digital pin 15 / Analog pin 1 (SS)    CS    CAN    
+// Digital pin 15 / Analog pin 1 (SS)    CS    CAN    NOTE: Here is the CS pin
 // Digital pin 16 / Analog pin 2     Switch 0
 // Digital pin 17 / Analog pin 3     Bell/buzzer use.
 // Digital / Analog pin 4     Not Used - reserved for I2C
@@ -114,17 +120,12 @@
 #include <DeviceEvents.h>
 #include <LiquidCrystalIO.h>
 
-// IoAbstraction reference to the arduino pins.
-//IoAbstractionRef arduinoPins = ioUsingArduino();
 // This uses the default settings for analog ranges.
 IoAbstractionRef dfRobotKeys = inputFromDfRobotShield();
 
 // This is the input pin where analog input is received.
 // It is in fact set as default defining dfRobotKeys.
 #define ANALOG_IN_PIN A0
-
-//int previous_analog = 0;
-//int analog_value;
 
 // 3rd party libraries
 
@@ -141,8 +142,9 @@ const int pin_d7 = 7;
 const int pin_BL = 10; 
 LiquidCrystal lcd( pin_RS,  pin_EN,  pin_d4,  pin_d5,  pin_d6,  pin_d7);
 
-//void redraw_display(); I will need to sort this out.
-
+// This is new in this version of the code and may be useful elsewhere.
+// It is used to transfer error details to the DrawingEvent
+// which is why it is declared here.
 struct Error
 {
   int i;
@@ -193,6 +195,8 @@ public:
 
     /**
      * This is called when the event is triggered, it prints all the data onto the screen.
+     * Note that each source of input has its own bool variable.
+     * This ensures that only the items needing output are executed.
      */
     void exec() override {
         hasChanged = false;
@@ -209,25 +213,18 @@ public:
             lcd.write(error_buffer);
             hasError = false;
         }
-        //lcd.setCursor(10, 0);
-        //lcd.print("     ");
-        //lcd.setCursor(10, 0);
-       // lcd.print(heaterTemperature);
-
-        //lcd.setCursor(10, 1);
-       // lcd.print(heaterIsOn ? " ON" : "OFF");
-
-       // lcd.setCursor(14, 1);
-       // lcd.print(emergency ? "!!" : "  ");
     }
 
-    /* This provides for the logging of the key information */
+    /* This provides for the logging of the key information
+       This is an example of something coming from an internal event. */
     void drawKey(const char* whichKey) {
         memcpy(key,whichKey,7); //= whichKey;
-        //Serial.print(key);
         hasKey = true;
         hasChanged = true;// we are happy to wait out the 500 millis
     }
+    /* This provides for the logging of the error information.
+     * This is an example of something coming from an external event.
+     * The Error object holds the data for plotting. */
     void displayError(const Error &e)
     {
         error = e;
@@ -237,6 +234,7 @@ public:
     /**
      * Triggers an emergency that requires immediate update of the screen
      * @param isEmergency if there is an urgent notification
+     * This is not used at present and is included from the source example.
      */
     void triggerEmergency(bool isEmergency) {
         emergency = isEmergency;
@@ -247,14 +245,7 @@ public:
 // create an instance of the above class
 DrawingEvent drawingEvent;
 
-
-// Variables for buttons
-// Most are not needed here.
-//int x;
-//int prevx = 0;
-//int range;
-//int prevrange = 0;
-// Use these for the CBUS outputs
+// Global variable to share what button has been pressed.
 int button = -1;
 int prevbutton = -1;
 
@@ -276,7 +267,12 @@ const char VER_MIN = 'a';       // code minor version
 const byte VER_BETA = 1;        // code beta sub-version
 const byte MODULE_ID = 99;      // CBUS module type
 
+#ifdef USE_EXTERNAL_MCP2515
 const unsigned long CAN_OSC_FREQ = 8000000;     // Oscillator frequency on the CAN2515 board
+#else
+const unsigned long CAN_OSC_FREQ = 16000000;     // Oscillator frequency on the CAN2515 shiel
+#endif
+
 
 #define NUM_LEDS 1              // How many LEDs are there?
 #define NUM_SWITCHES 1          // How many switchs are there?
@@ -311,7 +307,7 @@ CBUSLongMessage cbus_long_message(&CBUS);   // CBUS long message object
 ////////////////////////////////////////////////////////////////////////////////////
 // Adapted from CANTEXT
 // forward function declarations
-////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////
 void eventhandler(byte index, CANFrame *msg);
 void framehandler(CANFrame *msg);
 // Opcodes to be recognised by frame handler.
@@ -614,8 +610,9 @@ void processButtons(void)
    unsigned int message_length;
 #endif
    if (button != prevbutton) {
-      DEBUG_PRINT(F("Button ") << button << F(" changed")); 
-      opCode = OPC_ACON;
+      //DEBUG_PRINT(F("Button ") << button << F(" changed")); 
+      Serial << F("Button ") << button << F(" changed") << endl; 
+       opCode = OPC_ACON;
       // Taken out of use for now because of interference.
       sendEvent(opCode, button + NUM_SWITCHES);
 #ifdef CBUS_LONG_MESSAGE
@@ -723,7 +720,8 @@ bool sendEvent(byte opCode, unsigned int eventNo)
 
   bool success = CBUS.sendMessage(&msg);
   if (success) {
-    DEBUG_PRINT(F("> sent CBUS message with Event Number ") << eventNo);
+    //DEBUG_PRINT(F("> sent CBUS message with Event Number ") << eventNo);
+    Serial << F("> sent CBUS message with Event Number ") << eventNo << endl;
   } else {
     DEBUG_PRINT(F("> error sending CBUS message"));
   }
@@ -908,6 +906,11 @@ void printConfig(void)
   Serial << F("> © John Fletcher (MERG M6777) 2021") << endl;
   Serial << F("> © Sven Rosvall (MERG M3777) 2021") << endl;
 
+#ifdef USE_EXTERNAL_MCP2515
+  Serial << F("> Compiled for external MCP2515 board") << endl;
+#else
+  Serial << F("> Compiled for MCP2515 shield") << endl;
+#endif
 #if LCD_DISPLAY
    Serial << F("> LCD display available") << endl;
 #if MERG_DISPLAY
