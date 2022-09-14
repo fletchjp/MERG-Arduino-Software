@@ -412,11 +412,10 @@ void serialPrintErrorln(int i)
 }
 
 void logKeyPressed(int pin,const char* whichKey, bool heldDown) {
+    // Pass information on the key to the drawingEvent.
     drawingEvent.drawKey(whichKey);
     Serial.print("Key ");
     Serial.print(whichKey);
-    //lcd.setCursor(10,1);
-    //lcd.print (whichKey);
     Serial.println(heldDown ? " Held" : " Pressed");
     button = pin;
 }
