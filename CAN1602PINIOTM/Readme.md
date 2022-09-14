@@ -16,7 +16,9 @@ The following libraries are needed:
 
 IoAbstraction, TaskManagerIO SimpleCollection and LiquidCrystalIO from 
 
-Streaming Bounce2 SPI
+https://www.thecoderscorner.com/products/arduino-libraries/io-abstraction/
 
-CBUS CBUS2515 CBUSLED CBUSSwitch CBUSconfig ACAN2515
+Streaming Bounce2 SPI - standard Arduino libraries,
+
+CBUS CBUS2515 CBUSLED CBUSSwitch CBUSconfig ACAN2515  - Arduino CBUS libraries from https://github.com/MERG-DEV
 
