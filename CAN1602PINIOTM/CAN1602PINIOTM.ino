@@ -8,6 +8,7 @@
 // which demonstrates full use of LiquidCrystalIO.
 // I have used the example TaskMgrIntegration to bring that in here.
 // All updating of the LCD screen is now done through the DrawingEvent object.
+// One switch and one LED are configured in the software although not fitted at present.
 ////////////////////////////////////////////////////////////////////////////////////
 // NOTE: The CS pin for CAN has to be changed from 10 to 15 as 10 is used by the lcd.
 // IMPORTANT: The external MCP2515 boards use 8Mhz
