@@ -1,5 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////////
 // CAN1602PINIOTM
+// This code is adapted to work with the DFR0009 shield https://www.dfrobot.com/product-51.html
 // Version using DfRobotInputAbstraction.h to model input pins.
 // This uses code from IoAbstraction examples dfRobotAnalogInSwitches
 // This is also using LiquidCrystalIO
@@ -86,7 +87,7 @@
 // Pin Use map UNO:
 // Digital pin 2          Interupt CAN
 // Digital pin 3 (PWM)    LED 0
-// Digital pin 4          LCD pin_d4
+// Digital pin 4          LCD pin_d4 NOTE: The DFR0009 does not make pins D4 to D10 available.
 // Digital pin 5 (PWM)    LCD pin_d5
 // Digital pin 6 (PWM)    LCD pin_d6
 // Digital pin 7          LCD pin_d7
@@ -97,7 +98,7 @@
 // Digital pin 12 (MISO)  SO    CAN
 // Digital pin 13 (SCK)   Sck   CAN
 
-// Digital pin 14 / Analog pin 0  Analog input from buttons
+// Digital pin 14 / Analog pin 0  Analog input from buttons  NOTE: The DFR0009 does not make this pin available.
 // Digital pin 15 / Analog pin 1 (SS)    CS    CAN    NOTE: Here is the CS pin
 // Digital pin 16 / Analog pin 2     Switch 0
 // Digital pin 17 / Analog pin 3     Bell/buzzer use.
