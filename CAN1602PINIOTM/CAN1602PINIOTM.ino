@@ -32,7 +32,7 @@
 // Version 4.0a beta 1 simple change of library.
 // Version 4.1a beta 1 proper task integration for the display.
 // Long messages disabled for now (there is not enough memory on a UNO - 102%)
-// Memory usage without long messages is 95% (3083 0).
+// Memory usage without long messages is 95% (30830).
 // #define CBUS_LONG_MESSAGE
 ////////////////////////////////////////////////////////////////////////////////////
 
