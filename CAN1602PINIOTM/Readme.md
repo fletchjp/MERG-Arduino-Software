@@ -18,7 +18,7 @@ IoAbstraction, TaskManagerIO SimpleCollection and LiquidCrystalIO from
 
 https://www.thecoderscorner.com/products/arduino-libraries/io-abstraction/
 
-Streaming Bounce2 SPI - standard Arduino libraries,
+Streaming Bounce2 SPI Wire EEPROM - standard Arduino libraries,
 
 CBUS CBUS2515 CBUSLED CBUSSwitch CBUSconfig ACAN2515  - Arduino CBUS libraries from https://github.com/MERG-DEV
 
