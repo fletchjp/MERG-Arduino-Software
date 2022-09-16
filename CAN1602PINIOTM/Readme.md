@@ -22,7 +22,7 @@ Input events include a demonstration using error updates which are also coordina
 
 ## Libraries
 
-The following libraries are needed: 
+The following libraries are needed. They can be loaded where necessary from the Arduino IDE library management.
 
 IoAbstraction, TaskManagerIO SimpleCollection and LiquidCrystalIO from 
 
