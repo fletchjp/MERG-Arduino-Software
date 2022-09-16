@@ -16,7 +16,7 @@ Extending CAN1602PINIO using LiquidCrystalIO DrawingEvent.
 
 The updating of the screen is done through the DrawingEvent so that all screen updates are done in one task..
 
-This key updates pass through the nominated routine logKeyPressed to transfer the update. Key updates send an event when the button pressed has changed.
+The key updates pass through the nominated routine logKeyPressed to transfer the update. Key updates send an event when the button pressed has changed.
 
 Input events include a demonstration using error updates which are also coordinated.
 
