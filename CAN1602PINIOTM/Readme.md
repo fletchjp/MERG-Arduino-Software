@@ -1,5 +1,11 @@
 # CAN1602PINIOTM
 
+This software is designed to work with an Arduino UNO and a DFRobot DFR0009 shield with a 1602 display and a set of buttons.
+
+Pressing a button changes the display and also sends a CBUS event.
+
+Incoming CBUS events with suitable event numbers also change the display. This is being tested as error messages.
+
 This is now working and has been tested with the Arduino CAN shield developed by Martin Da Costa.
 
 Extending CAN1602PINIO using LiquidCrystalIO DrawingEvent.
