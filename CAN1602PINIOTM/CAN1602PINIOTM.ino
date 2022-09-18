@@ -17,7 +17,7 @@
 // IMPORTANT: The external MCP2515 boards use 8Mhz
 //            The CBUS shield uses 16Mhz
 // Define this for the external board. This code must be compiled separately for each option.
-#define USE_EXTERNAL_MCP2515
+//#define USE_EXTERNAL_MCP2515
 ////////////////////////////////////////////////////////////////////////////////////
 // Version 2.0b beta 1 Change to use switches and listener.
 ////////////////////////////////////////////////////////////////////////////////////
