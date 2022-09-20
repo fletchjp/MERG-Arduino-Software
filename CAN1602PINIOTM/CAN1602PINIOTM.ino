@@ -456,10 +456,20 @@ void setupCBUS()
 {
   // set config layout parameters
   config.EE_NVS_START = 10;
-  config.EE_NUM_NVS = NUM_SWITCHES;
+  // Have at least 3 NVs 
+  if (NUM_SWITCHES > 3) {
+    config.EE_NUM_NVS = NUM_SWITCHES;
+  } else {
+    config.EE_NUM_NVS = 3;    
+  }
   config.EE_EVENTS_START = 50;
   config.EE_MAX_EVENTS = 64;
-  config.EE_NUM_EVS = NUM_LEDS;
+  // Have at least 3 EVs 
+  if (NUM_LEDS > 3) {
+    config.EE_NUM_EVS = NUM_LEDS;
+  } else {
+    config.EE_NUM_EVS = 3;    
+  }
   config.EE_BYTES_PER_EVENT = (config.EE_NUM_EVS + 4);
 
   // initialise and load configuration
