@@ -36,8 +36,9 @@
 // LiquidCrystalIO versions
 // Version 4.0a beta 1 simple change of library.
 // Version 4.0b beta 1 proper task integration for the display. Correct error message lengths.
+// Version 4.0c beta 1 Have at least 3 NVs and at least 3 EVs per event.
 // Long messages disabled for now (there is not enough memory on a UNO - 102%)
-// Memory usage without long messages is 95% (30830).
+// Memory usage without long messages is 96% (31174).
 // #define CBUS_LONG_MESSAGE
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -268,7 +269,7 @@ unsigned char mname[7] = { '1', '6', '0', '2', 'P', 'I', 'N' };
 
 // constants
 const byte VER_MAJ = 4;         // code major version
-const char VER_MIN = 'b';       // code minor version
+const char VER_MIN = 'c';       // code minor version
 const byte VER_BETA = 1;        // code beta sub-version
 const byte MODULE_ID = 99;      // CBUS module type
 
