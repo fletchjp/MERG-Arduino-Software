@@ -276,7 +276,7 @@ const byte MODULE_ID = 99;      // CBUS module type
 #ifdef USE_EXTERNAL_MCP2515
 const unsigned long CAN_OSC_FREQ = 8000000;     // Oscillator frequency on the CAN2515 board
 #else
-const unsigned long CAN_OSC_FREQ = 16000000;     // Oscillator frequency on the CAN2515 shiel
+const unsigned long CAN_OSC_FREQ = 16000000;     // Oscillator frequency on the CAN2515 shield
 #endif
 
 
