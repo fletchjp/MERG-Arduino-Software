@@ -46,3 +46,7 @@ AutoSoft485 is not available as a library.
 ### AutoSoftSerialUno2a
 
 This has more structure.
+
+### KISnet examples
+
+I have some of these from John Purbrick which I have not included here as they work completely differently.
