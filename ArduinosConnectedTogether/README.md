@@ -18,3 +18,9 @@ This contains some examples collected to show the use of PJON.
 
 These examples include some Bitbang experiments with the Raspberry Pi Pico.
 
+## Arduinos connected together using RS485
+
+I have some previous examples which I am going to add in here.
+
+It is also possible to use PJON with RS485 and I will keep these here too.
+
