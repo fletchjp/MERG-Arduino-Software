@@ -22,5 +22,5 @@ These examples include some Bitbang experiments with the Raspberry Pi Pico.
 
 I have some previous examples which I am going to add in here.
 
-It is also possible to use PJON with RS485 and I will keep these here too.
+It is also possible to use PJON with RS485 and I will keep codes for this here too.
 
