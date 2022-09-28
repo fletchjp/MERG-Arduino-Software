@@ -24,6 +24,8 @@ I already have some examples of this although I have not yet run them.
 
 I have been reading the documentation for these and it is not clear to me what pins are available for the hardware serial example.
 
+I am going to leave these examples for the moment.
+
 ## PJON using RS485 over Serial
 
 I have moved these PJON examples here as they use RS485
