@@ -39,5 +39,7 @@ The following have now been compiled.
 
 AutoSoft485 is not available as a library.
 
+### AltSoftSerialUno2
 
+### AutoSoftSerialUno2
 
