@@ -1,10 +1,26 @@
-# Arduinos connected together using PJON
+# Arduinos connected together using RS485
 
 This contains some examples collected to show the use of RS485 between arduinos.
 
 I have done some work on this in the past and will collect the code here.
 
 That was done before I had the Totem frames to organise the hardware, so I think all the wiring has been taken apart.
+
+## Hardware for RS485
+
+I have used external RS485 boards in the past. I now have on order some DFRobot boards DFR0219 which have an RS485 port.
+
+I also have a board for a Raspberry Pi which I want to use with a Raspberry Pi Pico. I have not yet found software for this.
+
+## Protocols over RS485
+
+There is a need for way of working to be defined to use RS485. This is often referred to as the protocol.
+
+I want to explore a number of different protocols here.
+
+### PJON
+
+I already have some examples of this although I have not yet run them.
 
 ## PJON using RS485 over Serial
 
