@@ -24,3 +24,5 @@ I have some previous examples which I am going to add in here.
 
 It is also possible to use PJON with RS485 and I will keep codes for this here too.
 
+I am going to do quite a lot more now with RS485 some of it using the DFR0219 shields.
+
