@@ -6,6 +6,10 @@ I have done some work on this in the past and will collect the code here.
 
 That was done before I had the Totem frames to organise the hardware, so I think all the wiring has been taken apart.
 
+## RS485
+
+This folder has all of the old examples.
+
 ## Hardware for RS485
 
 I have used external RS485 boards in the past. I now have on order some DFRobot boards DFR0219 which have an RS485 port.
@@ -26,6 +30,8 @@ I have been reading the documentation for these and it is not clear to me what p
 
 I am going to leave these examples for the moment.
 
+I have moved them to a folder PJON.
+
 ## PJON using RS485 over Serial
 
 I have moved these PJON examples here as they use RS485
@@ -37,4 +43,5 @@ Not yet tried out. I have started to build examples using SoftSerial.
 ### RS485-BlinkWithResponse
 
 Not yet tried out.
+
 
