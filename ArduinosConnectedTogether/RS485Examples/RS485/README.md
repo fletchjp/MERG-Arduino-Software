@@ -43,3 +43,6 @@ AutoSoft485 is not available as a library.
 
 ### AutoSoftSerialUno2
 
+### AutoSoftSerialUno2a
+
+This has more structure.
