@@ -47,6 +47,14 @@ AutoSoft485 is not available as a library although I could make it a library.
 
 This has more structure.
 
+### MegaSerial485comms1a
+
+Basic example receiving information.
+
+### TestAuto485Mega1a
+
+Version of the previous code using Auto485.
+
 ### KISnet examples
 
 I have some of these from John Purbrick which I have not included here as they work completely differently.
