@@ -27,4 +27,17 @@ This is a library which hides some of the detail of RS485 transmit and receive f
 I made this to provide the equivalent of Auto485 with AltSoftSerial.
 
 
+## Codes
+
+The following have now been compiled.
+
+### TestAuto485
+
+### AltSoftSerial
+
+### AltSoftSerialAuto485
+
+AutoSoft485 is not available as a library.
+
+
 
