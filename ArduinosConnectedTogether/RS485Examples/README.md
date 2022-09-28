@@ -10,6 +10,8 @@ That was done before I had the Totem frames to organise the hardware, so I think
 
 This folder has all of the old examples.
 
+I am going to create a separate README file for it.
+
 ## Hardware for RS485
 
 I have used external RS485 boards in the past. I now have on order some DFRobot boards DFR0219 which have an RS485 port.
