@@ -36,6 +36,8 @@ When connected over the serial line the two wires have to be crossed over.
 
 ## RS485 over Serial
 
+These are moved to the RS485examples folder.
+
 ## RS485-Blink
 
 Not yet tried out. I have started to build examples using SoftSerial.
