@@ -13,3 +13,5 @@ When I have these working I will look at using Auto485 as well.
 ## RS485AutoData
 
 First try with Auto485 in use.
+
+I have made a small change to my copy of Auto485 to remove an Arduino warning message.
