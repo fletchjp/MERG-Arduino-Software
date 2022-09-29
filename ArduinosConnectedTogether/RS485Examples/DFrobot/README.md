@@ -9,3 +9,7 @@ These are codes for the DFR0219 Arduino shields which are currently on order.
 These are examples from the shield description. Each only does one way transmission.
 
 When I have these working I will look at using Auto485 as well.
+
+## RS485AutoData
+
+First try with Auto485 in use.
