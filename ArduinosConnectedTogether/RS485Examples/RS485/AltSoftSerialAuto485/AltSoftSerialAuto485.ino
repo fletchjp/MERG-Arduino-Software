@@ -11,7 +11,7 @@
 
 #define LEDpin 13
 
-AltSoftSerial altSerial;
+AltSoftSerial altSerial(DE_PIN, RE_PIN);
 AutoSoft485 bus(DE_PIN, RE_PIN, altSerial);
 
 void setup() {
