@@ -22,10 +22,11 @@ This is my preferred choice for soft serial implementation.
 
 This is a library which hides some of the detail of RS485 transmit and receive for hardware serial transmission.
 
+I have made a small change to my copy of Auto485 to remove an Arduino warning message.
+
 ## AutoSoft485
 
 I made this to provide the equivalent of Auto485 with AltSoftSerial.
-
 
 ## Codes
 
