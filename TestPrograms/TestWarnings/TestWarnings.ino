@@ -45,7 +45,8 @@ void loop() {
   int cast = 0;
   // The streaming library does not support input using >>.
   //Serial >> cast;
-  cast = Serial.read();
+  cast = Serial.read() ;
+  cast = cast - '0'; // ascii to int
   Serial << " " << cast << endl;
   do {
     Serial << " " << cast << endl;
@@ -55,21 +56,21 @@ void loop() {
 
      switch(cast) {
 
-     case '0':  
+     case 0:  
         Serial << F("simple case") << endl;
         break;
 
-     case '1':
+     case 1:
         Serial << F("This case sets value") << endl;
         value = cast;
         break;
 
-     case '2':
+     case 2:
         //This is the problem - defining a variable within the switch.
         int another = cast;
         break;
 
-     case '3':
+     case 3:
         // Here -fpermissive allows the use of "another" in case 3 when it will not have been defined.
         Serial << another << endl;
         break;
@@ -78,7 +79,8 @@ void loop() {
         Serial << F("Default case: ") << cast << endl;
     }
     Serial << F("value = ") << value << endl;
+    Serial.println(cast, DEC);
     cast++;
-  } while (cast < '5');
+  } while (cast < 5);
   cast = 0;
 }
