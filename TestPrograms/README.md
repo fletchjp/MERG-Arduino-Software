@@ -28,6 +28,8 @@ This converts a number of errors to warnings, which are then hidden.
 
 There seems to be no list of what -fpermissive actually allows so it is necessary to hunt around to find some answers.
 
+I have changed this to use a do { } while structure.
+
 ## TestSwitch (switch statements)
 
 One of the problem areas with -fpermissive has been around switch statements.
