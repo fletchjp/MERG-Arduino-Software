@@ -39,14 +39,18 @@ int return_value_wrong_type()
 
 void loop() {
   // put your main code here, to run repeatedly:
-  Serial << F("enter a number");
+  //delay(1000);
+  //Serial << F("enter a number");
+  delay(1000);
   int cast = 0;
-  Serial >> cast;
+  //Serial >> cast;
+  do {
+    Serial << " " << cast << endl;
   // This will need to be input
-  int value = 0;
-  Serial << F("cast = ") << cast << endl;
+    int value = 0;
+    Serial << F("cast = ") << cast << endl;
 
-  switch(cast) {
+     switch(cast) {
 
      case 0:  
         Serial << F("simple case") << endl;
@@ -69,7 +73,9 @@ void loop() {
 
      default:
         Serial << F("Default case: ") << cast << endl;
-  }
-  Serial << F("value = ") << value << endl;
-
+    }
+    Serial << F("value = ") << value << endl;
+    cast++;
+  } while (cast < 5);
+  cast = 0;
 }
