@@ -170,7 +170,7 @@ class SendAndReceive : public Executable {
 SendAndReceive sendAndReceive(PERIPHERAL_NODE);
 
 /////////////////////////////////////////////////////////////
-
+#include <TaskManagerIO.h>
 #include <LiquidCrystalIO.h>
 
 // When using the I2C version, these two extra includes are always needed. Doing this reduces the memory slightly for
@@ -184,6 +184,14 @@ SendAndReceive sendAndReceive(PERIPHERAL_NODE);
 
 // If your backpack is wired RS,RW,EN then use this version
 LiquidCrystalI2C_RS_EN(lcd, 0x27, false)
+// Use of the macro LiquidCrystalI2C_RS_EN gives compilation errors with ambiguous call to ioFrom8574.
+// The solution is to replace the macro with its contents, apart from an extern definition for ioFrom8574. 
+//    bool backlightInv = false;
+//    uint8_t addr = 0x27;
+//    auto macro_backlight_tc = (backlightInv) ? LiquidCrystal::BACKLIGHT_INVERTED : LiquidCrystal::BACKLIGHT_NORMAL;
+//     LiquidCrystal lcd(0, 1, 2, 4, 5, 6, 7, macro_backlight_tc, ioFrom8574(addr, 0xff, &Wire));
+//  I have now changed the file LiquidCrystalIO.h #396 to have the extra parameter.
+//     extern BasicIoAbstraction* ioFrom8574(uint8_t, pinid_t, WireType, bool); \
 
 // If your backpack is wired EN,RW,RS then use this version instead of the above.
 //LiquidCrystalI2C_EN_RS(lcd, 0x20, false)
