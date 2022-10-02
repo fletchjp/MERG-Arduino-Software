@@ -29,7 +29,7 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
        if(can0.readMessage(&rx) == MCP2515::ERROR_OK) {
-            printf("New frame from ID: %10x\n", rx.can_id);
+            printf("New frame from ID: %10lx\n", rx.can_id); // Change format x to lx for long unsigned int
         }
  
 }
