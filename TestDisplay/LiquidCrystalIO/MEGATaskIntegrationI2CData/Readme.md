@@ -6,7 +6,7 @@ This extends the previous example to send some of the data available.
  
 It now sends the time value to the peripheral.
  
-This ha been a challenge as it involves converting the float value to chars.
+This has been a challenge as it involves converting the float value to chars.
 
 The rest of the file is from the previous example.
 
