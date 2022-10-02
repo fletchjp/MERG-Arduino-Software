@@ -50,3 +50,8 @@
  
  This is a challenge as it involves converting the float value to chars.
  
+ ## MEGATaskIntegration I2C Struct
+ 
+ ## MEGATaskIntegration I2C PJON
+ 
+ 
