@@ -21,6 +21,7 @@ void setup() {
   // put your setup code here, to run once:
 #ifdef WRITE_I2C
   Wire.begin(); // join i2c bus (address optional for master)
+  Wire.write("RS485 Transmit Data Writer active\n");
 #endif
   pinMode(EN, OUTPUT);
   Serial.begin(19200);
@@ -28,7 +29,14 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
+#ifdef WRITE_I2C
+  Wire.beginTransmission(I2C_DEVICE); // transmit to device #I2C_DEVICE
+#endif
   digitalWrite(EN, HIGH); // Enable data transmit
   Serial.print('A');
+#ifdef WRITE_I2C
+  Wire.write('A');
+  Wire.endTransmission();    // stop transmitting
+#endif
   delay(1000);
 }
