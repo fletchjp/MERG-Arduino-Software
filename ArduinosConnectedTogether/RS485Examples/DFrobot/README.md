@@ -12,6 +12,10 @@ Another way is to add another Arduino on an I2C link to receive output and send 
 
 There is an example which can be used for this - I2CExamples/PeripheralReceiver
 
+## Controller Writer
+
+Copied here to be used as needed.
+
 ## PeripheralReceiver
 
 Copied here to be adapted.
