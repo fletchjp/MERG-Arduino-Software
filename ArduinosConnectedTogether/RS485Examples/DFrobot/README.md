@@ -10,6 +10,8 @@ There are a couple of ways around this. One is to have another RS485 device whic
 
 Another way is to add another Arduino on an I2C link to receive output and send it to the Serial Monitor.
 
+There is an example which can be used for this - I2CExamples/PeripheralReceiver
+
 ## RS485TransmitingData
 
 ## RS485ReceivingData
