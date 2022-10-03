@@ -34,3 +34,11 @@ First try with Auto485 in use.
 
 I have made a small change to my copy of Auto485 to remove an Arduino warning message.
 
+## RS485AutoDataWriter
+
+Adding I2C output of what is transmitted and received (incomplete)
+
+## RS485TransmitingDataWriter
+
+Adding I2C output of what is transmitted.
+
