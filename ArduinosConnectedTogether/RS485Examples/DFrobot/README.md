@@ -12,6 +12,8 @@ Another way is to add another Arduino on an I2C link to receive output and send 
 
 There is an example which can be used for this - I2CExamples/PeripheralReceiver
 
+I have now built a number of new examples adding Writer to the name to indicate writing to I2C which I have made a compile time option in the codes.
+
 ## Controller Writer
 
 Copied here to be used as needed.
@@ -22,7 +24,11 @@ Copied here to be adapted.
 
 ## RS485TransmitingData
 
+I have now had this working to the Serial Monitor.
+
 ## RS485ReceivingData
+
+This example flashes an LED when data is received.
 
 These are examples from the shield description. Each only does one way transmission.
 
@@ -41,4 +47,8 @@ Adding I2C output of what is transmitted and received (incomplete)
 ## RS485TransmitingDataWriter
 
 Adding I2C output of what is transmitted.
+
+## RS485ReceivingDataWriter
+
+Adding I2C output of what is received.
 
