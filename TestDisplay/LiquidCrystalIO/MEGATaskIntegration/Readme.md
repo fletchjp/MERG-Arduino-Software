@@ -29,3 +29,7 @@ This has now been implemented in the display part of the code.
 I have now fitted the unit with an MCP2515 to connect it to CBUS. That will make it a different code.
 
 This code is being developed for the Leamington and Warwick Model Railway Club project, though I will use different hardware for that.
+
+## Edits to tidy up warnings.
+
+I have done some edits here which need to be done in the other versions of this code.
