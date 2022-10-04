@@ -293,7 +293,7 @@ EncoderEvent encoderEvent2(encoder2,'2');
 /// @brief When the spinwheel1 is clicked, this function will be run as we registered it as a callback
 ///
 /// There have to be separate routines for each encoder to distinguish the variables.
-void onSpinwheelClicked1(pinid_t pin, bool heldDown) { //, MyEncoder &encoder, EncoderEvent &encoderEvent) {
+void onSpinwheelClicked1(pinid_t /*pin*/, bool heldDown) { //, MyEncoder &encoder, EncoderEvent &encoderEvent) {
   Serial.print("Button 1 pressed ");
   Serial.println(heldDown ? "Held" : "Pressed");
     if (encoderEvent1.RotaryPosition == 0) {  // check if button was already pressed
@@ -308,7 +308,7 @@ void onSpinwheelClicked1(pinid_t pin, bool heldDown) { //, MyEncoder &encoder, E
 }
 
 /// @brief When the spinwheel2 is clicked, this function will be run as we registered it as a callback
-void onSpinwheelClicked2(pinid_t pin, bool heldDown) { //, MyEncoder &encoder, EncoderEvent &encoderEvent) {
+void onSpinwheelClicked2(pinid_t /*pin*/, bool heldDown) { //, MyEncoder &encoder, EncoderEvent &encoderEvent) {
   Serial.print("Button 2 pressed ");
   Serial.println(heldDown ? "Held" : "Pressed");
     if (encoderEvent2.RotaryPosition == 0) {  // check if button was already pressed
@@ -396,7 +396,7 @@ public:
    }
      void reset_keys() { n_stored = 0; }
      byte num_keys() const { return n_stored; }
-     byte* get_keys() const { return stored; }
+     char* get_keys() { return stored; }
 };
 
 /// Adapted from Key.h and made into a scoped enum.
