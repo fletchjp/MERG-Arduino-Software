@@ -6,6 +6,9 @@
 int EN = 2;  // RS485 enable/disable pin for Rx/Tx
 // High to transmit, low to receive.
 
+// Add flashing of LED pin.
+int ledPin = 13;
+
 Auto485  bus(EN); // Single pin version
 
 void setup() {
@@ -24,5 +27,9 @@ void loop() {
       bus.write(bus.read()); // mode -> transmit
     bus.println(); // mode -> receive.
   }
-  delay(1000);
+  //delay(1000);
+  digitalWrite(ledPin, HIGH);
+  delay(500);
+  digitalWrite(ledPin, LOW);
+  delay(500);
 }
