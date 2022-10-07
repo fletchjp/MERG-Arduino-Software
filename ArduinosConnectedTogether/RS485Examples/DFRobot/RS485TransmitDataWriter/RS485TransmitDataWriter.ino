@@ -16,6 +16,8 @@
 int EN = 2;  // RS485 enable/disable pin for Rx/Tx
 // High to transmit, low to receive.
 
+// Add flashing of LED pin.
+int ledPin = 13;
 
 void setup() {
   // put your setup code here, to run once:
@@ -38,5 +40,9 @@ void loop() {
   Wire.write('A');
   Wire.endTransmission();    // stop transmitting
 #endif
-  delay(1000);
+  //delay(1000);
+  digitalWrite(ledPin, HIGH);
+  delay(500);
+  digitalWrite(ledPin, LOW);
+  delay(500);
 }
