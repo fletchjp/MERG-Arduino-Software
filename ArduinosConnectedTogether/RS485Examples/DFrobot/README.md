@@ -14,7 +14,7 @@ There is an example which can be used for this - I2CExamples/PeripheralReceiver
 
 I have now built a number of new examples adding Writer to the name to indicate writing to I2C which I have made a compile time option in the codes.
 
-All of the examples now have the flashing of the LED pin added, which was previously only in the ones receiving data.
+All of the RS485 examples now have the flashing of the LED pin added, which was previously only in the ones receiving data.
 
 ## Controller Writer
 
