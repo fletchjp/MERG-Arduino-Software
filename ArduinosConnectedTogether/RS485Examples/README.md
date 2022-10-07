@@ -6,9 +6,11 @@ I have done some work on this in the past and will collect the code here.
 
 That was done before I had the Totem frames to organise the hardware, so I think all the wiring has been taken apart.
 
-## DFrobot
+## DFRobot
 
 These are new codes for the DFR0219 boards which I have ordered.
+
+I have renamed the folder from DFrobot. GitHub was confused between DFRobot and DFrobot.
 
 ## RS485
 
