@@ -82,21 +82,19 @@
 */
 ///////////////////////////////////////////////////////////////////////////////////
 // Pin Use map UNO:
-// Digital pin 2          Interupt CAN
-// Digital pin 3 (PWM)    LED 0
-// Digital pin 4          LCD pin_d4 NOTE: The DFR0009 does not make pins D4 to D10 available.
-// Digital pin 5 (PWM)    LCD pin_d5
-// Digital pin 6 (PWM)    LCD pin_d6
-// Digital pin 7          LCD pin_d7
-// Digital pin 8          LCD pin_RS
-// Digital pin 9 (PWM)    LCD pin_EN
-// Digital pin 10         LCD backlight pin NOTE: This is NOT the CS pin
+// Digital pin 2          RS485 enable/disable pin for Rx/Tx
+// Digital pin 3 (PWM)    Interupt CAN **This is a change**
+// Digital pin 4          LED Green
+// Digital pin 5          LED 0
+// Digital pin 7          CBUS Switch 
+// Digital pin 8          LED Yellow
+// Digital pin 10 (SS)    CS CAN pin
 // Digital pin 11 (MOSI)  SI    CAN
 // Digital pin 12 (MISO)  SO    CAN
 // Digital pin 13 (SCK)   Sck   CAN
 
-// Digital pin 14 / Analog pin 0  Analog input from buttons  NOTE: The DFR0009 does not make this pin available.
-// Digital pin 15 / Analog pin 1 (SS)    CS    CAN    NOTE: Here is the CS pin
+// Digital pin 14 / Analog pin 0
+// Digital pin 15 / Analog pin 1
 // Digital pin 16 / Analog pin 2     Switch 0
 // Digital pin 17 / Analog pin 3     Bell/buzzer use.
 // Digital / Analog pin 4     Not Used - reserved for I2C
@@ -281,7 +279,7 @@ const unsigned long CAN_OSC_FREQ = 16000000;     // Oscillator frequency on the 
 #define NUM_SWITCHES 1          // How many switchs are there?
 
 //Module pins available for use are Pins 3 and A2 - A5
-const byte LED[NUM_LEDS] = {3};            // LED pin connections through typ. 1K8 resistor
+const byte LED[NUM_LEDS] = {5};            // LED pin connections through typ. 1K8 resistor
 const byte SWITCH[NUM_SWITCHES] = {16};     // Module Switch takes input to 0V.
 
 // module objects
@@ -292,11 +290,11 @@ byte switchState[NUM_SWITCHES];
 //////////////////////////////////////////////////////////////////////////
 
 //CBUS pins
-const byte CAN_INT_PIN = 2;  // Only pin 2 and 3 support interrupts
-const byte CAN_CS_PIN = 15;  // Changed from 10 which is used for the display.
-//const byte CAN_SI_PIN = 11;  // Cannot be changed
-//const byte CAN_SO_PIN = 12;  // Cannot be changed
-//const byte CAN_SCK_PIN = 13;  // Cannot be changed
+const byte CAN_INT_PIN   =   3;  // Only pin 2 and 3 support interrupts
+const byte CAN_CS_PIN    =  10;  // Changed from 10 which is used for the display.
+//const byte CAN_SI_PIN  =  11;  // Cannot be changed
+//const byte CAN_SO_PIN  =  12;  // Cannot be changed
+//const byte CAN_SCK_PIN =  13;  // Cannot be changed
 
 // CBUS objects
 CBUS2515 CBUS;                      // CBUS object
