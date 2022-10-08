@@ -1,6 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////////
 // CANRS485Transmit
 // adapted from CAN1602PINIOTM
+// HELP: I need to remove all normal use of Serial. This needs thinking about!!
 ///////////////////////////////////////////////////////////////////////////////////
 // This code is adapted to work with the DFR0219 shield https://www.dfrobot.com/product-51.html
 // Reference needs to be changed.
@@ -101,8 +102,20 @@
 // Digital / Analog pin 5     Not Used - reserved for I2C
 //////////////////////////////////////////////////////////////////////////
 
+#define USE_RS485
+
+#ifdef USE_RS485
+int EN = 2;  // RS485 enable/disable pin for Rx/Tx
+// High to transmit, low to receive.
+
+// Add flashing of LED pin.
+int ledPin = 13;
+#endif
+
 #define DEBUG       0   // set to 0 for no serial debug
+#ifdef HAS_LCD
 #define LCD_DISPLAY 1   // This has a 1602 display
+#endif
 #if DEBUG
 #define DEBUG_PRINT(S) Serial << S << endl
 #else
@@ -445,6 +458,19 @@ byte long_message_data[input_buffer_size];
 // create a handler function to receive completed long messages:
 void longmessagehandler(void *fragment, const unsigned int fragment_len, const byte stream_id, const byte status);
 const byte delay_in_ms_between_messages = 50;
+#endif
+
+#ifdef USE_RS485
+//
+///  setup RS485 - runs once at power on called from setup()
+//
+void setupRS485()
+{
+    // put your setup code here, to run once:
+  pinMode(EN, OUTPUT);
+  Serial.begin(19200);
+
+}
 #endif
 
 //
