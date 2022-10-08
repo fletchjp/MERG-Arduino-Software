@@ -1,19 +1,11 @@
 ////////////////////////////////////////////////////////////////////////////////////
-// CAN1602PINIOTM
-// This code is adapted to work with the DFR0009 shield https://www.dfrobot.com/product-51.html
-// Version using DfRobotInputAbstraction.h to model input pins.
-// This uses code from IoAbstraction examples dfRobotAnalogInSwitches
-// This is also using LiquidCrystalIO
-// I have another code, CANMEGATaskIntegration,
-// which demonstrates full use of LiquidCrystalIO.
-// I have used the example TaskMgrIntegration to bring that in here.
-// All updating of the LCD screen is now done through the DrawingEvent object.
-// One switch and one LED are configured in the software although not fitted at present.
-// The LED is configured on 3 and the switch on 16 (A2).
-// In practice it would be better to have the LED on one of 17-19 
-// where the DFR0009 has ground and 5V pins.
+// CANRS485Transmit
+// adapted from CAN1602PINIOTM
+///////////////////////////////////////////////////////////////////////////////////
+// This code is adapted to work with the DFR0219 shield https://www.dfrobot.com/product-51.html
+// Reference needs to be changed.
 ////////////////////////////////////////////////////////////////////////////////////
-// NOTE: The CS pin for CAN has to be changed from 10 to 15 as 10 is used by the lcd.
+// NOTE: The CS pin for CAN has to be changed from 10 to 15 as 10 is used by the lcd. NOT NEEDED HERE
 // IMPORTANT: The external MCP2515 boards use 8Mhz
 //            The CBUS shield uses 16Mhz
 // Define this for the external board. This code must be compiled separately for each option.
@@ -124,20 +116,24 @@
 #include <DfRobotInputAbstraction.h>
 #include <TaskManagerIO.h>
 #include <DeviceEvents.h>
+#ifdef HAS_LCD
 #include <LiquidCrystalIO.h>
-
+#endif
 // This uses the default settings for analog ranges.
 IoAbstractionRef dfRobotKeys = inputFromDfRobotShield();
 
 // This is the input pin where analog input is received.
 // It is in fact set as default defining dfRobotKeys.
+#ifdef HAS_LCD
 #define ANALOG_IN_PIN A0
+#endif
 
 // 3rd party libraries
 
 #include <Streaming.h>
 #include <Bounce2.h>
 
+#ifdef HAS_LCD
 //LCD pin to Arduino
 const int pin_RS = 8; 
 const int pin_EN = 9; 
@@ -147,7 +143,7 @@ const int pin_d6 = 6;
 const int pin_d7 = 7; 
 const int pin_BL = 10; 
 LiquidCrystal lcd( pin_RS,  pin_EN,  pin_d4,  pin_d5,  pin_d6,  pin_d7);
-
+#endif
 // This is new in this version of the code and may be useful elsewhere.
 // It is used to transfer error details to the DrawingEvent
 // which is why it is declared here.
@@ -169,6 +165,7 @@ char error_buffer[LENGTH_OF_BUFFER];
 
 void getErrorMessage(int i);
 
+#ifdef HAS_LCD
 /**
  * Here we create an event that handles all the drawing for an application, in this case printing out readings
  * of a sensor when changed. It uses polling and immediate triggering to show both examples
@@ -250,7 +247,7 @@ public:
 
 // create an instance of the above class
 DrawingEvent drawingEvent;
-
+#endif
 // Global variable to share what button has been pressed.
 int button = -1;
 int prevbutton = -1;
@@ -394,7 +391,9 @@ void serialPrintErrorln(int i)
 
 void logKeyPressed(int pin,const char* whichKey, bool heldDown) {
     // Pass information on the key to the drawingEvent.
+#ifdef HAS_LCD
     drawingEvent.drawKey(whichKey);
+#endif
     Serial.print("Key ");
     Serial.print(whichKey);
     Serial.println(heldDown ? " Held" : " Pressed");
@@ -545,6 +544,7 @@ void setupModule()
   } 
 }
 
+#ifdef HAS_LCD
 void setup1602() {
  lcd.begin(16, 2);
  lcd.setCursor(0,0);
@@ -552,6 +552,7 @@ void setup1602() {
  lcd.setCursor(0,1);
  lcd.print("Press Key:");
 }
+#endif
 
 void setupSwitches()
 {
@@ -576,7 +577,9 @@ void setup()
   Serial.begin (115200);
   Serial << endl << endl << F("> ** CAN1602PIN ** ") << __FILE__ << endl;
 
+#ifdef HAS_LCD
   setup1602();
+#endif
   setupCBUS();
   setupModule();
   setupSwitches();
@@ -589,8 +592,9 @@ void setup()
 
   // create any other tasks that you need here for your sketch
 
+#ifdef HAS_LCD
   taskManager.registerEvent(&drawingEvent);
-
+#endif
   // end of setup
   DEBUG_PRINT(F("> Using buzzer on pin ") << SOUNDER
          << F(" with tone set to ") << TONE );
@@ -775,14 +779,18 @@ void eventhandler(byte index, CANFrame *msg)
 
       case OPC_ACON:
       case OPC_ASON:
-     
-      drawingEvent.displayError(Error(event_number-nonEvent,0,0));
+
+#ifdef HAS_LCD
+            drawingEvent.displayError(Error(event_number-nonEvent,0,0));
+#endif
       break;
 
       case OPC_ACOF:
       case OPC_ASOF:
       
+#ifdef HAS_LCD
       drawingEvent.displayError(Error(blankError,0,0));
+#endif
       break;
       
      }   
@@ -928,10 +936,12 @@ void printConfig(void)
 #else
   Serial << F("> Compiled for MCP2515 shield") << endl;
 #endif
+#ifdef HAS_LCD
 #if LCD_DISPLAY
    Serial << F("> LCD display available") << endl;
 #if MERG_DISPLAY
    Serial << F("> MERG display available") << endl;
+#endif
 #endif
 #endif
 #ifdef CBUS_LONG_MESSAGE
