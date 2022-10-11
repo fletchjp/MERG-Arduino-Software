@@ -2,6 +2,8 @@
 // CANRS485Transmit
 // adapted from CAN1602PINIOTM
 // HELP: I need to remove all normal use of Serial. This needs thinking about!!
+// I could do this if I could find a RUN TIME way to detect the position of the switch which
+// connects the RS485 processing to pins 0 and 1.
 ///////////////////////////////////////////////////////////////////////////////////
 // This code is adapted to work with the DFR0219 shield https://www.dfrobot.com/product-51.html
 // Reference needs to be changed.
