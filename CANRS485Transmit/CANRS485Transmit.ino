@@ -5,6 +5,7 @@
 // I could do this if I could find a RUN TIME way to detect the position of the switch which
 // connects the RS485 processing to pins 0 and 1.
 // I am suspending this experiment.
+// I think it makes more sense to use soft serial and an external RS485 board.
 ///////////////////////////////////////////////////////////////////////////////////
 // This code is adapted to work with the DFR0219 shield https://www.dfrobot.com/product-51.html
 // Reference needs to be changed.
