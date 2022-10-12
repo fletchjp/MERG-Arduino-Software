@@ -34,7 +34,9 @@ This example flashes an LED when data is received.
 
 These are examples from the shield description. Each only does one way transmission.
 
-When I have these working I will look at using Auto485 as well.
+I now have these working. The red LED is flashing on both and the serial monitor on the transmitter is also getting the data. 
+
+I will look at using Auto485 as well.
 
 ## RS485AutoData
 
