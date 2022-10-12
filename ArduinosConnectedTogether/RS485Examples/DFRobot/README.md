@@ -36,13 +36,15 @@ These are examples from the shield description. Each only does one way transmiss
 
 I now have these working. The red LED is flashing on both and the serial monitor on the transmitter is also getting the data. 
 
-I will look at using Auto485 as well.
+I have now looked at using Auto485 as well.
 
 ## RS485AutoData
 
 First try with Auto485 in use.
 
 I have made a small change to my copy of Auto485 to remove an Arduino warning message.
+
+I have modified to have separate TRASMIT and receive versions depending on #define TRANSMIT.
 
 ## RS485AutoDataWriter
 
