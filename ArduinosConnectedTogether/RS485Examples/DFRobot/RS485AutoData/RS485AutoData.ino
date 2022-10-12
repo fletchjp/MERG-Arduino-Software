@@ -1,5 +1,7 @@
 // DFR0219 example code to transmit and receive data using Auto485
 
+// This is running as a transmitter.
+
 #include <Auto485.h>
 // I have made a small change to the header file to avoid a warning from the Arduino compiler.
 
@@ -21,7 +23,7 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   //digitalWrite(EN, HIGH); // Enable data transmit
-  //Serial.print('A');
+  bus.print('A');
   if (bus.available() > 0 ) {
     while (bus.available() > 0 )
       bus.write(bus.read()); // mode -> transmit
