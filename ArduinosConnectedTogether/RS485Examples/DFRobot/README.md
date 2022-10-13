@@ -66,8 +66,13 @@ This is a minature state machine.
 
 ## RS485ReceivingDataTM
 
-Adding task management using TaskManagerIO with an event class
+Adding task management using TaskManagerIO with callback functions.
 
 ## RS485TransmitingDataTMC
 
 Adding task management using TaskManagerIO with an event class (incomplete)
+
+## RS485ReceivingDataTMC
+
+Adding task management using TaskManagerIO with an event class (incomplete)
+
