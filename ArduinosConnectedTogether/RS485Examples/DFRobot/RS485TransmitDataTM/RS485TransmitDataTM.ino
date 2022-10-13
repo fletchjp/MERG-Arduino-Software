@@ -20,8 +20,6 @@ const int ledPin = 13;
 
 enum { LED_off, LED_on } Led_State;
 
-//Led_State current_led_state;
-
 void transmit()
 {
   // Now set up so that alternate calls to transmit do different things.
@@ -51,7 +49,6 @@ void setup() {
   // This is at the end of setup()
   taskManager.scheduleFixedRate(500,transmit);
 }
-
 
 void loop() {
   // put your main code here, to run repeatedly:
