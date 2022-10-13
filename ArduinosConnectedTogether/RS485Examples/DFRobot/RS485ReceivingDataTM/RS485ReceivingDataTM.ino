@@ -31,13 +31,6 @@ class RS485_receive : public BaseEvent {
 
 RS485_receive receive_data(ledPin);
 
-/*
-void receive_data()
-{
-  
-}
-*/
-
 void setup() {
   // put your setup code here, to run once:
   pinMode(EN, OUTPUT);
