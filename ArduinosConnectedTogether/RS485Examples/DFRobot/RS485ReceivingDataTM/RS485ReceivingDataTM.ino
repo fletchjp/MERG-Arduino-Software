@@ -40,7 +40,6 @@ void setup() {
   digitalWrite(ledPin, LOW);
   Led_State = LED_off;
   Task_State = TASK_off;
-  //saved_value = 'X';
 }
 
 void loop() {
