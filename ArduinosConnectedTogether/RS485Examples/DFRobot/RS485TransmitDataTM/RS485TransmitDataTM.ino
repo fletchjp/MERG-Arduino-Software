@@ -2,6 +2,10 @@
 // Add task management using TaskManagerIO
 // I do not need the event class for this case.
 // See example RS485TransmitDataTMC for an event class
+// Now set up so that alternate calls to transmit do different things.
+// This is the solution to having two different activities
+// alternately at 500 millisecond intervals
+
 // DFR0219 example code to transmit data
 
 // With the board set to PROG the output goes to the Serial Monitor if the speed is set correctly.
@@ -16,24 +20,35 @@ const int ledPin = 13;
 
 enum { LED_off, LED_on } Led_State;
 
+//Led_State current_led_state;
+
 void transmit()
 {
-  // put your main code here, to run repeatedly:
-  digitalWrite(EN, HIGH); // Enable data transmit
-  Serial.print('A');
-  digitalWrite(ledPin, HIGH);
-  delay(500); // I don't like the delay in here - think of something better.
-  digitalWrite(ledPin, LOW);
-  digitalWrite(EN, LOW);// Enable data receive
+  // Now set up so that alternate calls to transmit do different things.
+  // This is the solution to having two different activities
+  // alternately at 500 millisecond intervals
+  if (Led_State == LED_off) {
+    digitalWrite(EN, HIGH); // Enable data transmit
+    Serial.print('A');
+    digitalWrite(ledPin, HIGH);
+    digitalWrite(EN, LOW);  // Enable data receive
+    Led_State = LED_on;
+  } else {
+    //delay(500); // I don't like the delay in here - think of something better.
+    digitalWrite(ledPin, LOW);
+    Led_State = LED_off;
+  }   
 }
 
 void setup() {
   // put your setup code here, to run once:
   pinMode(EN, OUTPUT);
   Serial.begin(19200);
-
+  pinMode(ledPin, OUTPUT);
+  digitalWrite(ledPin, LOW);
+  Led_State = LED_off;
   // This is at the end of setup()
-  taskManager.scheduleFixedRate(1000,transmit);
+  taskManager.scheduleFixedRate(500,transmit);
 }
 
 
