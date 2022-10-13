@@ -1,6 +1,7 @@
 // RS485ReceivingDataTM
 // Add task management using TaskManagerIO
 // This needs to be an event driven task using a class
+// NOT OPERATIONAL
 // DFR0219 example code to receive data
 //////////////////////////////////////////////////////////////////////////////////// 
 // PSEUDOCODE
