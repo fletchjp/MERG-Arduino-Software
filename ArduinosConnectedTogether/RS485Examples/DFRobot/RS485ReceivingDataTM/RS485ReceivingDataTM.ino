@@ -1,6 +1,6 @@
 // RS485ReceivingDataTM
 // Add task management using TaskManagerIO
-// This needs to be an event driven task.
+// This needs to be an event driven task using a class
 // DFR0219 example code to receive data
 
 #include <TaskManagerIO.h>
