@@ -1,6 +1,7 @@
 // RS485TransmitDataTM
 // Add task management using TaskManagerIO with event class
 // I do not need the event class for this case.
+// See example RS485TransmitDataTMC for an event class
 // DFR0219 example code to transmit data
 
 // With the board set to PROG the output goes to the Serial Monitor if the speed is set correctly.
