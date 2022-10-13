@@ -60,7 +60,9 @@ Adding I2C output of what is received.
 
 ## RS485TransmitingDataTM
 
-Adding task management using TaskManagerIO with a callback function
+Adding task management using TaskManagerIO with a callback function which alternately transmits (turning the LED on) and turns the LED off.
+
+This is a minature state machine.
 
 ## RS485TransmitingDataTMC
 
