@@ -48,6 +48,12 @@ I have made a small change to my copy of Auto485 to remove an Arduino warning me
 
 I have modified to have separate TRASMIT and receive versions depending on #define TRANSMIT.
 
+## RS485AutoDataTM
+
+This has been developed using TaskManagerIO. Not yet tested.
+
+This also has separate TRASMIT and receive versions depending on #define TRANSMIT.
+
 ## RS485AutoDataWriter
 
 Adding I2C output of what is transmitted and received (incomplete)
