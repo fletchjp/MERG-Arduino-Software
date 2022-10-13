@@ -60,8 +60,8 @@ Adding I2C output of what is received.
 
 ## RS485TransmitingDataTM
 
-Adding task management using TaskManagerIO
+Adding task management using TaskManagerIO with a callback function
 
 ## RS485TransmitingDataTMC
 
-Adding task management using TaskManagerIO with an event class
+Adding task management using TaskManagerIO with an event class (incomplete)
