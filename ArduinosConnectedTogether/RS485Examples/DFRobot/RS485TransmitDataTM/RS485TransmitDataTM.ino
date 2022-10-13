@@ -31,6 +31,7 @@ void transmit()
     digitalWrite(EN, HIGH); // Enable data transmit
     Serial.print('A');
     digitalWrite(ledPin, HIGH);
+    // The following is not necessary here - there could be extensions.
     digitalWrite(EN, LOW);  // Enable data receive
     Led_State = LED_on;
   } else {
