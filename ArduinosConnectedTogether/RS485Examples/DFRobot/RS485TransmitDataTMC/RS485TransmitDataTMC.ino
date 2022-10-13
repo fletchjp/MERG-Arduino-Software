@@ -1,5 +1,6 @@
 // RS485TransmitDataTM
 // Add task management using TaskManagerIO with event class
+// I do not need the event class for this case.
 // DFR0219 example code to transmit data
 
 // With the board set to PROG the output goes to the Serial Monitor if the speed is set correctly.
@@ -20,24 +21,6 @@ void setup() {
   Serial.begin(19200);
 }
 
-class RS485_transmit : public BaseEvent {
-  int blinker_pin;
-  public:
-    int taskId;
-    RS485_transmit(int pin) : blinker_pin(pin)
-    { 
-        taskId = TASKMGR_INVALIDID;
-    }
-    uint32_t timeOfNextCheck() override {  
-       return 100UL * 1000UL; // every 15 milliseconds we increment
-    }  
-    void exec() override {
-      
-    }
-    ~RS485_transmit() override = default;
-};
-
-RS485_transmit transmit(ledPin);
 
 void loop() {
   // put your main code here, to run repeatedly:
