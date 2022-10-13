@@ -12,10 +12,31 @@ int val;
 
 enum { LED_off, LED_on } Led_State;
 
+class RS485_receive : public BaseEvent {
+  int blinker_pin;
+  public:
+    int taskId;
+    RS485_receive(int pin) : blinker_pin(pin)
+    { 
+        taskId = TASKMGR_INVALIDID;
+    }
+    uint32_t timeOfNextCheck() override {  
+       return 100UL * 1000UL; // every 15 milliseconds we increment
+    }  
+    void exec() override {
+      
+    }
+    ~RS485_transmit() override = default;
+};
+
+RS485_receive receive_data(ledPin);
+
+/*
 void receive_data()
 {
   
 }
+*/
 
 void setup() {
   // put your setup code here, to run once:
