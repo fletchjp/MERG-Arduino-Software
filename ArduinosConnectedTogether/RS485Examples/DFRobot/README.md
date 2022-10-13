@@ -36,6 +36,8 @@ These are examples from the shield description. Each only does one way transmiss
 
 I now have these working. The red LED is flashing on both and the serial monitor on the transmitter is also getting the data. 
 
+The flashing of the two LEDs differs slightly in timing and they drift apart.
+
 I have now looked at using Auto485 as well.
 
 ## RS485AutoData
@@ -67,6 +69,8 @@ This is a minature state machine.
 ## RS485ReceivingDataTM
 
 Adding task management using TaskManagerIO with callback functions.
+
+The TM programs have now been tested and give a much better timing than the ones without TM.
 
 ## RS485TransmitingDataTMC
 
