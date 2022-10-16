@@ -6,10 +6,11 @@
 // Adding task management to Signal3AspectWithButtonI2C
 //////////////////////////////////////////////////////////////////////////////////// 
 // PSEUDOCODE
-// Set GREEN_on
-// 
+// Set GREEN_on and BUTTON_off
+// If button is pressed set BUTTON_on
+// IF BUTTON_on then set RED_on and after 5 seconds set BUTTON_off
+// WHILE BUTTON_off EVERY 5 seconds cycle GREEN->RED->YELLOW->GREEN
 ///////////////////////////////////////////////////////////////////////////////////
-
 
 #include <TaskManagerIO.h>
 
