@@ -4,6 +4,8 @@ These are examples of Arduino code using Sven Rosvall's signal code and modifica
 
 The examples are grouped by signal function.
 
+I am testing some of the examples and adding task management using TaskManagerIO (TM added to file names)
+
 ## CANSignals
 
 These examples can link to CBUS.
