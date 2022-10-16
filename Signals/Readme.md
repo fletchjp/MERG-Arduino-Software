@@ -6,6 +6,8 @@ The examples are grouped by signal function.
 
 I am testing some of the examples and adding task management using TaskManagerIO (TM added to file names)
 
+I am controlling the task management with an enum defining the state where this is relevant.
+
 ## CANSignals
 
 These examples can link to CBUS.
