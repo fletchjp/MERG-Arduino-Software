@@ -22,4 +22,8 @@ Awaiting a button for a test.
 
 Converted to use I2C and PC9685. Awaiting a button for a test.
 
+## Signal3AspectWithButtonI2CTM
+
+Adding task management and now tested except awaiting a button for a full test.
+
  
