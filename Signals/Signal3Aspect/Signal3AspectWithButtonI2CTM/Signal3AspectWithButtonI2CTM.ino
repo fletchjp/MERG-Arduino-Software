@@ -4,12 +4,16 @@
 // Sven Rosvall
 
 // Adding task management to Signal3AspectWithButtonI2C
+// I have added a task state so that the task_off routine does not get called again
+// if it has already been called.
 //////////////////////////////////////////////////////////////////////////////////// 
 // PSEUDOCODE
 // Set GREEN_on and BUTTON_off
 // If button is pressed set BUTTON_on
-// IF BUTTON_on then set RED_on and after 5 seconds set BUTTON_off
-// WHILE BUTTON_off EVERY 5 seconds cycle GREEN->RED->YELLOW->GREEN
+// IF BUTTON_on THEN
+//    set BUTTON off and RED_on and if TASK_off THEN after 5 seconds set TASK_off
+//    set TASK_on
+// WHILE TASK_off EVERY 5 seconds cycle GREEN->RED->YELLOW->GREEN
 ///////////////////////////////////////////////////////////////////////////////////
 
 #include <TaskManagerIO.h>
@@ -23,6 +27,8 @@
 enum { RED_on, YELLOW_on, GREEN_on } Led_State;
 
 enum { BUTTON_off, BUTTON_on } Button_State;
+
+enum { TASK_off, TASK_on} Task_State;
 
 /* This case  uses the  trackPin and cycles through the colours.
     when a train is detected.
@@ -52,6 +58,7 @@ void setup()
   pwmWrite(pwm, redPin, LOW);
   Led_State = GREEN_on;
   Button_State = BUTTON_off;
+  Task_State = TASK_off;
   // This is at the end of setup()
   taskManager.scheduleFixedRate(5000,switch_LED);
 }
@@ -69,16 +76,19 @@ void pwmWrite(Adafruit_PWMServoDriver &pwm,uint8_t pwmnum,byte val)
 
 void switch_LED_to_RED()
 {
+     Button_State = BUTTON_off;
      pwmWrite(pwm, yellowPin, LOW);
      pwmWrite(pwm, greenPin, LOW);
      pwmWrite(pwm, redPin, HIGH);
      Led_State = RED_on;
-     taskManager.scheduleOnce(5000,button_off);
+     if (Task_State == TASK_off) // Only run this if it is not running.
+         taskManager.scheduleOnce(5000,task_off);
+     Task_State = TASK_on;
 }
 
-void button_off()
+void task_off()
 {
-     Button_State = BUTTON_off;  
+     Task_State = TASK_off;  
 }
 
 void switch_LED()
@@ -87,13 +97,13 @@ void switch_LED()
      pwmWrite(pwm, greenPin, LOW);
      pwmWrite(pwm, redPin, HIGH);
      Led_State = RED_on;
-  } else if (Led_State == RED_on && Button_State == BUTTON_off) {
-     // Do not switch off the RED while Button_State is BUTTON_on.
+  } else if (Led_State == RED_on && Task_State == TASK_off) {
+     // Do not switch off the RED while Task_State is TASK_on.
      pwmWrite(pwm, redPin, LOW);
      pwmWrite(pwm, yellowPin, HIGH);
      Led_State = YELLOW_on;
-  } else if (Button_State == BUTTON_off) {
-     // Do not switch to GREEN while Button_State is BUTTON_on.
+  } else if (Task_State == TASK_off) {
+     // Do not switch to GREEN while Task_State is TASK_on.
       pwmWrite(pwm, yellowPin, LOW);
       pwmWrite(pwm, greenPin, HIGH);
       Led_State = GREEN_on;
