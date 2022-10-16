@@ -9,10 +9,10 @@
 //////////////////////////////////////////////////////////////////////////////////// 
 // PSEUDOCODE
 // Set GREEN_on and BUTTON_off
-// If button is pressed set BUTTON_on
+// If button is pressed and BUTTON_off set BUTTON_on
 // IF BUTTON_on THEN
-//    set BUTTON off and RED_on and if TASK_off THEN after 5 seconds set TASK_off
-//    set TASK_on
+//    set RED_on and if TASK_off THEN after 5 seconds set TASK_off
+//    set TASK_on and BUTTON_off
 // WHILE TASK_off EVERY 5 seconds cycle GREEN->RED->YELLOW->GREEN
 ///////////////////////////////////////////////////////////////////////////////////
 
@@ -76,7 +76,6 @@ void pwmWrite(Adafruit_PWMServoDriver &pwm,uint8_t pwmnum,byte val)
 
 void switch_LED_to_RED()
 {
-     Button_State = BUTTON_off;
      pwmWrite(pwm, yellowPin, LOW);
      pwmWrite(pwm, greenPin, LOW);
      pwmWrite(pwm, redPin, HIGH);
@@ -84,6 +83,7 @@ void switch_LED_to_RED()
      if (Task_State == TASK_off) // Only run this if it is not running.
          taskManager.scheduleOnce(5000,task_off);
      Task_State = TASK_on;
+     Button_State = BUTTON_off;
 }
 
 void task_off()
@@ -115,23 +115,11 @@ void loop()
 
   taskManager.runLoop();
 
-  if (digitalRead(trackPin) == LOW )
+  // Avoid duplicate calls.
+  if (digitalRead(trackPin) == LOW  && Button_State == BUTTON_off)
  {
    Button_State = BUTTON_on;
    taskManager.execute(switch_LED_to_RED);
  }
 
-/*
-  pwmWrite(pwm, greenPin, LOW);
-  pwmWrite(pwm, redPin, HIGH);
-
-  delay(5000);
-  pwmWrite(pwm, redPin, LOW);
-  pwmWrite(pwm, yellowPin, HIGH);
-
-  delay(5000);
-  pwmWrite(pwm, yellowPin, LOW);
-  pwmWrite(pwm, greenPin, HIGH);
-*/
-  //delay(5000);
 }
