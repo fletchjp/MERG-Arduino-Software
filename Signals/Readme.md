@@ -16,7 +16,7 @@ These examples can link to CBUS.
 
 These examples work with one two aspect signal.
 
-## Signal3Aspecy
+## Signal3Aspect
 
 These examples work with one three aspect signal.
 
