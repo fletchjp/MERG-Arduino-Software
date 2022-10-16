@@ -4,6 +4,12 @@
 // Sven Rosvall
 
 // Adding task management to Signal3AspectWithButtonI2C
+//////////////////////////////////////////////////////////////////////////////////// 
+// PSEUDOCODE
+// Set GREEN_on
+// 
+///////////////////////////////////////////////////////////////////////////////////
+
 
 #include <TaskManagerIO.h>
 
@@ -14,6 +20,8 @@
 #include "FastPWMLight.h"
 
 enum { RED_on, YELLOW_on, GREEN_on } Led_State;
+
+enum { BUTTON_off, BUTTON_on } Button_State;
 
 /* This case  uses the  trackPin and cycles through the colours.
     when a train is detected.
@@ -41,6 +49,10 @@ void setup()
   pwmWrite(pwm, greenPin, HIGH);
   pwmWrite(pwm, yellowPin, LOW);
   pwmWrite(pwm, redPin, LOW);
+  Led_State = GREEN_on;
+  Button_State = BUTTON_off;
+  // This is at the end of setup()
+  taskManager.scheduleFixedRate(5000,switch_LED);
 }
 
 // I need a routine to write to a pin via the PCA9685
@@ -54,17 +66,33 @@ void pwmWrite(Adafruit_PWMServoDriver &pwm,uint8_t pwmnum,byte val)
    }
 }
 
+void switch_LED_to_RED()
+{
+     pwmWrite(pwm, yellowPin, LOW);
+     pwmWrite(pwm, greenPin, LOW);
+     pwmWrite(pwm, redPin, HIGH);
+     Led_State = RED_on;
+     taskManager.scheduleOnce(5000,button_off);
+}
+
+void button_off()
+{
+     Button_State = BUTTON_off;  
+}
+
 void switch_LED()
 {
   if (Led_State == GREEN_on) {
      pwmWrite(pwm, greenPin, LOW);
      pwmWrite(pwm, redPin, HIGH);
      Led_State = RED_on;
-  } else if (Led_State == RED_on) {
+  } else if (Led_State == RED_on && Button_State == BUTTON_off) {
+     // Do not switch off the RED while Button_State is BUTTON_on.
      pwmWrite(pwm, redPin, LOW);
      pwmWrite(pwm, yellowPin, HIGH);
      Led_State = YELLOW_on;
-  } else {
+  } else if (Button_State == BUTTON_off) {
+     // Do not switch to GREEN while Button_State is BUTTON_on.
       pwmWrite(pwm, yellowPin, LOW);
       pwmWrite(pwm, greenPin, HIGH);
       Led_State = GREEN_on;
@@ -76,9 +104,12 @@ void loop()
 
   taskManager.runLoop();
 
-  while (digitalRead(trackPin) == HIGH )
+  if (digitalRead(trackPin) == LOW )
  {
+   Button_State = BUTTON_on;
+   taskManager.execute(switch_LED_to_RED);
  }
+
 /*
   pwmWrite(pwm, greenPin, LOW);
   pwmWrite(pwm, redPin, HIGH);
