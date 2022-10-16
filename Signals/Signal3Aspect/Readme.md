@@ -10,6 +10,10 @@ They also need FastPWMLight.h which is an addition to the SignalControl library.
 
 This is now tested.
 
+## Signal3AspectCycleI2CTM
+
+Adding task management
+
 ## Signal3AspectWithButtonI2C
 
 Awaiting a button for a test.
