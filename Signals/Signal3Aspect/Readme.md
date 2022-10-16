@@ -14,8 +14,12 @@ This is now tested.
 
 Adding task management and now tested.
 
-## Signal3AspectWithButtonI2C
+## Signal3AspectWithButton
 
 Awaiting a button for a test.
+
+## Signal3AspectWithButtonI2C
+
+Converted to use I2C and PC9685. Awaiting a button for a test.
 
  
