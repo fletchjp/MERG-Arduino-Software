@@ -1,7 +1,11 @@
+// Signal3AspectWithButtonI2C
+
 // Example from Merg Journal June 2020 page49
 // Sven Rosvall
 
 // Arduino Nano as in the article.
+
+// Converting example to use I2C and PCA9685
 
 #include <Wire.h>
 #include <Adafruit_PWMServoDriver.h>
