@@ -23,7 +23,6 @@ Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
 // Example from Merg Journal June 2020 page49
 // Sven Rosvall
 
-// Arduino Nano as in the article.
 
 /* This case ignores the  trackPin and cycles through the colours.
 */
