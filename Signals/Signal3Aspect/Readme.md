@@ -12,7 +12,7 @@ This is now tested.
 
 ## Signal3AspectCycleI2CTM
 
-Adding task management
+Adding task management and now tested.
 
 ## Signal3AspectWithButtonI2C
 
