@@ -1,9 +1,11 @@
-// Signal3AspectWithButtonI2C
+// Signal3AspectWithButtonI2CTM
 
 // Example from Merg Journal June 2020 page49
 // Sven Rosvall
 
-// Arduino Nano as in the article.
+// Adding task management to Signal3AspectWithButtonI2C
+
+#include <TaskManagerIO.h>
 
 // Converting example to use I2C and PCA9685
 
@@ -11,6 +13,7 @@
 #include <Adafruit_PWMServoDriver.h>
 #include "FastPWMLight.h"
 
+enum { RED_on, YELLOW_on, GREEN_on } Led_State;
 
 /* This case  uses the  trackPin and cycles through the colours.
     when a train is detected.
@@ -51,13 +54,32 @@ void pwmWrite(Adafruit_PWMServoDriver &pwm,uint8_t pwmnum,byte val)
    }
 }
 
+void switch_LED()
+{
+  if (Led_State == GREEN_on) {
+     pwmWrite(pwm, greenPin, LOW);
+     pwmWrite(pwm, redPin, HIGH);
+     Led_State = RED_on;
+  } else if (Led_State == RED_on) {
+     pwmWrite(pwm, redPin, LOW);
+     pwmWrite(pwm, yellowPin, HIGH);
+     Led_State = YELLOW_on;
+  } else {
+      pwmWrite(pwm, yellowPin, LOW);
+      pwmWrite(pwm, greenPin, HIGH);
+      Led_State = GREEN_on;
+  }
+}
+
 void loop()
 {
+
+  taskManager.runLoop();
 
   while (digitalRead(trackPin) == HIGH )
  {
  }
-
+/*
   pwmWrite(pwm, greenPin, LOW);
   pwmWrite(pwm, redPin, HIGH);
 
@@ -68,6 +90,6 @@ void loop()
   delay(5000);
   pwmWrite(pwm, yellowPin, LOW);
   pwmWrite(pwm, greenPin, HIGH);
-
+*/
   //delay(5000);
 }
