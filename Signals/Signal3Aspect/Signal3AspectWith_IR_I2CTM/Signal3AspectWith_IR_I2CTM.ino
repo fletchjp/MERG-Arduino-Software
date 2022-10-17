@@ -4,6 +4,7 @@
 // Sven Rosvall
 
 // Use IR detector to switch the signal
+// Simple callback taken from TCRT5000_IOAbs_Callback.
 // Adding task management to Signal3AspectWithButtonI2C
 // I have added a task state so that the task_off routine does not get called again
 // if it has already been called.
@@ -30,6 +31,8 @@ enum { RED_on, YELLOW_on, GREEN_on } Led_State;
 
 enum { BUTTON_off, BUTTON_on } Button_State;
 
+enum { IR_off, IR_on } IR_State;
+
 enum { TASK_off, TASK_on} Task_State;
 
 /* This case  uses the  trackPin and cycles through the colours.
@@ -52,13 +55,35 @@ const int Signal_Pin = 5;
 const int IR_Pin = 6;
 const int LED_Pin = 7;
 
+int ir_signal = 0;
+int previous_signal = -1;
+
+// Check the signal and act if it has changed.
+void checkIR()
+{
+  ir_signal = ioDeviceDigitalReadS(arduinoPins, Signal_Pin);
+  //Serial.println(ir_signal);
+  if (ir_signal != previous_signal) {
+    if (ir_signal) IR_State = IR_on; else IR_State = IR_off;
+    previous_signal = ir_signal;
+    // Changes to save some code by passing the reverse value !ir_signal
+    ioDeviceDigitalWrite(arduinoPins, LED_Pin, !ir_signal);
+  }
+}
 
 void setup()
 {
-  Serial.begin(9600);
-  Serial.println("Signal 3 Aspect with button using I2C and PCA9685");
+  Serial.begin(115200);
+  Serial.println("Signal 3 Aspect with button and IR using I2C and PCA9685");
   pwm.begin();
   pwm.setPWMFreq(1600);  // This is the maximum PWM frequency
+
+  ioDevicePinMode(arduinoPins, Signal_Pin, INPUT_PULLUP);
+  ioDevicePinMode(arduinoPins, IR_Pin, OUTPUT);
+  ioDevicePinMode(arduinoPins, LED_Pin, OUTPUT);
+
+  ioDeviceDigitalWrite(arduinoPins, IR_Pin, HIGH);
+  ioDeviceDigitalWrite(arduinoPins, LED_Pin, LOW);
 
   pinMode(trackPin, INPUT_PULLUP);
   digitalWrite(greenPin, HIGH);
@@ -69,8 +94,10 @@ void setup()
   Led_State = GREEN_on;
   Button_State = BUTTON_off;
   Task_State = TASK_off;
+  IR_State = IR_off;
   // This is at the end of setup()
   taskManager.scheduleFixedRate(5000,switch_LED);
+  taskManager.scheduleFixedRate(250, checkIR);
 }
 
 // I need a routine to write to a pin via the PCA9685
@@ -126,7 +153,7 @@ void loop()
   taskManager.runLoop();
 
   // Avoid duplicate calls.
-  if (digitalRead(trackPin) == LOW  && Button_State == BUTTON_off)
+  if ( (digitalRead(trackPin) == LOW || IR_State == IR_on)  && Button_State == BUTTON_off)
  {
    Button_State = BUTTON_on;
    taskManager.execute(switch_LED_to_RED);
