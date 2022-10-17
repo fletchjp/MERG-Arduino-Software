@@ -20,9 +20,13 @@ Base case which uses direct action with the signal lights on a PCA9685.
 
 This uses Signal3AspectState instead of direct action.
 
+This code has a state machine for handling the changes.
+
 ## TwoLinkedSignals3AspectBI2C
 
 This uses Signal3AspectState instead of direct action with the signal lights on a PCA9685.
 
 This has been compiled.
+
+I would like to convert this to use task management.
 
