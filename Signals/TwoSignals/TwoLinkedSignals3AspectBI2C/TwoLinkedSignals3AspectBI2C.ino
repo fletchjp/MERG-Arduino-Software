@@ -43,7 +43,7 @@ unsigned int signal2state;
 
 void setup() 
 {
-    Serial.begin(9600);
+    Serial.begin(115200);
     Serial.println("Two Linked 3 Aspect signals starting");
 }
 
