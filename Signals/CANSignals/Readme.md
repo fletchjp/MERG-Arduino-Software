@@ -2,6 +2,8 @@
 
 These examples use an old version of the Arduino CBUS library and will need updating before any use.
 
+These are based on the two signals cases using a state process.
+
 ## CANASIGNAL
 
 Version 1a beta 4
