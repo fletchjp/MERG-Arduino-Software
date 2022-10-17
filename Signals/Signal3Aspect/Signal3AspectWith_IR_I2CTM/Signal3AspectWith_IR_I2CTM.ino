@@ -17,6 +17,7 @@
 // WHILE TASK_off EVERY 5 seconds cycle GREEN->RED->YELLOW->GREEN
 ///////////////////////////////////////////////////////////////////////////////////
 
+#include <IoAbstraction.h>
 #include <TaskManagerIO.h>
 
 // Converting example to use I2C and PCA9685
@@ -43,6 +44,14 @@ int trackPin = 2;
 int greenPin  = 1;
 int redPin    = 3;
 int yellowPin = 2;
+
+IoAbstractionRef arduinoPins = ioUsingArduino();
+
+// The IR signal is pulled high and goes low when there is a detection.
+const int Signal_Pin = 5;
+const int IR_Pin = 6;
+const int LED_Pin = 7;
+
 
 void setup()
 {
