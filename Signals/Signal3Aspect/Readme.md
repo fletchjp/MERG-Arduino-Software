@@ -26,4 +26,6 @@ Converted to use I2C and PC9685. Awaiting a button for a test.
 
 Adding task management and now tested except awaiting a button for a full test.
 
- 
+## Signal3AspectWith_IR_I2CTM
+
+I have added an IR detector as well as the trigger for the light to go red.
