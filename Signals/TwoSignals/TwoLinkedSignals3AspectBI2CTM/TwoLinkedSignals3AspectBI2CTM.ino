@@ -8,6 +8,7 @@
 // in the Signals library, in particular in Signal3AspectState.h which was an addition to the library.
 
 // I suspect I will need to bring the state mechanism into the main code as in other examples.
+// The idea of that is to make the codes similar in approach so that examples can easily be extended.
 
 #include <Wire.h>
 #include <Adafruit_PWMServoDriver.h>
