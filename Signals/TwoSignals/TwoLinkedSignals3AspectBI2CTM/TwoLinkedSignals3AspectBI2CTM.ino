@@ -17,6 +17,8 @@
 //
 ////////////////////////////////////////////////////////////////////////////////////
 
+#include <TaskManagerIO.h>
+
 #include <Wire.h>
 #include <Adafruit_PWMServoDriver.h>
 #include "Signal3AspectState.h"
@@ -29,6 +31,12 @@ Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
 //Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver(0x41);
 // you can also call it with a different address and I2C interface
 //Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver(0x40, Wire);
+
+enum { RED_on, YELLOW_on, GREEN_on } Led1_State, Led2_State;
+
+enum { BUTTON_off, BUTTON_on } Button1_State, Button2_State;
+
+enum { TASK_off, TASK_on} Task1_State, Task2_State;
 
 // These correspond with the 2 buttons
 DistanceTimer distanceTimer1(2);
@@ -59,7 +67,7 @@ Signal3AspectState signal2(distanceTimer2, greenLight2, redLight2, yellowLight2,
 unsigned int signal2state;
 
 void setup() 
-{
+{ 
     Serial.begin(115200);
     Serial.println("Two Linked 3 Aspect signals starting");
 }
