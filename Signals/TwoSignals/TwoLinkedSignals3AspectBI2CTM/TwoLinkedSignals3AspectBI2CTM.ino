@@ -1,6 +1,7 @@
 // TwoLinkedSignals3AspectBI2CTM
 
 // Task management added to TwoLinkedSignals3AspectBI2C
+// ideas copied from Signal3AspectWithButtonI2CTM
 
 // This version uses the modified SignalControl library and a PCA9685 
 
