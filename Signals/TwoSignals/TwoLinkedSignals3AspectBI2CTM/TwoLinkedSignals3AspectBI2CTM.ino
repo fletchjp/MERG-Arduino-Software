@@ -11,6 +11,12 @@
 // I suspect I will need to bring the state mechanism into the main code as in other examples.
 // The idea of that is to make the codes similar in approach so that examples can easily be extended.
 
+//////////////////////////////////////////////////////////////////////////////////// 
+// PSEUDOCODE
+//
+//
+////////////////////////////////////////////////////////////////////////////////////
+
 #include <Wire.h>
 #include <Adafruit_PWMServoDriver.h>
 #include "Signal3AspectState.h"
