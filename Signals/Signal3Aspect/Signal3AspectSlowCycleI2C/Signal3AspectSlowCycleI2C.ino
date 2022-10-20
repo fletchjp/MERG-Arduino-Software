@@ -27,12 +27,14 @@ int greenPin  = 1;
 int redPin    = 3;
 int yellowPin = 2;
 
-SlowPCALight greenLight(greenPin);
+SlowPCALight greenLight (pwm, greenPin);
+SlowPCALight redLight   (pwm, redPin, true);
+SlowPCALight yellowLight(pwm, yellowPin);
 
 void setup()
 {
   Serial.begin(9600);
-  Serial.println("Signal 3 Aspect using I2C and PCA9685");
+  Serial.println("Signal 3 Aspect Slow using I2C and PCA9685");
 
   pwm.begin();
   pwm.setPWMFreq(1600);  // This is the maximum PWM frequency
@@ -60,17 +62,42 @@ void pwmWrite(Adafruit_PWMServoDriver &pwm,uint8_t pwmnum,byte val)
 
 void loop()
 {
+///  delay(5000);
 
-  pwmWrite(pwm, greenPin, LOW);
-  pwmWrite(pwm, redPin, HIGH);
+ //pwmWrite(pwm, greenPin, LOW);
+ //pwmWrite(pwm, redPin, HIGH);
+ //   redLight.set(false);
+ //   greenLight.set(true);
+ //   yellowLight.set(false);
+ //  greenLight.update();
+ //  redLight.update();
+  // yellowLight.update();
+ for (int intensity = 4096; intensity >= 0; intensity-=32)
+ {
+    pwm.setPWM(greenPin,intensity,4096-intensity);
+    delay(100);
+ }
+/*
+  delay(5000);
+//  pwmWrite(pwm, redPin, LOW);
+//  pwmWrite(pwm, yellowPin, HIGH);
+    yellowLight.set(true);     
+    greenLight.set(false);
+    redLight.set(false);
+    greenLight.update();
+    redLight.update();
+    yellowLight.update();
+ 
+  delay(5000);
+//  pwmWrite(pwm, yellowPin, LOW);
+//  pwmWrite(pwm, greenPin, HIGH);
+    greenLight.set(true);
+    redLight.set(false);
+    yellowLight.set(false);
+    greenLight.update();
+    redLight.update();
+    yellowLight.update();
 
   delay(5000);
-  pwmWrite(pwm, redPin, LOW);
-  pwmWrite(pwm, yellowPin, HIGH);
-
-  delay(5000);
-  pwmWrite(pwm, yellowPin, LOW);
-  pwmWrite(pwm, greenPin, HIGH);
-
-  delay(5000);
+*/
 }
