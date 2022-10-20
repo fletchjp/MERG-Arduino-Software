@@ -4,7 +4,7 @@
 
 #include <Wire.h>
 #include <Adafruit_PWMServoDriver.h>
-#include "SlowFPCALight.h"
+#include "SlowPCALight.h"
 
 // called this way, it uses the default address 0x40
 Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
@@ -26,6 +26,8 @@ int trackPin = 2;
 int greenPin  = 1;
 int redPin    = 3;
 int yellowPin = 2;
+
+SlowPCALight greenLight(greenPin);
 
 void setup()
 {
