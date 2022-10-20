@@ -13,6 +13,8 @@
 #include <Adafruit_PWMServoDriver.h>
 #include "SlowPCALight.h"
 
+enum { RED_on, YELLOW_on, GREEN_on } Led_State;
+
 // called this way, it uses the default address 0x40
 Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
 // you can also call it with a different address you want
@@ -40,8 +42,8 @@ SlowPCALight yellowLight(pwm, yellowPin);
 
 void setup()
 {
-  Serial.begin(9600);
-  Serial.println("Signal 3 Aspect Slow using I2C and PCA9685");
+  Serial.begin(115200);
+  Serial.println("Signal 3 Aspect Slow using I2C and PCA9685 with Task Management");
 
   pwm.begin();
   pwm.setPWMFreq(1600);  // This is the maximum PWM frequency
@@ -65,6 +67,12 @@ void pwmWrite(Adafruit_PWMServoDriver &pwm,uint8_t pwmnum,byte val)
    } else {
      pwm.setPWM(pwmnum,0,4096);  // pwm.setPin(pwmnum,4096)
    }
+}
+
+// New routine
+void pwmWrite(Adafruit_PWMServoDriver &pwm,uint8_t pwmnum,uint8_t intensity)
+{
+     pwm.setPWM(pwmnum,intensity,4096-intensity);
 }
 
 void loop()
