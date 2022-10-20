@@ -1,5 +1,7 @@
 // Signal3AspectSlowCycleI2C
 
+// The first thing to note is that the PWM range is to 4096 not 255
+
 // Converting example to use I2C and PCA9685
 
 #include <Wire.h>
