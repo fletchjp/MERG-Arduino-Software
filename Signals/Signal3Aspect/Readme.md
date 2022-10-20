@@ -14,6 +14,14 @@ This is now tested.
 
 Adding task management and now tested.
 
+## Signal3AspectSlowCycleI2C
+
+I have started to develop this and left it incomplete
+
+## Signal3AspectSlowCycleI2CTM
+
+Work is going to be focussed here.
+
 ## Signal3AspectWithButton
 
 Awaiting a button for a test.
