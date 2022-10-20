@@ -8,12 +8,18 @@
 
 // Converting example to use I2C and PCA9685
 
+///////////////////////////////////////////////////////////////////////
+// PSEUDOCODE
+// SET Current_State = GREEN_on, Next_State = RED_on
+// FOR Current_State SET Led_State = Next_State
+///////////////////////////////////////////////////////////////////////
+
 
 #include <Wire.h>
 #include <Adafruit_PWMServoDriver.h>
 #include "SlowPCALight.h"
 
-enum { RED_on, YELLOW_on, GREEN_on } Led_State;
+enum { RED_on, YELLOW_on, GREEN_on } Led_State, Current_State, Next_State;
 
 // called this way, it uses the default address 0x40
 Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
@@ -56,6 +62,8 @@ void setup()
   pwmWrite(pwm, greenPin, HIGH);
   pwmWrite(pwm, yellowPin, LOW);
   pwmWrite(pwm, redPin, LOW);
+  Current_State = GREEN_on;
+  Next_State = RED_on;
 }
 
 // I need a routine to write to a pin via the PCA9685
@@ -64,15 +72,26 @@ void pwmWrite(Adafruit_PWMServoDriver &pwm,uint8_t pwmnum,byte val)
 {
    if(val == HIGH) {
      pwm.setPWM(pwmnum,4096,0);  // pwm.setPin(pwmnum,0)
+   } else if(val == LOW) {
+     pwm.setPWM(pwmnum,0,4096);  // pwm.setPin(pwmnum,4096)
    } else {
+     // I need to map val from 0 to 255 to 0 to 4096
      pwm.setPWM(pwmnum,0,4096);  // pwm.setPin(pwmnum,4096)
    }
 }
 
 // New routine
+/*
 void pwmWrite(Adafruit_PWMServoDriver &pwm,uint8_t pwmnum,uint8_t intensity)
 {
      pwm.setPWM(pwmnum,intensity,4096-intensity);
+}
+*/
+// Instruction to move a light up or down
+void pwmMove(Adafruit_PWMServoDriver &pwm,uint8_t pwmnum, bool up)
+{
+
+
 }
 
 void loop()
