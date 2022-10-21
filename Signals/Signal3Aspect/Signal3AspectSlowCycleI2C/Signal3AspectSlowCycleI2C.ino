@@ -53,13 +53,14 @@ void setup()
   pwmWrite(pwm, greenPin, HIGH);
   pwmWrite(pwm, yellowPin, LOW);
   pwmWrite(pwm, redPin, LOW);
-  Current_State = GREEN_on;
+  Led_State = GREEN_on;
 }
 
 // I need a routine to write to a pin via the PCA9685
 // This first one is just ON/OFF.
 void pwmWrite(Adafruit_PWMServoDriver &pwm,uint8_t pwmnum,byte val)
 {
+   int i;
    if(val == HIGH) {
      pwm.setPWM(pwmnum,4096,0);  // pwm.setPin(pwmnum,0)
    } else if(val == LOW) {
@@ -88,9 +89,28 @@ void pwmMove(Adafruit_PWMServoDriver &pwm,uint8_t pwmnum, bool up)
   }
 }
 
+void switch_LED()
+{
+  if (Led_State == GREEN_on) {
+     pwmMove(pwm, greenPin, false);
+     pwmMove(pwm, redPin, true);
+     Led_State = RED_on;
+  } else if (Led_State == RED_on /*&& Task_State == TASK_off */) {
+     // Do not switch off the RED while Task_State is TASK_on.
+     pwmMove(pwm, redPin, false);
+     pwmMove(pwm, yellowPin, true);
+     Led_State = YELLOW_on;
+  } else /*if (Task_State == TASK_off) */ {
+     // Do not switch to GREEN while Task_State is TASK_on.
+      pwmMove(pwm, yellowPin, false);
+      pwmMove(pwm, greenPin, true);
+      Led_State = GREEN_on;
+  }
+}
+
 
 void loop()
 {
-
-
+    switch_LED();
+    delay(5000);
 }
