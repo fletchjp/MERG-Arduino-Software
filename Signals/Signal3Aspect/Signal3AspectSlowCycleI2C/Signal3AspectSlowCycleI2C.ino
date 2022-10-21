@@ -3,12 +3,14 @@
 // The first thing to note is that the PWM range is to 4096 not 255
 
 // Converting example to use I2C and PCA9685
-// I think this is going to be difficult to do without task management.
-// I am going to develop Signal3AspectSlowCycleI2CTM instead
+// I think am going to do this without task management.
+// It will be a useful step to understanding.
 
 #include <Wire.h>
 #include <Adafruit_PWMServoDriver.h>
 #include "SlowPCALight.h"
+
+enum { RED_on, YELLOW_on, GREEN_on } Led_State, Current_State, Next_State;
 
 // called this way, it uses the default address 0x40
 Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
@@ -32,7 +34,7 @@ int redPin    = 3;
 int yellowPin = 2;
 
 SlowPCALight greenLight (pwm, greenPin);
-SlowPCALight redLight   (pwm, redPin, true);
+SlowPCALight redLight   (pwm, redPin);
 SlowPCALight yellowLight(pwm, yellowPin);
 
 void setup()
@@ -51,6 +53,7 @@ void setup()
   pwmWrite(pwm, greenPin, HIGH);
   pwmWrite(pwm, yellowPin, LOW);
   pwmWrite(pwm, redPin, LOW);
+  Current_State = GREEN_on;
 }
 
 // I need a routine to write to a pin via the PCA9685
@@ -59,49 +62,35 @@ void pwmWrite(Adafruit_PWMServoDriver &pwm,uint8_t pwmnum,byte val)
 {
    if(val == HIGH) {
      pwm.setPWM(pwmnum,4096,0);  // pwm.setPin(pwmnum,0)
-   } else {
+   } else if(val == LOW) {
      pwm.setPWM(pwmnum,0,4096);  // pwm.setPin(pwmnum,4096)
+   } else {
+     // I need to map val from 0 to 255 to 0 to 4096
+     i = map(val, 0, 255, 0, 2047);
+     pwm.setPWM(pwmnum,2048-i,2048+i);
    }
 }
 
+// Instruction to move a light up or down
+void pwmMove(Adafruit_PWMServoDriver &pwm,uint8_t pwmnum, bool up)
+{
+  if (up) {
+       for (uint16_t i=2; i<255; i++) {
+           pwmWrite(pwm,pwmnum,i);
+            delay(10);
+       }    
+  } else {
+       for (uint16_t i=254; i>1; i--) {
+           pwmWrite(pwm,pwmnum,i);
+           delay(10);
+       }
+       pwmWrite(pwm, pwmnum, LOW);    
+  }
+}
+
+
 void loop()
 {
-///  delay(5000);
 
- //pwmWrite(pwm, greenPin, LOW);
- //pwmWrite(pwm, redPin, HIGH);
- //   redLight.set(false);
- //   greenLight.set(true);
- //   yellowLight.set(false);
- //  greenLight.update();
- //  redLight.update();
-  // yellowLight.update();
- for (int intensity = 4096; intensity >= 0; intensity-=32)
- {
-    pwm.setPWM(greenPin,intensity,4096-intensity);
-    delay(100);
- }
-/*
-  delay(5000);
-//  pwmWrite(pwm, redPin, LOW);
-//  pwmWrite(pwm, yellowPin, HIGH);
-    yellowLight.set(true);     
-    greenLight.set(false);
-    redLight.set(false);
-    greenLight.update();
-    redLight.update();
-    yellowLight.update();
- 
-  delay(5000);
-//  pwmWrite(pwm, yellowPin, LOW);
-//  pwmWrite(pwm, greenPin, HIGH);
-    greenLight.set(true);
-    redLight.set(false);
-    yellowLight.set(false);
-    greenLight.update();
-    redLight.update();
-    yellowLight.update();
 
-  delay(5000);
-*/
 }
