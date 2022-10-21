@@ -130,7 +130,7 @@ void loop()
            pwmWrite(pwm,pwmnum,i);
            delay(10);
        }
-       delay(500);
+       //delay(500);
        pwmWrite(pwm, pwmnum, LOW);
        delay(500);
      }
