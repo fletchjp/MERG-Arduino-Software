@@ -131,8 +131,9 @@ void loop()
            delay(10);
        }
        delay(500);
-       //pwmWrite(pwm, pwmnum, LOW);
-   }
+       pwmWrite(pwm, pwmnum, LOW);
+       delay(500);
+     }
   // delay(500);
 
 
