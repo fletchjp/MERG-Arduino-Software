@@ -24,7 +24,7 @@ This is a demo which fades in and out on each LED in turn. It uses delays
 
 ## Signal3AspectSlowCycleI2C
 
-I have started to develop this and left it incomplete
+This now runs using some aspects of state with explicit delays.
 
 ## Signal3AspectSlowCycleI2CTM
 
