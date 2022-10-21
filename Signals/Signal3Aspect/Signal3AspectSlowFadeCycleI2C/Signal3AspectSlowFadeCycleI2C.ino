@@ -77,7 +77,7 @@ void pwmWrite(Adafruit_PWMServoDriver &pwm,uint8_t pwmnum,byte val)
      // I need to map val from 0 to 255 to 0 to 4096
      i = map(val, 0, 255, 0, 2047);
      pwm.setPWM(pwmnum,2048-i,2048+i); 
-    }
+   }
 }
 
 // New routine
