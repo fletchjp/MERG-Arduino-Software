@@ -117,18 +117,23 @@ void loop()
  //     for (uint16_t i=0; i<4096; i += 8) {
  //        pwm.setPWM(pwmnum, 0, (i + (4096/16)*pwmnum) % 4096 );
  //     }
-       for (uint16_t i=0; i<2048; i += 8) {
-           pwm.setPWM(pwmnum, 2048-i, 2048+i );
+//       for (uint16_t i=0; i<2048; i += 8) {
+//           pwm.setPWM(pwmnum, 2048-i, 2048+i );
+        for (uint16_t i=2; i<255; i++) {
+           pwmWrite(pwm,pwmnum,i);
            delay(10);
        }
        delay(1000);
-       for (uint16_t i=0; i<2048; i += 8) {
-           pwm.setPWM(pwmnum, i, 4095-i );
+       //for (uint16_t i=0; i<2048; i += 8) {
+          // pwm.setPWM(pwmnum, i, 4095-i );
+       for (uint16_t i=254; i>1; i--) {
+           pwmWrite(pwm,pwmnum,i);
            delay(10);
        }
+       delay(500);
        //pwmWrite(pwm, pwmnum, LOW);
    }
-   delay(1000);
+  // delay(500);
 
 
  
