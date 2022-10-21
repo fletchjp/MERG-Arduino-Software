@@ -28,7 +28,7 @@ This now runs using some aspects of state with explicit delays.
 
 ## Signal3AspectSlowCycleI2CTM
 
-Work is going to be focussed here.
+This runs a single task with delays replaced by yieldForMicros.
 
 ## Signal3AspectWithButton
 
