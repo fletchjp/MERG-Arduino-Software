@@ -114,10 +114,19 @@ void loop()
  }
  */
    for (uint8_t pwmnum = greenPin; pwmnum < redPin+1; pwmnum++) {
-      for (uint16_t i=0; i<4096; i += 8) {
-         pwm.setPWM(pwmnum, 0, (i + (4096/16)*pwmnum) % 4096 );
-      }
-      delay(500);
+ //     for (uint16_t i=0; i<4096; i += 8) {
+ //        pwm.setPWM(pwmnum, 0, (i + (4096/16)*pwmnum) % 4096 );
+ //     }
+       for (uint16_t i=0; i<2048; i += 8) {
+           pwm.setPWM(pwmnum, 2048-i, 2048+i );
+           delay(10);
+       }
+       delay(1000);
+       for (uint16_t i=0; i<2048; i += 8) {
+           pwm.setPWM(pwmnum, i, 4095-i );
+           delay(10);
+       }
+       //pwmWrite(pwm, pwmnum, LOW);
    }
    delay(1000);
 
