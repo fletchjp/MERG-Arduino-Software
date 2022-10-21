@@ -41,7 +41,7 @@ int redPin    = 3;
 int yellowPin = 2;
 
 SlowPCALight greenLight (pwm, greenPin);
-SlowPCALight redLight   (pwm, redPin, true);
+SlowPCALight redLight   (pwm, redPin);
 SlowPCALight yellowLight(pwm, yellowPin);
 
 void setup()
