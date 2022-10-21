@@ -47,7 +47,7 @@ SlowPCALight yellowLight(pwm, yellowPin);
 void setup()
 {
   Serial.begin(115200);
-  Serial.println("Signal 3 Aspect Slow using I2C and PCA9685 with Task Management");
+  Serial.println("Signal 3 Aspect Slow Fade in and out using I2C and PCA9685");
 
   pwm.begin();
   pwm.setPWMFreq(1600);  // This is the maximum PWM frequency
