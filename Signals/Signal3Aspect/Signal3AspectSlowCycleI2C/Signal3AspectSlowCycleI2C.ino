@@ -3,6 +3,8 @@
 // The first thing to note is that the PWM range is to 4096 not 255
 
 // Converting example to use I2C and PCA9685
+// I think this is going to be difficult to do without task management.
+// I am going to develop Signal3AspectSlowCycleI2CTM instead
 
 #include <Wire.h>
 #include <Adafruit_PWMServoDriver.h>
