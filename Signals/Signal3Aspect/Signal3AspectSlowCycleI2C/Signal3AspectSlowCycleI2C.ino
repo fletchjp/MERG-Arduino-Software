@@ -6,6 +6,13 @@
 // I think am going to do this without task management.
 // It will be a useful step to understanding.
 
+///////////////////////////////////////////////////////////////////////
+// PSEUDOCODE
+// SET Led_State = GREEN_on
+// FOR Led_State FADE OUT Led_State FADE_IN Next State SET Led_State = Next_State
+///////////////////////////////////////////////////////////////////////
+
+
 #include <Wire.h>
 #include <Adafruit_PWMServoDriver.h>
 #include "SlowPCALight.h"
@@ -39,7 +46,7 @@ SlowPCALight yellowLight(pwm, yellowPin);
 
 void setup()
 {
-  Serial.begin(9600);
+  Serial.begin(115200);
   Serial.println("Signal 3 Aspect Slow using I2C and PCA9685");
 
   pwm.begin();
@@ -54,6 +61,7 @@ void setup()
   pwmWrite(pwm, yellowPin, LOW);
   pwmWrite(pwm, redPin, LOW);
   Led_State = GREEN_on;
+  Next_State = RED_on;
 }
 
 // I need a routine to write to a pin via the PCA9685
@@ -95,16 +103,19 @@ void switch_LED()
      pwmMove(pwm, greenPin, false);
      pwmMove(pwm, redPin, true);
      Led_State = RED_on;
+     Next_State = YELLOW_on;
   } else if (Led_State == RED_on /*&& Task_State == TASK_off */) {
      // Do not switch off the RED while Task_State is TASK_on.
      pwmMove(pwm, redPin, false);
      pwmMove(pwm, yellowPin, true);
      Led_State = YELLOW_on;
+     Next_State = GREEN_on;
   } else /*if (Task_State == TASK_off) */ {
      // Do not switch to GREEN while Task_State is TASK_on.
       pwmMove(pwm, yellowPin, false);
       pwmMove(pwm, greenPin, true);
       Led_State = GREEN_on;
+      Next_State = RED_on;
   }
 }
 
