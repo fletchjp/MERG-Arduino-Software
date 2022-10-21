@@ -89,8 +89,18 @@ void pwmWrite(Adafruit_PWMServoDriver &pwm,uint8_t pwmnum,byte val)
 // Instruction to move a light up or down
 void pwmMove(Adafruit_PWMServoDriver &pwm,uint8_t pwmnum, bool up)
 {
-
-
+  if (up) {
+       for (uint16_t i=2; i<255; i++) {
+           pwmWrite(pwm,pwmnum,i);
+            delay(10);
+       }    
+  } else {
+       for (uint16_t i=254; i>1; i--) {
+           pwmWrite(pwm,pwmnum,i);
+           delay(10);
+       }
+       pwmWrite(pwm, pwmnum, LOW);    
+  }
 }
 
 void loop()
