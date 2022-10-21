@@ -59,7 +59,7 @@ void setup()
   //pinMode(greenPin, OUTPUT);
   //pinMode(redPin, OUTPUT);
   //pinMode(yellowPin, OUTPUT);
-  pwmWrite(pwm, greenPin, HIGH);
+  pwmWrite(pwm, greenPin, LOW);
   pwmWrite(pwm, yellowPin, LOW);
   pwmWrite(pwm, redPin, LOW);
   Current_State = GREEN_on;
@@ -106,11 +106,23 @@ void loop()
  //  greenLight.update();
  //  redLight.update();
   // yellowLight.update();
+ /* This is not the way to do it.
  for (int intensity = 4096; intensity >= 0; intensity-=32)
  {
     pwm.setPWM(greenPin,intensity,4096-intensity);
     delay(100);
  }
+ */
+   for (uint8_t pwmnum = greenPin; pwmnum < redPin+1; pwmnum++) {
+      for (uint16_t i=0; i<4096; i += 8) {
+         pwm.setPWM(pwmnum, 0, (i + (4096/16)*pwmnum) % 4096 );
+      }
+      delay(500);
+   }
+   delay(1000);
+
+
+ 
 /*
   delay(5000);
 //  pwmWrite(pwm, redPin, LOW);
