@@ -85,13 +85,7 @@ void pwmWrite(Adafruit_PWMServoDriver &pwm,uint8_t pwmnum,byte val)
    }
 }
 
-// New routine
-/*
-void pwmWrite(Adafruit_PWMServoDriver &pwm,uint8_t pwmnum,uint8_t intensity)
-{
-     pwm.setPWM(pwmnum,intensity,4096-intensity);
-}
-*/
+
 // Instruction to move a light up or down
 void pwmMove(Adafruit_PWMServoDriver &pwm,uint8_t pwmnum, bool up)
 {
