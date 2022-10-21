@@ -2,6 +2,9 @@
 
 // Task management version of Signal3AspectSlowCycleI2C
 
+// I am going to use this as a testbed for code which will eventually be in SlowPCALight.
+// I will keep that separate from the task management.
+
 #include <TaskManagerIO.h>
 
 // The first thing to note is that the PWM range is to 4096 not 255
@@ -10,8 +13,8 @@
 
 ///////////////////////////////////////////////////////////////////////
 // PSEUDOCODE
-// SET Current_State = GREEN_on, Next_State = RED_on
-// FOR Current_State SET Led_State = Next_State
+// SET Current_State = GREEN_on, Next_State = RED_on, Led_State = Current_State
+// FOR Current_State FADE OUT Current_State FADE_IN Next State SET Led_State = Next_State THEN
 ///////////////////////////////////////////////////////////////////////
 
 
