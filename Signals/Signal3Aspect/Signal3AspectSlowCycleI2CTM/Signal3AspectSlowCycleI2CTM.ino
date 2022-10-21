@@ -13,8 +13,8 @@
 
 ///////////////////////////////////////////////////////////////////////
 // PSEUDOCODE
-// SET Current_State = GREEN_on, Next_State = RED_on, Led_State = Current_State
-// FOR Current_State FADE OUT Current_State FADE_IN Next State SET Led_State = Next_State THEN
+// SET Led_State = GREEN_on
+// FOR Led_State FADE OUT Led_State FADE_IN Next State SET Led_State = Next_State
 ///////////////////////////////////////////////////////////////////////
 
 
@@ -65,8 +65,10 @@ void setup()
   pwmWrite(pwm, greenPin, LOW);
   pwmWrite(pwm, yellowPin, LOW);
   pwmWrite(pwm, redPin, LOW);
-  Current_State = GREEN_on;
+  Led_State = GREEN_on;
   Next_State = RED_on;
+  // This is at the end of setup()
+  taskManager.scheduleFixedRate(5000,switch_LED);
 }
 
 // I need a routine to write to a pin via the PCA9685
@@ -103,25 +105,29 @@ void pwmMove(Adafruit_PWMServoDriver &pwm,uint8_t pwmnum, bool up)
   }
 }
 
+void switch_LED()
+{
+  if (Led_State == GREEN_on) {
+     pwmMove(pwm, greenPin, false);
+     pwmMove(pwm, redPin, true);
+     Led_State = RED_on;
+     Next_State = YELLOW_on;
+  } else if (Led_State == RED_on /*&& Task_State == TASK_off */) {
+     // Do not switch off the RED while Task_State is TASK_on.
+     pwmMove(pwm, redPin, false);
+     pwmMove(pwm, yellowPin, true);
+     Led_State = YELLOW_on;
+     Next_State = GREEN_on;
+  } else /*if (Task_State == TASK_off) */ {
+     // Do not switch to GREEN while Task_State is TASK_on.
+      pwmMove(pwm, yellowPin, false);
+      pwmMove(pwm, greenPin, true);
+      Led_State = GREEN_on;
+      Next_State = RED_on;
+  }
+}
+
 void loop()
 {
-
-   for (uint8_t pwmnum = greenPin; pwmnum < redPin+1; pwmnum++) {
-       //for (uint16_t i=0; i<2048; i += 8) {
-       //   pwm.setPWM(pwmnum, 2048-i, 2048+i );
-       for (uint16_t i=2; i<255; i++) {
-           pwmWrite(pwm,pwmnum,i);
-            delay(10);
-       }
-       delay(1000);
-//       for (uint16_t i=0; i<2048; i += 8) {
-//           pwm.setPWM(pwmnum, i, 4095-i );
-       for (uint16_t i=254; i>1; i--) {
-           pwmWrite(pwm,pwmnum,i);
-           delay(10);
-       }
-       pwmWrite(pwm, pwmnum, LOW);
-       delay(500);
-   }
-   //delay(1000);
+  taskManager.runLoop();
 }
