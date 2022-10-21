@@ -96,30 +96,9 @@ void pwmMove(Adafruit_PWMServoDriver &pwm,uint8_t pwmnum, bool up)
 
 void loop()
 {
-///  delay(5000);
 
- //pwmWrite(pwm, greenPin, LOW);
- //pwmWrite(pwm, redPin, HIGH);
- //   redLight.set(false);
- //   greenLight.set(true);
- //   yellowLight.set(false);
- //  greenLight.update();
- //  redLight.update();
-  // yellowLight.update();
- /* This is not the way to do it.
- for (int intensity = 4096; intensity >= 0; intensity-=32)
- {
-    pwm.setPWM(greenPin,intensity,4096-intensity);
-    delay(100);
- }
- */
    for (uint8_t pwmnum = greenPin; pwmnum < redPin+1; pwmnum++) {
- //     for (uint16_t i=0; i<4096; i += 8) {
- //        pwm.setPWM(pwmnum, 0, (i + (4096/16)*pwmnum) % 4096 );
- //     }
-//       for (uint16_t i=0; i<2048; i += 8) {
-//           pwm.setPWM(pwmnum, 2048-i, 2048+i );
-        for (uint16_t i=2; i<255; i++) {
+       for (uint16_t i=2; i<255; i++) {
            pwmWrite(pwm,pwmnum,i);
            delay(10);
        }
