@@ -6,6 +6,10 @@ These example needs the Adafruit_PWM_Servo_Driver_Library for the PWM pins.
 
 They also need FastPWMLight.h which is an addition to the SignalControl library.
 
+NOTE: I have now renamed FastPWMLight.h as FastPCALight.h as that is what is different. There is a copy in the old name for now.
+
+There is now also SlowPCALight.h which did not exist before.
+
 ## Signal3AspectCycleI2C
 
 This is now tested.
