@@ -73,13 +73,15 @@ void setup()
 // This first one is just ON/OFF.
 void pwmWrite(Adafruit_PWMServoDriver &pwm,uint8_t pwmnum,byte val)
 {
+   int i = 0;
    if(val == HIGH) {
      pwm.setPWM(pwmnum,4096,0);  // pwm.setPin(pwmnum,0)
    } else if(val == LOW) {
      pwm.setPWM(pwmnum,0,4096);  // pwm.setPin(pwmnum,4096)
    } else {
      // I need to map val from 0 to 255 to 0 to 4096
-     pwm.setPWM(pwmnum,0,4096);  // pwm.setPin(pwmnum,4096)
+     i = map(val, 0, 255, 0, 2047);
+     pwm.setPWM(pwmnum,2048-i,2048+i);  // pwm.setPin(pwmnum,4096)
    }
 }
 
