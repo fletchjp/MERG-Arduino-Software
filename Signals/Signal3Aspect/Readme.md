@@ -14,6 +14,10 @@ This is now tested.
 
 Adding task management and now tested.
 
+## Signal3AspectSlowFadeCycleI2C
+
+This is a demo which fades in and out on each LED in turn. It uses delays
+
 ## Signal3AspectSlowCycleI2C
 
 I have started to develop this and left it incomplete
