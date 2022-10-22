@@ -70,7 +70,7 @@ private:
 
 public:
  SimultaneousSwitch(Adafruit_PWMServoDriver &pwm1, int pin_up, int pin_down) : pwm(pwm1), 
-    pwmnum_up(pin_up), pwmnum_down(pin_down),
+    pwmnum_up(pin_up), pwmnum_down(pin_down)
  {
    //up_or_down = true; 
  }
@@ -79,7 +79,9 @@ public:
  //}
  void exec() override {
   //if (up_or_down) {
-    for (uint16_t i=2,uint16_t ii = 254; i<255; i++, ii--) {
+    uint16_t ii;
+    for (uint16_t i=2; i<255; i++) {
+       ii = 256-i;
        pwmWrite(pwm,pwmnum_up,i);
        pwmWrite(pwm,pwmnum_down,ii);
        taskManager.yieldForMicros(10000);
@@ -92,8 +94,7 @@ public:
        */
      pwmWrite(pwm, pwmnum_down, LOW);    
   }
-   
- }
+
 };
 
 SimultaneousSwitch switchGreenRed(pwm,redPin,greenPin);
