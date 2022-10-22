@@ -22,6 +22,12 @@ Adding task management and now tested. This fades off one LED and then on with t
 
 Adding task management executable. This should fades off one LED and another LED on at the same time.
 
+It does so in separate tasks so is not well coodinated.
+
+## Signal3AspectCycleI2CTME2
+
+Changing the task management executable. This now fades off one LED and another LED on in the same task.
+
 ## Signal3AspectSlowFadeCycleI2C
 
 This is a demo which fades in and out on each LED in turn. It uses delays
