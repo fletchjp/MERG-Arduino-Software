@@ -5,6 +5,8 @@
 // I am going to use ideas from the example tasksUsingExecutable to allow
 // the up and down fades to be simultaneous.
 
+// This is NOT doing what I expected.
+
 // I am going to use this as a testbed for code which will eventually be in SlowPCALight.
 // I will keep that separate from the task management.
 
@@ -88,7 +90,7 @@ public:
 
 SimultaneousSwitch switchGreen(pwm,greenPin);
 SimultaneousSwitch switchYellow(pwm,yellowPin);
-SimultaneousSwitch switchRed(pwm,greenPin);
+SimultaneousSwitch switchRed(pwm,redPin);
 
 void setup()
 {
@@ -103,7 +105,7 @@ void setup()
   //pinMode(greenPin, OUTPUT);
   //pinMode(redPin, OUTPUT);
   //pinMode(yellowPin, OUTPUT);
-  pwmWrite(pwm, greenPin, LOW);
+  pwmWrite(pwm, greenPin, HIGH);
   pwmWrite(pwm, yellowPin, LOW);
   pwmWrite(pwm, redPin, LOW);
   Led_State = GREEN_on;
@@ -151,20 +153,32 @@ void pwmMove(Adafruit_PWMServoDriver &pwm,uint8_t pwmnum, bool up)
 void switch_LED()
 {
   if (Led_State == GREEN_on) {
-     pwmMove(pwm, greenPin, false);
-     pwmMove(pwm, redPin, true);
+     switchGreen.set_up_or_down(false);
+     taskManager.execute(&switchGreen);
+     //pwmMove(pwm, greenPin, false);
+     switchRed.set_up_or_down(true);
+     taskManager.execute(&switchRed);
+     //pwmMove(pwm, redPin, true);
      Led_State = RED_on;
      Next_State = YELLOW_on;
   } else if (Led_State == RED_on /*&& Task_State == TASK_off */) {
      // Do not switch off the RED while Task_State is TASK_on.
-     pwmMove(pwm, redPin, false);
-     pwmMove(pwm, yellowPin, true);
+     switchRed.set_up_or_down(false);
+     taskManager.execute(&switchRed);
+     //pwmMove(pwm, redPin, false);
+     switchYellow.set_up_or_down(true);
+     taskManager.execute(&switchYellow);
+     //pwmMove(pwm, yellowPin, true);
      Led_State = YELLOW_on;
      Next_State = GREEN_on;
   } else /*if (Task_State == TASK_off) */ {
      // Do not switch to GREEN while Task_State is TASK_on.
-      pwmMove(pwm, yellowPin, false);
-      pwmMove(pwm, greenPin, true);
+      switchYellow.set_up_or_down(false);
+      taskManager.execute(&switchYellow);
+    // pwmMove(pwm, yellowPin, false);
+      switchGreen.set_up_or_down(true);
+      taskManager.execute(&switchGreen);
+      //pwmMove(pwm, greenPin, true);
       Led_State = GREEN_on;
       Next_State = RED_on;
   }
