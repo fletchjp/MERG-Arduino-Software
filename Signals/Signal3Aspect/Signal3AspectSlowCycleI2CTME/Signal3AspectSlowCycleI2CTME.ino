@@ -5,7 +5,8 @@
 // I am going to use ideas from the example tasksUsingExecutable to allow
 // the up and down fades to be simultaneous.
 
-// This is NOT doing what I expected.
+// This is NOT doing what I expected. It is better with longer main separation.
+// I think I have to make both moves in one task,
 
 // I am going to use this as a testbed for code which will eventually be in SlowPCALight.
 // I will keep that separate from the task management.
@@ -111,7 +112,7 @@ void setup()
   Led_State = GREEN_on;
   Next_State = RED_on;
   // This is at the end of setup()
-  taskManager.scheduleFixedRate(5000,switch_LED);
+  taskManager.scheduleFixedRate(10000,switch_LED);
 }
 
 // I need a routine to write to a pin via the PCA9685
