@@ -16,7 +16,11 @@ This is now tested.
 
 ## Signal3AspectCycleI2CTM
 
-Adding task management and now tested.
+Adding task management and now tested. This fades off one LED and then on with the next LED.
+
+## Signal3AspectCycleI2CTME
+
+Adding task management executable. This should fades off one LED and another LED on at the same time.
 
 ## Signal3AspectSlowFadeCycleI2C
 
