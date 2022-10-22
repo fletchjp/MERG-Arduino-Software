@@ -6,7 +6,7 @@
 // the up and down fades to be simultaneous.
 
 // This is NOT doing what I expected. It is better with longer main separation.
-// I think I have to make both moves in one task,
+// I think I have to make both moves in one task, so I will make another version.
 
 // I am going to use this as a testbed for code which will eventually be in SlowPCALight.
 // I will keep that separate from the task management.
@@ -138,13 +138,13 @@ void pwmMove(Adafruit_PWMServoDriver &pwm,uint8_t pwmnum, bool up)
   if (up) {
        for (uint16_t i=2; i<255; i++) {
            pwmWrite(pwm,pwmnum,i);
-           taskManager.yieldForMicros(10000);
+           taskManager.yieldForMicros(20000);
            //delay(10);
        }    
   } else {
        for (uint16_t i=254; i>1; i--) {
            pwmWrite(pwm,pwmnum,i);
-           taskManager.yieldForMicros(10000);
+           taskManager.yieldForMicros(20000);
            //delay(10);
        }
        pwmWrite(pwm, pwmnum, LOW);    
