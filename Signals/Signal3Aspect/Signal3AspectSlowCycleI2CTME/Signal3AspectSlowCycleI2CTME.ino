@@ -9,6 +9,7 @@
 // I will keep that separate from the task management.
 
 #include <TaskManagerIO.h>
+#include <ExecWithParameter.h>
 
 // The first thing to note is that the PWM range is to 4096 not 255
 
@@ -51,6 +52,43 @@ int yellowPin = 2;
 SlowPCALight greenLight (pwm, greenPin);
 SlowPCALight redLight   (pwm, redPin, true);
 SlowPCALight yellowLight(pwm, yellowPin);
+
+// Advance declaration needed here.
+void pwmWrite(Adafruit_PWMServoDriver &pwm,uint8_t pwmnum,byte val);
+
+class SimultaneousSwitch : public Executable {
+private:
+   Adafruit_PWMServoDriver pwm;
+   int pwmnum;
+   bool up_or_down; 
+public:
+ SimultaneousSwitch(Adafruit_PWMServoDriver &pwm1, int pin) : pwm(pwm1), pwmnum(pin) 
+ {
+   up_or_down = true; 
+ }
+ void set_up_or_down(bool choice) {
+   up_or_down = choice ;
+ }
+ void exec() override {
+  if (up_or_down) {
+       for (uint16_t i=2; i<255; i++) {
+           pwmWrite(pwm,pwmnum,i);
+           taskManager.yieldForMicros(10000);
+       }    
+  } else {
+       for (uint16_t i=254; i>1; i--) {
+           pwmWrite(pwm,pwmnum,i);
+           taskManager.yieldForMicros(10000);
+       }
+       pwmWrite(pwm, pwmnum, LOW);    
+  }
+   
+ }
+};
+
+SimultaneousSwitch switchGreen(pwm,greenPin);
+SimultaneousSwitch switchYellow(pwm,yellowPin);
+SimultaneousSwitch switchRed(pwm,greenPin);
 
 void setup()
 {
