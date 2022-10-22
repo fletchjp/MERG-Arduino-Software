@@ -66,17 +66,11 @@ class SimultaneousSwitch : public Executable {
 private:
    Adafruit_PWMServoDriver pwm;
    int pwmnum_up, pwmnum_down;
-   //bool up_or_down;
 
 public:
  SimultaneousSwitch(Adafruit_PWMServoDriver &pwm1, int pin_up, int pin_down) : pwm(pwm1), 
     pwmnum_up(pin_up), pwmnum_down(pin_down)
- {
-   //up_or_down = true; 
- }
- //void set_up_or_down(bool choice) {
- //  up_or_down = choice ;
- //}
+ { }
  void exec() override {
   //if (up_or_down) {
     uint16_t ii;
@@ -86,13 +80,7 @@ public:
        pwmWrite(pwm,pwmnum_down,ii);
        taskManager.yieldForMicros(10000);
     }    
-  /*} else {
-       for (uint16_t i=254; i>1; i--) {
-           pwmWrite(pwm,pwmnum,i);
-           taskManager.yieldForMicros(10000);
-       }
-       */
-     pwmWrite(pwm, pwmnum_down, LOW);    
+    pwmWrite(pwm, pwmnum_down, LOW);    
   }
 
 };
@@ -162,34 +150,19 @@ void pwmMove(Adafruit_PWMServoDriver &pwm,uint8_t pwmnum, bool up)
 void switch_LED()
 {
   if (Led_State == GREEN_on) {
-     //switchGreen.set_up_or_down(false);
      taskManager.execute(&switchGreenRed);
-     //pwmMove(pwm, greenPin, false);
-     //switchRed.set_up_or_down(true);
-     //taskManager.execute(&switchRed);
-     //pwmMove(pwm, redPin, true);
      Led_State = RED_on;
      Next_State = YELLOW_on;
   } else if (Led_State == RED_on /*&& Task_State == TASK_off */) {
      // Do not switch off the RED while Task_State is TASK_on.
-     //switchRed.set_up_or_down(false);
      taskManager.execute(&switchRedYellow);
-     //pwmMove(pwm, redPin, false);
-     //switchYellow.set_up_or_down(true);
-     //taskManager.execute(&switchYellow);
-     //pwmMove(pwm, yellowPin, true);
      Led_State = YELLOW_on;
      Next_State = GREEN_on;
   } else /*if (Task_State == TASK_off) */ {
      // Do not switch to GREEN while Task_State is TASK_on.
-     //switchYellow.set_up_or_down(false);
      taskManager.execute(&switchYellowGreen);
-    // pwmMove(pwm, yellowPin, false);
-    //  switchGreen.set_up_or_down(true);
-    //  taskManager.execute(&switchGreen);
-      //pwmMove(pwm, greenPin, true);
-      Led_State = GREEN_on;
-      Next_State = RED_on;
+     Led_State = GREEN_on;
+     Next_State = RED_on;
   }
 }
 
