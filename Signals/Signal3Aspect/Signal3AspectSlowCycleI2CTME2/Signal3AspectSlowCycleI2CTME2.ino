@@ -62,6 +62,9 @@ SlowPCALight yellowLight(pwm, yellowPin);
 // Advance declaration needed here.
 void pwmWrite(Adafruit_PWMServoDriver &pwm,uint8_t pwmnum,byte val);
 
+// This class is given two pin numbers, the one to switch on and the one to switch off.
+// An object is defined for each change and they don't get changed after that.
+// The objects get called in sequence.
 class SimultaneousSwitch : public Executable {
 private:
    Adafruit_PWMServoDriver pwm;
@@ -79,12 +82,14 @@ public:
        pwmWrite(pwm,pwmnum_up,i);
        pwmWrite(pwm,pwmnum_down,ii);
        taskManager.yieldForMicros(10000);
-    }    
+    }
+    // Make sure the off LED is really off.
     pwmWrite(pwm, pwmnum_down, LOW);    
   }
 
 };
 
+// Declaration of three objects
 SimultaneousSwitch switchGreenRed(pwm,redPin,greenPin);
 SimultaneousSwitch switchRedYellow(pwm,yellowPin,redPin);
 SimultaneousSwitch switchYellowGreen(pwm,greenPin,yellowPin);
@@ -129,6 +134,7 @@ void pwmWrite(Adafruit_PWMServoDriver &pwm,uint8_t pwmnum,byte val)
 
 
 // Instruction to move a light up or down
+// Not used in this code - remains for comparison.
 void pwmMove(Adafruit_PWMServoDriver &pwm,uint8_t pwmnum, bool up)
 {
   if (up) {
