@@ -1,6 +1,9 @@
-// Signal3AspectSlowCycleI2CTM
+// Signal3AspectSlowCycleI2CTME
 
 // Task management version of Signal3AspectSlowCycleI2C
+
+// I am going to use ideas from the example tasksUsingExecutable to allow
+// the up and down fades to be simultaneous.
 
 // I am going to use this as a testbed for code which will eventually be in SlowPCALight.
 // I will keep that separate from the task management.
