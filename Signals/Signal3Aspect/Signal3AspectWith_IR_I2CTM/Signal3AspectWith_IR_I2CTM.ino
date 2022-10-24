@@ -10,11 +10,12 @@
 // if it has already been called.
 //////////////////////////////////////////////////////////////////////////////////// 
 // PSEUDOCODE
-// Set GREEN_on and BUTTON_off
-// If button is pressed and BUTTON_off set BUTTON_on
-// IF BUTTON_on THEN
+// Set GREEN_on,  BUTTON_off, IR_off
+// IF button is pressed and BUTTON_off set BUTTON_on
+// IF IR is detected set IR_on
+// IF BUTTON_on OR IR_on THEN
 //    set RED_on and if TASK_off THEN after 5 seconds set TASK_off
-//    set TASK_on and BUTTON_off
+//    set TASK_on, BUTTON_off, IR_off
 // WHILE TASK_off EVERY 5 seconds cycle GREEN->RED->YELLOW->GREEN
 ///////////////////////////////////////////////////////////////////////////////////
 
