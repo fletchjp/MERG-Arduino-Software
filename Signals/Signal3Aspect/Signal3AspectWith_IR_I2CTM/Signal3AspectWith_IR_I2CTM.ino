@@ -55,7 +55,7 @@ const int Signal_Pin = 5;
 const int IR_Pin = 6;
 const int LED_Pin = 7;
 
-int ir_signal = 0;
+int ir_signal = 1;
 int previous_signal = -1;
 
 // Check the signal and act if it has changed.
@@ -64,7 +64,7 @@ void checkIR()
   ir_signal = ioDeviceDigitalReadS(arduinoPins, Signal_Pin);
   //Serial.println(ir_signal);
   if (ir_signal != previous_signal) {
-    if (ir_signal) IR_State = IR_on; else IR_State = IR_off;
+    if (!ir_signal) IR_State = IR_on; else IR_State = IR_off;
     previous_signal = ir_signal;
     // Changes to save some code by passing the reverse value !ir_signal
     ioDeviceDigitalWrite(arduinoPins, LED_Pin, !ir_signal);
@@ -126,6 +126,8 @@ void switch_LED_to_RED()
          taskManager.scheduleOnce(5000,task_off);
      Task_State = TASK_on;
      Button_State = BUTTON_off;
+     // This is needed to clear the detection state which otherwise stays on.
+     IR_State = IR_off;
 }
 
 void task_off()
@@ -162,6 +164,9 @@ void loop()
  {
    Button_State = BUTTON_on;
    taskManager.execute(switch_LED_to_RED);
+   if ( (digitalRead(trackPin) == LOW))  Serial.print("trackPin Low ");
+   if ( IR_State == IR_on ) Serial.print("IR state ON ");
+   Serial.println("Switching to RED");
  }
 
 }
