@@ -16,6 +16,18 @@
 // I am going to use this as a testbed for code which will eventually be in SlowPCALight.
 // I will keep that separate from the task management.
 
+///////////////////////////////////////////////////////////////////////
+// PSEUDOCODE
+// SET Led_State = GREEN_on ,  BUTTON_off, IR_off
+// IF button is pressed and BUTTON_off set BUTTON_on
+// IF IR is detected set IR_on
+// IF BUTTON_on OR IR_on THEN
+//    set RED_on and if TASK_off THEN after 5 seconds set TASK_off
+//    set TASK_on, BUTTON_off, IR_off
+// FOR Led_State FADE OUT Led_State FADE_IN Next State SET Led_State = Next_State
+///////////////////////////////////////////////////////////////////////
+
+#include <IoAbstraction.h>
 #include <TaskManagerIO.h>
 #include <ExecWithParameter.h>
 
@@ -23,18 +35,18 @@
 
 // Converting example to use I2C and PCA9685
 
-///////////////////////////////////////////////////////////////////////
-// PSEUDOCODE
-// SET Led_State = GREEN_on
-// FOR Led_State FADE OUT Led_State FADE_IN Next State SET Led_State = Next_State
-///////////////////////////////////////////////////////////////////////
-
-
 #include <Wire.h>
 #include <Adafruit_PWMServoDriver.h>
 #include "SlowPCALight.h"
 
 enum { RED_on, YELLOW_on, GREEN_on } Led_State, Current_State, Next_State;
+
+enum { BUTTON_off, BUTTON_on } Button_State;
+
+enum { IR_off, IR_on } IR_State;
+
+enum { TASK_off, TASK_on} Task_State;
+
 
 // called this way, it uses the default address 0x40
 Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
@@ -56,6 +68,29 @@ int trackPin = 2;
 int greenPin  = 1;
 int redPin    = 3;
 int yellowPin = 2;
+
+IoAbstractionRef arduinoPins = ioUsingArduino();
+
+// The IR signal is pulled high and goes low when there is a detection.
+const int Signal_Pin = 5;
+const int IR_Pin = 6;
+const int LED_Pin = 7;
+
+int ir_signal = 1;
+int previous_signal = -1;
+
+// Check the signal and act if it has changed.
+void checkIR()
+{
+  ir_signal = ioDeviceDigitalReadS(arduinoPins, Signal_Pin);
+  //Serial.println(ir_signal);
+  if (ir_signal != previous_signal) {
+    if (!ir_signal) IR_State = IR_on; else IR_State = IR_off;
+    previous_signal = ir_signal;
+    // Changes to save some code by passing the reverse value !ir_signal
+    ioDeviceDigitalWrite(arduinoPins, LED_Pin, !ir_signal);
+  }
+}
 
 SlowPCALight greenLight (pwm, greenPin);
 SlowPCALight redLight   (pwm, redPin, true);
@@ -95,14 +130,23 @@ public:
 SimultaneousSwitch switchGreenRed(pwm,redPin,greenPin);
 SimultaneousSwitch switchRedYellow(pwm,yellowPin,redPin);
 SimultaneousSwitch switchYellowGreen(pwm,greenPin,yellowPin);
+// Extra object to go from yellow to red
+SimultaneousSwitch switchYellowRed(pwm,redPin,yellowPin);
 
 void setup()
 {
   Serial.begin(115200);
-  Serial.println("Signal 3 Aspect Slow using I2C and PCA9685 with Task Management");
+  Serial.println("Signal 3 Aspect Slow with button and IR using I2C and PCA9685 with Task Management");
 
   pwm.begin();
   pwm.setPWMFreq(1600);  // This is the maximum PWM frequency
+
+  ioDevicePinMode(arduinoPins, Signal_Pin, INPUT_PULLUP);
+  ioDevicePinMode(arduinoPins, IR_Pin, OUTPUT);
+  ioDevicePinMode(arduinoPins, LED_Pin, OUTPUT);
+
+  ioDeviceDigitalWrite(arduinoPins, IR_Pin, HIGH);
+  ioDeviceDigitalWrite(arduinoPins, LED_Pin, LOW);
 
   // These are the existing pins on the Arduino.
   pinMode(trackPin, INPUT_PULLUP);
@@ -114,8 +158,12 @@ void setup()
   pwmWrite(pwm, redPin, LOW);
   Led_State = GREEN_on;
   Next_State = RED_on;
+  Button_State = BUTTON_off;
+  Task_State = TASK_off;
+  IR_State = IR_off;
   // This is at the end of setup()
   taskManager.scheduleFixedRate(10000,switch_LED);
+  taskManager.scheduleFixedRate(250, checkIR);
 }
 
 // I need a routine to write to a pin via the PCA9685
@@ -161,12 +209,12 @@ void switch_LED()
      taskManager.execute(&switchGreenRed);
      Led_State = RED_on;
      Next_State = YELLOW_on;
-  } else if (Led_State == RED_on /*&& Task_State == TASK_off */) {
+  } else if (Led_State == RED_on && Task_State == TASK_off) {
      // Do not switch off the RED while Task_State is TASK_on.
      taskManager.execute(&switchRedYellow);
      Led_State = YELLOW_on;
      Next_State = GREEN_on;
-  } else /*if (Task_State == TASK_off) */ {
+  } else if (Task_State == TASK_off) {
      // Do not switch to GREEN while Task_State is TASK_on.
      taskManager.execute(&switchYellowGreen);
      Led_State = GREEN_on;
@@ -174,7 +222,42 @@ void switch_LED()
   }
 }
 
+void switch_LED_to_RED()
+{
+  if (Led_State == GREEN_on) {
+     taskManager.execute(&switchGreenRed);
+     Led_State = RED_on;
+     Next_State = YELLOW_on;
+  } else if (Led_State == YELLOW_on) {
+     taskManager.execute(&switchYellowRed);
+     Led_State = RED_on;
+     Next_State = YELLOW_on;
+  }
+  if (Task_State == TASK_off) // Only run this if it is not running.
+      taskManager.scheduleOnce(5000,task_off);
+  Task_State = TASK_on;
+  Button_State = BUTTON_off;
+  // This is needed to clear the detection state which otherwise stays on.
+  IR_State = IR_off;
+}
+
+void task_off()
+{
+     Task_State = TASK_off;  
+}
+
 void loop()
 {
   taskManager.runLoop();
+
+  // Avoid duplicate calls.
+  if ( (digitalRead(trackPin) == LOW || IR_State == IR_on)  && Button_State == BUTTON_off)
+ {
+   Button_State = BUTTON_on;
+   taskManager.execute(switch_LED_to_RED);
+   if ( (digitalRead(trackPin) == LOW))  Serial.print("trackPin Low ");
+   if ( IR_State == IR_on ) Serial.print("IR state ON ");
+   Serial.println("Switching to RED");
+ }
+  
 }
