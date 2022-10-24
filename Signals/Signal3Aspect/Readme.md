@@ -59,3 +59,6 @@ I have added an IR detector as well as the trigger for the light to go red. This
 ## Signal3AspectSlowWith_IR_I2CTME2
 
 This is the next challenge to add IR detection. This now fades off one LED and another LED on in the same task.
+
+This is now working.
+
