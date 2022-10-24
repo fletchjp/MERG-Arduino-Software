@@ -18,16 +18,6 @@ This is now tested.
 
 Adding task management and now tested. This fades off one LED and then on with the next LED.
 
-## Signal3AspectCycleI2CTME
-
-Adding task management executable. This should fades off one LED and another LED on at the same time.
-
-It does so in separate tasks so is not well coodinated.
-
-## Signal3AspectCycleI2CTME2
-
-Changing the task management executable. This now fades off one LED and another LED on in the same task.
-
 ## Signal3AspectSlowFadeCycleI2C
 
 This is a demo which fades in and out on each LED in turn. It uses delays
@@ -39,6 +29,16 @@ This now runs using some aspects of state with explicit delays.
 ## Signal3AspectSlowCycleI2CTM
 
 This runs a single task with delays replaced by yieldForMicros.
+
+## Signal3AspectSlowCycleI2CTME
+
+Adding task management executable. This should fades off one LED and another LED on at the same time.
+
+It does so in separate tasks so is not well coodinated.
+
+## Signal3AspectSlowCycleI2CTME2
+
+Changing the task management executable. This now fades off one LED and another LED on in the same task.
 
 ## Signal3AspectWithButton
 
@@ -54,4 +54,8 @@ Adding task management and now tested except awaiting a button for a full test.
 
 ## Signal3AspectWith_IR_I2CTM
 
-I have added an IR detector as well as the trigger for the light to go red.
+I have added an IR detector as well as the trigger for the light to go red. This code is now working.
+
+## Signal3AspectSlowWith_IR_I2CTME2
+
+This is the next challenge to add IR detection. This now fades off one LED and another LED on in the same task.
