@@ -10,6 +10,8 @@ This is a separate library which needs the SignalControl library.
 
 The examples with task management (TM in the name) also need TaskManagerIO and some need IOAbstraction as well.
 
+These example codes are closely related with each one adding one step of complexity.
+
 ## Signal3AspectCycleI2C
 
 This is now tested.
