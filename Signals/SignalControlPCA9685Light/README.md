@@ -1,5 +1,5 @@
 # SignalControlPCA9685Light
-An extension to the SignalControl library to support 
+This Library is an extension to the SignalControl library (Sven Rosvall) to support 
 LEDs connected using a PCA9685 board.
 
 Version 0.1.0
