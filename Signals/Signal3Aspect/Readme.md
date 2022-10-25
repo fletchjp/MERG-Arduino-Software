@@ -8,6 +8,8 @@ They also need FastPCALight.h or SlowPCALight.h which are in the SignalControlPC
 
 This is a separate library which needs the SignalControl library.
 
+The examples with task management (TM in the name) also need TaskManagerIO and some need IOAbstraction as well.
+
 ## Signal3AspectCycleI2C
 
 This is now tested.
