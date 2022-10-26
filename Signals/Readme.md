@@ -36,3 +36,6 @@ The code in the library needs to be downloaded as a zip file and then installed 
 
 These examples work with two signals.
 
+## 3ColourLED
+
+Examples to experiment with 3 colour LEDs.
