@@ -2,6 +2,8 @@
 
 # 3 Colour LEDs
 
+I am starting some experiments using 3 colour LEDs.
+
 ## switchIOAbs3
 
 Example copied from Arduino-Servo-Switch to act as a starting point.
