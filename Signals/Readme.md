@@ -1,3 +1,5 @@
+ <img align="right" src="arduino_merg_logo.png"  width="150" height="75">
+
 # Arduino Signals examples
 
 These are examples of Arduino code using Sven Rosvall's signal code and modifications.

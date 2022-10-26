@@ -1,3 +1,5 @@
+ <img align="right" src="arduino_merg_logo.png"  width="150" height="75">
+
 # Signal3Aspect examples
 
 These examples work with one three aspect signal.
