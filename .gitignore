@@ -1,7 +1,6 @@
 .vscode
 .vscode\*
 *.html
-*.png
 *.css
 *.svg
 *.js
