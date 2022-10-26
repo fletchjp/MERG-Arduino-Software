@@ -18,7 +18,17 @@ These examples work with one two aspect signal.
 
 ## Signal3Aspect
 
-These examples work with one three aspect signal.
+These examples work with one three aspect signal. 
+
+Some of these examples - the ones with I2C in the name - need the SignalControlPCA9685Light for operation.
+
+## SignalControlPCA9685Light
+
+This is a library which extends Sven Rosvall's Signal Control Library.
+
+This provides header files so that LEDs can be controlled from a PCA9685 expansion board.
+
+The code in the library needs to be downloaded as a zip file and then installed in your Arduino library folder so that the headers can be accessed.
 
 ## Two Signals
 
