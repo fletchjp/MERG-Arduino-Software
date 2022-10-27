@@ -6,7 +6,7 @@ I am starting some experiments using 3 colour LEDs.
 
 ## RGB_LED
 
-Example from Lesson 4 of the Elegoo Started Kit document
+Example from Lesson 4 of the Elegoo Starter Kit document
 
 ## switchIOAbs3
 
