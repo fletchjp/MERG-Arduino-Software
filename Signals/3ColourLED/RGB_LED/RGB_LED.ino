@@ -2,6 +2,8 @@
 // Elegoo demonstration code for the RGB LED
 // Minor changes to the delays
 
+// I used 220 ohm resistors in the circuits and the LED is quite bright.
+
 //www.elegoo.com
 //2016.12.8
 
