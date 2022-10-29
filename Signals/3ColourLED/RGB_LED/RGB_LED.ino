@@ -1,6 +1,6 @@
 // RGB_LED.ino
 // Elegoo demonstration code for the RGB LED
- 
+// Minor changes to the delays
 
 //www.elegoo.com
 //2016.12.8
