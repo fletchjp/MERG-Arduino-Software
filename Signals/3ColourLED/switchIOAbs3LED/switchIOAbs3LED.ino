@@ -106,6 +106,42 @@ const int Signal_Pin = 5;
 const int IR_Pin = 6;
 const int LED_Pin = 7;
 
+// Advance declaration needed here.
+void pwmWrite(Adafruit_PWMServoDriver &pwm,uint8_t pwmnum,byte val);
+
+// This class is given two pin numbers, the one to switch on and the one to switch off.
+// An object is defined for each change and they don't get changed after that.
+// The objects get called in sequence.
+class SimultaneousSwitch : public Executable {
+private:
+   Adafruit_PWMServoDriver pwm;
+   int pwmnum_up, pwmnum_down;
+
+public:
+ SimultaneousSwitch(Adafruit_PWMServoDriver &pwm1, int pin_up, int pin_down) : pwm(pwm1), 
+    pwmnum_up(pin_up), pwmnum_down(pin_down)
+ { }
+ void exec() override {
+  //if (up_or_down) {
+    uint16_t ii;
+    for (uint16_t i=2; i<255; i++) {
+       ii = 256-i;
+       pwmWrite(pwm,pwmnum_up,i);
+       pwmWrite(pwm,pwmnum_down,ii);
+       taskManager.yieldForMicros(10000);
+    }
+    // Make sure the off LED is really off.
+    pwmWrite(pwm, pwmnum_down, LOW);    
+  }
+
+};
+
+// Declaration of three objects
+SimultaneousSwitch switchGreenRed(pwm,redPin,greenPin);
+SimultaneousSwitch switchRedBlue(pwm,bluePin,redPin);
+SimultaneousSwitch switchBlueGreen(pwm,greenPin,bluePin);
+
+
 // Task to move from start to finish with designated servo
 // I am using BaseEvent to test being able to check finishing.
 class MoveServoFromTo : public BaseEvent {
@@ -258,10 +294,30 @@ void setup() {
 
   // Class instance is scheduled - note the & before the name to indicate "address of"
   taskManager.scheduleFixedRate(250, &checkThesePins);
-
+  taskManager.scheduleFixedRate(10000,switch_LED);
+ 
   // now we register the event with the task manager.
   //taskManager.registerEvent(&moveup);
   Serial.println("IR check registered");
+}
+
+void switch_LED()
+{
+  if (Led_State == GREEN_on) {
+     taskManager.execute(&switchGreenRed);
+     Led_State = RED_on;
+     Next_State = BLUE_on;
+  } else if (Led_State == RED_on /*&& Task_State == TASK_off*/) {
+     // Do not switch off the RED while Task_State is TASK_on.
+     taskManager.execute(&switchRedBlue);
+     Led_State = BLUE_on;
+     Next_State = GREEN_on;
+  } else /*if (Task_State == TASK_off)*/ {
+     // Do not switch to GREEN while Task_State is TASK_on.
+     taskManager.execute(&switchBlueGreen);
+     Led_State = GREEN_on;
+     Next_State = RED_on;
+  }
 }
 
 void loop() {
