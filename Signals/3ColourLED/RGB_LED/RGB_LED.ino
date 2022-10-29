@@ -51,6 +51,7 @@ analogWrite(GREEN, greenValue);
 delay(delayTime);
 }
 
+delay(1000);
 redValue = 0;
 greenValue = 255;
 blueValue = 0;
@@ -66,6 +67,7 @@ analogWrite(GREEN, greenValue);
 analogWrite(BLUE, blueValue);
 delay(delayTime);
 }
+delay(1000);
 
 redValue = 0;
 greenValue = 0;
@@ -83,4 +85,6 @@ analogWrite(BLUE, blueValue);
 analogWrite(RED, redValue);
 delay(delayTime);
 }
+delay(1000);
+
 }
