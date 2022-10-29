@@ -55,6 +55,27 @@
 #include <ExecWithParameter.h>
 //#include <TaskTypes.h>
 
+// The first thing to note is that the PWM range is to 4096 not 255
+
+// Allowing example to use I2C and PCA9685
+
+#include <Wire.h>
+#include <Adafruit_PWMServoDriver.h>
+#include <SlowPCALight.h>
+
+enum { RED_on, GREEN_on, BLUE_on } Led_State, Current_State, Next_State;
+
+enum { IR_off, IR_on } IR_State;
+
+enum { TASK_off, TASK_on} Task_State;
+
+// called this way, it uses the default address 0x40
+Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
+// you can also call it with a different address you want
+//Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver(0x41);
+// you can also call it with a different address and I2C interface
+//Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver(0x40, Wire);
+
 Servo myservo;  // create servo object to control a servo
 // twelve servo objects can be created on most boards
 const byte SERVO_PIN = 9;
@@ -67,6 +88,16 @@ int pos = 0;    // global variable to store the servo position not now used.
 bool eventCompleted = false;
 bool noTaskRunning = true;
 bool isMoveupNext = true; // Not currently used
+
+// These are now on the pwm and in order top to bottom
+// These ARE NOT THE SAME as in the examples with 3 LEDs.
+int redPin    = 1;
+int greenPin  = 2;
+int bluePin   = 3;
+
+SlowPCALight redLight   (pwm, redPin, true);
+SlowPCALight greenLight (pwm, greenPin);
+SlowPCALight blueLight  (pwm, bluePin);
 
 IoAbstractionRef arduinoPins = ioUsingArduino();
 
@@ -186,9 +217,33 @@ MoveServoFromTo movedown(myservo,180,0,DOWN,SERVO_PIN);
 // Class instance - this could be used to check different sets of pins.
 CheckIRpins checkThesePins(moveup,Signal_Pin, LED_Pin);
 
+// I need a routine to write to a pin via the PCA9685
+// This first one is just ON/OFF.
+void pwmWrite(Adafruit_PWMServoDriver &pwm,uint8_t pwmnum,byte val)
+{
+   int i = 0;
+   if(val == HIGH) {
+     pwm.setPWM(pwmnum,4096,0);  // pwm.setPin(pwmnum,0)
+   } else if(val == LOW) {
+     pwm.setPWM(pwmnum,0,4096);  // pwm.setPin(pwmnum,4096)
+   } else {
+     // I need to map val from 0 to 255 to 0 to 4096
+     i = map(val, 0, 255, 0, 2047);
+     pwm.setPWM(pwmnum,2048-i,2048+i);
+   }
+}
+
 void setup() {
   Serial.begin(115200);
-  Serial.println("Starting the servo detector event example");
+  Serial.println("Starting the servo detector event example with 3 pin colour");
+
+  pwm.begin();
+  pwm.setPWMFreq(1600);  // This is the maximum PWM frequency
+
+  pwmWrite(pwm, redPin, LOW);
+  pwmWrite(pwm, greenPin, LOW);
+  pwmWrite(pwm, bluePin, LOW);
+
   ioDevicePinMode(arduinoPins, Signal_Pin, INPUT_PULLUP);
   ioDevicePinMode(arduinoPins, IR_Pin, OUTPUT);
   ioDevicePinMode(arduinoPins, LED_Pin, OUTPUT);
