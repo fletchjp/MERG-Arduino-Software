@@ -15,3 +15,9 @@ Example copied from Arduino-Servo-Switch to act as a starting point.
 ## switchIOAbs3LED
 
 Example adapted to add the 3 colour LED on a PCA9685 as an additional task.
+
+## switchIOAbs3LED2
+
+Example adapted to add the 3 colour LED on a PCA9685 as an additional task.
+
+First experiment with a mixed colour - yellow.
