@@ -1,3 +1,7 @@
+// RGB_LED.ino
+// Elegoo demonstration code for the RGB LED
+ 
+
 //www.elegoo.com
 //2016.12.8
 
@@ -24,7 +28,7 @@ int blueValue;
 // main loop
 void loop()
 {
-#define delayTime 10 // fading time between colors
+#define delayTime 20 // fading time between colors
 
 redValue = 255; // choose a value between 1 and 255 to change the color.
 greenValue = 0;
