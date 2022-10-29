@@ -11,3 +11,7 @@ Example from Lesson 4 of the Elegoo Starter Kit document now operational.
 ## switchIOAbs3
 
 Example copied from Arduino-Servo-Switch to act as a starting point.
+
+## switchIOAbs3LED
+
+Example adapted to add the 3 colour LED on a PCA9685 as an additional task.
