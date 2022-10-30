@@ -11,6 +11,8 @@
 ////////////////////////////////////////////////////////////////////////////////////
 // Adding code for 3 colour LEDs on a PCA9685 expander
 // Extend to allow for mixed colours.
+// I have built a class to hold the data for one LED.
+// At the moment there is one example to make a yellow.
 //////////////////////////////////////////////////////////////////////////////////// 
 // PSEUDOCODE
 // ASSUME no detection and servo at pos = 0 and NOTASK true and nexttask is moveup
