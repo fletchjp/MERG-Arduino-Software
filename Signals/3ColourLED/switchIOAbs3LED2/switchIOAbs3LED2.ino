@@ -112,6 +112,11 @@ const int LED_Pin = 7;
 // Advance declaration needed here.
 void pwmWrite(Adafruit_PWMServoDriver &pwm,uint8_t pwmnum,byte val);
 
+// This is a first attempt at a class to hold all the data for one 3 colour LED.
+// I think it needs improvement to use an array to hold the three values.
+// I want to be able to move smoothly from one set of data to the next.
+// That is something which is not coded as yet.
+// This code just has one test of the class.
 class LEDColour {
 private:
    Adafruit_PWMServoDriver pwm;
