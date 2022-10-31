@@ -55,6 +55,8 @@ enum class Colour {
   yellow
 };
 
+// Experiment for range-based for loop.
+int some_array[3];
 
 void setup() {
   // put your setup code here, to run once:
@@ -88,6 +90,14 @@ void setup() {
     Colour colour = Colour::white;
     // Cast is needed to the underlying int type.
     if (colour == Colour::white) Serial << (int)colour << F(" is white") << endl;
+
+    // Test of range-based for loop compiles.
+    int j = 0;
+    for ( auto i : some_array) {
+      i = j++;
+      Serial << i << " ";
+    }
+    Serial << endl;
 }
 
 void loop() {
