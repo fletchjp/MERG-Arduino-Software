@@ -14,4 +14,4 @@ Simple vector example with range based for loop example.
 
 ## ArduinoSTLComposite
 
-Example of the Composite Pattern
+Example of the Composite Pattern which is now working.
