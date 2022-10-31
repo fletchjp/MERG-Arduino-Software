@@ -1,4 +1,5 @@
 // Arduino STL Composite
+// Modified from modernescpp.com example.
 
 #include <ArduinoSTL.h>
 
