@@ -20,12 +20,12 @@ vector<int> trial;
 
 void setup() {
   Serial.begin(115200); 
-  printf("STL Composite Pattern\n");
+  printf("STL Composite Pattern Version 4 - refactoring.guru\n");
   for (int i = 0; i < 5; i++) trial.push_back(i);
   // range-based for loop
   for (auto i : trial) cout << i << " ";
   cout << endl;
-  cout << "Test of Composite Pattern" << endl;
+  cout << "Test of Composite Pattern " << endl;
 
   Composite composite("composite");
   Composite composite1("composite1");
@@ -45,6 +45,8 @@ void setup() {
 
   composite.print_();
   cout << endl;
+
+  cout << composite.Operation() << endl;
 
   composite.Remove(&composite1);
   
