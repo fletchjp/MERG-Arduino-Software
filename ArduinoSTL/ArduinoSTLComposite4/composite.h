@@ -26,7 +26,7 @@ public:
    }
    virtual void Add(/* const */ Component* component) { }
    virtual void Remove(/* const */ Component* component) { }
-   virtual bool IsComposit() const {
+   virtual bool IsComposite() const {
     return false;
    }
    virtual string Operation() const = 0;
@@ -34,8 +34,9 @@ public:
 };
 
 class Composite : public Component {
-  list<const Component*> children;
   const string component_name;
+protected:
+  list<const Component*> children_;
 public:
   explicit Composite(const string& n) : component_name(n) { }
   void print_() const override {
@@ -43,10 +44,26 @@ public:
     for (auto c: children) c->print_(); 
   }
   void Add(/* const */ Component* component) {
-    children.push_back(component);
+    this->children_.push_back(component);
+    component->SetParent(this);
   }
   void Remove(/* const */ Component* component) {
-    children.remove(component);
+    children_.remove(component);
+    component->SetParent(nullptr);
+  }
+   virtual bool IsComposite() const {
+    return true;
+   }
+  string Operation() const override {
+    string result;
+    for (const Component *c: children_) {
+      if (c == children_.back() {
+        result += c->Operation();
+      } else {
+        result += c->Operation() + "+";       
+      }
+    }
+    return "Branch(" + result + ")";
   }
 };
 
@@ -55,6 +72,9 @@ private:
   const string leaf_name;
 public:
   explicit Leaf(const string& n) : leaf_name(n) { }
+  string Operation() const override {
+    return leaf_name;
+  }
   void print_() const override {
     cout << leaf_name << " ";
   }
