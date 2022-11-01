@@ -31,7 +31,10 @@ public:
    list<Component*> GetParents() const {
     return this->parents_;
    }
-   size_t hasParents() const {
+   bool hasParents() const {
+     return this->parents_.size() > 0;
+   }
+   size_t numberOfParents() const {
      return this->parents_.size();
    }
    virtual void Add(/* const */ Component* component) { }
@@ -94,9 +97,11 @@ public:
   }
   string GetParentNames() const {
       string result;
-      for (const Component *c: GetParents() ) {
-        result += c->GetName() + " ";       
-      }
+      if (hasParents() ) {
+         for (const Component *c: GetParents() ) {
+           result += c->GetName() + " ";       
+         }
+      } else result = "no parents";
     return result;
   }
   void print_() const override {
