@@ -58,6 +58,9 @@ public:
    virtual bool IsComposite() const {
     return true;
    }
+  string Get_name() const {
+    return component_name;
+  }
   string Operation() const override {
     string result;
     for (const Component *c: children_) {
@@ -77,6 +80,9 @@ private:
 public:
   explicit Leaf(const string& n) : leaf_name(n) { }
   string Operation() const override {
+    return leaf_name;
+  }
+  string Get_name() const {
     return leaf_name;
   }
   void print_() const override {
