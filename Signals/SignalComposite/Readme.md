@@ -2,7 +2,7 @@
 
 Experiments with the Composite Design Pattern using code developed in ArduinoSTL
 
-This is based on ArduinoSTLComposite5 which supportd multiple parents,
+This is based on ArduinoSTLComposite5 which supports multiple parents,
 
 ## SignalComposite
 
