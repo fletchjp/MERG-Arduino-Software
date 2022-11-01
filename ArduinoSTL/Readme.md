@@ -34,5 +34,8 @@ This supports holding parent information (on one parent).
 
 I have retained the support of named items and added GetName to return the information.
 
+## ArduinoSTLComposite5
+
+This extends the previous example to allow for multiple parents.
 
 
