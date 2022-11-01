@@ -1,5 +1,6 @@
 // ArduinoBoostFunction
 // This example now works as long as the AVR Boards are 1.8.2 not 1.8.3
+// The current version of the AVR boards is 1.8.5 so I think I will abandon these codes.
 #include <ArduinoSTL.h>
 // This is an old version of boost from 2012.
 #include <boost_1_51_0.h>
