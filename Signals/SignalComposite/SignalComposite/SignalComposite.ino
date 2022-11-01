@@ -18,6 +18,13 @@ using namespace std;
 
 vector<int> trial;
 
+class Section : public Composite {
+
+public:
+   Section(const string& n) : Composite(n) { }
+   
+};
+
 class Signal : public Composite {
 
 public:
@@ -25,12 +32,22 @@ public:
    
 };
 
+
 class LED : public Leaf {
   
 public:
    LED(const string& n) : Leaf(n) { }
 
 };
+
+class Detector : public Leaf {
+  
+public:
+   Detector(const string& n) : Leaf(n) { }
+
+};
+
+
 
 
 void setup() {
@@ -83,6 +100,9 @@ void setup() {
   cout << "====================================================================" << endl;
   cout << "Signal Composite experiments" << endl;
   cout << "====================================================================" << endl;
+
+  //Section section1("section_1");
+  
   Signal home_signal("home");
   Signal starter_signal("starter");
 
@@ -90,11 +110,36 @@ void setup() {
   LED home_yellow("home_yellow");
   LED home_green("home_green");
 
+  LED starter_red("starter_red");
+ // LED starter_yellow("starter_yellow");
+/*
+  LED starter_green("starter_green");
+*/
+  //Detector home_detector("home_detector");
+  
   home_signal.Add(&home_red);
   home_signal.Add(&home_yellow);
   home_signal.Add(&home_green);
 
+//  section1.Add(&home_signal);
+//  section1.Add(&home_detector);
+
   cout << home_signal.GetName() << " has " << home_signal.Operation() << endl;
+
+  //cout << section1.GetName() << " has " << section1.Operation() << endl;
+
+
+
+  //Detector starter_detector("starter_detector");
+
+  starter_signal.Add(&starter_red);
+/*
+  starter_signal.Add(&starter_yellow);
+  starter_signal.Add(&starter_green);
+
+*/
+  cout << starter_signal.GetName() << " has " << starter_signal.Operation() << endl;
+
 
 }
 
