@@ -64,6 +64,8 @@ void setup() {
 
   cout << leaf4.GetName() << " has parent(s) " << leaf4.GetParentNames() << endl;
 
+  cout << composite.GetName() << " has parent(s) " << composite.GetParentNames() << endl;
+
 }
 
 void loop() {

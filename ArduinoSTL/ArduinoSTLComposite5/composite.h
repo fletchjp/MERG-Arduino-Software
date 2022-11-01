@@ -37,6 +37,15 @@ public:
    size_t numberOfParents() const {
      return this->parents_.size();
    }
+   string GetParentNames() const {
+      string result;
+      if (hasParents() ) {
+         for (const Component *c: GetParents() ) {
+           result += c->GetName() + " ";       
+         }
+      } else result = "no parents";
+      return result;
+   }
    virtual void Add(/* const */ Component* component) { }
    virtual void Remove(/* const */ Component* component) { }
    virtual bool IsComposite() const {
@@ -94,15 +103,6 @@ public:
   }
   string GetName() const {
     return leaf_name;
-  }
-  string GetParentNames() const {
-      string result;
-      if (hasParents() ) {
-         for (const Component *c: GetParents() ) {
-           result += c->GetName() + " ";       
-         }
-      } else result = "no parents";
-    return result;
   }
   void print_() const override {
     cout << leaf_name << " ";
