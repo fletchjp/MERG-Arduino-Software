@@ -22,11 +22,18 @@ using namespace std;
 
 vector<int> trial;
 
+class Track : public Composite {
+
+public:
+   Track(const string& n) : Composite(n) { }
+
+};
+
 class Section : public Composite {
 
 public:
    Section(const string& n) : Composite(n) { }
-   
+
 };
 
 class Signal : public Composite {
@@ -104,10 +111,15 @@ void setup() {
   cout << "Signal Composite experiments" << endl;
   cout << "====================================================================" << endl;
 
+  Track down_line("down_line");
+
   Section section1("section_1");
+  Section section2("section_2");
   
   Signal home_signal("home");
   Signal starter_signal("starter");
+
+// Leaf definitions
 
   LED home_red("home_red");
   LED home_yellow("home_yellow");
@@ -116,29 +128,40 @@ void setup() {
   LED starter_red("starter_red");
   LED starter_yellow("starter_yellow");
   LED starter_green("starter_green");
-  
-  //Detector home_detector("home_detector");
-  
+
+  Detector home_detector("home_detector");
+  Detector starter_detector("starter_detector");
+
   home_signal.Add(&home_red);
   home_signal.Add(&home_yellow);
   home_signal.Add(&home_green);
-
-  section1.Add(&home_signal);
-//  section1.Add(&home_detector);
-
-  cout << home_signal.GetName() << " has " << home_signal.Operation() << endl;
-
-  //cout << section1.GetName() << " has " << section1.Operation() << endl;
-
-
-
-  //Detector starter_detector("starter_detector");
 
   starter_signal.Add(&starter_red);
   starter_signal.Add(&starter_yellow);
   starter_signal.Add(&starter_green);
 
+  section1.Add(&home_signal);
+  section1.Add(&home_detector);
+  section1.Add(&starter_detector);
+
+  cout << home_signal.GetName() << " has " << home_signal.Operation() << endl;
+
   cout << starter_signal.GetName() << " has " << starter_signal.Operation() << endl;
+  cout << section1.GetName() << " has " << section1.Operation() << endl;
+
+  section2.Add(&starter_signal);
+  section2.Add(&starter_detector);
+
+  cout << section2.GetName() << " has " << section2.Operation() << endl;
+
+  down_line.Add(&section1);
+  down_line.Add(&section2);
+  
+  cout << down_line.GetName() << " has " << down_line.Operation() << endl;
+
+  cout << "====================================================================" << endl;
+  cout << "End of Signal Composite experiments" << endl;
+  cout << "====================================================================" << endl;
 
 
 }
