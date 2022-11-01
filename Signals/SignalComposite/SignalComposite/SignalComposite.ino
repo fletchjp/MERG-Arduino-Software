@@ -151,7 +151,7 @@ void setup() {
 
   section2.Add(&starter_signal);
   section2.Add(&starter_detector);
-
+ 
   cout << section2.GetName() << " has " << section2.Operation() << endl;
 
   down_line.Add(&section1);
