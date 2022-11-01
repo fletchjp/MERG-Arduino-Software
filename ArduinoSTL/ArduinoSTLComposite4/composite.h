@@ -3,6 +3,10 @@
 // Change vector to list when remove does work.
 // Adding some things from refactoring.guru design
 
+// This allows the setting of information on one parent.
+// There are other differences.
+// I have kept the print_ operations although this also allows for the return of a string.
+
 
 #ifndef COMPOSITE_H
 #define COMPOSITE_H
