@@ -22,44 +22,44 @@ using namespace std;
 
 vector<int> trial;
 
-class Track : public Composite {
+enum class Object_Type : int { Track_type, Section_type, Signal_type, LED_type, Detector_type };
 
+class Track : public Composite {
+  const Object_Type type_ = Object_Type::Track_type; 
 public:
    Track(const string& n) : Composite(n) { }
-
+   Object_Type Get_Type() const { return type_; }
 };
 
 class Section : public Composite {
-
+  const Object_Type type_ = Object_Type::Section_type; 
 public:
    Section(const string& n) : Composite(n) { }
-
+   Object_Type Get_Type() const { return type_; }
 };
 
 class Signal : public Composite {
-
+   const Object_Type type_ = Object_Type::Signal_type; 
 public:
    Signal(const string& n) : Composite(n) { }
+   Object_Type Get_Type() const { return type_; }
    
 };
 
 
 class LED : public Leaf {
-  
+   const Object_Type type_ = Object_Type::LED_type; 
 public:
-   LED(const string& n) : Leaf(n) { }
-
+   LED(const string& n) : Leaf(n)  { }
+   Object_Type Get_Type() const { return type_; }
 };
 
 class Detector : public Leaf {
-  
+   const Object_Type type_ = Object_Type::Detector_type; 
 public:
    Detector(const string& n) : Leaf(n) { }
-
+   Object_Type Get_Type() const { return type_; }
 };
-
-
-
 
 void setup() {
   Serial.begin(115200); 
