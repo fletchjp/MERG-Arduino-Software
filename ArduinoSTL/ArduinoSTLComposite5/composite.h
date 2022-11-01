@@ -19,14 +19,17 @@ using namespace std;
 
 class Component {
 protected:
-   Component *parent_;
+   list<Component*> parents_;
 public:
    virtual ~Component() { }
    void SetParent(Component *parent) {
-    this->parent_ = parent;
+    this->parents_.push_back(parent);
    }
-   Component *GetParent() const {
-    return this->parent_;
+   list<Component*> GetParents() const {
+    return this->parents_;
+   }
+   size_t hasParents() const {
+     return this->parents_.size();
    }
    virtual void Add(/* const */ Component* component) { }
    virtual void Remove(/* const */ Component* component) { }
@@ -54,7 +57,7 @@ public:
   }
   void Remove(/* const */ Component* component) {
     children_.remove(component);
-    component->SetParent(nullptr);
+    component->GetParents().remove(component);
   }
    virtual bool IsComposite() const {
     return true;
@@ -85,6 +88,13 @@ public:
   }
   string GetName() const {
     return leaf_name;
+  }
+  string GetParentNames() const {
+      string result;
+      for (const Component *c: GetParents() ) {
+        result += c->GetName() + " ";       
+      }
+    return result;
   }
   void print_() const override {
     cout << leaf_name << " ";
