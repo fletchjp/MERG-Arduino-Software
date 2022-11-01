@@ -1,7 +1,8 @@
-// Arduino STL Composite
+// Arduino STL Composite2
 // Modified from modernescpp.com example.
 // This example is now working.
 // I think there is quite a lot of promise in having this structure available.
+// The classes have been moved to a header.
 
 #include <ArduinoSTL.h>
 
