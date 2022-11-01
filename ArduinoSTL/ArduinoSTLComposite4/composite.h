@@ -1,6 +1,7 @@
 // composite.h
 // First try at a composite header to go in a library
 // Change vector to list when remove does work.
+// Adding some things from refactoring.guru design
 
 
 #ifndef COMPOSITE_H
@@ -13,9 +14,23 @@
 using namespace std;
 
 class Component {
+protected:
+   Component *parent_;
 public:
+   virtual ~Component() { }
+   void SetParent(Component *parent) {
+    this->parent_ = parent;
+   }
+   Component *GetParent() const {
+    return this->parent_;
+   }
+   virtual void Add(/* const */ Component* component) { }
+   virtual void Remove(/* const */ Component* component) { }
+   virtual bool IsComposit() const {
+    return false;
+   }
+   virtual string Operation() const = 0;
    virtual void print_() const = 0;
-   virtual ~Component() { }  
 };
 
 class Composite : public Component {
@@ -27,10 +42,10 @@ public:
     cout << component_name << " ";
     for (auto c: children) c->print_(); 
   }
-  void add(const Component* component) {
+  void Add(/* const */ Component* component) {
     children.push_back(component);
   }
-  void remove(const Component* component) {
+  void Remove(/* const */ Component* component) {
     children.remove(component);
   }
 };
