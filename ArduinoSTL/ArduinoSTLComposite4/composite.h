@@ -41,7 +41,7 @@ public:
   explicit Composite(const string& n) : component_name(n) { }
   void print_() const override {
     cout << component_name << " ";
-    for (auto c: children) c->print_(); 
+    for (auto c: children_) c->print_(); 
   }
   void Add(/* const */ Component* component) {
     this->children_.push_back(component);
@@ -57,7 +57,7 @@ public:
   string Operation() const override {
     string result;
     for (const Component *c: children_) {
-      if (c == children_.back() {
+      if (c == children_.back() ) {
         result += c->Operation();
       } else {
         result += c->Operation() + "+";       

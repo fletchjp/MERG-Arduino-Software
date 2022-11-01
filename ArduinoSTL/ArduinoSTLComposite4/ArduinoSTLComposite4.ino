@@ -35,11 +35,10 @@ void setup() {
   Leaf leaf3("leaf3");
   leaf1.print_();
   cout << endl;
-  composite1.add(&leaf1);
-  composite1.add(&leaf2);
-
-  composite.add(&composite1);
-  composite.add(&leaf3);
+  composite1.Add(&leaf1);
+  composite1.Add(&leaf2);
+  composite.Add(&composite1);
+  composite.Add(&leaf3);
 
   composite1.print_();
   cout << endl;
@@ -47,7 +46,7 @@ void setup() {
   composite.print_();
   cout << endl;
 
-  composite.remove(&composite1);
+  composite.Remove(&composite1);
   
   composite.print_();
   cout << endl;
