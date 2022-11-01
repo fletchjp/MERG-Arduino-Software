@@ -25,6 +25,9 @@ public:
    void SetParent(Component *parent) {
     this->parents_.push_back(parent);
    }
+   void RemoveParent(Component *parent) {
+    this->parents_.remove(parent);
+   }
    list<Component*> GetParents() const {
     return this->parents_;
    }
@@ -56,8 +59,8 @@ public:
     component->SetParent(this);
   }
   void Remove(/* const */ Component* component) {
+    component->RemoveParent(this);
     children_.remove(component);
-    component->GetParents().remove(component);
   }
    virtual bool IsComposite() const {
     return true;
