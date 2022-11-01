@@ -20,11 +20,16 @@ Example of the Composite Pattern which is now working.
 
 Example of the Composite Pattern with the composite classes in a header.
 
-## ArduinoSTLComposite2
+## ArduinoSTLComposite3
 
 Example of the Composite Pattern with the composite classes in a header.
 
 Using list instead of vector for the children.
 
+## ArduinoSTLComposite4
+
+The code has been changed to use a different example from refactoring.guru.
+
+This supports holding parent information (on one parent).
 
 
