@@ -1,10 +1,11 @@
 // composite.h
 // First try at a composite header to go in a library
+// Change vector to list when remove does work.
 
 #ifndef COMPOSITE_H
 #define COMPOSITE_H
 
-#include <vector>
+#include <list>
 #include <algorithm>
 #include <string>
 
@@ -17,7 +18,7 @@ public:
 };
 
 class Composite : public Component {
-  vector<const Component*> children;
+  list<const Component*> children;
   const string component_name;
 public:
   explicit Composite(const string& n) : component_name(n) { }
@@ -29,11 +30,7 @@ public:
     children.push_back(component);
   }
   void remove(const Component* component) {
-    // erase(children, component); Not available in C++11
-    // There is children.erase(location) which needs to know where the component is.
-    for (int i = 0; i < children.size(); i++) {
-      if (children.at(i) == component) { children.erase(children.begin() + i); break; }
-    } 
+    children.remove(component);
   }
 };
 
