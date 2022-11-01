@@ -5,6 +5,10 @@
 // I think there is quite a lot of promise in having this structure available.
 // Adding some things from refactoring.guru design
 // Adding support for multiple parents.
+/////////////////////////////////////////////////////////////////////////////////
+// This does not have enough memory on a UNO.
+// I am using a MEGA
+/////////////////////////////////////////////////////////////////////////////////
 
 #include <ArduinoSTL.h>
 
@@ -88,7 +92,6 @@ void setup() {
   
   composite.print_();
   cout << endl;
-
   
   composite1.Remove(&leaf3);
   cout << leaf3.GetName() << " has parent(s) " << leaf3.GetParentNames() << endl;
@@ -101,7 +104,7 @@ void setup() {
   cout << "Signal Composite experiments" << endl;
   cout << "====================================================================" << endl;
 
-  //Section section1("section_1");
+  Section section1("section_1");
   
   Signal home_signal("home");
   Signal starter_signal("starter");
@@ -111,17 +114,16 @@ void setup() {
   LED home_green("home_green");
 
   LED starter_red("starter_red");
- // LED starter_yellow("starter_yellow");
-/*
+  LED starter_yellow("starter_yellow");
   LED starter_green("starter_green");
-*/
+  
   //Detector home_detector("home_detector");
   
   home_signal.Add(&home_red);
   home_signal.Add(&home_yellow);
   home_signal.Add(&home_green);
 
-//  section1.Add(&home_signal);
+  section1.Add(&home_signal);
 //  section1.Add(&home_detector);
 
   cout << home_signal.GetName() << " has " << home_signal.Operation() << endl;
@@ -133,11 +135,9 @@ void setup() {
   //Detector starter_detector("starter_detector");
 
   starter_signal.Add(&starter_red);
-/*
   starter_signal.Add(&starter_yellow);
   starter_signal.Add(&starter_green);
 
-*/
   cout << starter_signal.GetName() << " has " << starter_signal.Operation() << endl;
 
 
