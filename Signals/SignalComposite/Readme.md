@@ -1,0 +1,11 @@
+# Signal Composite
+
+Experiments with the Composite Design Pattern using code developed in ArduinoSTL
+
+This is based on ArduinoSTLComposite5 which supportd multiple parents,
+
+## SignalComposite
+
+A first example exploring the possibilities.
+
+This soon ran out of memory on a UNO so I am using a MEGA instead.
