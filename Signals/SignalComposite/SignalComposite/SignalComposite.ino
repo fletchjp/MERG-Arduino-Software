@@ -18,16 +18,29 @@ using namespace std;
 
 vector<int> trial;
 
+class Signal : public Composite {
+
+public:
+   Signal(const string& n) : Composite(n) { }
+   
+};
+
+class LED : public Leaf {
+  
+public:
+   LED(const string& n) : Leaf(n) { }
+
+};
 
 
 void setup() {
   Serial.begin(115200); 
-  printf("STL Composite Pattern Version 5 - refactoring.guru\n");
+  printf("Signal Composite\n");
   for (int i = 0; i < 5; i++) trial.push_back(i);
   // range-based for loop
   for (auto i : trial) cout << i << " ";
   cout << endl;
-  cout << "Test of Composite Pattern with multiple parents" << endl;
+  cout << "Test of Signal Composite Pattern" << endl;
 
   Composite composite("composite");
   Composite composite1("composite1");
@@ -66,6 +79,22 @@ void setup() {
   cout << leaf4.GetName() << " has parent(s) " << leaf4.GetParentNames() << endl;
 
   cout << composite.GetName() << " has parent(s) " << composite.GetParentNames() << endl;
+
+  cout << "====================================================================" << endl;
+  cout << "Signal Composite experiments" << endl;
+  cout << "====================================================================" << endl;
+  Signal home_signal("home");
+  Signal starter_signal("starter");
+
+  LED home_red("home_red");
+  LED home_yellow("home_yellow");
+  LED home_green("home_green");
+
+  home_signal.Add(&home_red);
+  home_signal.Add(&home_yellow);
+  home_signal.Add(&home_green);
+
+  cout << home_signal.GetName() << " has " << home_signal.Operation() << endl;
 
 }
 
