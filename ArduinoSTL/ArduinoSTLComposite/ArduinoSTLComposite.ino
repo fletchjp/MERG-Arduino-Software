@@ -78,7 +78,12 @@ void setup() {
 
   composite.print_();
   cout << endl;
+
+  composite.remove(&composite1);
   
+  composite.print_();
+  cout << endl;
+
 }
 
 void loop() {
