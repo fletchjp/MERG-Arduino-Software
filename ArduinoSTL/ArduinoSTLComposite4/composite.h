@@ -34,6 +34,7 @@ public:
     return false;
    }
    virtual string Operation() const = 0;
+   virtual string GetName() const = 0;
    virtual void print_() const = 0;
 };
 
@@ -58,7 +59,7 @@ public:
    virtual bool IsComposite() const {
     return true;
    }
-  string Get_name() const {
+  string GetName() const {
     return component_name;
   }
   string Operation() const override {
@@ -82,7 +83,7 @@ public:
   string Operation() const override {
     return leaf_name;
   }
-  string Get_name() const {
+  string GetName() const {
     return leaf_name;
   }
   void print_() const override {

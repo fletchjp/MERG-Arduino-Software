@@ -48,6 +48,8 @@ void setup() {
 
   cout << composite.Operation() << endl;
 
+  cout << leaf3.GetName() << " has parent " << leaf3.GetParent()->GetName() << endl;
+
   composite.Remove(&composite1);
   
   composite.print_();
