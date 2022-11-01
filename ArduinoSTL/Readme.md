@@ -32,4 +32,7 @@ The code has been changed to use a different example from refactoring.guru.
 
 This supports holding parent information (on one parent).
 
+I have retained the support of named items.
+
+
 
