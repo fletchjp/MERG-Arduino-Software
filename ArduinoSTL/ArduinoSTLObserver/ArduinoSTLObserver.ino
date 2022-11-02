@@ -57,10 +57,12 @@ void setup() {
   std::cout << "ObsId2 before attachment " << ObsId2->getLocal() << std::endl;
   std::cout << "ObsId3 before attachment " << ObsId3->getLocal() << std::endl;
 
-  subject.Attach(ObsId1,3);
+  subject.Attach(ObsId1,1);
+  subject.Attach(ObsId2,1);
   subject.Attach(ObsId2,2);
   subject.Attach(ObsId3,1);
   subject.Attach(ObsId3,2);
+  subject.Attach(ObsId3,3);
   std::cout << "ObsId1 after attachment " << ObsId1->getLocal() << std::endl;
   std::cout << "ObsId2 after attachment " << ObsId2->getLocal() << std::endl;
   std::cout << "ObsId3 after attachment " << ObsId3->getLocal() << std::endl;
@@ -70,6 +72,13 @@ void setup() {
   std::cout << "ObsId2 after NotifyAll(1) " << ObsId2->getLocal() << std::endl;
   std::cout << "ObsId3 after NotifyAll(1) " << ObsId3->getLocal() << std::endl;
   subject.NotifyAll(2);
+  std::cout << "ObsId1 after NotifyAll(2) " << ObsId1->getLocal() << std::endl;
+  std::cout << "ObsId2 after NotifyAll(2) " << ObsId2->getLocal() << std::endl;
+  std::cout << "ObsId3 after NotifyAll(2) " << ObsId3->getLocal() << std::endl;
+  subject.NotifyAll(3);
+  std::cout << "ObsId1 after NotifyAll(3) " << ObsId1->getLocal() << std::endl;
+  std::cout << "ObsId2 after NotifyAll(3) " << ObsId2->getLocal() << std::endl;
+  std::cout << "ObsId3 after NotifyAll(3) " << ObsId3->getLocal() << std::endl;
 
   delete ObsId1;
   delete ObsId2;
