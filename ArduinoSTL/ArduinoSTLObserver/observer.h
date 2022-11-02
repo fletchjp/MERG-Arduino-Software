@@ -85,4 +85,54 @@ protected:
 // Code framework end.
 // ====================================================================
 
+// ====================================================================
+// Example Policy implementation: 
+// ====================================================================
+
+// This is defined to get something going.
+// This should not be called in a single threaded application.
+void logic_error (const char * something)
+{ 
+  std::cout << "Logic error called with " << something << std::endl;
+}
+
+const char* attach_event = "attach event";
+const char* detach_event = "detach event";
+const char* detach_all = "detach all";
+
+// ====================================================================
+// ClosedNotify rejects calls to Attach and Detach during NotifyAll.
+// ====================================================================
+template <class Subject>
+class ClosedNotify : public Subject {
+public: 
+  ClosedNotify() : closed_(false) { }
+  typedef typename Subject::Event Event;
+  typedef typename Subject::Observer Observer;
+  typedef typename Subject::ObserverID ObserverID;
+  bool Attach(ObserverID id, Event e) {
+    if (closed_) /*throw*/ logic_error(attach_event);
+    return Subject::Attach(id, e);
+  }
+  virtual bool Detach(ObserverID id, Event e) {
+    if (closed_) /*throw*/ logic_error(detach_event);
+    return Subject::Detach(id, e);
+  }  
+  virtual void Detach(ObserverID id) {
+    if (closed_) /*throw*/ logic_error(detach_all);
+    /*return*/ Subject::Detach(id);
+  }
+  virtual void NotifyAll(Event e) {
+    closed_ = true;
+    struct Local {
+      ~Local() { *b_ = false; }
+      bool * b_;
+    } local = { &closed_ };
+    Subject::NotifyAll(e);
+  }
+private:
+  bool closed_;
+};
+
+
 #endif
