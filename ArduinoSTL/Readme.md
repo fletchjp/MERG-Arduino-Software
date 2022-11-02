@@ -38,4 +38,6 @@ I have retained the support of named items and added GetName to return the infor
 
 This extends the previous example to allow for multiple parents.
 
+I have now used this as a starting point for SignalComposite.
+
 
