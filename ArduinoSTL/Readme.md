@@ -40,4 +40,8 @@ This extends the previous example to allow for multiple parents.
 
 I have now used this as a starting point for SignalComposite.
 
+## ArduinoSTLObserver
+
+Implementation of the Observer Pattern from previous code.
+
 
