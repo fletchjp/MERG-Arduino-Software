@@ -8,6 +8,8 @@ I have the thought to add something from the Observer Pattern so that there are 
 
 One possibility is from the Detector to its parents.
 
+I have now a version of the Observer Pattern working in ArduinoSTL as ArduinoSTLObserver.
+
 ## SignalComposite
 
 A first example exploring the possibilities.
