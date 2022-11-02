@@ -44,4 +44,5 @@ I have now used this as a starting point for SignalComposite.
 
 Implementation of the Observer Pattern from previous code.
 
+I want to explore combining Observer and Composite.
 
