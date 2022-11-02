@@ -1,6 +1,6 @@
 # Signal Composite
 
-Experiments with the Composite Design Pattern using code developed in Arduin
+Experiments with the Composite Design Pattern using code developed in ArduinoSTL
 
 A first example exploring the possibilities.
 
