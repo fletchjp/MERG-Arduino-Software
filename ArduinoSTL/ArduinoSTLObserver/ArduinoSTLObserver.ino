@@ -57,7 +57,8 @@ void setup() {
   std::cout << "ObsId2 before attachment " << ObsId2->getLocal() << std::endl;
   std::cout << "ObsId3 before attachment " << ObsId3->getLocal() << std::endl;
 
-  subject.Attach(ObsId1,1);
+  if (subject.Attach(ObsId1,1) ) std::cout << "subject.Attach(ObsId1,1) true" << std::endl;
+  if (!subject.Attach(ObsId1,1) ) std::cout << "subject.Attach(ObsId1,1) false" << std::endl;
   subject.Attach(ObsId2,1);
   subject.Attach(ObsId2,2);
   subject.Attach(ObsId3,1);
