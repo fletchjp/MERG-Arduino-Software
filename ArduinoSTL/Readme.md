@@ -49,3 +49,11 @@ I want to explore combining Observer and Composite.
 ## ArduinoSTLObserver2
 
 I am exploring another simpler implementation of the Observer Pattern.
+
+The example source is not complete code and there are also alternative suggestions.
+
+This compiles without a working example.
+ 
+## ArduinoSTLObserver3
+
+Alternative suggestions.
