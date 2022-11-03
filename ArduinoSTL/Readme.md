@@ -73,6 +73,6 @@ Attempt to work with Boost. This has failed as I cannot sort out the clashes bet
 
 ## ArduinoSTLObserver5
 
-I am going instead to work around things for the ARM boards.
+I am going instead to work around things for the ARM boards. This is looking more promising.
 
 
