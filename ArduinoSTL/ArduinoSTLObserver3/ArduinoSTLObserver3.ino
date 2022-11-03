@@ -8,68 +8,68 @@
 #include <ArduinoSTL.h>
 
 #include <list>
+#include <vector>
 #include <queue>
 #include <map>
+#include <functional>
 
 // Example code was missing this.
 class Subject;
 // and this.
 class Event { };
 
+enum class NotifyAction { Done, Unregister };
+
 class Observer 
 {
 public:
     virtual ~Observer() {}
-    virtual void onNotify(Subject *entity, Event event) = 0;
+    // Change to use a reference
+    virtual NotifyAction onNotify(Subject& entity, Event const &event) = 0;
 private:
 
 };
 
 class Subject
 {
-private:
-    std::list<Observer*> _observers;
-    std::queue<std::list<Observer*>::iterator> _eraseQueue;
 public:
     Subject() {}
     virtual ~Subject() {}
     // Return true if observer is added.
-    bool addObserver(Observer* observer)
+    // Changed to a reference.
+    bool registerObserver(Observer& observer)
     {
-      if (std::find(_observers.begin(), _observers.end(), observer) ==  _observers.end())
+      if (std::find(std::begin(observers),std::end(observers), &observer),std::end(observers))
       {
-        _observers.push_back(observer);
+         return false;
+      } else {
+        observers.push_back(&observer);
         return true;
-      } else return false;
+      }
     }
-    void removeObserver(Observer* observer)
+    void unregisterObserver(Observer& observer)
     {
-      std::list<Observer*>::iterator it = std::find(_observers.begin(), _observers.end(), observer);
-      if (it != _observers.end())
+       observers.erase(std::remove(std::begin(observers),std::end(observers), &observer),std::end(observers))
+    }
+    void notifyObservers(Event const &event)
+    {
+      std::vector<Observer*> deadObservers;
+      for (Observer* observer : observers)
       {
-        *it = NULL;
-        _eraseQueue.push(it);
+          if (observer->onNotify(*this, event) == NotifyAction::UnRegister)
+          {
+            deadObservers.push_back(observer);
+          }
       }
-    }
-protected:
-    void notify(Subject *entity, Event event)
-    {
-      for (std::list<Observer*>::iterator it = _observers.begin(); it != _observers.end(); it++)
+      auto newEnd = std::end(observers);
+      for (Observer* dead : deadObservers) 
       {
-       if (*it != NULL)
-         (*it)->onNotify(entity,event);
+        newEnd = std::remove(std::begin(observers), newEnd, dead);
       }
-      while (!_eraseQueue.empty()) {
-        _observers.erase(_eraseQueue.front());
-        _eraseQueue.pop();
-      }
+      observers.erase(newEnd, std::end(observers));
     }
-    void notify(Subject *entity, Event event, Observer* observer)
-    {
-      if (observer != NULL)
-         observer->onNotify(entity,event);
-    }
-    
+private:
+    std::vector<Observer*> observers;
 };
 
 template <typename T>
@@ -99,7 +99,8 @@ protected:
           std::cout <<"Non matching entity" << std::endl;
         }
     }
-    std::map<const Event, void (T::*)(Subject *)> _actions;
+    //std::map<const Event, void (T::*)(Subject *)> _actions;
+    std::map<const Event, std::function<void(Subject&)>> _actions;
 };
 
 // His example is incomplete and not relevant.
