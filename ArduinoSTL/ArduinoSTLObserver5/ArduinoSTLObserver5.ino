@@ -111,7 +111,7 @@ protected:
 
 void setup() {
   Serial.begin(115200); 
-  printf("Hello Observer2 World\n");
+  printf("Hello Observer5 World\n");
   printf("no working example yet\n");
 }
 
