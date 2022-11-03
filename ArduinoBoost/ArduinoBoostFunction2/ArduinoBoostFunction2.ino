@@ -1,5 +1,8 @@
 // ArduinoBoostFunction
 // This example now works as long as the AVR Boards are 1.8.2 not 1.8.3
+// Now this will not even work with AVR Boards 1.8.2!
+// Although I have installed 1.8.2 it is still getting package data from 1.8.6 
+// The problem seems to be associated with a multiple definition of nothrow_t.
 // The current version of the AVR boards is 1.8.5 so I think I will abandon these codes.
 #include <ArduinoSTL.h>
 // This is an old version of boost from 2012.
