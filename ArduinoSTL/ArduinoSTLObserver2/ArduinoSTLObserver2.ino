@@ -110,6 +110,11 @@ protected:
 //
 // see the example code.
 
+// It also uses CRTP to define the class.
+
+class MyClass : public EventHandler<MyClass> {
+  
+};
 
 void setup() {
   Serial.begin(115200); 
