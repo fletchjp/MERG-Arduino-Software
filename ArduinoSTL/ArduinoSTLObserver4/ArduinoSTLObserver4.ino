@@ -1,4 +1,4 @@
-// Arduino STL Observer3
+// Arduino STL Observer4
 // Example from coderevi3w.stackexchange.com
 // Also see further down in the comments.
 // I am going to make Observer2 the original version
@@ -6,9 +6,51 @@
 // There are some things which are not going to work here:
 // std::function and typeinfo.  Also unordered map is not available.
 // The problems are in EventHandler.
-
+// Explore use of Boost function from Boost 1.51.0
 
 #include <ArduinoSTL.h>
+// This is an old version of boost from 2012.
+#include <boost_1_51_0.h>
+// Example use of a Boost header
+//////////////////////////////////////////////////////////////////////
+// boost::function
+// I set out to work with an example of boost function.
+// It has taken some time to get the header to compile.
+// The problem is that boost::function throws exceptions
+// which are not supported by the Arduino C++.
+// The solution is to put some code here which will
+// satsify the compiler.
+//////////////////////////////////////////////////////////////////////
+#define BOOST_DISABLE_ASSERTS
+#define BOOST_NO_EXCEPTIONS
+#define BOOST_EXCEPTION_DISABLE
+#undef B1
+//#undef F  // This is needed for the DUE.
+//#include <iostream>
+#include <exception>
+#include <stdexcept>
+
+namespace std {
+
+   class runtime_error {
+   public:
+   runtime_error( std::exception & e ) { }
+   runtime_error( std::string const & s ) { }
+  };
+}
+
+namespace boost {
+
+  void throw_exception( std::exception & e ) { }
+  void throw_exception(const std::exception & e ) { }
+  void throw_exception( std::runtime_error& e) { }
+  void throw_exception(const std::runtime_error& e) { }
+
+}
+
+#include <boost/utility/result_of.hpp>
+#include <boost/function.hpp>
+#include <string>
 
 #include <list>
 #include <vector>
