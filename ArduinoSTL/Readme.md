@@ -46,3 +46,6 @@ Implementation of the Observer Pattern from previous code.
 
 I want to explore combining Observer and Composite.
 
+## ArduinoSTLObserver2
+
+I am exploring another simpler implementation of the Observer Pattern.
