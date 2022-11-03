@@ -57,3 +57,13 @@ This compiles without a working example.
 ## ArduinoSTLObserver3
 
 Alternative suggestions.
+
+It is not possible to implement some features of this proposal on the ArduinoSTL system.
+
+There are several ways to approach this.
+
+1. Attempt to work around within this proposal.
+2. Merge the two ways together avoiding the features which are not supported.
+3. Move this idea to another system e.g. Raspberry Pi PICO.
+
+
