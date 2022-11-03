@@ -1,5 +1,6 @@
 // Arduino STL Observer2
 // Example from codereview.stackexchange.com
+// Also see further down in the comments.
 
 
 #include <ArduinoSTL.h>
