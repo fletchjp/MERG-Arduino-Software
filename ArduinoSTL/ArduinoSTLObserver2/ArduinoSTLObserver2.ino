@@ -9,6 +9,7 @@
 
 #include <list>
 #include <queue>
+#include <map>
 
 // Example code was missing this.
 class Subject;
@@ -59,7 +60,7 @@ protected:
          (*it)->onNotify(entity,event);
       }
       while (!_eraseQueue.empty()) {
-        _observers.erase(_eraseQueue.front(());
+        _observers.erase(_eraseQueue.front());
         _eraseQueue.pop();
       }
     }
@@ -69,6 +70,36 @@ protected:
          observer->onNotify(entity,event);
     }
     
+};
+
+template <typename T>
+class EventHandler : public Observer
+{
+public:
+    virtual ~EventHandler() {}
+    virtual void onNotify(Subject *entity, Event event)
+    {
+      if (dynamic_cast<T*>(this))
+      {
+         auto it = _actions.find(event);
+         if (it != _actions.end())
+         {
+             (dynamic_cast<T*>(this)->*(it->second))(entity);
+         }
+      }
+    }
+protected:
+    template <typename U>
+    U safe_cast(Subject* entity)
+    {
+        if (dynamic_cast<U>(entity))
+        {
+            return (dynamic_cast<U>(entity));
+        } else {
+          std::cout <<"Non matching entity" << std::endl;
+        }
+    }
+    std::map<const Event, void (T::*)(Subject *)> _actions;
 };
 
 void setup() {
