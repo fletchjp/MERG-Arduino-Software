@@ -83,17 +83,19 @@ public:
 
     NotifyAction onNotify(Subject& subject, Event const &event)
     {
-      if (dynamic_cast<T*>(this))
-      {
+      //if (dynamic_cast<T*>(this))
+      //{
          auto it = handlers.find(event);
          if (it != handlers.end())
          {
-             (dynamic_cast<T*>(this)->*(it->second))(&subject);
+             //(dynamic_cast<T*>
+             (it->second)(&subject);
          }
-      }
+      //}
       return NotifyAction::Done;
     }
 protected:
+   /*
     template <typename U>
     U safe_cast(Subject &subject)
     {
@@ -104,10 +106,29 @@ protected:
           std::cout <<"Non matching subject" << std::endl;
         }
     }
+    */
     std::map<const Event, void (T::*)(Subject *)> handlers;
 };
 
 
+Event TURN_ON;
+Event TURN_OFF;
+
+// Now the usage is from Observer2.
+// Avoiding the typeid by having each class be its own handler.  
+class MyClass : public EventHandler<MyClass>
+{
+public:
+   MyClass() {
+      handlers[TURN_ON] = &MyClass::turnON; 
+   }
+   virtual ~MyClass() { }
+private:
+   void turnON(Subject *subject)
+   {
+    
+   }
+};
 
 void setup() {
   Serial.begin(115200); 
