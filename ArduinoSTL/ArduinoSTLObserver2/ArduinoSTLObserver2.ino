@@ -1,6 +1,8 @@
 // Arduino STL Observer2
 // Example from codereview.stackexchange.com
 // Also see further down in the comments.
+// I am going to make this one the original version
+// There will be another (Observer3) for a modification.
 
 
 #include <ArduinoSTL.h>
@@ -8,8 +10,9 @@
 #include <list>
 #include <queue>
 
+// Example code was missing this.
 class Subject;
-
+// and this.
 class Event { };
 
 class Observer 
@@ -48,11 +51,24 @@ public:
       }
     }
 protected:
+    void notify(Subject *entity, Event event)
+    {
+      for (std::list<Observer*>::iterator it = _observers.begin(); it != _observers.end(); it++)
+      {
+       if (*it != NULL)
+         (*it)->onNotify(entity,event);
+      }
+      while (!_eraseQueue.empty()) {
+        _observers.erase(_eraseQueue.front(());
+        _eraseQueue.pop();
+      }
+    }
     void notify(Subject *entity, Event event, Observer* observer)
     {
       if (observer != NULL)
          observer->onNotify(entity,event);
     }
+    
 };
 
 void setup() {
