@@ -80,16 +80,15 @@ template <typename T>
 class EventHandler : public Observer
 {
 public:
-
-    NotifyAction onNotify(Subject& subject, Event const &event)
+    typedef int N;
+    NotifyAction onNotify(Subject& subject, N const &event_no)
     {
       //if (dynamic_cast<T*>(this))
       //{
-         auto it = handlers.find(event);
+         auto it = handlers.find(event_no);
          if (it != handlers.end())
          {
-             //(dynamic_cast<T*>
-             (it->second)(&subject);
+            (it->second)(&subject);
          }
       //}
       return NotifyAction::Done;
@@ -107,12 +106,12 @@ protected:
         }
     }
     */
-    std::map<const Event, void (T::*)(Subject *)> handlers;
+    std::map<N, void (T::*)(Subject *)> handlers;
 };
 
 
-Event TURN_ON;
-Event TURN_OFF;
+#define TURN_ON  0
+#define TURN_OFF 1
 
 // Now the usage is from Observer2.
 // Avoiding the typeid by having each class be its own handler.  
@@ -121,19 +120,37 @@ class MyClass : public EventHandler<MyClass>
 public:
    MyClass() {
       handlers[TURN_ON] = &MyClass::turnON; 
+      handlers[TURN_OFF] = &MyClass::turnOFF; 
    }
-   virtual ~MyClass() { }
+   //virtual ~MyClass() { }
+/*
+   NotifyAction onNotify(Subject& subject, int const &event_no)
+   {
+         return NotifyAction::Done;
+   }
+   */
 private:
    void turnON(Subject *subject)
    {
-    
+      std::cout << "Turn on" << std::endl;
+   }
+   void turnOFF(Subject *subject)
+   {
+      std::cout << "Turn off" << std::endl;
    }
 };
 
 void setup() {
   Serial.begin(115200); 
   printf("Hello Observer5 World\n");
-  printf("no working example yet\n");
+  //printf("no working example yet\n");
+
+  Subject aSubject;
+
+  //MyClass myClass;
+
+  EventHandler<MyClass> event_handler;
+  
 }
 
 void loop() {
