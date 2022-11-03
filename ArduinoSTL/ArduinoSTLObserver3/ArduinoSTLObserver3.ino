@@ -13,8 +13,9 @@
 #include <vector>
 #include <queue>
 #include <map>
-#include <functional>
-#include <typeinfo> // not typeindex
+// These are not useful.
+//#include <functional>
+//#include <typeinfo> // not typeindex
 
 // Example code was missing this.
 class Subject;
