@@ -45,8 +45,9 @@ public:
     // Changed to a reference.
     bool registerObserver(Observer& observer)
     {
-      if (std::find(std::begin(observers),std::end(observers), &observer),std::end(observers))
+      if (std::find(std::begin(observers),std::end(observers), &observer),std::end(observers) != std::end(observers))
       {
+         std::cout << " already registered";
          return false;
       } else {
         observers.push_back(&observer);
@@ -59,21 +60,24 @@ public:
     }
     void notifyObservers(EventNo const &event_no)
     {
+      std::cout << "notifyObservers called with " << event_no << std::endl;
       std::vector<Observer*> deadObservers;
       for (Observer* observer : observers)
       {
-          if (observer->onNotify(*this, event_no) == NotifyAction::UnRegister)
+        observer->onNotify(*this, event_no);
+        /*  if (observer->onNotify(*this, event_no) == NotifyAction::UnRegister)
           {
             deadObservers.push_back(observer);
-          }
-      }
+          }*/
+      }/*
       auto newEnd = std::end(observers);
       for (Observer* dead : deadObservers) 
       {
         newEnd = std::remove(std::begin(observers), newEnd, dead);
       }
-      observers.erase(newEnd, std::end(observers));
-    }
+      observers.erase(newEnd, std::end(observers)); */
+    } 
+    size_t numberOfObservers() const { return observers.size(); }
 private:
     std::vector<Observer*> observers;
 };
@@ -86,12 +90,13 @@ public:
     //typedef int N;
     NotifyAction onNotify(Subject& subject, EventNo const &event_no)
     {
+      std::cout << "onNotify called with " << event_no << std::endl;
       //if (dynamic_cast<T*>(this))
       //{
          auto it = handlers.find(event_no);
          if (it != handlers.end())
          {
-            //(it->second)(&subject);
+            it->second(&subject);
          }
       //}
       return NotifyAction::Done;
@@ -153,8 +158,11 @@ void setup() {
   MyClass myClass;
 
   //EventHandler<MyClass> event_handler;
-
-  aSubject.registerObserver(myClass);
+  std::cout << "aSubject has " << aSubject.numberOfObservers() << " observers" << std::endl;
+  std::cout << "Call to registerObserver";
+  if (aSubject.registerObserver(myClass)) std::cout << " succeeded" << std::endl;
+  else std::cout << " failed" << std::endl;
+  std::cout << "aSubject has " << aSubject.numberOfObservers() << " observers" << std::endl;
 
   aSubject.notifyObservers(TURN_ON);
   
