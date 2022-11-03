@@ -4,7 +4,7 @@
 // Although I have installed 1.8.2 it is still getting package data from 1.8.6 
 // The problem seems to be associated with a multiple definition of nothrow_t.
 // The current version of the AVR boards is 1.8.5 so I think I will abandon these codes.
-#include <ArduinoSTL.h>
+//#include <ArduinoSTL.h>
 // This is an old version of boost from 2012.
 #include <boost_1_51_0.h>
 // Example use of a Boost header
@@ -16,7 +16,7 @@
 // The problem is that boost::function throws exceptions
 // which are not supported by the Arduino C++.
 // The solution is to put some code here which will
-// satsify the compiler.
+// satisfy the compiler.
 //////////////////////////////////////////////////////////////////////
 #define BOOST_DISABLE_ASSERTS
 #define BOOST_NO_EXCEPTIONS
