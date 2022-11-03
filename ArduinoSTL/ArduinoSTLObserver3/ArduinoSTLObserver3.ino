@@ -3,6 +3,8 @@
 // Also see further down in the comments.
 // I am going to make Observer2 the original version
 // This is the modification.
+// There are some things which are not going to work here:
+// std::function and typeinfo.  Also unordered map is not available.
 
 
 #include <ArduinoSTL.h>
@@ -12,13 +14,14 @@
 #include <queue>
 #include <map>
 #include <functional>
+#include <typeinfo> // not typeindex
 
 // Example code was missing this.
 class Subject;
 // and this.
 class Event { };
 
-enum class NotifyAction { Done, Unregister };
+enum class NotifyAction { Done, UnRegister };
 
 class Observer 
 {
@@ -49,7 +52,7 @@ public:
     }
     void unregisterObserver(Observer& observer)
     {
-       observers.erase(std::remove(std::begin(observers),std::end(observers), &observer),std::end(observers))
+       observers.erase(std::remove(std::begin(observers),std::end(observers), &observer),std::end(observers));
     }
     void notifyObservers(Event const &event)
     {
@@ -76,31 +79,17 @@ template <typename T>
 class EventHandler : public Observer
 {
 public:
-    virtual ~EventHandler() {}
-    virtual void onNotify(Subject *entity, Event event)
+    NotifyAction onNotify(Subject& subject, Event const &event)
     {
-      if (dynamic_cast<T*>(this))
-      {
-         auto it = _actions.find(event);
-         if (it != _actions.end())
-         {
-             (dynamic_cast<T*>(this)->*(it->second))(entity);
-         }
-      }
+       auto find = handlers.find(std::type_index(typeid(event)));
+       if (find != handlers.end()) {
+         find->second(subject, event);
+       }
+       return NotifyAction::Done;
     }
-protected:
-    template <typename U>
-    U safe_cast(Subject* entity)
-    {
-        if (dynamic_cast<U>(entity))
-        {
-            return (dynamic_cast<U>(entity));
-        } else {
-          std::cout <<"Non matching entity" << std::endl;
-        }
-    }
-    //std::map<const Event, void (T::*)(Subject *)> _actions;
-    std::map<const Event, std::function<void(Subject&)>> _actions;
+
+private:  
+  std::map<std::type_index,std::function<void(Subject&, Event const &)>> handlers;
 };
 
 // His example is incomplete and not relevant.
