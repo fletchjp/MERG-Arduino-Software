@@ -112,8 +112,21 @@ protected:
 
 // It also uses CRTP to define the class.
 
-class MyClass : public EventHandler<MyClass> {
-  
+Event TURN_ON;
+Event TURN_OFF;
+
+class MyClass : public EventHandler<MyClass>
+{
+public:
+   MyClass() {
+      _actions[TURN_ON] = &MyClass::turnON; 
+   }
+   virtual ~MyClass() { }
+private:
+   void turnON(Subject *subject)
+   {
+    
+   }
 };
 
 void setup() {
