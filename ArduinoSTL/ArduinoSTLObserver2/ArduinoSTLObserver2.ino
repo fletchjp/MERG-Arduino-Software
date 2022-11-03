@@ -102,9 +102,19 @@ protected:
     std::map<const Event, void (T::*)(Subject *)> _actions;
 };
 
+// His example is incomplete and not relevant.
+
+// What is useful is that he can use the map to store different actions by defining events.
+// 
+// _actions [EVENT_TYPE] = & member function to be called
+//
+// see the example code.
+
+
 void setup() {
   Serial.begin(115200); 
   printf("Hello Observer2 World\n");
+  printf("no working example yet\n");
 }
 
 void loop() {
