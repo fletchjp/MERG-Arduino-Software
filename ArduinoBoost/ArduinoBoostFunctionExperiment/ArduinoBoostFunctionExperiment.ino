@@ -1,4 +1,4 @@
-// ArduinoBoostIntegers
+// ArduinoBoostFunctionExperiment
 // This example now works as long as the AVR Boards are 1.8.2 not 1.8.3
 #include <ArduinoSTL.h>
 // This is an old version of boost from 2012.
