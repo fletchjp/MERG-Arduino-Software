@@ -15,9 +15,6 @@
 #include <vector>
 #include <queue>
 #include <map>
-// These are not useful.
-//#include <functional>
-//#include <typeinfo> // not typeindex
 
 // Example code was missing this.
 class Subject;
@@ -78,33 +75,38 @@ private:
     std::vector<Observer*> observers;
 };
 
+// Adapting the EventHandler from Observer2
 template <typename T>
 class EventHandler : public Observer
 {
 public:
-/*
+
     NotifyAction onNotify(Subject& subject, Event const &event)
     {
-       auto find = handlers.find(std::type_index(typeid(event)));
-       if (find != handlers.end()) {
-         find->second(subject, event);
-       }
-       return NotifyAction::Done;
+      if (dynamic_cast<T*>(this))
+      {
+         auto it = handlers.find(event);
+         if (it != handlers.end())
+         {
+             (dynamic_cast<T*>(this)->*(it->second))(&subject);
+         }
+      }
+      return NotifyAction::Done;
     }
-*/
-private:  
-/*
-  std::map<std::type_index,std::function<void(Subject&, Event const &)>> handlers;
-*/
+protected:
+    template <typename U>
+    U safe_cast(Subject &subject)
+    {
+        if (dynamic_cast<U>(&subject))
+        {
+            return (dynamic_cast<U>(&subject));
+        } else {
+          std::cout <<"Non matching subject" << std::endl;
+        }
+    }
+    std::map<const Event, void (T::*)(Subject *)> handlers;
 };
 
-// His example is incomplete and not relevant.
-
-// What is useful is that he can use the map to store different actions by defining events.
-// 
-// _actions [EVENT_TYPE] = & member function to be called
-//
-// see the example code.
 
 
 void setup() {
