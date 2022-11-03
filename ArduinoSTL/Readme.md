@@ -67,4 +67,12 @@ There are several ways to approach this.
 2. Merge the two ways together avoiding the features which are not supported.
 3. Move this idea to another system e.g. Raspberry Pi PICO.
 
+## ArduinoSTLObserver4
+
+Attempt to work with Boost. This has failed as I cannot sort out the clashes between libraries.
+
+## ArduinoSTLObserver5
+
+I am going instead to work around things for the ARM boards.
+
 
