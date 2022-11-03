@@ -5,6 +5,7 @@
 // This is the modification.
 // There are some things which are not going to work here:
 // std::function and typeinfo.  Also unordered map is not available.
+// The problems are in EventHandler.
 
 
 #include <ArduinoSTL.h>
@@ -80,6 +81,7 @@ template <typename T>
 class EventHandler : public Observer
 {
 public:
+/*
     NotifyAction onNotify(Subject& subject, Event const &event)
     {
        auto find = handlers.find(std::type_index(typeid(event)));
@@ -88,9 +90,11 @@ public:
        }
        return NotifyAction::Done;
     }
-
+*/
 private:  
+/*
   std::map<std::type_index,std::function<void(Subject&, Event const &)>> handlers;
+*/
 };
 
 // His example is incomplete and not relevant.
