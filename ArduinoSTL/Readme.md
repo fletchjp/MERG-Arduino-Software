@@ -63,6 +63,7 @@ It is not possible to implement some features of this proposal on the ArduinoSTL
 There are several ways to approach this.
 
 1. Attempt to work around within this proposal e.g use Boost function instead of std::function.
+   I have tried this. There are problems with both of the Boost versions I have.
 2. Merge the two ways together avoiding the features which are not supported.
 3. Move this idea to another system e.g. Raspberry Pi PICO.
 
