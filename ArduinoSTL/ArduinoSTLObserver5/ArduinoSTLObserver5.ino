@@ -23,12 +23,15 @@ class Event { };
 
 enum class NotifyAction { Done, UnRegister };
 
+typedef int EventNo;
+
 class Observer 
 {
 public:
     virtual ~Observer() {}
     // Change to use a reference
-    virtual NotifyAction onNotify(Subject& entity, Event const &event) = 0;
+    //typedef int N;
+    virtual NotifyAction onNotify(Subject& entity, EventNo const &event_no) = 0;
 private:
 
 };
@@ -54,12 +57,12 @@ public:
     {
        observers.erase(std::remove(std::begin(observers),std::end(observers), &observer),std::end(observers));
     }
-    void notifyObservers(Event const &event)
+    void notifyObservers(EventNo const &event_no)
     {
       std::vector<Observer*> deadObservers;
       for (Observer* observer : observers)
       {
-          if (observer->onNotify(*this, event) == NotifyAction::UnRegister)
+          if (observer->onNotify(*this, event_no) == NotifyAction::UnRegister)
           {
             deadObservers.push_back(observer);
           }
@@ -80,15 +83,15 @@ template <typename T>
 class EventHandler : public Observer
 {
 public:
-    typedef int N;
-    NotifyAction onNotify(Subject& subject, N const &event_no)
+    //typedef int N;
+    NotifyAction onNotify(Subject& subject, EventNo const &event_no)
     {
       //if (dynamic_cast<T*>(this))
       //{
          auto it = handlers.find(event_no);
          if (it != handlers.end())
          {
-            (it->second)(&subject);
+            //(it->second)(&subject);
          }
       //}
       return NotifyAction::Done;
@@ -106,7 +109,7 @@ protected:
         }
     }
     */
-    std::map<N, void (T::*)(Subject *)> handlers;
+    std::map<EventNo, void (T::*)(Subject *)> handlers;
 };
 
 
@@ -147,9 +150,16 @@ void setup() {
 
   Subject aSubject;
 
-  //MyClass myClass;
+  MyClass myClass;
 
-  EventHandler<MyClass> event_handler;
+  //EventHandler<MyClass> event_handler;
+
+  aSubject.registerObserver(myClass);
+
+  aSubject.notifyObservers(TURN_ON);
+  
+  aSubject.notifyObservers(TURN_OFF);
+  
   
 }
 
