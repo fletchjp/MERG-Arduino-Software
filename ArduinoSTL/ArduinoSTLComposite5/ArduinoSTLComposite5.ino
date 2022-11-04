@@ -20,7 +20,10 @@ vector<int> trial;
 
 
 void setup() {
-  Serial.begin(115200); 
+  delay(1000);
+  Serial.begin(115200);
+  while (!Serial) { }
+  delay(1000);
   printf("STL Composite Pattern Version 5 - refactoring.guru\n");
   for (int i = 0; i < 5; i++) trial.push_back(i);
   // range-based for loop
@@ -65,6 +68,7 @@ void setup() {
   cout << leaf4.GetName() << " has parent(s) " << leaf4.GetParentNames() << endl;
 
   cout << composite.GetName() << " has parent(s) " << composite.GetParentNames() << endl;
+  cout << "End of tests" << endl;
 
 }
 
