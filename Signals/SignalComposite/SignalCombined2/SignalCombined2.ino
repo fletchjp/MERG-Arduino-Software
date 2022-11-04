@@ -24,10 +24,29 @@ using namespace std;
 
 vector<int> trial;
 
+template <typename T>
+class Combined : public Component, public EventHandler<T>,  public Subject  {
+   //list<Combined*> observer_parents_;
+public:
+   void RegisterParents() {
+      if (hasParents() ) {
+        for (auto parent : parents_) {
+          // This has the wrong type unless I have a duplicate map
+          //registerObserver(parent);
+        }
+      }
+   }
+  
+};
+
+
 // These are Event numbers which need to be distinct in each class where they are used.
 // I could use different event nos for different senders to tell them apart.
 #define TURN_ON  0
 #define TURN_OFF 1
+
+#define SIGNAL_ON 2
+#define SIGNAL_OFF 3
 
 enum class Object_Type : int { Track_type, Section_type, Signal_type, LED_type, Detector_type };
 
@@ -57,7 +76,8 @@ private:
    }
 };
 
-class Signal : public Composite, public  EventHandler<Signal> {
+// Signal is now both a Subject and an Observer.
+class Signal : public Composite, public  EventHandler<Signal>, public Subject {
    const Object_Type type_ = Object_Type::Signal_type; 
 public:
    Signal(const string& n) : Composite(n) { 
@@ -69,11 +89,13 @@ private:
    void turnON(Subject *subject)
    {
       std::cout << GetName() << " signal Turn on" << std::endl;
+      notifyObservers(SIGNAL_ON);
    }
    void turnOFF(Subject *subject)
    {
       std::cout << GetName() << " signal Turn off" << std::endl;
-   }
+      notifyObservers(SIGNAL_OFF);
+  }
 };
 
 
@@ -215,10 +237,21 @@ void setup() {
   if (starter_detector.registerObserver(starter_signal)) 
       std::cout << " succeeded for " << starter_signal.GetName() << " signal" << std::endl;
   std::cout << "starter_detector has " << starter_detector.numberOfObservers() << " observers" << std::endl;
+  cout << "====================================================================" << endl;
+  std::cout << "home_signal has " << home_signal.numberOfObservers() << " observers" << std::endl;
+  std::cout << "Call to registerObserver for home_detector";
+  if (home_signal.registerObserver(section1)) {
+    std::cout << " succeeded for " << section1.GetName() << std::endl;
+  }
+  else std::cout << " failed" << std::endl;
+  std::cout << "home_signal has " << home_signal.numberOfObservers() << " observers" << std::endl;
+ cout << "====================================================================" << endl;
+
 
   home_detector.notifyObservers(TURN_ON);
   
   home_detector.notifyObservers(TURN_OFF);
+
 
   cout << "====================================================================" << endl;
   cout << "End of Signal Combined experiments" << endl;
