@@ -87,6 +87,7 @@ template <typename T>
 class EventHandler : public Observer
 {
 public:
+    typedef void (T::*MFP)(Subject *);
     //typedef int N;
     NotifyAction onNotify(Subject& subject, EventNo const &event_no)
     {
@@ -96,7 +97,8 @@ public:
          auto it = handlers.find(event_no);
          if (it != handlers.end())
          {
-            it->second(&subject);
+            MFP item = it->second;
+            ((static_cast<T*>(this))->*(item))(&subject);
          }
       //}
       return NotifyAction::Done;
@@ -114,7 +116,7 @@ protected:
         }
     }
     */
-    std::map<EventNo, void (T::*)(Subject *)> handlers;
+    std::map<EventNo, MFP> handlers;
 };
 
 
@@ -167,7 +169,8 @@ void setup() {
   aSubject.notifyObservers(TURN_ON);
   
   aSubject.notifyObservers(TURN_OFF);
-  
+
+  std::cout << "End of tests" << std::endl;
   
 }
 
