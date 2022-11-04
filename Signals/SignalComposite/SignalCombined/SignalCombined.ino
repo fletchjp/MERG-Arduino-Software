@@ -18,9 +18,15 @@
 
 #include "composite.h"
 
+#include "observer.h"
+
 using namespace std;
 
 vector<int> trial;
+
+// These are Event numbers which need to be distinct in each class where they are used.
+#define TURN_ON  0
+#define TURN_OFF 1
 
 enum class Object_Type : int { Track_type, Section_type, Signal_type, LED_type, Detector_type };
 
@@ -38,12 +44,14 @@ public:
    Object_Type Get_Type() const { return type_; }
 };
 
-class Signal : public Composite {
+class Signal : public Composite, public  EventHandler<Signal> {
    const Object_Type type_ = Object_Type::Signal_type; 
 public:
-   Signal(const string& n) : Composite(n) { }
+   Signal(const string& n) : Composite(n) { 
+      handlers[TURN_ON] = &MyClass::turnON; 
+      handlers[TURN_OFF] = &MyClass::turnOFF;     
+   }
    Object_Type Get_Type() const { return type_; }
-   
 };
 
 
@@ -54,7 +62,7 @@ public:
    Object_Type Get_Type() const { return type_; }
 };
 
-class Detector : public Leaf {
+class Detector : public Leaf,  public Subject {
    const Object_Type type_ = Object_Type::Detector_type; 
 public:
    Detector(const string& n) : Leaf(n) { }
@@ -62,8 +70,11 @@ public:
 };
 
 void setup() {
+  delay(2000);
   Serial.begin(115200); 
-  printf("Signal Composite\n");
+  while (!Serial) { }
+  delay(2000);
+  printf("Signal Combined Patterns\n");
   for (int i = 0; i < 5; i++) trial.push_back(i);
   // range-based for loop
   for (auto i : trial) cout << i << " ";
@@ -160,7 +171,14 @@ void setup() {
   cout << down_line.GetName() << " has " << down_line.Operation() << endl;
 
   cout << "====================================================================" << endl;
-  cout << "End of Signal Composite experiments" << endl;
+  cout << "Start of Signal Observer experiments" << endl;
+  cout << "====================================================================" << endl;
+
+  std::cout << "home_detector has " << home_detector.numberOfObservers() << " observers" << std::endl;
+
+
+  cout << "====================================================================" << endl;
+  cout << "End of Signal Combined experiments" << endl;
   cout << "====================================================================" << endl;
 
 
