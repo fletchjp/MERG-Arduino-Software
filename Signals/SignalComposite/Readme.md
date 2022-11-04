@@ -20,7 +20,7 @@ I have something running which shows the building of a structure.
 
 As yet there is no activity in it.
 
-## Signal Combined
+## SignalCombined
 
 Experiments with the Composite Design Pattern using code developed in ArduinoSTL
 
@@ -31,4 +31,10 @@ A first example exploring the possibilities.
 I now have this working with the detectors sending a message to signals and sections.
 
 This can be independent of the composite arrangement.
+
+## SignalCombined2
+
+This will experiment with integration of the registration into the Composite pattern.
+
+I have made some progress. I have not worked out how to register parents as observers without having to change the separate codes.
 
