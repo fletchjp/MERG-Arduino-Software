@@ -28,3 +28,7 @@ This now being combined with the Observer Design Pattern from ArduinoSTLObserver
 
 A first example exploring the possibilities.
 
+I now have this working with the detectors sending a message to signals and sections.
+
+This can be independent of the composite arrangement.
+
