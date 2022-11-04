@@ -198,10 +198,14 @@ void setup() {
 
   std::cout << "home_detector has " << home_detector.numberOfObservers() << " observers" << std::endl;
   std::cout << "Call to registerObserver for home_detector";
-  if (home_detector.registerObserver(home_signal)) std::cout << " succeeded" << std::endl;
+  if (home_detector.registerObserver(home_signal)) {
+    std::cout << " succeeded for " << home_signal.GetName() << " signal" << std::endl;
+  }
   else std::cout << " failed" << std::endl;
   std::cout << "Call to registerObserver for home_detector";
-  if (home_detector.registerObserver(section1)) std::cout << " succeeded" << std::endl;
+  if (home_detector.registerObserver(section1)) {
+    std::cout << " succeeded for " << section1.GetName() << std::endl;
+  }
   else std::cout << " failed" << std::endl;
   std::cout << "home_detector has " << home_detector.numberOfObservers() << " observers" << std::endl;
   std::cout << "Call to registerObserver for starter_detector";
