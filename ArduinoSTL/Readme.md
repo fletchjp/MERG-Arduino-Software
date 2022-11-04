@@ -75,4 +75,6 @@ Attempt to work with Boost. This has failed as I cannot sort out the clashes bet
 
 I am going instead to work around things for the ARM boards. This is looking more promising.
 
+I now have this working. For some reason it runs more than once from compilation.
+
 
