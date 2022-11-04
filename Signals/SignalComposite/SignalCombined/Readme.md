@@ -1,4 +1,4 @@
-# Signal Combined
+# SignalCombined
 
 Experiments with the Composite Design Pattern using code developed in ArduinoSTL
 
