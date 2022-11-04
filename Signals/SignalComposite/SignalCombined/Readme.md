@@ -12,5 +12,5 @@ This soon ran out of memory on a UNO so I am using a MEGA instead.
 
 I have something running which shows the building of a structure.
 
-As yet there is no activity in it.
+There are now working examples of messages being passed.
 
