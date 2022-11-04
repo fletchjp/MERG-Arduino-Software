@@ -20,3 +20,11 @@ I have something running which shows the building of a structure.
 
 As yet there is no activity in it.
 
+## Signal Combined
+
+Experiments with the Composite Design Pattern using code developed in ArduinoSTL
+
+This now being combined with the Observer Design Pattern from ArduinoSTLObserver6
+
+A first example exploring the possibilities.
+
