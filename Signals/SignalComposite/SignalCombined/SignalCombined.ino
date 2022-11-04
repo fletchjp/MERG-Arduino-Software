@@ -46,6 +46,15 @@ public:
       handlers[TURN_OFF] = &Section::turnOFF;     
    }
    Object_Type Get_Type() const { return type_; }
+private:
+   void turnON(Subject *subject)
+   {
+      std::cout << GetName() << " section Turn on" << std::endl;
+   }
+   void turnOFF(Subject *subject)
+   {
+      std::cout << GetName() << " section Turn off" << std::endl;
+   }
 };
 
 class Signal : public Composite, public  EventHandler<Signal> {
@@ -190,6 +199,9 @@ void setup() {
   std::cout << "home_detector has " << home_detector.numberOfObservers() << " observers" << std::endl;
   std::cout << "Call to registerObserver for home_detector";
   if (home_detector.registerObserver(home_signal)) std::cout << " succeeded" << std::endl;
+  else std::cout << " failed" << std::endl;
+  std::cout << "Call to registerObserver for home_detector";
+  if (home_detector.registerObserver(section1)) std::cout << " succeeded" << std::endl;
   else std::cout << " failed" << std::endl;
   std::cout << "home_detector has " << home_detector.numberOfObservers() << " observers" << std::endl;
   std::cout << "Call to registerObserver for starter_detector";
