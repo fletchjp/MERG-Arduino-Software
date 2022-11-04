@@ -8,7 +8,6 @@
 #include <ArduinoSTL.h>
 
 #include <vector>
-//#include <algorithm>
 #include <string>
 
 #include "composite.h"

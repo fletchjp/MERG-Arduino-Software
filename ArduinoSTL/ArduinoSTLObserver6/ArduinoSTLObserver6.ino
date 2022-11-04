@@ -11,13 +11,11 @@
 
 #include <ArduinoSTL.h>
 
-#include <list>
-#include <vector>
-#include <queue>
-#include <map>
+#include <string>
 
 #include "observer.h"
 
+// These are Event numbers which need to be distinct in each class where they are used.
 #define TURN_ON  0
 #define TURN_OFF 1
 
