@@ -77,4 +77,7 @@ I am going instead to work around things for the ARM boards. This is looking mor
 
 I now have this working. For some reason it runs more than once from compilation.
 
+## ArduinoSTLObserver6
+
+This version has the Observer code moved to a header file.
 
