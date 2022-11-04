@@ -14,3 +14,4 @@ I have something running which shows the building of a structure.
 
 There are now working examples of messages being passed.
 
+It would be good to integrate the registration into the Composite pattern.
