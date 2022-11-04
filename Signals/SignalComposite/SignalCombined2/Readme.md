@@ -15,3 +15,5 @@ I have something running which shows the building of a structure.
 There are now working examples of messages being passed.
 
 This will experiment with integration of the registration into the Composite pattern.
+
+I have made some progress. I have not worked out how to register parents as observers without having to change the separate codes.
