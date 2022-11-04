@@ -46,7 +46,7 @@ void setup() {
   Serial.begin(115200); 
   while (!Serial) { }
   delay(2000);
-  printf("Hello Observer5 World\n");
+  printf("Hello Observer6 World\n");
   //printf("no working example yet\n");
 
   Subject aSubject;
