@@ -25,6 +25,7 @@ using namespace std;
 vector<int> trial;
 
 // These are Event numbers which need to be distinct in each class where they are used.
+// I could use different event nos for different senders to tell them apart.
 #define TURN_ON  0
 #define TURN_OFF 1
 
@@ -37,10 +38,13 @@ public:
    Object_Type Get_Type() const { return type_; }
 };
 
-class Section : public Composite {
+class Section : public Composite, public  EventHandler<Section> {
   const Object_Type type_ = Object_Type::Section_type; 
 public:
-   Section(const string& n) : Composite(n) { }
+   Section(const string& n) : Composite(n) { 
+      handlers[TURN_ON] = &Section::turnON; 
+      handlers[TURN_OFF] = &Section::turnOFF;     
+   }
    Object_Type Get_Type() const { return type_; }
 };
 
@@ -48,10 +52,19 @@ class Signal : public Composite, public  EventHandler<Signal> {
    const Object_Type type_ = Object_Type::Signal_type; 
 public:
    Signal(const string& n) : Composite(n) { 
-      handlers[TURN_ON] = &MyClass::turnON; 
-      handlers[TURN_OFF] = &MyClass::turnOFF;     
+      handlers[TURN_ON] = &Signal::turnON; 
+      handlers[TURN_OFF] = &Signal::turnOFF;     
    }
    Object_Type Get_Type() const { return type_; }
+private:
+   void turnON(Subject *subject)
+   {
+      std::cout << GetName() << " signal Turn on" << std::endl;
+   }
+   void turnOFF(Subject *subject)
+   {
+      std::cout << GetName() << " signal Turn off" << std::endl;
+   }
 };
 
 
@@ -175,7 +188,21 @@ void setup() {
   cout << "====================================================================" << endl;
 
   std::cout << "home_detector has " << home_detector.numberOfObservers() << " observers" << std::endl;
+  std::cout << "Call to registerObserver for home_detector";
+  if (home_detector.registerObserver(home_signal)) std::cout << " succeeded" << std::endl;
+  else std::cout << " failed" << std::endl;
+  std::cout << "home_detector has " << home_detector.numberOfObservers() << " observers" << std::endl;
+  std::cout << "Call to registerObserver for starter_detector";
+  if (starter_detector.registerObserver(home_signal)) 
+      std::cout << " succeeded for " << home_signal.GetName() << " signal" << std::endl;
+  std::cout << "Call to registerObserver for starter_detector";
+  if (starter_detector.registerObserver(starter_signal)) 
+      std::cout << " succeeded for " << starter_signal.GetName() << " signal" << std::endl;
+  std::cout << "starter_detector has " << starter_detector.numberOfObservers() << " observers" << std::endl;
 
+  home_detector.notifyObservers(TURN_ON);
+  
+  home_detector.notifyObservers(TURN_OFF);
 
   cout << "====================================================================" << endl;
   cout << "End of Signal Combined experiments" << endl;
