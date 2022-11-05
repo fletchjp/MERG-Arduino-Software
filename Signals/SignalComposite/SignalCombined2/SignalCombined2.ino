@@ -16,29 +16,11 @@
 //#include <algorithm>
 #include <string>
 
-#include "composite.h"
+#include "combined.h"
 
-#include "observer.h"
+//#include "observer.h"
 
 using namespace std;
-
-vector<int> trial;
-
-template <typename T>
-class Combined : public Component, public EventHandler<T>,  public Subject  {
-   //list<Combined*> observer_parents_;
-public:
-   void RegisterParents() {
-      if (hasParents() ) {
-        for (auto parent : parents_) {
-          // This has the wrong type unless I have a duplicate map
-          //registerObserver(parent);
-        }
-      }
-   }
-  
-};
-
 
 // These are Event numbers which need to be distinct in each class where they are used.
 // I could use different event nos for different senders to tell them apart.
@@ -57,7 +39,7 @@ public:
    Object_Type Get_Type() const { return type_; }
 };
 
-class Section : public Composite, public  EventHandler<Section> {
+class Section : public Composite, public EventHandler<Section> {
   const Object_Type type_ = Object_Type::Section_type; 
 public:
    Section(const string& n) : Composite(n) { 
@@ -77,7 +59,7 @@ private:
 };
 
 // Signal is now both a Subject and an Observer.
-class Signal : public Composite, public  EventHandler<Signal>, public Subject {
+class Signal : public Composite, public EventHandler<Signal> {
    const Object_Type type_ = Object_Type::Signal_type; 
 public:
    Signal(const string& n) : Composite(n) { 
@@ -106,7 +88,7 @@ public:
    Object_Type Get_Type() const { return type_; }
 };
 
-class Detector : public Leaf,  public Subject {
+class Detector : public Leaf {
    const Object_Type type_ = Object_Type::Detector_type; 
 public:
    Detector(const string& n) : Leaf(n) { }
@@ -119,50 +101,8 @@ void setup() {
   while (!Serial) { }
   delay(2000);
   printf("Signal Combined Patterns\n");
-  for (int i = 0; i < 5; i++) trial.push_back(i);
-  // range-based for loop
-  for (auto i : trial) cout << i << " ";
-  cout << endl;
-  cout << "Test of Signal Composite Pattern" << endl;
-
-  Composite composite("composite");
-  Composite composite1("composite1");
-  composite.print_();
-  Leaf leaf1("leaf1");
-  Leaf leaf2("leaf2");
-  Leaf leaf3("leaf3");
-  Leaf leaf4("leaf4");
-  leaf1.print_();
-  cout << endl;
-  composite1.Add(&leaf1);
-  composite1.Add(&leaf2);
-  composite.Add(&composite1);
-  composite.Add(&leaf3);
-  composite1.Add(&leaf3);
-
-  composite1.print_();
-  cout << endl;
-
-  composite.print_();
-  cout << endl;
-
-  cout << composite.Operation() << endl;
-
-  cout << leaf3.GetName() << " has parent(s) " << leaf3.GetParentNames() << endl;
-
-  composite.Remove(&composite1);
-  
-  composite.print_();
-  cout << endl;
-  
-  composite1.Remove(&leaf3);
-  cout << leaf3.GetName() << " has parent(s) " << leaf3.GetParentNames() << endl;
-
-  cout << leaf4.GetName() << " has parent(s) " << leaf4.GetParentNames() << endl;
-
-  cout << composite.GetName() << " has parent(s) " << composite.GetParentNames() << endl;
-
   cout << "====================================================================" << endl;
+  cout << "Test of Signal Combined Pattern" << endl;
   cout << "Signal Composite experiments" << endl;
   cout << "====================================================================" << endl;
 
