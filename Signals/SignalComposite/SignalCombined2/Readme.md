@@ -27,3 +27,6 @@ That problem is not solved at the moment - observers have to be declared.
 The previous examples run on this code.
 
 If I want to get around the problem I am going to have to change the way I am doing the Eventhandler.
+
+The reason for the problem is that when the EventHandler class is implemented it has to have a template type and that means that the objects are of different type and cannot be put in a list together.
+ 
