@@ -25,3 +25,5 @@ I cannot make all parents into observers as that needs a CRTP template and I can
 That problem is not solved at the moment - observers have to be declared.
 
 The previous examples run on this code.
+
+If I want to get around the problem I am going to have to change the way I am doing the Eventhandler.
