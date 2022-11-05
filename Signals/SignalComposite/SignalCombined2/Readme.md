@@ -17,3 +17,11 @@ There are now working examples of messages being passed.
 This will experiment with integration of the registration into the Composite pattern.
 
 I have made some progress. I have not worked out how to register parents as observers without having to change the separate codes.
+
+I have managed to make all items subjects.
+
+I cannot make all parents into observers as that needs a CRTP template and I cannot store heterogeneous parents in a list.
+
+That problem is not solved at the moment - observers have to be declared.
+
+The previous examples run on this code.
