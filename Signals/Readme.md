@@ -40,6 +40,6 @@ These examples work with two signals.
 
 Examples to experiment with 3 colour LEDs.
 
-## SignalsComposite
+## SignalComposite
 
 These use the Composite and Observer patterns to combine items.
