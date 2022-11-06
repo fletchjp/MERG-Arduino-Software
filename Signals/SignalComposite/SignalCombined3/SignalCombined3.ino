@@ -103,8 +103,8 @@ void setup() {
   delay(2000);
   printf("Signal Combined Patterns\n");
   cout << "====================================================================" << endl;
-  cout << "Test of Signal Combined Pattern" << endl;
-  cout << "Signal Composite experiments" << endl;
+  cout << "Test of Signal Combined Pattern 3" << endl;
+  cout << "Signal Composite experiments with DesignPatterns library" << endl;
   cout << "====================================================================" << endl;
 
   Track down_line("down_line");
