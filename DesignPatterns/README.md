@@ -19,17 +19,25 @@ The Composite Pattern provide a way of combining objects in Arduino code.
 
 The Observer Pattern can then be use to provide for Observer objects to receive messages when a Subject object changes.
 
+The two patterns are also available combined so that all the objects of Composite are also Subjects for the Observer pattern.
+
 ## composite.h
 
 Implements the Composite Pattern
+
+This can be used on its own or with observer as well.
 
 ## observer.h 
 
 Implements the Observer Pattern.
 
+This can be used on its own or with composite as well.
+
 ## combined.h 
 
-Implements a pattern combining the Composite pattern with the Subjects of the Observer Pattern. It uses observer.h 
+Implements a pattern combining the Composite pattern with the Subjects of the Observer Pattern. It uses observer.h
+
+This header file should be used on its own instead of the other two.
 
 ## Usagee
 
