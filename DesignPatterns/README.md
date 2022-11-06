@@ -39,6 +39,6 @@ Implements a pattern combining the Composite pattern with the Subjects of the Ob
 
 This header file should be used on its own instead of the other two.
 
-## Usagee
+## Usage
 
-See the examples.
+See the examples (not there yet).
