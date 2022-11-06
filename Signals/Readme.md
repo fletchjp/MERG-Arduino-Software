@@ -39,3 +39,7 @@ These examples work with two signals.
 ## 3ColourLED
 
 Examples to experiment with 3 colour LEDs.
+
+## SignalsComposite
+
+These use the Composite and Observer patterns to combine items.
