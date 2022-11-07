@@ -8,7 +8,7 @@ Each program has been started to cover a topic, although they have expanded as t
 
 ## i2c_adddress_detect
 
-Detect I2C devices.
+Detect I2C devices 0n 0x10. Adafruit
 
 ## i2c_scanner
 
