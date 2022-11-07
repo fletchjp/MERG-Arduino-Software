@@ -70,6 +70,8 @@ void loop() {
     error = WIRE.endTransmission();
 
     if (error == 0) {
+      Serial.print(EEPROM_I2C_ADDRESS,HEX);
+      Serial.println(" device found");
       for (i = 0; i < N_CHARS; i++)
       {
         writeAT24(i, 33+i);
@@ -79,7 +81,8 @@ void loop() {
       Serial.println("----------------");
       for (i = 0; i < N_CHARS; i++)
       {
-        Serial.println((char)readAT24(i));
+        //Serial.println((char)readAT24(i));
+        Serial.println(readAT24(i),HEX);
       }
       
     } else {
