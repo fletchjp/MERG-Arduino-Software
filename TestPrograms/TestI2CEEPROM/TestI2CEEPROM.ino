@@ -13,7 +13,7 @@
 #define EEPROM_I2C_ADDRESS_0 0x50
 #define EEPROM_I2C_ADDRESS_1 0x51
 
-int EEPROM_I2C_ADDRESS = NULL
+int EEPROM_I2C_ADDRESS = NULL;
 
 void writeAT24(byte dataAddress, byte dataVal)
 {
