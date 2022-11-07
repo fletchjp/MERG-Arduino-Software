@@ -6,7 +6,7 @@
 // Modified from https://playground.arduino.cc/Main/I2cScanner/
 // --------------------------------------
 
-#include <Wire.h>
+//#include <Wire.h>
 #include <AT24C256.h>
 
 #define EEPROM_I2C_ADDRESS 0x50
