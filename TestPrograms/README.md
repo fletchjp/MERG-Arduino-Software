@@ -6,6 +6,10 @@ A lot of this is in response to the realisation that the Arduino IDE default set
 
 Each program has been started to cover a topic, although they have expanded as time has gone on.
 
+## i2c_adddress_detect
+
+Detect I2C devices.
+
 ## i2c_scanner
 
 Scans for I2C devices connected using the usual Wire library
