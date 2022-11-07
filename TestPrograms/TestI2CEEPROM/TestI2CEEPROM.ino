@@ -14,7 +14,7 @@
 #define EEPROM_I2C_ADDRESS_1 0x51
 #define N_CHARS 5
 
-int i = 0;
+byte i = 0;
 
 byte EEPROM_I2C_ADDRESS = NULL;
 
@@ -37,7 +37,7 @@ byte readAT24(byte dataAddress)
   Wire.write(dataAddress);
   Wire.endTransmission();
 
-  delay(5);
+  delay(100);
   Wire.requestFrom(EEPROM_I2C_ADDRESS,1);
   if (Wire.available())
   {
@@ -61,10 +61,11 @@ void setup() {
 
 
 void loop() {
-  byte error, address;
+  byte error, address, rcvData;
   int nDevices;
 
-  Serial.println("Sending...");
+    Serial.println("Sending...");
+    Serial.println("----------------");
 
     WIRE.beginTransmission(EEPROM_I2C_ADDRESS);
     error = WIRE.endTransmission();
@@ -75,15 +76,22 @@ void loop() {
       for (i = 0; i < N_CHARS; i++)
       {
         writeAT24(i, 33+i);
-      }
+        delay(10);
+      }  
       delay(1000);
       Serial.println("Data from EEPROM");
       Serial.println("----------------");
       for (i = 0; i < N_CHARS; i++)
       {
         //Serial.println((char)readAT24(i));
-        Serial.println(readAT24(i),HEX);
+        rcvData = readAT24(i);
+        if (rcvData == NULL) {
+          Serial.println("no data received");
+        } else {
+          Serial.println(rcvData,HEX);
+        }
       }
+      Serial.println("----------------");
       
     } else {
       Serial.print(EEPROM_I2C_ADDRESS);
