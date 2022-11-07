@@ -1,12 +1,14 @@
 // --------------------------------------
-// TestI2CEEPROM test of AT24C256 on GR046 board 
+// Test_I2C_EEPROM test of AT24C256 on GR046 board 
 // adapted from
 // i2c_scanner
 //
 // Modified from https://playground.arduino.cc/Main/I2cScanner/
 // --------------------------------------
+// Now using "I2C_eeprom" library
 
 #include <Wire.h>
+#include "I2C_eeprom.h"
 
 // Set I2C bus to use: Wire, Wire1, etc.
 #define WIRE Wire
