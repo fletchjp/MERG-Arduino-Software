@@ -13,6 +13,7 @@
 #define EEPROM_I2C_ADDRESS_0 0x50
 #define EEPROM_I2C_ADDRESS_1 0x51
 #define N_CHARS 5
+#define BIAS 5
 
 byte i = 0;
 
@@ -57,6 +58,8 @@ void setup() {
   Serial.println("\nI2C EEPROM Test");
   pinMode(13,OUTPUT);
   EEPROM_I2C_ADDRESS = EEPROM_I2C_ADDRESS_0;
+  Serial.print(BIAS);
+  Serial.println(" bias");
 }
 
 
@@ -75,7 +78,7 @@ void loop() {
       Serial.println(" device found");
       for (i = 0; i < N_CHARS; i++)
       {
-        writeAT24(i, 33+i);
+        writeAT24(i+BIAS, 33+i);
         delay(10);
       }  
       delay(1000);
@@ -84,7 +87,7 @@ void loop() {
       for (i = 0; i < N_CHARS; i++)
       {
         //Serial.println((char)readAT24(i));
-        rcvData = readAT24(i);
+        rcvData = readAT24(i+BIAS);
         if (rcvData == NULL) {
           Serial.println("no data received");
         } else {
