@@ -22,7 +22,7 @@ void setup() {
   while (!Serial)
      delay(10);
   Serial.println("\nI2C AT24C256 EEPROM Test");
-  pinMode(13,OUTPUT);
+  //pinMode(13,OUTPUT);
 }
 
   char message[30];
