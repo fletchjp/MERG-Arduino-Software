@@ -16,6 +16,7 @@ void setup() {
   while (!Serial)
      delay(10);
   Serial.println("\nI2C Scanner");
+  Wire.setClock(50000);
 }
 
 
