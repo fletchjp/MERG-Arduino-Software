@@ -11,7 +11,7 @@
 
 #define EEPROM_I2C_ADDRESS 0x50
 
-AT24C256 eeprom(EEPROM_I2C_ADDRESS, &Wire1);
+//AT24C256 eeprom(EEPROM_I2C_ADDRESS, &Wire1);
 
 
 byte i = 0;
@@ -29,20 +29,28 @@ void setup() {
   char writemessage[] = "1234567890";
 
 void loop() {
-
+    byte error = 0;
     Serial.println("Sending...");
     Serial.println("----------------");
+   //Wire1.beginTransmission(EEPROM_I2C_ADDRESS);
+    //error = Wire1.endTransmission();
+
+    if (error == 0) {
 
 
       Serial.print(EEPROM_I2C_ADDRESS,HEX);
       Serial.println(" device found");
-      eeprom.write(0,(uint8_t*) writemessage, sizeof(writemessage));
+      //eeprom.write(0,(uint8_t*) writemessage, sizeof(writemessage));
       delay(1000);
       Serial.println("Data from EEPROM");
       Serial.println("----------------");
-      eeprom.read(0, (uint8_t*) message, sizeof(message));
+      //eeprom.read(0, (uint8_t*) message, sizeof(message));
       Serial.println(message);
       Serial.println("----------------");
-      
+    } else {
+      Serial.print(EEPROM_I2C_ADDRESS);
+      Serial.println(" device not found");
+    }
     delay(10000);           // wait 5 seconds for next scan
+
 }
