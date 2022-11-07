@@ -23,12 +23,12 @@ byte EEPROM_I2C_ADDRESS = NULL;
 
 void writeAT24(uint16_t dataAddress, byte dataVal)
 {
-  Wire.beginTransmission(EEPROM_I2C_ADDRESS);
+  WIRE.beginTransmission(EEPROM_I2C_ADDRESS);
   
-  Wire.write((byte)(dataAddress & 0xFF00) >> 8);
-  Wire.write((byte)(dataAddress & 0x00FF));
-  Wire.write(dataVal);
-  Wire.endTransmission();
+  WIRE.write((byte)(dataAddress & 0xFF00) >> 8);
+  WIRE.write((byte)(dataAddress & 0x00FF));
+  WIRE.write(dataVal);
+  WIRE.endTransmission();
 
   delay(5);
 }
@@ -37,16 +37,16 @@ byte readAT24(byte dataAddress)
 {
   byte rcvData = NULL;
    
-  Wire.beginTransmission(EEPROM_I2C_ADDRESS);
-  Wire.write((byte)(dataAddress & 0xFF00) >> 8);
-  Wire.write((byte)(dataAddress & 0x00FF));
-  Wire.endTransmission();
+  WIRE.beginTransmission(EEPROM_I2C_ADDRESS);
+  WIRE.write((byte)(dataAddress & 0xFF00) >> 8);
+  WIRE.write((byte)(dataAddress & 0x00FF));
+  WIRE.endTransmission();
 
   delay(100);
-  Wire.requestFrom(EEPROM_I2C_ADDRESS,1);
-  if (Wire.available())
+  WIRE.requestFrom(EEPROM_I2C_ADDRESS,1);
+  if (WIRE.available())
   {
-    rcvData = Wire.read();
+    rcvData = WIRE.read();
   }
   return rcvData;
 }
