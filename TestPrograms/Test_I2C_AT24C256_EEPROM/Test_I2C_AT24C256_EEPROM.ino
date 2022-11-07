@@ -11,7 +11,7 @@
 
 #define EEPROM_I2C_ADDRESS 0x50
 
-AT24C256 eeprom(EEPROM_I2C_ADDRESS);
+AT24C256 eeprom(EEPROM_I2C_ADDRESS,&Wire);
 
 
 byte i = 0;
