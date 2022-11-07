@@ -5,10 +5,10 @@
 //
 // Modified from https://playground.arduino.cc/Main/I2cScanner/
 // --------------------------------------
-// Now using "I2C_eeprom" library
+// The read and write routines now work.
+// --------------------------------------
 
 #include <Wire.h>
-#include "I2C_eeprom.h"
 
 // Set I2C bus to use: Wire, Wire1, etc.
 #define WIRE Wire
@@ -17,15 +17,16 @@
 #define N_CHARS 5
 #define BIAS 5
 
-byte i = 0;
+uint16_t i = 0;
 
 byte EEPROM_I2C_ADDRESS = NULL;
 
-void writeAT24(byte dataAddress, byte dataVal)
+void writeAT24(uint16_t dataAddress, byte dataVal)
 {
   Wire.beginTransmission(EEPROM_I2C_ADDRESS);
   
-  Wire.write(dataAddress);
+  Wire.write((byte)(dataAddress & 0xFF00) >> 8);
+  Wire.write((byte)(dataAddress & 0x00FF));
   Wire.write(dataVal);
   Wire.endTransmission();
 
@@ -37,7 +38,8 @@ byte readAT24(byte dataAddress)
   byte rcvData = NULL;
    
   Wire.beginTransmission(EEPROM_I2C_ADDRESS);
-  Wire.write(dataAddress);
+  Wire.write((byte)(dataAddress & 0xFF00) >> 8);
+  Wire.write((byte)(dataAddress & 0x00FF));
   Wire.endTransmission();
 
   delay(100);
@@ -93,6 +95,7 @@ void loop() {
         if (rcvData == NULL) {
           Serial.println("no data received");
         } else {
+          Serial.print("0x");
           Serial.println(rcvData,HEX);
         }
       }
