@@ -11,7 +11,7 @@
 
 #define EEPROM_I2C_ADDRESS 0x50
 
-AT24C256 eeprom(EEPROM_I2C_ADDRESS,&Wire);
+AT24C256 eeprom(EEPROM_I2C_ADDRESS);
 
 
 byte i = 0;
@@ -23,6 +23,7 @@ void setup() {
      delay(10);
   Serial.println("\nI2C AT24C256 EEPROM Test");
   pinMode(13,OUTPUT);
+  eeprom.begin();
 }
 
   char message[30];
