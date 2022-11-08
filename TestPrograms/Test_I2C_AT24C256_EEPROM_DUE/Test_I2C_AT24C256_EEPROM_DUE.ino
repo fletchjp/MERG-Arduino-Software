@@ -11,6 +11,10 @@
 
 #define EEPROM_I2C_ADDRESS 0x50
 
+//When this constructor is part of the code, the lights on the CAN shield light up while the code is loading.
+//Something is addressing the pins for Wire. I cannot see it in the library code.
+//The code runs fine for &Wire with a MEGA.
+//Equivalent code not using the library runs on a DUE.
 //AT24C256 eeprom(EEPROM_I2C_ADDRESS, &Wire1);
 
 
