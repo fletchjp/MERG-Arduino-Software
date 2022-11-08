@@ -17,7 +17,7 @@ AT24C256 eeprom(EEPROM_I2C_ADDRESS);
 byte i = 0;
 
 void setup() {
-
+  delay(1000);
   Serial.begin(115200);
   while (!Serial)
      delay(10);
