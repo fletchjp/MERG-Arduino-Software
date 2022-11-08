@@ -14,6 +14,7 @@ void setup() {
   
   Serial.begin(115200);
   Serial.println("AT24C256 library example");
+  eeprom.begin();
   Serial.println("reading eeprom");
   eeprom.read(0, (uint8_t*) message, sizeof(message));
   Serial.println(message);
