@@ -15,7 +15,7 @@
 //Something is addressing the pins for Wire. I cannot see it in the library code.
 //The code runs fine for &Wire with a MEGA.
 //Equivalent code not using the library runs on a DUE.
-//AT24C256 eeprom(EEPROM_I2C_ADDRESS, &Wire1);
+AT24C256 eeprom(EEPROM_I2C_ADDRESS, &Wire1);
 
 
 byte i = 0;
@@ -26,6 +26,7 @@ void setup() {
   while (!Serial)
      delay(10);
   Serial.println("\nI2C AT24C256 EEPROM Test");
+  eeprom.begin();
   //pinMode(13,OUTPUT);
 }
 
@@ -36,19 +37,19 @@ void loop() {
     byte error = 0;
     Serial.println("Sending...");
     Serial.println("----------------");
-   //Wire1.beginTransmission(EEPROM_I2C_ADDRESS);
-    //error = Wire1.endTransmission();
+    Wire1.beginTransmission(EEPROM_I2C_ADDRESS);
+    error = Wire1.endTransmission();
 
     if (error == 0) {
 
 
       Serial.print(EEPROM_I2C_ADDRESS,HEX);
       Serial.println(" device found");
-      //eeprom.write(0,(uint8_t*) writemessage, sizeof(writemessage));
+      eeprom.write(0,(uint8_t*) writemessage, sizeof(writemessage));
       delay(1000);
       Serial.println("Data from EEPROM");
       Serial.println("----------------");
-      //eeprom.read(0, (uint8_t*) message, sizeof(message));
+      eeprom.read(0, (uint8_t*) message, sizeof(message));
       Serial.println(message);
       Serial.println("----------------");
     } else {
