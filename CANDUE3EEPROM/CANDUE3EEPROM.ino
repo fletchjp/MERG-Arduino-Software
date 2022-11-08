@@ -1,5 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////
-// CANDUE3
+// CANDUE3EEPROM
+// Version using external EEPROM
 // Restructure sending of long messages using new ideas.
 ///////////////////////////////////////////////////////////////////////////// 
 // Version 1a beta 1 Initial operational test
@@ -24,6 +25,8 @@
 // Version 3a beta 1 
 // Start to build the sending of a long message - not yet implemented.
 // Version 3a beta 2 Move headers before all other things.
+///////////////////////////////////////////////////////////////////////////////////
+// Version 4a beta 1 Version with external EEPROM
 ///////////////////////////////////////////////////////////////////////////////////
 // My working name for changes to the example from Duncan.
 // Note that the library DueFlashStorage is accessed from CBUSconfig
@@ -197,10 +200,10 @@
 // Maybe that is why they are called headers.
 // The only exception would be defines affecting choices in a header.
 ////////////////////////////////////////////////////////////////////////////////////////
-#define VERSION 3.2
+#define VERSION 4.1
 #define CBUS_LONG_MESSAGE
 #define CBUS_LONG_MESSAGE_MULTIPLE_LISTEN
-
+#define USE_EXTERNAL_EEPROM
 #define DEBUG         1 // set to 0 for no serial debug
 #define OLED_DISPLAY  0 // set to 0 if 128x32 OLED display is not present
 #define LCD_DISPLAY   0 // set to 0 if 4x20 char LCD display is not present
@@ -223,9 +226,9 @@ volatile boolean       showingSpeeds     = false;
 #endif
 
 // constants
-const byte VER_MAJ = 3;                  // code major version
+const byte VER_MAJ = 4;                  // code major version
 const char VER_MIN = 'a';                // code minor version
-const byte VER_BETA = 2;                 // code beta sub-version
+const byte VER_BETA = 1;                 // code beta sub-version
 const byte MODULE_ID = 99;               // CBUS module type
 
 // These are not being used - not installed.
@@ -301,9 +304,14 @@ void setupCBUS()
   config.EE_MAX_EVENTS = 64;
   config.EE_NUM_EVS = 1;
   config.EE_BYTES_PER_EVENT = (config.EE_NUM_EVS + 4);
-
+// Choose external or internal EEPROM
+#ifdef USE_EXTERNAL_EEPROM
+  config.setEEPROMtype(EEPROM_EXTERNAL);
+  config.setExtEEPROMAddress(0x50,&Wire1);
+#else
+  config.setEEPROMtype(EEPROM_EXTERNAL);
+#endif  
   // initialise and load configuration
-  config.setEEPROMtype(EEPROM_INTERNAL);
   config.begin();
 
   Serial << F("> mode = ") << ((config.FLiM) ? "FLiM" : "SLiM") << F(", CANID = ") << config.CANID;
@@ -716,6 +724,9 @@ void printConfig(void) {
 #ifdef CBUS_LONG_MESSAGE_MULTIPLE_LISTEN
   Serial << F("> with multiple message modification") << endl;
 #endif
+#endif
+#ifdef USE_EXTERNAL_EEPROM
+  Serial << F("> using external EEPROM") << endl;
 #endif
   #if OLED_DISPLAY || LCD_DISPLAY
     #if OLED_DISPLAY
