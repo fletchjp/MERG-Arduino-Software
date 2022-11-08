@@ -15,6 +15,8 @@
 //Something is addressing the pins for Wire. I cannot see it in the library code.
 //The code runs fine for &Wire with a MEGA.
 //Equivalent code not using the library runs on a DUE.
+//The solution is to take the begin() operation out of the constructor.
+//It is now run from a separate member function in setup().
 AT24C256 eeprom(EEPROM_I2C_ADDRESS, &Wire1);
 
 
