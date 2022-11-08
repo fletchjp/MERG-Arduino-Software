@@ -8,6 +8,8 @@ Version 0.1.0
 
 Under development.
 
+To use this in your own work you need to download it from Github and install it where you keep your Arduino libraries.
+
 John Fletcher <john@bunbury28.plus.com>
 
 ## Introduction
