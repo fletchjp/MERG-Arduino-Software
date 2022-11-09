@@ -88,6 +88,11 @@
 // There are a lot of other uses defined on a full pinout diagram.
 // Pins used by the CAN attachment are documented.
 // A lot more pins are inaccessible when it is in place.
+// That includes the SDA and SCL pins for I2C using Wire.
+// Instead Wire1 is used for I2C for the external EEPROM (Device 0x50).
+// The pins for this (SDA1 and SCL1) are not allocated pin nos.
+// They can be accessed from the DUE or via a DFRobot shield V7.1
+// Both methods have been used.
 /*
  Digital pin 0 RX0            
  Digital pin 1 TX0
