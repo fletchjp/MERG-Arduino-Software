@@ -24,6 +24,8 @@ These examples work with one three aspect signal.
 
 Some of these examples - the ones with I2C in the name - need the SignalControlPCA9685Light for operation.
 
+This library has to be downloaded and installed to have the header files FastPCALight.h and SlowPCALight.h available.
+
 ## SignalControlPCA9685Light (Library)
 
 This is a library which extends Sven Rosvall's Signal Control Library.
