@@ -104,6 +104,8 @@
  Digital pin 11 (PWM)
  Digital pin 12 (PWM)
  Digital pin 13 (PWM)
+ SDA1  (Wire1) These pins don't have pin numbers.
+ SCL1  (Wire1)
  
  Digital pin 14 (TX3) | CAN attachment
  Digital pin 15 (RX3) | CAN attachment
