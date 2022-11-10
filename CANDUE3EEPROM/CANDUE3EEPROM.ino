@@ -413,6 +413,7 @@ void setupModule()
 void setup()
 {
   Serial.begin (115200);
+  while (!Serial) { delay(10); }
   Serial << endl << endl << F("> CANDUE ** ") << __FILE__ << endl;
 
   setupCBUS();
