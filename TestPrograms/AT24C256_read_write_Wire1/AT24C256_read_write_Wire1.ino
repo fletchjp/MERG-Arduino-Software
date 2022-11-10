@@ -1,9 +1,9 @@
-// AT24C256 read write example
+// AT24C256 read write example for Wire1
 // copied from the AT24C256 library example
 
 #include <AT24C256.h>
 
-AT24C256 eeprom(0x50);
+AT24C256 eeprom(0x50,&Wire1);
 
 
 
