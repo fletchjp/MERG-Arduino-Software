@@ -901,7 +901,7 @@ void processSerialInput(void) {
         break;
 
       // New option to see some raw EEPROM
-      case 'c':
+      case 'd':
         Serial << F("> stored EEPROM ") << endl;
         for (byte j = 0; j < 20; j++)
         {
