@@ -11,6 +11,7 @@ using namespace fcpp;
 void setup() {
   // put your setup code here, to run once:
   Serial.begin (115200);
+  while (!Serial) { ::delay(10); }
   Serial << endl << endl << F("> DUEFCPP ** ") << __FILE__ << endl;
   Serial << "Some simple FC++ operations" << endl;
   Serial << "plus(1,2) = " << plus(1,2) << endl;
