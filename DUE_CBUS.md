@@ -28,7 +28,7 @@ This means that any CBUS configuration is then lost and has to be redone using F
 
 One way around this problem is to use an external EEPROM which will retain information. These are available using either I2C or SPI to communicate.
 
-I am experimenting with an I2C based external EEPROM using AT24C256 chips which hold 256k bits (32k bytes). This is more than enough for the Arduino CBUS library.
+I am experimenting with an I2C based external EEPROM using AT24C256 chips which hold 256k bits (32k bytes). This is more than enough for configuration data saved by Arduino CBUS Library.
 
 The CAN interfaces from SK Pang which I am using use the pins for the main (Wire) I2C interface on the DUE so I am using the alternative (Wire1) interface.
 
