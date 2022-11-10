@@ -20,6 +20,20 @@ I have been using this for testing non CBUS code as the units lose CBUS configur
 
 See below at CANDUE for the testing of CBUS Long Message handling.
 
+## External EEPROM
+
+One of the problems with using the DUEs for CBUS modules is that the internal EEPROM is a simulation. It only persists until the program script is updated.
+
+This means that any CBUS configuration is lost and has to be redone using FCU. This is a pain while developing and testing code.
+
+One way around this problem is to use an external EEPROM which will retain information. These are available using either I2C or SPI to communicate.
+
+I am experimenting with an I2C based external EEPROM using AT24C256 chips which hold 256k bits (32k bytes). This is more than enough for the Arduino CBUS library.
+
+The CAN interfaces from SK Pang which I am using use the pins for the main (Wire) I2C interface on the DUE so I am using the alternative (Wire1) interface.
+
+Testing with the Arduino CBUS Library is in progress. 
+
 ## Codes
 
 ### CBUS library
