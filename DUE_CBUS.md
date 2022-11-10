@@ -32,6 +32,8 @@ I am experimenting with an I2C based external EEPROM using AT24C256 chips which 
 
 The CAN interfaces from SK Pang which I am using use the pins for the main (Wire) I2C interface on the DUE so I am using the alternative (Wire1) interface.
 
+There is a specific library for the AT24C256 which I have used and the CBUSconfig library has also been adapted.
+
 Testing with the Arduino CBUS Library is in progress. 
 
 ## Codes
