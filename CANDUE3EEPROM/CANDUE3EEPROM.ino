@@ -900,6 +900,15 @@ void processSerialInput(void) {
         Serial << endl;
         break;
 
+      // New option to see some raw EEPROM
+      case 'c':
+        Serial << F("> stored EEPROM ") << endl;
+        for (byte j = 0; j < 20; j++)
+        {
+          Serial << j << " " << config.readEEPROM(j) << endl;
+        }
+        break;
+
       case 'e':
 
         // EEPROM learned event data table
