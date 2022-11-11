@@ -334,7 +334,10 @@ void setupCBUS()
   params.setVersion(VER_MAJ, VER_MIN, VER_BETA);
   params.setModuleId(MODULE_ID);
   params.setFlags(PF_FLiM | PF_COMBI);
-
+#ifdef USE_EXTERNAL_EEPROM
+// Put parameters into the EEPROM
+  config.writeBytesEEPROM(config.getEEPROMsize()+1,params.getParams(),params.size());
+#endif
   // assign to CBUS
   CBUS.setParams(params.getParams());
   CBUS.setName((byte *)mname);
