@@ -74,6 +74,14 @@ I have a problem with the long message code which showed itself when I sent two 
 
 I have now tested a new version from Duncan Greenwood which deals with all the problems about receiving multiple messages.
 
+### CANDUE3
+
+A development of CANDUE
+
+### CANDUE3EEPROM
+
+A version of CANDUE3 using external EEPROM
+
 ### DUE_arduino_state_machine
 
 Example for the StateMachine library modified to work with the DUE.
