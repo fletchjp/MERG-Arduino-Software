@@ -735,7 +735,7 @@ void printConfig(void) {
 #endif
 #endif
 #ifdef USE_EXTERNAL_EEPROM
-  Serial << F("> using external EEPROM") << endl;
+  Serial << F("> using external EEPROM size") << config.getEEPROMsize() << endl;
 #endif
   #if OLED_DISPLAY || LCD_DISPLAY
     #if OLED_DISPLAY
