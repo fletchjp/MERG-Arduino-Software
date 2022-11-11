@@ -314,7 +314,8 @@ void setupCBUS()
 // Choose external or internal EEPROM
 #ifdef USE_EXTERNAL_EEPROM
   // This has to come before setEEPROMtype.
-  config.setExtEEPROMAddress(0x50,&Wire1);
+  // Default EEPROM_I2C_ADDR = 0x50 defined in CBUSconfig.h
+  config.setExtEEPROMAddress(EEPROM_I2C_ADDR,&Wire1);
   config.setEEPROMtype(EEPROM_EXTERNAL);
 #else
   config.setEEPROMtype(EEPROM_INTERNAL);
@@ -735,7 +736,7 @@ void printConfig(void) {
 #endif
 #endif
 #ifdef USE_EXTERNAL_EEPROM
-  Serial << F("> using external EEPROM size") << config.getEEPROMsize() << endl;
+  Serial << F("> using external EEPROM size ") << config.getEEPROMsize() << endl;
 #endif
   #if OLED_DISPLAY || LCD_DISPLAY
     #if OLED_DISPLAY
