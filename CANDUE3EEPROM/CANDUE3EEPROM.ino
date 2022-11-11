@@ -313,6 +313,7 @@ void setupCBUS()
   config.EE_BYTES_PER_EVENT = (config.EE_NUM_EVS + 4);
 // Choose external or internal EEPROM
 #ifdef USE_EXTERNAL_EEPROM
+  // This has to come before setEEPROMtype.
   config.setExtEEPROMAddress(0x50,&Wire1);
   config.setEEPROMtype(EEPROM_EXTERNAL);
 #else
