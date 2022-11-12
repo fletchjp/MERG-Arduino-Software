@@ -56,7 +56,8 @@ void setup()
   val2 = 128;
   // Either use variables or constants of the correct size to avoid overflows.
   //mem_size = val1 * val2;
-  mem_size = 256ul * 128ul;
+  //mem_size = 256ul * 128ul;
+  mem_size = 256ul * 1024 / 8;
   //mem_size = 32768;
   myMem.setMemorySize(32768); //In bytes. 256kbit = 32kbyte
   //myMem.setPageSize(128); //In bytes. Has 128 byte page size.
