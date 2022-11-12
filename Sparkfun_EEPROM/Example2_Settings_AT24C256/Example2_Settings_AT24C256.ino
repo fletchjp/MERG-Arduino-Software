@@ -38,7 +38,9 @@ void setup()
   Serial.begin(115200);
   delay(10);
   Serial.println("I2C EEPROM example");
-
+#ifdef __AVR_ATmega2560__
+  Serial.println("running on Arduino MEGA 2560");
+#endif
   Wire.begin();
   Wire.setClock(400000); //Most EEPROMs can run 400kHz and higher
 
