@@ -31,6 +31,8 @@
 #include "SparkFun_External_EEPROM.h" // Click here to get the library: http://librarymanager/All#SparkFun_External_EEPROM
 ExternalEEPROM myMem;
 
+uint32_t mem_size, val1, val2;
+
 void setup()
 {
   Serial.begin(115200);
@@ -48,11 +50,19 @@ void setup()
   Serial.println("Memory detected!");
 
   //Set settings for this EEPROM
-  myMem.setMemorySize(512 * 1024 / 8); //In bytes. 512kbit = 64kbyte
-  myMem.setPageSize(128); //In bytes. Has 128 byte page size.
+  //myMem.setMemorySize(512 * 1024 / 8); //In bytes. 512kbit = 64kbyte
+  // Put values into 32 bit integers before calculation!
+  val1 = 256;
+  val2 = 128;
+  mem_size = val1 * val2;
+  //mem_size = 32768;
+  myMem.setMemorySize(32768); //In bytes. 256kbit = 32kbyte
+  //myMem.setPageSize(128); //In bytes. Has 128 byte page size.
+  myMem.setPageSize(64); //In bytes. Has 64 byte page size.
   myMem.enablePollForWriteComplete(); //Supports I2C polling of write completion
   myMem.setPageWriteTime(5); //5 ms max write time
-
+  Serial.print("Calculated mem size in bytes: ");
+  Serial.println(mem_size);
   Serial.print("Mem size in bytes: ");
   Serial.println(myMem.length());
 
