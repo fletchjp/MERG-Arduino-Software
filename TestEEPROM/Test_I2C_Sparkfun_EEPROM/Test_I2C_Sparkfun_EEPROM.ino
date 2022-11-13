@@ -36,49 +36,17 @@
 // --------------------------------------
 
 #include <Wire.h>
+#include "SparkFun_External_EEPROM.h"
+ExternalEEPROM myMem;
 
 // Set I2C bus to use: Wire, Wire1, etc.
 #define WIRE Wire
-#define EEPROM_I2C_ADDRESS_0 0x50
-#define EEPROM_I2C_ADDRESS_1 0x51
-#define N_CHARS 5
-#define BIAS 5
+#define EEPROM_I2C_ADDRESS 0x50
+
+uint32_t mem_size, val1, val2;
+
 
 uint16_t i = 0;
-
-byte EEPROM_I2C_ADDRESS = NULL;
-
-void writeAT24(uint16_t dataAddress, byte dataVal)
-{
-  WIRE.beginTransmission(EEPROM_I2C_ADDRESS);
-  
-  WIRE.write((byte)(dataAddress & 0xFF00) >> 8);
-  WIRE.write((byte)(dataAddress & 0x00FF));
-  WIRE.write(dataVal);
-  WIRE.endTransmission();
-
-  delay(5);
-}
-
-byte readAT24(byte dataAddress)
-{
-  byte rcvData = NULL;
-   
-  WIRE.beginTransmission(EEPROM_I2C_ADDRESS);
-  WIRE.write((byte)(dataAddress & 0xFF00) >> 8);
-  WIRE.write((byte)(dataAddress & 0x00FF));
-  WIRE.endTransmission();
-
-  delay(100);
-  WIRE.requestFrom(EEPROM_I2C_ADDRESS,1);
-  if (WIRE.available())
-  {
-    rcvData = WIRE.read();
-  }
-  return rcvData;
-}
-
-
 
 void setup() {
   WIRE.begin();
@@ -86,51 +54,36 @@ void setup() {
   Serial.begin(115200);
   while (!Serial)
      delay(10);
-  Serial.println("\nI2C EEPROM Test");
-  pinMode(13,OUTPUT);
-  EEPROM_I2C_ADDRESS = EEPROM_I2C_ADDRESS_0;
-  Serial.print(BIAS);
-  Serial.println(" bias");
+  Serial.println("\nI2C EEPROM Test with Sparkfun Library");
+#ifdef __AVR_ATmega2560__
+  Serial.println("running on Arduino MEGA 2560");
+#endif
+  WIRE.begin();
+  WIRE.setClock(400000); //Most EEPROMs can run 400kHz and higher
+  if (myMem.begin(EEPROM_I2C_ADDRESS,WIRE) == false)
+  {
+    Serial.println("No memory detected. Freezing.");
+    while (1);
+  }
+  Serial.println("Memory detected!");
+  //Set settings for this EEPROM AT24C256
+  myMem.setMemorySize(32768); //In bytes. 256kbit = 32kbyte
+  myMem.setPageSize(64); //In bytes. Has 64 byte page size.
+  myMem.enablePollForWriteComplete(); //Supports I2C polling of write completion
+  myMem.setPageWriteTime(5); //5 ms max write time
+  Serial.print("Mem size in bytes: ");
+  Serial.println(myMem.length());
+  float myValue3 = -7.35;
+  myMem.put(20, myValue3); //(location, data)
+  float myRead3;
+  myMem.get(20, myRead3); //location to read, thing to put data into
+  Serial.print("I read: ");
+  Serial.println(myRead3);
+ 
 }
 
 
-void loop() {
-  byte error, address, rcvData;
-  int nDevices;
+void loop()
+{ 
 
-    Serial.println("Sending...");
-    Serial.println("----------------");
-
-    WIRE.beginTransmission(EEPROM_I2C_ADDRESS);
-    error = WIRE.endTransmission();
-
-    if (error == 0) {
-      Serial.print(EEPROM_I2C_ADDRESS,HEX);
-      Serial.println(" device found");
-      for (i = 0; i < N_CHARS; i++)
-      {
-        writeAT24(i+BIAS, 33+i);
-        delay(10);
-      }  
-      delay(1000);
-      Serial.println("Data from EEPROM");
-      Serial.println("----------------");
-      for (i = 0; i < N_CHARS; i++)
-      {
-        //Serial.println((char)readAT24(i));
-        rcvData = readAT24(i+BIAS);
-        if (rcvData == NULL) {
-          Serial.println("no data received");
-        } else {
-          Serial.print("0x");
-          Serial.println(rcvData,HEX);
-        }
-      }
-      Serial.println("----------------");
-      
-    } else {
-      Serial.print(EEPROM_I2C_ADDRESS);
-      Serial.println(" device not found");
-    }
-    delay(10000);           // wait 5 seconds for next scan
 }
