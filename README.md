@@ -136,6 +136,10 @@ Since then I have begun to use the Raspberry Pi Pico as well.
  
  I am starting with some codes for LiquidCrystalIO which I have just started to use.
  
+ ### Test EEPROM
+ 
+ Programs testing options for the use of external EEPROM with Arduino boards including the Arduino DUE.
+ 
  ### Test Encoder
  
  These are a set of programs to test different approaches to dealing with the input from an encoder.
