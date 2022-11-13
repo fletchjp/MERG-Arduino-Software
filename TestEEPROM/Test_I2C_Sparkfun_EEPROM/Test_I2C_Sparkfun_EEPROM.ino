@@ -1,5 +1,30 @@
 // Test_I2C_Sparkfun_EEPROM
 
+/*
+  Read and write settings and calibration data to an external I2C EEPROM
+  By: Nathan Seidle
+  SparkFun Electronics
+  Date: December 11th, 2019
+  License: This code is public domain but you buy me a beer if you use this 
+  and we meet someday (Beerware license).
+  Feel like supporting our work? Buy a board from SparkFun!
+  https://www.sparkfun.com/products/14764
+
+  This example demonstrates how to set the various settings for a given EEPROM.
+  Read the datasheet! Each EEPROM will have specific values for:
+  Overall EEPROM size in bytes (512kbit = 65536, 256kbit = 32768)
+  Bytes per page write (64 and 128 are common)
+  Whether write polling is supported
+  
+  The I2C EEPROM should have all its ADR pins set to GND (0). This is default
+  on the Qwiic board.
+
+  Hardware Connections:
+  Plug the SparkFun Qwiic EEPROM to an Uno, Artemis, or other Qwiic equipped board
+  Load this sketch
+  Open output window at 115200bps
+*/
+
 // --------------------------------------
 // Test_I2C_EEPROM test of AT24C256 on GR046 board 
 // adapted from
