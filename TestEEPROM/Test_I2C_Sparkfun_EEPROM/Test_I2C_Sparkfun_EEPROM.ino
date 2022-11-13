@@ -1,5 +1,5 @@
 // Test_I2C_Sparkfun_EEPROM
-
+// Adapted from the Sparkfun EEPROM library example 2 which has this licence:
 /*
   Read and write settings and calibration data to an external I2C EEPROM
   By: Nathan Seidle
