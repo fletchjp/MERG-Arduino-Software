@@ -18,10 +18,6 @@ This is adapted from something I found online which did not work.
  
 The read and write routines were not correct.
 
-## Test_I2C_AT24C256_EEPROM1
-
-Example using Wire1 which is needed for the DUEs using CBUS.
-
 ## Test_I2C_EEPROM_DUE
 
 Version configured to use Wire1 on a DUE.
@@ -32,7 +28,11 @@ This uses an AT24C256 library which hides the details of read and write.
 
 There is now an option to configure for Wire1.
 
-# Test_I2C_AT24C256_EEPROM_DUE
+## Test_I2C_AT24C256_EEPROM1
+
+Example using Wire1 which is needed for the DUEs using CBUS.
+
+## Test_I2C_AT24C256_EEPROM_DUE
 
 This uses an AT24C256 library which hides the details of read and write.
 
