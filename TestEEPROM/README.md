@@ -10,6 +10,8 @@ I found the AT24C256 library which was a source to help me sort out errors in my
 
 I now also have the Sparkfun library which has better options for putting data of different types.
 
+There is now a test for that here and some more examples available (not adapted for AT24C256).
+
 ## Test_I2C_EEPROM
  
 Test program for the AT24C256 I2C EEPROM devices.
