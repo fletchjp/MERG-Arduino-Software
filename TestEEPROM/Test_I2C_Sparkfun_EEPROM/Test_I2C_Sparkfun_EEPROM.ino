@@ -50,7 +50,7 @@ uint16_t i = 0;
 
 void setup() {
   WIRE.begin();
-
+  delay(1000);
   Serial.begin(115200);
   while (!Serial)
      delay(10);
@@ -79,7 +79,11 @@ void setup() {
   myMem.get(20, myRead3); //location to read, thing to put data into
   Serial.print("I read: ");
   Serial.println(myRead3);
- 
+  String myString = "A test string to put into EEPROM";
+  myMem.put(50, myString);
+  String myReadString = "";
+  myMem.get(50, myReadString);
+  Serial.println(myReadString);
 }
 
 
