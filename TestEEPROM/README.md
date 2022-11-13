@@ -42,3 +42,9 @@ This is the one where I found that including eeprom.begin() in the constructor f
 
 This required a change to the AT24C256 library which broke the previous examples as eeprom.begin() has now to be in setup.
 
+## Test_I2C_Sparkfun_EEPROM
+
+This is basically the Sparkfun EEPROM Example 2 with the settings for the AT24C256.
+
+This library has the advantage of having a put routine which can handle different variable types in a consistent way.
+
