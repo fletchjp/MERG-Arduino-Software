@@ -164,22 +164,22 @@ public:
     }
   }
   virtual int get_state() const { return 0; }
-  int get_index() const { return 0; }
+  virtual int get_index() const { return 0; }
 protected:
   typedef typename fcpp_container::iterator fcpp_iterator;
 };
 
 template <class S,class E>
 class StateSubject : public BareSubject<E> {
-   S state;
-   int index;
+   S state_;
+   int index_;
 public:
-   StateSubject() : state(0), index(0) {}
-   StateSubject(const int &i) : state(0), index(i) {}
-   int get_index() const { return index; }
-   S get_state() const { return state; }  
+   StateSubject() : state_(0), index_(0) {}
+   StateSubject(const int &i) : state_(0), index_(i) {}
+   int get_index() const { return index_; }
+   S get_state() const { return state_; }  
    void inc() {
-     state++;
+     state_++;
      //cout << "ss: About to notify new state" << endl;
      // Some of this is to fool the compiler.
      E e = BareSubject<E>::get_event(e);
@@ -203,6 +203,7 @@ private:
   //EStype ES; 
   //ESmap ESm;
   ESmapFun0 States, Indices;
+  int index;
 public:
   Event event_;
   ConcreteObserver () { }  
