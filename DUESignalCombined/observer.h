@@ -59,7 +59,9 @@ public:
     {
        observers.erase(std::remove(std::begin(observers),std::end(observers), &observer),std::end(observers));
     }
+#ifndef USE_FCPP
     void notifyObservers(EventNo const &event_no);
+#endif
     // The function body is moved to the end.
     size_t numberOfObservers() const { return observers.size(); }
 private:
@@ -81,15 +83,17 @@ public:
    void update() {
       cout << "Update: new state is " << subject.get_state() << endl;
    }
+#else
+    virtual NotifyAction onNotify(Subject& entity, EventNo const &event_no) = 0;
 #endif
     virtual ~Observer() {}
     // Change to use a reference
     //typedef int N;
-    virtual NotifyAction onNotify(Subject& entity, EventNo const &event_no) = 0;
 private:
 
 };
 
+#ifndef USE_FCPP
 // Adapting the EventHandler from Observer2
 template <typename T>
 class EventHandler : public Observer
@@ -115,6 +119,7 @@ protected:
     std::map<EventNo, MFP> handlers;
 };
 
+
 // Function body moved here where Observer is defined.
     void Subject::notifyObservers(EventNo const &event_no)
     {
@@ -125,5 +130,5 @@ protected:
         observer->onNotify(*this, event_no);
       }
      } 
-
+#endif
 #endif
