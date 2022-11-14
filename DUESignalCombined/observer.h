@@ -13,7 +13,7 @@
 
 
 // Example code was missing this.
-class Subject;
+class Observer;
 // and this.
 class Event { };
 
@@ -21,23 +21,27 @@ enum class NotifyAction { Done, UnRegister };
 
 typedef int EventNo;
 
-class Observer 
-{
-public:
-    virtual ~Observer() {}
-    // Change to use a reference
-    //typedef int N;
-    virtual NotifyAction onNotify(Subject& entity, EventNo const &event_no) = 0;
-private:
-
-};
-
 
 class Subject
 {
+#ifdef USE_FCPP
+   typedef vector< Fun0<void> > V;
+   V fn_observers;
+#endif
 public:
     Subject() {}
     virtual ~Subject() {}
+#ifdef USE_FCPP
+   void attach( Fun0<void> o ) {
+      fn_observers.push_back( o );
+   }
+   void notify() {
+      for( V::iterator i=fn_observers.begin(); i!=fn_observers.end(); ++i ) {
+         (*i)();
+      }
+   }
+   virtual int get_state() const { return 0; }
+#endif
     // Return true if observer is added.
     // Changed to a reference.
     bool registerObserver(Observer& observer)
@@ -55,28 +59,34 @@ public:
     {
        observers.erase(std::remove(std::begin(observers),std::end(observers), &observer),std::end(observers));
     }
-    void notifyObservers(EventNo const &event_no)
-    {
-      std::cout << "notifyObservers called with " << event_no << std::endl;
-      std::vector<Observer*> deadObservers;
-      for (Observer* observer : observers)
-      {
-        observer->onNotify(*this, event_no);
-        /*  if (observer->onNotify(*this, event_no) == NotifyAction::UnRegister)
-          {
-            deadObservers.push_back(observer);
-          }*/
-      }/*
-      auto newEnd = std::end(observers);
-      for (Observer* dead : deadObservers) 
-      {
-        newEnd = std::remove(std::begin(observers), newEnd, dead);
-      }
-      observers.erase(newEnd, std::end(observers)); */
-    } 
+    void notifyObservers(EventNo const &event_no);
     size_t numberOfObservers() const { return observers.size(); }
 private:
     std::vector<Observer*> observers;
+};
+
+class Observer 
+{
+#ifdef USE_FCPP
+    Subject& subject;
+#endif
+public:
+#ifdef USE_FCPP
+   Observer( Subject& s ) : subject(s) {
+      s.attach( makeFun0(
+       //curry( ptr_to_fun(&Observer::update), this ) ) );
+         lazy1( ptr_to_fun(&Observer::update), this ) ) );
+   }
+   void update() {
+      cout << "Update: new state is " << subject.get_state() << endl;
+   }
+#endif
+    virtual ~Observer() {}
+    // Change to use a reference
+    //typedef int N;
+    virtual NotifyAction onNotify(Subject& entity, EventNo const &event_no) = 0;
+private:
+
 };
 
 // Adapting the EventHandler from Observer2
@@ -101,19 +111,18 @@ public:
       return NotifyAction::Done;
     }
 protected:
-   /*
-    template <typename U>
-    U safe_cast(Subject &subject)
-    {
-        if (dynamic_cast<U>(&subject))
-        {
-            return (dynamic_cast<U>(&subject));
-        } else {
-          std::cout <<"Non matching subject" << std::endl;
-        }
-    }
-    */
     std::map<EventNo, MFP> handlers;
 };
+
+
+    void Subject::notifyObservers(EventNo const &event_no)
+    {
+      std::cout << "notifyObservers called with " << event_no << std::endl;
+      std::vector<Observer*> deadObservers;
+      for (Observer* observer : observers)
+      {
+        observer->onNotify(*this, event_no);
+      }
+     } 
 
 #endif

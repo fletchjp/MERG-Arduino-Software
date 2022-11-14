@@ -26,6 +26,7 @@
 
 #include "fcpp/prelude.h"
 using namespace fcpp;
+#define USE_FCPP
 
 #include "composite.h"
 
