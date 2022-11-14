@@ -115,6 +115,7 @@ public:
 // Version from plant.cpp
 // This version is more complicated and can carry a payload of type E.
 // E defines the event which does not change.
+// This is now an integer being used to index the pairs for notification.
 // S defines a state variable which can change.
 ////////////////////////////////////////////////////////////////////////
 
