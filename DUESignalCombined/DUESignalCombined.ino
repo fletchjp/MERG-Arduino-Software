@@ -50,6 +50,7 @@ public:
    Object_Type Get_Type() const { return type_; }
 };
 
+#ifndef USE_FCPP
 class Section : public Composite, public  EventHandler<Section> {
   const Object_Type type_ = Object_Type::Section_type; 
 public:
@@ -87,7 +88,7 @@ private:
       std::cout << GetName() << " signal Turn off" << std::endl;
    }
 };
-
+#endif
 
 class LED : public Leaf {
    const Object_Type type_ = Object_Type::LED_type; 
@@ -156,6 +157,8 @@ void setup() {
   cout << "Signal Composite experiments" << endl;
   cout << "====================================================================" << endl;
 
+#ifndef USE_FCPP
+// All examples out of use for now.
   Track down_line("down_line");
 
   Section section1("section_1");
@@ -231,6 +234,7 @@ void setup() {
   home_detector.notifyObservers(TURN_ON);
   
   home_detector.notifyObservers(TURN_OFF);
+#endif
 
   cout << "====================================================================" << endl;
   cout << "End of Signal Combined experiments" << endl;
