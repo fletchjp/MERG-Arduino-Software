@@ -1,6 +1,8 @@
 //////////////////////////////////////////////////////////////////////////////////
 // DUEobserver2
 // I am going to make some changes.
+// This now makes more use of FC++ ptr_to_fun to store Fun0<int> objects in maps.
+// This makes it easy to recover stored information.
 //////////////////////////////////////////////////////////////////////////////////
 // This is new example to work up the observer model using FC++ techniques.
 // I am lucky that there is a good staring point in ecoop1b
