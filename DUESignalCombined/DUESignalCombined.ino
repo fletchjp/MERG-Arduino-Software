@@ -15,14 +15,22 @@
 
 #include <ArduinoSTL.h>
 
+#include <boost_1_51_0.h>
+// This is used in FC++ to allow for boost usage.
+#define FCPP_ARDUINO_BOOST
+
 #include <vector>
+#include <map>
 //#include <algorithm>
 #include <string>
+
+#include "fcpp/prelude.h"
 
 #include "composite.h"
 
 #include "observer.h"
 
+using namespace fcpp;
 using namespace std;
 
 vector<int> trial;
@@ -95,10 +103,10 @@ public:
 };
 
 void setup() {
-  delay(2000);
+ ::delay(2000);
   Serial.begin(115200); 
   while (!Serial) { }
-  delay(2000);
+  ::delay(2000);
   printf("Signal Combined Patterns\n");
   for (int i = 0; i < 5; i++) trial.push_back(i);
   // range-based for loop
