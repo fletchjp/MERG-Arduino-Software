@@ -30,8 +30,9 @@
 #include <iostream>
 #include <vector>
 #include <map>
-#define FCPP_DEBUG
-#include "prelude.h"
+//This does not compile
+//#define FCPP_DEBUG 
+#include "fcpp/prelude.h"
 
 using namespace fcpp;
 
@@ -81,11 +82,13 @@ public:
    void update() {
       cout << "A's update: new state is " << subject.get_state() << endl;
    }
+#ifdef FCPP_DEBUG
    void debug() {
      cout << "sprint ( lazy1(ptr_to_fun(&ConcreteObserverA::update), this ) ) : " << endl
           << sprint ( lazy1(ptr_to_fun(&ConcreteObserverA::update), this ) )
           << endl;
    }
+#endif
 };
 
 class ConcreteObserverB {
@@ -217,7 +220,8 @@ public:
 
 void setup() {
   // put your setup code here, to run once:
-  Serial.begin(9600);
+  Serial.begin(115200);
+  while (!Serial) { ::delay(10); }
   cout << "========================" << endl;
   cout << "ecoop1b Observer example" << endl;
   cout << "========================" << endl;
@@ -228,7 +232,9 @@ void setup() {
    //(void)bo;
    s.inc();
    s.inc();
+#ifdef FCPP_DEBUG
    ao.debug();
+#endif
   cout << "========================" << endl;
   cout << "New versions" << endl;
   cout << "========================" << endl;
