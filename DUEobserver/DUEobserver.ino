@@ -160,6 +160,7 @@ public:
     }
   }
   int get_state() const { return 0; }
+  int get_index() const { return 0; }
 protected:
   typedef typename fcpp_container::iterator fcpp_iterator;
 };
@@ -167,8 +168,11 @@ protected:
 template <class S,class E>
 class StateSubject : public BareSubject<E> {
    S state;
+   int index;
 public:
-   StateSubject() : state(0) {}
+   StateSubject() : state(0), index(0) {}
+   StateSubject(const int &i) : state(0), index(i) {}
+   int get_index() const { return index; }
    S get_state() const { return state; }  
    void inc() {
      state++;
@@ -209,7 +213,8 @@ public:
   }
   int be_notified(Event e) {
     event_ = e;
-    std::cout << "New event is " << event_ << " with state " << subject_.get_state() << std::endl;
+    std::cout << "New event is " << event_ << " with state " << subject_.get_state() 
+              << " from index " << subject_.get_index()<< std::endl;
     //std::cout << "New event is " << event_ << " with state " << ESm[e].second().get_state() << std::endl;
     //std::cout << "New event is " << event_ << " with state " << ESm[e].first << std::endl;
     return event_;
@@ -250,14 +255,14 @@ void setup() {
   ConcreteObserver<BareConcrete> bareobserver3(bareconcrete11,12); 
   bareobserver1.AddSubject(bareconcrete11,14);
 
-  int e;
+  int e = 10;
   bareconcrete11.ListAll();
   std::cout << "============================================" << std::endl;
   e = bareconcrete10.Notify(e);
   std::cout << "============================================" << std::endl;
   bareconcrete11.NotifyAll();
   std::cout << "============================================" << std::endl;
-  StateConcrete stateconcrete20,stateconcrete21,stateconcrete22;
+  StateConcrete stateconcrete20(20),stateconcrete21(21),stateconcrete22(22);
   ConcreteObserver<StateConcrete> stateobserver1(stateconcrete20,20);
   ConcreteObserver<StateConcrete> stateobserver2(stateconcrete21,21);
   stateobserver1.AddSubject(stateconcrete22,22);
@@ -266,6 +271,7 @@ void setup() {
   stateconcrete20.inc();
   stateconcrete21.inc();
   stateconcrete22.inc(); // This returns state the same as no 20 when I think it should be 1.
+  // It is coming from no 20 and not no 22!
   std::cout << "============================================" << std::endl;
 
 }
