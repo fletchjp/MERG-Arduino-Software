@@ -1,5 +1,6 @@
 // observer.h
 // Code for the Observer Design Pattern
+// For now I am using the simpler version of Observer and Subject
 
 #ifndef OBSERVER_H
 #define OBSERVER_H
@@ -20,7 +21,6 @@ class Event { };
 enum class NotifyAction { Done, UnRegister };
 
 typedef int EventNo;
-
 
 class Subject
 {
@@ -60,6 +60,7 @@ public:
        observers.erase(std::remove(std::begin(observers),std::end(observers), &observer),std::end(observers));
     }
     void notifyObservers(EventNo const &event_no);
+    // The function body is moved to the end.
     size_t numberOfObservers() const { return observers.size(); }
 private:
     std::vector<Observer*> observers;
@@ -114,7 +115,7 @@ protected:
     std::map<EventNo, MFP> handlers;
 };
 
-
+// Function body moved here where Observer is defined.
     void Subject::notifyObservers(EventNo const &event_no)
     {
       std::cout << "notifyObservers called with " << event_no << std::endl;
