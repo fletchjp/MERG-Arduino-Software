@@ -2,6 +2,8 @@
 // DUEobserver2
 // I am going to make some changes.
 // This now makes more use of FC++ ptr_to_fun to store Fun0<int> objects in maps.
+// Event numbers are used to index the stored actions.
+// Subjects and Objects now have an index for run time identity.
 // This makes it easy to recover stored information.
 // This file uses std::cout while DUEFCPP uses Serial and the Streaming library.
 //////////////////////////////////////////////////////////////////////////////////
