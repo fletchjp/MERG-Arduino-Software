@@ -193,6 +193,7 @@ class ConcreteObserver {
 public:
   typedef typename Subject::Event Event;
 private:
+  int index_;
   Subject& subject_;
   //typedef std::vector<std::pair<Event,const Subject> > EStype;
   //typedef std::map<const Event,std::pair<Event, const Subject> > ESmap;
@@ -203,11 +204,10 @@ private:
   //EStype ES; 
   //ESmap ESm;
   ESmapFun0 States, Indices;
-  int index;
 public:
   Event event_;
-  ConcreteObserver () { }  
-  ConcreteObserver (Subject &s, Event e) : subject_(s), event_(e) {
+  ConcreteObserver () : index_(0) { }  
+  ConcreteObserver (Subject &s, Event e, const int &i = 0) : index_(i), subject_(s), event_(e)  {
     s.Attach( fcpp::curry2( fcpp::ptr_to_fun( &ConcreteObserver::be_notified), this), e);
     //ES.push_back(std::make_pair(e,s));
     //ESm.insert(std::make_pair(e,std::make_pair(e,s)));
@@ -235,13 +235,14 @@ public:
     //          << " from index " << subject_.get_index()<< std::endl;
     // This finds the correct subject but the wrong version with the original state. 
     //auto p = fcpp::curry( fcpp::ptr_to_fun(&Subject::get_state), &ESm[e].second);
-    std::cout << "New event is " << event_ << " with state " << States[e].second() 
+    std::cout << "Observer " << index_ << " has new event " << event_ << " with state " << States[e].second() 
               << " from index " << Indices[e].second() << std::endl;
      //         << " from index " << ESm[e].second.get_index() << std::endl;
     //std::cout << "New event is " << event_ << " with state " << ESm[e].first << std::endl;
     return event_;
   }
   ConcreteObserver &operator += (Subject &s) { AddSubject(s,event_); return this; }
+  int get_index() const { return index_; }
 };
 
 
@@ -272,9 +273,9 @@ void setup() {
   // This FC++ observer has no knowledge of the other stuff.
   BareConcrete bareconcrete10,bareconcrete11;
   // The ConcreteObserver class is identical.
-  ConcreteObserver<BareConcrete> bareobserver1(bareconcrete10,10);  
-  ConcreteObserver<BareConcrete> bareobserver2(bareconcrete11,11);  
-  ConcreteObserver<BareConcrete> bareobserver3(bareconcrete11,12); 
+  ConcreteObserver<BareConcrete> bareobserver1(bareconcrete10,10,1);  
+  ConcreteObserver<BareConcrete> bareobserver2(bareconcrete11,11,2);  
+  ConcreteObserver<BareConcrete> bareobserver3(bareconcrete11,12,3); 
   bareobserver1.AddSubject(bareconcrete11,14);
 
   int e = 10;
@@ -284,9 +285,11 @@ void setup() {
   std::cout << "============================================" << std::endl;
   bareconcrete11.NotifyAll();
   std::cout << "============================================" << std::endl;
+  std::cout << "These observed objects have state." << std::endl;
+  std::cout << "============================================" << std::endl;
   StateConcrete stateconcrete20(20),stateconcrete21(21),stateconcrete22(22);
-  ConcreteObserver<StateConcrete> stateobserver1(stateconcrete20,20);
-  ConcreteObserver<StateConcrete> stateobserver2(stateconcrete21,21);
+  ConcreteObserver<StateConcrete> stateobserver1(stateconcrete20,20,1);
+  ConcreteObserver<StateConcrete> stateobserver2(stateconcrete21,21,2);
   stateobserver1.AddSubject(stateconcrete22,22);
   stateconcrete20.inc();
   stateconcrete20.inc();
