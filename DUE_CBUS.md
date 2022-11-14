@@ -161,7 +161,7 @@ This continues the adaption of the observer example.
 
 ### DUEobserver2
 
-Further development of DUEobserver.
+Further development of DUEobserver. This now stores Fun0<int> to recover information from subjects.
 
 ## SK Pang codes
 
