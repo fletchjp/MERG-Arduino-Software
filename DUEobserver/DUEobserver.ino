@@ -191,8 +191,8 @@ public:
   typedef typename Subject::Event Event;
 private:
   Subject& subject_;
-  typedef std::vector<std::pair<Event,const Subject&> > EStype;
-  typedef std::map<const Event,std::pair<Event, const Subject&> > ESmap;
+  typedef std::vector<std::pair<Event,const Subject> > EStype;
+  typedef std::map<const Event,std::pair<Event, const Subject> > ESmap;
   EStype ES; 
   ESmap ESm;
 public:
@@ -213,9 +213,12 @@ public:
   }
   int be_notified(Event e) {
     event_ = e;
+    // This returns the state from the first subject attached.
     std::cout << "New event is " << event_ << " with state " << subject_.get_state() 
               << " from index " << subject_.get_index()<< std::endl;
-    //std::cout << "New event is " << event_ << " with state " << ESm[e].second().get_state() << std::endl;
+    // This finds the correct subject but the wrong version with the original state. 
+    //std::cout << "New event is " << event_ << " with state " << ESm[e].second.get_state() 
+    //          << " from index " << ESm[e].second.get_index() << std::endl;
     //std::cout << "New event is " << event_ << " with state " << ESm[e].first << std::endl;
     return event_;
   }
