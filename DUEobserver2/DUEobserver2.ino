@@ -191,29 +191,36 @@ public:
   typedef typename Subject::Event Event;
 private:
   Subject& subject_;
-  typedef std::vector<std::pair<Event,const Subject> > EStype;
-  typedef std::map<const Event,std::pair<Event, const Subject> > ESmap;
+  //typedef std::vector<std::pair<Event,const Subject> > EStype;
+  //typedef std::map<const Event,std::pair<Event, const Subject> > ESmap;
+  // This type can hold a map of the functions to be called to get state and index of the subject.
+  // The previous types ES and ESm are no longer in use.
+  // The only things which are now saved are callable functions.
   typedef std::map<const Event,std::pair<Event, Fun0<int> > > ESmapFun0;
-  EStype ES; 
-  ESmap ESm;
-  ESmapFun0 States;
+  //EStype ES; 
+  //ESmap ESm;
+  ESmapFun0 States, Indices;
 public:
   Event event_;
   ConcreteObserver () { }  
   ConcreteObserver (Subject &s, Event e) : subject_(s), event_(e) {
     s.Attach( fcpp::curry2( fcpp::ptr_to_fun( &ConcreteObserver::be_notified), this), e);
-    ES.push_back(std::make_pair(e,s));
-    ESm.insert(std::make_pair(e,std::make_pair(e,s)));
+    //ES.push_back(std::make_pair(e,s));
+    //ESm.insert(std::make_pair(e,std::make_pair(e,s)));
     auto p = fcpp::curry( fcpp::ptr_to_fun(&Subject::get_state), &s);
+    auto q = fcpp::curry( fcpp::ptr_to_fun(&Subject::get_index), &s);
     States.insert(std::make_pair(e,std::make_pair(e,p)));
+    Indices.insert(std::make_pair(e,std::make_pair(e,q)));
   }
   void AddSubject(Subject &s, Event e) {
     //std::cout << "AddSubject has event " << e << std::endl;
     s.Attach( fcpp::curry2( fcpp::ptr_to_fun( &ConcreteObserver::be_notified), this), e);
-    ES.push_back(std::make_pair(e,s));
-    ESm.insert(std::make_pair(e,std::make_pair(e,s)));
+    //ES.push_back(std::make_pair(e,s));
+    //ESm.insert(std::make_pair(e,std::make_pair(e,s)));
     auto p = fcpp::curry( fcpp::ptr_to_fun(&Subject::get_state), &s);
+    auto q = fcpp::curry( fcpp::ptr_to_fun(&Subject::get_index), &s);
     States.insert(std::make_pair(e,std::make_pair(e,p)));
+    Indices.insert(std::make_pair(e,std::make_pair(e,q)));
 //  ESm.insert(e,s);
     //s.Flush();
   }
@@ -225,7 +232,8 @@ public:
     // This finds the correct subject but the wrong version with the original state. 
     //auto p = fcpp::curry( fcpp::ptr_to_fun(&Subject::get_state), &ESm[e].second);
     std::cout << "New event is " << event_ << " with state " << States[e].second() 
-              << " from index " << ESm[e].second.get_index() << std::endl;
+              << " from index " << Indices[e].second() << std::endl;
+     //         << " from index " << ESm[e].second.get_index() << std::endl;
     //std::cout << "New event is " << event_ << " with state " << ESm[e].first << std::endl;
     return event_;
   }
