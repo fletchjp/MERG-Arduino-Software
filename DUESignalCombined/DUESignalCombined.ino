@@ -25,12 +25,12 @@
 #include <string>
 
 #include "fcpp/prelude.h"
+using namespace fcpp;
 
 #include "composite.h"
 
 #include "observer.h"
 
-using namespace fcpp;
 using namespace std;
 
 vector<int> trial;
