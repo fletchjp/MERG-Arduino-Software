@@ -286,14 +286,17 @@ void setup() {
   e = bareconcrete10.Notify(e);
   std::cout << "============================================" << std::endl;
   bareconcrete11.NotifyAll();
-  std::cout << "============================================" << std::endl;
-  std::cout << "These observed objects have state." << std::endl;
-  std::cout << "============================================" << std::endl;
+  std::cout << "====================================================" << std::endl;
+  std::cout << "These observed objects have state."                   << std::endl;
+  std::cout << "Subjects can have multiple Observers and vice versa." << std::endl;
+  std::cout << "Event numbers for any Subject should be distinct"     << std::endl;
+  std::cout << "====================================================" << std::endl;
   StateConcrete stateconcrete20(20),stateconcrete21(21),stateconcrete22(22);
-  ConcreteObserver<StateConcrete> stateobserver1(stateconcrete20,20,1);
-  ConcreteObserver<StateConcrete> stateobserver2(stateconcrete21,21,2);
-  ConcreteObserver<StateConcrete> stateobserver3(stateconcrete22,22,3);
-  stateobserver1.AddSubject(stateconcrete22,23);  // Event no needs to be distinct.
+  ConcreteObserver<StateConcrete> stateobserver1(stateconcrete20,120,1);
+  ConcreteObserver<StateConcrete> stateobserver2(stateconcrete21,121,2);
+  ConcreteObserver<StateConcrete> stateobserver3(stateconcrete22,122,3);
+  stateobserver1.AddSubject(stateconcrete22,123);  // Event no needs to be distinct.
+  stateobserver2.AddSubject(stateconcrete22,124);  // Event no needs to be distinct.
   stateconcrete20.inc();
   stateconcrete20.inc();
   stateconcrete20.inc();
