@@ -10,6 +10,8 @@ Some of the examples will now work with DUE and AVR (MEGA or UNO).
 
 I would like to start to add CBUS long message handling. This will depend on the release of a new version of the CBUSSAM3X8E library to support the extra functions.
 
+There is also the possibility of integrating use of FC++ into the work. See DUEobserver2 in particular.
+
 ## Testing
 
 I am now starting to test the code. I have some queries which I have sent to Duncan Greenwood.
