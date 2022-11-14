@@ -42,6 +42,22 @@ vector<int> trial;
 #define TURN_ON  0
 #define TURN_OFF 1
 
+#ifdef USE_FCPP
+class ConcreteSubject : public Subject {
+   int state;
+public:
+   ConcreteSubject(int const&i = 0) : state(i) {}
+   int get_state() const { return state; }
+   void inc() {
+     state++;
+     cout << "s: About to notify new state" << endl;
+     notify();
+     cout << "s: New state notified" << endl;
+   }
+};
+
+#endif
+
 enum class Object_Type : int { Track_type, Section_type, Signal_type, LED_type, Detector_type };
 
 class Track : public Composite {
@@ -117,6 +133,13 @@ void setup() {
   cout << endl;
   cout << "Test of Signal Composite Pattern" << endl;
 
+#ifdef USE_FCPP
+  ConcreteSubject s0, s1(1);
+  Observer obsA(s0);
+  Observer obsB(s1);
+  s0.inc();
+  s1.inc();
+#else
   Composite composite("composite");
   Composite composite1("composite1");
   composite.print_();
@@ -153,7 +176,7 @@ void setup() {
   cout << leaf4.GetName() << " has parent(s) " << leaf4.GetParentNames() << endl;
 
   cout << composite.GetName() << " has parent(s) " << composite.GetParentNames() << endl;
-
+#endif
   cout << "====================================================================" << endl;
   cout << "Signal Composite experiments" << endl;
   cout << "====================================================================" << endl;
