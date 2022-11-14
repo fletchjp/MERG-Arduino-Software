@@ -160,7 +160,7 @@ public:
       std::cout << (i->first) << /*" " << (i->second)(i->first) <<*/ std::endl;
     }
   }
-  int get_state() const { return 0; }
+  virtual int get_state() const { return 0; }
   int get_index() const { return 0; }
 protected:
   typedef typename fcpp_container::iterator fcpp_iterator;
@@ -185,7 +185,6 @@ public:
    }
 };
 
-
 template <class Subject>
 class ConcreteObserver {
 public:
@@ -194,8 +193,10 @@ private:
   Subject& subject_;
   typedef std::vector<std::pair<Event,const Subject> > EStype;
   typedef std::map<const Event,std::pair<Event, const Subject> > ESmap;
+  typedef std::map<const Event,std::pair<Event, Fun0<int> > > ESmapFun0;
   EStype ES; 
   ESmap ESm;
+  ESmapFun0 States;
 public:
   Event event_;
   ConcreteObserver () { }  
@@ -203,23 +204,28 @@ public:
     s.Attach( fcpp::curry2( fcpp::ptr_to_fun( &ConcreteObserver::be_notified), this), e);
     ES.push_back(std::make_pair(e,s));
     ESm.insert(std::make_pair(e,std::make_pair(e,s)));
+    auto p = fcpp::curry( fcpp::ptr_to_fun(&Subject::get_state), &s);
+    States.insert(std::make_pair(e,std::make_pair(e,p)));
   }
   void AddSubject(Subject &s, Event e) {
     //std::cout << "AddSubject has event " << e << std::endl;
     s.Attach( fcpp::curry2( fcpp::ptr_to_fun( &ConcreteObserver::be_notified), this), e);
     ES.push_back(std::make_pair(e,s));
     ESm.insert(std::make_pair(e,std::make_pair(e,s)));
+    auto p = fcpp::curry( fcpp::ptr_to_fun(&Subject::get_state), &s);
+    States.insert(std::make_pair(e,std::make_pair(e,p)));
 //  ESm.insert(e,s);
     //s.Flush();
   }
   int be_notified(Event e) {
     event_ = e;
     // This returns the state from the first subject attached.
-    std::cout << "New event is " << event_ << " with state " << subject_.get_state() 
-              << " from index " << subject_.get_index()<< std::endl;
+    //std::cout << "New event is " << event_ << " with state " << subject_.get_state() 
+    //          << " from index " << subject_.get_index()<< std::endl;
     // This finds the correct subject but the wrong version with the original state. 
-    //std::cout << "New event is " << event_ << " with state " << ESm[e].second.get_state() 
-    //          << " from index " << ESm[e].second.get_index() << std::endl;
+    //auto p = fcpp::curry( fcpp::ptr_to_fun(&Subject::get_state), &ESm[e].second);
+    std::cout << "New event is " << event_ << " with state " << States[e].second() 
+              << " from index " << ESm[e].second.get_index() << std::endl;
     //std::cout << "New event is " << event_ << " with state " << ESm[e].first << std::endl;
     return event_;
   }
