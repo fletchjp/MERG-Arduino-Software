@@ -151,7 +151,17 @@ This example explores the implementation of Functor laws using FC++.
 
 ### observer
 
-This is a development of the ecoop1b example to look at monitoring changes using the subject/observer model. I have quite a lot of code for this which I am going to adapt.
+This is a development of the ecoop1b example to look at monitoring changes using the subject/observer model.
+
+I have quite a lot of code for this which I am going to adapt.
+
+### DUEobserver
+
+This continues the adaption of the observer example.
+
+### DUEobserver2
+
+Further development of DUEobserver.
 
 ## SK Pang codes
 
