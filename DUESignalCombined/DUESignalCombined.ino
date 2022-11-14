@@ -1,5 +1,6 @@
 // DUESignalCombined
 // Exploring use of FC++ from DUEobserver2
+// The objective is to get rid of the CRTP used for EventHandler.
 //
 // SignalCombined
 // Based on Arduino STL Composite5 and Observer6
