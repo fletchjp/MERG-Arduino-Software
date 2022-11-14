@@ -183,7 +183,8 @@ public:
      //cout << "ss: About to notify new state" << endl;
      // Some of this is to fool the compiler.
      E e = BareSubject<E>::get_event(e);
-     BareSubject<E>::Notify(e);
+     //BareSubject<E>::Notify(e);
+     BareSubject<E>::NotifyAll();
      //cout << "ss: New state notified" << endl;
    }
 };
@@ -207,6 +208,7 @@ private:
 public:
   Event event_;
   ConcreteObserver () : index_(0) { }  
+  //ConcreteObserver (const int &i = 0) : index_(i) { }  
   ConcreteObserver (Subject &s, Event e, const int &i = 0) : index_(i), subject_(s), event_(e)  {
     s.Attach( fcpp::curry2( fcpp::ptr_to_fun( &ConcreteObserver::be_notified), this), e);
     //ES.push_back(std::make_pair(e,s));
@@ -275,7 +277,7 @@ void setup() {
   // The ConcreteObserver class is identical.
   ConcreteObserver<BareConcrete> bareobserver1(bareconcrete10,10,1);  
   ConcreteObserver<BareConcrete> bareobserver2(bareconcrete11,11,2);  
-  ConcreteObserver<BareConcrete> bareobserver3(bareconcrete11,12,3); 
+  ConcreteObserver<BareConcrete> bareobserver3(bareconcrete11,12,3);  
   bareobserver1.AddSubject(bareconcrete11,14);
 
   int e = 10;
@@ -290,13 +292,14 @@ void setup() {
   StateConcrete stateconcrete20(20),stateconcrete21(21),stateconcrete22(22);
   ConcreteObserver<StateConcrete> stateobserver1(stateconcrete20,20,1);
   ConcreteObserver<StateConcrete> stateobserver2(stateconcrete21,21,2);
-  stateobserver1.AddSubject(stateconcrete22,22);
+  ConcreteObserver<StateConcrete> stateobserver3(stateconcrete22,22,3);
+  stateobserver1.AddSubject(stateconcrete22,23);  // Event no needs to be distinct.
   stateconcrete20.inc();
   stateconcrete20.inc();
   stateconcrete20.inc();
   stateconcrete21.inc();
-  stateconcrete22.inc(); // This returns state the same as no 20 when I think it should be 1.
-  // It is coming from no 20 and not no 22!
+  stateconcrete22.inc();
+  stateconcrete22.inc();
   std::cout << "============================================" << std::endl;
   std::cout << "Examples of use of ptr_to_fun." << std::endl;
   std::cout << "============================================" << std::endl;
