@@ -294,10 +294,13 @@ void setup() {
   stateconcrete22.inc(); // This returns state the same as no 20 when I think it should be 1.
   // It is coming from no 20 and not no 22!
   std::cout << "============================================" << std::endl;
+  std::cout << "Examples of use of ptr_to_fun." << std::endl;
+  std::cout << "============================================" << std::endl;
   auto p20 = fcpp::curry( fcpp::ptr_to_fun(&StateConcrete::get_state), &stateconcrete20);
   auto p22 = fcpp::curry( fcpp::ptr_to_fun(&StateConcrete::get_state), &stateconcrete22);
+  auto q22 = fcpp::curry( fcpp::ptr_to_fun(&StateConcrete::get_index), &stateconcrete22);
   std::cout << "State of concrete20 " << p20() << endl;
-  std::cout << "State of concrete22 " << p22() << endl;
+  std::cout << "State of concrete" << q22() << " " << p22() << endl;
   std::cout << "============================================" << std::endl;
 
 }
