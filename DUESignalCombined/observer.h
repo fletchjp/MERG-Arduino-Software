@@ -71,10 +71,11 @@ private:
 class Observer 
 {
 #ifdef USE_FCPP
-    Subject& subject;
+   Subject& subject;
 #endif
 public:
 #ifdef USE_FCPP
+   //Observer() {}
    Observer( Subject& s ) : subject(s) {
       s.attach( makeFun0(
        //curry( ptr_to_fun(&Observer::update), this ) ) );
@@ -97,11 +98,11 @@ private:
 // Adapting the EventHandler from Observer2
 template <typename T>
 #endif
-class EventHandler : public Observer
+class EventHandler //: public Observer
 {
 public:
 #ifdef USE_FCPP
-    typedef std::map<const Event,std::pair<Event, Fun0<int> > > EventFun0;
+    typedef std::map<const EventNo,Fun0<int> > EventFun0;
 #else
     typedef void (T::*MFP)(Subject *);
 #endif
@@ -117,6 +118,13 @@ public:
          {
             MFP item = it->second;
             ((static_cast<T*>(this))->*(item))(&subject);
+         }
+#else
+      // Note that the subject is no longer needed.
+         auto it = handlers.find(event_no);
+         if (it != handlers.end())
+         {
+            it->second();
          }
 #endif
       //}

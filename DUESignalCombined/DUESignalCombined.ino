@@ -39,8 +39,8 @@ vector<int> trial;
 
 // These are Event numbers which need to be distinct in each class where they are used.
 // I could use different event nos for different senders to tell them apart.
-#define TURN_ON  0
-#define TURN_OFF 1
+static int TURN_ON = 0;
+static int TURN_OFF = 1;
 
 #ifdef USE_FCPP
 class ConcreteSubject : public Subject {
@@ -68,9 +68,9 @@ public:
 };
 
 #ifndef USE_FCPP
-class Section : public Composite , public  EventHandler<Section>
+class Section : public Composite, public  EventHandler<Section>
 #else
-class Section : public Composite
+class Section : public Composite, public  EventHandler
 #endif
 {
   const Object_Type type_ = Object_Type::Section_type; 
@@ -78,25 +78,44 @@ public:
    Section(const string& n) : Composite(n) { 
 #ifndef USE_FCPP
       handlers[TURN_ON] = &Section::turnON; 
-      handlers[TURN_OFF] = &Section::turnOFF;     
+      handlers[TURN_OFF] = &Section::turnOFF;
+#else 
+      auto p =  fcpp::curry( fcpp::ptr_to_fun(&Section::turnON), this);
+      auto q =  fcpp::curry( fcpp::ptr_to_fun(&Section::turnOFF), this);
+      handlers[TURN_ON] = p;
+      handlers[TURN_OFF] = q;
 #endif
    }
    Object_Type Get_Type() const { return type_; }
 private:
+#ifndef USE_FCPP
    void turnON(Subject *subject)
+#else
+   int turnON()
+#endif
    {
       std::cout << GetName() << " section Turn on" << std::endl;
+#ifdef USE_FCPP
+      return TURN_ON;
+#endif
    }
+#ifndef USE_FCPP
    void turnOFF(Subject *subject)
+#else
+   int turnOFF()
+#endif
    {
       std::cout << GetName() << " section Turn off" << std::endl;
+#ifdef USE_FCPP
+      return TURN_OFF;
+#endif
    }
 };
 
 #ifndef USE_FCPP
 class Signal : public Composite, public  EventHandler<Signal>
 #else
-class Signal : public Composite
+class Signal : public Composite, public  EventHandler
 #endif
 {
    const Object_Type type_ = Object_Type::Signal_type; 
