@@ -1,15 +1,12 @@
-// composite.h
-// First try at a composite header to go in a library
-// Change vector to list when remove does work.
-// Adding some things from refactoring.guru design
+// combined.h
+// This is a version of composite.h which makes all the elements
+// also compatible with the observer pattern.
+// This is used instead of composite and observer
 
-// This allows the setting of information on one parent.
-// There are other differences.
-// I have kept the print_ operations although this also allows for the return of a string.
+#ifndef COMBINED_H
+#define COMBINED_H
 
-
-#ifndef COMPOSITE_H
-#define COMPOSITE_H
+#include "observer.h"
 
 #include <list>
 #include <algorithm>
@@ -17,11 +14,21 @@
 
 using namespace std;
 
-class Component {
+//template <typename T>
+class Component : /*public EventHandler<T>,*/  public Subject  {
 protected:
    list<Component*> parents_;
 public:
-   virtual ~Component() { }
+    virtual ~Component() { }
+/*    void RegisterParents() {
+ *    This will not work at the moment as the parents are not guaranteed to be obervers.
+      if (hasParents() ) {
+        for (auto parent : parents_) {
+           registerObserver(parent);
+        }
+      }
+   }
+*/
    void SetParent(Component *parent) {
     this->parents_.push_back(parent);
    }
@@ -46,8 +53,8 @@ public:
       } else result = "no parents";
       return result;
    }
-   virtual void Add(/* const */ Component* component) { }
-   virtual void Remove(/* const */ Component* component) { }
+   virtual void Add(/* const */ Component* /*component*/) { }
+   virtual void Remove(/* const */ Component* /*component*/) { }
    virtual bool IsComposite() const {
     return false;
    }
@@ -56,9 +63,13 @@ public:
    virtual void print_() const = 0;
 };
 
+//template <typename T>
 class Composite : public Component {
   const string component_name;
 protected:
+// Major problem here as I want to store children of type Component<U> where U may be different.
+// I have to take out the Eventhandler<T> and do that at a higher level.
+// I don't think that is possible.....
   list<const Component*> children_;
 public:
   explicit Composite(const string& n) : component_name(n) { }
@@ -66,10 +77,12 @@ public:
     cout << component_name << " ";
     for (auto c: children_) c->print_(); 
   }
+  //template<typename U>
   void Add(/* const */ Component* component) {
     this->children_.push_back(component);
     component->SetParent(this);
   }
+  //template<typename U>
   void Remove(/* const */ Component* component) {
     component->RemoveParent(this);
     children_.remove(component);
@@ -93,6 +106,7 @@ public:
   }
 };
 
+//template <typename T>
 class Leaf : public Component {
 private:
   const string leaf_name;
@@ -107,6 +121,7 @@ public:
   void print_() const override {
     cout << leaf_name << " ";
   }
+  
 };
 
 #endif
