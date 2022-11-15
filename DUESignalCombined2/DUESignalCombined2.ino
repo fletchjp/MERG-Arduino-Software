@@ -69,74 +69,51 @@ public:
    Object_Type Get_Type() const { return type_; }
 };
 
-#ifndef USE_FCPP
-class Section : public Composite, public  EventHandler<Section>
-#else
 class Section : public Composite, public  Observer
-#endif
 {
   const Object_Type type_ = Object_Type::Section_type; 
 public:
    Section(const string& n) : Composite(n) { 
-#ifndef USE_FCPP
-      handlers[TURN_ON] = &Section::turnON; 
-      handlers[TURN_OFF] = &Section::turnOFF;
-#else 
       auto p =  fcpp::curry( fcpp::ptr_to_fun(&Section::turnON), this);
       auto q =  fcpp::curry( fcpp::ptr_to_fun(&Section::turnOFF), this);
       handlers[TURN_ON] = p;
       handlers[TURN_OFF] = q;
-#endif
    }
    Object_Type Get_Type() const { return type_; }
 private:
-#ifndef USE_FCPP
-   void turnON(Subject *subject)
-#else
    int turnON()
-#endif
    {
       std::cout << GetName() << " section Turn on" << std::endl;
-#ifdef USE_FCPP
       return TURN_ON;
-#endif
    }
-#ifndef USE_FCPP
-   void turnOFF(Subject *subject)
-#else
    int turnOFF()
-#endif
    {
       std::cout << GetName() << " section Turn off" << std::endl;
-#ifdef USE_FCPP
       return TURN_OFF;
-#endif
    }
 };
 
-#ifndef USE_FCPP
-class Signal : public Composite, public  EventHandler<Signal>
-#else
 class Signal : public Composite, public  Observer
-#endif
 {
    const Object_Type type_ = Object_Type::Signal_type; 
 public:
    Signal(const string& n) : Composite(n) { 
-#ifndef USE_FCPP
-      handlers[TURN_ON] = &Signal::turnON; 
-      handlers[TURN_OFF] = &Signal::turnOFF;     
-#endif
+      auto p =  fcpp::curry( fcpp::ptr_to_fun(&Signal::turnON), this);
+      auto q =  fcpp::curry( fcpp::ptr_to_fun(&Signal::turnOFF), this);
+      handlers[TURN_ON] = p;
+      handlers[TURN_OFF] = q;
    }
    Object_Type Get_Type() const { return type_; }
 private:
-   void turnON(Subject *subject)
+   void turnON()
    {
       std::cout << GetName() << " signal Turn on" << std::endl;
+      return TURN_ON;
    }
-   void turnOFF(Subject *subject)
+   void turnOFF()
    {
       std::cout << GetName() << " signal Turn off" << std::endl;
+      return TURN_OFF;
    }
 };
 
