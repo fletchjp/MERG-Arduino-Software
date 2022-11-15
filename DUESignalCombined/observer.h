@@ -110,20 +110,24 @@ public:
       std::cout << "onNotify called with " << event_no << std::endl;
       //if (dynamic_cast<T*>(this))
       //{
+#ifndef USE_FCPP
          auto it = handlers.find(event_no);
          if (it != handlers.end())
          {
             MFP item = it->second;
             ((static_cast<T*>(this))->*(item))(&subject);
          }
+#endif
       //}
       return NotifyAction::Done;
     }
 protected:
+#ifndef USE_FCPP
     std::map<EventNo, MFP> handlers;
+#endif
 };
 
-
+#ifndef USE_FCPP
 // Function body moved here where Observer is defined.
     void Subject::notifyObservers(EventNo const &event_no)
     {
@@ -135,4 +139,5 @@ protected:
       }
      } 
 #endif
+
 #endif

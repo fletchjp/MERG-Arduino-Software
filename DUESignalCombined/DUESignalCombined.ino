@@ -68,12 +68,18 @@ public:
 };
 
 #ifndef USE_FCPP
-class Section : public Composite, public  EventHandler<Section> {
+class Section : public Composite , public  EventHandler<Section>
+#else
+class Section : public Composite
+#endif
+{
   const Object_Type type_ = Object_Type::Section_type; 
 public:
    Section(const string& n) : Composite(n) { 
+#ifndef USE_FCPP
       handlers[TURN_ON] = &Section::turnON; 
       handlers[TURN_OFF] = &Section::turnOFF;     
+#endif
    }
    Object_Type Get_Type() const { return type_; }
 private:
@@ -87,12 +93,19 @@ private:
    }
 };
 
-class Signal : public Composite, public  EventHandler<Signal> {
+#ifndef USE_FCPP
+class Signal : public Composite, public  EventHandler<Signal>
+#else
+class Signal : public Composite
+#endif
+{
    const Object_Type type_ = Object_Type::Signal_type; 
 public:
    Signal(const string& n) : Composite(n) { 
+#ifndef USE_FCPP
       handlers[TURN_ON] = &Signal::turnON; 
       handlers[TURN_OFF] = &Signal::turnOFF;     
+#endif
    }
    Object_Type Get_Type() const { return type_; }
 private:
@@ -105,7 +118,6 @@ private:
       std::cout << GetName() << " signal Turn off" << std::endl;
    }
 };
-#endif
 
 class LED : public Leaf {
    const Object_Type type_ = Object_Type::LED_type; 
