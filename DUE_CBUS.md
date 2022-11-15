@@ -165,6 +165,12 @@ This continues the adaption of the observer example.
 
 Further development of DUEobserver. This now stores Fun0\<int\> objects to recover information from subjects.
 
+### DUESignalCombined
+
+### DUESignalCombined2
+
+These two examples involve the use of FC++ ptr_to_fun to improve SignalCombined.
+
 ## SK Pang codes
 
 I have downloaded several of the example codes which come with the two channel CAN shield. These use the same due_can library used by Duncan's library CBUSSAM3X8E. 
