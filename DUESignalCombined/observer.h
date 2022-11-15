@@ -101,6 +101,7 @@ class EventHandler : public Observer
 {
 public:
 #ifdef USE_FCPP
+    typedef std::map<const Event,std::pair<Event, Fun0<int> > > EventFun0;
 #else
     typedef void (T::*MFP)(Subject *);
 #endif
@@ -124,6 +125,8 @@ public:
 protected:
 #ifndef USE_FCPP
     std::map<EventNo, MFP> handlers;
+#else
+    EventFun0 handlers;
 #endif
 };
 
