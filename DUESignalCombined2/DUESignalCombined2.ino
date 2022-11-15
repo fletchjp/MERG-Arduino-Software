@@ -3,6 +3,18 @@
 // The objective is to get rid of the CRTP used for EventHandler.
 // Further changes to combine Observer and EventHandler classes as Observer.
 // FC++ ONLY
+///////////////////////////////////////////////////////////////////////////////
+// This combines the Composite and Observer Patterns.
+// All objects declared are Components, Subjects and Observers.
+// Components can be either Composite or Leaf.
+// Composite components can have other items (Composite or Leaf) as chilren using Add(&child)
+// An composite can have more than one child and any object can have more than one parent.
+// Optionslly child.RegisterParents() makes the parents of the child into observers as well.
+// Any observer has to define handlers which will respond to particular integer values from 
+// the subjects being observed. The handlers are member functions and they are indexed using the integer value.
+// See the examples in classes Track and Section below.
+// It is also possible to make other composite objects observers of any object. 
+///////////////////////////////////////////////////////////////////////////////
 
 // SignalCombined
 // Based on Arduino STL Composite5 and Observer6
@@ -12,8 +24,7 @@
 // Adding some things from refactoring.guru design
 // Adding support for multiple parents.
 /////////////////////////////////////////////////////////////////////////////////
-// This does not have enough memory on a UNO.
-// I am using a MEGA
+// I am using an Arduino DUE for the FC++
 /////////////////////////////////////////////////////////////////////////////////
 
 #include <ArduinoSTL.h>
@@ -45,22 +56,6 @@ vector<int> trial;
 static int TURN_ON = 0;
 static int TURN_OFF = 1;
 
-#ifdef USE_FCPP
-class ConcreteSubject : public Subject {
-   int state;
-public:
-   ConcreteSubject(int const&i = 0) : state(i) {}
-   int get_state() const { return state; }
-   void inc() {
-     state++;
-     cout << "s: About to notify new state" << endl;
-     notify();
-     cout << "s: New state notified" << endl;
-   }
-};
-
-#endif
-
 enum class Object_Type : int { Track_type, Section_type, Signal_type, LED_type, Detector_type };
 
 class Track : public Composite {
@@ -70,7 +65,7 @@ public:
    Object_Type Get_Type() const { return type_; }
 };
 
-class Section : public Composite //, public  Observer
+class Section : public Composite
 {
   const Object_Type type_ = Object_Type::Section_type; 
 public:
@@ -94,7 +89,7 @@ private:
    }
 };
 
-class Signal : public Composite //, public  Observer
+class Signal : public Composite
 {
    const Object_Type type_ = Object_Type::Signal_type; 
 public:
@@ -241,10 +236,13 @@ void setup() {
   {
      cout << starter_detector.GetName() << " has "  << starter_detector.numberOfParents()  << " parent(s)" << endl;
      cout << starter_detector.GetParentNames() << endl;
+     // This means that the parents are also observers
      starter_detector.RegisterParents();
   } else cout << starter_detector.GetName() << " has no parents" << endl;
 
   starter_detector.notifyObservers(TURN_ON);
+
+  starter_detector.notifyObservers(TURN_OFF);
 
   cout << "====================================================================" << endl;
   cout << "End of Signal Combined experiments" << endl;
