@@ -31,7 +31,7 @@
 using namespace fcpp;
 #define USE_FCPP
 
-#include "composite.h"
+#include "combined.h"
 
 #include "observer.h"
 
