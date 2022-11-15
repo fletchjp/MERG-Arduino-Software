@@ -72,7 +72,7 @@ public:
 #ifndef USE_FCPP
 class Section : public Composite, public  EventHandler<Section>
 #else
-class Section : public Composite, public  EventHandler
+class Section : public Composite, public  Observer
 #endif
 {
   const Object_Type type_ = Object_Type::Section_type; 
@@ -117,7 +117,7 @@ private:
 #ifndef USE_FCPP
 class Signal : public Composite, public  EventHandler<Signal>
 #else
-class Signal : public Composite, public  EventHandler
+class Signal : public Composite, public  Observer
 #endif
 {
    const Object_Type type_ = Object_Type::Signal_type; 

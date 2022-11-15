@@ -78,7 +78,6 @@ public:
    void update() {
       //cout << "Update: new state is " << subject.get_state() << endl;
    }
-    virtual NotifyAction onNotify(Subject& entity, EventNo const &event_no) = 0;
     virtual ~Observer() {}
     // Change to use a reference
     //typedef int N;
@@ -86,7 +85,7 @@ public:
 
 //class EventHandler : public Observer
 public:
-#ifdef USE_FCPP
+//#ifdef USE_FCPP
 //    EventHandler() {}
     typedef std::map<const EventNo,Fun0<int> > EventFun0;
     //typedef int N;
