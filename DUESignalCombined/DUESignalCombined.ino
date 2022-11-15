@@ -155,7 +155,7 @@ public:
 void setup() {
  ::delay(2000);
   Serial.begin(115200); 
-  while (!Serial) { }
+  while (!Serial) { ::delay(10); }
   ::delay(2000);
   printf("Signal Combined Patterns\n");
   for (int i = 0; i < 5; i++) trial.push_back(i);
@@ -165,11 +165,12 @@ void setup() {
   cout << "Test of Signal Composite Pattern" << endl;
 
 #ifdef USE_FCPP
-  ConcreteSubject s0, s1(1);
-  Observer obsA(s0);
-  Observer obsB(s1);
-  s0.inc();
-  s1.inc();
+// This is out of use.
+  //ConcreteSubject s0, s1(1);
+  //Observer obsA(s0);
+  //Observer obsB(s1);
+  //s0.inc();
+  //s1.inc();
 #else
   Composite composite("composite");
   Composite composite1("composite1");
@@ -233,8 +234,6 @@ void setup() {
   Detector home_detector("home_detector");
   Detector starter_detector("starter_detector");
 
-//#ifndef USE_FCPP
-
   home_signal.Add(&home_red);
   home_signal.Add(&home_yellow);
   home_signal.Add(&home_green);
@@ -262,10 +261,10 @@ void setup() {
   
   cout << down_line.GetName() << " has " << down_line.Operation() << endl;
 
-#ifndef USE_FCPP
   cout << "====================================================================" << endl;
   cout << "Start of Signal Observer experiments" << endl;
   cout << "====================================================================" << endl;
+
 
   std::cout << "home_detector has " << home_detector.numberOfObservers() << " observers" << std::endl;
   std::cout << "Call to registerObserver for home_detector";
@@ -286,11 +285,11 @@ void setup() {
   if (starter_detector.registerObserver(starter_signal)) 
       std::cout << " succeeded for " << starter_signal.GetName() << " signal" << std::endl;
   std::cout << "starter_detector has " << starter_detector.numberOfObservers() << " observers" << std::endl;
-
+//#ifndef USE_FCPP
   home_detector.notifyObservers(TURN_ON);
   
   home_detector.notifyObservers(TURN_OFF);
-#endif
+//#endif
 
   cout << "====================================================================" << endl;
   cout << "End of Signal Combined experiments" << endl;

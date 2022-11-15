@@ -59,9 +59,9 @@ public:
     {
        observers.erase(std::remove(std::begin(observers),std::end(observers), &observer),std::end(observers));
     }
-#ifndef USE_FCPP
+//#ifndef USE_FCPP
     void notifyObservers(EventNo const &event_no);
-#endif
+//#endif
     // The function body is moved to the end.
     size_t numberOfObservers() const { return observers.size(); }
 private:
@@ -71,22 +71,22 @@ private:
 class Observer 
 {
 #ifdef USE_FCPP
-   Subject& subject;
+   //Subject& subject;
 #endif
 public:
 #ifdef USE_FCPP
-   //Observer() {}
-   Observer( Subject& s ) : subject(s) {
+   Observer() {}
+/*   Observer( Subject& s ) : subject(s) {
       s.attach( makeFun0(
        //curry( ptr_to_fun(&Observer::update), this ) ) );
          lazy1( ptr_to_fun(&Observer::update), this ) ) );
    }
+ */
    void update() {
-      cout << "Update: new state is " << subject.get_state() << endl;
+      //cout << "Update: new state is " << subject.get_state() << endl;
    }
-#else
-    virtual NotifyAction onNotify(Subject& entity, EventNo const &event_no) = 0;
 #endif
+    virtual NotifyAction onNotify(Subject& entity, EventNo const &event_no) = 0;
     virtual ~Observer() {}
     // Change to use a reference
     //typedef int N;
@@ -98,10 +98,11 @@ private:
 // Adapting the EventHandler from Observer2
 template <typename T>
 #endif
-class EventHandler //: public Observer
+class EventHandler : public Observer
 {
 public:
 #ifdef USE_FCPP
+    EventHandler() {}
     typedef std::map<const EventNo,Fun0<int> > EventFun0;
 #else
     typedef void (T::*MFP)(Subject *);
@@ -138,7 +139,7 @@ protected:
 #endif
 };
 
-#ifndef USE_FCPP
+//#ifndef USE_FCPP
 // Function body moved here where Observer is defined.
     void Subject::notifyObservers(EventNo const &event_no)
     {
@@ -149,6 +150,6 @@ protected:
         observer->onNotify(*this, event_no);
       }
      } 
-#endif
+//#endif
 
 #endif
