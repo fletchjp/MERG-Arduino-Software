@@ -21,14 +21,6 @@ protected:
 public:
     virtual ~Component() { }
    void RegisterParents();
-/*   {
-//    This will not work at the moment as the parents are not guaranteed to be obervers.
-      if (hasParents() ) {
-        for (auto parent : parents_) {
-           this->registerObserver(parent);
-        }
-      }
-   }*/
    void SetParent(Component *parent) {
     this->parents_.push_back(parent);
    }
@@ -80,6 +72,7 @@ protected:
 // Major problem here as I want to store children of type Component<U> where U may be different.
 // I have to take out the Eventhandler<T> and do that at a higher level.
 // I don't think that is possible.....
+// This problem has been overcome using FC++.
   list<const Component*> children_;
 public:
   explicit Composite(const string& n) : component_name(n) { }
