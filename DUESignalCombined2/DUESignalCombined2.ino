@@ -70,7 +70,7 @@ public:
    Object_Type Get_Type() const { return type_; }
 };
 
-class Section : public Composite, public  Observer
+class Section : public Composite //, public  Observer
 {
   const Object_Type type_ = Object_Type::Section_type; 
 public:
@@ -94,7 +94,7 @@ private:
    }
 };
 
-class Signal : public Composite, public  Observer
+class Signal : public Composite //, public  Observer
 {
    const Object_Type type_ = Object_Type::Signal_type; 
 public:

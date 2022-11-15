@@ -15,20 +15,20 @@
 using namespace std;
 
 //template <typename T>
-class Component : /*public EventHandler<T>,*/  public Subject  {
+class Component : public Subject, public Observer  {
 protected:
    list<Component*> parents_;
 public:
     virtual ~Component() { }
-/*    void RegisterParents() {
- *    This will not work at the moment as the parents are not guaranteed to be obervers.
+   void RegisterParents();
+/*   {
+//    This will not work at the moment as the parents are not guaranteed to be obervers.
       if (hasParents() ) {
         for (auto parent : parents_) {
-           registerObserver(parent);
+           this->registerObserver(parent);
         }
       }
-   }
-*/
+   }*/
    void SetParent(Component *parent) {
     this->parents_.push_back(parent);
    }
@@ -47,7 +47,7 @@ public:
    string GetParentNames() const {
       string result;
       if (hasParents() ) {
-         for (const Component *c: GetParents() ) {
+         for (auto c: GetParents() ) {
            result += c->GetName() + " ";       
          }
       } else result = "no parents";
@@ -58,10 +58,20 @@ public:
    virtual bool IsComposite() const {
     return false;
    }
-   virtual string Operation() const = 0;
-   virtual string GetName() const = 0;
-   virtual void print_() const = 0;
+   virtual string Operation() const { return "nothing"; }
+   virtual string GetName() const { return "no name"; }
+   virtual void print_() const { };
 };
+
+
+   void Component::RegisterParents() {
+//    This will not work at the moment as the parents are not guaranteed to be obervers.
+      if (hasParents() ) {
+        for (auto parent : parents_) {
+           this->registerObserver(*parent);
+        }
+      }
+   }
 
 //template <typename T>
 class Composite : public Component {
@@ -73,7 +83,7 @@ protected:
   list<const Component*> children_;
 public:
   explicit Composite(const string& n) : component_name(n) { }
-  void print_() const override {
+  void print_() const {
     cout << component_name << " ";
     for (auto c: children_) c->print_(); 
   }
@@ -93,7 +103,7 @@ public:
   string GetName() const {
     return component_name;
   }
-  string Operation() const override {
+  string Operation() const {
     string result;
     for (const Component *c: children_) {
       if (c == children_.back() ) {
