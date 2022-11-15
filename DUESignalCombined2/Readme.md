@@ -2,6 +2,8 @@
 
 This is a further version of DUESignalCombined.
 
+It is now using the combined.h header instead of composite.h 
+
 The classes Observer and EventHandler have been combined as there was nothing much in Observer.
 
 The use of FC++ had removed the need for EventHandler to have a template of the upper type.
