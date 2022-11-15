@@ -31,11 +31,12 @@
 using namespace fcpp;
 #define USE_FCPP
 
+using namespace std;
+
 #include "combined.h"
 
-#include "observer.h"
+//#include "observer.h"
 
-using namespace std;
 
 vector<int> trial;
 
@@ -124,7 +125,9 @@ public:
    Object_Type Get_Type() const { return type_; }
 };
 
-class Detector : public Leaf,  public Subject {
+// Leaf already has public Subject
+class Detector : public Leaf //,  public Subject 
+{
    const Object_Type type_ = Object_Type::Detector_type; 
 public:
    Detector(const string& n) : Leaf(n) { }
