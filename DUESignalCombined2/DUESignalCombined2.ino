@@ -1,7 +1,7 @@
 // DUESignalCombined2
 // Exploring use of FC++ from DUEobserver2
 // The objective is to get rid of the CRTP used for EventHandler.
-// Further changes to combine Observer and EventHandler classes.
+// Further changes to combine Observer and EventHandler classes as Observer.
 // FC++ ONLY
 
 // SignalCombined
@@ -105,12 +105,12 @@ public:
    }
    Object_Type Get_Type() const { return type_; }
 private:
-   void turnON()
+   int turnON()
    {
       std::cout << GetName() << " signal Turn on" << std::endl;
       return TURN_ON;
    }
-   void turnOFF()
+   int turnOFF()
    {
       std::cout << GetName() << " signal Turn off" << std::endl;
       return TURN_OFF;
@@ -238,6 +238,9 @@ void setup() {
   down_line.Add(&section1);
   down_line.Add(&section2);
   
+  cout << down_line.GetName() << " has " << down_line.Operation() << endl;
+
+  down_line.Remove(&section2);
   cout << down_line.GetName() << " has " << down_line.Operation() << endl;
 
   cout << "====================================================================" << endl;
