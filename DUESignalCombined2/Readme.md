@@ -4,7 +4,20 @@ This is a further version of DUESignalCombined.
 
 It is now using the combined.h header instead of composite.h 
 
-All Components are now also Subjects.
+///////////////////////////////////////////////////////////////////////////////
+// This combines the Composite and Observer Patterns.
+// All objects declared are Components, Subjects and Observers.
+// Components can be either Composite or Leaf.
+// Composite components can have other items (Composite or Leaf) as chilren using Add(&child)
+// An composite can have more than one child and any object can have more than one parent.
+// Optionslly child.RegisterParents() makes the parents of the child into observers as well.
+// Any observer has to define handlers which will respond to particular integer values from 
+// the subjects being observed. The handlers are member functions and they are indexed using the integer value.
+// See the examples in classes Track and Section below.
+// It is also possible to make other composite objects observers of any object. 
+///////////////////////////////////////////////////////////////////////////////
+
+All Components are now also Subjects and Observers.
 
 The classes Observer and EventHandler have been combined as there was nothing much in Observer.
 
@@ -23,3 +36,4 @@ This can be done because the map now holds a pointer to function which is indepe
 I have done this on the simpler version - it could now be extended to the combined version.
 
 This will enable the parents of an object to become observers automatically if that is desired.
+
