@@ -96,10 +96,14 @@ private:
 #ifndef USE_FCPP
 // Adapting the EventHandler from Observer2
 template <typename T>
+#endif
 class EventHandler : public Observer
 {
 public:
+#ifdef USE_FCPP
+#else
     typedef void (T::*MFP)(Subject *);
+#endif
     //typedef int N;
     NotifyAction onNotify(Subject& subject, EventNo const &event_no)
     {
