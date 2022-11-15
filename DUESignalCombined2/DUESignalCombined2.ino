@@ -14,7 +14,7 @@
 // the subjects being observed. The handlers are member functions and they are indexed using the integer value.
 // See the examples in classes Track and Section below.
 // It is also possible to make other composite objects observers of any object. 
-///////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////// 
 
 // SignalCombined
 // Based on Arduino STL Composite5 and Observer6
