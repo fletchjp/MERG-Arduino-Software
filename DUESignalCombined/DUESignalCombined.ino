@@ -193,17 +193,14 @@ void setup() {
   cout << "Signal Composite experiments" << endl;
   cout << "====================================================================" << endl;
 
-// All examples out of use for now.
   Track down_line("down_line");
-
-#ifndef USE_FCPP
 
   Section section1("section_1");
   Section section2("section_2");
   
   Signal home_signal("home");
   Signal starter_signal("starter");
-#endif
+
 // Leaf definitions
 
   LED home_red("home_red");
@@ -217,7 +214,7 @@ void setup() {
   Detector home_detector("home_detector");
   Detector starter_detector("starter_detector");
 
-#ifndef USE_FCPP
+//#ifndef USE_FCPP
 
   home_signal.Add(&home_red);
   home_signal.Add(&home_yellow);
@@ -246,6 +243,7 @@ void setup() {
   
   cout << down_line.GetName() << " has " << down_line.Operation() << endl;
 
+#ifndef USE_FCPP
   cout << "====================================================================" << endl;
   cout << "Start of Signal Observer experiments" << endl;
   cout << "====================================================================" << endl;
