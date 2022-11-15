@@ -68,76 +68,46 @@ private:
     std::vector<Observer*> observers;
 };
 
+#ifdef USE_FCPP
+// This now includes EventHandler.
 class Observer 
 {
-#ifdef USE_FCPP
    //Subject& subject;
-#endif
 public:
-#ifdef USE_FCPP
    Observer() {}
-/*   Observer( Subject& s ) : subject(s) {
-      s.attach( makeFun0(
-       //curry( ptr_to_fun(&Observer::update), this ) ) );
-         lazy1( ptr_to_fun(&Observer::update), this ) ) );
-   }
- */
    void update() {
       //cout << "Update: new state is " << subject.get_state() << endl;
    }
-#endif
     virtual NotifyAction onNotify(Subject& entity, EventNo const &event_no) = 0;
     virtual ~Observer() {}
     // Change to use a reference
     //typedef int N;
-private:
 
-};
 
-#ifndef USE_FCPP
-// Adapting the EventHandler from Observer2
-template <typename T>
-#endif
-class EventHandler : public Observer
-{
+//class EventHandler : public Observer
 public:
 #ifdef USE_FCPP
-    EventHandler() {}
+//    EventHandler() {}
     typedef std::map<const EventNo,Fun0<int> > EventFun0;
-#else
-    typedef void (T::*MFP)(Subject *);
-#endif
     //typedef int N;
     NotifyAction onNotify(Subject& subject, EventNo const &event_no)
     {
       std::cout << "onNotify called with " << event_no << std::endl;
       //if (dynamic_cast<T*>(this))
       //{
-#ifndef USE_FCPP
-         auto it = handlers.find(event_no);
-         if (it != handlers.end())
-         {
-            MFP item = it->second;
-            ((static_cast<T*>(this))->*(item))(&subject);
-         }
-#else
       // Note that the subject is no longer needed.
          auto it = handlers.find(event_no);
          if (it != handlers.end())
          {
             it->second();
          }
-#endif
       //}
       return NotifyAction::Done;
     }
 protected:
-#ifndef USE_FCPP
-    std::map<EventNo, MFP> handlers;
-#else
     EventFun0 handlers;
-#endif
 };
+#endif
 
 //#ifndef USE_FCPP
 // Function body moved here where Observer is defined.
