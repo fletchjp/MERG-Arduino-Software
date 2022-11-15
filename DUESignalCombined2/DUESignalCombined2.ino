@@ -139,60 +139,11 @@ void setup() {
   Serial.begin(115200); 
   while (!Serial) { ::delay(10); }
   ::delay(2000);
-  printf("Signal Combined Patterns\n");
-  for (int i = 0; i < 5; i++) trial.push_back(i);
-  // range-based for loop
-  for (auto i : trial) cout << i << " ";
-  cout << endl;
-  cout << "Test of Signal Composite Pattern" << endl;
-
-#ifdef USE_FCPP
-// This is out of use.
-  //ConcreteSubject s0, s1(1);
-  //Observer obsA(s0);
-  //Observer obsB(s1);
-  //s0.inc();
-  //s1.inc();
-#else
-  Composite composite("composite");
-  Composite composite1("composite1");
-  composite.print_();
-  Leaf leaf1("leaf1");
-  Leaf leaf2("leaf2");
-  Leaf leaf3("leaf3");
-  Leaf leaf4("leaf4");
-  leaf1.print_();
-  cout << endl;
-  composite1.Add(&leaf1);
-  composite1.Add(&leaf2);
-  composite.Add(&composite1);
-  composite.Add(&leaf3);
-  composite1.Add(&leaf3);
-
-  composite1.print_();
-  cout << endl;
-
-  composite.print_();
-  cout << endl;
-
-  cout << composite.Operation() << endl;
-
-  cout << leaf3.GetName() << " has parent(s) " << leaf3.GetParentNames() << endl;
-
-  composite.Remove(&composite1);
-  
-  composite.print_();
-  cout << endl;
-  
-  composite1.Remove(&leaf3);
-  cout << leaf3.GetName() << " has parent(s) " << leaf3.GetParentNames() << endl;
-
-  cout << leaf4.GetName() << " has parent(s) " << leaf4.GetParentNames() << endl;
-
-  cout << composite.GetName() << " has parent(s) " << composite.GetParentNames() << endl;
-#endif
   cout << "====================================================================" << endl;
-  cout << "Signal Composite experiments" << endl;
+  printf("Signal Combined Patterns\n");
+
+  cout << "====================================================================" << endl;
+  cout << "Signal Combined experiments" << endl;
   cout << "====================================================================" << endl;
 
   Track down_line("down_line");
@@ -220,6 +171,7 @@ void setup() {
   home_signal.Add(&home_yellow);
   home_signal.Add(&home_green);
 
+
   starter_signal.Add(&starter_red);
   starter_signal.Add(&starter_yellow);
   starter_signal.Add(&starter_green);
@@ -246,6 +198,12 @@ void setup() {
   down_line.Remove(&section2);
   cout << down_line.GetName() << " has " << down_line.Operation() << endl;
 
+  if (starter_signal.hasParents() )
+  {
+     cout << starter_signal.GetName() << " has "  << starter_signal.numberOfParents()  << " parent(s)" << endl;
+     cout << starter_signal.GetParentNames() << endl;
+  } else cout << starter_signal.GetName() << " has no parents" << endl;
+
   cout << "====================================================================" << endl;
   cout << "Start of Signal Observer experiments" << endl;
   cout << "====================================================================" << endl;
@@ -270,10 +228,23 @@ void setup() {
   if (starter_detector.registerObserver(starter_signal)) 
       std::cout << " succeeded for " << starter_signal.GetName() << " signal" << std::endl;
   std::cout << "starter_detector has " << starter_detector.numberOfObservers() << " observers" << std::endl;
-//#ifndef USE_FCPP
+  if (home_detector.hasParents() )
+  {
+     cout << home_detector.GetName() << " has "  << home_detector.numberOfParents()  << " parent(s)" << endl;
+     cout << home_detector.GetParentNames() << endl;
+  } else cout << home_detector.GetName() << " has no parents" << endl;
+
   home_detector.notifyObservers(TURN_ON);
   
   home_detector.notifyObservers(TURN_OFF);
+  if (starter_detector.hasParents() )
+  {
+     cout << starter_detector.GetName() << " has "  << starter_detector.numberOfParents()  << " parent(s)" << endl;
+     cout << starter_detector.GetParentNames() << endl;
+     starter_detector.RegisterParents();
+  } else cout << starter_detector.GetName() << " has no parents" << endl;
+
+  starter_detector.notifyObservers(TURN_ON);
 
   cout << "====================================================================" << endl;
   cout << "End of Signal Combined experiments" << endl;
