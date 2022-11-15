@@ -289,7 +289,6 @@ void setup() {
   home_detector.notifyObservers(TURN_ON);
   
   home_detector.notifyObservers(TURN_OFF);
-//#endif
 
   cout << "====================================================================" << endl;
   cout << "End of Signal Combined experiments" << endl;
