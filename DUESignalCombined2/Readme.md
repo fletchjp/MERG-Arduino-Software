@@ -39,7 +39,20 @@ This will enable the parents of an object to become observers automatically if t
 
 ## Where next?
 
-I need to put the headers into a library once they are stable.
+I need to put the headers into a library once they are stable. These have changed from the ones before I used FC++.
 
 I also need to put the FC++ files into a library so that only the ones needed are compiled.
 
+## Usability
+
+At the moment the users have to make the handler code, which is reasonable as that is a user function.  
+There is also a need to choose values for the event numbers which are used to index the actions and trigger the notification.  
+Those need to be chosen so that there are no duplicates in any Subjct or Observer.  
+Finally, there is a need to put the handlers into the index in each Observer class.  
+This is done in the constructor for the class.  
+What is inserted is a pointer to the member function in the class. 
+
+      auto p =  fcpp::curry( fcpp::ptr_to_fun(&Section::turnON), this);  
+      handlers[TURN_ON] = p;  
+
+Here TURN_ON has already been declared as a global const int value.
