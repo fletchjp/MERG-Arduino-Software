@@ -4,6 +4,8 @@ This is a further version of DUESignalCombined.
 
 It is now using the combined.h header instead of composite.h 
 
+At the moment there are only simple examples to make sure that all of the operations are working.
+
 ///////////////////////////////////////////////////////////////////////////////  
 // This combines the Composite and Observer Patterns.  
 // All objects declared are Components, Subjects and Observers.  
