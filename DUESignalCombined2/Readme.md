@@ -37,3 +37,9 @@ I have done this on the simpler version - it could now be extended to the combin
 
 This will enable the parents of an object to become observers automatically if that is desired.
 
+## Where next?
+
+I need to put the headers into a library once they are stable.
+
+I also need to put the FC++ files into a library so that only the ones needed are compiled.
+
