@@ -55,4 +55,6 @@ What is inserted is a pointer to the member function in the class.
       auto p =  fcpp::curry( fcpp::ptr_to_fun(&Section::turnON), this);  
       handlers[TURN_ON] = p;  
 
-Here TURN_ON has already been declared as a global const int value.
+Here TURN_ON has already been declared as a global const int value.  
+This is the only location where the user has to use FC++ code.  
+This could be made into a macro to hide the details.
