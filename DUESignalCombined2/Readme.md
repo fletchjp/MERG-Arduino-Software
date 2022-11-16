@@ -6,7 +6,8 @@ It is now using the combined.h header instead of composite.h
 
 At the moment there are only simple examples to make sure that all of the operations are working.
 
-These codes are configured to use an Arduino DUE at the moment. I think that it is possible to port this for a Raspberry Pi Pico. 
+These codes are configured to use an Arduino DUE at the moment. That is where I have the FC++ code I am using available. 
+I think that it is possible to port this to a Raspberry Pi Pico. 
 
 ///////////////////////////////////////////////////////////////////////////////  
 // This combines the Composite and Observer Patterns.  
