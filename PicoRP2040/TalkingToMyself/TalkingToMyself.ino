@@ -7,6 +7,8 @@
 // To run, connect GPIO0 to GPIO2, GPIO1 to GPIO3 on a single Pico
 // I have added 4 to the pin numbers to get a set of pin values.
 
+// It ia also possible to start at 8, 12, 16 or 20 instead.
+
 #include <Wire.h>
 
 void setup() {
