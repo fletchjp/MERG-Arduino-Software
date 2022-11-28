@@ -1,5 +1,5 @@
-/// @file PicoSPIHatPins.ino
-/// @brief Pico SPI example documented with the pins for the RS485 CAN Hat.
+/// @file PicoRS485HatPins.ino
+/// @brief Change Pico SPI example documented with the pins for the RS485 CAN Hat to use RS485
 
 /*
  * licenced with Creative Commons: CC0 1.0 Universal (CC0 1.0)
