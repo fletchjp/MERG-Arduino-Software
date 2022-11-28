@@ -5,8 +5,8 @@
  * licenced with Creative Commons: CC0 1.0 Universal (CC0 1.0)
  */
 
-#include <PicoSPI.h>
-
+//#include <PicoSPI.h>
+#include <SerialPIO.h>
 
 // PicoSPI library provides two objects for the RP2040 chip's two SPI units,
 // PicoSPI0 and PicoSPI1.
