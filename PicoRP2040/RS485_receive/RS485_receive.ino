@@ -31,13 +31,22 @@
 #define BAUD_RATE 115200
 #define DATA_BITS 8
 #define STOP_BITS 1
+#define PARITY UART_PARITY_NONE
 
 #define UART_TX_PIN 0
 #define UART_RX_PIN 1
 
 void setup() {
    uint8_t flag = 1;
-
+   stdio_init_all();
+   uart_init(UART_ID,115200);
+   gpio_set_function(UART_TX_PIN, GPIO_FUNC_UART);
+   gpio_set_function(UART_RX_PIN, GPIO_FUNC_UART);
+   uart_set_baudrate(UART_ID, BAUD_RATE);
+   uart_set_hw_flow(UART_ID, false, false);
+   uart_set_format(UART_ID, DATA_BITS, STOP_BITS, PARITY);
+   uart_set_fifo_enabled(UART_ID, true);
+   uart_puts(UART_ID, "RS485 receive test\r\n");
 }
 
 void loop() {
