@@ -25,7 +25,7 @@
 #include "hardware/uart.h"
 #include "hardware/irq.h"
 
-#define LED_PIN 25
+const uint LED_PIN = 25;
 
 #define UART_ID uart0
 #define BAUD_RATE 115200
@@ -38,7 +38,7 @@
 
 void setup() {
    uint8_t flag = 1;
-   stdio_init_all();
+   //stdio_init_all();
    uart_init(UART_ID,115200);
    gpio_set_function(UART_TX_PIN, GPIO_FUNC_UART);
    gpio_set_function(UART_RX_PIN, GPIO_FUNC_UART);
@@ -47,9 +47,15 @@ void setup() {
    uart_set_format(UART_ID, DATA_BITS, STOP_BITS, PARITY);
    uart_set_fifo_enabled(UART_ID, true);
    uart_puts(UART_ID, "RS485 receive test\r\n");
+
+   gpio_init(LED_PIN);
+   gpio_set_dir(LED_PIN, GPIO_OUT);
 }
 
+// The flashing works
 void loop() {
-
- 
+   gpio_put(LED_PIN, 1);
+   sleep_ms(500);
+   gpio_put(LED_PIN, 0);
+   sleep_ms(500);
 }
