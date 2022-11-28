@@ -48,8 +48,17 @@
  * 
  */
 
+// Information for RS485
+static int ledPin = 25; // Pico built in LED.
+static int EN = 22;  // RS485 enable/disable pin for Rx/Tx
+
+
 void setup() 
 {
+// Configuration for RS485
+  pinMode(ledPin, OUTPUT);
+  pinMode(EN, OUTPUT);
+
   // configure SPI0 for
   // SCLK = pin 2    (alternative pins are 6, 18, 22)
   // MOSI = pin 3    (alternative pins are 7, 19)
