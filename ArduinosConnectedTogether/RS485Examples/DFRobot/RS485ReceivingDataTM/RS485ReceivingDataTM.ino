@@ -35,7 +35,7 @@ void switch_on() {
 void setup() {
   // put your setup code here, to run once:
   pinMode(EN, OUTPUT);
-  Serial.begin(19200);
+  Serial.begin(115200);
   pinMode(ledPin, OUTPUT);
   digitalWrite(ledPin, LOW);
   Led_State = LED_off;
