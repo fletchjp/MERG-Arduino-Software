@@ -1,6 +1,7 @@
 // RS485_receive.ino
 // Adapted from RS485CANHat
 // Using code from the waveshare example
+// Arduino-pico docs say that the only baud rate supported is 115200
 
 // Exploring what is available for the Hat when attached to a Pico.
 
