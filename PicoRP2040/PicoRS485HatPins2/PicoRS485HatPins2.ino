@@ -50,7 +50,7 @@
 
 // Information for RS485
 static int ledPin = 25; // Pico built in LED.
-static int EN = 22;  // RS485 enable/disable pin for Rx/Tx
+static int EN = 6;  // RS485 enable/disable pin for Rx/Tx
 int val;
 
 
@@ -102,7 +102,7 @@ void loop()
 
   // this example only configures SPI1 and doesn't use.
 
-  //delayMicroseconds (100) ; // to make the output easier to see on a scope
+  //delayMicroseconds (100) ; // to make the output easier to see on a scope 
   digitalWrite(EN, LOW); // Enable receiving data
   val = Serial.read();
   if (-1 != val) {
