@@ -59,7 +59,7 @@ void setup()
 // Configuration for RS485 which is using Serial
   pinMode(ledPin, OUTPUT);
   pinMode(EN, OUTPUT);
-  Serial.begin(19200);
+  Serial.begin(115200);
 
   // configure SPI0 for
   // SCLK = pin 2    (alternative pins are 6, 18, 22)
