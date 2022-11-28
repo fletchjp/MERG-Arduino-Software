@@ -52,7 +52,7 @@ I have modified to have separate TRASMIT and receive versions depending on #defi
 
 This has been developed using TaskManagerIO. Not yet tested.
 
-This also has separate TRASMIT and receive versions depending on #define TRANSMIT.
+This also has separate TRANSMIT and receive versions depending on #define TRANSMIT.
 
 ## RS485AutoDataWriter
 
