@@ -51,13 +51,15 @@
 // Information for RS485
 static int ledPin = 25; // Pico built in LED.
 static int EN = 22;  // RS485 enable/disable pin for Rx/Tx
+int val;
 
 
 void setup() 
 {
-// Configuration for RS485
+// Configuration for RS485 which is using Serial
   pinMode(ledPin, OUTPUT);
   pinMode(EN, OUTPUT);
+  Serial.begin(19200);
 
   // configure SPI0 for
   // SCLK = pin 2    (alternative pins are 6, 18, 22)
@@ -65,10 +67,10 @@ void setup()
   // MISO = pin 4    (alternative pins are 0, 16, 20)
   // CS   = pin 5    (alternative pins are 1, 17, 21)
   // and for 1MHz clock, in mode 0, without automatic transactions
-  if (! PicoSPI0.configure (2, 3, 4, 5, 1000000, 0, false))
-  {
-    while (true) {}
-  }
+  //if (! PicoSPI0.configure (2, 3, 4, 5, 1000000, 0, false))
+  //{
+  //  while (true) {}
+  //}
   // note that if you pass an incompatible pin (check the pinout diagrams), or if the mode
   // isn't valid, the configure method return false and the SPI won't work - check the result
   // from configure().
@@ -88,15 +90,29 @@ void setup()
 
 void loop()
 {
+  /*
   static byte b = 0 ;
   
   PicoSPI0.beginTransaction() ;
   PicoSPI0.transfer (b) ;  // increment the byte after sending it twice in one transaction
   PicoSPI0.transfer (b++) ;
   PicoSPI0.endTransaction() ;
+  */
   // note this example ignores the returned byte(s)
 
   // this example only configures SPI1 and doesn't use.
 
-  delayMicroseconds (100) ; // to make the output easier to see on a scope
+  //delayMicroseconds (100) ; // to make the output easier to see on a scope
+  digitalWrite(EN, LOW); // Enable receiving data
+  val = Serial.read();
+  if (-1 != val) {
+    if ('A' == val) {
+      digitalWrite(ledPin, HIGH);
+      delay(500);
+      digitalWrite(ledPin, LOW);
+      delay(500);
+    }
+  }
+
+
 }
