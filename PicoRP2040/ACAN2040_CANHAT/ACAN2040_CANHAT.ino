@@ -1,5 +1,5 @@
 // ACAN2040_CANHAT
-// Modified for the CANHAT
+// To be modified for the CANHAT although I am not sure what is needed.
 // Pico CAN test
 
 #include <ACAN2040.h>
