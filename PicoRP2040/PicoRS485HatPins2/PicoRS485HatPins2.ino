@@ -1,6 +1,8 @@
 /// @file PicoRS485HatPins.ino
 /// @brief Change Pico SPI example documented with the pins for the RS485 CAN Hat to use RS485
 
+// When I connect this to my pair of Arduinos, the receiving Arduino stops flashing.
+
 /*
  * licenced with Creative Commons: CC0 1.0 Universal (CC0 1.0)
  */
