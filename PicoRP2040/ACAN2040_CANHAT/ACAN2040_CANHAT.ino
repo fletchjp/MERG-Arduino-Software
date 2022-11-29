@@ -26,6 +26,8 @@ void setup() {
 
   Serial.begin(115200);
   while (!Serial);
+  delay(1000);
+  printf("test of output\n");
   Serial.printf("\n\nACAN2040 test, bitrate = %lu kbps, syscl = %lu mhz\n", BITRATE, SYSCLK);
 
   // create a test message
@@ -37,7 +39,7 @@ void setup() {
 
   // start CAN
   Serial.printf("starting CAN bus\n");
-  can2040.begin();
+  //can2040.begin();
 
   Serial.printf("setup complete, free memory = %lu bytes\n\n", rp2040.getFreeHeap());
   Serial.printf("type 's' to send a test message\n\n");
