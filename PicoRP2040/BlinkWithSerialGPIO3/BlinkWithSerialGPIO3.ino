@@ -25,8 +25,8 @@
 // the setup function runs once when you press reset or power the board
 void setup() {
   // initialize digital pin LED_BUILTIN as an output.
-  while(!Serial);
   Serial.begin(115200);
+  while(!Serial);
   Serial.println("Blink adapted to send a message");
   pinMode(LED_BUILTIN, OUTPUT);
   // These are the GP pin numbers. It is as simple as that.
