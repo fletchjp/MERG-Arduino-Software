@@ -1,6 +1,9 @@
 // CBUS_empty_Pico_v3
-// Modifications for the RS485 CAN Hat with option for FCU from the Arduino IDE.
-//
+// Modifications for the RS485 CAN Hat from the Arduino IDE.
+// This now has external EEPROM
+// It uses WIre1 for the I2C as Wire does not work.
+// Crashing out is now much reduced.
+// DO NOT USE while(!Serial) in an RP2040!!!
 ///
 //
 
