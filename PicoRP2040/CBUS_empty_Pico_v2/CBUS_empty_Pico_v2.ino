@@ -159,7 +159,7 @@ void setupCBUS() {
 
   // configure and start CAN bus and CBUS message processing
   CBUS.setNumBuffers(8, 4);          // more buffers = more memory used, fewer = less
-  CBUS.setOscFreq(16000000UL);       // select the crystal frequency of the CAN module
+  CBUS.setOscFreq(12000000UL);       // select the crystal frequency of the CAN module
 
   // Pico SPI peripherals have no default pins so all values must be provided
   CBUS.setPins(CAN_CS, CAN_INT, MCP2515_MISO, MCP2515_SCK, MCP2515_MOSI);
@@ -183,8 +183,8 @@ void setup() {
   unsigned long t1 = millis();
 
   Serial.begin (115200);
-  while (!Serial && millis() - t1 < 5000);
-
+  //while (!Serial && millis() - t1 < 5000);
+  delay(5000);
   t1 = millis();
 
   Serial << endl << endl << F("> ** CBUS Arduino basic example module ** ") << __FILE__ << endl;
