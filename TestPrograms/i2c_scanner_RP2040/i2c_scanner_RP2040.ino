@@ -7,16 +7,16 @@
 #include <Wire.h>
 
 // Set I2C bus to use: Wire, Wire1, etc.
-#define WIRE Wire
+#define WIRE Wire1
 
 void setup() {
   delay(5000);
   Serial.begin(115200);
   delay(5000);
   Serial.println("\nI2C Scanner for Pico");
-  //WIRE.setSDA(6);
-  //WIRE.setSCL(7);
-  //WIRE.begin();
+  WIRE.setSDA(6);
+  WIRE.setSCL(7);
+  WIRE.begin(0x30);
   //while (!Serial)
    //  delay(10);
   Serial.println("\nI2C Scanner about to start");
@@ -31,7 +31,7 @@ void loop() {
   Serial.println("Scanning...");
 
   nDevices = 0;
-  /*
+  
   for(address = 0x50; address < 0x51; address++ ) 
   {
     // The i2c_scanner uses the return value of
@@ -64,9 +64,9 @@ void loop() {
     Serial.print(nDevices);
     Serial.println(" devices found - done\n");
   }
-  */
-    Serial.print(nDevices);
-    Serial.println(" devices found - done\n");
+  
+  //  Serial.print(nDevices);
+  //  Serial.println(" devices found - done\n");
 
   delay(5000);           // wait 5 seconds for next scan
 }
