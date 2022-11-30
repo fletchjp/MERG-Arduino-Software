@@ -2,12 +2,21 @@
 // A copy of CBUS_empty_Pico_v3 to explore the problems.
 // Modifications for the RS485 CAN Hat from the Arduino IDE.
 // This now has external EEPROM
-// It uses WIre1 for the I2C as Wire does not work.
+// It uses Wire1 for the I2C as Wire does not work.
 // Crashing out is now much reduced.
 // DO NOT USE while(!Serial) in an RP2040!!!
 ///
 //
+/// This activates the long message code.
+#define CBUS_LONG_MESSAGE
+#define DEBUG       0   // set to 0 for no serial debug
+#if DEBUG
+#define DEBUG_PRINT(S) Serial << S << endl
+#else
+#define DEBUG_PRINT(S)
+#endif
 
+#define USE_EXTERNAL_EEPROM
 /*
   Copyright (C) Duncan Greenwood 2017 (duncan_greenwood@hotmail.com)
 
@@ -91,16 +100,22 @@ CBUSConfig module_config;           // configuration object
 CBUS2515 CBUS(&module_config);      // CBUS object
 CBUSLED ledGrn, ledYlw;             // two LED objects
 CBUSSwitch pb_switch;               // switch object
+#ifdef CBUS_LONG_MESSAGE
 CBUSLongMessageEx lmsg(&CBUS);      // long message object
+#endif
 
 // module name, must be 7 characters, space padded.
 unsigned char mname[7] = { 'R', 'P', 'I', 'P', 'I', 'C', 'O' };
+#ifdef CBUS_LONG_MESSAGE
 byte streamids[] = { 1, 2, 3};
+#endif
 
 // forward function declarations
 void eventhandler(byte index, byte opc);
 void framehandler(CANFrame *msg);
+#ifdef CBUS_LONG_MESSAGE
 void longmessagehandler(void *msg, unsigned int msg_len, byte stream_id, byte status);
+#endif
 
 //
 /// setup CBUS - runs once at power on from setup()
@@ -117,9 +132,12 @@ void setupCBUS() {
   module_config.EE_BYTES_PER_EVENT = (module_config.EE_NUM_EVS + 4);
   
   // initialise and load configuration
+#ifdef USE_EXTERNAL_EEPROM
   module_config.setExtEEPROMAddress(0x50, &WIRE);
   module_config.setEEPROMtype(EEPROM_EXTERNAL);
-
+#else
+  module_config.setEEPROMtype(EEPROM_INTERNAL);
+#endif
   Serial << "about to run module_config.begin()" << endl;
   module_config.begin();
 
@@ -134,7 +152,9 @@ void setupCBUS() {
   params.setVersion(VER_MAJ, VER_MIN, VER_BETA);
   params.setModuleId(103);
   params.setFlags(PF_FLiM | PF_COMBI);
-
+#ifdef USE_EXTERNAL_EEPROM
+  module_config.writeBytesEEPROM(module_config.getEEPROMsize()+1,params.getParams(),params.size());
+#endif
   // assign to CBUS
   CBUS.setParams(params.getParams());
   CBUS.setName(mname);
@@ -309,6 +329,13 @@ void printConfig(void) {
 
   // copyright
   Serial << F("> © Duncan Greenwood (MERG M5767) 2019") << endl;
+
+#ifdef ARDUINO_ARCH_RP2040
+  Serial << "> running on ARDUINO_ARCH_RP2040" << endl;
+#endif
+#ifdef USE_EXTERNAL_EEPROM
+  Serial << "> using EXTERNAL EEPROM" << endl;
+#endif
   return;
 }
 
