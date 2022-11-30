@@ -191,8 +191,8 @@ void setup() {
   Serial << F("> Running on Raspberry Pi Pico, startup ms = ") << t1 << endl;
 
   // I2C bus scan
-  Wire.setSDA(16);
-  Wire.setSCL(17);
+  Wire.setSDA(6);
+  Wire.setSCL(7);
   Wire.setClock(400000);
   Wire.begin();
 
