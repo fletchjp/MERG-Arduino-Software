@@ -40,4 +40,13 @@ Test code for the ACAN2040 library.
 
 ## ACAN2040_CANHAT
 
-Intended to use ACAN2040 with the CANHAT.
+Intended to use ACAN2040 with the CANHAT. This turns out to be the wrong thing to do for this hardware.
+
+## CBUS_empty_Pico_v1
+
+This is a code from Duncan Greenwood which needs adapting for the CANHAT.
+
+## CBUS_empty_Pico_v2
+
+First attempt to modify v1 for the CANHAT.
+
