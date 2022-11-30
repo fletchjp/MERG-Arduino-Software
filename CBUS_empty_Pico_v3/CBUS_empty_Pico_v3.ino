@@ -74,6 +74,10 @@ static const byte MCP2515_MOSI = 3;      // SDI input of MCP2515
 static const byte MCP2515_MISO = 4;      // SDO output of MCP2515
 static const byte CAN_CS  = 5;           // CS input of MCP2515
 
+#define WIRE Wire1
+static const byte WIRE_SDA = 6;
+static const byte WIRE_SCL = 7;
+
 const byte LED_YLW = 20;                 // CBUS yellow FLiM LED pin
 const byte LED_GRN = 21;                 // CBUS green SLiM LED pin
 const byte SWITCH0 = 22;                 // CBUS push button switch pin
@@ -99,6 +103,7 @@ void longmessagehandler(void *msg, unsigned int msg_len, byte stream_id, byte st
 //
 void setupCBUS() {
 
+  Serial << "Starting setupCBUS" << endl;
   // set config layout parameters
   module_config.EE_NVS_START = 10;
   module_config.EE_NUM_NVS = 10;
@@ -106,10 +111,12 @@ void setupCBUS() {
   module_config.EE_MAX_EVENTS = 64;
   module_config.EE_NUM_EVS = 1;
   module_config.EE_BYTES_PER_EVENT = (module_config.EE_NUM_EVS + 4);
-
+  
   // initialise and load configuration
-  module_config.setExtEEPROMAddress(0x50, &Wire);
+  module_config.setExtEEPROMAddress(0x50, &WIRE);
   module_config.setEEPROMtype(EEPROM_EXTERNAL);
+
+  Serial << "about to run module_config.begin()" << endl;
   module_config.begin();
 
   Serial << F("> mode = ") << ((module_config.FLiM) ? "FLiM" : "SLiM") << F(", CANID = ") << module_config.CANID;
@@ -162,7 +169,7 @@ void setupCBUS() {
   CBUS.setOscFreq(12000000UL);       // select the crystal frequency of the CAN module
 
   // Pico SPI peripherals have no default pins so all values must be provided
-  CBUS.setPins(CAN_CS, CAN_INT, MCP2515_MISO, MCP2515_SCK, MCP2515_MOSI);
+  CBUS.setPins(CAN_CS, CAN_INT, MCP2515_MOSI, MCP2515_MISO, MCP2515_SCK);
 
   Serial << F("> starting CAN") << endl;
   Serial.flush();
@@ -181,24 +188,24 @@ void setupCBUS() {
 void setup() {
 
   unsigned long t1 = millis();
-
+  delay(5000);
   Serial.begin (115200);
-  while (!Serial && millis() - t1 < 5000);
-
+  //while (!Serial && millis() - t1 < 5000);
+  delay(5000);
   t1 = millis();
 
   Serial << endl << endl << F("> ** CBUS Arduino basic example module ** ") << __FILE__ << endl;
   Serial << F("> Running on Raspberry Pi Pico, startup ms = ") << t1 << endl;
 
   // I2C bus scan
-  Wire.setSDA(16);
-  Wire.setSCL(17);
-  Wire.setClock(400000);
-  Wire.begin();
+  WIRE.setSDA(WIRE_SDA);
+  WIRE.setSCL(WIRE_SCL);
+  WIRE.setClock(400000);
+  WIRE.begin(0x30);
 
   for (byte addr = 1; addr < 128; addr++) {
-    Wire.beginTransmission(addr);
-    byte r = Wire.endTransmission();
+    WIRE.beginTransmission(addr);
+    byte r = WIRE.endTransmission();
 
     if (r == 0) {
       Serial << F("> detected I2C device at address = 0x") << _HEX(addr) << endl;
@@ -210,7 +217,7 @@ void setup() {
 
   // set initial application default configuration
   if (module_config.isResetFlagSet()) {
-    Serial << F("> module has been reset - setting initial application defaults") << endl;
+   Serial << F("> module has been reset - setting initial application defaults") << endl;
     module_config.clearResetFlag();
   }
 
@@ -228,8 +235,8 @@ void loop() {
   /// do CBUS message, switch and LED processing
   //
 
-  CBUS.process();
-  lmsg.process();
+  //CBUS.process();
+  //lmsg.process();
 
   //
   /// process console commands
