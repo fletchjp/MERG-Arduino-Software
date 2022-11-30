@@ -68,7 +68,7 @@ const byte VER_BETA = 0;                 // code beta sub-version
 const byte MODULE_ID = 99;               // CBUS module type
 
 // pins for Pico CAN shield
-static const byte CAN_INT = 1;           // INT output of MCP2515
+static const byte CAN_INT = 22;          // INT output of MCP2515
 static const byte MCP2515_SCK  = 2;      // SCK input of MCP2515
 static const byte MCP2515_MOSI = 3;      // SDI input of MCP2515
 static const byte MCP2515_MISO = 4;      // SDO output of MCP2515
