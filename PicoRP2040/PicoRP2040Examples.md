@@ -42,6 +42,8 @@ Test code for the ACAN2040 library.
 
 Intended to use ACAN2040 with the CANHAT. This turns out to be the wrong thing to do for this hardware.
 
+It can be used with an external board with the SN65HVD230 CAN chip. I have one from Waveshare.
+
 ## CBUS_empty_Pico_v1
 
 This is a code from Duncan Greenwood which needs adapting for the CANHAT.
