@@ -159,7 +159,7 @@ void setupCBUS() {
 
   // configure and start CAN bus and CBUS message processing
   CBUS.setNumBuffers(8, 4);          // more buffers = more memory used, fewer = less
-  CBUS.setOscFreq(16000000UL);       // select the crystal frequency of the CAN module
+  CBUS.setOscFreq(12000000UL);       // select the crystal frequency of the CAN module
 
   // Pico SPI peripherals have no default pins so all values must be provided
   CBUS.setPins(CAN_CS, CAN_INT, MCP2515_MISO, MCP2515_SCK, MCP2515_MOSI);
