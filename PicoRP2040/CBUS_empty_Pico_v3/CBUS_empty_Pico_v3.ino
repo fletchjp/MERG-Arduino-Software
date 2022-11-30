@@ -184,7 +184,7 @@ void setupCBUS() {
 void setup() {
 
   unsigned long t1 = millis();
-
+  delay(10000);
   Serial.begin (115200);
   delay(5000);
   //while (!Serial && millis() - t1 < 5000);
@@ -210,13 +210,13 @@ void setup() {
   }
 
   // setup CBUS
-  setupCBUS();
+  //setupCBUS();
 
   // set initial application default configuration
-  if (module_config.isResetFlagSet()) {
-    Serial << F("> module has been reset - setting initial application defaults") << endl;
-    module_config.clearResetFlag();
-  }
+  //if (module_config.isResetFlagSet()) {
+  //  Serial << F("> module has been reset - setting initial application defaults") << endl;
+  //  module_config.clearResetFlag();
+  //}
 
   // end of setup
   Serial << F("> ready") << endl << endl;
@@ -232,14 +232,14 @@ void loop() {
   /// do CBUS message, switch and LED processing
   //
 
-  CBUS.process();
-  lmsg.process();
+  //CBUS.process();
+  //lmsg.process();
 
   //
   /// process console commands
   //
 
-  processSerialInput();
+  //processSerialInput();
 
   //
   /// bottom of loop()
