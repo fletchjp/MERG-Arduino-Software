@@ -235,8 +235,8 @@ void loop() {
   /// do CBUS message, switch and LED processing
   //
 
-  //CBUS.process();
-  //lmsg.process();
+  CBUS.process();
+  lmsg.process();
 
   //
   /// process console commands
