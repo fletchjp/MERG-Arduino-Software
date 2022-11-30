@@ -74,6 +74,9 @@ static const byte MCP2515_MOSI = 3;      // SDI input of MCP2515
 static const byte MCP2515_MISO = 4;      // SDO output of MCP2515
 static const byte CAN_CS  = 5;           // CS input of MCP2515
 
+static const byte WIRE_SDA = 6;          // SDA for External EEPROM
+static const byte WIRE_SCL = 7;          // SCL for External EEPROM
+
 const byte LED_YLW = 20;                 // CBUS yellow FLiM LED pin
 const byte LED_GRN = 21;                 // CBUS green SLiM LED pin
 const byte SWITCH0 = 22;                 // CBUS push button switch pin
@@ -183,7 +186,8 @@ void setup() {
   unsigned long t1 = millis();
 
   Serial.begin (115200);
-  while (!Serial && millis() - t1 < 5000);
+  delay(5000);
+  //while (!Serial && millis() - t1 < 5000);
 
   t1 = millis();
 
@@ -191,8 +195,8 @@ void setup() {
   Serial << F("> Running on Raspberry Pi Pico, startup ms = ") << t1 << endl;
 
   // I2C bus scan
-  Wire.setSDA(6);
-  Wire.setSCL(7);
+  Wire.setSDA(WIRE_SDA);
+  Wire.setSCL(WIRE_SCL);
   Wire.setClock(400000);
   Wire.begin();
 
