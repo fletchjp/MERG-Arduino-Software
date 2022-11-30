@@ -183,8 +183,8 @@ void setup() {
   unsigned long t1 = millis();
 
   Serial.begin (115200);
-  while (!Serial && millis() - t1 < 5000);
-
+  // while (!Serial && millis() - t1 < 5000);
+  delay(1000);
   t1 = millis();
 
   Serial << endl << endl << F("> ** CBUS Arduino basic example module ** ") << __FILE__ << endl;
