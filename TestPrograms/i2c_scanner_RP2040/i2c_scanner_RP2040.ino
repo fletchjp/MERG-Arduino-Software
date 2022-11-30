@@ -32,7 +32,7 @@ void loop() {
 
   nDevices = 0;
   
-  for(address = 0x50; address < 0x51; address++ ) 
+  for(address = 1; address < 128; address++ ) 
   {
     // The i2c_scanner uses the return value of
     // the Write.endTransmission to see if
