@@ -48,5 +48,7 @@ This is a code from Duncan Greenwood which needs adapting for the CANHAT.
 
 ## CBUS_empty_Pico_v2
 
-First attempt to modify v1 for the CANHAT.
+First attempt to modify v1 for the CANHAT. I have changed the INT pin to 22.
+
+This now runs and needs to be tested on a CBUS network.
 
