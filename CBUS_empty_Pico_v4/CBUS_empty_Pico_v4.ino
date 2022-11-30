@@ -8,7 +8,7 @@
 ///
 //
 /// This activates the long message code.
-#define CBUS_LONG_MESSAGE
+//#define CBUS_LONG_MESSAGE
 #define DEBUG       0   // set to 0 for no serial debug
 #if DEBUG
 #define DEBUG_PRINT(S) Serial << S << endl
@@ -138,6 +138,8 @@ void setupCBUS() {
 #else
   module_config.setEEPROMtype(EEPROM_INTERNAL);
 #endif
+  // Pico SPI peripherals have no default pins so all values must be provided
+  CBUS.setPins(CAN_CS, CAN_INT, MCP2515_MOSI, MCP2515_MISO, MCP2515_SCK);
   Serial << "about to run module_config.begin()" << endl;
   module_config.begin();
 
@@ -181,9 +183,11 @@ void setupCBUS() {
   // register our CAN frame handler, to receive *every* CAN frame
   CBUS.setFrameHandler(framehandler);
 
+#ifdef CBUS_LONG_MESSAGE
   // register long message handler
   lmsg.allocateContexts(4, 256, 2);
   lmsg.subscribe(streamids, 3, longmessagehandler);
+#endif
 
   // set CBUS LEDs to indicate the current mode
   CBUS.indicateMode(module_config.FLiM);
@@ -193,7 +197,7 @@ void setupCBUS() {
   CBUS.setOscFreq(12000000UL);       // select the crystal frequency of the CAN module
 
   // Pico SPI peripherals have no default pins so all values must be provided
-  CBUS.setPins(CAN_CS, CAN_INT, MCP2515_MOSI, MCP2515_MISO, MCP2515_SCK);
+  //CBUS.setPins(CAN_CS, CAN_INT, MCP2515_MOSI, MCP2515_MISO, MCP2515_SCK);
 
   Serial << F("> starting CAN") << endl;
   Serial.flush();
@@ -260,7 +264,9 @@ void loop() {
   //
 
   CBUS.process();
+#ifdef CBUS_LONG_MESSAGE
   lmsg.process();
+#endif
 
   //
   /// process console commands
@@ -307,7 +313,7 @@ void framehandler(CANFrame *msg) {
   Serial << " ]" << endl;
   return;
 }
-
+#ifdef CBUS_LONG_MESSAGE
 void longmessagehandler(void *msg, unsigned int msg_len, byte stream_id, byte status) {
 
   char *ptr = (char *)msg;
@@ -316,7 +322,7 @@ void longmessagehandler(void *msg, unsigned int msg_len, byte stream_id, byte st
   Serial << F("> status = ") << status << F(", stream = ") << stream_id << F(", msg = |") << ptr << F("|") << endl;
   return;
 }
-
+#endif
 //
 /// print code version config details and copyright notice
 //
@@ -329,7 +335,9 @@ void printConfig(void) {
 
   // copyright
   Serial << F("> © Duncan Greenwood (MERG M5767) 2019") << endl;
-
+#ifdef CBUS_LONG_MESSAGE
+  Serial << "> using long messages" << endl;
+#endif
 #ifdef ARDUINO_ARCH_RP2040
   Serial << "> running on ARDUINO_ARCH_RP2040" << endl;
 #endif
