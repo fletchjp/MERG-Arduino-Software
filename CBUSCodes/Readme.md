@@ -10,6 +10,8 @@ There are a lot of codes, mainly using the Arduino CBUS Libraries.
 
 I have some codes I have been using for some time.
 
+I have copied some CANDUE codes from the due_cbus branch to have them available here for comparison.
+
 ## RP2040
 
 I am working on several different ways of connecting a Raspberry Pi Pico to CBUS.
