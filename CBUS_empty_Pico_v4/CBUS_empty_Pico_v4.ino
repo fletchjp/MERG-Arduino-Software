@@ -138,9 +138,18 @@ void setupCBUS() {
 #else
   module_config.setEEPROMtype(EEPROM_INTERNAL);
 #endif
+    // configure and start CAN bus and CBUS message processing
+  CBUS.setNumBuffers(8, 4);          // more buffers = more memory used, fewer = less
+  CBUS.setOscFreq(12000000UL);       // select the crystal frequency of the CAN module
   // Pico SPI peripherals have no default pins so all values must be provided
+#ifdef ARDUINO_ARCH_RP2040
+  Serial << "CS pin is " << CBUS.getCSpin() << endl;
+  Serial << "INT pin is " << CBUS.getINTpin() << endl;
   CBUS.setPins(CAN_CS, CAN_INT, MCP2515_MOSI, MCP2515_MISO, MCP2515_SCK);
   Serial << "about to run module_config.begin()" << endl;
+  Serial << "CS pin is " << CBUS.getCSpin() << endl;
+  Serial << "INT pin is " << CBUS.getINTpin() << endl;
+#endif
   module_config.begin();
 
   Serial << F("> mode = ") << ((module_config.FLiM) ? "FLiM" : "SLiM") << F(", CANID = ") << module_config.CANID;
@@ -193,8 +202,8 @@ void setupCBUS() {
   CBUS.indicateMode(module_config.FLiM);
 
   // configure and start CAN bus and CBUS message processing
-  CBUS.setNumBuffers(8, 4);          // more buffers = more memory used, fewer = less
-  CBUS.setOscFreq(12000000UL);       // select the crystal frequency of the CAN module
+  //CBUS.setNumBuffers(8, 4);          // more buffers = more memory used, fewer = less
+  //CBUS.setOscFreq(12000000UL);       // select the crystal frequency of the CAN module
 
   // Pico SPI peripherals have no default pins so all values must be provided
   //CBUS.setPins(CAN_CS, CAN_INT, MCP2515_MOSI, MCP2515_MISO, MCP2515_SCK);
