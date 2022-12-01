@@ -87,6 +87,8 @@ I am now adding more examples. In particular ArduinoBoost166FunctionLazy is star
  I have now modified the codes on both the branches to follow the changes in CANmINnOUT. There is no way to do this automatically.
 
  I now have the CBUS long event code working on both the AVR and DUE codes. I have done a lot of work towards having some examples working.
+ 
+ I am now finding difficulties in having codes in branches when I want to refer between branches. I am now moving more codes to master. Some things will be in folders here instead to avoid having a lot of files in the top level.
 
  ### cbus_codes
 
@@ -123,6 +125,12 @@ This is a branch for codes for the Arduino NANO RP2040 connect using the Arduino
 This is where a lot of work has been going on in November 2021.
 
 Since then I have begun to use the Raspberry Pi Pico as well.
+
+ ## CBUScodes
+ 
+ This is a folder for CBUS codes on several technologies.
+ 
+ It has its own README file with details.
 
  ## Test Programs
  
