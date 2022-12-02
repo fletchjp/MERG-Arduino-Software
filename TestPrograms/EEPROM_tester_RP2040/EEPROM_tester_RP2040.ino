@@ -54,6 +54,7 @@ uint8_t read_eeprom(uint16_t read_Address,uint8_t* data, uint8_t len)
     Serial.println(r);
     return 0;
   }
+  delay(5);
   WIRE.requestFrom(EEPROM_ADDRESS, len);
   uint8_t i;
   for(i = 0; i < len; i++){
