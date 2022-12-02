@@ -27,7 +27,7 @@ void setup() {
   //Wire.setClock(50000);
 }
 
-void write_eeprom(uint16_t writeAddress,uint8_t* data, uint8_t len)
+byte write_eeprom(uint16_t writeAddress,uint8_t* data, uint8_t len)
 {
   WIRE.beginTransmission(EEPROM_ADDRESS);
   WIRE.write((byte)(writeAddress & 0xFF00) >> 8);
@@ -36,20 +36,28 @@ void write_eeprom(uint16_t writeAddress,uint8_t* data, uint8_t len)
   for(i = 0; i < len; i++){
     WIRE.write(data[i]);
   }
-  WIRE.endTransmission();
+  return WIRE.endTransmission();
 }
 
-void read_eeprom(uint16_t read_Address,uint8_t* data, uint8_t len)
+uint8_t read_eeprom(uint16_t read_Address,uint8_t* data, uint8_t len)
 {
   WIRE.beginTransmission(EEPROM_ADDRESS);
   WIRE.write((byte)(read_Address & 0xFF00) >> 8);
   WIRE.write((byte)(read_Address & 0x00FF));
   WIRE.endTransmission();
   WIRE.requestFrom(EEPROM_ADDRESS, len);
+  uint8_t i;
+  for(i = 0; i < len; i++){
+    if(WIRE.available()) data[i] = WIRE.read();
+    else break;
+  }
+  return i;
 }
 
 void loop() {
   byte error, address;
+  uint8_t bytes_read;
+  uint16_t start_point = 10;
   int nDevices;
   char message[30];
   char writemessage[] = "Hello AT24C256 World!";
@@ -90,13 +98,20 @@ void loop() {
     Serial.print(nDevices);
     Serial.println(" devices found - done\n");
   }
-  Serial.print("Writing to eeprom with ");
+  Serial.print("Writing to eeprom address 0x");
+  Serial.print(EEPROM_ADDRESS,HEX);
+  Serial.print(" with ");
   Serial.println(writemessage);
-  write_eeprom(0, (uint8_t*)writemessage, sizeof(message));
+  error = write_eeprom(start_point, (uint8_t*)writemessage, sizeof(message));
+  if (error == 0 )
+  {  Serial.println("Write successful"); } else
+  {  Serial.print("Write failed with "); Serial.println(error); }
+  
   //  Serial.print(nDevices);
   //  Serial.println(" devices found - done\n");
-  Serial.println("reading eeprom");
-  read_eeprom(0, (uint8_t*) message, sizeof(message));
+  Serial.print("reading eeprom ");
+  bytes_read = read_eeprom(start_point, (uint8_t*) message, sizeof(message));
+  Serial.print(bytes_read); Serial.println(" bytes read");
   Serial.println(message);
 
   delay(5000);           // wait 5 seconds for next scan
