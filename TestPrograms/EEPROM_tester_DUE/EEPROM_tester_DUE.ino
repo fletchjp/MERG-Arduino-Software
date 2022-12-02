@@ -17,7 +17,7 @@ void setup() {
   delay(5000);
   Serial.begin(115200);
   delay(5000);
-  Serial.println("\nI2C Scanner for Pico");
+  Serial.println("\nI2C scanned and EEPROM tester for DUE");
   //WIRE.setSDA(6);
   //WIRE.setSCL(7);
   WIRE.begin();
