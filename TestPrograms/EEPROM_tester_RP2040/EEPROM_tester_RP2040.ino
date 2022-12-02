@@ -57,6 +57,9 @@ uint8_t read_eeprom(uint16_t read_Address,uint8_t* data, uint8_t len)
   delay(5);
   WIRE.requestFrom(EEPROM_ADDRESS, len);
   uint8_t i;
+  uint8_t data_available = WIRE.available();
+  Serial.print("data available is ");
+  Serial.println(data_available);
   for(i = 0; i < len; i++){
     if(WIRE.available()) data[i] = WIRE.read();
     else break;
