@@ -1,5 +1,5 @@
 // --------------------------------------
-// Extend to test EEPROM
+// Extend to test EEPROM for DUE
 // --------------------------------------
 // i2c_scanner for Pico
 //
