@@ -11,6 +11,8 @@
 // Set I2C bus to use: Wire, Wire1, etc.
 #define WIRE Wire1
 
+static byte EEPROM_ADDRESS = 0x50;
+
 void setup() {
   delay(5000);
   Serial.begin(115200);
@@ -25,10 +27,32 @@ void setup() {
   //Wire.setClock(50000);
 }
 
+void write_eeprom(uint16_t writeAddress,uint8_t* data, uint8_t len)
+{
+  WIRE.beginTransmission(EEPROM_ADDRESS);
+  WIRE.write((byte)(writeAddress & 0xFF00) >> 8);
+  WIRE.write((byte)(writeAddress & 0x00FF));
+  uint8_t i;
+  for(i = 0; i < len; i++){
+    WIRE.write(data[i]);
+  }
+  WIRE.endTransmission();
+}
+
+void read_eeprom(uint16_t read_Address,uint8_t* data, uint8_t len)
+{
+  WIRE.beginTransmission(EEPROM_ADDRESS);
+  WIRE.write((byte)(read_Address & 0xFF00) >> 8);
+  WIRE.write((byte)(read_Address & 0x00FF));
+  WIRE.endTransmission();
+  WIRE.requestFrom(EEPROM_ADDRESS, len);
+}
 
 void loop() {
   byte error, address;
   int nDevices;
+  char message[30];
+  char writemessage[] = "Hello AT24C256 World!";
 
   Serial.println("Scanning...");
 
@@ -66,9 +90,14 @@ void loop() {
     Serial.print(nDevices);
     Serial.println(" devices found - done\n");
   }
-  
+  Serial.print("Writing to eeprom with ");
+  Serial.println(writemessage);
+  write_eeprom(0, (uint8_t*)writemessage, sizeof(message));
   //  Serial.print(nDevices);
   //  Serial.println(" devices found - done\n");
+  Serial.println("reading eeprom");
+  read_eeprom(0, (uint8_t*) message, sizeof(message));
+  Serial.println(message);
 
   delay(5000);           // wait 5 seconds for next scan
 }
