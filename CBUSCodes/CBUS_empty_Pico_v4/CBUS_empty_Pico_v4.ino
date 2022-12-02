@@ -383,6 +383,15 @@ void processSerialInput(void) {
         Serial << endl;
         break;
 
+      // New option to see some raw EEPROM
+      case 'd':
+        Serial << F("> stored EEPROM ") << endl;
+        for (byte j = 0; j < 20; j++)
+        {
+          Serial << j << " " << module_config.readEEPROM(j) << endl;
+        }
+        break;
+
       case 'e':
 
         // EEPROM learned event data table
