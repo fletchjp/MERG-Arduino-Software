@@ -16,7 +16,7 @@
 #define DEBUG_PRINT(S)
 #endif
 
-//#define USE_EXTERNAL_EEPROM
+#define USE_EXTERNAL_EEPROM
 /*
   Copyright (C) Duncan Greenwood 2017 (duncan_greenwood@hotmail.com)
 
@@ -351,7 +351,7 @@ void printConfig(void) {
   Serial << "> running on ARDUINO_ARCH_RP2040" << endl;
 #endif
 #ifdef USE_EXTERNAL_EEPROM
-  Serial << "> using EXTERNAL EEPROM" << endl;
+  Serial << "> using EXTERNAL EEPROM size " << module_config.getEEPROMsize() << endl;
 #endif
   return;
 }
