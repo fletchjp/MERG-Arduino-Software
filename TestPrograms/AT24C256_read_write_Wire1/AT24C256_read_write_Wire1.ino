@@ -8,11 +8,12 @@ AT24C256 eeprom(0x50,&Wire1);
 
 
 void setup() {
-  
+  delay(5000);
   char message[30];
   char writemessage[] = "Hello AT24C256 World!";
   
   Serial.begin(115200);
+  delay(5000);
   Serial.println("AT24C256 library example");
   eeprom.begin();
   Serial.println("reading eeprom");
