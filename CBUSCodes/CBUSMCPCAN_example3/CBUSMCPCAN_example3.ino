@@ -2,14 +2,20 @@
 // Version adding External EEPROM
 // Pin changes for CAN HAT
 
+// Arduino core libraries
+#include <Wire.h>
+#include <SPI.h>
+
 // Arduino libraries
 #include <Arduino.h>
 #include <Streaming.h>
 
+#define USE_EXTERNAL_EEPROM
+
 // constants
 
 constexpr byte VER_MAJ = 1;                  // code major version
-constexpr char VER_MIN = a;                  // code minor version
+constexpr char VER_MIN = 'a';                // code minor version
 constexpr byte VER_BETA = 3;                 // code beta sub-version
 
 constexpr byte MODULE_ID = 99;
@@ -27,6 +33,14 @@ constexpr byte MCP2515_SCK  = 2;      // SCK input of MCP2515
 constexpr byte MCP2515_MOSI = 3;      // SDI input of MCP2515
 constexpr byte MCP2515_MISO = 4;      // SDO output of MCP2515
 constexpr byte CAN_CS  = 5;           // CS input of MCP2515
+
+#ifdef USE_EXTERNAL_EEPROM
+#define WIRE Wire1
+#ifdef ARDUINO_ARCH_RP2040
+static const byte WIRE_SDA = 6;
+static const byte WIRE_SCL = 7;
+#endif
+#endif
 
 // CBUS libraries
 #include <CBUSMCP_CAN.h>
@@ -77,7 +91,15 @@ void setup() {
   module_config.EE_BYTES_PER_EVENT = (module_config.EE_NUM_EVS + 4);
 
   // initialise and load module configuration
+#ifdef USE_EXTERNAL_EEPROM
+  module_config.setExtEEPROMAddress(0x50, &WIRE);
+#ifdef ARDUINO_ARCH_RP2040
+  module_config.setExtEEPROMPins(WIRE_SDA, WIRE_SCL);
+#endif
+  module_config.setEEPROMtype(EEPROM_EXTERNAL);
+#else
   module_config.setEEPROMtype(EEPROM_INTERNAL);
+#endif
   module_config.begin();
 
   // set LED and switch pins
@@ -114,6 +136,9 @@ void setup() {
   params.setVersion(VER_MAJ, VER_MIN, VER_BETA);
   params.setModuleId(MODULE_ID);
   params.setFlags(PF_FLiM | PF_COMBI);
+#ifdef USE_EXTERNAL_EEPROM
+  module_config.writeBytesEEPROM(module_config.getEEPROMsize()+1,params.getParams(),params.size());
+#endif
 
   // assign to CBUS
   CBUS.setParams(params.getParams());
@@ -140,6 +165,8 @@ void setup() {
 #ifdef ARDUINO_ARCH_RP2040
   // Pico SPI peripherals have no default pins so all values must be provided
   CBUS.setPins(CAN_CS, CAN_INT, MCP2515_MOSI, MCP2515_MISO, MCP2515_SCK);
+  //Serial << "> CS pin is " << CBUS.getCSpin() << endl;
+  //Serial << "> INT pin is " << CBUS.getINTpin() << endl;
 #else
   CBUS.setPins(CAN_CS, CAN_INT);
 #endif
@@ -443,6 +470,12 @@ void print_config(void) {
 
   // copyright
   Serial << F("> © Duncan Greenwood (MERG M5767) 2020, 2022") << endl;
+#ifdef ARDUINO_ARCH_RP2040
+  Serial << "> running on ARDUINO_ARCH_RP2040" << endl;
+#endif
+#ifdef USE_EXTERNAL_EEPROM
+  Serial << "> using EXTERNAL EEPROM size " << module_config.getEEPROMsize() << endl;
+#endif
 
   return;
 }
