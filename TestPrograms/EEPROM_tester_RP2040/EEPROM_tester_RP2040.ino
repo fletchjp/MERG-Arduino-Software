@@ -24,7 +24,7 @@ void setup() {
   //while (!Serial)
    //  delay(10);
   Serial.println("\nI2C Scanner about to start");
-  //Wire.setClock(50000);
+  WIRE.setClock(10000);
 }
 
 byte write_eeprom(uint16_t writeAddress,uint8_t* data, uint8_t len)
@@ -55,13 +55,17 @@ uint8_t read_eeprom(uint16_t read_Address,uint8_t* data, uint8_t len)
     return 0;
   }
   delay(5);
+  Serial.print("asking for ");
+  Serial.print(len);
+  Serial.println(" bytes");
   WIRE.requestFrom(EEPROM_ADDRESS, len);
   uint8_t i;
   uint8_t data_available = WIRE.available();
   Serial.print("data available is ");
   Serial.println(data_available);
   for(i = 0; i < len; i++){
-    if(WIRE.available()) data[i] = WIRE.read();
+    if(WIRE.available()) 
+      data[i] = WIRE.read();
     else break;
   }
   return i;
@@ -72,7 +76,7 @@ char message[15];
 void loop() {
   byte error, address;
   uint8_t bytes_read;
-  uint16_t start_point = 10;
+  uint16_t start_point = 0;
   int nDevices;
   char writemessage[] = "1234567890";
   //char writemessage[] = "Hello AT24C256 World!";
