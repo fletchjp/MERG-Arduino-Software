@@ -54,3 +54,18 @@ This is basically the Sparkfun EEPROM Example 2 with the settings for the AT24C2
 
 This library has the advantage of having a put routine which can handle different variable types in a consistent way.
 
+## AT24C256 examples
+
+These are examples for the AT24C256 library.
+
+## EEROM_tester_DUE and EEPROM_tester_RP2040
+
+These examples use the Wire library to communicate with the EEPROM.
+
+These have been extended from and I2C scanner code.
+
+### EEPROM_tester_RP2040
+
+This code has been used to sort out the problems of getting the code to work with Arduino-Pico.
+
+The pins needed for I2C have to be set and there are different choices for Wire and Wire1.
