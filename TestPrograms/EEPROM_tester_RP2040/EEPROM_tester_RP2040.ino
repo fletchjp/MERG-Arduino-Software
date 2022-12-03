@@ -20,7 +20,7 @@ void setup() {
   Serial.println("\nI2C Scanner and EEPROM tester for Pico");
   WIRE.setSDA(6);
   WIRE.setSCL(7);
-  WIRE.begin(0x30);
+  WIRE.begin(); // It was wrong to give this an address.
   //while (!Serial)
    //  delay(10);
   Serial.println("\nI2C Scanner about to start");
