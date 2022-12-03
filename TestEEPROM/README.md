@@ -12,6 +12,10 @@ I now also have the Sparkfun library which has better options for putting data o
 
 There is now a test for that here and some more examples available (not adapted for AT24C256).
 
+I have now moved here some more examples which I put together as part of the work on external EEPROM for CBUS.
+
+This includes one for the Raspberry Pi Pico RP2040 where I have found that with Arduino-Pico it is necessary to set the I2C pins.
+
 ## Test_I2C_EEPROM
  
 Test program for the AT24C256 I2C EEPROM devices.
