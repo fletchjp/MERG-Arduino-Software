@@ -77,7 +77,7 @@
 // constants
 const byte VER_MAJ = 1;                  // code major version
 const char VER_MIN = 'a';                // code minor version
-const byte VER_BETA = 0;                 // code beta sub-version
+const byte VER_BETA = 4;                 // code beta sub-version
 const byte MODULE_ID = 99;               // CBUS module type
 
 // pins for Pico CAN shield
@@ -87,9 +87,13 @@ static const byte MCP2515_MOSI = 3;      // SDI input of MCP2515
 static const byte MCP2515_MISO = 4;      // SDO output of MCP2515
 static const byte CAN_CS  = 5;           // CS input of MCP2515
 
+#ifdef USE_EXTERNAL_EEPROM
 #define WIRE Wire1
+#ifdef ARDUINO_ARCH_RP2040
 static const byte WIRE_SDA = 6;
 static const byte WIRE_SCL = 7;
+#endif
+#endif
 
 const byte LED_YLW = 20;                 // CBUS yellow FLiM LED pin
 const byte LED_GRN = 21;                 // CBUS green SLiM LED pin
@@ -229,21 +233,6 @@ void setup() {
 
   Serial << endl << endl << F("> ** CBUS Arduino basic example module ** ") << __FILE__ << endl;
   Serial << F("> Running on Raspberry Pi Pico, startup ms = ") << t1 << endl;
-
-  // I2C bus scan
-  WIRE.setSDA(WIRE_SDA);
-  WIRE.setSCL(WIRE_SCL);
-  WIRE.setClock(400000);
-  WIRE.begin(0x30);
-
-  for (byte addr = 1; addr < 128; addr++) {
-    WIRE.beginTransmission(addr);
-    byte r = WIRE.endTransmission();
-
-    if (r == 0) {
-      Serial << F("> detected I2C device at address = 0x") << _HEX(addr) << endl;
-    }
-  }
 
   // setup CBUS
   setupCBUS();
