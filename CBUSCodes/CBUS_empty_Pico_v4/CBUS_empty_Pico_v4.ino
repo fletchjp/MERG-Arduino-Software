@@ -126,7 +126,7 @@ void setupCBUS() {
   // set config layout parameters
   module_config.EE_NVS_START = 10;
   module_config.EE_NUM_NVS = 10;
-  module_config.EE_EVENTS_START = 50;
+  module_config.EE_EVENTS_START = 50; 
   module_config.EE_MAX_EVENTS = 64;
   module_config.EE_NUM_EVS = 1;
   module_config.EE_BYTES_PER_EVENT = (module_config.EE_NUM_EVS + 4);
@@ -134,22 +134,14 @@ void setupCBUS() {
   // initialise and load configuration
 #ifdef USE_EXTERNAL_EEPROM
   module_config.setExtEEPROMAddress(0x50, &WIRE);
+#ifdef ARDUINO_ARCH_RP2040
+  module_config.setExtEEPROMPins(WIRE_SDA, WIRE_SCL);
+#endif
   module_config.setEEPROMtype(EEPROM_EXTERNAL);
 #else
   module_config.setEEPROMtype(EEPROM_INTERNAL);
 #endif
-    // configure and start CAN bus and CBUS message processing
-  CBUS.setNumBuffers(8, 4);          // more buffers = more memory used, fewer = less
-  CBUS.setOscFreq(12000000UL);       // select the crystal frequency of the CAN module
-  // Pico SPI peripherals have no default pins so all values must be provided
-#ifdef ARDUINO_ARCH_RP2040
-  Serial << "CS pin is " << CBUS.getCSpin() << endl;
-  Serial << "INT pin is " << CBUS.getINTpin() << endl;
-  CBUS.setPins(CAN_CS, CAN_INT, MCP2515_MOSI, MCP2515_MISO, MCP2515_SCK);
-  Serial << "about to run module_config.begin()" << endl;
-  Serial << "CS pin is " << CBUS.getCSpin() << endl;
-  Serial << "INT pin is " << CBUS.getINTpin() << endl;
-#endif
+
   module_config.begin();
 
   Serial << F("> mode = ") << ((module_config.FLiM) ? "FLiM" : "SLiM") << F(", CANID = ") << module_config.CANID;
@@ -202,12 +194,16 @@ void setupCBUS() {
   CBUS.indicateMode(module_config.FLiM);
 
   // configure and start CAN bus and CBUS message processing
-  //CBUS.setNumBuffers(8, 4);          // more buffers = more memory used, fewer = less
-  //CBUS.setOscFreq(12000000UL);       // select the crystal frequency of the CAN module
+  CBUS.setNumBuffers(8, 4);          // more buffers = more memory used, fewer = less
+  CBUS.setOscFreq(12000000UL);       // select the crystal frequency of the CAN module
 
+#ifdef ARDUINO_ARCH_RP2040
   // Pico SPI peripherals have no default pins so all values must be provided
-  //CBUS.setPins(CAN_CS, CAN_INT, MCP2515_MOSI, MCP2515_MISO, MCP2515_SCK);
-
+  // Pico SPI peripherals have no default pins so all values must be provided
+  CBUS.setPins(CAN_CS, CAN_INT, MCP2515_MOSI, MCP2515_MISO, MCP2515_SCK);
+  Serial << "CS pin is " << CBUS.getCSpin() << endl;
+  Serial << "INT pin is " << CBUS.getINTpin() << endl;
+#endif
   Serial << F("> starting CAN") << endl;
   Serial.flush();
 
