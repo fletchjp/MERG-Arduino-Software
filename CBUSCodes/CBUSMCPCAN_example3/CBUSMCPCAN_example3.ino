@@ -9,8 +9,8 @@
 // constants
 
 constexpr byte VER_MAJ = 1;                  // code major version
-constexpr char VER_MIN = 0;                  // code minor version
-constexpr byte VER_BETA = 0;                 // code beta sub-version
+constexpr char VER_MIN = a;                  // code minor version
+constexpr byte VER_BETA = 3;                 // code beta sub-version
 
 constexpr byte MODULE_ID = 99;
 
