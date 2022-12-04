@@ -24,7 +24,7 @@ const unsigned int romStart = 800;
 
 // When you want to use the AVR built in EEPROM support (only available on AVR)
 // comment / uncomment to select
-I2cAt24Eeprom anEeprom(0x50, PAGESIZE_AT24C128);
+I2cAt24Eeprom anEeprom(0x50, PAGESIZE_AT24C256);
 
 const char strData[100] = { "This is a quite long string that should need to be handled in many parts with wait states"};
 
