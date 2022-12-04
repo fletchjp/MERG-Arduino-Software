@@ -35,6 +35,9 @@ void twentySecondJob() {
     logIt("stop 1 second task");
     taskManager.cancelTask(taskId);
     taskManager.scheduleOnce(10, [] {
+#ifdef ARDUINO_ARCH_RP2040
+        logIt("Running tests on a Pico");
+#endif
         logIt("Ten more seconds done finished.");
     }, TIME_SECONDS);
 }
