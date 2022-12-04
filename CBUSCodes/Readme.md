@@ -30,3 +30,6 @@ The codes use external EEPROM.  At the moment there is a bug in the latest versi
 
 These codes use CBUSMCPCAN instead of CBUS2515.
 
+There is now the option for external EEPROM in this one as well (example3).
+
+
