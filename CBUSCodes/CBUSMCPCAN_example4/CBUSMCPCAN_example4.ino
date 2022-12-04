@@ -401,9 +401,14 @@ void process_command(char cmd[]) {
       Serial << F("> rx buffer puts = ") << CBUS.rx_buffer->puts() << F(", gets = ") << CBUS.rx_buffer->gets() << F(", hwm = ") << CBUS.rx_buffer->hwm() << F(", overflows = ") << CBUS.rx_buffer->overflows() << endl;
       break;
 
-    case 'r':
+    case 'y':
       // reset CAN bus and CBUS message processing
       CBUS.reset();
+      break;
+
+    case 'r':
+      // renegotiate
+      CBUS.renegotiate();
       break;
 
     case '*':
