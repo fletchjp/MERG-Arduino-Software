@@ -7,7 +7,7 @@ Because this example uses IoAbstraction, the LED could be on the end of an i2c e
 on a shift register. Further, if you then needed a second timed action, it would be trivial to
 add.
 
-This example runs unchanged on a Pico
+This example runs unchanged on a Pico with no need to specify the LED>
 
 */
 
