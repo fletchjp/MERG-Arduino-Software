@@ -44,7 +44,10 @@ void twentySecondJob() {
 //
 void setup() {
     Serial.begin(115200);
-
+    delay(5000);
+#ifdef ARDUINO_ARCH_RP2040
+    Serial.println("Running tests on a Pico");
+#endif
     // schedule a task to run at a fixed rate, every 1000 milliseconds.
     taskId = taskManager.scheduleFixedRate(1000, [] {
         logIt("Fixed rate, every second");
