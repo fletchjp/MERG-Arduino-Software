@@ -14,3 +14,5 @@ This is a simple example of IOAbstraction and runs on a Pico.
 
 I have only just found out that IOAbstraction has an EEPROM interface.
 
+I have now run this example on a Mega. It would need to be altered for a Pico.
+
