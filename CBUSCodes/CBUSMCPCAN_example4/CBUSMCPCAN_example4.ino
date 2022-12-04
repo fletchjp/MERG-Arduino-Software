@@ -1,6 +1,7 @@
 // CBUSMCPCAN_example3
 // Version adding External EEPROM
 // Pin changes for CAN HAT
+// Make long message code optional.
 
 // Arduino core libraries
 #include <Wire.h>
@@ -9,6 +10,9 @@
 // Arduino libraries
 #include <Arduino.h>
 #include <Streaming.h>
+
+/// This activates the long message code.
+//#define CBUS_LONG_MESSAGE
 
 #define USE_EXTERNAL_EEPROM
 
