@@ -2,6 +2,7 @@
 // Version adding External EEPROM
 // Pin changes for CAN HAT
 // Make long message code optional.
+// Not needed as it does not have long message code yet
 
 // Arduino core libraries
 #include <Wire.h>
