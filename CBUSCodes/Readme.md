@@ -32,4 +32,9 @@ These codes use CBUSMCPCAN instead of CBUS2515.
 
 There is now the option for external EEPROM in this one as well (example3).
 
+### CBUSACAN2040 examples
+
+I am starting a new set of examples based on the CBUSACAN2040 library.
+
+This uses different hardware and software.
 
