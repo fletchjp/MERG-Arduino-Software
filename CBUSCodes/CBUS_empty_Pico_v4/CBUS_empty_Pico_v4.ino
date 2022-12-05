@@ -446,9 +446,10 @@ void processSerialInput(void) {
       // CAN bus status
       case 'c':
         CBUS.printStatus();
-        Serial << F("> tx buffer = ") << CBUS.canp->transmitBufferSize(0) << F(", ") << CBUS.canp->transmitBufferCount(0) << F(", ") << CBUS.canp->transmitBufferPeakCount(0) << endl;
-        Serial << F("> rx buffer = ") << CBUS.canp->receiveBufferSize() << F(", ") << CBUS.canp->receiveBufferCount() << F(", ") << CBUS.canp->receiveBufferPeakCount() << endl;
-        Serial << F("> error flag register = ") << CBUS.canp->errorFlagRegister() << endl;
+        // This may be LONG MESSAGE code.
+        //Serial << F("> tx buffer = ") << CBUS.canp->transmitBufferSize(0) << F(", ") << CBUS.canp->transmitBufferCount(0) << F(", ") << CBUS.canp->transmitBufferPeakCount(0) << endl;
+        //Serial << F("> rx buffer = ") << CBUS.canp->receiveBufferSize() << F(", ") << CBUS.canp->receiveBufferCount() << F(", ") << CBUS.canp->receiveBufferPeakCount() << endl;
+        //Serial << F("> error flag register = ") << CBUS.canp->errorFlagRegister() << endl;
         break;
 
       case 'h':
