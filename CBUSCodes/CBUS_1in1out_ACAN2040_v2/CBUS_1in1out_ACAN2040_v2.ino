@@ -342,6 +342,15 @@ void processSerialInput(void) {
         Serial << endl;
         break;
 
+      // New option to see some raw EEPROM
+      case 'd':
+        Serial << F("> stored EEPROM ") << endl;
+        for (byte j = 0; j < 20; j++)
+        {
+          Serial << j << " " << module_config.readEEPROM(j) << endl;
+        }
+        break;
+
       case 'e':
 
         // EEPROM learned event data table
@@ -432,6 +441,36 @@ void processSerialInput(void) {
       case 'm':
         // free memory
         Serial << F("> free SRAM = ") << module_config.freeSRAM() << F(" bytes") << endl;
+        break;
+
+      case 'r':
+        // renegotiate
+        CBUS.renegotiate();
+        break;
+      case 'z':
+        // Reset module, clear EEPROM
+        static bool ResetRq = false;
+        static unsigned long ResWaitTime;
+        if (!ResetRq) {
+          // start timeout timer
+          Serial << F(">Reset & EEPROM wipe requested. Press 'z' again within 2 secs to confirm") << endl;
+          ResWaitTime = millis();
+          ResetRq = true;
+        }
+        else {
+          // This is a confirmed request
+          // 2 sec timeout
+          if (ResetRq && ((millis() - ResWaitTime) > 2000)) {
+            Serial << F(">timeout expired, reset not performed") << endl;
+            ResetRq = false;
+          }
+          else {
+            //Request confirmed within timeout
+            Serial << F(">RESETTING AND WIPING EEPROM") << endl;
+            module_config.resetModule();
+            ResetRq = false;
+          }
+        }
         break;
 
       case '\r':
