@@ -38,3 +38,6 @@ I am starting a new set of examples based on the CBUSACAN2040 library.
 
 This uses different hardware and software.
 
+### CBUS_1in1out_ACAN2040_v2
+
+This has the code for the external EEPROM and setting up with the FCU using the serial monitor.
