@@ -50,6 +50,14 @@
 
 // 3rd party libraries
 #include <Streaming.h>
+#ifdef USE_EXTERNAL_EEPROM
+#include <Wire.h>
+#define WIRE Wire1
+#ifdef ARDUINO_ARCH_RP2040
+static const byte WIRE_SDA = 6;
+static const byte WIRE_SCL = 7;
+#endif
+#endif
 
 // CBUS library header files
 #include <CBUSACAN2040.h>           // CAN controller and CBUS class
@@ -62,7 +70,7 @@
 // constants
 const byte VER_MAJ = 1;             // code major version
 const char VER_MIN = 'a';           // code minor version
-const byte VER_BETA = 0;            // code beta sub-version
+const byte VER_BETA = 2;            // code beta sub-version
 const byte MODULE_ID = 99;          // CBUS module type
 
 const byte LED_GRN = 8;             // CBUS green SLiM LED pin
@@ -100,7 +108,15 @@ void setupCBUS() {
   module_config.EE_BYTES_PER_EVENT = (module_config.EE_NUM_EVS + 4);
 
   // initialise and load configuration
+#ifdef USE_EXTERNAL_EEPROM
+  module_config.setExtEEPROMAddress(0x50, &WIRE);
+#ifdef ARDUINO_ARCH_RP2040
+  module_config.setExtEEPROMPins(WIRE_SDA, WIRE_SCL);
+#endif
+  module_config.setEEPROMtype(EEPROM_EXTERNAL);
+#else
   module_config.setEEPROMtype(EEPROM_INTERNAL);
+#endif
   module_config.begin();
 
   Serial << F("> mode = ") << ((module_config.FLiM) ? "FLiM" : "SLiM") << F(", CANID = ") << module_config.CANID;
@@ -165,8 +181,10 @@ void setupCBUS() {
 
 void setup() {
 
+  delay(5000);
   Serial.begin (115200);
-  while (!Serial);
+  //while (!Serial);
+  delay(5000);
   Serial << endl << endl << F("> ** CBUS 1 in 1 out v1 ** ") << __FILE__ << endl;
 
   setupCBUS();
@@ -289,6 +307,13 @@ void printConfig(void) {
 
   // copyright
   Serial << F("> © Duncan Greenwood (MERG M5767) 2019") << endl;
+#ifdef ARDUINO_ARCH_RP2040
+  Serial << "> running on ARDUINO_ARCH_RP2040" << endl;
+#endif
+#ifdef USE_EXTERNAL_EEPROM
+  Serial << "> using EXTERNAL EEPROM size " << module_config.getEEPROMsize() << endl;
+#endif
+  return;
 }
 
 //
