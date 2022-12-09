@@ -49,6 +49,12 @@
       ACAN2040    -- library wrapper for can2040 RP2040 CAN driver
 */
 
+// IoAbstraction libraries
+#include <IoAbstraction.h>
+#include <AnalogDeviceAbstraction.h>
+#include <TaskManagerIO.h>
+#include <DeviceEvents.h>
+
 // 3rd party libraries
 #include <Streaming.h>
 #ifdef USE_EXTERNAL_EEPROM
@@ -71,7 +77,7 @@ static const byte WIRE_SCL = 7;
 // constants
 const byte VER_MAJ = 1;             // code major version
 const char VER_MIN = 'a';           // code minor version
-const byte VER_BETA = 2;            // code beta sub-version
+const byte VER_BETA = 3;            // code beta sub-version
 const byte MODULE_ID = 99;          // CBUS module type
 
 const byte LED_GRN = 8;             // CBUS green SLiM LED pin
