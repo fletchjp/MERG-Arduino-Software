@@ -2,6 +2,7 @@
 // renamed from example CBUS_1in1out with the CBUSACAN2040 library
 // Adding external EEPROM
 // and starting to add more things from CANDUE3EEPROM
+// processSerialInput is now a task.
 //
 ///
 //
