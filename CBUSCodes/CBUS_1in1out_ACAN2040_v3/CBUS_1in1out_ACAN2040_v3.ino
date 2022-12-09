@@ -248,6 +248,27 @@ void loop() {
   // bottom of loop()
 }
 
+// Send an event routine according to Module Switch
+bool sendEvent(byte opCode, unsigned int eventNo)
+{
+  CANFrame msg;
+  msg.id = module_config.CANID;
+  msg.len = 5;
+  msg.data[0] = opCode;
+  msg.data[1] = highByte(module_config.nodeNum);
+  msg.data[2] = lowByte(module_config.nodeNum);
+  msg.data[3] = highByte(eventNo);
+  msg.data[4] = lowByte(eventNo);
+
+  bool success = CBUS.sendMessage(&msg);
+  if (success) {
+    DEBUG_PRINT(F("> sent CBUS message with Event Number ") << eventNo);
+  } else {
+    DEBUG_PRINT(F("> error sending CBUS message"));
+  }
+  return success;
+}
+
 //
 /// test for switch input
 /// as an example, it must be have been pressed or released for at least half a second
