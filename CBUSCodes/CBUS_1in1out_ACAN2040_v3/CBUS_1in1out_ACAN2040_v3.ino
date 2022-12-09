@@ -6,6 +6,7 @@
 ///
 //
 //#define USE_EXTERNAL_EEPROM
+#define DEBUG         1 // set to 0 for no serial debug
 
 /*
   Copyright (C) Duncan Greenwood 2017 (duncan_greenwood@hotmail.com)
