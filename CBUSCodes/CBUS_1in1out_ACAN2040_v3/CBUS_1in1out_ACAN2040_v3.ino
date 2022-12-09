@@ -210,6 +210,9 @@ void setup() {
   // configure the module LED, attached to pin 12 via a 1K resistor
   moduleLED.setPin(12);
 
+  // Schedule tasks to run every 250 milliseconds.
+  taskManager.scheduleFixedRate(250, processSerialInput);
+
   // end of setup
   Serial << F("> ready") << endl << endl;
 }
@@ -230,7 +233,7 @@ void loop() {
   /// process console commands
   //
 
-  processSerialInput();
+  //processSerialInput(); Replaced with task.
 
   //
   /// give the switch and LED code some time to run
@@ -244,6 +247,10 @@ void loop() {
   //
 
   processModuleSwitchChange();
+
+// Run IO_Abstraction tasks.
+  // This replaces actions taken here in the previous version.
+  taskManager.runLoop();
 
   // bottom of loop()
 }
