@@ -113,6 +113,7 @@ void setupCBUS() {
 #ifdef ARDUINO_ARCH_RP2040
   module_config.setExtEEPROMPins(WIRE_SDA, WIRE_SCL);
 #endif
+  // This can fail.
   module_config.setEEPROMtype(EEPROM_EXTERNAL);
 #else
   module_config.setEEPROMtype(EEPROM_INTERNAL);
@@ -310,9 +311,13 @@ void printConfig(void) {
 #ifdef ARDUINO_ARCH_RP2040
   Serial << "> running on ARDUINO_ARCH_RP2040" << endl;
 #endif
-#ifdef USE_EXTERNAL_EEPROM
-  Serial << "> using EXTERNAL EEPROM size " << module_config.getEEPROMsize() << endl;
-#endif
+//#ifdef USE_EXTERNAL_EEPROM
+  if (module_config.getEEPROMtype() == EEPROM_EXTERNAL) {
+    Serial << "> using EXTERNAL EEPROM size " << module_config.getEEPROMsize() << endl;    
+  } else {
+    Serial << "> using INTERNAL EEPROM size " << module_config.getEEPROMsize() << endl;
+  }
+//#endif
   return;
 }
 
