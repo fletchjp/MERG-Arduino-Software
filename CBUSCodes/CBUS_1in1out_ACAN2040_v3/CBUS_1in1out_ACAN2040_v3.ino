@@ -74,6 +74,12 @@ static const byte WIRE_SCL = 7;
 #include <CBUSParams.h>             // CBUS parameters
 #include <cbusdefs.h>               // MERG CBUS constants
 
+#if DEBUG
+#define DEBUG_PRINT(S) Serial << S << endl
+#else
+#define DEBUG_PRINT(S)
+#endif
+
 // constants
 const byte VER_MAJ = 1;             // code major version
 const char VER_MIN = 'a';           // code minor version
