@@ -306,8 +306,10 @@ void processModuleSwitchChange() {
 
     if (moduleSwitch.isPressed() ) {
         moduleLED.on();
+        DEBUG_PRINT(F("> moduleLED ON ") );
     } else {
-         moduleLED.off();
+        moduleLED.off();
+        DEBUG_PRINT(F("> moduleLED OFF ") );
     }
 /*
     CANFrame msg;
