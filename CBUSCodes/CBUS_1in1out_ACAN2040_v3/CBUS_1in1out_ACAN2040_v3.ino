@@ -161,7 +161,7 @@ void setupCBUS() {
   CBUS.setLEDs(ledGrn, ledYlw);
 
   // initialise CBUS switch and assign to CBUS
-  pb_switch.setPin(SWITCH0, LOW);
+  pb_switch.setPin(SWITCH0, HIGH); // was LOW
   pb_switch.run();
   CBUS.setSwitch(pb_switch);
 
