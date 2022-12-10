@@ -108,6 +108,11 @@ CBUSSwitch pb_switch;               // switch object
 CBUSSwitch moduleSwitch;            // an example switch as input
 CBUSLED moduleLED;                  // an example LED as output
 
+// Pico pins for the button and LED
+static const byte MODULE_BUTTON = 11;  // Breadboard button 2
+static const byte MODULE_LED    = 12;  // Breadboard LED 3
+
+
 // module name, must be 7 characters, space padded.
 unsigned char mname[7] = { '1', 'I', 'N', '1', 'O', 'U', 'T' };
 
@@ -218,17 +223,17 @@ void setup() {
 
   // configure the module switch, attached to pin 11, active low
 #ifdef PICO_BREADBOARD
-  moduleSwitch.setPin(11, HIGH); // was LOW
+  moduleSwitch.setPin(MODULE_BUTTON, HIGH); // was LOW
 #else
-  moduleSwitch.setPin(11, LOW); 
+  moduleSwitch.setPin(MODULE_BUTTON, LOW); 
 #endif
 
-  // configure the module LED, attached to pin 12 via a 1K resistor
-  moduleLED.setPin(12);
+  // configure the module LED, attached to pin MODULE_LED via a 1K resistor
+  moduleLED.setPin(MODULE_LED);
 
- // Schedule tasks to run every 250 milliseconds.
- //taskManager.scheduleFixedRate(250, processModuleSwitchChange);
- taskManager.scheduleFixedRate(250, processSerialInput);
+  // Schedule tasks to run every 250 milliseconds.
+  //taskManager.scheduleFixedRate(250, processModuleSwitchChange);
+  taskManager.scheduleFixedRate(250, processSerialInput);
 
   // end of setup
   Serial << F("> ready") << endl << endl;
