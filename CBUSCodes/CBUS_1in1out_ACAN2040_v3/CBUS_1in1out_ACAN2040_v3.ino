@@ -6,6 +6,8 @@
 //
 ///
 //
+// Note that on the Pico Breadboard the pins go HIGH when pressed.
+#define PICO_BREADBOARD
 //#define USE_EXTERNAL_EEPROM
 #define DEBUG         1 // set to 0 for no serial debug
 
@@ -161,7 +163,11 @@ void setupCBUS() {
   CBUS.setLEDs(ledGrn, ledYlw);
 
   // initialise CBUS switch and assign to CBUS
+#ifdef PICO_BREADBOARD
   pb_switch.setPin(SWITCH0, HIGH); // was LOW
+#else
+  pb_switch.setPin(SWITCH0, LOW);
+#endif
   pb_switch.run();
   CBUS.setSwitch(pb_switch);
 
@@ -211,7 +217,11 @@ void setup() {
   setupCBUS();
 
   // configure the module switch, attached to pin 11, active low
-  moduleSwitch.setPin(11, LOW);
+#ifdef PICO_BREADBOARD
+  moduleSwitch.setPin(11, HIGH); // was LOW
+#else
+  moduleSwitch.setPin(11, LOW); 
+#endif
 
   // configure the module LED, attached to pin 12 via a 1K resistor
   moduleLED.setPin(12);
@@ -294,6 +304,12 @@ void processModuleSwitchChange() {
 
   if (moduleSwitch.stateChanged()) {
 
+    if (moduleSwitch.isPressed() ) {
+        moduleLED.on();
+    } else {
+         moduleLED.off();
+    }
+/*
     CANFrame msg;
     msg.id = module_config.CANID;
     msg.len = 5;
@@ -308,6 +324,7 @@ void processModuleSwitchChange() {
     } else {
       Serial << F("> error sending CBUS message") << endl;
     }
+    */
   }
 }
 
