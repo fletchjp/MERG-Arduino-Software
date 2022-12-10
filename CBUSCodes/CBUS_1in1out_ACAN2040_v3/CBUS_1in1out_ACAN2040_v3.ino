@@ -68,6 +68,10 @@ static const byte WIRE_SCL = 7;
 #endif
 #endif
 
+// CBUS pins for external device
+static const byte CAN_TX = 1;
+static const byte CAN_RX = 2;
+
 // CBUS library header files
 #include <CBUSACAN2040.h>           // CAN controller and CBUS class
 #include <CBUSswitch.h>             // pushbutton switch
@@ -181,7 +185,7 @@ void setupCBUS() {
 
   // configure and start CAN bus and CBUS message processing
   CBUS.setNumBuffers(16, 4);     // more buffers = more memory used, fewer = less
-  CBUS.setPins(1, 2);            // select pins for CAN tx and rx
+  CBUS.setPins(CAN_TX, CAN_RX);  // select pins for CAN tx and rx
 
   if (!CBUS.begin()) {
     Serial << F("> can2040 init fail") << endl;
