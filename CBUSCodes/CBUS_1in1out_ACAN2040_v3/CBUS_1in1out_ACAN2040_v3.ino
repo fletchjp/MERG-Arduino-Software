@@ -205,7 +205,8 @@ void setup() {
   Serial.begin (115200);
   //while (!Serial);
   delay(5000);
-  Serial << endl << endl << F("> ** CBUS 1 in 1 out v1 ** ") << __FILE__ << endl;
+  Serial << endl << endl << F("> ** CBUS 1 in 1 out v3 ** ") << endl;
+  Serial << __FILE__ << endl;
 
   setupCBUS();
 
