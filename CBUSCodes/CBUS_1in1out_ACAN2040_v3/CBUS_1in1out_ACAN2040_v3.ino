@@ -276,7 +276,7 @@ void loop() {
   // bottom of loop()
 }
 
-// Send an event routine according to Module Switch
+// Send an event routine with the given opCode and eventNo.
 bool sendEvent(byte opCode, unsigned int eventNo)
 {
   CANFrame msg;
@@ -306,32 +306,21 @@ bool sendEvent(byte opCode, unsigned int eventNo)
 /// you can just watch for this event in FCU or JMRI, or teach it to another CBUS consumer module
 //
 void processModuleSwitchChange() {
-
+  byte opcode;
+  unsigned int event_no = 1;
   if (moduleSwitch.stateChanged()) {
 
     if (moduleSwitch.isPressed() ) {
         moduleLED.on();
         DEBUG_PRINT(F("> moduleLED ON ") );
+        opcode = OPC_ACON;
     } else {
         moduleLED.off();
         DEBUG_PRINT(F("> moduleLED OFF ") );
+        opcode = OPC_ACOF;
     }
-/*
-    CANFrame msg;
-    msg.id = module_config.CANID;
-    msg.len = 5;
-    msg.data[0] = (moduleSwitch.isPressed() ? OPC_ACON : OPC_ACOF);
-    msg.data[1] = highByte(module_config.nodeNum);
-    msg.data[2] = lowByte(module_config.nodeNum);
-    msg.data[3] = 0;
-    msg.data[4] = 1;            // event number (EN) = 1
-
-    if (CBUS.sendMessage(&msg)) {
-      Serial << F("> sent CBUS message") << endl;
-    } else {
-      Serial << F("> error sending CBUS message") << endl;
-    }
-    */
+    // Send the event
+    sendEvent(opcode, event_no);
   }
 }
 
