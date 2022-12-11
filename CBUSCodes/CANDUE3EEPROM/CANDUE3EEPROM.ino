@@ -428,7 +428,7 @@ void setup()
   setupCBUS();
   setupModule();
 
-#if OLED_DISPLAY || LCD_DISPLAY
+#if OLED_DISPLAY || LCD_DISPLAY 
   initialiseDisplay();
   delay(2000);
 #if OLED_DISPLAY
