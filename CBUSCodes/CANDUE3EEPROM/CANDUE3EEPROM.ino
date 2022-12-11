@@ -301,8 +301,8 @@ const byte delay_in_ms_between_messages = 50;
 
 //
 /// setup CBUS - runs once at power on from setup()
-//
-void setupCBUS()
+//  This now returns true if successful.
+bool setupCBUS()
 {
   // set config layout parameters
   config.EE_NVS_START = 10;
@@ -385,7 +385,11 @@ void setupCBUS()
   // CBUS.setOscFreq(16000000UL);   // select the crystal frequency of the CAN module
   // CBUS.setPins(10, 2);           // select pins for CAN bus CE and interrupt connections
   CBUS.setControllerInstance(0);    // only actually required for instance 1, instance 0 is the default
-  CBUS.begin();
+  if (!CBUS.begin() ){
+     DEBUG_PRINT ("***** CBUS.begin() FAILED *****");
+     return false;
+  }
+  return true;
 }
 
 void runLEDs(){
