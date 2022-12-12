@@ -1,11 +1,14 @@
 // CBUSACAN2040_v1
+///////////////////////////////////////////////////////////////////////////////////////////
 // This is a new code developed from CBUS_1in1out_ACAN2040_v3
 // which was renamed from example CBUS_1in1out with the CBUSACAN2040 library
 // Adding external EEPROM
 // and starting to add more things from CANDUE3EEPROM
 // processSerialInput is now a task.
 // This example is running on the Pico Breadboard and using the built in buttons and LEDs. 
-///
+////////////////////////////////////////////////////////////////////////////////////////////
+// This code is going to have more of the structure of CANDUE3EEPROM so that events can be explored.
+////////////////////////////////////////////////////////////////////////////////////////////
 //
 // Note that on the Pico Breadboard the pins go HIGH when pressed.
 #define PICO_BREADBOARD
