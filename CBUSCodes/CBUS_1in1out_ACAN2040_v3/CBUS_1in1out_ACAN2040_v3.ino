@@ -3,7 +3,7 @@
 // Adding external EEPROM
 // and starting to add more things from CANDUE3EEPROM
 // processSerialInput is now a task.
-//
+// This example is running on the Pico Breadboard and using the built in buttons and LEDs. 
 ///
 //
 // Note that on the Pico Breadboard the pins go HIGH when pressed.
