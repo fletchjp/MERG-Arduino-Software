@@ -10,10 +10,6 @@
 // This code is going to have more of the structure of CANDUE3EEPROM so that events can be explored.
 ////////////////////////////////////////////////////////////////////////////////////////////
 //
-// Note that on the Pico Breadboard the pins go HIGH when pressed.
-#define PICO_BREADBOARD
-//#define USE_EXTERNAL_EEPROM
-#define DEBUG         1 // set to 0 for no serial debug
 
 /*
   Copyright (C) Duncan Greenwood 2017 (duncan_greenwood@hotmail.com)
@@ -86,6 +82,11 @@ static const byte CAN_RX = 2;
 #include <CBUSParams.h>             // CBUS parameters
 #include <cbusdefs.h>               // MERG CBUS constants
 
+// Note that on the Pico Breadboard the pins go HIGH when pressed.
+#define PICO_BREADBOARD
+//#define USE_EXTERNAL_EEPROM
+#define DEBUG         1 // set to 0 for no serial debug
+
 #if DEBUG
 #define DEBUG_PRINT(S) Serial << S << endl
 #else
@@ -95,12 +96,16 @@ static const byte CAN_RX = 2;
 // constants
 const byte VER_MAJ = 1;             // code major version
 const char VER_MIN = 'a';           // code minor version
-const byte VER_BETA = 3;            // code beta sub-version
+const byte VER_BETA = 1;            // code beta sub-version
 const byte MODULE_ID = 99;          // CBUS module type
 
 const byte LED_GRN = 8;             // CBUS green SLiM LED pin
 const byte LED_YLW = 9;             // CBUS yellow FLiM LED pin
 const byte SWITCH0 = 10;            // CBUS push button switch pin
+
+
+#define NUM_LEDS 2              // How many LEDs are there?
+#define NUM_SWITCHES 2          // How many switchs are there?
 
 // CBUS objects
 CBUSConfig module_config;           // configuration object
