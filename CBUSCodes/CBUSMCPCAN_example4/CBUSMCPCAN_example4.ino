@@ -25,6 +25,8 @@ constexpr byte VER_BETA = 3;                 // code beta sub-version
 
 constexpr byte MODULE_ID = 99;
 
+const unsigned long CAN_OSC_FREQ = 20000000;     // Oscillator frequency on the CAN2515 board
+
 constexpr byte LED_GRN = 21;                 // CBUS green SLiM LED pin
 constexpr byte LED_YLW = 20;                 // CBUS yellow FLiM LED pin
 constexpr byte SW_PIN = 22;                  // CBUS push button switch pin
@@ -165,7 +167,7 @@ void setup() {
   // configure and start CAN bus and CBUS message processing
   Serial << F("> initialising CBUS") << endl;
   CBUS.setNumBuffers(NUM_CAN_RX_BUFFS, NUM_CAN_TX_BUFFS);   // message receive buffers, more buffers = more memory used, fewer = less
-  CBUS.setOscFreq(12000000UL);                              // crystal frequency of the CAN controller
+  CBUS.setOscFreq(CAN_OSC_FREQ);                            // crystal frequency of the CAN controller
 
 #ifdef ARDUINO_ARCH_RP2040
   // Pico SPI peripherals have no default pins so all values must be provided
@@ -511,6 +513,7 @@ void print_config(void) {
 #ifdef ARDUINO_ARCH_RP2040
   Serial << "> running on ARDUINO_ARCH_RP2040" << endl;
 #endif
+  Serial << "> with crystal frequency " << CAN_OSC_FREQ << endl;
 #ifdef USE_EXTERNAL_EEPROM
   Serial << "> using EXTERNAL EEPROM size " << module_config.getEEPROMsize() << endl;
 #endif
