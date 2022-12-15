@@ -178,7 +178,8 @@ void setup() {
   CBUS.setPins(CAN_CS, CAN_INT);
 #endif
 
-  if (CBUS.begin()) {
+  // Experiment with SPI polling.
+  if (CBUS.begin(true)) {
     Serial << F("> CBUS initialised ok") << endl;
   } else {
     Serial << F("> CBUS init error") << endl;
