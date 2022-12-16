@@ -25,7 +25,8 @@ constexpr byte VER_BETA = 4;                 // code beta sub-version
 
 constexpr byte MODULE_ID = 99;
 
-const unsigned long CAN_OSC_FREQ = 20000000;     // Oscillator frequency on the CAN2515 board
+// Current options are 8 Mhz and 16 Mhz.
+const unsigned long CAN_OSC_FREQ = 8000000;  // Oscillator frequency on the CAN2515 board
 
 constexpr byte LED_GRN = 21;                 // CBUS green SLiM LED pin
 constexpr byte LED_YLW = 20;                 // CBUS yellow FLiM LED pin
@@ -50,6 +51,7 @@ static const byte WIRE_SCL = 7;
 #endif
 
 // CBUS libraries
+#define DEBUG_MODE  // For mcp_can messages.
 #include <CBUSMCP_CAN.h>
 #include <CBUSswitch.h>
 #include <CBUSLED.h>
