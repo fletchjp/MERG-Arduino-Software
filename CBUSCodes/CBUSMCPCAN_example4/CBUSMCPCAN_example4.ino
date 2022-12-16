@@ -21,7 +21,7 @@
 
 constexpr byte VER_MAJ = 1;                  // code major version
 constexpr char VER_MIN = 'a';                // code minor version
-constexpr byte VER_BETA = 3;                 // code beta sub-version
+constexpr byte VER_BETA = 4;                 // code beta sub-version
 
 constexpr byte MODULE_ID = 99;
 
@@ -35,11 +35,11 @@ constexpr byte NUM_CAN_RX_BUFFS = 16;        // number of CAN receive buffers
 constexpr byte NUM_CAN_TX_BUFFS = 4;         // number of CAN transmit buffers
 
 // pins for Pico CAN shield
-constexpr byte CAN_INT = 22;          // INT output of MCP2515
-constexpr byte MCP2515_SCK  = 2;      // SCK input of MCP2515
-constexpr byte MCP2515_MOSI = 3;      // SDI input of MCP2515
-constexpr byte MCP2515_MISO = 4;      // SDO output of MCP2515
-constexpr byte CAN_CS  = 5;           // CS input of MCP2515
+constexpr byte CAN_INT = 22;          // INT output of MCP2515 (GPIO 25)
+constexpr byte MCP2515_SCK  = 2;      // SCK input of MCP2515  (GPIO 11)
+constexpr byte MCP2515_MOSI = 3;      // SDI input of MCP2515  (GPIO 10)
+constexpr byte MCP2515_MISO = 4;      // SDO output of MCP2515 (GPIO  9)
+constexpr byte CAN_CS  = 5;           // CS input of MCP2515   (GPIO  8)
 
 #ifdef USE_EXTERNAL_EEPROM
 #define WIRE Wire1
@@ -178,8 +178,8 @@ void setup() {
   CBUS.setPins(CAN_CS, CAN_INT);
 #endif
 
-  // Experiment with SPI polling.
-  if (CBUS.begin(true)) {
+  // Experiment with SPI polling taken away
+  if (CBUS.begin()) {
     Serial << F("> CBUS initialised ok") << endl;
   } else {
     Serial << F("> CBUS init error") << endl;
