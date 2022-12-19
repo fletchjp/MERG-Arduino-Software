@@ -66,7 +66,7 @@
 #include <Wire.h>
 #define WIRE Wire1
 #ifdef ARDUINO_ARCH_RP2040
-static const byte WIRE_SDA = 6;
+static const byte WIRE_SDA = 6;  
 static const byte WIRE_SCL = 7;
 #endif
 #endif
