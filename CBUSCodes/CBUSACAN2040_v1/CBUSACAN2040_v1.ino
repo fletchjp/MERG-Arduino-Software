@@ -124,7 +124,7 @@ static const byte MODULE_LED    = 12;  // Breadboard LED 3
 
 
 // module name, must be 7 characters, space padded.
-unsigned char mname[7] = { '1', 'I', 'N', '1', 'O', 'U', 'T' };
+unsigned char mname[7] = { 'C', 'A', 'N', '2', '0', '4', '0' };
 
 // forward function declarations
 void eventhandler(byte index, byte opc);
