@@ -2,6 +2,10 @@
 
  # MERG-Arduino-Software
 
+ WATCH OUT. This repository has become rather large and rambling and I am going to look at ways to separate it out into some smaller ones.
+ 
+ Work in progress in early 2023 I think.
+
  ## Introduction
 
  Information about the GitHub work for the MERG Arduino SIG.
