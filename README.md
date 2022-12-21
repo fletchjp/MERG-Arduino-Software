@@ -1,11 +1,15 @@
  <img align="right" src="arduino_merg_logo.png"  width="150" height="75">
 
  # MERG-Arduino-Software
+ 
+ ## Moving files elsewhere
 
  WATCH OUT. This repository has become rather large and rambling and I am going to look at ways to separate it out into some smaller ones.
  
  Work in progress in early 2023 I think.
-
+ 
+ I have now moved some of the files from StateMachine to a new repository with the same name. This is a trial for making some more substantial moves. At present this involves the loss of the Git history.
+ 
  ## Introduction
 
  Information about the GitHub work for the MERG Arduino SIG.
