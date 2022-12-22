@@ -34,4 +34,7 @@ This provides the same interface as FastLight.
 
 This can be used only with values provided directly to update it. The library update facility is not yet implemented.
 
+## Examples
+
+At the moment there are no examples for this library. I will work to have at least one for the fast and slow options.
 
