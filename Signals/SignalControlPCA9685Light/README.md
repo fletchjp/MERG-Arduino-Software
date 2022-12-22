@@ -36,5 +36,12 @@ This can be used only with values provided directly to update it. The library up
 
 ## Examples
 
-At the moment there are no examples for this library. I will work to have at least one for the fast and slow options.
+There are now two examples for this library. They are derived from Sven Rosvall's examples in the Signal Control library.
+
+These examples do not need any external inputs. Instead they cycle the three lamps available in a 3 aspect signal.
+
+The hardware required is a PCA9685 board connected using I2C with the default settings.
+
+John Fletcher <M6777>
+
 
