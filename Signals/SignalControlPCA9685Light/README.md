@@ -4,9 +4,9 @@
 This Library is an extension to the SignalControl library (Sven Rosvall) to support 
 LEDs connected using a PCA9685 board.
 
-Version 0.1.0
+Version 0.2.0
 
-Under development.
+Examples added.
 
 To use this in your own work you need to download it from Github and install it where you keep your Arduino libraries.
 
