@@ -8,7 +8,7 @@ These example needs the Adafruit_PWM_Servo_Driver_Library for the PWM pins.
 
 They also need FastPCALight.h or SlowPCALight.h which are in the SignalControlPCA9685 library.
 
-This is a separate library which needs the SignalControl library.
+This is a separate library which needs the SignalControl library. It has now been moved to a separate repository.
 
 The examples with task management (TM in the name) also need TaskManagerIO and some need IOAbstraction as well.
 
