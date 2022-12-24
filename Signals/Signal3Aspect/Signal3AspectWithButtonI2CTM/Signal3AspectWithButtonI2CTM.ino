@@ -22,7 +22,7 @@
 
 #include <Wire.h>
 #include <Adafruit_PWMServoDriver.h>
-#include "FastPWMLight.h"
+#include <FastPWMLight.h>
 
 enum { RED_on, YELLOW_on, GREEN_on } Led_State;
 
