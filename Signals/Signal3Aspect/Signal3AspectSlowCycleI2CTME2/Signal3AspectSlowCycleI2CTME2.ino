@@ -30,7 +30,7 @@
 
 #include <Wire.h>
 #include <Adafruit_PWMServoDriver.h>
-#include "SlowPCALight.h"
+#include <SlowPCALight.h>
 
 enum { RED_on, YELLOW_on, GREEN_on } Led_State, Current_State, Next_State;
 
