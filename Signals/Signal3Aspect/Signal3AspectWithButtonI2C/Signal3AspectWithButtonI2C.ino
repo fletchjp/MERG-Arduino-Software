@@ -9,7 +9,7 @@
 
 #include <Wire.h>
 #include <Adafruit_PWMServoDriver.h>
-#include "FastPWMLight.h"
+#include <FastPWMLight.h>
 
 
 /* This case  uses the  trackPin and cycles through the colours.
