@@ -9,8 +9,11 @@
 // switch_on: turn LED on and schedule switch_off in 500 milliseconds
 // switch_off: turn LED off and set TASK_off
 ///////////////////////////////////////////////////////////////////////////////////
+// This needs work to sort out how to schedule the tasks.
+///////////////////////////////////////////////////////////////////////////////////
 
-#include <TaskManagerIO.h>
+//#include <TaskManagerIO.h>
+#include <frt.h>
 
 int EN = 2;  // RS485 enable/disable pin for Rx/Tx
 // High to transmit, low to receive.
@@ -30,7 +33,7 @@ void switch_off() {
 void switch_on() {
     digitalWrite(ledPin, HIGH);
     Led_State = LED_on;
-    taskManager.scheduleOnce(500,switch_off);
+    //taskManager.scheduleOnce(500,switch_off);
 }
 
 void setup() {
@@ -45,14 +48,14 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  taskManager.runLoop();
+  //taskManager.runLoop();
   digitalWrite(EN, LOW); // Enable receiving data
   if (Task_State == TASK_off) {
       value = Serial.read();
       if (-1 != value) {
         if ('A' == value) {
            Task_State = TASK_on;
-           taskManager.execute(switch_on);
+           //taskManager.execute(switch_on);
         }
       } 
   }
