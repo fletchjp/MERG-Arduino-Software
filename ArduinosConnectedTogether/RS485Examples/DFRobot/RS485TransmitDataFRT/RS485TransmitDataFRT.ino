@@ -81,11 +81,4 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   //taskManager.runLoop();
-  //digitalWrite(EN, HIGH); // Enable data transmit
-  //Serial.print('A');
-  //digitalWrite(ledPin, HIGH);
-  //delay(500);
-  //digitalWrite(ledPin, LOW);
-  //delay(500);
-  //delay(1000);
 }
