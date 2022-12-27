@@ -10,9 +10,12 @@
 // switch_off: turn LED off and set TASK_off
 ///////////////////////////////////////////////////////////////////////////////////
 // This needs work to sort out how to schedule the tasks.
+// I have made separate tasks SwitchTask and ReceiveTask.
+// The idea is that ReceiveTask will run all the time at priority 2.
+// It will turn on SwitchTask at priority 1 as needed.
+// This task controls the timeing of the switches on and off.
 ///////////////////////////////////////////////////////////////////////////////////
 
-//#include <TaskManagerIO.h>
 #include <frt.h>
 
 int EN = 2;  // RS485 enable/disable pin for Rx/Tx
@@ -30,35 +33,69 @@ namespace
 	// referenced in this very compilation unit. That's good for larger
 	// projects but not necessary for this sketch.
 
-	// Define the transmit task and implement run().
+	// Define the tasks and implement run() for each.
 	// - final is optional but good practice
 	// - run() must be public
 	// - sleeping with remainder is optional
 	// - inlining run() is optional
 
+  class SwitchTask final :
+	public frt::Task<SwitchTask>
+  {
+    public:
+    bool run() {
+       if(Led_State == LED_off) {
+         switch_on();
+  		   msleep(500, remainder);
+         switch_off();
+      } else {
+         switch_off();
+   		   msleep(500, remainder);
+         switch_on();
+      }
+      return false; // Run once only.
+    }
+
+    void switch_off() {
+      digitalWrite(ledPin, LOW);
+      Led_State = LED_off;
+      Task_State = TASK_off;    
+    }
+
+    void switch_on() {
+      digitalWrite(ledPin, HIGH);
+      Led_State = LED_on;
+    }
+
+  private:
+		unsigned int remainder = 0;
+
+  };
+
+  SwitchTask switch_task;
 
   class ReceiveTask final :
 	public frt::Task<ReceiveTask>
   {
-  public:
-private:
+    public:
+    bool run() {
+    digitalWrite(EN, LOW); // Enable receiving data
+    if (Task_State == TASK_off) {
+      value = Serial.read();
+      if (-1 != value) {
+        if ('A' == value) {
+          Task_State = TASK_on;
+          switch_task.start(1);
+        }
+      }
+    }
+      return true;
+    }
+  private:
 		unsigned int remainder = 0;
   };
 
-
-
-
-void switch_off() {
-    digitalWrite(ledPin, LOW);
-    Led_State = LED_off;
-    Task_State = TASK_off;    
-}
-
-void switch_on() {
-    digitalWrite(ledPin, HIGH);
-    Led_State = LED_on;
-    //taskManager.scheduleOnce(500,switch_off);
-}
+  ReceiveTask receive_task;
 
 }
 
@@ -70,19 +107,9 @@ void setup() {
   digitalWrite(ledPin, LOW);
   Led_State = LED_off;
   Task_State = TASK_off;
+  receive_task.start(2);
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
-  //taskManager.runLoop();
-  digitalWrite(EN, LOW); // Enable receiving data
-  if (Task_State == TASK_off) {
-      value = Serial.read();
-      if (-1 != value) {
-        if ('A' == value) {
-           Task_State = TASK_on;
-           //taskManager.execute(switch_on);
-        }
-      } 
-  }
 }
