@@ -11,9 +11,11 @@
 ///////////////////////////////////////////////////////////////////////////////////
 // This needs work to sort out how to schedule the tasks.
 // I have made separate tasks SwitchTask and ReceiveTask.
-// The idea is that ReceiveTask will run all the time at priority 2.
-// It will turn on SwitchTask at priority 1 as needed.
+// The idea is that ReceiveTask will run all the time at priority 1.
+// It will turn on SwitchTask at priority 2 as needed.
 // This task controls the timeing of the switches on and off.
+// This works for the first three or four switches and then the LED switches
+// on and off more quickly.
 ///////////////////////////////////////////////////////////////////////////////////
 
 #include <frt.h>
@@ -85,7 +87,7 @@ namespace
         if (-1 != value) {
           if ('A' == value) {
             Task_State = TASK_on;
-            switch_task.start(1);
+            switch_task.start(2);
           }
         }
       }
@@ -113,12 +115,12 @@ void setup() {
   digitalWrite(ledPin, LOW);
   Led_State = LED_off;
   Task_State = TASK_off;
-  //receive_task.start(2);
+  receive_task.start(1);
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
-  digitalWrite(EN, LOW); // Enable receiving data
+  /*digitalWrite(EN, LOW); // Enable receiving data
   if (Task_State == TASK_off) {
       value = Serial.read();
       if (-1 != value) {
@@ -127,5 +129,5 @@ void loop() {
            switch_task.start(1);
       }
     }      
-  }
+  } */
 }
