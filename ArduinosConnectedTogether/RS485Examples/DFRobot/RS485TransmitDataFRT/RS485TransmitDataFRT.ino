@@ -56,6 +56,7 @@ namespace
       }
       // This is the replacement for a delay.
   		msleep(500, remainder);
+      return true;
     }
 	private:
 		unsigned int remainder = 0;
