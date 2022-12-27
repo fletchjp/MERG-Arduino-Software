@@ -50,9 +50,13 @@ namespace
   //frt::Queue<Data,10> queue;
 
   frt::Mutex task_mutex, led_mutex;
-
+  // There is a very strange relationship between the stack size and crashing.
+  // The default is 192U and it crashes after about 4 iterations.
+  // The crash is delayed for smaller stack size and earlier for larger stack size.
+  // After a crash the LED blinks regardless of tasks.
+  // This does not happen when the task is run from the loop().
   class SwitchTask final :
-	public frt::Task<SwitchTask>
+	public frt::Task<SwitchTask,32U>
   {
     public:
     bool run() {
@@ -105,10 +109,11 @@ namespace
         value = Serial.read();
         if (-1 != value) {
           if ('A' == value) {
-            Task_State = TASK_on;
-            //task_mutex.unlock();
-            if (!switch_task.isRunning())
+           //task_mutex.unlock();
+            if (!switch_task.isRunning()) {
               switch_task.start(2);
+              Task_State = TASK_on;
+            }
           }
         }
       }
