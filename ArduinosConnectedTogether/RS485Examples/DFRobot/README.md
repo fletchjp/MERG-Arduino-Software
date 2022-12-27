@@ -95,3 +95,5 @@ Version using the FRT library and FreeRTOS instead of TaskManagerIO. Transmit is
 Version using the FRT library and FreeRTOS instead of TaskManagerIO. 
 
 Receiving is failing to work unless the receipt is done in the loop().
+
+I swapped priority so that SwitchTask is 2 and ReceiveTask is 1. This works for three or four cycles and then goes wrong.
