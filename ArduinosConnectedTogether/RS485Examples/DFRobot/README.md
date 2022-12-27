@@ -88,8 +88,8 @@ Adding task management using TaskManagerIO with an event class (incomplete)
 
 ## RS485TransmitDataFRT
 
-Version using the FRT library and FreeRTOS instead of TaskManagerIO. Needs testing
+Version using the FRT library and FreeRTOS instead of TaskManagerIO. Transmit is working
 
 ## RS485ReceivingDataFRT
 
-Version using the FRT library and FreeRTOS instead of TaskManagerIO. Needs testing.
+Version using the FRT library and FreeRTOS instead of TaskManagerIO. Receiving is failing to work.
