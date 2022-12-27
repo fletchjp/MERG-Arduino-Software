@@ -24,6 +24,30 @@ enum { LED_off, LED_on } Led_State;
 
 enum { TASK_off, TASK_on} Task_State;
 
+namespace
+{
+	// An anonymous namespace tells the linker that this code is only
+	// referenced in this very compilation unit. That's good for larger
+	// projects but not necessary for this sketch.
+
+	// Define the transmit task and implement run().
+	// - final is optional but good practice
+	// - run() must be public
+	// - sleeping with remainder is optional
+	// - inlining run() is optional
+
+
+  class ReceiveTask final :
+	public frt::Task<ReceiveTask>
+  {
+  public:
+private:
+		unsigned int remainder = 0;
+  };
+
+
+
+
 void switch_off() {
     digitalWrite(ledPin, LOW);
     Led_State = LED_off;
@@ -34,6 +58,8 @@ void switch_on() {
     digitalWrite(ledPin, HIGH);
     Led_State = LED_on;
     //taskManager.scheduleOnce(500,switch_off);
+}
+
 }
 
 void setup() {
