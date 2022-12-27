@@ -15,7 +15,7 @@
 // It will turn on SwitchTask at priority 2 as needed.
 // This task controls the timeing of the switches on and off.
 // This works for the first three or four switches and then the LED switches
-// on and off more quickly.
+// on and off more quickly. Using a mutex around Task_State does not change things.
 ///////////////////////////////////////////////////////////////////////////////////
 
 #include <frt.h>
@@ -41,11 +41,22 @@ namespace
 	// - sleeping with remainder is optional
 	// - inlining run() is optional
 
+  //struct Data {
+  //   bool task_on;
+  //   bool led_on;     
+  //   unsigned long timestamp;
+  //};
+
+  //frt::Queue<Data,10> queue;
+
+  frt::Mutex task_mutex, led_mutex;
+
   class SwitchTask final :
 	public frt::Task<SwitchTask>
   {
     public:
     bool run() {
+       //Data data;
        if(Led_State == LED_off) {
          switch_on();
   		   msleep(500, remainder);
@@ -55,7 +66,13 @@ namespace
    		   msleep(500, remainder);
          switch_on();
       }
+      task_mutex.lock();
       Task_State = TASK_off;
+      task_mutex.unlock();
+      //data.task_on = false;
+      //data.led_on = (Led_State == LED_on);
+      //data.timestamp = millis();
+      //queue.push(data);
       return false; // Run once only.
     }
 
@@ -82,15 +99,17 @@ namespace
     public:
     bool run() {
       digitalWrite(EN, LOW); // Enable receiving data
+      task_mutex.lock();
       if (Task_State == TASK_off) {
         value = Serial.read();
         if (-1 != value) {
           if ('A' == value) {
-            Task_State = TASK_on;
-            switch_task.start(2);
+           Task_State = TASK_on;
+           switch_task.start(2);
           }
         }
       }
+      task_mutex.unlock();
       return true;
     }
   private:
