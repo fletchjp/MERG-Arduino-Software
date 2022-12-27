@@ -92,4 +92,6 @@ Version using the FRT library and FreeRTOS instead of TaskManagerIO. Transmit is
 
 ## RS485ReceivingDataFRT
 
-Version using the FRT library and FreeRTOS instead of TaskManagerIO. Receiving is failing to work.
+Version using the FRT library and FreeRTOS instead of TaskManagerIO. 
+
+Receiving is failing to work unless the receipt is done in the loop().
