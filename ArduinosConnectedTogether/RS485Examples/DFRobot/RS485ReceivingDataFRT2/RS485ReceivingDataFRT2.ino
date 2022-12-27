@@ -55,6 +55,9 @@ namespace
   // The crash is delayed for smaller stack size and earlier for larger stack size.
   // After a crash the LED blinks regardless of tasks.
   // This does not happen when the task is run from the loop().
+  // My guess is that the memory used for the stack is not being freed
+  // and the Arduino is running out of memory!!!
+  // I am looking into how I could free the memory.
   class SwitchTask final :
 	public frt::Task<SwitchTask,32U>
   {
