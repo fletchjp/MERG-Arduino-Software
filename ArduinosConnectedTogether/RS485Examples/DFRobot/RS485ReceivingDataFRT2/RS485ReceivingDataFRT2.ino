@@ -59,7 +59,7 @@ namespace
   // and the Arduino is running out of memory!!!
   // I am looking into how I could free the memory.
   class SwitchTask final :
-	public frt::Task<SwitchTask,32U>
+	public frt::Task<SwitchTask,32U> 
   {
     public:
     bool run() {
