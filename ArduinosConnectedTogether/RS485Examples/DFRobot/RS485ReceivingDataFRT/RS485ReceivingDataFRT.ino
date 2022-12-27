@@ -128,7 +128,7 @@ void loop() {
         if ('A' == value) {
            Task_State = TASK_on;
            switch_task.start(1);
-      }
-    }      
+        }
+      }      
   }
 }
