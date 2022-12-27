@@ -53,13 +53,13 @@ namespace
    		   msleep(500, remainder);
          switch_on();
       }
+      Task_State = TASK_off;
       return false; // Run once only.
     }
 
     void switch_off() {
       digitalWrite(ledPin, LOW);
-      Led_State = LED_off;
-      Task_State = TASK_off;    
+      Led_State = LED_off;   
     }
 
     void switch_on() {
@@ -79,16 +79,16 @@ namespace
   {
     public:
     bool run() {
-    digitalWrite(EN, LOW); // Enable receiving data
-    if (Task_State == TASK_off) {
-      value = Serial.read();
-      if (-1 != value) {
-        if ('A' == value) {
-          Task_State = TASK_on;
-          switch_task.start(1);
+      digitalWrite(EN, LOW); // Enable receiving data
+      if (Task_State == TASK_off) {
+        value = Serial.read();
+        if (-1 != value) {
+          if ('A' == value) {
+            Task_State = TASK_on;
+            switch_task.start(1);
+          }
         }
       }
-    }
       return true;
     }
   private:
@@ -104,12 +104,28 @@ void setup() {
   pinMode(EN, OUTPUT);
   Serial.begin(115200);
   pinMode(ledPin, OUTPUT);
+  //digitalWrite(ledPin, HIGH);
+  //delay(1000);
+  //digitalWrite(ledPin, LOW);
+  //delay(500);
+  //digitalWrite(ledPin, HIGH);
+  //delay(500);
   digitalWrite(ledPin, LOW);
   Led_State = LED_off;
   Task_State = TASK_off;
-  receive_task.start(2);
+  //receive_task.start(2);
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
+  digitalWrite(EN, LOW); // Enable receiving data
+  if (Task_State == TASK_off) {
+      value = Serial.read();
+      if (-1 != value) {
+        if ('A' == value) {
+           Task_State = TASK_on;
+           switch_task.start(1);
+      }
+    }      
+  }
 }
