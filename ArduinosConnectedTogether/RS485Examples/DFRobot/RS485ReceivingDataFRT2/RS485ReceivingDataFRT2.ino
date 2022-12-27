@@ -57,18 +57,18 @@ namespace
     public:
     bool run() {
        //Data data;
-       if(Led_State == LED_off) {
+       //if(Led_State == LED_off) {
          switch_on();
   		   msleep(500, remainder);
          switch_off();
-      } else {
-         switch_off();
-   		   msleep(500, remainder);
-         switch_on();
-      }
-      task_mutex.lock();
-      Task_State = TASK_off;
-      task_mutex.unlock();
+      //} else {
+        // switch_off();
+   		  // msleep(500, remainder);
+        // switch_on();
+      //}
+      //task_mutex.lock();
+      //Task_State = TASK_off;
+      //task_mutex.unlock();
       //data.task_on = false;
       //data.led_on = (Led_State == LED_on);
       //data.timestamp = millis();
@@ -99,17 +99,22 @@ namespace
     public:
     bool run() {
       digitalWrite(EN, LOW); // Enable receiving data
-      task_mutex.lock();
-      if (Task_State == TASK_off) {
+      //task_mutex.lock();
+      if (!switch_task.isRunning()) {
+      //if (Task_State == TASK_off) {
         value = Serial.read();
         if (-1 != value) {
           if ('A' == value) {
-           Task_State = TASK_on;
-           switch_task.start(2);
+            Task_State = TASK_on;
+            //task_mutex.unlock();
+            if (!switch_task.isRunning())
+              switch_task.start(2);
           }
         }
       }
-      task_mutex.unlock();
+      if (!switch_task.isRunning())
+        Task_State = TASK_off;
+      //task_mutex.unlock();
       return true;
     }
   private:
