@@ -11,7 +11,6 @@
 
 // With the board set to PROG the output goes to the Serial Monitor if the speed is set correctly.
 
-//#include <TaskManagerIO.h>
 #include <frt.h>
 
 int EN = 2;  // RS485 enable/disable pin for Rx/Tx
@@ -74,11 +73,8 @@ void setup() {
   digitalWrite(ledPin, LOW);
   Led_State = LED_off;
   transmit_task.start(1);
-  // This is at the end of setup()
-  //taskManager.scheduleFixedRate(500,transmit);
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
-  //taskManager.runLoop();
 }
