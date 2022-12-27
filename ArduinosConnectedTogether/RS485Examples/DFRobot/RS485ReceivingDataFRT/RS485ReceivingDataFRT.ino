@@ -14,6 +14,9 @@
 // The idea is that ReceiveTask will run all the time at priority 2.
 // It will turn on SwitchTask at priority 1 as needed.
 // This task controls the timeing of the switches on and off.
+// This idea DOES NOT WORK.
+// What does work is to have the receipt of data in the loop()
+// and then use the SwitchTask.
 ///////////////////////////////////////////////////////////////////////////////////
 
 #include <frt.h>
