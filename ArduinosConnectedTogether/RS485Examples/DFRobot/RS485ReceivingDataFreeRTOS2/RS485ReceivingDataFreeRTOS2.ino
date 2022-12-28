@@ -44,7 +44,7 @@ void setup() {
   digitalWrite(ledPin, LOW);
   Led_State = LED_off;
   Task_State = TASK_off;
-  xTaskCreate(TaskSwitch, "Switch", 128, NULL, 2, NULL);
+  //xTaskCreate(TaskSwitch, "Switch", 128, NULL, 2, NULL);
   xTaskCreate(TaskReceive, "Receive", 128, NULL, 1, NULL);
 }
 
@@ -65,14 +65,16 @@ void switch_on() {
 void TaskSwitch(void *pvParameters)
 {
   (void) pvParameters;
-
-  for (;;)
-  {
+  // Convert the task to one that only runs once.
+  //for (;;)
+  //{
     switch_on();
   	vTaskDelay(500 / portTICK_PERIOD_MS );
     switch_off();
-  	vTaskDelay(500 / portTICK_PERIOD_MS );    
-  }
+  	//vTaskDelay(500 / portTICK_PERIOD_MS );    
+  //}
+    // This deletes the task.
+    vTaskDelete(NULL);
 }
 
 void TaskReceive(void *pvParameters)
@@ -85,6 +87,7 @@ void TaskReceive(void *pvParameters)
       if (-1 != value) {
         if ('A' == value) {
           Task_State = TASK_on;
+          xTaskCreate(TaskSwitch, "Switch", 128, NULL, 2, NULL);
    	      vTaskDelay(500 / portTICK_PERIOD_MS );    
           Task_State = TASK_off;
         }
