@@ -48,9 +48,20 @@ namespace
   //   unsigned long timestamp;
   //};
 
+    void switch_off() {
+      digitalWrite(ledPin, LOW);
+      Led_State = LED_off;   
+    }
+
+    void switch_on() {
+      digitalWrite(ledPin, HIGH);
+      Led_State = LED_on;
+    }
+
+
   //frt::Queue<Data,10> queue;
 
-  frt::Mutex task_mutex, led_mutex;
+  //frt::Mutex task_mutex, led_mutex;
   // There is a very strange relationship between the stack size and crashing.
   // The default is 192U and it crashes after about 4 iterations.
   // The crash is delayed for smaller stack size and earlier for larger stack size.
@@ -66,9 +77,11 @@ namespace
     bool run() {
        //Data data;
        //if(Led_State == LED_off) {
-         switch_on();
+         digitalWrite(ledPin, HIGH);
+         //switch_on();
   		   msleep(500, remainder);
-         switch_off();
+         digitalWrite(ledPin, LOW);
+         //switch_off();
       //} else {
         // switch_off();
    		  // msleep(500, remainder);
@@ -85,15 +98,6 @@ namespace
      return false; // Run once only.
     }
 
-    void switch_off() {
-      digitalWrite(ledPin, LOW);
-      Led_State = LED_off;   
-    }
-
-    void switch_on() {
-      digitalWrite(ledPin, HIGH);
-      Led_State = LED_on;
-    }
 
   private:
 		unsigned int remainder = 0;
@@ -101,6 +105,7 @@ namespace
   };
 
   SwitchTask switch_task;
+
 
   class ReceiveTask final :
 	public frt::Task<ReceiveTask>
@@ -110,21 +115,24 @@ namespace
       //xTaskCreate *task;
       digitalWrite(EN, LOW); // Enable receiving data
       //task_mutex.lock();
-      if (!switch_task.isRunning()) {
+      //if (!switch_task.isRunning()) {
+      if (Serial.available()) {        
       //if (Task_State == TASK_off) {
-        value = Serial.read();
+       value = Serial.read();
         if (-1 != value) {
           if ('A' == value) {
            //task_mutex.unlock();
-            if (!switch_task.isRunning()) {
-              switch_task.start(2);
-              Task_State = TASK_on;
-            }
+            //if (!switch_task.isRunning()) { */
+          switch_task.start(2);
+          //Task_State = TASK_on;
           }
         }
       }
-      if (!switch_task.isRunning())
-        Task_State = TASK_off;
+      // This is important to give the switch_task time for the memory task to run.
+    	msleep(100, remainder);
+  
+      //if (!switch_task.isRunning())
+      //Task_State = TASK_off;
       //task_mutex.unlock();
       return true;
     }
