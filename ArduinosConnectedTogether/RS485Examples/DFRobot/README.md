@@ -92,11 +92,13 @@ Version using the FRT library and FreeRTOS instead of TaskManagerIO. Transmit is
 
 ## RS485ReceivingDataFRT
 
-Version using the FRT library and FreeRTOS instead of TaskManagerIO. 
+Version using the FRT library and FreeRTOS instead of TaskManagerIO.
+
+This version calls a switching task from the loop().
 
 ## RS485ReceivingDataFRT2
 
-Receiving is failing to work unless the receipt is done in the loop().
+Receiving is failing to work unless the receipt of data is done in the loop().
 
 I swapped priority so that SwitchTask is 2 and ReceiveTask is 1. This works for three or four cycles and then goes wrong.
 
@@ -109,4 +111,8 @@ This may be because starting one task from another is not allowed in FreeRTOS.
 ## RS485ReceivingDataFRT3
 
 A further attempt to see what can be done.
+
+The two tasks have been combined into one ReceiveTask which always runs and does the switching when it gets data.
+
+This is not as sophisticated as the version with TaskManager.
 
