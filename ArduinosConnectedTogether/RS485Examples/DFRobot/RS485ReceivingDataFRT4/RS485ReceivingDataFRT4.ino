@@ -17,6 +17,8 @@
 // This works for the first three or four switches and then the LED switches
 // on and off more quickly. Using a mutex around Task_State does not change things.
 // I want to attempt to fix things using what I have learned in RS485ReceivingDataFreeRTOS2
+// This one NOW WORKS. The problem was the lack of a delay in the ReceivingTask.
+// I am reversing some of the previous code changes step by step.
 ///////////////////////////////////////////////////////////////////////////////////
 
 #include <frt.h>
@@ -42,11 +44,7 @@ namespace
 	// - sleeping with remainder is optional
 	// - inlining run() is optional
 
-  //struct Data {
-  //   bool task_on;
-  //   bool led_on;     
-  //   unsigned long timestamp;
-  //};
+
 
     void switch_off() {
       digitalWrite(ledPin, LOW);
@@ -77,11 +75,11 @@ namespace
     bool run() {
        //Data data;
        //if(Led_State == LED_off) {
-         digitalWrite(ledPin, HIGH);
-         //switch_on();
+         //digitalWrite(ledPin, HIGH);
+         switch_on();
   		   msleep(500, remainder);
-         digitalWrite(ledPin, LOW);
-         //switch_off();
+         //digitalWrite(ledPin, LOW);
+         switch_off();
       //} else {
         // switch_off();
    		  // msleep(500, remainder);
@@ -122,8 +120,8 @@ namespace
         if (-1 != value) {
           if ('A' == value) {
            //task_mutex.unlock();
-            //if (!switch_task.isRunning()) { */
-          switch_task.start(2);
+           //if (!switch_task.isRunning()) { */
+            switch_task.start(2);
           //Task_State = TASK_on;
           }
         }
