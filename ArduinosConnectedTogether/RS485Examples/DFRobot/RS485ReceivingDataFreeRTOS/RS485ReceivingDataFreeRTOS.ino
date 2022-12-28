@@ -49,16 +49,6 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  /*digitalWrite(EN, LOW); // Enable receiving data
-  if (Task_State == TASK_off) {
-      value = Serial.read();
-      if (-1 != value) {
-        if ('A' == value) {
-           Task_State = TASK_on;
-           switch_task.start(1);
-      }
-    }      
-  } */
 }
 
 void switch_off() {
