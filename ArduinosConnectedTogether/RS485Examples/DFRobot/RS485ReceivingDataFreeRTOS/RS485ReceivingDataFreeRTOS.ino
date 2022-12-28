@@ -18,7 +18,7 @@
 // on and off more quickly. Using a mutex around Task_State does not change things.
 ///////////////////////////////////////////////////////////////////////////////////
 
-#include <frt.h>
+#include <Arduino_FreeRTOS.h>
 
 int EN = 2;  // RS485 enable/disable pin for Rx/Tx
 // High to transmit, low to receive.
@@ -29,6 +29,10 @@ enum { LED_off, LED_on } Led_State;
 
 enum { TASK_off, TASK_on} Task_State;
 
+void TaskSwitch  (void *pvParameters);
+void TaskReceive (void *pvParameters);
+
+/*
 namespace
 {
 	// An anonymous namespace tells the linker that this code is only
@@ -132,6 +136,7 @@ namespace
   ReceiveTask receive_task;
 
 }
+*/
 
 void setup() {
   // put your setup code here, to run once:
@@ -147,7 +152,9 @@ void setup() {
   digitalWrite(ledPin, LOW);
   Led_State = LED_off;
   Task_State = TASK_off;
-  receive_task.start(1);
+  //receive_task.start(1);
+  xTaskCreate(TaskSwitch, "Switch", 128, NULL, 2, NULL);
+  xTaskCreate(TaskReceive. "Receive", 128, NULL, 1, NULL);
 }
 
 void loop() {
@@ -162,4 +169,41 @@ void loop() {
       }
     }      
   } */
+}
+
+void switch_off() {
+  digitalWrite(ledPin, LOW);
+  Led_State = LED_off;   
+}
+
+void switch_on() {
+  digitalWrite(ledPin, HIGH);
+  Led_State = LED_on;
+}
+
+void TaskSwitch(void *pvParameters)
+{
+  (void) pvParameters;
+
+  for (;;)
+  {
+    switch_on();
+  	vTaskDelay(500 / portTICK_PERIOD_MS );
+    switch_off();
+  	vTaskDelay(500 / portTICK_PERIOD_MS );    
+  }
+}
+
+void TaskReceive(void *pvParameters)
+{
+  if (Task_State == TASK_off) {
+      value = Serial.read();
+      if (-1 != value) {
+        if ('A' == value) {
+          Task_State = TASK_on;
+   	      vTaskDelay(500 / portTICK_PERIOD_MS );    
+          Task_State = TASK_off;
+        }
+      }      
+   }
 }
