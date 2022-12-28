@@ -18,6 +18,9 @@
 // on and off more quickly. Using a mutex around Task_State does not change things.
 ///////////////////////////////////////////////////////////////////////////////////
 // FRT3 is another attempt to sort this out.
+// I am going to make it all into one task.
+// The ReceiveTask now contains the code for switching as well.
+// This one works.
 ///////////////////////////////////////////////////////////////////////////////////
 #include <frt.h>
 
@@ -50,7 +53,7 @@ namespace
 
   //frt::Queue<Data,10> queue;
 
-  frt::Mutex task_mutex, led_mutex;
+  //frt::Mutex task_mutex, led_mutex;
   // There is a very strange relationship between the stack size and crashing.
   // The default is 192U and it crashes after about 4 iterations.
   // The crash is delayed for smaller stack size and earlier for larger stack size.
@@ -59,6 +62,7 @@ namespace
   // My guess is that the memory used for the stack is not being freed
   // and the Arduino is running out of memory!!!
   // I am looking into how I could free the memory.
+  /*
   class SwitchTask final :
 	public frt::Task<SwitchTask,32U> 
   {
@@ -100,6 +104,7 @@ namespace
   };
 
   SwitchTask switch_task;
+*/
 
   class ReceiveTask final :
 	public frt::Task<ReceiveTask>
@@ -107,25 +112,32 @@ namespace
     public:
     bool run() {
       digitalWrite(EN, LOW); // Enable receiving data
-      //task_mutex.lock();
-      if (!switch_task.isRunning()) {
-      //if (Task_State == TASK_off) {
+      if (Task_State == TASK_off) {
         value = Serial.read();
         if (-1 != value) {
           if ('A' == value) {
-           //task_mutex.unlock();
-            if (!switch_task.isRunning()) {
-              switch_task.start(2);
-              Task_State = TASK_on;
-            }
+             Task_State = TASK_on;
+             switch_on();
+  		       msleep(500, remainder);
+             switch_off();
+             Task_State = TASK_off;   
           }
         }
       }
-      if (!switch_task.isRunning())
-        Task_State = TASK_off;
-      //task_mutex.unlock();
       return true;
     }
+
+    void switch_off() {
+      digitalWrite(ledPin, LOW);
+      Led_State = LED_off;   
+    }
+
+    void switch_on() {
+      digitalWrite(ledPin, HIGH);
+      Led_State = LED_on;
+    }
+
+
   private:
 		unsigned int remainder = 0;
   };
@@ -139,12 +151,6 @@ void setup() {
   pinMode(EN, OUTPUT);
   Serial.begin(115200);
   pinMode(ledPin, OUTPUT);
-  //digitalWrite(ledPin, HIGH);
-  //delay(1000);
-  //digitalWrite(ledPin, LOW);
-  //delay(500);
-  //digitalWrite(ledPin, HIGH);
-  //delay(500);
   digitalWrite(ledPin, LOW);
   Led_State = LED_off;
   Task_State = TASK_off;
@@ -153,14 +159,4 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  /*digitalWrite(EN, LOW); // Enable receiving data
-  if (Task_State == TASK_off) {
-      value = Serial.read();
-      if (-1 != value) {
-        if ('A' == value) {
-           Task_State = TASK_on;
-           switch_task.start(1);
-      }
-    }      
-  } */
 }
