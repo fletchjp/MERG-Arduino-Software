@@ -86,7 +86,10 @@ void TaskSwitch(void *pvParameters)
 
 void TaskReceive(void *pvParameters)
 {
-  if (Task_State == TASK_off) {
+  for (;;)
+  {
+    digitalWrite(EN, LOW); // Enable receiving data
+    if (Task_State == TASK_off) {
       value = Serial.read();
       if (-1 != value) {
         if ('A' == value) {
@@ -95,5 +98,6 @@ void TaskReceive(void *pvParameters)
           Task_State = TASK_off;
         }
       }      
-   }
+    }
+  }
 }
