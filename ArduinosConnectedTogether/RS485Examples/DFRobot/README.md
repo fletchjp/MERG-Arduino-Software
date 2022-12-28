@@ -122,4 +122,8 @@ This now uses FreeRTOS directly with no FRT.
 
 This first case simply flashes all the time without paying attention to the incoming data.
 
+## RS485ReceivingDataFreeRTOS2
+
+This one now does what I want - I can call the task to do the flashing repeatedly.
+
 
