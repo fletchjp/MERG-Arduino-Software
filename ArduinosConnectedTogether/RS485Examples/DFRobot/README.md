@@ -97,3 +97,10 @@ Version using the FRT library and FreeRTOS instead of TaskManagerIO.
 Receiving is failing to work unless the receipt is done in the loop().
 
 I swapped priority so that SwitchTask is 2 and ReceiveTask is 1. This works for three or four cycles and then goes wrong.
+
+It turns out that the SwitchTask has a stack which is not getting deleted after the task runs. This means that multiple sets opf the stack are generated until the Arduino UNO runs out of memory.
+
+This does not happen when the same task structure is called from the loop() so in that case the memory is not retained.
+
+This may be because starting one task from another is not allowed in FreeRTOS.
+
