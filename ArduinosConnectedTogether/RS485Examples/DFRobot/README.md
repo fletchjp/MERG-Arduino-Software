@@ -120,6 +120,8 @@ This is not as sophisticated as the version with TaskManager.
 
 This one is for any new experiments on the frt code. I have not done anything so far.
 
+This version now works properly with the insertion of a delay into the ReceiveTask.
+
 ## RS485ReceivingDataFreeRTOS
 
 This now uses FreeRTOS directly with no FRT.
