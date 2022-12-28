@@ -116,3 +116,10 @@ The two tasks have been combined into one ReceiveTask which always runs and does
 
 This is not as sophisticated as the version with TaskManager.
 
+## RS485ReceivingDataFreeRTOS
+
+This now uses FreeRTOS directly with no FRT.
+
+This first case simply flashes all the time without paying attention to the incoming data.
+
+
