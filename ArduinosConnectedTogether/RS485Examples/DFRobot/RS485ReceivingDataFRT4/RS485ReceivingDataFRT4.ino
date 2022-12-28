@@ -60,7 +60,7 @@ namespace
   // and the Arduino is running out of memory!!!
   // I am looking into how I could free the memory.
   class SwitchTask final :
-	public frt::Task<SwitchTask,32U> 
+	public frt::Task<SwitchTask> 
   {
     public:
     bool run() {
@@ -81,7 +81,8 @@ namespace
       //data.led_on = (Led_State == LED_on);
       //data.timestamp = millis();
       //queue.push(data);
-      return false; // Run once only.
+      // vTaskDelete(NULL);
+     return false; // Run once only.
     }
 
     void switch_off() {
@@ -106,6 +107,7 @@ namespace
   {
     public:
     bool run() {
+      //xTaskCreate *task;
       digitalWrite(EN, LOW); // Enable receiving data
       //task_mutex.lock();
       if (!switch_task.isRunning()) {
