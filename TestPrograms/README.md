@@ -6,7 +6,7 @@ A lot of this is in response to the realisation that the Arduino IDE default set
 
 Each program has been started to cover a topic, although they have expanded as time has gone on.
 
-## i2c_adddress_detect
+## i2c_address_detect
 
 Detect I2C devices 0n 0x10. Adafruit
 
