@@ -16,3 +16,6 @@ I have only just found out that IOAbstraction has an EEPROM interface.
 
 I have now run this example on a Mega. It would need to be altered for a Pico.
 
+I then forgot to put this with the other EEPROM tests so I have spent some time hunting for it.
+
+
