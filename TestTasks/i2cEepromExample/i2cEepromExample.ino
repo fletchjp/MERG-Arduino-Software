@@ -35,7 +35,7 @@ void setup() {
 	// if you are using the i2c eeprom, you must include this line below, not needed otherwise.
 	Wire.begin();
 
-	Serial.println("Eeprom example starting");
+	Serial.println("IOAbstraction i2cEepromExample starting on a MEGA");
 
 	// clear the ROM first..
 	for(int i=romStart;i<(romStart+100);i++) anEeprom.write8(i, 0);
