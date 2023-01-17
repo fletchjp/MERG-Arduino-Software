@@ -26,11 +26,15 @@ These codes are an attempt to use CBUS2515 with the CAN Hat and a Pico.
 
 The codes use external EEPROM.  At the moment there is a bug in the latest version.
 
+I have not been able to get these codes working.
+
 ### CBUSMCPCAN_example
 
 These codes use CBUSMCPCAN instead of CBUS2515.
 
 There is now the option for external EEPROM in this one as well (example3).
+
+I have not been able to get these codes working.
 
 ### CBUSACAN2040 examples
 
