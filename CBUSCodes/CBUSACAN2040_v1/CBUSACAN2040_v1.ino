@@ -382,13 +382,13 @@ void printConfig(void) {
 #ifdef ARDUINO_ARCH_RP2040
   Serial << "> running on ARDUINO_ARCH_RP2040" << endl;
 #endif
-//#ifdef USE_EXTERNAL_EEPROM
+#ifdef USE_EXTERNAL_EEPROM
   if (module_config.getEEPROMtype() == EEPROM_EXTERNAL) {
     Serial << "> using EXTERNAL EEPROM size " << module_config.getEEPROMsize() << endl;    
   } else {
     Serial << "> using INTERNAL EEPROM size " << module_config.getEEPROMsize() << endl;
   }
-//#endif
+#endif
   return;
 }
 
