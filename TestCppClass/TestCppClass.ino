@@ -25,6 +25,7 @@ class XwithConstructor {
 void setup() {
   // put your setup code here, to run once:
   X x;
+  X xx(x);
   //XwithConstructor xwith;  // This does not work as a constructor is declared.
   XwithConstructor xwith(1);
 }
