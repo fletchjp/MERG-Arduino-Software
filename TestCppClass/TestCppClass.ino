@@ -11,9 +11,22 @@
   destructor ~X()
 */
 
+class X {
+  public:
+
+};
+
+class XwithConstructor {
+   int i_;
+   public:
+   XwithConstructor(int i) : i_(i) {}
+};
+
 void setup() {
   // put your setup code here, to run once:
-
+  X x;
+  //XwithConstructor xwith;  // This does not work as a constructor is declared.
+  XwithConstructor xwith(1);
 }
 
 void loop() {
