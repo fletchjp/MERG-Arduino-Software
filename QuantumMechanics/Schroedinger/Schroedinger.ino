@@ -65,9 +65,40 @@ double F(double E) {
     phi_right[i-1] -= ( 1 + c * q(x + h)) * phi_right[i+1];
     phi[i-1] = phi_right[i-1] /= (1 + c * q(x - h) );
   }
-  
+  // rescale phi_left values
+  double scale = phi_right[i_match]  / phi_left[i_match];
+  for (int i = 1; i <= i_match; i++) {
+    phi[i] = phi_left[i] *= scale;
+  }
 
-  return 0; // for now so that it compiles.
+  static int sign = 1;
+  static int nodes = 0;
+
+  int n = 0;
+  for (int i = 1; i <= i_match; i++) {
+    if (phi_left[i-1] * phi_left[i] < 0) ++n;
+  }
+
+  if ( n != nodes) {
+    nodes = n;
+    sign = -sign;
+  }
+
+  return sign * (  phi_right[i_match-1] - phi_right[i_match+1]
+                  - phi_left[i_match-1] + phi_left[i_match+1] )
+         / ( 2 * h * phi_right[i_match]) ; // for now so that it compiles.
+}
+
+void normalize() {
+  double norm = 0;
+  for (int i = 0; i < N; i++) {
+    norm += phi[i] * phi[i];
+  } 
+  norm /= N;
+  norm = sqrt(norm);
+  for (int i = 0; i < N; i++) {
+    phi[i] /= norm; // phi /= norm; does not compile.
+  }
 }
 
 void setup() {
