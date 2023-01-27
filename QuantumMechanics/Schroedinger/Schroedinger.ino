@@ -4,6 +4,8 @@
 
 #undef F
 #include <vector>
+#include <Streaming.h>
+
 
 /// Tridiagonal may come later.
 /// The references do not seem to use this method.
@@ -101,12 +103,32 @@ void normalize() {
   }
 }
 
+// These have to be globals
+double E_max, E_old;
+int level;
+
+
 void setup() {
   // put your setup code here, to run once:
+  delay(5000);
+  Serial.begin(115200);
+  delay(5000);
+   
+  Serial << "Eignevalues for the Schroedinger Equation" << endl;
+  Serial << "using the Numerov Algorithm" << endl;
 
+  E_max = 1;
+  level = 0;
+  E_old = 0;
+  E = 0.1;
+  Serial << " Level      Energy " << endl;
 }
+
+
 
 void loop() {
   // put your main code here, to run repeatedly:
-
+  double dE = 0.5 * (E - E_old);
+  E_old = E;
+  E += dE;
 }
