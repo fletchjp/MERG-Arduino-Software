@@ -25,7 +25,8 @@ double q(double x) {
   return 2 * m / (hbar * hbar) * (E - V(x));
 }
 
-int N = 100;
+const int N = 500;
+const double accuracy = 0.00001;
 double x_left = -5;
 double x_right = 5;
 double h = (x_right - x_left) / N;
@@ -118,6 +119,13 @@ void normalize() {
   }
 }
 
+const int N_ROOTS = 20;
+double roots[N_ROOTS];
+double funs[N_ROOTS];
+
+int n_root = 0;
+
+
 class Bisect {
   double accuracy;
 public:
@@ -158,7 +166,12 @@ double Bisect::find_root(double F(double), double x1, double x2)
   if (abs(xm - x2_old ) < accuracy) { 
     //Serial << "top limit reached "  << _FLOAT(x2_old,4) << " " << _FLOAT(fm,4) << endl;
   } else {
-    Serial << "root found at " << _FLOAT(xmold,4) << " " << _FLOAT(fm,4) << endl;
+    if (n_root < N_ROOTS  && abs(fm) < 0.001) {
+    roots[n_root] = xmold;
+    funs[n_root] = fm;
+    Serial << n_root << " " << _FLOAT(xmold,4) << " " << _FLOAT(fm,4) << " " <<  _FLOAT(roots[n_root]/ roots[0],4) << endl;
+    n_root++;
+    }
   }
   return xmold; 
 
@@ -169,6 +182,7 @@ double E_max, E_old;
 int level;
 
 
+
 void setup() {
   // put your setup code here, to run once:
   delay(5000);
@@ -176,13 +190,13 @@ void setup() {
   delay(5000);
    
   Serial << "Eignevalues for the Schroedinger Equation" << endl;
-  Serial << "using the Numerov Algorithm" << endl;
-
+  Serial << "using the Numerov Algorithm with grid size " << N << endl;
+  Serial << "Bisection accuracy is " << _FLOAT(accuracy,6) << endl;
   E_max = 6;
   level = 0;
   E_old = 0;
   E = 0.1;
-  Serial << " Level      Energy " << endl;
+  Serial << "    Level  Energy    Ratio" << endl;
 }
 
 
@@ -193,13 +207,14 @@ void loop() {
   E_old = E;
   E += dE;
   if ( E < E_max) {
-  do {
-  //Serial << "Bisection iteration with Energy " << _FLOAT(E,4) << endl;  
-  Bisect bisect;
-  bisect.set_accuracy(0.0001);
-  bisect.find_root(F,E,E+dE);
-  } while (E < E_max);
+    //do {
+    //Serial << "Bisection iteration with Energy " << _FLOAT(E,4) << endl;  
+    Bisect bisect;
+    bisect.set_accuracy(accuracy);
+    bisect.find_root(F,E,E + dE);
+    //} while ((E < E_max) );
+  } else {
+    Serial << E_max << " reached" << endl;
+    delay (10000);
   }
-  Serial << E_max << " reached" << endl;
-  delay (10000);
 }
