@@ -2,6 +2,8 @@
 
 These examples are to explore the Numerov Algorithm which I have only just heard about.
 
+This is finding some solutions now.
+
 ## Shrodinger
 
 Example code in C++.
