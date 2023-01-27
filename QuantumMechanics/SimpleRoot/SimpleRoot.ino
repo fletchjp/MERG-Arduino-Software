@@ -25,10 +25,12 @@ double Bisect::find_root(double F(double), double x1, double x2)
   double xm = (x1 + x2)/2;
   double xmold = x1;
   int iter = 0;
-  double f1, fm; //f2
+  double f1 = F(x1);
+  double fm; //f2
+  // This has seriously reduced the number of function evaluations by reusing values already known.
   do {
     iter = iter + 1;
-    f1 = F(x1);
+    //if (iter == 1) f1 = F(x1);  // This saves recomputing f1 when x1 has not changed
     //f2 = F(x2); Note this is not actually used.
     fm = F(xm);
     if (fm*f1 < 0 )
@@ -36,6 +38,7 @@ double Bisect::find_root(double F(double), double x1, double x2)
       x2 = xm;
     } else {
       x1 = xm;
+      f1 = fm; // and we know f1 as well.
     }
     xmold = xm;
     xm = (x1+x2)/2;
