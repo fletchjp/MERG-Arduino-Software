@@ -8,6 +8,8 @@ I have been exploring the effect of the various parameters.
 
 It does not find all of the roots and it sometimes finds spurious ones.
 
+I think the eigenvalues (energies) should be 0.5, 1.5, 2.5, etc.
+
 ## Shrodinger
 
 Example code in C++.
