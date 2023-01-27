@@ -38,7 +38,7 @@ std::vector<double> phi(N+1);
 
 double F(double E) {
   ::E = E;
-  Serial << "F (" << _FLOAT(E,4) << ")" << endl;
+  //Serial << "F (" << _FLOAT(E,4) << ")" << endl;
 
   int i_match = N;
   double x = x_right;
@@ -131,6 +131,7 @@ public:
 double Bisect::find_root(double F(double), double x1, double x2)
 {
   double xm = (x1 + x2)/2;
+  double x2_old = x2;
   double xmold = x1;
   int iter = 0;
   int iter_max = 50;
@@ -151,10 +152,15 @@ double Bisect::find_root(double F(double), double x1, double x2)
     }
     xmold = xm;
     xm = (x1+x2)/2;
-    Serial << iter << " " << _FLOAT(xmold,4) << " " << _FLOAT(fm,4) << endl;
+    //Serial << iter << " " << _FLOAT(xmold,4) << " " << _FLOAT(fm,4) << endl;
   } while (abs(xm - xmold) > accuracy && (iter < iter_max) );
   if (iter == iter_max) Serial << iter_max << "reached" << endl;
-  return xm; 
+  if (abs(xm - x2_old ) < accuracy) { 
+    //Serial << "top limit reached "  << _FLOAT(x2_old,4) << " " << _FLOAT(fm,4) << endl;
+  } else {
+    Serial << "root found at " << _FLOAT(xmold,4) << " " << _FLOAT(fm,4) << endl;
+  }
+  return xmold; 
 
 }
 
@@ -172,7 +178,7 @@ void setup() {
   Serial << "Eignevalues for the Schroedinger Equation" << endl;
   Serial << "using the Numerov Algorithm" << endl;
 
-  E_max = 3;
+  E_max = 6;
   level = 0;
   E_old = 0;
   E = 0.1;
@@ -186,9 +192,14 @@ void loop() {
   double dE = 0.5 * (E - E_old);
   E_old = E;
   E += dE;
-  Serial << "Bisection iteration with Energy " << _FLOAT(E,4) << endl;
+  if ( E < E_max) {
+  do {
+  //Serial << "Bisection iteration with Energy " << _FLOAT(E,4) << endl;  
   Bisect bisect;
-  //bisect.set_accuracy(0.0001);
+  bisect.set_accuracy(0.0001);
   bisect.find_root(F,E,E+dE);
-
+  } while (E < E_max);
+  }
+  Serial << E_max << " reached" << endl;
+  delay (10000);
 }
