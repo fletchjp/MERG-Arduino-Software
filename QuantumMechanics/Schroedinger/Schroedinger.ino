@@ -69,7 +69,7 @@ double F(double E) {
   // Numerov from the right
   phi[N]   = phi_right[N]   = 0;
   phi[N-1] = phi_right[N-1] = 1e-10;
-  for (int i = N -1 ; i >= i_match; i--) {
+  for (int i = N - 1 ; i >= i_match; i--) {
     x = x_right - i * h;
     phi_right[i-1]  = 2 * (1 - 5 * c *q(x)) * phi_right[i];
     phi_right[i-1] -= ( 1 + c * q(x + h)) * phi_right[i+1];
@@ -78,7 +78,7 @@ double F(double E) {
   }
   // rescale phi_left values
   double scale = phi_right[i_match]  / phi_left[i_match];
-  Serial << "scale factor is " << _FLOAT(scale,6) << endl;
+  //Serial << "scale factor is " << _FLOAT(scale,6) << endl;
   for (int i = 1; i <= i_match; i++) {
     phi[i] = phi_left[i] *= scale;
     if (phi[i] > phi_max) phi_max = phi[i];
