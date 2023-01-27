@@ -169,7 +169,7 @@ double Bisect::find_root(double F(double), double x1, double x2)
     if (n_root < N_ROOTS  && abs(fm) < 0.001) {
     roots[n_root] = xmold;
     funs[n_root] = fm;
-    Serial << n_root << " " << _FLOAT(xmold,4) << " " << _FLOAT(fm,4) << " " <<  _FLOAT(roots[n_root]/ roots[0],4) << endl;
+    Serial << n_root << "   " << _FLOAT(xmold,4) << " " << _FLOAT(fm,4) << "  " <<  _FLOAT(roots[n_root]/ roots[0],4) << endl;
     n_root++;
     }
   }
@@ -192,11 +192,11 @@ void setup() {
   Serial << "Eignevalues for the Schroedinger Equation" << endl;
   Serial << "using the Numerov Algorithm with grid size " << N << endl;
   Serial << "Bisection accuracy is " << _FLOAT(accuracy,6) << endl;
-  E_max = 6;
+  E_max = 10;
   level = 0;
   E_old = 0;
   E = 0.1;
-  Serial << "    Level  Energy    Ratio" << endl;
+  Serial << "    Level  Energy  Ratio" << endl;
 }
 
 
