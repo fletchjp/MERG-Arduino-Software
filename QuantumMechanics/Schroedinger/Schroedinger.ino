@@ -26,7 +26,7 @@ double q(double x) {
 }
 
 const int N = 500;
-const double accuracy = 0.00001;
+const double accuracy = 0.000001;
 double x_left = -5;
 double x_right = 5;
 double h = (x_right - x_left) / N;
@@ -169,7 +169,7 @@ double Bisect::find_root(double F(double), double x1, double x2)
     if (n_root < N_ROOTS  && abs(fm) < 0.001) {
     roots[n_root] = xmold;
     funs[n_root] = fm;
-    Serial << n_root << "   " << _FLOAT(xmold,4) << " " << _FLOAT(fm,4) << "  " <<  _FLOAT(roots[n_root]/ roots[0],4) << endl;
+    Serial << "   " <<  n_root << "   " << _FLOAT(xmold,4) << " " << _FLOAT(fm,4) << "  " <<  _FLOAT(roots[n_root]/ roots[0],4) << endl;
     n_root++;
     }
   }
@@ -189,14 +189,14 @@ void setup() {
   Serial.begin(115200);
   delay(5000);
    
-  Serial << "Eignevalues for the Schroedinger Equation" << endl;
+  Serial << "Eigenvalues for the Schroedinger Equation" << endl;
   Serial << "using the Numerov Algorithm with grid size " << N << endl;
   Serial << "Bisection accuracy is " << _FLOAT(accuracy,6) << endl;
   E_max = 10;
   level = 0;
   E_old = 0;
   E = 0.1;
-  Serial << "    Level  Energy  Ratio" << endl;
+  Serial << "Level  Energy Function Ratio" << endl;
 }
 
 
@@ -204,13 +204,13 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   double dE = 0.5 * (E - E_old);
+  Bisect bisect;
+  bisect.set_accuracy(accuracy);
   E_old = E;
   E += dE;
   if ( E < E_max) {
     //do {
     //Serial << "Bisection iteration with Energy " << _FLOAT(E,4) << endl;  
-    Bisect bisect;
-    bisect.set_accuracy(accuracy);
     bisect.find_root(F,E,E + dE);
     //} while ((E < E_max) );
   } else {
