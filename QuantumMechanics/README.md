@@ -4,6 +4,10 @@ These examples are to explore the Numerov Algorithm which I have only just heard
 
 This is finding some solutions now.
 
+I have been exploring the effect of the various parameters.
+
+It does not find all of the roots and it sometimes finds spurious ones.
+
 ## Shrodinger
 
 Example code in C++.
