@@ -25,7 +25,7 @@ double q(double x) {
   return 2 * m / (hbar * hbar) * (E - V(x));
 }
 
-const int N = 500;
+const int N = 600;
 const double accuracy = 0.000001;
 double x_left = -5;
 double x_right = 5;
@@ -79,7 +79,7 @@ double F(double E) {
   }
   // rescale phi_left values
   double scale = phi_right[i_match]  / phi_left[i_match];
-  //Serial << "scale factor is " << _FLOAT(scale,6) << endl;
+  Serial << "scale factor is " << _FLOAT(scale,6) << endl;
   for (int i = 1; i <= i_match; i++) {
     phi[i] = phi_left[i] *= scale;
     if (phi[i] > phi_max) phi_max = phi[i];
@@ -92,15 +92,17 @@ double F(double E) {
   for (int i = 1; i <= i_match; i++) {
     if (phi_left[i-1] * phi_left[i] < 0) ++n;
   }
-
+  // This could be wrong if n has increased by an even number!
   if ( n != nodes) {
+    if ( (n-nodes) %2 != 0) 
+      sign = -sign;    
     nodes = n;
-    sign = -sign;
+    
   }
   double right = phi_right[i_match-1] - phi_right[i_match+1];
   double left  = phi_left[i_match-1] - phi_left[i_match+1];
   double denom = ( 2 * h * phi_right[i_match]) ;
-  double result =  sign * (  right - left ) / denom;
+  double result = /*sign * */ (  right - left ) / denom;
   //Serial << "maximum phi_left is " << _FLOAT(phi_left_max,6) << endl;
   //Serial << "maximum phi is " << _FLOAT(phi_max,6) << endl;
   //Serial << "(" << _FLOAT(left,4) << " - " << _FLOAT(right,4) << ") / " << _FLOAT(denom,4) << " " << _FLOAT(phi_right[i_match],8) <<  endl;
@@ -199,8 +201,8 @@ void setup() {
   Serial << "Level  Energy Function Ratio" << endl;
 }
 
-double Elow[] = {0.4, 1.4, 2.4, 3.4, 4.4};
-double Ehigh[] = {0.55, 1.6, 2.55, 3.51, 4.55};
+double Elow[] = {0.4, 0.55, 2.4, 3.4, 4.4};
+double Ehigh[] = {0.55, 0.75, 2.55, 3.51, 4.55};
 size_t ilow = 5;
 int once = 0;
 
@@ -212,7 +214,15 @@ void loop() {
 
   if (once == 0) {
     for (size_t i = 0; i < ilow; i++) {
-      Serial << i << " " << Elow[i] << " " << Ehigh[i] << endl;
+      Serial << i << " " << Elow[i] << " " << Ehigh[i] << " " << F(Elow[i]) << " " << F(Ehigh[i]) << endl;
+      if (i == 1) {
+        size_t n = 10;
+        double delE = (Ehigh[i] - Elow[i]) /n;
+        for (size_t j = 0; j <= n; j++) {
+          double Es = Elow[i] + j*delE;
+          Serial << j << " " << Es << " " << F(Es) << endl;
+        }
+      }
       E = bisect.find_root(F,Elow[i],Ehigh[i]);
     }
     once++;
