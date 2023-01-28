@@ -199,13 +199,24 @@ void setup() {
   Serial << "Level  Energy Function Ratio" << endl;
 }
 
-
+double Elow[] = {0.4, 1.4, 2.4, 3.4, 4.4};
+double Ehigh[] = {0.55, 1.6, 2.55, 3.51, 4.55};
+size_t ilow = 5;
+int once = 0;
 
 void loop() {
   // put your main code here, to run repeatedly:
   double dE = 0.5 * (E - E_old);
   Bisect bisect;
   bisect.set_accuracy(accuracy);
+
+  if (once == 0) {
+    for (size_t i = 0; i < ilow; i++) {
+      Serial << i << " " << Elow[i] << " " << Ehigh[i] << endl;
+      E = bisect.find_root(F,Elow[i],Ehigh[i]);
+    }
+    once++;
+  }
   E_old = E;
   E += dE;
   if ( E < E_max) {
