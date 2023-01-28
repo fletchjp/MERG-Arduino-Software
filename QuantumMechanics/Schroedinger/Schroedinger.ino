@@ -80,7 +80,7 @@ double F(double E) {
   // rescale phi_left values
   double scale = phi_right[i_match]  / phi_left[i_match];
   //Serial << "scale factor is " << _FLOAT(scale,6) << endl;
-  for (int i = 1; i <= i_match; i++) {
+  for (int i = 0; i <= i_match; i++) {
     phi[i] = phi_left[i] *= scale;
     if (phi[i] > phi_max) phi_max = phi[i];
  }
