@@ -37,16 +37,18 @@ std::vector<double> phi_left(N+1);
 std::vector<double> phi_right(N+1);
 std::vector<double> phi(N+1);
 
+size_t i_match2 = 0;
+
 double F(double E) {
   ::E = E;
   //Serial << "F (" << _FLOAT(E,4) << ")" << endl;
 
-  int i_match = N;
+  size_t i_match = N;
   double x = x_right;
   while (V(x) > E) {
     --i_match;
     x -= h;
-    if (i_match < 0) {
+    if (i_match == 0) {
       Serial << "No match found " << endl;
       return 10000.;
     } //else {
@@ -54,12 +56,12 @@ double F(double E) {
     //}
   }
   //Serial << "Match found at " << i_match << endl;
-
+  i_match2 = i_match;
   // Numerov from the left
   phi_left[0] = 0;
   phi_left[1] = 1e-10;
   double c = h * h / 12;
-  for (int i = 1; i <= i_match; i++) {
+  for (size_t i = 1; i <= i_match; i++) {
     x = x_left + i * h;
     phi_left[i+1]  = 2 * (1 - 5 * c *q(x)) * phi_left[i];
     phi_left[i+1] -= ( 1 + c * q(x - h)) * phi_left[i-1];
@@ -70,7 +72,7 @@ double F(double E) {
   // Numerov from the right
   phi[N]   = phi_right[N]   = 0;
   phi[N-1] = phi_right[N-1] = 1e-10;
-  for (int i = N - 1 ; i >= i_match; i--) {
+  for (size_t i = N - 1 ; i >= i_match; i--) {
     x = x_right - i * h;
     phi_right[i-1]  = 2 * (1 - 5 * c *q(x)) * phi_right[i];
     phi_right[i-1] -= ( 1 + c * q(x + h)) * phi_right[i+1];
@@ -80,7 +82,7 @@ double F(double E) {
   // rescale phi_left values
   double scale = phi_right[i_match]  / phi_left[i_match];
   //Serial << "scale factor is " << _FLOAT(scale,6) << endl;
-  for (int i = 0; i <= i_match; i++) {
+  for (size_t i = 0; i <= i_match; i++) {
     phi[i] = phi_left[i] *= scale;
     if (phi[i] > phi_max) phi_max = phi[i];
  }
@@ -89,7 +91,7 @@ double F(double E) {
   static int nodes = 0;
 
   int n = 0;
-  for (int i = 1; i <= i_match; i++) {
+  for (size_t i = 1; i <= i_match; i++) {
     if (phi_left[i-1] * phi_left[i] < 0) ++n;
   }
   // This could be wrong if n has increased by an even number!
@@ -102,7 +104,7 @@ double F(double E) {
   double right = phi_right[i_match-1] - phi_right[i_match+1];
   double left  = phi_left[i_match-1] - phi_left[i_match+1];
   double denom = ( 2 * h * phi_right[i_match]) ;
-  double result = /*sign * */ (  right - left ) / denom;
+  double result = sign * (  right - left ) / denom;
   //Serial << "maximum phi_left is " << _FLOAT(phi_left_max,6) << endl;
   //Serial << "maximum phi is " << _FLOAT(phi_max,6) << endl;
   //Serial << "(" << _FLOAT(left,4) << " - " << _FLOAT(right,4) << ") / " << _FLOAT(denom,4) << " " << _FLOAT(phi_right[i_match],8) <<  endl;
@@ -169,10 +171,15 @@ double Bisect::find_root(double F(double), double x1, double x2)
     //Serial << "top limit reached "  << _FLOAT(x2_old,4) << " " << _FLOAT(fm,4) << endl;
   } else {
     if (n_root < N_ROOTS  && abs(fm) < 0.001) {
-    roots[n_root] = xmold;
-    funs[n_root] = fm;
-    Serial << "   " <<  n_root << "   " << _FLOAT(xmold,4) << " " << _FLOAT(fm,4) << "  " <<  _FLOAT(roots[n_root]/ roots[0],4) << endl;
-    n_root++;
+      roots[n_root] = xmold;
+      funs[n_root] = fm;
+      Serial << "   " <<  n_root << "   " << _FLOAT(xmold,4) << " " << _FLOAT(fm,4) << "  " <<  _FLOAT(roots[n_root]/ roots[0],4) << endl;
+      n_root++;
+      for (size_t i = 1; i < N; i += 25) {
+        Serial << i << " ";
+        if (i < i_match2) Serial <<  _FLOAT(phi_left[i]*1000,6) << endl;
+        else Serial << _FLOAT(phi_right[i]*1000,6) << endl;
+      } 
     }
   }
   return xmold; 
