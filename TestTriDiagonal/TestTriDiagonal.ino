@@ -1,5 +1,5 @@
 /// TestTriDiagonal
-/// Wxperiment for Numerov method.
+/// Experiment for Numerov method.
 /// The references do not seem to use this method.
 
 /// TestCppClass.ino Testing of C++ class rules for copying etc
