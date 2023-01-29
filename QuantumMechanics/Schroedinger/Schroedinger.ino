@@ -208,9 +208,9 @@ void setup() {
   Serial << "Level  Energy Function Ratio" << endl;
 }
 
-double Elow[] = {0.4, 0.55, 2.4, 3.4, 4.4};
-double Ehigh[] = {0.55, 0.75, 2.55, 3.51, 4.55};
-size_t ilow = 5;
+double Elow[] = {0.4, 1.4, 2.4, 3.4, 4.4, 5.4, 6.4, 7.4, 8.4, 9.4};
+double Ehigh[] = {0.55, 1.55, 2.55, 3.51, 4.55, 5.55, 6.55, 7.55, 8.55, 9.55};
+size_t ilow = 10;
 int once = 0;
 
 void loop() {
