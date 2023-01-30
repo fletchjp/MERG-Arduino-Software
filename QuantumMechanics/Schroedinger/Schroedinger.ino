@@ -2,6 +2,15 @@
 /// Using the Numerov method.
 /// Buffalo dept of physics.
 
+/// I have input this code and modified it in a number of ways.
+/// The code now searches for roots in a set of limited ranges of E stored in arrays Elow and Ehigh.
+/// Each range finds one root.
+/// To find these the value of right_bcond_factor has to alternate between +1 and -1.
+/// +1 for cases 0,2,4 etc
+/// -1 for cases 1,3,5 etc.
+/// This makes the sign of the value of phi_right[N-1] match the sign of the solution
+/// as it nears the right boundary. Without this, the solution is not found at all.
+
 #undef F
 #include <vector>
 #include <Streaming.h>
