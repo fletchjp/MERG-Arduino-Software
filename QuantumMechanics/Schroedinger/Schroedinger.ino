@@ -27,6 +27,7 @@ double q(double x) {
 
 const int N = 600;
 const double accuracy = 0.000001;
+int right_bcond_factor = -1;
 double x_left = -5;
 double x_right = 5;
 double h = (x_right - x_left) / N;
@@ -71,7 +72,7 @@ double F(double E) {
 
   // Numerov from the right
   phi[N]   = phi_right[N]   = 0;
-  phi[N-1] = phi_right[N-1] = 1e-10;
+  phi[N-1] = phi_right[N-1] = right_bcond_factor*1e-10;
   for (size_t i = N - 1 ; i >= i_match; i--) {
     x = x_right - i * h;
     phi_right[i-1]  = 2 * (1 - 5 * c *q(x)) * phi_right[i];
@@ -222,14 +223,16 @@ void loop() {
   if (once == 0) {
     for (size_t i = 0; i < ilow; i++) {
       Serial << i << " " << Elow[i] << " " << Ehigh[i] << " " << F(Elow[i]) << " " << F(Ehigh[i]) << endl;
-      if (i == 1) {
-        size_t n = 10;
-        double delE = (Ehigh[i] - Elow[i]) /n;
-        for (size_t j = 0; j <= n; j++) {
-          double Es = Elow[i] + j*delE;
-          Serial << j << " " << Es << " " << F(Es) << endl;
-        }
-      }
+      //if (i == 1) {
+      //  size_t n = 10;
+      //  double delE = (Ehigh[i] - Elow[i]) /n;
+      //  for (size_t j = 0; j <= n; j++) {
+      //    double Es = Elow[i] + j*delE;
+      //    Serial << j << " " << Es << " " << F(Es) << endl;
+      //  }
+      // }
+      // This modified the right boundary condition alternately so that all the values are found.
+      right_bcond_factor *= -1;      
       E = bisect.find_root(F,Elow[i],Ehigh[i]);
     }
     once++;
