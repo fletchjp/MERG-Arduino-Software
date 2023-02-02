@@ -16,7 +16,7 @@
 #define DEBUG_PRINT(S)
 #endif
 
-#define USE_EXTERNAL_EEPROM
+//#define USE_EXTERNAL_EEPROM
 /*
   Copyright (C) Duncan Greenwood 2017 (duncan_greenwood@hotmail.com)
 
