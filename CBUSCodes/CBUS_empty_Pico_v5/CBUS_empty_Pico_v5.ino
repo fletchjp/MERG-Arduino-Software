@@ -78,7 +78,7 @@
 // constants
 const byte VER_MAJ = 1;                  // code major version
 const char VER_MIN = 'a';                // code minor version
-const byte VER_BETA = 4;                 // code beta sub-version
+const byte VER_BETA = 5;                 // code beta sub-version
 const byte MODULE_ID = 99;               // CBUS module type
 
 // pins for Pico CAN shield
@@ -206,8 +206,8 @@ void setupCBUS() {
   // Pico SPI peripherals have no default pins so all values must be provided
   // Pico SPI peripherals have no default pins so all values must be provided
   CBUS.setPins(CAN_CS, CAN_INT, MCP2515_MOSI, MCP2515_MISO, MCP2515_SCK);
-  Serial << "CS pin is " << CBUS.getCSpin() << endl;
-  Serial << "INT pin is " << CBUS.getINTpin() << endl;
+  //Serial << "CS pin is " << CBUS.getCSpin() << endl;
+  //Serial << "INT pin is " << CBUS.getINTpin() << endl;
 #endif
   Serial << F("> starting CAN") << endl;
   Serial.flush();
