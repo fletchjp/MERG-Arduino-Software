@@ -17,7 +17,7 @@
 
 const byte VER_MAJ  = 1;
 const byte VER_MIN  = 0;
-const byte VER_DETAIL = 1;
+const byte VER_DETAIL = 2;
 
 
 int EN = 2;  // RS485 enable/disable pin for Rx/Tx
@@ -43,11 +43,11 @@ class RS485_receive : public BaseEvent {
     void exec() override {
         if ('A' == saved_value) {
            if (Led_State == LED_off) {
-              digitalWrite(ledPin, HIGH);
+              digitalWrite(blinker_pin, HIGH);
               Led_State = LED_on;
               Task_State = TASK_on;
            } else {
-              digitalWrite(ledPin, LOW);
+              digitalWrite(blinker_pin, LOW);
               Led_State = LED_off;
               Task_State = TASK_off;
            }
@@ -64,7 +64,7 @@ void setup() {
   // put your setup code here, to run once:
   while (!Serial);
   pinMode(EN, OUTPUT);
-  Serial.begin(19200);
+  Serial.begin(115200);
   pinMode(ledPin, OUTPUT);
   digitalWrite(ledPin, LOW);
   Led_State = LED_off;
