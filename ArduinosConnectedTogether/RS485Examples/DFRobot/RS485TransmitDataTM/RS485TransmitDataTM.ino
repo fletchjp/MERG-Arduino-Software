@@ -11,19 +11,11 @@
 // With the board set to PROG the output goes to the Serial Monitor if the speed is set correctly.
 
 // 3rd party libraries
-#include <Streaming.h>
 #include <TaskManagerIO.h>
 
 const byte VER_MAJ  = 1;
 const byte VER_MIN  = 0;
 const byte VER_DETAIL = 0;
-
-void heading()
-{
-  Serial << endl << endl << __FILE__ << endl;
-  Serial << F("Ver: ") << VER_MAJ << F(".") << VER_MIN << F(".") << VER_DETAIL;
-  Serial << F(" compiled on ") << __DATE__ << F(" at ") << __TIME__ << F(" using compiler ") << __cplusplus << endl;
-}
 
 int EN = 2;  // RS485 enable/disable pin for Rx/Tx
 // High to transmit, low to receive.
@@ -57,7 +49,6 @@ void setup() {
   while (!Serial);
   pinMode(EN, OUTPUT);
   Serial.begin(115200);
-  heading();
   pinMode(ledPin, OUTPUT);
   digitalWrite(ledPin, LOW);
   Led_State = LED_off;
