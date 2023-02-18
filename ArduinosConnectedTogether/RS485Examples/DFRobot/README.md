@@ -72,7 +72,7 @@ Adding task management using TaskManagerIO with a callback function which altern
 
 This is a minature state machine.
 
-## RS485ReceivingDataTM
+## RS485ReceivingDataTM 1.0.0
 
 Adding task management using TaskManagerIO with callback functions.
 
@@ -82,9 +82,9 @@ The TM programs have now been tested and give a much better timing than the ones
 
 Adding task management using TaskManagerIO with an event class (incomplete)
 
-## RS485ReceivingDataTMC
+## RS485ReceivingDataTMC 1.0.1
 
-Adding task management using TaskManagerIO with an event class (incomplete)
+Adding task management using TaskManagerIO with an event class (needs testing)
 
 ## RS485TransmitDataFRT
 
