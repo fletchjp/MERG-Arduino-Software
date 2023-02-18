@@ -6,6 +6,12 @@ A lot of this is in response to the realisation that the Arduino IDE default set
 
 Each program has been started to cover a topic, although they have expanded as time has gone on.
 
+## File Heading
+
+Code based on a suggestion of Alan Lomax.
+
+The idea is that if you put code like this at the start of your code then if you run an Arduino this output to the serial monitor will give information on the code compiled, the version and when it was compiled.
+
 ## i2c_address_detect
 
 Detect I2C devices 0n 0x10. Adafruit
