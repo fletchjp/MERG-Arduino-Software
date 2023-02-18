@@ -5,7 +5,6 @@
 // With the board set to PROG the output goes to the Serial Monitor if the speed is set correctly.
 
 // 3rd party libraries
-#include <Streaming.h>
 #include <TaskManagerIO.h>
 
 const byte VER_MAJ  = 0;
@@ -32,7 +31,21 @@ class RS485_transmit : public BaseEvent {
        return 100UL * 1000UL; // every 15 milliseconds we increment
     }  
     void exec() override {
-      
+    // Now set up so that alternate calls to transmit do different things.
+    // This is the solution to having two different activities
+    // alternately at 500 millisecond intervals
+      if (Led_State == LED_off) {
+        digitalWrite(EN, HIGH); // Enable data transmit
+        Serial.print('A');
+        digitalWrite(blinker_pin, HIGH);
+        // The following is not necessary here - there could be extensions.
+        digitalWrite(EN, LOW);  // Enable data receive
+        Led_State = LED_on;
+      } else {
+       //delay(500); // I don't like the delay in here - think of something better.
+        digitalWrite(blinker_pin, LOW);
+        Led_State = LED_off;
+      }   
     }
     ~RS485_transmit() override = default;
 };
@@ -43,7 +56,10 @@ RS485_transmit transmit(ledPin);
 void setup() {
   // put your setup code here, to run once:
   pinMode(EN, OUTPUT);
-  Serial.begin(19200);
+  Serial.begin(115200);
+  digitalWrite(ledPin, LOW);
+  Led_State = LED_off;
+  taskManager.scheduleFixedRate(500,&transmit);
 
 }
 
