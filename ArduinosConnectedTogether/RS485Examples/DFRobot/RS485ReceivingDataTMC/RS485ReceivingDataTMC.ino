@@ -18,7 +18,7 @@
 
 const byte VER_MAJ  = 1;
 const byte VER_MIN  = 0;
-const byte VER_DETAIL = 0;
+const byte VER_DETAIL = 1;
 
 void heading()
 {
@@ -52,7 +52,7 @@ class RS485_receive : public BaseEvent {
            if (Led_State == LED_off) {
               digitalWrite(ledPin, HIGH);
               Led_State = LED_on;
-              Task_State = TASK_running;
+              Task_State = TASK_on;
            } else {
               digitalWrite(ledPin, LOW);
               Led_State = LED_off;
