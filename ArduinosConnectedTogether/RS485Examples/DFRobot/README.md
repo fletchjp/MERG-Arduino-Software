@@ -66,7 +66,7 @@ Adding I2C output of what is transmitted.
 
 Adding I2C output of what is received.
 
-## RS485TransmitDataTM
+## RS485TransmitDataTM 1.0.0
 
 Adding task management using TaskManagerIO with a callback function which alternately transmits (turning the LED on) and turns the LED off.
 
@@ -78,11 +78,11 @@ Adding task management using TaskManagerIO with callback functions.
 
 The TM programs have now been tested and give a much better timing than the ones without TM.
 
-## RS485TransmitDataTMC
+## RS485TransmitDataTMC 0.1.0
 
 Adding task management using TaskManagerIO with an event class (incomplete)
 
-## RS485ReceivingDataTMC 1.0.1
+## RS485ReceivingDataTMC 0.1.0
 
 Adding task management using TaskManagerIO with an event class (needs testing)
 
