@@ -20,12 +20,6 @@ const byte VER_MAJ  = 1;
 const byte VER_MIN  = 0;
 const byte VER_DETAIL = 1;
 
-void heading()
-{
-  Serial << endl << endl << __FILE__ << endl;
-  Serial << F("Ver: ") << VER_MAJ << F(".") << VER_MIN << F(".") << VER_DETAIL;
-  Serial << F(" compiled on ") << __DATE__ << F(" at ") << __TIME__ << F(" using compiler ") << __cplusplus << endl;
-}
 
 int EN = 2;  // RS485 enable/disable pin for Rx/Tx
 // High to transmit, low to receive.
@@ -71,7 +65,6 @@ void setup() {
   // put your setup code here, to run once:
   while (!Serial);
   pinMode(EN, OUTPUT);
-  heading();
   Serial.begin(19200);
   pinMode(ledPin, OUTPUT);
   digitalWrite(ledPin, LOW);
