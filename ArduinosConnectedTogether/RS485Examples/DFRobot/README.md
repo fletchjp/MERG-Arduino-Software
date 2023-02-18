@@ -46,7 +46,7 @@ First try with Auto485 in use.
 
 I have made a small change to my copy of Auto485 to remove an Arduino warning message.
 
-I have modified to have separate TRASMIT and receive versions depending on #define TRANSMIT.
+I have modified to have separate TRANSMIT and receive versions depending on #define TRANSMIT.
 
 ## RS485AutoDataTM
 
