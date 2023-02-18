@@ -14,8 +14,8 @@
 #include <Streaming.h>
 #include <TaskManagerIO.h>
 
-const byte VER_MAJ  = 0;
-const byte VER_MIN  = 1;
+const byte VER_MAJ  = 1;
+const byte VER_MIN  = 0;
 const byte VER_DETAIL = 0;
 
 void heading()
