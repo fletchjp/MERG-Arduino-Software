@@ -12,13 +12,6 @@ const byte VER_MAJ  = 0;
 const byte VER_MIN  = 1;
 const byte VER_DETAIL = 0;
 
-void heading()
-{
-  Serial << endl << endl << __FILE__ << endl;
-  Serial << F("Ver: ") << VER_MAJ << F(".") << VER_MIN << F(".") << VER_DETAIL;
-  Serial << F(" compiled on ") << __DATE__ << F(" at ") << __TIME__ << F(" using compiler ") << __cplusplus << endl;
-}
-
 int EN = 2;  // RS485 enable/disable pin for Rx/Tx
 // High to transmit, low to receive.
 
