@@ -80,9 +80,9 @@ The TM programs have now been tested and give a much better timing than the ones
 
 ## RS485TransmitDataTMC 0.1.0
 
-Adding task management using TaskManagerIO with an event class (incomplete)
+Adding task management using TaskManagerIO with an event class (needs testing)
 
-## RS485ReceivingDataTMC 0.1.0
+## RS485ReceivingDataTMC 0.1.2
 
 Adding task management using TaskManagerIO with an event class (needs testing)
 
