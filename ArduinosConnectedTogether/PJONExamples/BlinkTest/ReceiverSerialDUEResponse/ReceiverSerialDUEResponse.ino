@@ -1,5 +1,5 @@
 /// @file ReceiverSerialDUEResponse.ino
-/// @brief BlinkTestReceiver using a DUE Serial port with response code
+/// @brief BlinkTestReceiver using a DUE Serial1 port with response code
 /// Using https://arduinojson.org/v6/how-to/do-serial-communication-between-two-boards/
 
 /*
@@ -12,7 +12,20 @@ which is connected to the USB debug port.
 Additionally, there is a native USB-serial port on the SAM3X chip, SerialUSB'. "
 */
 
+// 3rd party libraries
+#include <Streaming.h>
 #include <PJONThroughSerial.h>
+
+const byte VER_MAJ  = 1;
+const byte VER_MIN  = 0;
+const byte VER_DETAIL = 0;
+
+void heading()
+{
+  Serial << endl << endl << __FILE__ << endl;
+  Serial << F("Ver: ") << VER_MAJ << F(".") << VER_MIN << F(".") << VER_DETAIL;
+  Serial << F(" compiled on ") << __DATE__ << F(" at ") << __TIME__ << F(" using compiler ") << __cplusplus << endl;
+}
 
 PJONThroughSerial bus(44);
 
@@ -29,7 +42,8 @@ void receiver_function(uint8_t *payload, uint16_t length, const PJON_Packet_Info
     // Try this instead.
     //if(!bus.update()) {
     //uint16_t what = bus.send(45,"B", 1);
-    //Serial.println(what);
+   heading();
+   //Serial.println(what);
     //}
   }
 };
@@ -47,6 +61,7 @@ void setup() {
   // The data rate must be much higher than the "link" serial port
   Serial.begin(115200);
   while (!Serial) continue;
+  heading();
   Serial.println("ReceiverDUESerial running with response");
   pinMode(LED_BUILTIN, OUTPUT);
   digitalWrite(LED_BUILTIN, LOW); // Initialize LED 13 to be off
