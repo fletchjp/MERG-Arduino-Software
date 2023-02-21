@@ -2,15 +2,10 @@
 /// @brief BlinkTestReceiver using a Soft Serial port
 /// Using https://arduinojson.org/v6/how-to/do-serial-communication-between-two-boards/
 
-#include <SoftwareSerial.h>
-
-// Declare the "link" serial port
-// Please see SoftwareSerial library for detail
-SoftwareSerial linkSerial(10, 11); // RX, TX
-
 // 3rd party libraries
 #include <Streaming.h>
 #include <PJONThroughSerial.h>
+#include <SoftwareSerial.h>
 
 const byte VER_MAJ  = 1;
 const byte VER_MIN  = 0;
@@ -22,6 +17,10 @@ void heading()
   Serial << F("Ver: ") << VER_MAJ << F(".") << VER_MIN << F(".") << VER_DETAIL;
   Serial << F(" compiled on ") << __DATE__ << F(" at ") << __TIME__ << F(" using compiler ") << __cplusplus << endl;
 }
+
+// Declare the "link" serial port
+// Please see SoftwareSerial library for detail
+SoftwareSerial linkSerial(10, 11); // RX, TX
 
 PJONThroughSerial bus(44);
 
