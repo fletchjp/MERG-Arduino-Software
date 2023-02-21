@@ -38,7 +38,7 @@ Additionally, there is a native USB-serial port on the SAM3X chip, SerialUSB'. "
 
 #### TransmitterDUEResponse and ReceiverSerialDUEResponse
 
-This pair of codes work between a pair of Arduino DUE boards connected using Serial1 (pins 18 and 19).
+This pair of codes work between a pair of Arduino DUE boards connected using Serial1 (pins 18 and 19 ).
 
 Unfortunately these pins are blanked but not used by the CAN shields I am planning to use with the DUE boards.
 
