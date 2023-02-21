@@ -128,3 +128,7 @@ I need to do some different tests to find out what is going on.
 
 I cannot find anything about whether I tested these codes.
 
+The library warns it does not run on RP2040.
+
+WARNING: library PJON claims to run on atmelavr, avr, esp8266, esp32, sam, samd, teensy, tiny, stm32, STM32F1 architecture(s) and may be incompatible with your current board which runs on rp2040 architecture(s).
+
