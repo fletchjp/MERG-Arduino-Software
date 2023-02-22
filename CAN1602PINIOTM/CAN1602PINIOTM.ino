@@ -270,8 +270,15 @@ unsigned char mname[7] = { '1', '6', '0', '2', 'P', 'I', 'N' };
 // constants
 const byte VER_MAJ = 4;         // code major version
 const char VER_MIN = 'c';       // code minor version
-const byte VER_BETA = 1;        // code beta sub-version
+const byte VER_BETA = 2;        // code beta sub-version
 const byte MODULE_ID = 99;      // CBUS module type
+
+void heading()
+{
+  Serial << endl << endl << __FILE__ << endl;
+  Serial << F("Ver: ") << VER_MAJ << F(".") << VER_MIN << F(".") << VER_BETA;
+  Serial << F(" compiled on ") << __DATE__ << F(" at ") << __TIME__ << F(" using compiler ") << __cplusplus << endl;
+}
 
 #ifdef USE_EXTERNAL_MCP2515
 const unsigned long CAN_OSC_FREQ = 8000000;     // Oscillator frequency on the CAN2515 board
@@ -574,7 +581,8 @@ void setup()
 {
   while(!Serial);
   Serial.begin (115200);
-  Serial << endl << endl << F("> ** CAN1602PIN ** ") << __FILE__ << endl;
+  heading();
+  //Serial << endl << endl << F("> ** CAN1602PIN ** ") << __FILE__ << endl;
 
   setup1602();
   setupCBUS();
