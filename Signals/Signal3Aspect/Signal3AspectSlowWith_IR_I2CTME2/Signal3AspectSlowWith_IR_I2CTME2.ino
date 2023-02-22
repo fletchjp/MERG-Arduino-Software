@@ -199,6 +199,7 @@ void pwmWrite(Adafruit_PWMServoDriver &pwm,uint8_t pwmnum,byte val)
 
 // Instruction to move a light up or down
 // Not used in this code - remains for comparison.
+/*
 void pwmMove(Adafruit_PWMServoDriver &pwm,uint8_t pwmnum, bool up)
 {
   if (up) {
@@ -216,7 +217,7 @@ void pwmMove(Adafruit_PWMServoDriver &pwm,uint8_t pwmnum, bool up)
        pwmWrite(pwm, pwmnum, LOW);    
   }
 }
-
+*/
 void switch_LED()
 {
   if (Led_State == GREEN_on) {
