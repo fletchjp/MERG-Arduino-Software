@@ -27,9 +27,21 @@
 // FOR Led_State FADE OUT Led_State FADE_IN Next State SET Led_State = Next_State
 ///////////////////////////////////////////////////////////////////////
 
+#include <Streaming.h>
 #include <IoAbstraction.h>
 #include <TaskManagerIO.h>
 #include <ExecWithParameter.h>
+
+const byte VER_MAJ  = 1;
+const byte VER_MIN  = 0;
+const byte VER_DETAIL = 0;
+
+void heading()
+{
+  Serial << endl << endl << __FILE__ << endl;
+  Serial << F("Ver: ") << VER_MAJ << F(".") << VER_MIN << F(".") << VER_DETAIL;
+  Serial << F(" compiled on ") << __DATE__ << F(" at ") << __TIME__ << F(" using compiler ") << __cplusplus << endl;
+}
 
 // The first thing to note is that the PWM range is to 4096 not 255
 
@@ -135,7 +147,9 @@ SimultaneousSwitch switchYellowRed(pwm,redPin,yellowPin);
 
 void setup()
 {
+  while(!Serial);
   Serial.begin(115200);
+  heading();
   Serial.println("Signal 3 Aspect Slow with button and IR using I2C and PCA9685 with Task Management");
 
   pwm.begin();
