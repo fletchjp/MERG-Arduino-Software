@@ -12,6 +12,8 @@ Code based on a suggestion of Alan Lomax.
 
 The idea is that if you put code like this at the start of your code then if you run an Arduino this output to the serial monitor will give information on the code compiled, the version and when it was compiled.
 
+I have now started to add this code. The heading() routine should not be in a header file, as then __FILE__ will report the header file.
+
 ## i2c_address_detect
 
 Detect I2C devices 0n 0x10. Adafruit
