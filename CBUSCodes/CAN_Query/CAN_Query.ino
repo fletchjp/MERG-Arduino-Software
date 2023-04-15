@@ -341,6 +341,7 @@ void eventhandler(byte index, CANFrame *msg)
       }
 #else
     //if (moduleSwitch.isPressed() ) { // Send when button is pressed.
+      byte requestEvent = 3; //For now - this is supplied in CANCMDDC by an enum.
       Serial << F("Send request long event") << endl;
       sendEvent(OPC_AREQ,requestEvent); // Test of long event request.
     //}
