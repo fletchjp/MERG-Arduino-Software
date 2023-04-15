@@ -71,6 +71,8 @@
 //////////////////////////////////////////////////////////////////////////
 
 
+#define ACCESSORY_REQUEST_EVENT 1
+
 #define DEBUG 1       // set to 0 for no serial debug
 
 #if DEBUG
