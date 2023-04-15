@@ -70,7 +70,8 @@
 // Digital / Analog pin 5     Not Used
 //////////////////////////////////////////////////////////////////////////
 
-#define DEBUG 0       // set to 0 for no serial debug
+
+#define DEBUG 1       // set to 0 for no serial debug
 
 #if DEBUG
 #define DEBUG_PRINT(S) Serial << S << endl
@@ -80,7 +81,6 @@
 
 // 3rd party libraries
 #include <Streaming.h>
-
 
 // CBUS library header files
 #include <CBUS2515.h>            // CAN controller and CBUS class
@@ -110,7 +110,7 @@ const byte opcodes[] PROGMEM = {OPC_DFNON, OPC_DFNOF, OPC_DSPD, OPC_GLOC, OPC_KL
 
 // Calculate number of opcodes in list
 const byte nopcodes = sizeof(opcodes) / sizeof(opcodes[0]);
-DEBUG_PRINT(F("> Number of op codes ") << nopcodes);
+//DEBUG_PRINT(F("> Number of op codes ") << nopcodes);
 
 //Define inputs here
 //Define outputs here
@@ -192,10 +192,12 @@ void setupModule()
 void setup()
 {
   Serial.begin (115200);
-  Serial << endl << endl << F("> ** CBUS Wrapper ** ") << __FILE__ << endl;
+  Serial << endl << endl << F("> ** CBUS Query ** ") << __FILE__ << endl;
 
   setupCBUS();
   setupModule();
+
+  DEBUG_PRINT(F("> Number of op codes ") << nopcodes);
 
   // end of setup
   DEBUG_PRINT(F("> ready"));
@@ -350,8 +352,67 @@ void framehandler(CANFrame *msg)
       break;
 
       // and so on for all user list op codes
-
-  }
+      // Copied from CANCMDDC from 2400
+      // This needs defines sorting out.
+      // -------------------------------------------------------------------
+    case OPC_ACOF:
+    case OPC_ACON:
+#if DEBUG
+           Serial << F("Message handled with Opcode [ 0x") << _HEX(msg->data[0]) << F(" ]")<< endl;
+           Serial << F("Test code to see if a message is getting sent") << endl;
+#endif
+#if ACCESSORY_REQUEST_EVENT
+#if USE_SHORT_EVENTS
+      {
+         // Local variable definition needs to be in { } 
+         unsigned int device_number = 513;
+         Serial << F("Send request short event with device number ") << device_number << endl;
+         sendEvent(OPC_ASRQ,device_number); // Test of short event request.
+      }
+#else
+    //if (moduleSwitch.isPressed() ) { // Send when button is pressed.
+      Serial << F("Send request long event") << endl;
+      sendEvent(OPC_AREQ,requestEvent); // Test of long event request.
+    //}
+#endif
+#endif
+      break;
+        // -------------------------------------------------------------------
+    case OPC_AROF:
+    case OPC_ARON:
+    case OPC_ARSOF:
+    case OPC_ARSON:
+        // Process responses to AREQ and ASRQ messages.
+        // I may want to set this up to handle only certain device nos.
+        // It will also be possible to send data or events based on this information.
+    {
+        byte local_opcode = msg->data[0];
+#if ACCESSORY_REQUEST_EVENT
+         unsigned int node_number = (msg->data[1] << 8 ) + msg->data[2];
+         unsigned int event_number = (msg->data[3] << 8 ) + msg->data[4];
+#if USE_SHORT_EVENTS
+        if (local_opcode == OPC_ARSON) {
+          Serial << F(" ON message from device ") << event_number << endl;
+        } else if (local_opcode == OPC_ARSOF) {
+          Serial << F(" OFF message from device ") << event_number << endl;
+        }
+#endif
+        if (local_opcode == OPC_ARON) {
+          Serial << F(" ON message from event ") << node_number << F(" event ") << event_number << endl;
+        } else if (local_opcode == OPC_AROF) {
+          Serial << F(" OFF message from node ") << node_number << F(" event ") << event_number << endl;
+        }
+#endif   
+        }     
+        break;
+        // -------------------------------------------------------------------
+        default:
+          // ignore any other CBus messages
+#if DEBUG
+           Serial << F("Message handled with Opcode [ 0x") << _HEX(msg->data[0]) << F(" ]")<< endl;
+#endif
+          break;
+   }
 }
 
 
