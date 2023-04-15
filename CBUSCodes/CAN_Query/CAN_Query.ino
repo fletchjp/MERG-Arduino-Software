@@ -356,6 +356,7 @@ void framehandler(CANFrame *msg)
       // and so on for all user list op codes
       // Copied from CANCMDDC from 2400
       // This needs defines sorting out.
+      // It also needs to be moved to the event handler for taught events.
       // -------------------------------------------------------------------
     case OPC_ACOF:
     case OPC_ACON:
