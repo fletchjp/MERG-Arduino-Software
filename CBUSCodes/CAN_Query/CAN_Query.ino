@@ -91,11 +91,11 @@
 ////////////DEFINE MODULE/////////////////////////////////////////////////
 
 // module name
-unsigned char mname[7] = { 'C', 'A', 'N', 'w', 'r', 'a', 'p' };
+unsigned char mname[7] = { 'C', 'A', 'N', 'q', 'e', 'r', 'y' };
 
 // constants
-const byte VER_MAJ = 1;         // code major version
-const byte VER_MIN = 2;       // code minor version
+const byte VER_MAJ = 0;         // code major version
+const byte VER_MIN = 1;       // code minor version
 const byte VER_BETA = 0;        // code beta sub-version
 const byte MODULE_ID = 99;      // CBUS module type
 
@@ -105,7 +105,8 @@ const unsigned long CAN_OSC_FREQ = 16000000;     // Oscillator frequency on the 
 void framehandler(CANFrame *msg);
 
 // User list of opcodes.  This list is an example and can be changed as required. List is retained in program memory
-const byte opcodes[] PROGMEM = {OPC_DFNON, OPC_DFNOF, OPC_DSPD, OPC_GLOC, OPC_KLOC, OPC_PLOC};
+const byte opcodes[] PROGMEM = {OPC_DFNON, OPC_DFNOF, OPC_DSPD, OPC_GLOC, OPC_KLOC, OPC_PLOC,
+      OPC_ACOF,OPC_ACON,OPC_AREQ,OPC_ASRQ,OPC_AROF,OPC_ARON,OPC_ARSOF,OPC_ARSON};
 
 // Calculate number of opcodes in list
 const byte nopcodes = sizeof(opcodes) / sizeof(opcodes[0]);
