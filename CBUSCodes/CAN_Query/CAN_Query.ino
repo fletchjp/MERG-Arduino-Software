@@ -320,11 +320,30 @@ void eventhandler(byte index, CANFrame *msg)
     
       // case code goes here
 
-      break;
+      //break;
 
-    case OPC_ACOF:
+    case OPC_ACOF: 
    
       // case code goes here
+#if DEBUG
+           Serial << F("Message handled with Opcode [ 0x") << _HEX(msg->data[0]) << F(" ]")<< endl;
+           Serial << F("Test code to see if a message is getting sent") << endl;
+#endif
+#if ACCESSORY_REQUEST_EVENT
+#if USE_SHORT_EVENTS
+      {
+         // Local variable definition needs to be in { } 
+         unsigned int device_number = 513;
+         Serial << F("Send request short event with device number ") << device_number << endl;
+         sendEvent(OPC_ASRQ,device_number); // Test of short event request.
+      }
+#else
+    //if (moduleSwitch.isPressed() ) { // Send when button is pressed.
+      Serial << F("Send request long event") << endl;
+      sendEvent(OPC_AREQ,requestEvent); // Test of long event request.
+    //}
+#endif
+#endif
 
       break;
   }
@@ -358,28 +377,9 @@ void framehandler(CANFrame *msg)
       // This needs defines sorting out.
       // It also needs to be moved to the event handler for taught events.
       // -------------------------------------------------------------------
-    case OPC_ACOF:
-    case OPC_ACON:
-#if DEBUG
-           Serial << F("Message handled with Opcode [ 0x") << _HEX(msg->data[0]) << F(" ]")<< endl;
-           Serial << F("Test code to see if a message is getting sent") << endl;
-#endif
-#if ACCESSORY_REQUEST_EVENT
-#if USE_SHORT_EVENTS
-      {
-         // Local variable definition needs to be in { } 
-         unsigned int device_number = 513;
-         Serial << F("Send request short event with device number ") << device_number << endl;
-         sendEvent(OPC_ASRQ,device_number); // Test of short event request.
-      }
-#else
-    //if (moduleSwitch.isPressed() ) { // Send when button is pressed.
-      Serial << F("Send request long event") << endl;
-      sendEvent(OPC_AREQ,requestEvent); // Test of long event request.
-    //}
-#endif
-#endif
-      break;
+    //case OPC_ACOF:
+    //case OPC_ACON:
+    //break;
         // -------------------------------------------------------------------
     case OPC_AROF:
     case OPC_ARON:
