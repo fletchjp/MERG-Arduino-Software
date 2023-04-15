@@ -90,8 +90,8 @@
 
 ////////////DEFINE MODULE/////////////////////////////////////////////////
 
-// module name
-unsigned char mname[7] = { 'C', 'A', 'N', 'q', 'e', 'r', 'y' };
+// module name - this must be 7 characters. It will be preceded by CAN in the FCU.
+unsigned char mname[7] = { '_', 'Q', 'U', 'E', 'R', 'Y', ' ' };
 
 // constants
 const byte VER_MAJ = 0;         // code major version
@@ -193,8 +193,9 @@ void setupModule()
 void setup()
 {
   Serial.begin (115200);
-  Serial << endl << endl << F("> ** CBUS Query ** ") << __FILE__ << endl;
-
+  Serial << endl << endl << F("> ** CAN_Query ** ") << __FILE__ << endl;
+  Serial << F("> FCU name is CAN") << (char *)mname << endl;
+  //Serial.println((char *)mname);
   setupCBUS();
   setupModule();
 
