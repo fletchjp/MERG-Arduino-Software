@@ -3,6 +3,7 @@
 // I am going to extend this to have a state machine
 // using the example in arduino_state_event_keypad as a basis.
 // That uses IoAbstraction and TaskManagerIO.
+// Code for responding is in CANASIGNAL 
 
 /*
   Copyright (C) 2021 Martin Da Costa
