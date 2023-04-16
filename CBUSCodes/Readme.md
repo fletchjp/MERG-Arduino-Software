@@ -51,3 +51,12 @@ This has the code for the external EEPROM and setting up with the FCU using the 
 ### CBUS_1in1out_ACAN2040_v3
 
 This code is now working with the Pico Breadboard hardware.
+
+## CAN_Query
+
+This is a new code to handle query and response actions over CBUS. The starting code for this comes from CANCMDDC2.
+
+## CANASIGNAL
+
+This code has been copied in to help with the CAN_Query construction.
+
