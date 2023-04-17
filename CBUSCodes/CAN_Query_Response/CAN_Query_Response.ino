@@ -76,6 +76,12 @@
 
 
 #define ACCESSORY_REQUEST_EVENT 1
+#define USE_SHORT_EVENTS 0 // Use ASRQ instead ot AREQ etc. Needs a device number
+#if USE_SHORT_EVENTS
+#define GET_DEVICE_NOS_FROM_NVS 0 // Get the device no from the NVs
+// I need a scheme for this which will include an NV to say how many device nos are configured.
+// Each device no will need two bytes.
+#endif
 
 #define DEBUG 1       // set to 0 for no serial debug
 
