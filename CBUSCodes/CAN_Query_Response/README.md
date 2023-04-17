@@ -1,8 +1,8 @@
 <img align="right" src="arduino_cbus_logo.png"  width="150" height="75">
 
-# CAN_Query
+# CAN_Query_Response
 
-This is developed to demonstrate a query and response operation.
+This is developed to demonstrate a query and response operation combining codes for both.
 
 # CAN_Wrapper
 
