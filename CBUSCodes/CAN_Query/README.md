@@ -2,7 +2,9 @@
 
 # CAN_Query
 
-This is developed to demonstrate a query and response operation.
+This is developed to demonstrate a query and response operation. This has the query part of the code.
+
+For query and response see CAN_Query_Response
 
 # CAN_Wrapper
 
