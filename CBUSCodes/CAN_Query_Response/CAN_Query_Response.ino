@@ -97,7 +97,7 @@
 ////////////DEFINE MODULE/////////////////////////////////////////////////
 
 // module name - this must be 7 characters. It will be preceded by CAN in the FCU.
-unsigned char mname[7] = { '_', 'Q', 'U', 'E', 'R', 'Y', ' ' };
+unsigned char mname[7] = { '_', 'Q', 'U', 'R', 'E', 'S', ' ' };
 
 // constants
 const byte VER_MAJ = 0;         // code major version
@@ -112,7 +112,7 @@ void framehandler(CANFrame *msg);
 
 // User list of opcodes.  This list is an example and can be changed as required. List is retained in program memory
 const byte opcodes[] PROGMEM = {OPC_DFNON, OPC_DFNOF, OPC_DSPD, OPC_GLOC, OPC_KLOC, OPC_PLOC,
-      OPC_ACOF,OPC_ACON,OPC_AREQ,OPC_ASRQ,OPC_AROF,OPC_ARON,OPC_ARSOF,OPC_ARSON};
+      OPC_ACOF, OPC_ACON, OPC_AREQ, OPC_ASRQ, OPC_AROF, OPC_ARON, OPC_ARSOF, OPC_ARSON, OPC_CANID};
 
 // Calculate number of opcodes in list
 const byte nopcodes = sizeof(opcodes) / sizeof(opcodes[0]);
