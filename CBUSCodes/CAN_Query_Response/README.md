@@ -4,6 +4,8 @@
 
 This is developed to demonstrate a query and response operation combining codes for both.
 
+The query only version is CAN_Query.
+
 # CAN_Wrapper
 
 An Arduino program that provides a MERG CBUS interface that can interface with the users
