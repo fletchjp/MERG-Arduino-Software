@@ -54,7 +54,13 @@ This code is now working with the Pico Breadboard hardware.
 
 ## CAN_Query
 
+This is a new code to handle query and response actions over CBUS. The starting code for this comes from CANCMDDC2 and has only the query part of the code.
+
+## CAN_Query_Response
+
 This is a new code to handle query and response actions over CBUS. The starting code for this comes from CANCMDDC2.
+
+The plan is to add to this a version with a state maching to keep track of actions.
 
 ## CANASIGNAL
 
