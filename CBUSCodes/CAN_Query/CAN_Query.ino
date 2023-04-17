@@ -1,8 +1,8 @@
 // CAN_Query.ino
 // copied from CANWrapper
 // That uses IoAbstraction and TaskManagerIO.
-// Code for responding is in CANASIGNAL and is going to be added to make CAN_Query_Response
-// I am going to extend this to have a state machine
+// Code for responding is in CANASIGNAL and is going to be added to make CAN_Query_Response 
+// I am going to extend that to have a state machine
 // using the example in arduino_state_event_keypad as a basis.
 
 /*
