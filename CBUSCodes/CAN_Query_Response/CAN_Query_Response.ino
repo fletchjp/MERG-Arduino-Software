@@ -122,8 +122,6 @@ const byte opcodes[] PROGMEM = {OPC_DFNON, OPC_DFNOF, OPC_DSPD, OPC_GLOC, OPC_KL
 
 // Calculate number of opcodes in list
 const byte nopcodes = sizeof(opcodes) / sizeof(opcodes[0]);
-// This macro cannot be used outside a function e.g. setup() when DEBUG is 1
-//DEBUG_PRINT(F("> Number of op codes ") << nopcodes);
 
 //Define inputs here
 //Define outputs here
