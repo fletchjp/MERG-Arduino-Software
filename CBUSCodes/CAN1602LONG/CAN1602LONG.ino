@@ -9,7 +9,9 @@
 ////////////////////////////////////////////////////////////////////////////////////
 /// This activates the long message code.
 /// This is slightly too large in memory for a UNO.
-///#define CBUS_LONG_MESSAGE
+#define CBUS_LONG_MESSAGE
+// This suppresses output of copyrights.
+#define SAVE_MEMORY 
 
 /*
   Copyright (C) 2021 Martin Da Costa
@@ -402,7 +404,7 @@ void setupModule()
 void setup1602() {
  lcd.begin(16, 2);
  lcd.setCursor(0,0);
- lcd.print("CAN1602PIN");
+ lcd.print("CAN1602LONG");
  lcd.setCursor(0,1);
  lcd.print("Press Key:");
 }
@@ -494,13 +496,13 @@ void processButtons(void)
           Serial << F("long message ") << long_message_output_buffer << F(" sent to ") 
                  << stream_id << endl;
         } else {
-          Serial << F("long message sending ") 
+          Serial << F("long message sending ")
                  << long_message_output_buffer << F(" to ") 
                  << stream_id << F(" failed with message length ") << message_length 
                  << endl;
         }
       } else {
-        Serial << "long message preparation failed with message length " 
+        Serial << F("long message preparation failed with message length ") 
                << message_length << endl;
       }
 #endif
@@ -770,11 +772,12 @@ void printConfig(void)
   Serial << F("> compiled on ") << __DATE__ << F(" at ") << __TIME__ << F(", compiler ver = ") << __cplusplus << endl;
 
   // copyright
+#ifndef SAVE_MEMORY
   Serial << F("> © Martin Da Costa (MERG M6223) 2021") << endl;
   Serial << F("> © Duncan Greenwood (MERG M5767) 2021") << endl;
   Serial << F("> © John Fletcher (MERG M6777) 2021") << endl;
   Serial << F("> © Sven Rosvall (MERG M3777) 2021") << endl;
-
+#endif
 #if LCD_DISPLAY
    Serial << F("> LCD display available") << endl;
 #if MERG_DISPLAY
