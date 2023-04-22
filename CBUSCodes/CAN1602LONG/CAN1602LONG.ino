@@ -8,7 +8,8 @@
 /// This uses code from IoAbstraction examples dfRobotAnalogInSwitches 
 ////////////////////////////////////////////////////////////////////////////////////
 /// This activates the long message code.
-#define CBUS_LONG_MESSAGE
+/// This is slightly too large in memory for a UNO.
+///#define CBUS_LONG_MESSAGE
 
 /*
   Copyright (C) 2021 Martin Da Costa
