@@ -1,6 +1,7 @@
 /**
- * @file SimpleTasks.ino
+ * @file SimpleTasks2core.ino
  * A very simple example of how to use task manager to schedule tasks to be done
+ * extended to use two cores on the Pico
  *
  * In this example we demonstrate how to create tasks that execute at a point in time,
  * that repeat at a given interval, and tasks that are executed as soon as possible
@@ -9,7 +10,7 @@
  */
 
 // To use task manager we must include the library
-#include <Arduino.h>
+//#include <Arduino.h>
 #include "TaskManagerIO.h"
 
 //
@@ -36,7 +37,7 @@ void twentySecondJob() {
     taskManager.cancelTask(taskId);
     taskManager.scheduleOnce(10, [] {
 #ifdef ARDUINO_ARCH_RP2040
-        logIt("Running tests on a Pico");
+        logIt("Running this on the second core of the Pico");
 #endif
         logIt("Ten more seconds done finished.");
     }, TIME_SECONDS);
@@ -56,8 +57,10 @@ void setup() {
         logIt("Fixed rate, every second");
     });
 
+#ifndef ARDUINO_ARCH_RP2040
     // schedule a task to run once in 20 seconds.
     taskManager.scheduleOnce(20, twentySecondJob, TIME_SECONDS);
+#endif
 
     // schedule a task to be executed immediately as a taskManager task.
     taskManager.execute([] {
@@ -65,6 +68,14 @@ void setup() {
     });
 }
 
+
+#ifdef ARDUINO_ARCH_RP2040
+void setup1()
+{
+    // schedule a task to run once in 20 seconds.
+    taskManager.scheduleOnce(20, twentySecondJob, TIME_SECONDS);
+}
+#endif
 //
 // All programs using TaskManager need to call taskManager.runLoop in the loop
 // method, and should never use delay(..)
