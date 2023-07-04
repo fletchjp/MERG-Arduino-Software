@@ -2,6 +2,8 @@
 
 I want to test the use of IOAbstraction and TaskManagerIO with the Raspberry Pi Pico RP2040
 
+There is now a new version of TaskManagerIO 1.4.0 with changes to the interface for scheduling tasks. I am now experimenting with this. 
+
 ## simpleTasks
 
 This is from the TaskManagerIO example routines and runs on a Pico.
