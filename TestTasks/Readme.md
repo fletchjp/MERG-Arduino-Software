@@ -6,6 +6,10 @@ I want to test the use of IOAbstraction and TaskManagerIO with the Raspberry Pi 
 
 This is from the TaskManagerIO example routines and runs on a Pico.
 
+## simpleTasks140
+
+Updated TaskManagerIO example to show changes to schedule routines introduced for TaskManagerIO 1.4.0. Old versions also still work.
+
 ## simpleTasks2core
 
 This is modified from the TaskManagerIO example routines and runs on a Pico using both cores.
