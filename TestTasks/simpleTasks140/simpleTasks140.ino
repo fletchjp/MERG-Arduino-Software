@@ -52,14 +52,14 @@ void setup() {
     Serial.println("Running tests on a Pico");
 #endif
     // schedule a task to run at a fixed rate, every 1000 milliseconds.
-    taskId = taskManager.scheduleFixedRate(1000, [] {
+    taskId = taskManager.schedule(repeatMillis(1000), [] {
         logIt("Fixed rate, every second");
     });
 
     // schedule a task to run once in 20 seconds.
-    taskManager.scheduleOnce(20, twentySecondJob, TIME_SECONDS);
+    taskManager.schedule(onceSeconds(20), twentySecondJob);
 
-    // schedule a task to be executed immediately as a taskManager task.
+    // schedule a task to be executed as soon as possible as a taskManager task.
     taskManager.execute([] {
         logIt("To do as soon as possible");
     });
