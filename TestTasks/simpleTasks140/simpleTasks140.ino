@@ -1,16 +1,22 @@
 /**
- * @file SimpleTasks.ino
+ * @file SimpleTasks140.ino
  * A very simple example of how to use task manager to schedule tasks to be done
  *
  * In this example we demonstrate how to create tasks that execute at a point in time,
  * that repeat at a given interval, and tasks that are executed as soon as possible
  * by task manager. We also show how to cancel a running task.
  *
+ * This example has been modified to use the new scheduling interface introduced in 
+ * TaskManagerIO version 1.4.0. The changes are backward compatible so that old code will run.
+ * Some extra things in the new example have also been added.
  */
 
 // To use task manager we must include the library
 #include <Arduino.h>
 #include "TaskManagerIO.h"
+
+// A counter that will be increased in the microsecond task.
+int counter = 0;
 
 //
 // A simple logging function that logs the time and the log line.
@@ -19,7 +25,7 @@ void logIt(const char* toLog) {
     Serial.print(millis());
     Serial.print(':');
     Serial.println(toLog);
-}
+} 
 
 //
 // here we globally store the task ID of our repeating task, we need this to cancel it later.
