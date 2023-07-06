@@ -12,6 +12,8 @@ This is from the TaskManagerIO example routines and runs on a Pico.
 
 Updated TaskManagerIO example to show changes to schedule routines introduced for TaskManagerIO 1.4.0. Old versions also still work.
 
+I have added the incrementing counter which is in the new example in TaskManagerIO.
+
 ## simpleTasks2core
 
 This is modified from the TaskManagerIO example routines and runs on a Pico using both cores.
