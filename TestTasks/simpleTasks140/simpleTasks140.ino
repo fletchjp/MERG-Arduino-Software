@@ -24,6 +24,8 @@ int counter = 0;
 void logIt(const char* toLog) {
     Serial.print(millis());
     Serial.print(':');
+    Serial.print(counter);
+    Serial.print(':');
     Serial.println(toLog);
 } 
 
@@ -57,6 +59,11 @@ void setup() {
 #ifdef ARDUINO_ARCH_RP2040
     Serial.println("Running tests on a Pico");
 #endif
+    // Increment counter in this task.
+    taskManager.schedule(repeatMicros(100), [] {
+      counter++;
+    });
+
     // schedule a task to run at a fixed rate, every 1000 milliseconds.
     taskId = taskManager.schedule(repeatMillis(1000), [] {
         logIt("Fixed rate, every second");
