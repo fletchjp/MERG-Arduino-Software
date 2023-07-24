@@ -218,7 +218,7 @@ void setup() {
   delay(5000);
   Serial << endl << endl << F("> ** CBUS 1 in 1 out v3 ** ") << endl;
   Serial << __FILE__ << endl;
-
+  Serial << F("> Core number ") << get_core_num() << endl;
   setupCBUS();
 
   // configure the module switch, attached to pin 11, active low
