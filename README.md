@@ -18,6 +18,8 @@
 
  This is not the only GitHub site. Several other MERG members have their own sites and we are colaborating to develop Arduino codes of use to the wider MERG membership. 
 
+ There is now thought being given to having a MERG Github site with information about the codes to support MERG Kits.
+
  John Fletcher M6777
 
  ## Software for MERG Arduino projects
