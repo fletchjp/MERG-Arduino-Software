@@ -26,7 +26,7 @@ I have made a small change to my copy of Auto485 to remove an Arduino warning me
 
 ## AutoSoft485
 
-I made this to provide the equivalent of Auto485 with AltSoftSerial.
+I made this to provide the equivalent of Auto485 with AltSoftSerial. I am now not sure this is good code.
 
 ## Codes
 
