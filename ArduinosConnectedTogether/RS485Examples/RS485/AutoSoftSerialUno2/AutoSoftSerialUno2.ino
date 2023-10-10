@@ -6,7 +6,7 @@
 
 // This needs to Tx on Pin 9 and Rx on Pin 8
 
-// This is to send transmission using AltSoftSerial
+// This is to send transmission using AltSoftSerial hidden inside AutoSoftSerial
 
 //#define RS485pin 3
 #define DE_PIN 3
