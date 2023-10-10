@@ -24,7 +24,7 @@ This is a library which hides some of the detail of RS485 transmit and receive f
 
 I have made a small change to my copy of Auto485 to remove an Arduino warning message.
 
-## AutoSoft485
+## AutoSoftSerial485
 
 I made this to provide the equivalent of Auto485 with AltSoftSerial. I am now not sure this is good code.
 
@@ -36,9 +36,11 @@ The following have now been compiled.
 
 ### AltSoftSerial
 
-### AltSoftSerialAuto485
+### AutoSoftSerial485
 
-AutoSoft485 is not available as a library although I could make it a library.
+AutoSoftSerial485 is not available as a library although I could make it a library.
+
+I am now working to improve this code.
 
 ### AltSoftSerialUno2
 
