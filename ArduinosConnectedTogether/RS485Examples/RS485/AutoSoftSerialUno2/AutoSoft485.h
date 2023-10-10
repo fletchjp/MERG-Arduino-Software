@@ -23,8 +23,10 @@
 	SOFTWARE.
 */
 
-#ifndef Auto485_h
-#define Auto485_h
+// Auto485 was definitely wrong here as
+// the library Auto485 would not be included properly!
+#ifndef AutoSoft485_h
+#define AutoSoft485_h
 	
 #include <Arduino.h>
 #include <Auto485.h>
