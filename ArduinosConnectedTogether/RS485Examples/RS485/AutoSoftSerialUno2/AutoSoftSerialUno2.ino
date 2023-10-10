@@ -36,7 +36,7 @@ void setup() {
 }
 
 void loop() {
-  char c;
+  //char c;
   char getdata = 'c';
   
   digitalWrite(LEDpin,LOW);
