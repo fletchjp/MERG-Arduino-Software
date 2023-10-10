@@ -26,7 +26,7 @@
 #include "AutoSoft485.h"
 #include <Arduino.h>
 
-#define Auto485 AutoSoft485
+//#define Auto485 AutoSoft485
 /*
 Auto485::Auto485(int DE_pin, int RE_pin, HardwareSerial &serial_port)
 : _DE_pin(DE_pin)
@@ -40,7 +40,7 @@ Auto485::Auto485(int DE_pin, int RE_pin, HardwareSerial &serial_port)
 }
 */
 
-Auto485::Auto485(int DE_pin, int RE_pin, AltSoftSerial &_serial_port)
+AutoSoft485::AutoSoft485(int DE_pin, int RE_pin, AltSoftSerial &_serial_port)
 : _DE_pin(DE_pin)
 , _RE_pin(RE_pin == -1 ? DE_pin : RE_pin)
 , _serial(_serial_port)
@@ -51,7 +51,7 @@ Auto485::Auto485(int DE_pin, int RE_pin, AltSoftSerial &_serial_port)
     pinMode(_RE_pin, OUTPUT); // defaults to LOW = read mode
 }
 
-void Auto485::set_mode(enum Mode mode)
+void AutoSoft485::set_mode(enum Mode mode)
 {
 	if (_mode == TX && mode == RX)
 		_serial.flush(); // finish writing if we're moving into RX mode
@@ -62,7 +62,7 @@ void Auto485::set_mode(enum Mode mode)
 		digitalWrite(_RE_pin, _mode == TX); // high if TX, low if RX
 }
 
-void Auto485::begin(unsigned long baud)
+void AutoSoft485::begin(unsigned long baud)
 {
 	_serial.begin(baud);
 }
@@ -77,47 +77,47 @@ void Auto485::begin(unsigned long baud, uint8_t config)
 	_serial.begin(baud, config);
 }
 */
-void Auto485::end(void) {
+void AutoSoft485::end(void) {
 	_serial.end();
 }
 
-int Auto485::available(void)
+int AutoSoft485::available(void)
 {
 	return _serial.available();
 }
 
-int Auto485::peek(void)
+int AutoSoft485::peek(void)
 {
 	return _serial.peek();
 }
 
-int Auto485::read(void)
+int AutoSoft485::read(void)
 {
 	return _serial.read();
 }
 
 
-size_t Auto485::write(uint8_t c)
+size_t AutoSoft485::write(uint8_t c)
 {
 	if (_mode != TX) set_mode(TX);
 	return _serial.write(c);
 }
 
-void Auto485::flush(void)
+void AutoSoft485::flush(void)
 {
 	_serial.flush();
 	set_mode(RX);
 }
 
 
-size_t Auto485::println(void)
+size_t AutoSoft485::println(void)
 {
 	 size_t n = Print::println();
          set_mode(RX);
 	 return n;
 }
 
-size_t Auto485::println(const String &s)
+size_t AutoSoft485::println(const String &s)
 {
 	size_t n = Print::print(s);
 	n += Print::println();
@@ -125,7 +125,7 @@ size_t Auto485::println(const String &s)
 	return n;
 }
 
-size_t Auto485::println(const __FlashStringHelper *ifsh)
+size_t AutoSoft485::println(const __FlashStringHelper *ifsh)
 {
   size_t n = Print::print(ifsh);
   n += Print::println();
@@ -133,15 +133,15 @@ size_t Auto485::println(const __FlashStringHelper *ifsh)
   return n;
 }
 
-size_t Auto485::println(const char c[])
+size_t AutoSoft485::println(const char c[])
 {
-  size_t n = Auto485::print(c);
-  n += Auto485::println();
+  size_t n = AutoSoft485::print(c);
+  n += AutoSoft485::println();
   set_mode(RX);
   return n;
 }
 
-size_t Auto485::println(char c)
+size_t AutoSoft485::println(char c)
 {
   size_t n = Print::print(c);
   n += Print::println();
@@ -150,7 +150,7 @@ size_t Auto485::println(char c)
 }
 
 
-size_t Auto485::println(const Printable& x)
+size_t AutoSoft485::println(const Printable& x)
 {
   size_t n = Print::print(x);
   n += Print::println();
@@ -158,7 +158,7 @@ size_t Auto485::println(const Printable& x)
   return n;
 }
 
-size_t Auto485::println(unsigned char b, int base)
+size_t AutoSoft485::println(unsigned char b, int base)
 {
   size_t n = Print::print(b, base);
   n += Print::println();
@@ -166,7 +166,7 @@ size_t Auto485::println(unsigned char b, int base)
   return n;
 }
 
-size_t Auto485::println(int num, int base)
+size_t AutoSoft485::println(int num, int base)
 {
   size_t n = Print::print(num, base);
   n += Print::println();
@@ -174,7 +174,7 @@ size_t Auto485::println(int num, int base)
   return n;
 }
 
-size_t Auto485::println(unsigned int num, int base)
+size_t AutoSoft485::println(unsigned int num, int base)
 {
   size_t n = Print::print(num, base);
   n += Print::println();
@@ -182,7 +182,7 @@ size_t Auto485::println(unsigned int num, int base)
   return n;
 }
 
-size_t Auto485::println(long num, int base)
+size_t AutoSoft485::println(long num, int base)
 {
   size_t n = Print::print(num, base);
   n += Print::println();
@@ -190,7 +190,7 @@ size_t Auto485::println(long num, int base)
   return n;
 }
 
-size_t Auto485::println(unsigned long num, int base)
+size_t AutoSoft485::println(unsigned long num, int base)
 {
   size_t n = Print::print(num, base);
   n += Print::println();
@@ -198,7 +198,7 @@ size_t Auto485::println(unsigned long num, int base)
   return n;
 }
 
-size_t Auto485::println(double num, int digits)
+size_t AutoSoft485::println(double num, int digits)
 {
   size_t n = Print::print(num, digits);
   n += Print::println();
