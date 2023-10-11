@@ -36,13 +36,15 @@ The following have now been compiled.
 
 ### AltSoftSerial
 
-### AutoSoftSerial485
+### AltSoftSerialAuto485
 
-AutoSoftSerial485 is not available as a library although I could make it a library.
+AutoSoft485 is not available as a library although I could make it a library.
 
-I am now working to improve this code.
+I am now working to improve this code. Note that each code has its own copy at the moment.
 
 ### AltSoftSerialUno2
+
+This is the code where I have modified AutoSoft485
 
 ### AutoSoftSerialUno2
 
