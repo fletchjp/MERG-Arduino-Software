@@ -336,7 +336,7 @@ bool setupCBUS()
   params.setFlags(PF_FLiM | PF_COMBI);
 #ifdef USE_EXTERNAL_EEPROM
 // Put parameters into the EEPROM
-  config.writeBytesEEPROM(config.getEEPROMsize()+1,params.getParams(),params.size());
+//  config.writeBytesEEPROM(config.getEEPROMsize()+1,params.getParams(),params.size());
 #endif
   // assign to CBUS
   CBUS.setParams(params.getParams());
@@ -743,7 +743,9 @@ void printConfig(void) {
 #endif
 #endif
 #ifdef USE_EXTERNAL_EEPROM
-  Serial << F("> using external EEPROM size ") << config.getEEPROMsize() << endl;
+  // This member function has disappeared. 
+  //Serial << F("> using external EEPROM size ") << config.getEEPROMsize() << endl;
+  Serial << F("> using external EEPROM") << endl;
 #endif
   #if OLED_DISPLAY || LCD_DISPLAY
     #if OLED_DISPLAY
