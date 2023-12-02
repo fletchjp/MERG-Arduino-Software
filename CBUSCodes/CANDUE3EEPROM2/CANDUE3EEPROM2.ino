@@ -2,7 +2,7 @@
 // CANDUE3EEPROM
 // Version using external EEPROM using I2C over Wire1.
 // Restructure sending of long messages using new ideas.
-///////////////////////////////////////////////////////////////////////////// 
+/////////////////////////////////////////////////////////////////////////////
 // Version 1a beta 1 Initial operational test
 // Version 1a beta 2 Add some more code.
 // Version 1a beta 3 Add code for events and take CBUS button/LEDs out of use.
@@ -22,7 +22,7 @@
 //                   It compiles fine without multiple listening.
 // Version 2a beta 8 Pass config object to CBUS.
 ///////////////////////////////////////////////////////////////////////////////////
-// Version 3a beta 1 
+// Version 3a beta 1
 // Start to build the sending of a long message - not yet implemented.
 // Version 3a beta 2 Move headers before all other things.
 ///////////////////////////////////////////////////////////////////////////////////
@@ -173,7 +173,7 @@
  Digital pin 69 / CANTX         |
 */
 
-/////////////////////////////////////////////////////////////////////////////////// 
+///////////////////////////////////////////////////////////////////////////////////
 
 
 // IoAbstraction libraries
@@ -185,23 +185,23 @@
 // 3rd party libraries
 #include <Streaming.h>
 #include <Bounce2.h>
-#if LCD_DISPLAY || OLED_DISPLAY 
-#include <Wire.h>    // Library for I2C comminications for display
-  #if LCD_DISPLAY
-  /* libraries for LCD display module */
-  #include <hd44780.h>
-  #include <hd44780ioClass/hd44780_I2Cexp.h >
-  #endif
+#if LCD_DISPLAY || OLED_DISPLAY
+#include <Wire.h>  // Library for I2C comminications for display
+#if LCD_DISPLAY
+/* libraries for LCD display module */
+#include <hd44780.h>
+#include <hd44780ioClass/hd44780_I2Cexp.h >
+#endif
 #endif
 
 // CBUS library header files
-#include <CBUSSAM3X8E.h>            // CAN controller and CBUS class
-#include <CBUSswitch.h>             // pushbutton switch
-#include "LEDControl.h"             // CBUS LEDs
+#include <CBUSSAM3X8E.h>  // CAN controller and CBUS class
+#include <CBUSswitch.h>   // pushbutton switch
+#include "LEDControl.h"   // CBUS LEDs
 //#include <CBUSLED.h>              // CBUS LEDs
-#include <CBUSconfig.h>             // module configuration
-#include <CBUSParams.h>             // CBUS parameters
-#include <cbusdefs.h>               // MERG CBUS constants
+#include <CBUSconfig.h>  // module configuration
+#include <CBUSParams.h>  // CBUS parameters
+#include <cbusdefs.h>    // MERG CBUS constants
 ////////////////////////////////////////////////////////////////////////////////////////
 // New policy to bring ALL headers above anything else at all.
 // Maybe that is why they are called headers.
@@ -211,19 +211,19 @@
 #define CBUS_LONG_MESSAGE
 #define CBUS_LONG_MESSAGE_MULTIPLE_LISTEN
 #define USE_EXTERNAL_EEPROM
-#define DEBUG         1 // set to 0 for no serial debug
-#define OLED_DISPLAY  0 // set to 0 if 128x32 OLED display is not present
-#define LCD_DISPLAY   0 // set to 0 if 4x20 char LCD display is not present
+#define DEBUG 1         // set to 0 for no serial debug
+#define OLED_DISPLAY 0  // set to 0 if 128x32 OLED display is not present
+#define LCD_DISPLAY 0   // set to 0 if 4x20 char LCD display is not present
 
 #if LCD_DISPLAY
 // The hd44780 library figures out what to do.  This corresponds to a display with an I2C expander pack.
 // I could provide alternatives for other hardware.
 hd44780_I2Cexp display(0x27);
 
-volatile unsigned long previousTurnon    = 0;
-volatile unsigned long alight            = 10000;
-volatile boolean       barGraphicsLoaded = false;
-volatile boolean       showingSpeeds     = false;
+volatile unsigned long previousTurnon = 0;
+volatile unsigned long alight = 10000;
+volatile boolean barGraphicsLoaded = false;
+volatile boolean showingSpeeds = false;
 #endif
 
 #if DEBUG
@@ -233,22 +233,22 @@ volatile boolean       showingSpeeds     = false;
 #endif
 
 // constants
-const byte VER_MAJ = 4;                  // code major version
-const char VER_MIN = 'a';                // code minor version
-const byte VER_BETA = 1;                 // code beta sub-version
-const byte MODULE_ID = 99;               // CBUS module type
+const byte VER_MAJ = 4;     // code major version
+const char VER_MIN = 'a';   // code minor version
+const byte VER_BETA = 1;    // code beta sub-version
+const byte MODULE_ID = 99;  // CBUS module type
 
 // These are not being used - not installed.
 //const byte LED_GRN = 4;                  // CBUS green SLiM LED pin
 //const byte LED_YLW = 5;                  // CBUS yellow FLiM LED pin
 //const byte SWITCH0 = 6;                  // CBUS push button switch pin
 
-#define NUM_LEDS 2              // How many LEDs are there?
-#define NUM_SWITCHES 2          // How many switchs are there?
+#define NUM_LEDS 2      // How many LEDs are there?
+#define NUM_SWITCHES 2  // How many switchs are there?
 
 //Module pins available for use are Pins 3 - 9 and A0 - A5
-const byte LED[NUM_LEDS] = {8, 7};            // LED pin connections through typ. 1K8 resistor
-const byte SWITCH[NUM_SWITCHES] = {9, 6};     // Module Switch takes input to 0V.
+const byte LED[NUM_LEDS] = { 8, 7 };         // LED pin connections through typ. 1K8 resistor
+const byte SWITCH[NUM_SWITCHES] = { 9, 6 };  // Module Switch takes input to 0V.
 
 // module objects
 Bounce moduleSwitch[NUM_SWITCHES];  //  switch as input
@@ -259,17 +259,17 @@ byte switchState[NUM_SWITCHES];
 
 // CBUS objects
 //CBUSSAM3X8E CBUS;                   // CBUS object
-CBUSConfig config;                    // configuration object
-CBUSSAM3X8E CBUS(&config);             // CBUS object passing config as a reference
+CBUSConfig config;          // configuration object
+CBUSSAM3X8E CBUS(&config);  // CBUS object passing config as a reference
 //CBUSLED ledGrn, ledYlw;             // two LED objects
 //CBUSSwitch pb_switch;               // switch object
 #ifdef CBUS_LONG_MESSAGE
 // The Ardunio CBUS library does now support this.
 // create an additional object at the top of the sketch:
 #ifdef CBUS_LONG_MESSAGE_MULTIPLE_LISTEN
-CBUSLongMessageEx cbus_long_message(&CBUS);   // CBUS long message object
+CBUSLongMessageEx cbus_long_message(&CBUS);  // CBUS long message object
 #else
-CBUSLongMessage cbus_long_message(&CBUS);   // CBUS long message object
+CBUSLongMessage cbus_long_message(&CBUS);  // CBUS long message object
 #endif
 #endif
 
@@ -284,17 +284,17 @@ void framehandler(CANFrame *msg);
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // Long message setting up.
 ///////////////////////////////////////////////////////////////////////////////////////////////
-const byte stream_id = 13; // This needs to be different from the ones being listened to.
+const byte stream_id = 13;  // This needs to be different from the ones being listened to.
 // a list of stream IDs to subscribe to (this ID is defined by the sender):
-byte stream_ids[] = {11, 12, 14}; // These are the ones which this module will read.
+byte stream_ids[] = { 11, 12, 14 };  // These are the ones which this module will read.
 #ifdef CBUS_LONG_MESSAGE_MULTIPLE_LISTEN
 //bool receiving[] = {false,false,false};
 #endif
- // a buffer for the message fragments to be assembled into
+  // a buffer for the message fragments to be assembled into
 // either sized to the maximum message length, or as much as you can afford
 const unsigned int buffer_size = 128;
 byte long_message_data[buffer_size];
- // create a handler function to receive completed long messages:
+// create a handler function to receive completed long messages:
 void longmessagehandler(void *fragment, const unsigned int fragment_len, const byte stream_id, const byte status);
 const byte delay_in_ms_between_messages = 50;
 #endif
@@ -302,8 +302,7 @@ const byte delay_in_ms_between_messages = 50;
 //
 /// setup CBUS - runs once at power on from setup()
 //  This now returns true if successful.
-bool setupCBUS()
-{
+bool setupCBUS() {
   // set config layout parameters
   config.EE_NVS_START = 10;
   config.EE_NUM_NVS = 10;
@@ -315,11 +314,11 @@ bool setupCBUS()
 #ifdef USE_EXTERNAL_EEPROM
   // This has to come before setEEPROMtype.
   // Default EEPROM_I2C_ADDR = 0x50 defined in CBUSconfig.h
-  config.setExtEEPROMAddress(EEPROM_I2C_ADDR,&Wire1);
+  config.setExtEEPROMAddress(EEPROM_I2C_ADDR, &Wire1);
   config.setEEPROMtype(EEPROM_EXTERNAL);
 #else
   config.setEEPROMtype(EEPROM_INTERNAL);
-#endif  
+#endif
   // initialise and load configuration
   config.begin();
 
@@ -372,7 +371,7 @@ bool setupCBUS()
 #else
   cbus_long_message.subscribe(stream_ids, (sizeof(stream_ids) / sizeof(byte)), long_message_data, buffer_size, longmessagehandler);
 #endif
-// this method throttles the transmission so that it doesn't overwhelm the bus:
+  // this method throttles the transmission so that it doesn't overwhelm the bus:
   cbus_long_message.setDelay(delay_in_ms_between_messages);
   cbus_long_message.setTimeout(1000);
 #endif
@@ -384,26 +383,24 @@ bool setupCBUS()
   // CBUS.setNumBuffers(2);         // more buffers = more memory used, fewer = less
   // CBUS.setOscFreq(16000000UL);   // select the crystal frequency of the CAN module
   // CBUS.setPins(10, 2);           // select pins for CAN bus CE and interrupt connections
-  CBUS.setControllerInstance(0);    // only actually required for instance 1, instance 0 is the default
-  if (!CBUS.begin() ){
-     DEBUG_PRINT ("***** CBUS.begin() FAILED *****");
-     return false;
+  CBUS.setControllerInstance(0);  // only actually required for instance 1, instance 0 is the default
+  if (!CBUS.begin()) {
+    DEBUG_PRINT("***** CBUS.begin() FAILED *****");
+    return false;
   }
   return true;
 }
 
-void runLEDs(){
+void runLEDs() {
   // Run the LED code
   for (int i = 0; i < NUM_LEDS; i++) {
     moduleLED[i].run();
   }
 }
 
-void setupModule()
-{
+void setupModule() {
   // configure the module switches, active low
-  for (int i = 0; i < NUM_SWITCHES; i++)
-  {
+  for (int i = 0; i < NUM_SWITCHES; i++) {
     moduleSwitch[i].attach(SWITCH[i], INPUT_PULLUP);
     moduleSwitch[i].interval(5);
     switchState[i] = false;
@@ -412,23 +409,24 @@ void setupModule()
   // configure the module LEDs
   for (int i = 0; i < NUM_LEDS; i++) {
     moduleLED[i].setPin(LED[i]);
-  } 
+  }
 }
 
 //
 /// setup - runs once at power on
 //
 
-void setup()
-{
-  Serial.begin (115200);
+void setup() {
+  Serial.begin(115200);
   while (!Serial) { delay(10); }
-  Serial << endl << endl << F("> CANDUE ** ") << __FILE__ << endl;
+  Serial << endl
+         << endl
+         << F("> CANDUE ** ") << __FILE__ << endl;
 
   setupCBUS();
   setupModule();
 
-#if OLED_DISPLAY || LCD_DISPLAY 
+#if OLED_DISPLAY || LCD_DISPLAY
   initialiseDisplay();
   delay(2000);
 #if OLED_DISPLAY
@@ -482,84 +480,75 @@ void loop() {
   //
 }
 
-void processSwitches(void)
-{
+void processSwitches(void) {
   bool is_success = true;
-  for (int i = 0; i < NUM_SWITCHES; i++)
-  {
+  for (int i = 0; i < NUM_SWITCHES; i++) {
     moduleSwitch[i].update();
-    if (moduleSwitch[i].changed())
-    {
-     byte nv = i + 1;
-     byte nvval = config.readNV(nv);
-     byte opCode;
+    if (moduleSwitch[i].changed()) {
+      byte nv = i + 1;
+      byte nvval = config.readNV(nv);
+      byte opCode;
 
-     DEBUG_PRINT(F("> Button ") << i << F(" state change detected"));
-     Serial << F (" NV = ") << nv << F(" NV Value = ") << nvval << endl;
+      DEBUG_PRINT(F("> Button ") << i << F(" state change detected"));
+      Serial << F(" NV = ") << nv << F(" NV Value = ") << nvval << endl;
 
-     switch (nvval)
-     {
-      case 0:
+      switch (nvval) {
+        case 0:
           opCode = (moduleSwitch[i].fell() ? OPC_ACON : OPC_ACOF);
           DEBUG_PRINT(F("> Button ") << i
-              << (moduleSwitch[i].fell() ? F(" pressed, send 0x") : F(" released, send 0x")) << _HEX(opCode));
+                                     << (moduleSwitch[i].fell() ? F(" pressed, send 0x") : F(" released, send 0x")) << _HEX(opCode));
           is_success = sendEvent(opCode, (i + 1));
           break;
 
-      case 1:
-          if (moduleSwitch[i].fell())
-          {
+        case 1:
+          if (moduleSwitch[i].fell()) {
             opCode = OPC_ACON;
             DEBUG_PRINT(F("> Button ") << i << F(" pressed, send 0x") << _HEX(OPC_ACON));
             is_success = sendEvent(opCode, (i + 1));
           }
           break;
 
-      case 2:
+        case 2:
 
-          if (moduleSwitch[i].fell())
-          {
+          if (moduleSwitch[i].fell()) {
             opCode = OPC_ACOF;
             DEBUG_PRINT(F("> Button ") << i << F(" pressed, send 0x") << _HEX(OPC_ACOF));
             is_success = sendEvent(opCode, (i + 1));
           }
           break;
 
-      case 3:
+        case 3:
 
-          if (moduleSwitch[i].fell())
-          {
+          if (moduleSwitch[i].fell()) {
             switchState[i] = !switchState[i];
             opCode = (switchState[i] ? OPC_ACON : OPC_ACOF);
             DEBUG_PRINT(F("> Button ") << i
-                << (moduleSwitch[i].fell() ? F(" pressed, send 0x") : F(" released, send 0x")) << _HEX(opCode));
+                                       << (moduleSwitch[i].fell() ? F(" pressed, send 0x") : F(" released, send 0x")) << _HEX(opCode));
             is_success = sendEvent(opCode, (i + 1));
           }
 
           break;
 
-        /*
+          /*
         // Send event to test display on CAN1602BUT.
       case 99:
         opCode = (switchState[i] ? OPC_ACON : OPC_ACOF);
         sendEvent(opCode,testEvent); // Test of new code.
 
         break; */
-    default:
-        DEBUG_PRINT(F("> Invalid NV value."));
-        break;
-     }
+        default:
+          DEBUG_PRINT(F("> Invalid NV value."));
+          break;
+      }
     }
-  } 
-  if (!is_success) 
-  {
+  }
+  if (!is_success) {
     DEBUG_PRINT(F("> One of the send message events failed"));
   }
 }
 
 // Send an event routine according to Module Switch
-bool sendEvent(byte opCode, unsigned int eventNo)
-{
+bool sendEvent(byte opCode, unsigned int eventNo) {
   CANFrame msg;
   msg.id = config.CANID;
   msg.len = 5;
@@ -581,24 +570,24 @@ bool sendEvent(byte opCode, unsigned int eventNo)
 #ifdef CBUS_LONG_MESSAGE
 // Example code not yet being used.
 void send_a_long_message() {
-   char msg[32];
-   int string_length; // Returned by snprintf. This may exceed the actual length.
-   unsigned int message_length;
-// Somewhere to send the long message.
-   while(cbus_long_message.is_sending()) { } //wait for previous message to finish.
-// bool cbus_long_message.sendLongMessage(char *msg, const unsigned int msg_len, 
-//                        const byte stream_id, const byte priority = DEFAULT_PRIORITY);
-    strcpy(msg, "Hello world!");
-    message_length = strlen(msg);
-    if (message_length > 0) {
-        if (cbus_long_message.sendLongMessage((const byte *)msg, message_length, stream_id) ) {
-           Serial << F("long message ") << msg << F(" sent to ") << stream_id << endl;
-        } else {
-           Serial << F("long message sending ") << msg << F(" to ") << stream_id << F(" failed with message length ") << message_length << endl;
-        }
+  char msg[32];
+  int string_length;  // Returned by snprintf. This may exceed the actual length.
+  unsigned int message_length;
+  // Somewhere to send the long message.
+  while (cbus_long_message.is_sending()) {}  //wait for previous message to finish.
+                                             // bool cbus_long_message.sendLongMessage(char *msg, const unsigned int msg_len,
+                                             //                        const byte stream_id, const byte priority = DEFAULT_PRIORITY);
+  strcpy(msg, "Hello world!");
+  message_length = strlen(msg);
+  if (message_length > 0) {
+    if (cbus_long_message.sendLongMessage((const byte *)msg, message_length, stream_id)) {
+      Serial << F("long message ") << msg << F(" sent to ") << stream_id << endl;
     } else {
-        Serial << F("long message preparation failed with message length ") << message_length << endl;
+      Serial << F("long message sending ") << msg << F(" to ") << stream_id << F(" failed with message length ") << message_length << endl;
     }
+  } else {
+    Serial << F("long message preparation failed with message length ") << message_length << endl;
+  }
 }
 #endif
 
@@ -608,31 +597,28 @@ void send_a_long_message() {
 /// it receives the event table index and the CAN frame
 //
 
-void eventhandler(byte index, CANFrame *msg) 
-{
+void eventhandler(byte index, CANFrame *msg) {
   byte opc = msg->data[0];
 
   // as an example, display the opcode and the first EV of this event
   DEBUG_PRINT(F("> event handler: index = ") << index << F(", opcode = 0x") << _HEX(msg->data[0]));
   DEBUG_PRINT(F("> event handler: length = ") << msg->len);
-  
+
   //Serial << F("> EV1 = ") << config.getEventEVval(index, 1) << endl;
-  unsigned int node_number = (msg->data[1] << 8 ) + msg->data[2];
-  unsigned int event_number = (msg->data[3] << 8 ) + msg->data[4];
+  unsigned int node_number = (msg->data[1] << 8) + msg->data[2];
+  unsigned int event_number = (msg->data[3] << 8) + msg->data[4];
   DEBUG_PRINT(F("> NN = ") << node_number << F(", EN = ") << event_number);
   DEBUG_PRINT(F("> op_code = ") << opc);
- 
+
   switch (opc) {
 
     case OPC_ACON:
     case OPC_ASON:
-      for (int i = 0; i < NUM_LEDS; i++)
-      {
+      for (int i = 0; i < NUM_LEDS; i++) {
         byte ev = i + 1;
         byte evval = config.getEventEVval(index, ev);
 
-        switch (evval)
-        {
+        switch (evval) {
           case 1:
             moduleLED[i].on();
             break;
@@ -653,8 +639,7 @@ void eventhandler(byte index, CANFrame *msg)
 
     case OPC_ACOF:
     case OPC_ASOF:
-      for (int i = 0; i < NUM_LEDS; i++)
-      {
+      for (int i = 0; i < NUM_LEDS; i++) {
         byte ev = i + 1;
         byte evval = config.getEventEVval(index, ev);
 
@@ -689,36 +674,36 @@ void framehandler(CANFrame *msg) {
 }
 
 #ifdef CBUS_LONG_MESSAGE
-   byte new_message = true;
+byte new_message = true;
 //
-// Handler to receive a long message 
-// 
-void longmessagehandler(void *fragment, const unsigned int fragment_len, const byte stream_id, const byte status){
-// I need an example for what goes in here.
-     //fragment[fragment_len] = 0;
-// If the message is complete it will be in fragment and I can do something with it.
-     if( new_message) { // Print this only for the start of a message.
-        Serial << F("> user long message handler: stream = ") << stream_id << F(", fragment length = ") 
-               << fragment_len << F(", fragment = |");
-        new_message = false;
-     }
-     if ( status == CBUS_LONG_MESSAGE_INCOMPLETE ) {
-     // handle incomplete message
-        Serial.write((char *)fragment, fragment_len);
-     } else if (status == CBUS_LONG_MESSAGE_COMPLETE) {
-     // handle complete message
-        Serial.write((char *)fragment, fragment_len);
-        Serial << F("|, status = ") << status << endl;
-        new_message = true;  // reset for the next message
-     } else {  // CBUS_LONG_MESSAGE_SEQUENCE_ERROR
-               // CBUS_LONG_MESSAGE_TIMEOUT_ERROR,
-               // CBUS_LONG_MESSAGE_CRC_ERROR
-               // raise an error?
-        Serial << F("| Message error with  status = ") << status << endl;
-        new_message = true;  // reset for the next message
-     } 
- }
-  
+// Handler to receive a long message
+//
+void longmessagehandler(void *fragment, const unsigned int fragment_len, const byte stream_id, const byte status) {
+  // I need an example for what goes in here.
+  //fragment[fragment_len] = 0;
+  // If the message is complete it will be in fragment and I can do something with it.
+  if (new_message) {  // Print this only for the start of a message.
+    Serial << F("> user long message handler: stream = ") << stream_id << F(", fragment length = ")
+           << fragment_len << F(", fragment = |");
+    new_message = false;
+  }
+  if (status == CBUS_LONG_MESSAGE_INCOMPLETE) {
+    // handle incomplete message
+    Serial.write((char *)fragment, fragment_len);
+  } else if (status == CBUS_LONG_MESSAGE_COMPLETE) {
+    // handle complete message
+    Serial.write((char *)fragment, fragment_len);
+    Serial << F("|, status = ") << status << endl;
+    new_message = true;  // reset for the next message
+  } else {               // CBUS_LONG_MESSAGE_SEQUENCE_ERROR
+                         // CBUS_LONG_MESSAGE_TIMEOUT_ERROR,
+                         // CBUS_LONG_MESSAGE_CRC_ERROR
+                         // raise an error?
+    Serial << F("| Message error with  status = ") << status << endl;
+    new_message = true;  // reset for the next message
+  }
+}
+
 #endif
 
 //
@@ -743,24 +728,23 @@ void printConfig(void) {
 #endif
 #endif
 #ifdef USE_EXTERNAL_EEPROM
-  // This member function has disappeared. 
+  // This member function has disappeared.
   //Serial << F("> using external EEPROM size ") << config.getEEPROMsize() << endl;
   Serial << F("> using external EEPROM") << endl;
 #endif
-  #if OLED_DISPLAY || LCD_DISPLAY
-    #if OLED_DISPLAY
-    Serial << F("> OLED display available") << endl;
-    #else
-    Serial << F("> LCD display available") << endl;
-    #endif
-  #endif
+#if OLED_DISPLAY || LCD_DISPLAY
+#if OLED_DISPLAY
+  Serial << F("> OLED display available") << endl;
+#else
+  Serial << F("> LCD display available") << endl;
+#endif
+#endif
   return;
 }
 
 #if (OLED_DISPLAY || LCD_DISPLAY)
 
-void displayImage(const uint8_t *imageBitmap)
-{
+void displayImage(const uint8_t *imageBitmap) {
 #if OLED_DISPLAY
   // Clear the buffer.
   display.clearDisplay();
@@ -772,18 +756,17 @@ void displayImage(const uint8_t *imageBitmap)
 #endif
 }
 
-void displayVersion()
-{
+void displayVersion() {
 #if OLED_DISPLAY
   // Clear the buffer.
   display.clearDisplay();
   // display module name and version for a short time
   display.setTextSize(2);
   display.setTextColor(WHITE);
-  display.setCursor(20,8);
+  display.setCursor(20, 8);
   display.println("CANCMDDC");
   display.setTextSize(1);
-  display.setCursor(60,24);
+  display.setCursor(60, 24);
   display.println("v2.3");
   display.display();
 #endif
@@ -808,8 +791,7 @@ void displayVersion()
   delay(2000);
 }
 
-void initialiseDisplay()
-{
+void initialiseDisplay() {
 #if OLED_DISPLAY
   // by default, we'll generate the high voltage from the 3.3v line internally! (neat!)
   display.begin(SSD1306_SWITCHCAPVCC, 0x3C);  // initialize with the I2C addr 0x3C (for the 128x32)
@@ -817,68 +799,61 @@ void initialiseDisplay()
   display.clearDisplay();
 #endif
 #if LCD_DISPLAY
-  display.begin(20, 4); // initialize the lcd for 20 chars 4 lines, turn on backlight
-  display.display();    // turn it on
+  display.begin(20, 4);  // initialize the lcd for 20 chars 4 lines, turn on backlight
+  display.display();     // turn it on
   display.clear();
 #endif
 }
 
 #if LCD_DISPLAY
-void displayMergLogo()
-{
+void displayMergLogo() {
   // Creat a set of new characters
   const uint8_t mergLogo[][8] = {
-    { B00001111, B00011111, B00011111, B00011111, B00011100, B00011100, B00011100, B00011100 }, // 0
-    { B00011111, B00011111, B00011111, B00011111, B00000000, B00000000, B00000000, B00000000 }, // 1
-    { B00011100, B00011100, B00011100, B00011100, B00011100, B00011100, B00011100, B00011100 }, // 2
-    { B00000000, B00000000, B00000000, B00000000, B00011111, B00011111, B00011111, B00011111 }, // 3
-    { B00000111, B00000111, B00000111, B00000111, B00000111, B00000111, B00000111, B00000111 }, // 4
-    { B00000000, B00000000, B00000000, B00000000, B00011111, B00011111, B00011111, B00011111 }, // 5
-    { B00011111, B00011111, B00011111, B00011111, B00001111, B00000111, B00000111, B00000111 }, // 6
-    { B00011111, B00011111, B00011111, B00011111, B00011111, B00011111, B00011111, B00011111 }  // 7
+    { B00001111, B00011111, B00011111, B00011111, B00011100, B00011100, B00011100, B00011100 },  // 0
+    { B00011111, B00011111, B00011111, B00011111, B00000000, B00000000, B00000000, B00000000 },  // 1
+    { B00011100, B00011100, B00011100, B00011100, B00011100, B00011100, B00011100, B00011100 },  // 2
+    { B00000000, B00000000, B00000000, B00000000, B00011111, B00011111, B00011111, B00011111 },  // 3
+    { B00000111, B00000111, B00000111, B00000111, B00000111, B00000111, B00000111, B00000111 },  // 4
+    { B00000000, B00000000, B00000000, B00000000, B00011111, B00011111, B00011111, B00011111 },  // 5
+    { B00011111, B00011111, B00011111, B00011111, B00001111, B00000111, B00000111, B00000111 },  // 6
+    { B00011111, B00011111, B00011111, B00011111, B00011111, B00011111, B00011111, B00011111 }   // 7
   };
 
-//void displayMergLogo()
-//{
+  //void displayMergLogo()
+  //{
   customChars(mergLogo);
 
   char chars[4][20] = {
-  char(0), char(1), char(6), char(1), char(1), char(2), ' ', char(0), char(1), char(1), ' ', char(0), char(1), char(1), char(2), ' ', char(0), char(1), char(1), char(2),
-  char(2), ' ',     char(4), ' ',     ' ',     char(2), ' ', char(2), ' ',     ' ',     ' ', char(2), ' ',     ' ',     char(2), ' ', char(2), ' ',     ' ',     ' ',
-  char(7), ' ',     char(4), ' ',     ' ',     char(2), ' ', char(7), char(1), ' ',     ' ', char(7), char(1), char(1), char(6), ' ', char(7), ' ',     char(1), char(2),
-  char(7), ' ',     char(4), ' ',     ' ',     char(2), ' ', char(7), char(3), char(3), ' ', char(7), ' ',     ' ',     char(4), ' ', char(7), char(3), char(3), char(2)
+    char(0), char(1), char(6), char(1), char(1), char(2), ' ', char(0), char(1), char(1), ' ', char(0), char(1), char(1), char(2), ' ', char(0), char(1), char(1), char(2),
+    char(2), ' ', char(4), ' ', ' ', char(2), ' ', char(2), ' ', ' ', ' ', char(2), ' ', ' ', char(2), ' ', char(2), ' ', ' ', ' ',
+    char(7), ' ', char(4), ' ', ' ', char(2), ' ', char(7), char(1), ' ', ' ', char(7), char(1), char(1), char(6), ' ', char(7), ' ', char(1), char(2),
+    char(7), ' ', char(4), ' ', ' ', char(2), ' ', char(7), char(3), char(3), ' ', char(7), ' ', ' ', char(4), ' ', char(7), char(3), char(3), char(2)
   };
   displayLogo(chars);
 
   delay(2000);
 }
 
-void customChars(const uint8_t chars[][8])
-{
-  for (int i = 0; i < 8; i++)
-  {
+void customChars(const uint8_t chars[][8]) {
+  for (int i = 0; i < 8; i++) {
     display.createChar(i, (uint8_t *)chars[i]);
   }
 }
 
 #endif
 
-void displayLogo(const char chars[4][20])
-{
+void displayLogo(const char chars[4][20]) {
 #if LCD_DISPLAY
-  for (int i = 0; i < 4; i++)
-  {
+  for (int i = 0; i < 4; i++) {
     display.setCursor(0, i);
     displayChars(chars[i], 20);
   }
 #endif
 }
 
-void displayChars(const char chars[20], int count)
-{
+void displayChars(const char chars[20], int count) {
 #if LCD_DISPLAY
-  for (int j = 0; j < count; j++)
-  {
+  for (int j = 0; j < count; j++) {
     display.write(chars[j]);
   }
 #endif
@@ -914,8 +889,7 @@ void processSerialInput(void) {
       // New option to see some raw EEPROM
       case 'd':
         Serial << F("> stored EEPROM ") << endl;
-        for (byte j = 0; j < 20; j++)
-        {
+        for (byte j = 0; j < 20; j++) {
           Serial << j << " " << config.readEEPROM(j) << endl;
         }
         break;
@@ -933,7 +907,8 @@ void processSerialInput(void) {
         }
 
         Serial << F("  stored events = ") << uev << F(", free = ") << (config.EE_MAX_EVENTS - uev) << endl;
-        Serial << F("  using ") << (uev * config.EE_BYTES_PER_EVENT) << F(" of ") << (config.EE_MAX_EVENTS * config.EE_BYTES_PER_EVENT) << F(" bytes") << endl << endl;
+        Serial << F("  using ") << (uev * config.EE_BYTES_PER_EVENT) << F(" of ") << (config.EE_MAX_EVENTS * config.EE_BYTES_PER_EVENT) << F(" bytes") << endl
+               << endl;
 
         Serial << F("  Ev#  |  NNhi |  NNlo |  ENhi |  ENlo | ");
 
@@ -982,7 +957,8 @@ void processSerialInput(void) {
           Serial << msgstr << endl;
         }
 
-        Serial << endl << endl;
+        Serial << endl
+               << endl;
 
         break;
 
@@ -1026,15 +1002,13 @@ void processSerialInput(void) {
           Serial << F(">Reset & EEPROM wipe requested. Press 'z' again within 2 secs to confirm") << endl;
           ResWaitTime = millis();
           ResetRq = true;
-        }
-        else {
+        } else {
           // This is a confirmed request
           // 2 sec timeout
           if (ResetRq && ((millis() - ResWaitTime) > 2000)) {
             Serial << F(">timeout expired, reset not performed") << endl;
             ResetRq = false;
-          }
-          else {
+          } else {
             //Request confirmed within timeout
             Serial << F(">RESETTING AND WIPING EEPROM") << endl;
             config.resetModule();
