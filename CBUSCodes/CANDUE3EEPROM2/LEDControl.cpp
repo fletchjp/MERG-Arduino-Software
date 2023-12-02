@@ -57,7 +57,7 @@ void LEDControl::run() {
       _lastTime = millis();
     }
   }
-/*  _write(_pin, _state);
+  /*  _write(_pin, _state);
 }
 
 // write to the physical pin

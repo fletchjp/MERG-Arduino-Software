@@ -2,7 +2,7 @@
 #ifndef LEDControl_h
 #define LEDControl_h
 
-#include <Arduino.h>      // for definition of byte datatype
+#include <Arduino.h>  // for definition of byte datatype
 #include <Streaming.h>
 
 //
@@ -11,20 +11,20 @@
 
 class LEDControl {
 
-  public:
-    LEDControl();
-    void virtual setPin(byte pin);
-    void on();
-    void off();
-    void flash(int period);
-    virtual void run();
+public:
+  LEDControl();
+  void virtual setPin(byte pin);
+  void on();
+  void off();
+  void flash(int period);
+  virtual void run();
 
-  private:
-    byte _pin;
-    bool _state;
-    bool _flash;
-    int _period;
-    unsigned long _lastTime;
+private:
+  byte _pin;
+  bool _state;
+  bool _flash;
+  int _period;
+  unsigned long _lastTime;
 };
 
 #endif
