@@ -1,4 +1,6 @@
-# CANDUE3EEPROM
+# CANDUE3EEPROM2
+
+This is a copy of CANDUE3EEPROM to test the operation of the autoformat operation in Arduino IDE 2.2.1
 
 This example expands CANDUE3 to allow for the optional use of external EEPROM
 
