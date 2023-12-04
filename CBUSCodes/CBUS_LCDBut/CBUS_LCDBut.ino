@@ -3,6 +3,16 @@
 // LCDshieldButtonsSerialDFRobot.ino 
 // LCD shield with buttons example code
 // Adapted to run with CBUS
+// 3rd party libraries
+#include <Streaming.h>
+
+////////////////////////////////////////////////////////////////////////////
+// CBUS library header files
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+// LCD shield with buttons example code
 
 /*
 Arduino 2x16 LCD - Detect Buttons
