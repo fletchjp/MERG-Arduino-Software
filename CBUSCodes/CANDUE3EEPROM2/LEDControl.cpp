@@ -58,12 +58,12 @@ void LEDControl::run() {
     }
   }
   /*  _write(_pin, _state);
-}
+    }
 
-// write to the physical pin
+    // write to the physical pin
 
-void LEDControl::_write(byte pin, bool state) {
-*/
+    void LEDControl::_write(byte pin, bool state) {
+  */
   // Serial << F("> mcu pin = ") << pin << F(", state = ") << state << endl;
   digitalWrite(_pin, _state);
 }
