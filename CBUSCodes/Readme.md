@@ -6,6 +6,10 @@ Codes for CBUS on various different technologies.
 
 There are a lot of codes, mainly using the Arduino CBUS Libraries.
 
+### CBUS_LCDbut
+
+This is a CBUS version of the VLCB_LCDBut code for comparison.
+
 ## Arduino DUE
 
 I have some codes I have been using for some time.
