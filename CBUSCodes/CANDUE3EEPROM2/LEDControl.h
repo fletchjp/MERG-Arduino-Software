@@ -9,7 +9,8 @@
 /// class to encapsulate a non-blocking LED
 //
 
-class LEDControl {
+class LEDControl
+{
 
 public:
   LEDControl();

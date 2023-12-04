@@ -5,7 +5,8 @@
 /// class for individual LED with non-blocking control
 //
 
-LEDControl::LEDControl() {
+LEDControl::LEDControl()
+{
 
   _state = LOW;
   _flash = false;
@@ -14,7 +15,8 @@ LEDControl::LEDControl() {
 
 //  set the pin for this LED
 
-void LEDControl::setPin(byte pin) {
+void LEDControl::setPin(byte pin)
+{
 
   _pin = pin;
   pinMode(_pin, OUTPUT);
@@ -22,7 +24,8 @@ void LEDControl::setPin(byte pin) {
 
 // turn LED state on
 
-void LEDControl::on(void) {
+void LEDControl::on(void)
+{
 
   _state = HIGH;
   _flash = false;
@@ -30,7 +33,8 @@ void LEDControl::on(void) {
 
 // turn LED state off
 
-void LEDControl::off(void) {
+void LEDControl::off(void)
+{
 
   _state = LOW;
   _flash = false;
@@ -38,7 +42,8 @@ void LEDControl::off(void) {
 
 // blink LED
 
-void LEDControl::flash(int period) {
+void LEDControl::flash(int period)
+{
 
   _flash = true;
   _period = period;
@@ -47,7 +52,8 @@ void LEDControl::flash(int period) {
 // actually operate the LED dependent upon its current state
 // must be called frequently from loop() if the LED is set to blink or pulse
 
-void LEDControl::run() {
+void LEDControl::run()
+{
 
   if (_flash) {
 

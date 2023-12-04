@@ -302,7 +302,8 @@ const byte delay_in_ms_between_messages = 50;
 //
 /// setup CBUS - runs once at power on from setup()
 //  This now returns true if successful.
-bool setupCBUS() {
+bool setupCBUS()
+{
   // set config layout parameters
   config.EE_NVS_START = 10;
   config.EE_NUM_NVS = 10;
@@ -391,14 +392,16 @@ bool setupCBUS() {
   return true;
 }
 
-void runLEDs() {
+void runLEDs()
+{
   // Run the LED code
   for (int i = 0; i < NUM_LEDS; i++) {
     moduleLED[i].run();
   }
 }
 
-void setupModule() {
+void setupModule()
+{
   // configure the module switches, active low
   for (int i = 0; i < NUM_SWITCHES; i++) {
     moduleSwitch[i].attach(SWITCH[i], INPUT_PULLUP);
@@ -416,7 +419,8 @@ void setupModule() {
 /// setup - runs once at power on
 //
 
-void setup() {
+void setup()
+{
   Serial.begin(115200);
   while (!Serial) { delay(10); }
   Serial << endl
@@ -454,7 +458,8 @@ void setup() {
 /// loop - runs forever
 //
 
-void loop() {
+void loop()
+{
 
   //
   /// do CBUS message, switch and LED processing
@@ -480,7 +485,8 @@ void loop() {
   //
 }
 
-void processSwitches(void) {
+void processSwitches(void)
+{
   bool is_success = true;
   for (int i = 0; i < NUM_SWITCHES; i++) {
     moduleSwitch[i].update();
@@ -548,7 +554,8 @@ void processSwitches(void) {
 }
 
 // Send an event routine according to Module Switch
-bool sendEvent(byte opCode, unsigned int eventNo) {
+bool sendEvent(byte opCode, unsigned int eventNo)
+{
   CANFrame msg;
   msg.id = config.CANID;
   msg.len = 5;
@@ -569,7 +576,8 @@ bool sendEvent(byte opCode, unsigned int eventNo) {
 
 #ifdef CBUS_LONG_MESSAGE
 // Example code not yet being used.
-void send_a_long_message() {
+void send_a_long_message()
+{
   char msg[32];
   int string_length;  // Returned by snprintf. This may exceed the actual length.
   unsigned int message_length;
@@ -597,7 +605,8 @@ void send_a_long_message() {
 /// it receives the event table index and the CAN frame
 //
 
-void eventhandler(byte index, CANFrame *msg) {
+void eventhandler(byte index, CANFrame *msg)
+{
   byte opc = msg->data[0];
 
   // as an example, display the opcode and the first EV of this event
@@ -659,7 +668,8 @@ void eventhandler(byte index, CANFrame *msg) {
 /// it receives a pointer to the received CAN frame
 //
 
-void framehandler(CANFrame *msg) {
+void framehandler(CANFrame *msg)
+{
 
   // as an example, format and display the received frame
 
@@ -678,7 +688,8 @@ byte new_message = true;
 //
 // Handler to receive a long message
 //
-void longmessagehandler(void *fragment, const unsigned int fragment_len, const byte stream_id, const byte status) {
+void longmessagehandler(void *fragment, const unsigned int fragment_len, const byte stream_id, const byte status)
+{
   // I need an example for what goes in here.
   //fragment[fragment_len] = 0;
   // If the message is complete it will be in fragment and I can do something with it.
@@ -710,7 +721,8 @@ void longmessagehandler(void *fragment, const unsigned int fragment_len, const b
 /// print code version config details and copyright notice
 //
 
-void printConfig(void) {
+void printConfig(void)
+{
 
   // code version
   Serial << F("> code version = ") << VER_MAJ << VER_MIN << F(" beta ") << VER_BETA << endl;
@@ -744,7 +756,8 @@ void printConfig(void) {
 
 #if (OLED_DISPLAY || LCD_DISPLAY)
 
-void displayImage(const uint8_t *imageBitmap) {
+void displayImage(const uint8_t *imageBitmap)
+{
 #if OLED_DISPLAY
   // Clear the buffer.
   display.clearDisplay();
@@ -756,7 +769,8 @@ void displayImage(const uint8_t *imageBitmap) {
 #endif
 }
 
-void displayVersion() {
+void displayVersion()
+{
 #if OLED_DISPLAY
   // Clear the buffer.
   display.clearDisplay();
@@ -791,7 +805,8 @@ void displayVersion() {
   delay(2000);
 }
 
-void initialiseDisplay() {
+void initialiseDisplay()
+{
 #if OLED_DISPLAY
   // by default, we'll generate the high voltage from the 3.3v line internally! (neat!)
   display.begin(SSD1306_SWITCHCAPVCC, 0x3C);  // initialize with the I2C addr 0x3C (for the 128x32)
@@ -806,7 +821,8 @@ void initialiseDisplay() {
 }
 
 #if LCD_DISPLAY
-void displayMergLogo() {
+void displayMergLogo()
+{
   // Creat a set of new characters
   const uint8_t mergLogo[][8] = {
     { B00001111, B00011111, B00011111, B00011111, B00011100, B00011100, B00011100, B00011100 },  // 0
@@ -834,7 +850,8 @@ void displayMergLogo() {
   delay(2000);
 }
 
-void customChars(const uint8_t chars[][8]) {
+void customChars(const uint8_t chars[][8])
+{
   for (int i = 0; i < 8; i++) {
     display.createChar(i, (uint8_t *)chars[i]);
   }
@@ -842,7 +859,8 @@ void customChars(const uint8_t chars[][8]) {
 
 #endif
 
-void displayLogo(const char chars[4][20]) {
+void displayLogo(const char chars[4][20])
+{
 #if LCD_DISPLAY
   for (int i = 0; i < 4; i++) {
     display.setCursor(0, i);
@@ -851,7 +869,8 @@ void displayLogo(const char chars[4][20]) {
 #endif
 }
 
-void displayChars(const char chars[20], int count) {
+void displayChars(const char chars[20], int count)
+{
 #if LCD_DISPLAY
   for (int j = 0; j < count; j++) {
     display.write(chars[j]);
@@ -864,7 +883,8 @@ void displayChars(const char chars[20], int count) {
 /// command interpreter for serial console input
 //
 
-void processSerialInput(void) {
+void processSerialInput(void)
+{
 
   byte uev = 0;
   char msgstr[32], dstr[32];
