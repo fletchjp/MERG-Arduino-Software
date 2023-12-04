@@ -141,7 +141,7 @@ const char VER_MIN = 'a';       // code minor version
 const byte VER_BETA = 1;        // code beta sub-version
 const byte MODULE_ID = 99;      // CBUS module type
 
-const unsigned long CAN_OSC_FREQ = 8000000;     // Oscillator frequency on the CAN2515 board
+const unsigned long CAN_OSC_FREQ = 8000000UL;     // Oscillator frequency on the CAN2515 board
 
 #define NUM_LEDS 1              // How many LEDs are there?
 #define NUM_SWITCHES 1          // How many switchs are there?
