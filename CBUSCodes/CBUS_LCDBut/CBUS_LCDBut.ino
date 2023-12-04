@@ -8,7 +8,31 @@
 
 ////////////////////////////////////////////////////////////////////////////
 // CBUS library header files
+// CBUS library header files
+#include <CBUS2515.h>            // CAN controller and CBUS class
+#include "LEDControl.h"          // CBUS LEDs
+#include <CBUSconfig.h>          // module configuration
+#include <cbusdefs.h>            // MERG CBUS constants
+#include <CBUSParams.h>
 
+////////////DEFINE MODULE/////////////////////////////////////////////////
+/// Use these values for the CBUS outputs
+int button = -1;
+int prevbutton = -1;
+
+/// module name
+unsigned char mname[7] = { 'L', 'C', 'D', 'B', 'u', 't', ' ' };
+
+/// constants
+const byte VER_MAJ = 1;         // code major version
+const char VER_MIN = 'a';       // code minor version
+const byte VER_BETA = 1;        // code beta sub-version
+const byte MODULE_ID = 99;      // CBUS module type
+
+const unsigned long CAN_OSC_FREQ = 8000000;     // Oscillator frequency on the CAN2515 board
+
+#define NUM_LEDS 1              // How many LEDs are there?
+#define NUM_SWITCHES 1          // How many switchs are there?
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 
