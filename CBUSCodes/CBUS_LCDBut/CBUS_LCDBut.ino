@@ -48,11 +48,11 @@ void setup() {
 
   // Initialise
   Serial.begin(SERIAL_SPEED);             // Start Serial IO.
-  Serial.println("DFRobot");
+  Serial.println("CBUS LCDBut");
   //analogWrite(pin_d6,50);
  lcd.begin(16, 2);
  lcd.setCursor(0,0);
- lcd.print("DFRobot");
+ lcd.print("CBUS LCDBut");
  lcd.setCursor(0,1);
  lcd.print("Press Key:");
 }
