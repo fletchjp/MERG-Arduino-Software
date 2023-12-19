@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////////
-// CANASIGNAL 1a Beta 4
+// CANASIGNAL 1a Beta 4  THIS CODE IS NOT COMPILING
 //
 // I have included A in the name to indicate an Arduino based CBUS Module.
 //
@@ -153,7 +153,7 @@ public:
 
 // CBUS library header files
 #include <CBUS2515.h>               // CAN controller and CBUS class
-#include <CBUSswitch.h>             // pushbutton switch
+#include <CBUSSwitch.h>             // pushbutton switch
 #include <CBUSLED.h>                // CBUS LEDs
 #include <CBUSconfig.h>             // module configuration
 #include <cbusdefs.h>               // MERG CBUS constants
@@ -184,8 +184,8 @@ CBUSLED moduleLED;                  // an example LED as output
 #define SIGNAL_BUTTON 6
 
 PinInput button(SIGNAL_BUTTON);
-BoolInput fromEvent;
-//BoolInput fromEvent(true); // Default constructor fails.
+//BoolInput fromEvent;
+BoolInput fromEvent(true); // Default constructor fails.
 
 SlowLight greenLight(GREEN_LIGHT);
 SlowLight redLight(RED_LIGHT );
