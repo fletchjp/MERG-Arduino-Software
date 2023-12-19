@@ -51,7 +51,7 @@
 
 // CBUS library header files
 #include <CBUSACAN2040.h>           // CAN controller and CBUS class
-#include <CBUSswitch.h>             // pushbutton switch
+#include <CBUSSwitch.h>             // pushbutton switch
 #include <CBUSLED.h>                // CBUS LEDs
 #include <CBUSconfig.h>             // module configuration
 #include <CBUSParams.h>             // CBUS parameters
