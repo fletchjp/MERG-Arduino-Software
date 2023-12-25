@@ -53,7 +53,7 @@ static const byte WIRE_SCL = 7;
 // CBUS libraries
 #define DEBUG_MODE  // For mcp_can messages.
 #include <CBUSMCP_CAN.h>
-#include <CBUSSwitch.h>
+#include <CBUSswitch.h>
 #include <CBUSLED.h>
 #include <CBUSParams.h>
 #include <CBUSconfig.h>

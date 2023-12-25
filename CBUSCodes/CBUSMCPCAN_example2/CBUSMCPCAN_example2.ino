@@ -29,7 +29,7 @@ constexpr byte CAN_CS  = 5;           // CS input of MCP2515
 
 // CBUS libraries
 #include <CBUSMCP_CAN.h>
-#include <CBUSSwitch.h>
+#include <CBUSswitch.h>
 #include <CBUSLED.h>
 #include <CBUSParams.h>
 #include <CBUSconfig.h>
