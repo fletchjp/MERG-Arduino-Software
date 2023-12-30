@@ -70,7 +70,7 @@ This code has been used to sort out the problems of getting the code to work wit
 
 The pins needed for I2C have to be set and there are different choices for Wire and Wire1.
 
-## DUE examples
+## DUE Flash Storage examples
 
 ### DUEFlashStorageExample DueFlashStorageStructExample
 
