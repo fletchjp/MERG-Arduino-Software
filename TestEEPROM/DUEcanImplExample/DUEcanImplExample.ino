@@ -1,4 +1,4 @@
-// DEcanImplExample.ino
+// DUEcanImplExample.ino
 // This is to test the EEPROM implementation for the OpenLCB work.
 
 /* This example will write a struct to memory which is a very convinient way of storing configuration parameters.
