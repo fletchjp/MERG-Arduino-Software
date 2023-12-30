@@ -1,5 +1,6 @@
 // DUEcanImplExample.ino
 // This is to test the EEPROM implementation for the OpenLCB work.
+// This example now tests all of the new methods in EEPROM which are needed for OpenLCB.
 
 /* This example will write a struct to memory which is a very convinient way of storing configuration parameters.
  Try resetting the Arduino Due or unplug the power to it. The values will stay stored. */
