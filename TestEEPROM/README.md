@@ -69,3 +69,13 @@ These have been extended from and I2C scanner code.
 This code has been used to sort out the problems of getting the code to work with Arduino-Pico.
 
 The pins needed for I2C have to be set and there are different choices for Wire and Wire1.
+
+## DUE examples
+
+### DUEFlashStorageExample DueFlashStorageStructExample
+
+These are copies of two of the examples which come wiht the DUEFlashStorage library.
+
+### DUEcanImpleExample
+
+This is a test routine for the flash storage code written for use with OpenLCB.
