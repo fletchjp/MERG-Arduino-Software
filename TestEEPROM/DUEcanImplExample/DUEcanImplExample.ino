@@ -24,7 +24,7 @@ struct Configuration {
 };
 
 // initialize one struct
-Configuration configuration;
+Configuration configuration, configuration2;
 
 void setup() {
   Serial.begin(115200);
@@ -39,6 +39,14 @@ void setup() {
   Serial << "Location 2 " << EEPROM.read(2) << endl;
   byte *b = EEPROM.readAddress(4);
   //Serial.flush();
+  configuration.a = 1;
+  configuration.b = 0;
+  configuration.bigInteger = 1147483647; // my lucky number
+  configuration.message = "Hello world!";
+  configuration.c = 's';
+  EEPROM.put(4,configuration);
+  EEPROM.get(4,configuration2);
+  Serial << configuration2.a << endl;
 #else
   /* Flash is erased every time new code is uploaded. Write the default configuration to flash if first time */
   // running for the first time?
