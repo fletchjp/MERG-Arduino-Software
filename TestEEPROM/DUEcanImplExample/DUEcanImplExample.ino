@@ -33,6 +33,7 @@ void setup() {
 #ifdef __SAM3X8E__
   Serial << "Using OpenLCB EEPROM with " << EEPROM.length() << endl;
   Serial << "Location 0 " << EEPROM.read(0) << endl;
+  Serial << "Location 1 " << EEPROM.read(1) << endl; 
   //EEPROM.write(0,1);
   //Serial.flush();
 #else
