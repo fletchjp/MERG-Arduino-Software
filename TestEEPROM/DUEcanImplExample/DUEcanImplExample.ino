@@ -4,6 +4,12 @@
 /* This example will write a struct to memory which is a very convinient way of storing configuration parameters.
  Try resetting the Arduino Due or unplug the power to it. The values will stay stored. */
 
+#ifdef __SAM3X8E__
+#include "processor.h"            // auto-selects the processor type, and CAN lib, EEPROM lib etc.  
+#endif
+// 3rd party libraries
+#include <Streaming.h>
+
 #include <DueFlashStorage.h>
 DueFlashStorage dueFlashStorage;
 
@@ -47,6 +53,10 @@ void setup() {
   else {
     Serial.println("no");
   }
+#ifdef __SAM3X8E__
+    Serial << "Using OpenLCB EEPROM with " << EEPROM.length() << endl;
+#endif
+
 }
 
 void loop() {
