@@ -33,8 +33,11 @@ void setup() {
 #ifdef __SAM3X8E__
   //Serial << "Using OpenLCB EEPROM with " << EEPROM.length() << endl;
   Serial << "Location 0 " << EEPROM.read(0) << endl;
-  Serial << "Location 1 " << EEPROM.read(1) << endl; 
+  Serial << "Location 1 " << EEPROM.read(1) << endl;
   EEPROM.write(0,1);
+  EEPROM.update(2,3);
+  Serial << "Location 2 " << EEPROM.read(2) << endl;
+  byte *b = EEPROM.readAddress(4);
   //Serial.flush();
 #else
   /* Flash is erased every time new code is uploaded. Write the default configuration to flash if first time */
