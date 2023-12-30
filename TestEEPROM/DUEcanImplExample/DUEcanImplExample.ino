@@ -91,7 +91,11 @@ void loop() {
 #ifdef __SAM3X8E__
   int loc = 1;
   byte i = EEPROM.read(1);
-  Serial << "Testing in loop with location " << loc << " has " << i << endl;
+  //EEPROM.get(4,configuration);
+  configuration.a++;
+  EEPROM.put(4,configuration);
+  EEPROM.get(4,configuration2);
+  Serial << "Testing in loop with location " << loc << " has " << i << " and configuration2.a has " << configuration2.a <<  endl;
   EEPROM.write(1,++i);
 #else
   // print the content
@@ -128,5 +132,5 @@ void loop() {
   dueFlashStorage.write(4, b2, sizeof(Configuration)); // write byte array to flash
 #endif
 
-  delay(1000);
+  delay(5000);
 }
