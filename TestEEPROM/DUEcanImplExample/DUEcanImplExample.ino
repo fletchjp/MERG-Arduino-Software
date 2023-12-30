@@ -31,10 +31,10 @@ void setup() {
   delay(500);
   Serial << "DUEcanImpl testing" << endl;
 #ifdef __SAM3X8E__
-  Serial << "Using OpenLCB EEPROM with " << EEPROM.length() << endl;
+  //Serial << "Using OpenLCB EEPROM with " << EEPROM.length() << endl;
   Serial << "Location 0 " << EEPROM.read(0) << endl;
   Serial << "Location 1 " << EEPROM.read(1) << endl; 
-  //EEPROM.write(0,1);
+  EEPROM.write(0,1);
   //Serial.flush();
 #else
   /* Flash is erased every time new code is uploaded. Write the default configuration to flash if first time */
@@ -63,7 +63,7 @@ void setup() {
   }
 #endif
 #ifdef __SAM3X8E__
-    Serial << "Using OpenLCB EEPROM with " << EEPROM.length() << endl;
+    //Serial << "Using OpenLCB EEPROM with " << EEPROM.length() << endl;
     Serial << "Location 0 " << EEPROM.read(0) << endl;
 #endif
 
@@ -78,7 +78,10 @@ void loop() {
 #endif
 
 #ifdef __SAM3X8E__
-  Serial << "Testing in loop" << endl;
+  int loc = 1;
+  byte i = EEPROM.read(1);
+  Serial << "Testing in loop with location " << loc << " has " << i << endl;
+  EEPROM.write(1,++i);
 #else
   // print the content
   Serial.print("a:");
