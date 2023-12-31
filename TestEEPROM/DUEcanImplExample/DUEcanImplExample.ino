@@ -8,8 +8,8 @@
 #ifdef __SAM3X8E__
 #include "processor.h"            // auto-selects the processor type, and CAN lib, EEPROM lib etc.  
 #else
-#include <DueFlashStorage.h>
-DueFlashStorage dueFlashStorage;
+//#include <DueFlashStorage.h>
+//DueFlashStorage dueFlashStorage;
 #endif
 // 3rd party libraries
 #include <Streaming.h>
@@ -24,6 +24,22 @@ struct Configuration {
   char c;
 };
 
+typedef struct
+{
+	uint16_t	nextEID;
+	uint8_t		resetControl;
+} EVENT_SPACE_HEADER;
+
+class Event_Space_Header_with_constructor
+{
+  public:
+  Event_Space_Header_with_constructor() {}
+	uint16_t	nextEID;
+	uint8_t		resetControl;
+
+};
+
+
 // initialize one struct
 Configuration configuration, configuration2;
 
@@ -31,6 +47,11 @@ void setup() {
   Serial.begin(115200);
   delay(500);
   Serial << "DUEcanImpl testing" << endl;
+#ifdef __SAM3X8E__
+  Serial << "Running on Arduino DUE" << endl;
+#endif
+  Serial << "Size of EVENT_SPACE_HEADER : " << sizeof(EVENT_SPACE_HEADER) << endl;
+  Serial << "Size of Event_Space_Header_with_constructor : " << sizeof(Event_Space_Header_with_constructor) << endl;
 #ifdef __SAM3X8E__
   //Serial << "Using OpenLCB EEPROM with " << EEPROM.length() << endl;
   Serial << "Location 0 " << EEPROM.read(0) << endl;
