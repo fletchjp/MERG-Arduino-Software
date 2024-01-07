@@ -11,7 +11,7 @@
 
 // Adding this line before the library will output compile time identification.
 //#define ARCH_IDENTIFY_WARNING
-#define BOARD_IDENTITY_WARNING
+#define BOARD_IDENTIFY_WARNING
 #include <MyMacros.h>
 
 // 3rd party libraries
