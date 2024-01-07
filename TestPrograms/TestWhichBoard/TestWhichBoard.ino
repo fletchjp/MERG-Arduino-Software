@@ -6,14 +6,20 @@
 /// Board_Identity and MyMacros 
 ///
 /// The second one extends the first one and will be used here.
+/// Unfortunately it does not find NANO and MEGA although the first one does!
+/// So I have made the use conditional on defining USE_MYMACROS.
+/// Otherwise it uses only Board_Identify which does not support RP2040 types.
 ///
 /// To avoid the library overhead, the code can be inspected to find the macros needed.
 
+// #define MYMACROS
 // Adding this line before the library will output compile time identification.
-//#define ARCH_IDENTIFY_WARNING
+#define ARCH_IDENTIFY_WARNING
 #define BOARD_IDENTIFY_WARNING
+#include <Board_Identify.h>
+#ifdef USE_MYMACROS
 #include <MyMacros.h>
-
+#endif
 // 3rd party libraries
 #include <Streaming.h>
 
@@ -28,14 +34,17 @@ void heading()
   Serial << F(" compiled on ") << __DATE__ << F(" at ") << __TIME__ << F(" using compiler ") << __cplusplus << endl;
 }
 
+#ifdef USE_MYMACROS
 // Optional define a structure variable. Only required for access to struct data.
 struct board myBoard;
+#endif
 
 void setup() {
   // put your setup code here, to run once:
   Serial.begin (115200); while(!Serial); Serial.println();
   heading();
   Serial.println("==== Setup ====");
+#ifdef USE_MYMACROS
   Serial.print("Matching board define: ");
   printlnMatch(); 
   Serial.print("Arduino's 'BUILD_BOARD' property: ");
@@ -53,7 +62,7 @@ void setup() {
     Serial.print("Board MCU: ");
   
     delay(3000);
-
+#endif
   // Should be identical to above
     Serial.println("==== Board Identify (source board data) ====");
     Serial.print("Board Type: ");
