@@ -9,11 +9,13 @@
 /// Unfortunately it does not find NANO and MEGA although the first one does!
 /// So I have made the use conditional on defining USE_MYMACROS.
 /// I have found out that it is intended that the user adds the things they have!!
+/// I have added NANO, MEGA1280 and MEGA2560 to the UNO section.
+/// I need to back this up as it would be overwritten oif the library is updated!
 /// Otherwise it uses only Board_Identify which does not support RP2040 types.
 ///
 /// To avoid the library overhead, the code can be inspected to find the macros needed.
 
-// #define MYMACROS
+#define USE_MYMACROS
 // Adding this line before the library will output compile time identification.
 #define ARCH_IDENTIFY_WARNING
 #define BOARD_IDENTIFY_WARNING
