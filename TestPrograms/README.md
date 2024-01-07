@@ -62,7 +62,7 @@ Starting from C++11 there is a facility called a scoped enum or enum class which
 
 ## TestWhichBoard
 
-Test of which board the code is on using the MyMacros library
+Test of which board the code is on using the Board_Identify library and optionally the MyMacros library as well.
 
 ## MultipleSerialTest and DUESerialTest
 
