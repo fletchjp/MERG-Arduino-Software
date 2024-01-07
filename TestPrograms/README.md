@@ -60,6 +60,10 @@ Starting from C++11 there is a facility called a scoped enum or enum class which
 
 ## TestBetterEnum (more enum examples)
 
+## TestWhichBoard
+
+Test of which board the code is on using the MyMacros library
+
 ## MultipleSerialTest and DUESerialTest
 
 Two programs for investigation of the Arduino DUE multiple serial ports.
