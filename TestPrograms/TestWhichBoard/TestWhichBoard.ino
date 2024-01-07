@@ -10,8 +10,8 @@
 /// To avoid the library overhead, the code can be inspected to find the macros needed.
 
 // Adding this line before the library will output compile time identification.
-#define ARCH_IDENTIFY_WARNING
-#define BOARD_INDENTITY_WARNING
+//#define ARCH_IDENTIFY_WARNING
+#define BOARD_IDENTITY_WARNING
 #include <MyMacros.h>
 
 // 3rd party libraries
