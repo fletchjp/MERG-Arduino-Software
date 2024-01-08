@@ -3,7 +3,7 @@
 ///
 /// There are two libraries in the Arduino libraries which will help with doing this.
 ///
-/// Board_Identity and MyMacros 
+/// Board_Identify and MyMacros 
 ///
 /// The second one extends the first one and will be used here.
 ///
