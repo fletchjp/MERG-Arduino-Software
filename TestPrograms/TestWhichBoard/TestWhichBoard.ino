@@ -69,7 +69,7 @@ void setup() {
     Serial.print("Board Model: ");
     Serial.println(myBoard.model);
     Serial.print("Board MCU: ");
-  
+    Serial.println(myBoard.mcu); 
     delay(3000);
 #endif
   // Should be identical to above
