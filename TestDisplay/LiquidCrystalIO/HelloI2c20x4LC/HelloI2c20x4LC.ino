@@ -2,6 +2,16 @@
 // Adapted for a 20x4 LCD
 // Note that the I2C address is 0x27
 // Liquid Crystal version
+// This must have this code after lcd.begin() and before using the display.
+// Otherwise nothing happens.
+// This used to be handled in the constructor and it got moved!
+// Sorting this out has taken some time.
+/////////////////////////////////////////////////////////////////
+// most backpacks have the backlight on pin 3.
+//lcd.configureBacklightPin(3);
+//lcd.backlight();
+/////////////////////////////////////////////////////////////////
+
 /*
   LiquidCrystal Library - Hello World
 
@@ -56,8 +66,12 @@ void setup() {
   Wire.begin();
 
   // set up the LCD's number of columns and rows, must be called.
-  //lcd.begin(20, 4);
-  lcd.begin(16, 2);
+  lcd.begin(20, 4);
+
+  // most backpacks have the backlight on pin 3.
+  lcd.configureBacklightPin(3);
+  lcd.backlight();
+
   // Print a message to the LCD.
   lcd.print("hello over i2c!");
 
