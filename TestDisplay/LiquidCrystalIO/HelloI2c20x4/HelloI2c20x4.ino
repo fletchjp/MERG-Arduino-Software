@@ -63,7 +63,7 @@ void setup() {
   // set up the LCD's number of columns and rows, must be called.
   lcd.begin(20, 4);
   // Print a message to the LCD.
-  lcd.print("hello over i2c!");
+  lcd.print("hello over i2c! 20x4");
 
   //
   // when using this version of liquid crystal, it interacts (fairly) nicely with task manager. 
