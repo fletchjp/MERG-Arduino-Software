@@ -43,7 +43,7 @@ modified by Dave Cherry in 2018 to demo I2C backpack support.
 LiquidCrystalI2C_RS_EN(lcd, 0x27, false)
 
 // If your backpack is wired EN,RW,RS then use this version instead of the above.
-//LiquidCrystalI2C_EN_RS(lcd, 0x20, false)
+//LiquidCrystalI2C_EN_RS(lcd, 0x27, false)
 
 void setup() {
   // most backpacks have the backlight on pin 3.
