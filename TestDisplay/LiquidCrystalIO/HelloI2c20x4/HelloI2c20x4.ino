@@ -1,6 +1,7 @@
 // HelloI2C20x4
 // Adapted for a 20x4 LCD
 // Note that the I2C address is 0x27
+// Version NOT using LiquidCrystal
 
 /*
   LiquidCrystal Library - Hello World
@@ -28,19 +29,23 @@ modified by Dave Cherry in 2018 to demo I2C backpack support.
 
 // include the library code:
 #include <Arduino.h>
-#include <LiquidCrystalIO.h>
+//#include <LiquidCrystalIO.h>
 
 // When using the I2C version, these two extra includes are always needed. Doing this reduces the memory slightly for
 // users that are not using I2C.
-#include <IoAbstractionWire.h>
-#include <Wire.h>
+//#include <IoAbstractionWire.h>
+  #include <Wire.h>
+  #include <hd44780.h>
+  #include <hd44780ioClass/hd44780_I2Cexp.h >
+
+  hd44780_I2Cexp lcd(0x27);
 
 // For most standard I2C backpacks one of the two helper functions below will create you a liquid crystal instance
 // that's ready configured for I2C. Important Note: this method assumes a PCF8574 running at 100Khz. If otherwise
 // use a custom configuration as you see in many other examples.
 
 // If your backpack is wired RS,RW,EN then use this version
-LiquidCrystalI2C_RS_EN(lcd, 0x27, false)
+//LiquidCrystalI2C_RS_EN(lcd, 0x27, false)
 
 // If your backpack is wired EN,RW,RS then use this version instead of the above.
 //LiquidCrystalI2C_EN_RS(lcd, 0x27, false)
@@ -67,16 +72,17 @@ void setup() {
   //
   // You don't have to use the library with task manager like this, it's an option.
   //
-  taskManager.scheduleFixedRate(250, [] {
+  //taskManager.scheduleFixedRate(250, [] {
     // set the cursor to column 0, line 1
     // (note: line 1 is the second row, since counting begins with 0):
-    lcd.setCursor(0, 1);
-    // print the number of seconds since reset:
-    float secondsFraction =  millis() / 1000.0F;
-    lcd.print(secondsFraction);
-  });
+//  });
 }
 
 void loop() {
-    taskManager.runLoop();
+    //taskManager.runLoop();
+        lcd.setCursor(0, 1);
+    // print the number of seconds since reset:
+    float secondsFraction =  millis() / 1000.0F;
+    lcd.print(secondsFraction);
+    delay(1000);
 }
