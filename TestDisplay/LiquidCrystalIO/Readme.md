@@ -12,7 +12,11 @@
  
  ## Problem
  
- LiquidCrystalIO codes which used to work with 20 by 4 displays do so no longer and I have not found out why.
+ LiquidCrystalIO codes which used to work with 20 by 4 displays do so no longer and I have now found out why.
+ 
+ The reason was a change in the way the display is configured. Something which was in the constructor now has to be in setup().
+ 
+ Calls have to be made to setup the backlight properly. This will be needed in all code using I2C displays.
  
  The hardware does work with the hd44780 library instead so it is not the hardware.
  
