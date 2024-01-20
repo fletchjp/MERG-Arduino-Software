@@ -56,7 +56,8 @@ void setup() {
   Wire.begin();
 
   // set up the LCD's number of columns and rows, must be called.
-  lcd.begin(20, 4);
+  //lcd.begin(20, 4);
+  lcd.begin(16, 2);
   // Print a message to the LCD.
   lcd.print("hello over i2c!");
 
@@ -68,6 +69,7 @@ void setup() {
   // You don't have to use the library with task manager like this, it's an option.
   //
   taskManager.scheduleFixedRate(250, [] {
+    Serial.println("Set cursor & print");
     // set the cursor to column 0, line 1
     // (note: line 1 is the second row, since counting begins with 0):
     lcd.setCursor(0, 1);
