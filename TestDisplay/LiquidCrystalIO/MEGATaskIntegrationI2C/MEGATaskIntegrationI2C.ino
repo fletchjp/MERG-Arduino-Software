@@ -1,5 +1,5 @@
 /// @file MEGATaskIntegrationI2C
-/// @brief extend to have a 20 by display as well
+/// @brief extend to have a 20 by 4 display as well
 ///
 /// This now uses the display to show the time elapsed and the keypad and encoder values.
 ///
@@ -613,6 +613,10 @@ void setup() {
   i2c_scanner();
   // set up the LCD's number of columns and rows, must be called.
   lcd.begin(20, 4);
+  // The following code is now needed which it was not before.
+  // most backpacks have the backlight on pin 3.
+  lcd.configureBacklightPin(3);
+  lcd.backlight();
   redraw_display();  
 
   setupPCI();

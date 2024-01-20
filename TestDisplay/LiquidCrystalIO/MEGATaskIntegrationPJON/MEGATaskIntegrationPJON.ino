@@ -1,5 +1,5 @@
 /// @file MEGATaskIntegrationPJON
-/// @brief extend to have a 20 by display as well plus PJON test
+/// @brief extend to have a 20 by 4 display as well plus PJON test
 /// This does NOT work as PJON cannot get the response it needs from TaskmanagerIO.
 /// The best thing I can think of is to have PJON on a separate processor.
 ///
@@ -394,6 +394,10 @@ void setup() {
   Wire.begin();
   // set up the LCD's number of columns and rows, must be called.
   lcd.begin(20, 4);
+  // The following code is now needed which it was not before.
+  // most backpacks have the backlight on pin 3.
+  lcd.configureBacklightPin(3);
+  lcd.backlight();
   redraw_display();  
 
   bus.strategy.set_pin(BITBANGPIN);

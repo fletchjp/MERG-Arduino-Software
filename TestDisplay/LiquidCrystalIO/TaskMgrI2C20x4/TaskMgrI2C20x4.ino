@@ -122,6 +122,11 @@ void setup() {
 
   // set up the LCD's number of columns and rows, must be called.
   lcd.begin(20, 4);
+  // The following code is now needed which it was not before.
+  // most backpacks have the backlight on pin 3.
+  lcd.configureBacklightPin(3);
+  lcd.backlight();
+
   lcd.setCursor(0,0);
   // Print a message to the LCD.
   lcd.print("Task manager on I2C!");

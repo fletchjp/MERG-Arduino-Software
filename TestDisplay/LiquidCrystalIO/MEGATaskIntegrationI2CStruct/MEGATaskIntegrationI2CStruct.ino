@@ -1,5 +1,5 @@
 /// @file MEGATaskIntegrationI2CData
-/// @brief extend to have a 20 by display as well and send some data as a struct
+/// @brief extend to have a 20 by 4 display as well and send some data as a struct
 ///
 /// This now sends the time data to the peripheral.
 ///
@@ -656,6 +656,10 @@ void setup() {
   i2c_scanner();
   // set up the LCD's number of columns and rows, must be called.
   lcd.begin(20, 4);
+  // The following code is now needed which it was not before.
+  // most backpacks have the backlight on pin 3.
+  lcd.configureBacklightPin(3);
+  lcd.backlight();
   redraw_display();  
 
   setupPCI();
