@@ -10,6 +10,12 @@
  
  I am looking for examples which illustrates this point.
  
+ ## Problem
+ 
+ LiquidCrystalIO codes which used to work with 20 by 4 displays do so no longer and I have not found out why.
+ 
+ The hardware does work with the hd44780 library instead so it is not the hardware.
+ 
  ## TaskMgrIntegration 
  
  This is one which shows how to build the screen updating into a task.
