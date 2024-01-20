@@ -49,7 +49,9 @@ void setup() {
   // most backpacks have the backlight on pin 3.
   //lcd.configureBacklightPin(3);
   //lcd.backlight();
-  
+  while(!Serial);
+  Serial.begin(115200);
+  Serial.println("Hello I2C 20x4 display");
   // for i2c variants, this must be called first.
   Wire.begin();
 
