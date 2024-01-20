@@ -19,6 +19,8 @@
  I am now having a big problem with LiquidCrystalIO not working with a 20 by 4 display. Code which worked before no longer works.
  
  I have reported the problem as one with the library as the hardware works with another library.
+ 
+ I have now also reported the solution which is to put configuration for the backlight into setup(). This was previously done in the constructor.
 
  #### TaskMgrI2C20x4
  
