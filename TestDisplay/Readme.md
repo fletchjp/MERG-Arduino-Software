@@ -15,6 +15,10 @@
  The code is integrated with the IOAbstraction and TaskmanagerIO libraries.
  
  I am extending the examples to include a 20 by 4 display, starting with HelloI2C20x4 to sort out the basics.
+ 
+ I am now having a big problem with LiquidCrystalIO not working with a 20 by 4 display. Code which worked before no longer works.
+ 
+ I have reported the problem as one with the library as the hardware works with another library.
 
  #### TaskMgrI2C20x4
  
