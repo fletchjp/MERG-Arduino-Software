@@ -465,6 +465,10 @@ void setup() {
   Wire.begin();
   // set up the LCD's number of columns and rows, must be called.
   lcd.begin(20, 4);
+  // The following code is now needed which it was not before.
+  // most backpacks have the backlight on pin 3.
+  lcd.configureBacklightPin(3);
+  lcd.backlight();
   redraw_display();  
 
   setupPCI();
