@@ -18,6 +18,8 @@
  
  Calls have to be made to setup the backlight properly. This will be needed in all code using I2C displays.
  
+ I have now updated all the codes here which needed the update.
+ 
  The hardware does work with the hd44780 library instead so it is not the hardware.
  
  ## TaskMgrIntegration 
