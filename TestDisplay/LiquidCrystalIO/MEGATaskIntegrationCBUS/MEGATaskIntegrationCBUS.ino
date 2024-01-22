@@ -1,6 +1,6 @@
 /// @file MEGATaskIntegrationCBUD
 /// @brief extend to have a 20 by display as well and have a CBUS interface.
-#define VERSION 0.2
+#define VERSION 0.6
 ///
 /// The CBUS code is based on the work in CANCMDDC which is the only MEGA code for CBUS which I have.
 ///
@@ -68,7 +68,8 @@
 // Set this to 1 for CANBUS modules with 8 Mhz Crystal
 // Set this to 0 for Sparkfun CANBUS shields or Arduino Kit 110 shield
 #define CANBUS8MHZ 1
-#define DEBUG         1 // set to 0 for no debug messages, 1 for messages to console
+#define DEBUG      1 // set to 0 for no debug messages, 1 for messages to console
+//#define SERIAL_OUTPUT  // define for serial message to console
 
 // For most standard I2C backpacks one of the two helper functions below will create you a liquid crystal instance
 // that's ready configured for I2C. Important Note: this method assumes a PCF8574 running at 100Khz. If otherwise
@@ -296,9 +297,11 @@ public:
          TurnDetected = (RotaryPosition != PrevPosition);
          if (TurnDetected)  {         
            PrevPosition = RotaryPosition; // Save previous position in variable
+#ifdef SERIAL_OUTPUT
            Serial.print(encoderName);
            Serial.print(" ");
            Serial.println(RotaryPosition);
+#endif
            drawingEvent.setLatestPos(encoderName,RotaryPosition);    
            // here we turn the led on and off as the encoder moves.
            ioDeviceDigitalWriteS(arduinoIo, ledOutputPin, RotaryPosition % 2);
@@ -320,14 +323,18 @@ EncoderEvent encoderEvent2(encoder2,'2');
 ///
 /// There have to be separate routines for each encoder to distinguish the variables.
 void onSpinwheelClicked1(pinid_t /*pin*/, bool heldDown) { //, MyEncoder &encoder, EncoderEvent &encoderEvent) {
+#ifdef SERIAL_OUTPUT
   Serial.print("Button 1 pressed ");
   Serial.println(heldDown ? "Held" : "Pressed");
+#endif
     if (encoderEvent1.RotaryPosition == 0) {  // check if button was already pressed
        } else {
         encoderEvent1.RotaryPosition=0; // Reset position to ZERO
         encoder1.setPosition(encoderEvent1.RotaryPosition);
+#ifdef SERIAL_OUTPUT
         Serial.print("X ");
         Serial.println(encoderEvent1.RotaryPosition);
+#endif
         drawingEvent.setLatestPos('1',encoderEvent1.RotaryPosition);    
         encoderEvent1.PrevPosition = encoderEvent1.RotaryPosition;
       }
@@ -335,14 +342,18 @@ void onSpinwheelClicked1(pinid_t /*pin*/, bool heldDown) { //, MyEncoder &encode
 
 /// @brief When the spinwheel2 is clicked, this function will be run as we registered it as a callback
 void onSpinwheelClicked2(pinid_t /*pin*/, bool heldDown) { //, MyEncoder &encoder, EncoderEvent &encoderEvent) {
+#ifdef SERIAL_OUTPUT
   Serial.print("Button 2 pressed ");
   Serial.println(heldDown ? "Held" : "Pressed");
+#endif
     if (encoderEvent2.RotaryPosition == 0) {  // check if button was already pressed
        } else {
         encoderEvent2.RotaryPosition=0; // Reset position to ZERO
         encoder2.setPosition(encoderEvent2.RotaryPosition);
+#ifdef SERIAL_OUTPUT
         Serial.print("Y ");
         Serial.println(encoderEvent2.RotaryPosition);
+#endif
         drawingEvent.setLatestPos('2',encoderEvent2.RotaryPosition);    
         encoderEvent2.PrevPosition = encoderEvent2.RotaryPosition;
       }
@@ -431,19 +442,29 @@ enum class KeyState : byte { IDLE, PRESSED, HOLD, RELEASED };
 /// This is called from the listener to report on the state.
 void tell_the_state(char key_val, KeyState key_state = KeyState::IDLE) {
   //if (key_val != old_key) {
+#ifdef SERIAL_OUTPUT
     Serial.print(F("Key "));
     Serial.print(key_val);
+#endif
     if (key_state == KeyState::PRESSED) { 
-      Serial.println(F(" pressed"));
+#ifdef SERIAL_OUTPUT
+     Serial.println(F(" pressed"));
+#endif
       drawingEvent.setLatestKey(key_val);    
     } else if (key_state == KeyState::HOLD) { 
+#ifdef SERIAL_OUTPUT
       Serial.println(F(" held"));
+#endif
       //old_key = key_val;
     } else if (key_state == KeyState::RELEASED) { 
+#ifdef SERIAL_OUTPUT
       Serial.println(F(" released"));
+#endif
       //old_key = key_val;
     } else {
+#ifdef SERIAL_OUTPUT
       Serial.println(F(" idle"));
+#endif
     }
   //}
 }
@@ -454,17 +475,21 @@ void tell_the_state(char key_val, KeyState key_state = KeyState::IDLE) {
 class MyKeyboardListener : public KeyboardListener {
 public:
     void keyPressed(char key, bool hold) override {
+#ifdef SERIAL_OUTPUT
         Serial.print("Key ");
         Serial.print(key);
         Serial.print(" is pressed, hold = ");
         Serial.println(hold);
+#endif
         if (hold) tell_the_state(key,KeyState::HOLD);
         else tell_the_state(key,KeyState::PRESSED);
     }
 
     void keyReleased(char key) override {
+#ifdef SERIAL_OUTPUT
         Serial.print("Released ");
         Serial.println(key);
+#endif
         tell_the_state(key,KeyState::RELEASED);
     }
 } myListener;
@@ -501,7 +526,7 @@ CBUSSwitch pb_switch;               // switch object
 // constants
 const byte VER_MAJ = 1;                  // code major version
 const char VER_MIN = 'a';                // code minor version
-const byte VER_BETA = 1;                 // code beta sub-version
+const byte VER_BETA = 6;                 // code beta sub-version
 const byte MODULE_ID = 99;               // CBUS module type
 
 const byte LED_GRN = 4;                  // CBUS green SLiM LED pin
@@ -537,12 +562,8 @@ void setupCBUS()
   Serial << F("> mode = ") << ((config.FLiM) ? "FLiM" : "SLiM") << F(", CANID = ") << config.CANID;
   Serial << F(", NN = ") << config.nodeNum << endl;
 
-#if KEYPAD
-  setupKeyPad();
-#endif
-
   // show code version and copyright notice
- // printConfig();
+  printConfig();
 
   // set module parameters
   CBUSParams params(config);
@@ -687,10 +708,10 @@ bool sendEvent1(byte opCode, unsigned int eventNo, byte item)
 
 void setup() {
 /// setup 
-  while(!Serial);
-  Serial.begin(115200);
-  // for i2c variants, this must be called first.
+  Serial.begin(115200); while(!Serial); delay(2000);
+  Serial << endl << endl << F("> ** MEGA Task Integration for CBUS ** ") << __FILE__ << endl;
   setupCBUS();
+  // for i2c variants, this must be called first.
   Wire.begin();
   // set up the LCD's number of columns and rows, must be called.
   lcd.begin(20, 4);
@@ -742,7 +763,9 @@ void setup() {
     // print the number of seconds since reset:
     float secondsFraction =  millis() / 1000.0F;
     drawingEvent.setLatestStatus(secondsFraction);
+#ifdef SERIAL_OUTPUT
     Serial.println(secondsFraction);
+#endif
   });
 
   taskManager.scheduleFixedRate(5000, [] {
@@ -755,7 +778,9 @@ void setup() {
 
     taskManager.registerEvent(&drawingEvent);
 
-    Serial.println("Display, keyboard, 2 encoders and encoderEvents are initialised!");
+    Serial.println("> Display, keyboard, 2 encoders and encoderEvents are initialised!");
+    Serial << F("> ready") << endl << endl;
+
 }
 
 /// @brief ISR routine now calls the encoder and also the encoderEvent as well.
