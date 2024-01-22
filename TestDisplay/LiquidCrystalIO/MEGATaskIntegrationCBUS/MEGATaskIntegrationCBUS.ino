@@ -1,6 +1,6 @@
 /// @file MEGATaskIntegrationCBUD
 /// @brief extend to have a 20 by display as well and have a CBUS interface.
-#define VERSION 0.1
+#define VERSION 0.2
 ///
 /// The CBUS code is based on the work in CANCMDDC which is the only MEGA code for CBUS which I have.
 ///
@@ -685,9 +685,10 @@ bool sendEvent1(byte opCode, unsigned int eventNo, byte item)
 
 void setup() {
 /// setup 
-    while(!Serial);
-    Serial.begin(115200);
+  while(!Serial);
+  Serial.begin(115200);
   // for i2c variants, this must be called first.
+  setupCBUS();
   Wire.begin();
   // set up the LCD's number of columns and rows, must be called.
   lcd.begin(20, 4);
