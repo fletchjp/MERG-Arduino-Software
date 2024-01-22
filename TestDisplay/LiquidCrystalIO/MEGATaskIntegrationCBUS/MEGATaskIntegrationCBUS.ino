@@ -12,6 +12,8 @@
 ///
 /// Code is now running. It does not work when setupCBUS() is not run!
 ///
+/// I have now made the setup of the code much more modular which will make it easier to port to other codes.
+///
 /// This now uses the display to show the time elapsed and the keypad and encoder values.
 ///
 /// derived from matrixKeyboardMartinsLibraryMEGA34Event2.ino
@@ -772,7 +774,7 @@ void setup() {
     /// start repeating at 850 millis then repeat every 350ms
     keyboard.setRepeatKeyMillis(850, 350);
 
-  taskManager.scheduleFixedRate(1000, [] {
+    taskManager.scheduleFixedRate(1000, [] {
     // set the cursor to column 0, line 1
     // (note: line 1 is the second row, since counting begins with 0):
     //lcd.setCursor(0, 1);
