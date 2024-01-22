@@ -1,5 +1,6 @@
 /// @file MEGATaskIntegrationCBUD
 /// @brief extend to have a 20 by display as well and have a CBUS interface.
+#define VERSION 0.1
 ///
 /// The CBUS code is based on the work in CANCMDDC which is the only MEGA code for CBUS which I have.
 ///
@@ -45,6 +46,18 @@
 // users that are not using I2C.
 #include <IoAbstractionWire.h>
 #include <Wire.h>
+
+// 3rd party libraries as I use C++ style streaming output as used in Arduino CBUS library examples.
+#include <Streaming.h>
+
+// CBUS library header files
+#include <CBUS2515.h>               // CAN controller and CBUS class
+#include <CBUSswitch.h>             // pushbutton switch
+#include <CBUSLED.h>                // CBUS LEDs
+#include <CBUSconfig.h>             // module configuration
+#include <cbusdefs.h>               // MERG CBUS constants
+#include <CBUSParams.h>
+
 
 // For most standard I2C backpacks one of the two helper functions below will create you a liquid crystal instance
 // that's ready configured for I2C. Important Note: this method assumes a PCF8574 running at 100Khz. If otherwise
