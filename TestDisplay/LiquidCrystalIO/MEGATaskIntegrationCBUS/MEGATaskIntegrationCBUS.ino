@@ -470,7 +470,7 @@ public:
 void redraw_display() {
   lcd.setCursor(0,0);
   // Print a message to the LCD.
-  lcd.print("Task Integration!");
+  lcd.print("Task CBUS Ver ");lcd.print(VERSION);
   lcd.setCursor(0,1);
   lcd.print("Time (secs) ");
   lcd.setCursor(0,2);
@@ -779,6 +779,7 @@ void printConfig(void) {
   // code version
   Serial << F("> code version = ") << VER_MAJ << VER_MIN << F(" beta ") << VER_BETA << endl;
   Serial << F("> compiled on ") << __DATE__ << F(" at ") << __TIME__ << F(", compiler ver = ") << __cplusplus << endl;
+  Serial << F("> Code defines VERSION ") << VERSION << endl;
 #if CANBUS8MHZ
   Serial << F("> Set for 8Mhz crystal") << endl;
 #endif
