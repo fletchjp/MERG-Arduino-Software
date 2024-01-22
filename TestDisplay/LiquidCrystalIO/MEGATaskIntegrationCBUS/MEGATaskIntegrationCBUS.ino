@@ -57,6 +57,10 @@
 #include <cbusdefs.h>               // MERG CBUS constants
 #include <CBUSParams.h>
 
+// Set this to 1 for CANBUS modules with 8 Mhz Crystal
+// Set this to 0 for Sparkfun CANBUS shields or Arduino Kit 110 shield
+#define CANBUS8MHZ 1
+#define DEBUG         1 // set to 0 for no debug messages, 1 for messages to console
 
 // For most standard I2C backpacks one of the two helper functions below will create you a liquid crystal instance
 // that's ready configured for I2C. Important Note: this method assumes a PCF8574 running at 100Khz. If otherwise
@@ -470,6 +474,110 @@ void redraw_display() {
   lcd.setCursor(10,3);
   lcd.print("Enc2 ");
 }
+
+// CBUS objects
+CBUSConfig config;                  // configuration object
+CBUS2515 CBUS;                      // CBUS object - all library versions
+//CBUS2515 CBUS(&config);           // CBUS object - new versions only
+#ifdef CBUS_LONG_MESSAGE
+// create an additional object at the top of the sketch:
+CBUSLongMessage cbus_long_message(&CBUS);   // CBUS long message object
+#endif
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+// module objects replaced by IO_Abstraction devices.
+CBUSLED ledGrn, ledYlw;             // LED objects
+CBUSSwitch pb_switch;               // switch object
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+// constants
+const byte VER_MAJ = 1;                  // code major version
+const char VER_MIN = 'a';                // code minor version
+const byte VER_BETA = 1;                 // code beta sub-version
+const byte MODULE_ID = 99;               // CBUS module type
+
+const byte LED_GRN = 4;                  // CBUS green SLiM LED pin
+const byte LED_YLW = 5;                  // CBUS yellow FLiM LED pin
+const byte SWITCH0 = 6;                  // CBUS push button switch pin
+
+/* Pins used by SPI interface to CAN module */
+/* These are the  values for the MEGA2560 */
+#define CHIPSELECT  53
+#define CBUSINTPIN  18 // 49
+
+// module name
+const unsigned char mname[7] PROGMEM = { 'M', 'E', 'G', 'A', 'T', 'S', ' K'};
+
+// forward function declarations
+void eventhandler(byte index, byte opc);
+bool sendEvent(byte opCode,unsigned int eventNo);
+
+void setupCBUS()
+{
+  // set config layout parameters
+  config.EE_NVS_START = 10;
+  config.EE_NUM_NVS = 10;
+  config.EE_EVENTS_START = 50;
+  config.EE_MAX_EVENTS = 64;
+  config.EE_NUM_EVS = 1;
+  config.EE_BYTES_PER_EVENT = (config.EE_NUM_EVS + 4);
+
+  // initialise and load configuration
+  config.setEEPROMtype(EEPROM_INTERNAL);
+  config.begin();
+
+  Serial << F("> mode = ") << ((config.FLiM) ? "FLiM" : "SLiM") << F(", CANID = ") << config.CANID;
+  Serial << F(", NN = ") << config.nodeNum << endl;
+
+#if KEYPAD
+  setupKeyPad();
+#endif
+
+  // show code version and copyright notice
+ // printConfig();
+
+  // set module parameters
+  CBUSParams params(config);
+  params.setVersion(VER_MAJ, VER_MIN, VER_BETA);
+  params.setModuleId(MODULE_ID);
+  params.setFlags(PF_FLiM | PF_COMBI);
+
+  // assign to CBUS
+  CBUS.setParams(params.getParams());
+  CBUS.setName((byte *)mname);
+
+  // register our CBUS event handler, to receive event messages of learned events
+  CBUS.setEventHandler(eventhandler);
+//  CBUS.setFrameHandler(framehandler,(byte *) opcodes, nopcodes);
+
+#ifdef CBUS_LONG_MESSAGE
+  // subscribe to long messages and register handler
+  cbus_long_message.subscribe(stream_ids, (sizeof(stream_ids) / sizeof(byte)), long_message_data, buffer_size, longmessagehandler);
+  // this method throttles the transmission so that it doesn't overwhelm the bus:
+  cbus_long_message.setDelay(delay_in_ms_between_messages);
+  cbus_long_message.setTimeout(1000);
+#endif
+
+  // set LED and switch pins and assign to CBUS
+  ledGrn.setPin(LED_GRN);
+  ledYlw.setPin(LED_YLW);
+  CBUS.setLEDs(ledGrn, ledYlw);
+  CBUS.setSwitch(pb_switch);
+
+  // set CBUS LEDs to indicate mode
+  CBUS.indicateMode(config.FLiM);
+
+  // configure and start CAN bus and CBUS message processing
+  CBUS.setNumBuffers(4,4);  // Set TX buffers. Default for RX is 4.
+  // more buffers = more memory used, fewer = less
+#if CANBUS8MHZ
+  //CBUS.setOscFreq(CAN_OSC_FREQ);   // select the crystal frequency of the CAN module
+  CBUS.setOscFreq(8000000UL);   // MCP2515 CANBUS 8Mhz 
+#endif
+  CBUS.setPins(CHIPSELECT,CBUSINTPIN); // Values of the pins for a MEGA
+  CBUS.begin();
+}
+
 
 void setup() {
 /// setup 
