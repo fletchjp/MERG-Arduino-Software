@@ -1,6 +1,6 @@
 /// @file MEGATaskIntegrationCBUD
 /// @brief extend to have a 20 by display as well and have a CBUS interface.
-#define VERSION 0.6
+#define VERSION 0.7
 ///
 /// The CBUS code is based on the work in CANCMDDC which is the only MEGA code for CBUS which I have.
 ///
@@ -42,6 +42,11 @@
 /// Digital / Analog pin 10    Encoder 2 A (CLK on encoder)
 /// Digital / Analog pin 9     Encoder 1 B (DT  on encoder)
 /// Digital / Analog pin 11    Encoder 2 B (DT  on encoder)
+///
+/// Versions 0.x are development versions while the CBUS code is being put together.
+///              These have no event capability either in or out.
+
+
 
 #include <Wire.h>
 //#include <IoAbstraction.h> not needed here
@@ -526,7 +531,7 @@ CBUSSwitch pb_switch;               // switch object
 // constants
 const byte VER_MAJ = 1;                  // code major version
 const char VER_MIN = 'a';                // code minor version
-const byte VER_BETA = 6;                 // code beta sub-version
+const byte VER_BETA = 7;                 // code beta sub-version
 const byte MODULE_ID = 99;               // CBUS module type
 
 const byte LED_GRN = 4;                  // CBUS green SLiM LED pin
@@ -706,11 +711,8 @@ bool sendEvent1(byte opCode, unsigned int eventNo, byte item)
     return res;
 }
 
-void setup() {
-/// setup 
-  Serial.begin(115200); while(!Serial); delay(2000);
-  Serial << endl << endl << F("> ** MEGA Task Integration for CBUS ** ") << __FILE__ << endl;
-  setupCBUS();
+void setupDisplay()
+{
   // for i2c variants, this must be called first.
   Wire.begin();
   // set up the LCD's number of columns and rows, must be called.
@@ -721,14 +723,28 @@ void setup() {
   lcd.backlight();
   redraw_display();  
 
-  setupPCI();
+}
+
+void setupEncoders()
+{
   encoder1.setLimits(0,maximumEncoderValue);
   encoder2.setLimits(0,maximumEncoderValue);
   encoder1.setPosition (0);
   encoder1.setWrap (0);
   encoder2.setPosition (0);
   encoder2.setWrap (0);
+}
 
+
+
+void setup() {
+/// setup 
+  Serial.begin(115200); while(!Serial); delay(2000);
+  Serial << endl << endl << F("> ** MEGA Task Integration for CBUS ** ") << __FILE__ << endl;
+  setupCBUS();
+  setupDisplay();
+  setupPCI();
+  setupEncoders();
 
   // here we initialise as output the output pin we'll use
   ioDevicePinMode(arduinoIo, ledOutputPin, OUTPUT);
