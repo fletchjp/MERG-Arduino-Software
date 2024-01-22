@@ -3,6 +3,12 @@
 ## MEGATaskIntegrationCBUS
 
 Adding a CBUS interface using code from CANCMDDC work.
+
+I have made a start to adding the CBUS codes. I will not yet put in the long message code although that will be useful.
+
+I need to decide what events to send and receive.
+
+### Previous notes
  
 I have worked on this to have good integration of the display with the other tasks.
 
