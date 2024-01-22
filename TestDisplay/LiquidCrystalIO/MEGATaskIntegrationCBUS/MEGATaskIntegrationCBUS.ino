@@ -582,6 +582,46 @@ void eventhandler(byte index, CANFrame *msg) {
  // as an example, control an LED if the first EV equals 1
 
   Serial << F("> event handler: index = ") << index << F(", opcode = 0x") << _HEX(msg->data[0]) << endl;
+
+/* 
+ *  I am going to change the event handler to process based on the opcode as is done in the
+ *  message handler. The old alternative is now removed.
+ */
+    byte op_code = msg->data[0];
+    unsigned int node_number = (msg->data[1] << 8 ) + msg->data[2];
+    // This is not true in all cases.
+    // For some it is the device number
+    unsigned int event_number = (msg->data[3] << 8 ) + msg->data[4];
+    // For now get the first event value
+    byte ev = 1;
+    //byte evval = config.getEventEVval(index, ev - 1); I think the library has changed.
+    byte evval = config.getEventEVval(index, ev);
+    Serial << F("> NN = ") << node_number << F(", EN = ") << event_number << endl;
+    Serial << F("> op_code = ") << op_code << endl;
+    Serial << F("> EV1 = ") << evval << endl;
+
+    switch (op_code)
+    {
+        // Event on and off
+        // Handle these together based on event no.
+         case OPC_ACON:
+         case OPC_ACOF:
+         case OPC_ASON:
+         case OPC_ASOF:
+
+         break;
+         // Accessory response events
+         // Handle these together based on event no.
+         case OPC_ARON:
+         case OPC_AROF:
+         case OPC_ARSON:
+         case OPC_ARSOF:
+
+         break;
+         default:
+         
+         break;
+    }
 }
 
 /// Send an event routine built to start sending events based on input.
