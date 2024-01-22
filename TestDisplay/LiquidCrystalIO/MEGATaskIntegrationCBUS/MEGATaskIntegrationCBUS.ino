@@ -10,6 +10,8 @@
 ///
 /// I do need to decide what events to send and receive.
 ///
+/// Code is now running. It does not work when setupCBUS() is not run!
+///
 /// This now uses the display to show the time elapsed and the keypad and encoder values.
 ///
 /// derived from matrixKeyboardMartinsLibraryMEGA34Event2.ino
