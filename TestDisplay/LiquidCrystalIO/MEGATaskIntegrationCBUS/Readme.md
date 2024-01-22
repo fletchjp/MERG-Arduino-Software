@@ -1,6 +1,8 @@
 # LiquidCrystalIO
  
-## MEGATaskIntegration 
+## MEGATaskIntegrationCBUS
+
+Adding a CBUS interface using code from CANCMDDC work.
  
 I have worked on this to have good integration of the display with the other tasks.
 
