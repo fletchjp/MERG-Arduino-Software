@@ -33,16 +33,15 @@
 /// Digital / Analog pin 11    Encoder 2 B (DT  on encoder)
 
 #include <Wire.h>
-#include <IoAbstraction.h>
+//#include <IoAbstraction.h> not needed here.
 #include <TaskManagerIO.h>
 #include <KeyboardManager.h>
 
 #include <LiquidCrystalIO.h>
 
-// When using the I2C version, these two extra includes are always needed. Doing this reduces the memory slightly for
+// When using the I2C version, this include is always needed. Doing this reduces the memory slightly for
 // users that are not using I2C.
 #include <IoAbstractionWire.h>
-#include <Wire.h>
 
 // For most standard I2C backpacks one of the two helper functions below will create you a liquid crystal instance
 // that's ready configured for I2C. Important Note: this method assumes a PCF8574 running at 100Khz. If otherwise
