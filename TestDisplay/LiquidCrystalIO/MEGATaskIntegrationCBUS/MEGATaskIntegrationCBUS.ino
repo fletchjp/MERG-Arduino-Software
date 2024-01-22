@@ -1,6 +1,6 @@
 /// @file MEGATaskIntegrationCBUD
 /// @brief extend to have a 20 by display as well and have a CBUS interface.
-#define VERSION 0.7
+#define VERSION 0.8
 ///
 /// The CBUS code is based on the work in CANCMDDC which is the only MEGA code for CBUS which I have.
 ///
@@ -531,7 +531,7 @@ CBUSSwitch pb_switch;               // switch object
 // constants
 const byte VER_MAJ = 1;                  // code major version
 const char VER_MIN = 'a';                // code minor version
-const byte VER_BETA = 7;                 // code beta sub-version
+const byte VER_BETA = 8;                 // code beta sub-version
 const byte MODULE_ID = 99;               // CBUS module type
 
 const byte LED_GRN = 4;                  // CBUS green SLiM LED pin
@@ -793,6 +793,7 @@ void setup() {
     taskManager.registerEvent(&encoderEvent2);
 
     taskManager.registerEvent(&drawingEvent);
+    taskManager.scheduleFixedRate(250, processSerialInput);
 
     Serial.println("> Display, keyboard, 2 encoders and encoderEvents are initialised!");
     Serial << F("> ready") << endl << endl;
@@ -850,11 +851,11 @@ void loop() {
   //
   CBUS.process();
 
- //
-  /// process console commands
+  //
+  /// process console commands now in a task
   //
 
-  processSerialInput();
+  //processSerialInput();
 
 /** as this indirectly uses taskmanager, we must include taskManager.runLoop(); in loop. */
     taskManager.runLoop();
