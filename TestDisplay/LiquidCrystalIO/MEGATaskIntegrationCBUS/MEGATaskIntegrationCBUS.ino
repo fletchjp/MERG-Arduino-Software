@@ -584,8 +584,34 @@ void eventhandler(byte index, CANFrame *msg) {
   Serial << F("> event handler: index = ") << index << F(", opcode = 0x") << _HEX(msg->data[0]) << endl;
 }
 
+/// Send an event routine built to start sending events based on input.
+bool sendEvent(byte opCode,unsigned int eventNo)
+{
+    CANFrame msg;
+    msg.id = config.CANID;
+    msg.len = 5;
+    msg.data[0] = opCode;
+    msg.data[1] = highByte(config.nodeNum);
+    msg.data[2] = lowByte(config.nodeNum);
+    msg.data[3] = highByte(eventNo); // event number (EN) could be > 255
+    msg.data[4] = lowByte(eventNo); 
+    msg.ext = false;
+    msg.rtr = false;
+
+    bool res = CBUS.sendMessage(&msg);
+#if DEBUG
+    if (res) {
+      Serial << F("> sent CBUS event with opCode [ 0x") << _HEX(opCode) << F(" ] and event No ") << eventNo << endl;
+    } else {
+      Serial << F("> error sending CBUS event wit opcode [ 0x") <<  _HEX(opCode) << F(" ]") << endl;
+    }
+#endif
+    return res;
+}
+
 /// Send an event routine built to start sending events based with one extra byte
 /// The events can be ACON1 or ACOF1 with 1 byte of data.
+/// Alternatively, short events ASON1 or ASOF1.
 bool sendEvent1(byte opCode, unsigned int eventNo, byte item)
 {
     CANFrame msg;
