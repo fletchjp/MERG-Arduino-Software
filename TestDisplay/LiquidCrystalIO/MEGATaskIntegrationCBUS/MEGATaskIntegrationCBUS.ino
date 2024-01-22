@@ -1,6 +1,8 @@
 /// @file MEGATaskIntegrationCBUD
 /// @brief extend to have a 20 by display as well and have a CBUS interface.
 ///
+/// The CBUS code is based on the work in CANCMDDC which is the only MEGA code for CBUS which I have.
+///
 /// This now uses the display to show the time elapsed and the keypad and encoder values.
 ///
 /// derived from matrixKeyboardMartinsLibraryMEGA34Event2.ino
