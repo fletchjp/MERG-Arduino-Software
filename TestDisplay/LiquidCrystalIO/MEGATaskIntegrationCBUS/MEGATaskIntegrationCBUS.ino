@@ -47,8 +47,16 @@
 ///
 /// Versions 0.x are development versions while the CBUS code is being put together.
 ///              These have no event capability either in or out.
-
-
+///
+////////////////////////////////////////////////////////////////////////////////////////////////////
+/// CBUS connection pins for MCP2515 board with 8Mhz crystal
+/// Digital pin 18 (TX1)   Int'upt CAN
+///
+/// Digital pin 50 (MISO)    SO    CAN
+/// Digital pin 51 (MOSI)    SI    CAN
+/// Digital pin 52 (SCK)     Sck   CAN
+/// Digital pin 53 (SS)      CS    CAN
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include <Wire.h>
 //#include <IoAbstraction.h> not needed here
