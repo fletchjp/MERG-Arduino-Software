@@ -10,6 +10,8 @@
 ///
 /// I am starting to add events to send and receive.
 ///
+/// VERSION 1.0 - ACON and ACOF sent when the encoders 1 and 2 are pressed unless already pressed.
+///
 /// Code is now running. It does not work when setupCBUS() is not run!
 ///
 /// I have now made the setup of the code much more modular which will make it easier to port to other codes.
