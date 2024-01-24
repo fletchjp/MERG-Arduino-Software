@@ -1,6 +1,6 @@
 /// @file MEGATaskIntegrationCBUD
 /// @brief extend to have a 20 by display as well and have a CBUS interface.
-#define VERSION 0.8
+#define VERSION 1.0
 ///
 /// The CBUS code is based on the work in CANCMDDC which is the only MEGA code for CBUS which I have.
 ///
@@ -8,7 +8,7 @@
 ///
 /// For the moment I have not included the long message code.
 ///
-/// I do need to decide what events to send and receive.
+/// I am starting to add events to send and receive.
 ///
 /// Code is now running. It does not work when setupCBUS() is not run!
 ///
