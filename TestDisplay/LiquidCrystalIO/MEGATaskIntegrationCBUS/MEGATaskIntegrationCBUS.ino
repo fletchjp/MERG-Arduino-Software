@@ -1,6 +1,6 @@
 /// @file MEGATaskIntegrationCBUD
 /// @brief extend to have a 20 by display as well and have a CBUS interface.
-#define VERSION 1.0
+#define VERSION 1.1
 ///
 /// The CBUS code is based on the work in CANCMDDC which is the only MEGA code for CBUS which I have.
 ///
@@ -10,7 +10,9 @@
 ///
 /// I am starting to add events to send and receive.
 ///
-/// VERSION 1.0 - ACON and ACOF sent when the encoders 1 and 2 are pressed unless already pressed.
+/// VERSION 1.0 - 1b beta 1 - ACON and ACOF sent when the encoders 1 and 2 are pressed unless already pressed.
+///
+/// VERSION 1.1 - 1b beta 2 -Add processing of input events - text only.
 ///
 /// Code is now running. It does not work when setupCBUS() is not run!
 ///
@@ -551,7 +553,7 @@ CBUSSwitch pb_switch;               // switch object
 // constants
 const byte VER_MAJ = 1;                  // code major version
 const char VER_MIN = 'b';                // code minor version
-const byte VER_BETA = 1;                 // code beta sub-version
+const byte VER_BETA = 2;                 // code beta sub-version
 const byte MODULE_ID = 99;               // CBUS module type
 
 const byte LED_GRN = 4;                  // CBUS green SLiM LED pin
@@ -655,23 +657,27 @@ void eventhandler(byte index, CANFrame *msg) {
     {
         // Event on and off
         // Handle these together based on event no.
-         case OPC_ACON:
-         case OPC_ACOF:
-         case OPC_ASON:
-         case OPC_ASOF:
+        case OPC_ACON:
+        case OPC_ASON:
+          Serial << F("> On event received with opcode ") << op_code << F(" and event value ") << evval << endl;           
+        break;
 
-         break;
-         // Accessory response events
-         // Handle these together based on event no.
-         case OPC_ARON:
-         case OPC_AROF:
-         case OPC_ARSON:
-         case OPC_ARSOF:
+        case OPC_ACOF:
+        case OPC_ASOF:
+          Serial << F("> Off event received with opcode ") << op_code << F(" and event value ") << evval << endl; 
+        break;
 
-         break;
-         default:
-         
-         break;
+        // Accessory response events
+        // Handle these together based on event no.
+        case OPC_ARON:
+        case OPC_AROF:
+        case OPC_ARSON:
+        case OPC_ARSOF:
+
+        break;
+        default:
+          Serial << F("> Event received with opcode ") << op_code << F(" and event value ") << evval << endl; 
+        break;
     }
 }
 
