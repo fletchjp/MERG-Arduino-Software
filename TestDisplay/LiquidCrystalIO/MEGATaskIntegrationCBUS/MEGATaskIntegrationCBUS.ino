@@ -86,6 +86,10 @@
 #define DEBUG      1 // set to 0 for no debug messages, 1 for messages to console
 //#define SERIAL_OUTPUT  // define for serial message to console
 
+// forward function declarations
+void eventhandler(byte index, byte opc); 
+bool sendEvent(byte opCode,unsigned int eventNo); // Needed here before it gets used.
+
 // For most standard I2C backpacks one of the two helper functions below will create you a liquid crystal instance
 // that's ready configured for I2C. Important Note: this method assumes a PCF8574 running at 100Khz. If otherwise
 // use a custom configuration as you see in many other examples.
@@ -344,8 +348,10 @@ void onSpinwheelClicked1(pinid_t /*pin*/, bool heldDown) { //, MyEncoder &encode
 #endif
     if (encoderEvent1.RotaryPosition == 0) {  // check if button was already pressed
        } else {
+        unsigned int evno = 1;
         encoderEvent1.RotaryPosition=0; // Reset position to ZERO
         encoder1.setPosition(encoderEvent1.RotaryPosition);
+        sendEvent(OPC_ACON,evno);
 #ifdef SERIAL_OUTPUT
         Serial.print("X ");
         Serial.println(encoderEvent1.RotaryPosition);
@@ -363,8 +369,10 @@ void onSpinwheelClicked2(pinid_t /*pin*/, bool heldDown) { //, MyEncoder &encode
 #endif
     if (encoderEvent2.RotaryPosition == 0) {  // check if button was already pressed
        } else {
+        unsigned int evno = 1;
         encoderEvent2.RotaryPosition=0; // Reset position to ZERO
         encoder2.setPosition(encoderEvent2.RotaryPosition);
+        sendEvent(OPC_ACOF,evno);
 #ifdef SERIAL_OUTPUT
         Serial.print("Y ");
         Serial.println(encoderEvent2.RotaryPosition);
@@ -540,8 +548,8 @@ CBUSSwitch pb_switch;               // switch object
 //////////////////////////////////////////////////////////////////////////////////////////////
 // constants
 const byte VER_MAJ = 1;                  // code major version
-const char VER_MIN = 'a';                // code minor version
-const byte VER_BETA = 8;                 // code beta sub-version
+const char VER_MIN = 'b';                // code minor version
+const byte VER_BETA = 1;                 // code beta sub-version
 const byte MODULE_ID = 99;               // CBUS module type
 
 const byte LED_GRN = 4;                  // CBUS green SLiM LED pin
@@ -556,9 +564,6 @@ const byte SWITCH0 = 6;                  // CBUS push button switch pin
 // module name
 const unsigned char mname[7] PROGMEM = { 'M', 'E', 'G', 'A', 'T', 'S', ' K'};
 
-// forward function declarations
-void eventhandler(byte index, byte opc);
-bool sendEvent(byte opCode,unsigned int eventNo);
 
 void setupCBUS()
 {
