@@ -30,5 +30,5 @@
   
 ### TFT Display
 
-Codes for Arduino use of TFT displays.
+Codes for Arduino use of TFT displays. At the moment only some basic tests.
 
