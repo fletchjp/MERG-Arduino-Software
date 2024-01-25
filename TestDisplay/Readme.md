@@ -36,3 +36,6 @@
 
 Codes for Arduino use of TFT displays. At the moment only some basic tests.
 
+I now have displays running on an Arduino UNO and a MEGA 1280.
+
+
