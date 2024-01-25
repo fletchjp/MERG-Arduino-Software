@@ -2,9 +2,13 @@
 
  ## Test Display
  
- This is a collection of test programs for Arduino display options. The supplied programs are for a 16 by 2 display.
+ This is a collection of test programs for Arduino display options.
+ 
+ Some codes are getting too big for the memory on an Arduino UNO and for those I am using MEGA 1280 or MEGA 2560 instead.
  
  ### LiquidCrystalIO
+ 
+ The supplied programs are for a 16 by 2 display although I have some codes running for 20 by 4 displays.
  
  I am collecting some examples for this library which works with TaskmanagerIO.
  
