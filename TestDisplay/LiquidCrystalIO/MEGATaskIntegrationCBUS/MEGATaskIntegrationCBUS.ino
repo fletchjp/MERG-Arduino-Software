@@ -855,6 +855,7 @@ void printConfig(void) {
   Serial << F("> INT Pin ") << CBUSINTPIN << endl; 
 // copyrights collected so far
   Serial << F("> © Duncan Greenwood (MERG M5767) 2019") << endl;
+  Serial << F("> © Martin Da Costa (MERG M6223) 2023") << endl;
   Serial << F("> © John Fletcher (MERG M6777) 2019") << endl;
 #if DEBUG
   #if CBUS_EVENTS
