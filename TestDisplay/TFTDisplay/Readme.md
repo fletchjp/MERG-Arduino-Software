@@ -4,7 +4,9 @@
 
 ## ELEGOO
 
-I have had problems with the libraries supplied by ELEGOO.
+I have several displays from ELEGOO 
+
+I have had problems with the libraries supplied by ELEGOO so I am using something different.
  
 ## MCUFRIEND_kbv
  
