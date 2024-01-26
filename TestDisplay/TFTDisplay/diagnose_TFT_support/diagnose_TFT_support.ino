@@ -19,6 +19,7 @@ void setup()
     Serial.begin(115200);
     if (!Serial) delay(5000);           //allow some time for Leonardo
     uint16_t ID = tft.readID(); //
+    Serial.println(F(""));
     Serial.println(F("Diagnose whether this controller is supported"));
     Serial.println(F("There are FAQs in extras/mcufriend_how_to.txt"));
     Serial.println(F(""));
