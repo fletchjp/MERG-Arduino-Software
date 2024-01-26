@@ -58,7 +58,7 @@ int count = 0;
 
 void setup(void) {
   Serial.begin(115200); while (!Serial) {}
-  Serial.println();
+  Serial.println(F(""));
   Serial.println(F("TFT LCD test"));
 
 #ifdef USE_Elegoo_SHIELD_PINOUT
