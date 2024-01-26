@@ -6,9 +6,12 @@
 // SEE RELEVANT COMMENTS IN Elegoo_TFTLCD.h FOR SETUP.
 //Technical support:goodtft@163.com
 
+// Used only to control output.
 #define USE_Elegoo_SHIELD_PINOUT
-#include <Elegoo_GFX.h>    // Core graphics library
+// I do not need these once I am using MCUFRIEND_kbv
+//#include <Elegoo_GFX.h>    // Core graphics library
 //#include <Elegoo_TFTLCD.h> // Hardware-specific library
+// This one uses AdaFruit libraries.
 #include <MCUFRIEND_kbv.h>
 
 // The control pins for the LCD can be assigned to any digital or
@@ -55,6 +58,7 @@ int count = 0;
 
 void setup(void) {
   Serial.begin(115200); while (!Serial) {}
+  Serial.println();
   Serial.println(F("TFT LCD test"));
 
 #ifdef USE_Elegoo_SHIELD_PINOUT
