@@ -2,6 +2,8 @@
 
 Some examples using the ArduinoSTL library.
 
+The file newhandler.cpp has been patched to avoid the double definition of no_throw.
+
 ## ArduinoSTLHello
 
 Basic example
