@@ -2,7 +2,11 @@
 
 These have been around for some time.
 
-## ArduinoBoost166Function.ino
+## ArduinoBoost166Integers
+
+This will compile for both a UNO and a DUE.
+
+## ArduinoBoost166Function
 
 This will not compile with an error when compiled for a DUE.
 
