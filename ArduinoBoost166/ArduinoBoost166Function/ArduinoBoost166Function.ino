@@ -11,7 +11,7 @@
 //#else
 //  static const bool is_iec559;
 //#endif
-
+#define _STLP_NO_LONG_DOUBLE
 #include <ArduinoSTL.h>
 #include <iostream>
 #include <exception>
@@ -54,8 +54,11 @@ namespace boost {
 #undef B1
 #undef F
 
+//#define USE_RESULT_OF
 
+#ifdef USE_RESULT_OF
 #include <boost_utility_result_of.hpp>
+#endif
 #include <boost_function.hpp>
 // Example use of a Boost header
 //#include <boost_type_traits.hpp>
@@ -88,12 +91,13 @@ operator^( const LHS& lhs, const boost::function2<R,A1,A2>& f ) {
   return InfixOpThingy<LHS,boost::function2<R,A1,A2> >(lhs,f);
 }
 
+#ifdef USE_RESULT_OF
 template <class LHS, class FF, class RHS>
 inline typename boost::result_of<FF(LHS,RHS)>::type
 operator^( const InfixOpThingy<LHS,FF>& x, const RHS& rhs ) {
    return x.f( x.lhs, rhs );
 }
-
+#endif
 
 }
 
@@ -309,6 +313,7 @@ void setup() {
   }
   std::cout << "-----------------------" << std::endl;
   using namespace infix;
+  #ifdef USE_RESULT_OF
   std::cout << "Infix for boost::function2" << std::endl;
   std::cout << "-----------------------" << std::endl;
   int z = 2 ^g2^ 3;
@@ -317,6 +322,7 @@ void setup() {
   std::cout << "2 ^g2^  3 = " << z << std::endl;
   std::cout << "3 ^g22^ 4 = " << z2 << std::endl;
   std::cout << "3 ^g22^ 4 ^g22^ 5 = " << z3 << std::endl;
+  #endif
   std::cout << "-----------------------" << std::endl;
 
 #else
