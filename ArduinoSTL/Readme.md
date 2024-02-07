@@ -4,6 +4,8 @@ Some examples using the ArduinoSTL library.
 
 The file newhandler.cpp has been patched to avoid the double definition of no_throw.
 
+I have also patched new.cpp as well for the Arduino 1.5.1 ArduinoBoostFunction example.
+
 ## ArduinoSTLHello
 
 Basic example
