@@ -4,7 +4,7 @@ These have been around for some time.
 
 ## ArduinoBoost166Function.ino
 
-This will not compile with an error ino
+This will not compile with an error when compiled for a DUE.
 
 c:\Users\john\Documents\Arduino\libraries\BoostForArduino\src/boost/functional/hash/detail/hash_float.hpp:96:41
 
