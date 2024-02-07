@@ -6,5 +6,7 @@ The current version of the AVR boards is 1.8.5 so I don't think it is worth cont
 
 I will leave these in place in case anyone wants to investigate further.
 
+Some do seem to be working. The Aruino166 ones are more difficult.
+
 John Fletcher (M6777)
 
