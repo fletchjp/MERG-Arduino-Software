@@ -16,3 +16,5 @@ error: non-constant in-class initialization invalid for static member 'boost::ha
 
 I do not think this error happened before.
 
+I did give up on AVR examples.
+
