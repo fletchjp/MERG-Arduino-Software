@@ -8,9 +8,11 @@ I have also patched new.cpp as well for the Arduino 1.5.1 ArduinoBoostFunction e
 
 ## ArduinoSTLHello
 
-Basic example
+Basic example compiles O.K. on a UNO
 
 ## ArduinoSTLIntegers
+
+Compiles O.K. on a UNO
 
 ## ArduinoSTLVector
 
