@@ -16,11 +16,11 @@ Compiles O.K. on a UNO
 
 ## ArduinoSTLVector
 
-Simple vector example with range based for loop example.
+Simple vector example with range based for loop example. Compiles O.K. on a UNO
 
 ## ArduinoSTLComposite
 
-Example of the Composite Pattern which is now working.
+Example of the Composite Pattern which is now working. Compiles O.K. on a UNO
 
 ## ArduinoSTLComposite2
 
