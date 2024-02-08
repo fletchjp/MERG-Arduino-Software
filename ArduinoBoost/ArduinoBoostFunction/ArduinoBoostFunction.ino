@@ -5,6 +5,10 @@
 // This is an old version of boost from 2012.
 #include <boost_1_51_0.h>
 // Example use of a Boost header
+/*
+Sketch uses 10536 bytes (32%) of program storage space. Maximum is 32256 bytes.
+Global variables use 1510 bytes (73%) of dynamic memory, leaving 538 bytes for local variables. Maximum is 2048 bytes.
+*/
 
 //////////////////////////////////////////////////////////////////////
 // boost::function
