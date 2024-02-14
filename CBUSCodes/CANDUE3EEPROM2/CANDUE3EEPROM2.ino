@@ -367,7 +367,8 @@ bool setupCBUS()
 #ifdef CBUS_LONG_MESSAGE
   // subscribe to long messages and register handler
 #ifdef CBUS_LONG_MESSAGE_MULTIPLE_LISTEN
-  cbus_long_message.allocateContexts();
+  // This has changed to require arguments and I cannot find an example.
+  cbus_long_message.allocateContexts(4,100,4); // Guess arguments.
   cbus_long_message.subscribe(stream_ids, (sizeof(stream_ids) / sizeof(byte)), longmessagehandler);
 #else
   cbus_long_message.subscribe(stream_ids, (sizeof(stream_ids) / sizeof(byte)), long_message_data, buffer_size, longmessagehandler);
