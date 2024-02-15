@@ -225,7 +225,7 @@ void setup() {
 #ifdef PICO_BREADBOARD
   moduleSwitch.setPin(MODULE_BUTTON, HIGH); // was LOW
 #else
-  moduleSwitch.setPin(MODULE_BUTTON, LOW); 
+  moduleSwitch.setPin(MODULE_BUTTON, LOW);
 #endif
 
   // configure the module LED, attached to pin MODULE_LED via a 1K resistor
