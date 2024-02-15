@@ -20,7 +20,7 @@ I have copied some CANDUE codes from the due_cbus branch to have them available 
 
 I am working on several different ways of connecting a Raspberry Pi Pico to CBUS.
 
-I have found that it is a BAD idea to use   while(!Serial) on the RP2040 codes as the Serial connection is disrupted by this.
+I have found that it is a BAD idea to use while(!Serial) on the RP2040 codes as the Serial connection is disrupted by this.
 
 Thanks to Duncan Greenwood who has sent me codes to try out.
 
