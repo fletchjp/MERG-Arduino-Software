@@ -123,6 +123,8 @@ private:
     byte key_pos;
     byte next_pos;
     int pos1, pos2;
+    long int number; // Made a long to store all the digits.
+    int old_number; // Needed for the * case
 public:
     DrawingEvent() {
       elapsed_time = 0.0f;
@@ -135,6 +137,8 @@ public:
       pos1 = pos2 = 0;
       key_pos = 0;
       posChanged = 0;
+      number = 0;
+      old_number = 0;
     }
 
     /**
@@ -205,18 +209,35 @@ public:
           {
             // Put in # to show complete number.
             // A second # clears the numbers.
-             if (next_pos == 0 ) { key_value = ' '; }
+             if (next_pos == 0 ) { 
+                key_value = ' ';
+                number = 0;
+                old_number = 0;
+                //Serial.println(number);
+             } 
+             Serial.println(number);
              next_pos = 0;
-             break;
           }
           case '*' : 
           {
             // Replace the previous number with a *
             // and the next key will replace it.
-            if( next_pos > 0) { next_pos--; key_pos--; }
+            // Note special case at the start.
+            if( next_pos > 0) { 
+              next_pos--; key_pos--;
+              number = (number - old_number)/10;
+              Serial.println(number);
+            }
             break;
           }
-          default: next_pos = key_pos + 1;
+          default: 
+          {
+            // The key_value is the char not the number.
+            old_number = key_value - '0';
+            number = number*10 + old_number;
+            Serial.println(number);
+            next_pos = key_pos + 1;
+          }
         }
         hasChanged = true;// we are happy to wait out the 500 millis
         keyChanged = true;
