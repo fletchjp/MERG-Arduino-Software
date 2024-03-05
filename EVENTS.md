@@ -1,6 +1,16 @@
+<img align="right" src="arduino_merg_logo.png" style="height:100px; width:300px;"/>
+ 
 # Events
 
 Back to [README](README.md).
+
+## March 2024
+
+I have not been using this to record the many things which have been happening.
+
+The main one is the coming of the VLCB (Versatile Layout Control Bus) with associated libraries.
+
+I am working on some of these in separate repositories.
 
 ## September 2021
 
