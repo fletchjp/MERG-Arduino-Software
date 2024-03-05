@@ -10,7 +10,9 @@
  
  I have now moved some of the files from StateMachine to a new repository with the same name. This is a trial for making some more substantial moves. At present this involves the loss of the Git history.
  
- August 2023 I badly need to do some more work like this to make a more usable repository 
+ August 2023 I badly need to do some more work like this to make a more usable repository
+ 
+ March 2024 I have moved some things out and there are also a lot more repositories for other reasons.
  
  ## Introduction
 
