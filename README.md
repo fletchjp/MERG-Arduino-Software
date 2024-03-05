@@ -1,4 +1,4 @@
- <img src="arduino_merg_logo.png"  width="300" height="150">
+ <img src="arduino_merg_logo.png">
 
  # MERG-Arduino-Software
  
