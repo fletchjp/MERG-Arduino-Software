@@ -1,7 +1,5 @@
- <img align="right" src="arduino_merg_logo.png" style="height:100px; width:100px;"/>
+ <img align="right" src="arduino_merg_logo.png" style="height:300px; width:100px;"/>
  
- ![aruino merg logo](arduino_merg_logo.png)
-
  # MERG-Arduino-Software
  
  ## Moving files elsewhere
