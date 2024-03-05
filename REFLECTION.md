@@ -38,5 +38,12 @@ There are configuration files lying around.
 
 I am using the Arduino IDE directly.
 
+## Forking and contributing
+
+I have been learning new skills to be able to cooperate by sending changes to a repository I have forked from somewhere else.
+
+I am using this in particular for the VLCB-Arduino library.
+
+
 Back to [README](README.md).
 
