@@ -1,3 +1,5 @@
+<img align="right" src="arduino_merg_logo.png" style="height:100px; width:300px;"/>
+ 
 # GitHub Reflection
 
 This is a page for reflection on my learning experience using this system.
