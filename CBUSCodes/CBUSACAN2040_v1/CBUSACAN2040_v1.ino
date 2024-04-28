@@ -5,7 +5,7 @@
 // Adding external EEPROM
 // and starting to add more things from CANDUE3EEPROM
 // processSerialInput is now a task.
-// This example is running on the Waveslare Pico-Servo-Driver with an external EEPROM.
+// This example is running on the Waveshare Pico-Servo-Driver with an external EEPROM.
 // There are no LEDs and no button.
 ////////////////////////////////////////////////////////////////////////////////////////////
 // This code is going to have more of the structure of CANDUE3EEPROM so that events can be explored.
