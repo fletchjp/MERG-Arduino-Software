@@ -386,6 +386,7 @@ bool setupCBUS()
   // CBUS.setOscFreq(16000000UL);   // select the crystal frequency of the CAN module
   // CBUS.setPins(10, 2);           // select pins for CAN bus CE and interrupt connections
   CBUS.setControllerInstance(0);  // only actually required for instance 1, instance 0 is the default
+  Serial << CANMB_NUMBER << endl;
   if (!CBUS.begin()) {
     DEBUG_PRINT("***** CBUS.begin() FAILED *****");
     return false;
