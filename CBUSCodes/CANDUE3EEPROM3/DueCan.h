@@ -9,7 +9,7 @@
 #include "BoardDefinitions.h"
 
 #ifdef BOARD_DUE
-#include "component_can.h" // This is part of Arduino SAM core, but I have copied this file to local for visibility of definitions
+//#include "component_can.h" // This is part of Arduino SAM core, but I have copied this file to local for visibility of definitions
 
 //  D_DueCanDebug can be enabled to get debugging information displayed.
 // #define D_DueCanDebug
