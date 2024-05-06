@@ -1012,6 +1012,7 @@ void processSerialInput(void)
 
       case 'r':
         // renegotiate
+        Serial << "> about to renegotiate" << endl;
         CBUS.renegotiate();
         break;
 
