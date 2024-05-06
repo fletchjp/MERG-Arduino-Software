@@ -681,7 +681,7 @@ void framehandler(CANFrame *msg)
     Serial << " 0x" << _HEX(msg->data[d]);
   }
 
-  Serial << " ]" << endl;
+  Serial << " ], rtr = " << msg->rtr << endl;
   return;
 }
 
