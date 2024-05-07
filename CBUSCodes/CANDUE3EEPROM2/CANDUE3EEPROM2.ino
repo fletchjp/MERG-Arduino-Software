@@ -451,9 +451,42 @@ void setup()
   taskManager.scheduleFixedRate(250, runLEDs);
   taskManager.scheduleFixedRate(250, processSwitches);
   taskManager.scheduleFixedRate(250, processSerialInput);
-
+  test_mailbox();
   // end of setup
   DEBUG_PRINT(F("> ready"));
+}
+
+void test_mailbox()
+{
+  Serial << "Mailbox tests" << endl;
+  CAN_FRAME cf;
+  cf.id = 0;
+  cf.length = 0; 
+  cf.rtr = 1;
+  cf.extended = 0;
+  //CanMb mb;  
+  //CBUS.get_CANp()->mailbox_set_id(mb, cf.id, cf.extended);
+	//mailbox_set_datalen (mb, txFrame.length);
+	//mailbox_set_rtr(mb, cf.rtr);
+	//mailbox_set_priority(mb, cf.priority);
+  CanMb mailbox;
+  Serial << "Size of a mailbox is " << sizeof(mailbox) << " bytes" << endl;
+  Serial << "Size of mailbox.CSM_MSR is " << sizeof(mailbox.CAN_MSR) << " bytes" << endl;
+  mailbox.CAN_MMR = 0;
+  mailbox.CAN_MAM = 0;
+  mailbox.CAN_MSR = 0;
+  if (cf.extended) {
+	  mailbox.CAN_MID = cf.id | CAN_MID_MIDE;
+	}	else {
+		mailbox.CAN_MID = CAN_MID_MIDvA(cf.id);
+	}
+
+  Serial << " 0x" << _HEX(mailbox.CAN_MSR) << endl;
+  if (cf.rtr)  mailbox.CAN_MSR |=  CAN_MSR_MRTR;
+	else         mailbox.CAN_MSR &= ~CAN_MSR_MRTR;
+  Serial << " 0x" << _HEX(mailbox.CAN_MSR) << endl;
+  int rtr = (mailbox.CAN_MSR & CAN_MSR_MRTR) ? 1 : 0;
+  Serial << " rtr = " << rtr << endl;
 }
 
 //
