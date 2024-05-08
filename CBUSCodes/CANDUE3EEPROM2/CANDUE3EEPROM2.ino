@@ -451,11 +451,12 @@ void setup()
   taskManager.scheduleFixedRate(250, runLEDs);
   taskManager.scheduleFixedRate(250, processSwitches);
   taskManager.scheduleFixedRate(250, processSerialInput);
-  test_mailbox();
+  //test_mailbox();
   // end of setup
   DEBUG_PRINT(F("> ready"));
 }
 
+/*
 void test_mailbox()
 {
   Serial << "Mailbox tests" << endl;
@@ -488,6 +489,7 @@ void test_mailbox()
   int rtr = (mailbox.CAN_MSR & CAN_MSR_MRTR) ? 1 : 0;
   Serial << " rtr = " << rtr << endl;
 }
+*/
 
 //
 /// loop - runs forever
