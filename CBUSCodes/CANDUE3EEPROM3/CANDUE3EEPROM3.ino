@@ -197,7 +197,7 @@
 
 // CBUS library header files
 // Define this to choose the Roscoe version.
-#define USE_ROSCOE_DUECAN
+//#define USE_ROSCOE_DUECAN
 #include <CBUSSAM3X8E.h>  // CAN controller and CBUS class
 #include <CBUSswitch.h>   // pushbutton switch
 #include "LEDControl.h"   // CBUS LEDs
