@@ -1,6 +1,7 @@
-# TestWarnings
+# TestPinMode
 
-@mainpage TestWarnings
+@mainpage TestPinMode
 
-This is a test programme looking at some warnings turned off in the Arduino IDE.
+This is a test programme looking at the function of pinMode using a function getPinMode.
+
 
