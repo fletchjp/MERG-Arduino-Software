@@ -93,6 +93,9 @@ void setup()
   int e = getPinMode(3);
   Serial.println(e, DEC);
 
+  digitalWrite(13, LOW);
+  Serial.println("Tests finished");
+
 }
 
 
