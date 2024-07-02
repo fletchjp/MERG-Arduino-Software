@@ -1,5 +1,6 @@
 // ArduinoBoostFunctionBind
 // This example now works as long as the AVR Boards are 1.8.2 not 1.8.3
+// The example works with IDE 2.3.2. and IDE 1.8.19
 #include <ArduinoSTL.h>
 // This is an old version of boost from 2012.
 #include <boost_1_51_0.h>
