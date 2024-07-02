@@ -8,5 +8,7 @@ I will leave these in place in case anyone wants to investigate further.
 
 Some do seem to be working. The Aruino166 ones are more difficult.
 
+These codes do now work with Arduino IDE 1.8.19 and 2.3.2
+
 John Fletcher (M6777)
 
