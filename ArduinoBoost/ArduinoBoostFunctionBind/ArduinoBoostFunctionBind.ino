@@ -56,6 +56,7 @@ std::vector< std::string > make_list() {
   list.push_back( "duck" );
   list.push_back( "duck" );
   list.push_back( "goose" );
+  list.push_back( "gander" );
   return list;
 }
 
@@ -105,7 +106,7 @@ void delete_value2(std::vector< std::string > &list, const std::string & value)
 }
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(115200);
   std::cout << std::endl;
   std::cout << "==============================================" << std::endl;
   std::cout << "Boost function bind example running on Arduino" << std::endl;
