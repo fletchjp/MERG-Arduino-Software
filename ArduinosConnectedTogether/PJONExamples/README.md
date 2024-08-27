@@ -68,3 +68,7 @@ I am investigating whether there is some configuration which will sort out the p
 
 It is possible that the problem is other hardware present e.g. for CAN.
 
+# Sensor Examples
+
+These use SoftwareBitBang
+ 
