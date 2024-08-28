@@ -335,9 +335,13 @@ public:
         return 250UL * 1000UL; // every 100 milliseconds we roll the dice
     }
     void exec() override {
-         //Serial.print("exec called with ");
+         Serial.print("exec called for ");
+         Serial.print(encoderName);
+         Serial.print(" with position ");
+         cli();
          RotaryPosition = encoder.getPosition();
-         //Serial.println(RotaryPosition);
+         sei();
+         Serial.println(RotaryPosition);
          TurnDetected = (RotaryPosition != PrevPosition);
          if (TurnDetected)  {         
            PrevPosition = RotaryPosition; // Save previous position in variable
@@ -772,7 +776,8 @@ void setupDisplay()
 void setupEncoders()
 {
   encoder1.setLimits(0,maximumEncoderValue);
-  encoder2.setLimits(0,maximumEncoderValue);
+  //encoder2.setLimits(0,maximumEncoderValue);
+  encoder2.setLimits(-maximumEncoderValue/2,maximumEncoderValue/2);
   encoder1.setPosition (0);
   encoder1.setWrap (0);
   encoder2.setPosition (0);
