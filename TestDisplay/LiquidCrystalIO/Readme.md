@@ -68,7 +68,9 @@
  
  This example has a problem which I thought was due to interaction between TaskmanagerIO and PJON.
  
- I now know that this is not the problem, which is therefore not diagnosed.
+ I now know that this is not the problem as I have other examples which work.
+
+ The problem here is therefore not yet diagnosed.
  
  ## MEGATaskIntegration CBUS
  
