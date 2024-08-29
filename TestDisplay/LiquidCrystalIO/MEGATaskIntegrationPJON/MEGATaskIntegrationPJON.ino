@@ -454,10 +454,10 @@ void setup() {
   });
 
 
-  taskManager.scheduleFixedRate(5, [] {
+  //taskManager.scheduleFixedRate(5, [] {
      // PJON
-     bus.receive(5000);
-  });
+  //   bus.receive(5000);
+  //});
 
     taskManager.registerEvent(&encoderEvent1);
     taskManager.registerEvent(&encoderEvent2);
@@ -498,4 +498,8 @@ void loop() {
     Serial.println(RotaryPosition);
   }
   */
+  // Change PJON code to do it this way.
+    bus.update();
+    bus.receive(1000);
+
 }
