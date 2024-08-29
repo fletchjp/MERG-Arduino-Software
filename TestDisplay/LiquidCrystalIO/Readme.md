@@ -64,5 +64,13 @@
  
  ## MEGATaskIntegration I2C Struct
  
- ## MEGATaskIntegration I2C PJON
+ ## MEGATaskIntegration PJON
+ 
+ This example has a problem which I thought was due to interaction between TaskmanagerIO and PJON.
+ 
+ I now know that this is not the problem, which is therefore not diagnosed.
+ 
+ ## MEGATaskIntegration CBUS
+ 
+ This example is working.
  
