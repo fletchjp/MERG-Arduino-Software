@@ -277,6 +277,7 @@ IoAbstractionRef arduinoIo = ioUsingArduino();
 #include "EncoderMD.h"
 
 volatile byte lastPins = 0;
+volatile byte countChanges = 0;
 
 /// The pins onto which the rotary encoders switches are connected
 const int spinwheelClickPin1 = 38; /// SW on encoder1
@@ -335,13 +336,15 @@ public:
         return 250UL * 1000UL; // every 100 milliseconds we roll the dice
     }
     void exec() override {
-         Serial.print("exec called for ");
-         Serial.print(encoderName);
-         Serial.print(" with position ");
+         //Serial.print("exec called for ");
+         //Serial.print(encoderName);
+         //Serial.print(" countChanges ");
+         //Serial.print(countChanges);
+         //Serial.print(" with position ");
          cli();
          RotaryPosition = encoder.getPosition();
          sei();
-         Serial.println(RotaryPosition);
+         //Serial.println(RotaryPosition);
          TurnDetected = (RotaryPosition != PrevPosition);
          if (TurnDetected)  {         
            PrevPosition = RotaryPosition; // Save previous position in variable
@@ -863,8 +866,12 @@ lastPins = pins;
  }
  if ( change & 0b00001100)
  {
+   // countChanges++;  
     encoder2.encoderISR();
-    encoderEvent2.markTriggeredAndNotify();
+   // if (countChanges > 3) {
+      encoderEvent2.markTriggeredAndNotify();
+   //   countChanges = 0; 
+   // }
  }
 }
 
