@@ -1,6 +1,6 @@
 /// @file MEGATaskIntegrationCBUD
 /// @brief extend to have a 20 by display as well and have a CBUS interface.
-#define VERSION 1.1
+#define VERSION 1.2
 ///
 /// The CBUS code is based on the work in CANCMDDC which is the only MEGA code for CBUS which I have.
 ///
@@ -12,7 +12,9 @@
 ///
 /// VERSION 1.0 - 1b beta 1 - ACON and ACOF sent when the encoders 1 and 2 are pressed unless already pressed.
 ///
-/// VERSION 1.1 - 1b beta 2 -Add processing of input events - text only.
+/// VERSION 1.1 - 1b beta 2 - Add processing of input events - text only.
+///
+/// VERSION 1.2 - 1b beta 3 - Add PJON processing
 ///
 /// Code is now running. It does not work when setupCBUS() is not run!
 ///
@@ -61,6 +63,32 @@
 /// Digital pin 52 (SCK)     Sck   CAN
 /// Digital pin 53 (SS)      CS    CAN
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////////////////////////////
+// PJON and JSON code
+//////////////////////////////////////////////////////////////////////////
+#include <PJONSoftwareBitBang.h>
+#include <ArduinoJson.h>
+
+#define DATA_ARRAY_SIZE 30
+char data_array[DATA_ARRAY_SIZE];
+
+PJONSoftwareBitBang bus(40);
+
+static int BITBANGPIN = 12;
+
+// If data is transferred like this it can be retrieved by keyword.
+// For floating point there will be rounding.
+// The alternative is to transmit a struct using PJON.
+JsonDocument json_data;
+
+//////////////////////////////////////////////////////////////////////////
+
+// Define for either 1280 or 2560 MEGA
+#if defined(ARDUINO_AVR_MEGA2560) || defined(ARDUINO_AVR_MEGA)
+#define ARDUINO_MEGA
+#endif
+
 
 #include <Wire.h>
 //#include <IoAbstraction.h> not needed here
@@ -116,6 +144,7 @@ private:
     volatile bool emergency; // if an event comes from an external interrupt the variable must be volatile.
     bool timeChanged;
     bool hasChanged;
+    bool hasData; // For PJON data
     bool keyChanged;
     bool posChanged;
     bool do_redraw;
@@ -125,11 +154,15 @@ private:
     int pos1, pos2;
     long int number; // Made a long to store all the digits.
     int old_number; // Needed for the * case
+    float local_temp;
+    float local_humid;
+    char result[6];
 public:
     DrawingEvent() {
       elapsed_time = 0.0f;
       emergency = false;
       hasChanged = false;
+      hasData = false;
       timeChanged = false;
       keyChanged = false;
       do_redraw = false;
@@ -185,6 +218,10 @@ public:
         if (do_redraw) {
            redraw_display();
            do_redraw = false;
+        }
+        if (hasData)  {
+          // process data display
+          hasData = false;
         }
         //lcd.setCursor(0, 2);
         //lcd.print(emergency ? "emergency!!" : "           ");
@@ -260,6 +297,15 @@ public:
     void redraw() {
         hasChanged = true;// we are happy to wait out the 500 millis
         do_redraw = true;
+    }
+    // Member function to collect data for display
+    void displayData(float temp, float humid)
+    {
+      // Keep local copies
+      local_temp = temp;
+      local_humid = humid;
+      hasData = true;
+      hasChanged = true;
     }
 };
 
@@ -787,6 +833,52 @@ void setupEncoders()
   encoder2.setWrap (0);
 }
 
+///////////////////////////////////////////////////////////////////////////////////
+// PJON code here - it did not compile ahead of some of the headers.
+void receiver_function(uint8_t *payload, uint16_t length, const PJON_Packet_Info &packet_info) {
+  /* Make use of the payload before sending something, the buffer where payload points to is
+     overwritten when a new message is dispatched */
+  if(payload[0] == 'X') {
+    Serial.println("BLINK");
+    Serial.flush();
+    digitalWrite(LED_BUILTIN, HIGH);
+    delay(30);
+    digitalWrite(LED_BUILTIN, LOW);
+    bus.reply("X", 1);
+  } else {
+    Serial.print("Another payload with length = ");
+    Serial.println(length);
+  /* Copy received data in buffer */
+    memcpy(&data_array, payload, DATA_ARRAY_SIZE);
+    Serial.println(data_array);
+    DeserializationError error = deserializeJson(json_data, data_array);
+    if (error) {
+      Serial.print("deserializeJson failed: ");
+      Serial.println(error.f_str());
+    } else {
+      Serial.print("Temperature : ");
+      float temp = json_data["temp"];
+      Serial.print(temp);
+      Serial.print(", Humidity : ");
+      float humid = json_data["humid"];
+      Serial.println(humid);
+      // Transfer data
+      drawingEvent.displayData(temp,humid);
+    }
+
+    Serial.flush();
+  }
+};
+
+void setupPJON() {
+  bus.strategy.set_pin(BITBANGPIN);
+  bus.begin();
+  bus.set_receiver(receiver_function);
+
+  Serial.println("PJON Receiver running");
+  Serial.flush();
+}
+
 
 
 void setup() {
@@ -849,6 +941,7 @@ void setup() {
 
     Serial.println("> Display, keyboard, 2 encoders and encoderEvents are initialised!");
     Serial << F("> ready") << endl << endl;
+    setupPJON();
 
 }
 
@@ -916,7 +1009,11 @@ void loop() {
   //processSerialInput();
 
 /** as this indirectly uses taskmanager, we must include taskManager.runLoop(); in loop. */
-    taskManager.runLoop();
+  taskManager.runLoop();
+
+  bus.update();
+  bus.receive(1000);
+
 }
 
 void processSerialInput(void) {
