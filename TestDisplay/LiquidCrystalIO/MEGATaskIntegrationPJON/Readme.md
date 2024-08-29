@@ -47,3 +47,6 @@ I would need to chain the I2C as it is already used for the display.
 This is interesting. I think this is the code that lead me to stop using PJON in 2022.
 I now have PJON working O.K. with TaskmanagerIO so there must be some other reason for the problem here.
 I can now compare this with code which works to find out what is causing the problem.
+
+Comparing the two codes, there are a lot of differences between the codes.
+There is a task here to test what is causing the problem.
