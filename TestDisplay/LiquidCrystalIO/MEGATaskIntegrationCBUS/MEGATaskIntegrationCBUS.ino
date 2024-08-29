@@ -627,7 +627,7 @@ CBUSSwitch pb_switch;               // switch object
 // constants
 const byte VER_MAJ = 1;                  // code major version
 const char VER_MIN = 'b';                // code minor version
-const byte VER_BETA = 2;                 // code beta sub-version
+const byte VER_BETA = 3;                 // code beta sub-version
 const byte MODULE_ID = 99;               // CBUS module type
 
 const byte LED_GRN = 4;                  // CBUS green SLiM LED pin
