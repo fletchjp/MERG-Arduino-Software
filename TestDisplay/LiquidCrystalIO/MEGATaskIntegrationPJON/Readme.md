@@ -41,3 +41,9 @@ I think this means that nearly all the time is being taken by the receive functi
 I am thinking that I need to offload SoftwareBitBang to a client Arduino using I2C. 
 
 I would need to chain the I2C as it is already used for the display.
+
+## August 2024
+
+This is interesting. I think this is the code that lead me to stop using PJON in 2022.
+I now have PJON working O.K. with TaskmanagerIO so there must be some other reason for the problem here.
+I can now compare this with code which works to find out what is causing the problem.
