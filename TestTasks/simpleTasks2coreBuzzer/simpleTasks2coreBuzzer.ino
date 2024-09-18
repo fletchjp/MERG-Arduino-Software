@@ -13,6 +13,16 @@
 //#include <Arduino.h>
 #include "TaskManagerIO.h"
 
+#include <PWMAudio.h>
+
+// I think this is the correct pin.
+//#define BUZZER_PIN 22
+
+const int BUZZER_PIN = 22;
+
+// There is no example of this in the documentation!
+PWMAudio buzzer(BUZZER_PIN);
+
 //
 // A simple logging function that logs the time and the log line.
 //
@@ -38,6 +48,7 @@ void twentySecondJob() {
     taskManager.scheduleOnce(10, [] {
 #ifdef ARDUINO_ARCH_RP2040
         logIt("Running this on the second core of the Pico");
+        logIt("with code for the ArdiPi buzzer");
 #endif
         logIt("Ten more seconds done finished.");
     }, TIME_SECONDS);
