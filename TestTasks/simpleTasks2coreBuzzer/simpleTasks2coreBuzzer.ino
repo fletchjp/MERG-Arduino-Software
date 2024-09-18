@@ -13,15 +13,12 @@
 //#include <Arduino.h>
 #include "TaskManagerIO.h"
 
-// RP2040 buzzer code
+// RP2040 buzzer code for the ArdiPi which has a buzzer on pin 22.
 // I did eventually find an example for this.
 // https://github.com/earlephilhower/arduino-pico/blob/master/libraries/PWMAudio/examples/PlayRaw/PlayRaw.ino
 // I could not anywhere else find out how to use the library.
 #ifdef ARDUINO_ARCH_RP2040
 #include <PWMAudio.h>
-
-// I think this is the correct pin.
-//#define BUZZER_PIN 22
 
 const int BUZZER_PIN = 22;
 
@@ -59,7 +56,7 @@ void twentySecondJob() {
 #endif
         logIt("Ten more seconds done finished.");
 #ifdef ARDUINO_ARCH_RP2040
-        delay(1000);
+        delay(1000); // Is there a better way to do this?
         buzzer.end();
         logIt("buzzer finished.");
 #endif
