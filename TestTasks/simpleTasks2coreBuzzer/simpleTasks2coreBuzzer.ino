@@ -13,6 +13,11 @@
 //#include <Arduino.h>
 #include "TaskManagerIO.h"
 
+// RP2040 buzzer code
+// I did eventually find an example for this.
+// https://github.com/earlephilhower/arduino-pico/blob/master/libraries/PWMAudio/examples/PlayRaw/PlayRaw.ino
+// I could not anywhere else find out how to use the library.
+#ifdef ARDUINO_ARCH_RP2040
 #include <PWMAudio.h>
 
 // I think this is the correct pin.
@@ -22,7 +27,8 @@ const int BUZZER_PIN = 22;
 
 // There is no example of this in the documentation!
 PWMAudio buzzer(BUZZER_PIN);
-
+//buzzer.setFrequency(1865);
+#endif
 //
 // A simple logging function that logs the time and the log line.
 //
@@ -49,8 +55,14 @@ void twentySecondJob() {
 #ifdef ARDUINO_ARCH_RP2040
         logIt("Running this on the second core of the Pico");
         logIt("with code for the ArdiPi buzzer");
+        buzzer.begin(1865);
 #endif
         logIt("Ten more seconds done finished.");
+#ifdef ARDUINO_ARCH_RP2040
+        delay(1000);
+        buzzer.end();
+        logIt("buzzer finished.");
+#endif
     }, TIME_SECONDS);
 }
 
