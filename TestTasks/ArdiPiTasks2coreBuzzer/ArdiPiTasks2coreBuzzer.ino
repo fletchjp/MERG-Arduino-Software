@@ -1,5 +1,6 @@
 /// ArdiPiTasks2codeBuzzer.ino
 /// Development for the ArdiPi
+/// Some things being added from the taskManagement example as well. 
 
 /**
  * @file SimpleTasks2coreBuzzer.ino
@@ -76,6 +77,11 @@ void setup() {
 #ifdef ARDUINO_ARCH_RP2040
     Serial.println("Running tests on a Pico");
 #endif
+    Serial.print("Block size = ");
+    Serial.print(DEFAULT_TASK_SIZE);
+    Serial.print(", blocks = ");
+    Serial.println(DEFAULT_TASK_BLOCKS);
+
     // schedule a task to run at a fixed rate, every 1000 milliseconds.
     taskId = taskManager.scheduleFixedRate(1000, [] {
         logIt("Fixed rate, every second");
