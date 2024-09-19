@@ -56,7 +56,8 @@ void twentySecondJob() {
 #endif
         logIt("Ten more seconds done finished.");
 #ifdef ARDUINO_ARCH_RP2040
-        delay(1000); // Is there a better way to do this?
+        //delay(1000); // Is there a better way to do this?
+        taskManager.yieldForMicros(1000000);
         buzzer.end();
         logIt("buzzer finished.");
 #endif
