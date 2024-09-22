@@ -8,7 +8,7 @@ There are two examples, with and without task management using TaskManagerIO to 
 
 A copy of the code is run in each of two Arduino UNOs connected between pin 12 on each, with a ground connection as well.
 
-Choose a number between 1 and 254 as an address for each and run the codeon each. Instructions on how to connect appear in the Serial Monitor.
+Choose a number between 1 and 254 as an address for each and run the code on each. Instructions on how to connect appear in the Serial Monitor.
 
 These examples are discussed in a talk to the MERG Arduino SIG on 24th September 2024.
 
