@@ -68,7 +68,15 @@ I am investigating whether there is some configuration which will sort out the p
 
 It is possible that the problem is other hardware present e.g. for CAN.
 
-# Sensor Examples
+## Sensor Examples
 
 These use SoftwareBitBang
  
+## Local Chat Examples
+
+These use SoftwareBitBang to implement chat between two Arduinos.
+
+These are adapted from a wireless example in the PJON library.
+
+There are two examples, with and without task management using TaskManagerIO to show how this can be used.
+
