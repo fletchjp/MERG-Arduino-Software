@@ -48,13 +48,6 @@
 
 PJONSoftwareBitBang bus(0);
 
-//#include <PJONThroughSerial.h>
-//#include <SoftwareSerial.h>
-
-//SoftwareSerial HC12(2, 3);
-
-//PJONSerial bus;
-
 uint8_t packet[100];
 String string_number;
 int req_index = 0;
@@ -79,19 +72,6 @@ void receiver_function(uint8_t *payload, uint16_t length, const PJON_Packet_Info
     for(uint16_t i = 0; i < length; i++)
       Serial.print((char)payload[i]);
     Serial.println();
-  }
-};
-
-void error_handler(uint8_t code, uint8_t data) {
-  if(code == PJON_CONNECTION_LOST) {
-    Serial.print("Message delivery fail to user id: ");
-    Serial.println((uint8_t)bus.packets[data].content[0]);
-  }
-  if(code == PJON_CONTENT_TOO_LONG) {
-    Serial.print("Message too long, length: ");
-    Serial.print(data);
-    Serial.print(", maximum length: ");
-    Serial.println(PJON_PACKET_MAX_LENGTH);
   }
 };
 
