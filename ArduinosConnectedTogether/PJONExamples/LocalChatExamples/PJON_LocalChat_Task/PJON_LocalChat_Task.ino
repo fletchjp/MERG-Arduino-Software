@@ -81,19 +81,6 @@ void receiver_function(uint8_t *payload, uint16_t length, const PJON_Packet_Info
   }
 };
 
-void error_handler(uint8_t code, uint8_t data) {
-  if(code == PJON_CONNECTION_LOST) {
-    Serial.print("Message delivery fail to user id: ");
-    Serial.println((uint8_t)bus.packets[data].content[0]);
-  }
-  if(code == PJON_CONTENT_TOO_LONG) {
-    Serial.print("Message too long, length: ");
-    Serial.print(data);
-    Serial.print(", maximum length: ");
-    Serial.println(PJON_PACKET_MAX_LENGTH);
-  }
-};
-
 void setup() {
   // Initialize LED 13 to be off
   pinMode(LED_BUILTIN, OUTPUT);
