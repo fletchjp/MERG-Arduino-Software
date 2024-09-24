@@ -70,7 +70,7 @@ It is possible that the problem is other hardware present e.g. for CAN.
 
 ## Sensor Examples
 
-These use SoftwareBitBang
+These use SoftwareBitBang to send temperature and humidity data to a module which has a display and also CBUS.
  
 ## Local Chat Examples
 
