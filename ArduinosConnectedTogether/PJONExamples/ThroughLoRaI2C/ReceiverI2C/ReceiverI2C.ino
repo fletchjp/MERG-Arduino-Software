@@ -1,6 +1,7 @@
 // ReceiverI2C
 // Name changed to make it easier to find.
-
+// This now compiles.
+// I cannot test it until I have checked out the transmit code.
 
 #include <PJONThroughLoraI2C.h>
 
@@ -27,8 +28,8 @@ void setup() {
   bus.set_acknowledge(false);
 	// Obligatory to initialize Radio with correct frequency
 	bus.strategy.setFrequency(868100000UL);
-	// Optional
-	bus.strategy.setSignalBandwidth(250E3);
+	// Optional - mLink has its values.
+	// bus.strategy.setSignalBandwidth(250E3);
 	bus.begin();
 
 	bus.set_receiver(receiver_function);
