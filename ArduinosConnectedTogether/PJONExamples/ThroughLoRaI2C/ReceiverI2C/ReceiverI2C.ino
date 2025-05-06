@@ -5,9 +5,7 @@
 
 #include <PJONThroughLoraI2C.h>
 
-/* To use this example, please download the LoRa third party Library from
-https://github.com/sandeepmistry/arduino-LoRa/ */
-
+/* To use this example, please download the mLink third party Library */
 
 PJONThroughLoraI2C bus(44);
 
@@ -24,6 +22,9 @@ void receiver_function(uint8_t *payload, uint16_t length, const PJON_Packet_Info
 void setup() {
 	pinMode(LED_BUILTIN, OUTPUT);
 	digitalWrite(LED_BUILTIN, LOW); // Initialize LED 13 to be off
+
+	mLink.init(); // Set up mLink
+
 	// Synchronous acknowledgement is not supported
   bus.set_acknowledge(false);
 	// Obligatory to initialize Radio with correct frequency
