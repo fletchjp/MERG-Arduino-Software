@@ -80,3 +80,11 @@ These are adapted from a wireless example in the PJON library.
 
 There are two examples, with and without task management using TaskManagerIO to show how this can be used.
 
+## ThroughLoRa
+
+These examples use LoRa through SPI. I do not have any hardware for this.
+
+## ThroughLoRaI2C
+
+These examples implement LoRa using the mLink LoRa module which uses I2C. Experimental.
+
