@@ -5,7 +5,7 @@
 
 PJONSoftwareBitBang bus(45);
 
-#define PJON_PIN 8
+#define PJON_PIN 12
 
 /// error_handler
 void error_handler(uint8_t code, uint16_t data, void * /*custom_pointer*/) {
