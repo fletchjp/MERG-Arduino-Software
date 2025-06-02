@@ -17,12 +17,18 @@ void receiver_function(uint8_t *payload, uint16_t length, const PJON_Packet_Info
 void setup() {
   pinMode(LED_BUILTIN, OUTPUT);
   digitalWrite(LED_BUILTIN, LOW); // Initialize LED 13 to be off
-
-  bus.strategy.set_pin(12);
-  bus.begin();
-  bus.set_receiver(receiver_function);
-
+  while (!Serial);
   Serial.begin(115200);
+  Serial.println("Bitbang Test: Receiver");
+
+  bus.strategy.set_pin(12); 
+  if (!bus.strategy.can_start()) {
+    Serial.println("PJON not running - bus.strategy.can_start() returns false");
+  } else {
+    bus.begin();
+    bus.set_receiver(receiver_function);
+    Serial.println("PJON bus is running");
+  }
 };
 
 void loop() {
