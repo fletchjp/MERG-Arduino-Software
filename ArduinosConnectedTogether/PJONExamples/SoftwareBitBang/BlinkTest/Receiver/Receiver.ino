@@ -20,6 +20,8 @@ void setup() {
   while (!Serial);
   Serial.begin(115200);
   Serial.println("Bitbang Test: Receiver");
+  Serial.print("LED_BUILTIN is ");
+  Serial.println(LED_BUILTIN);
   #if defined(ARDUINO_AVR_NANO_EVERY)
     Serial.println("ARDUINO_AVR_NANO_EVERY");
     Serial.println("Serial1 is available");
