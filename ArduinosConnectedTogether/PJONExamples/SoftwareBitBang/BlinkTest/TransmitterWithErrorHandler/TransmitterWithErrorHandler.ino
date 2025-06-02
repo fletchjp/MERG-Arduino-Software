@@ -5,6 +5,8 @@
 
 PJONSoftwareBitBang bus(45);
 
+#define PJON_PIN 8
+
 /// error_handler
 void error_handler(uint8_t code, uint16_t data, void * /*custom_pointer*/) {
   if(code == PJON_CONNECTION_LOST) {
@@ -31,8 +33,9 @@ void setup() {
    #else
      Serial.println("Not an ARDUINO_AVR_NANO_EVERY");
    #endif
-
-  bus.strategy.set_pin(12);
+  Serial.print("Setting PJON_PIN to ");
+  Serial.println(PJON_PIN);
+  bus.strategy.set_pin(PJON_PIN);
   bus.set_error(error_handler);
   if (!bus.strategy.can_start()) {
     Serial.println("PJON not running - bus.strategy.can_start() returns false");
