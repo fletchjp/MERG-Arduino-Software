@@ -17,6 +17,16 @@ void setup() {
   while (!Serial);
   Serial.begin(115200);
   Serial.println("Bitbang Test: Transmitter with error handler");
+  #if defined(ARDUINO_AVR_NANO_EVERY)
+    Serial.println("ARDUINO_AVR_NANO_EVERY");
+    Serial.println("Serial1 is available");
+    #if defined(AVR_NANO_4809_328MODE)
+      Serial.println("Simulation of 328 mode is available"); 
+    #endif
+   #else
+     Serial.println("Not an ARDUINO_AVR_NANO_EVERY");
+   #endif
+
   bus.strategy.set_pin(12);
   bus.set_error(error_handler);
   if (!bus.strategy.can_start()) {
