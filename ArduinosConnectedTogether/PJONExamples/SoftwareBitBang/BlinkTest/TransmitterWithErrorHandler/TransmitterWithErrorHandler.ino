@@ -21,7 +21,12 @@ void setup() {
     Serial.println("ARDUINO_AVR_NANO_EVERY");
     Serial.println("Serial1 is available");
     #if defined(AVR_NANO_4809_328MODE)
-      Serial.println("Simulation of 328 mode is available"); 
+      Serial.println("Simulation of 328 mode is available");
+    #else
+      Serial.println("Simulation of 328 mode is not available");
+    #endif
+    #if defined(__AVR_ATmega4809__)
+      Serial.println("__AVR_ATmega4809__ defined");
     #endif
    #else
      Serial.println("Not an ARDUINO_AVR_NANO_EVERY");
