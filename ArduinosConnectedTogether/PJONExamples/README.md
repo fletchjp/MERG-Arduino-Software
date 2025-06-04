@@ -4,7 +4,7 @@ This contains some examples collected to show the use of PJON.
 
 ## What is PJON?
 
-See https://www.pjon.org/ 
+See https://github.com/gioblu/PJON 
 
 It is a networking protocol which can run over a variety of systems.
 
