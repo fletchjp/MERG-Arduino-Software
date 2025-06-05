@@ -6,13 +6,15 @@
 
  WATCH OUT. This repository has become rather large and rambling and I am going to look at ways to separate it out into some smaller ones.
  
- Work in progress in early 2023 I think.
- 
+ Work in progress in early 2023 I think. 
+
  I have now moved some of the files from StateMachine to a new repository with the same name. This is a trial for making some more substantial moves. At present this involves the loss of the Git history.
  
  August 2023 I badly need to do some more work like this to make a more usable repository
  
  March 2024 I have moved some things out and there are also a lot more repositories for other reasons.
+ 
+ Now in the middle of 2025 some of the comments here will be dated. This is due for a review.
  
  ## Introduction
 
