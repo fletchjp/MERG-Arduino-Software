@@ -46,6 +46,8 @@ I have been learning new skills to be able to cooperate by sending changes to a 
 
 I am using this in particular for the VLCB-Arduino library.
 
+There is a skill to getting a fork updated when I am behind the master. I have to update the GitHub desktop and then push it back to my local site. Where I am not going to contribute there is not much point in having a fork.
+
 
 Back to [README](README.md).
 
