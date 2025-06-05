@@ -16,6 +16,8 @@
  
  Now in the middle of 2025 some of the comments here will be dated. This is due for a review.
  
+ It occurs to me that this would be a good place to document what other repositories I have, although not all of them will be directly related to Arduinos.
+ 
  ## Introduction
 
  Information about the GitHub work for the MERG Arduino SIG.
