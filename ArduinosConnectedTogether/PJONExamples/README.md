@@ -86,5 +86,5 @@ These examples use LoRa through SPI. I do not have any hardware for this.
 
 ## ThroughLoRaI2C
 
-These examples implement LoRa using the mLink LoRa module which uses I2C. Experimental.
+These examples implement LoRa using the mLink LoRa module which uses I2C. Experimental. Not yet available.
 
