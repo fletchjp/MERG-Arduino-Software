@@ -14,6 +14,8 @@ It is worth noting that different makers describe the pins on the encoder differ
 
 I am following the description from Elegoo which is on the components I have.
 
+ALL the examples using EncoderMD from Martin Da Costa need to be updated.
+
 ## buttonRotaryEncoder
 
 This is an IO Abstraction example which I have adapted to use the same pins as the EncoderOnly example.

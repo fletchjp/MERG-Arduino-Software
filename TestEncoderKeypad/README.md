@@ -22,6 +22,8 @@ The first is a local copy of his files which has now been replaced by use of a l
 
 The use of the first version will not be continued. The examples are retained as they illustrate some features.
 
+ALL the examples using EncoderMD from Martin Da Costa need to be updated.
+
 ## What works when the Keypad is on the I2C?
 
 I have been attempting to combine code for the encoder using Martin's library with a keypad connected using I2C.
