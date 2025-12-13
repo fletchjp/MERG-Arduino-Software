@@ -17,6 +17,12 @@ void setup() {
      delay(10);
   Serial.println("\nI2C Scanner");
   //Wire.setClock(50000);
+  Serial.print("SDA PIN: "); Serial.println(SDA);
+  Serial.print("SCL PIN: "); Serial.println(SCL);
+#ifdef A4
+  Serial.println(A4);
+  Serial.println(A5);
+#endif
 }
 
 
