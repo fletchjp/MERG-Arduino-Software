@@ -3,7 +3,7 @@
 //
 // Modified from https://playground.arduino.cc/Main/I2cScanner/
 // --------------------------------------
-
+#include <Arduino.h>
 #include <Wire.h>
 
 // Set I2C bus to use: Wire, Wire1, etc.
@@ -19,9 +19,17 @@ void setup() {
   //Wire.setClock(50000);
   Serial.print("SDA PIN: "); Serial.println(SDA);
   Serial.print("SCL PIN: "); Serial.println(SCL);
-#ifdef A4
-  Serial.println(A4);
-  Serial.println(A5);
+#ifdef PIN_A0
+  Serial.print("PIN_A0: "); Serial.println(PIN_A0);
+  Serial.print("PIN_A1: "); Serial.println(PIN_A1);
+#endif
+#ifdef PIN_A2
+  Serial.print("PIN_A2: "); Serial.println(PIN_A2);
+  Serial.print("PIN_A3: "); Serial.println(PIN_A3);
+#endif
+#ifdef PIN_A4
+  Serial.print("PIN_A4: "); Serial.println(PIN_A4);
+  Serial.print("PIN_A5: "); Serial.println(PIN_A5);
 #endif
 }
 
