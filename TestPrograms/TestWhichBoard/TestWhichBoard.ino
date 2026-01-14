@@ -1,6 +1,8 @@
 /// @file TestWhichBoard.ino
 /// @brief Test which board the code is running on.
 ///
+/// This does not identify the Arduino UNO Q.
+///
 /// There are two libraries in the Arduino libraries which will help with doing this.
 ///
 /// Board_Identify and MyMacros 
