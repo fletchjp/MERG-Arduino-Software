@@ -8,6 +8,9 @@
  
  I need to have a review and see what could be added by way of explanation.
  
+ There have been new developments in Arduino hardware, such as the Arduino UNO R4 and the Arduino UNO Q.
+ There is nothing developed for those boards here.
+ 
  ## Moving files elsewhere
 
  WATCH OUT. This repository has become rather large and rambling and I am going to look at ways to separate it out into some smaller ones.
