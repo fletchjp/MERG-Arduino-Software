@@ -17,7 +17,7 @@
 ///
 /// I have added NANO, MEGA1280 and MEGA2560 to the UNO section.
 ///
-/// I need to back this up as it would be overwritten oif the library is updated!
+/// I need to back this up as it would be overwritten if the library is updated!
 ///
 /// Otherwise it uses only Board_Identify which does not support RP2040 types.
 ///
