@@ -2,6 +2,12 @@
  
  # MERG-Arduino-Software
  
+ ## Update March 2026
+ 
+ I have not been adding to this repository for a long time. I do look things up sometimes.
+ 
+ I need to have a review and see what could be added by way of explanation.
+ 
  ## Moving files elsewhere
 
  WATCH OUT. This repository has become rather large and rambling and I am going to look at ways to separate it out into some smaller ones.
