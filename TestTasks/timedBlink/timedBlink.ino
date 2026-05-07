@@ -1,5 +1,6 @@
 // timedBlink.ino
-
+// I have the same code running under PlatformIO.
+  
 /*
 Timed blink, this example shows how to build the simple Blink application using both IoAbstraction
 and TaskManager. This gives an example of how quickly a simple application can be made to leverage
@@ -42,7 +43,7 @@ void printVersionInfo(void) {
 void setup() {
   Serial.begin(115200);
   delay(5000);
-  Serial.println("Blink and print tests of arduino-timer");
+  Serial.println("timed blink and print tests using TaskManagerIO");
 #ifdef ARDUINO_ARCH_RP2040
     Serial.println("Running tests on a Pico");
 #endif
