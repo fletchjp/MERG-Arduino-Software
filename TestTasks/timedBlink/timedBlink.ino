@@ -26,7 +26,38 @@ int ledOn = LOW;
 // create an IO abstraction, so later we could put the led on a shift register or i2c.
 IoAbstractionRef ioDevice = ioUsingArduino();
 
+//
+// A function to print information about the file being compiled.
+//
+void printVersionInfo(void) {
+  Serial.println(__FILE__);
+  Serial.print("Compiled on ");
+  Serial.print(__DATE__);
+  Serial.print(" at ");
+  Serial.print(__TIME__);
+  Serial.print(" with IDE version ");
+  Serial.println(ARDUINO);
+}
+
 void setup() {
+  Serial.begin(115200);
+  delay(5000);
+  Serial.println("Blink and print tests of arduino-timer");
+#ifdef ARDUINO_ARCH_RP2040
+    Serial.println("Running tests on a Pico");
+#endif
+#ifdef __AVR_ATmega2560__
+    Serial.println("Running tests on a MEGA 2560");
+#endif
+#ifdef ARDUINO_MINIMA
+    Serial.println("\nArduino R4 Minima");
+#endif
+#ifdef ARDUINO_UNOR4_WIFI
+    Serial.println("\nArduino R4 Wifi");
+#endif
+  printVersionInfo();
+  Serial.print("C++ version is ");
+  Serial.println(__cplusplus);
 	// set the pin we are to use as output using the io abstraction
 	ioDevicePinMode(ioDevice, ledPin, OUTPUT);
 
