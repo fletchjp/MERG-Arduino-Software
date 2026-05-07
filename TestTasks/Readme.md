@@ -6,6 +6,8 @@ There is now a new version of TaskManagerIO 1.4.0 with changes to the interface 
 
 I am now constructing versions of some of these codes using PlatformIO.
 
+The libraries IOAbstraction and TaskManagerIO are turning out to run on a wide range of board types.
+
 ## simpleTasks
 
 This is from the TaskManagerIO example routines and runs on a Pico.
