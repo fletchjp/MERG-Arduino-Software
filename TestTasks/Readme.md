@@ -4,6 +4,8 @@ I want to test the use of IOAbstraction and TaskManagerIO with the Raspberry Pi 
 
 There is now a new version of TaskManagerIO 1.4.0 with changes to the interface for scheduling tasks. I am now experimenting with this. 
 
+I am now constructing versions of some of these codes using PlatformIO.
+
 ## simpleTasks
 
 This is from the TaskManagerIO example routines and runs on a Pico.
@@ -20,7 +22,11 @@ This is modified from the TaskManagerIO example routines and runs on a Pico usin
 
 ## timedBlink
 
-This is a simple example of IOAbstraction and runs on a Pico.
+This is a simple example of IOAbstraction and runs on a Pico. 
+
+I have added information about the file used and the compiler.
+
+There is a PlatformIO version elsewhere.
 
 ## i2CEepromExample
 
